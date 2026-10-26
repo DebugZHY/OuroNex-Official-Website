@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d1623"/>
+  <g fill="none" stroke="rgba(155,181,210,.4)" stroke-width="1">
+    <rect x="60" y="60" width="680" height="330" rx="4"/>
+    <line x1="60" y1="110" x2="740" y2="110"/>
+    <line x1="200" y1="110" x2="200" y2="390"/>
+  </g>
+  <g fill="none" stroke="rgba(155,181,210,.35)" stroke-width="1">
+    <rect x="84" y="76" width="60" height="18" rx="3"/>
+    <rect x="158" y="76" width="60" height="18" rx="3"/>
+    <rect x="232" y="76" width="60" height="18" rx="3"/>
+    <line x1="80" y1="150" x2="180" y2="150"/>
+    <line x1="80" y1="186" x2="180" y2="186"/>
+    <line x1="80" y1="222" x2="180" y2="222"/>
+    <line x1="80" y1="258" x2="180" y2="258"/>
+    <rect x="228" y="140" width="240" height="120" rx="3"/>
+    <rect x="492" y="140" width="220" height="120" rx="3"/>
+    <line x1="228" y1="308" x2="712" y2="308"/>
+  </g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <path d="M248 236 L292 196 L336 214 L380 168 L424 192"/>
+    <line x1="492" y1="172" x2="712" y2="172"/>
+    <line x1="492" y1="204" x2="712" y2="204"/>
+    <line x1="492" y1="236" x2="712" y2="236"/>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="12">
+    <text x="84" y="136">menu</text>
+    <text x="84" y="172">queue</text>
+    <text x="84" y="208">records</text>
+    <text x="84" y="244">settings</text>
+    <text x="248" y="132">chart</text>
+    <text x="512" y="132">table</text>
+    <text x="228" y="336">metric</text>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="14"><text x="228" y="366">00</text></g></svg>

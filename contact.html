@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080e17">
+<title>Contact — Start from a Real Workflow | OuroNex</title>
+<meta name="description" content="Start a conversation with OuroNex by building a project brief from a real workflow. Everything is processed locally in your browser — nothing is transmitted.">
+<link rel="icon" href="assets/ouronex-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/company.css">
+<link rel="stylesheet" href="assets/motion.css">
+<script src="assets/site.js" defer></script>
+<script src="assets/motion.js" defer></script>
+<script src="assets/engineering-scene.js" defer></script>
+</head>
+<body data-page="contact">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-shell">
+    <a class="brand" href="index.html" aria-label="OuroNex home"><img src="assets/ouronex-mark.svg" alt="" width="52" height="30"><span>OuroNex</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
+    <nav class="desktop-nav" id="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a><a href="services.html">Services</a><a href="platform.html">SIDA</a><a href="arena.html">Arena</a><a href="news.html">News</a><a href="about-us.html">About us</a><a class="nav-contact" href="contact.html" aria-current="page">Let's talk <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+  <div class="reading-progress" aria-hidden="true"></div>
+</header>
+<main id="main">
+
+<section class="page-hero contact-hero" data-motion-field="contour">
+  <div class="wrap">
+    <p class="eyebrow" data-motion="rise">Contact</p>
+    <h1 data-motion-text>Start from a real workflow</h1>
+    <p class="lead" data-motion="rise" data-motion-delay="160">The most useful first conversation begins with a process your team actually runs. Use the brief builder below to shape that thinking — it turns your notes into a structured project brief you can keep and share.</p>
+  </div>
+</section>
+
+<section class="page-section" aria-labelledby="brief-title">
+  <div class="wrap">
+    <div class="brief-layout">
+      <div class="brief-intro" data-motion="rise">
+        <p class="eyebrow">Project brief builder</p>
+        <h2 id="brief-title">Describe the work. Get a brief.</h2>
+        <p class="muted">Start with one workflow. The builder organizes your notes into a clear, structured brief you can keep and share.</p>
+        <details class="brief-help">
+          <summary>What makes a good workflow description?</summary>
+          <p>Name the process (for example, "preparing calculation packages for code review"), who runs it, how often, and where time or errors concentrate. Two or three plain sentences are plenty — specifics about tools and checking steps help most.</p>
+        </details>
+        <aside class="contact-status" data-motion="rise" data-motion-delay="120">
+          <span class="tag">Contact status</span>
+          <p>Our official contact channel has not been published yet. When it is, your generated brief is ready to bring with you — until then, you are welcome to reach us through the professional contact who shared this site.</p>
+        </aside>
+      </div>
+      <div class="brief-builder" data-motion="rise" data-motion-delay="80">
+        <noscript>
+          <p class="brief-noscript">Interactive brief generation needs JavaScript, which is currently disabled. You can still prepare notes manually using the fields below as a guide — nothing is submitted or sent from this page.</p>
+        </noscript>
+        <form data-brief-builder>
+          <div class="field">
+            <label for="brief-organization">Organization <span class="field-optional">(optional)</span></label>
+            <input type="text" id="brief-organization" name="organization" autocomplete="organization" placeholder="e.g. a structural consultancy">
+          </div>
+          <div class="field">
+            <label for="brief-workflow">Workflow to improve <span class="field-required">(required)</span></label>
+            <textarea id="brief-workflow" name="workflow" rows="5" required minlength="10" placeholder="Describe a real process your team runs — who does it, how often, and where it hurts."></textarea>
+          </div>
+          <div class="field">
+            <label for="brief-interest">Area of interest</label>
+            <select id="brief-interest" name="interest">
+              <option value="General Automation">General Automation</option>
+              <option value="Specific Automation">Specific Automation</option>
+              <option value="Professional SaaS">Professional SaaS</option>
+              <option value="AI Workflow &amp; Training">AI Workflow &amp; Training</option>
+              <option value="Not sure" selected>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="brief-goal">What would success look like? <span class="field-optional">(optional)</span></label>
+            <textarea id="brief-goal" name="goal" rows="3" placeholder="e.g. faster turnaround on documentation with the same checking rigour"></textarea>
+          </div>
+          <p class="brief-privacy">Processed on your device. Not sent to OuroNex or saved by this site.</p>
+          <button class="button" type="submit" disabled><span>Generate project brief</span><span aria-hidden="true">→</span></button>
+        </form>
+        <div class="brief-output" data-brief-output hidden>
+          <div class="brief-output-head">
+            <h3>Your project brief</h3>
+            <button class="button-outline" type="button" data-copy-brief disabled><span>Copy brief</span></button>
+          </div>
+          <label class="visually-hidden" for="brief-text">Generated project brief</label>
+          <textarea id="brief-text" data-brief-text readonly rows="10" placeholder="Your generated brief will appear here once you use the form above."></textarea>
+          <p class="brief-status" data-brief-status role="status"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html"><img src="assets/ouronex-mark.svg" alt="" width="52" height="30"><span>OuroNex</span></a>
+      <p class="footer-copy">© 2026 OuroNex Technology Company Limited<br>Hong Kong · Greater Bay Area</p>
+      <div class="footer-social" aria-label="Social links">
+        <a class="social-btn" href="#" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.31h4.52V23H.24V8.31zM8.34 8.31h4.33v2h.06c.6-1.14 2.08-2.34 4.28-2.34 4.58 0 5.42 3.01 5.42 6.92V23h-4.52v-7.1c0-1.7-.03-3.88-2.37-3.88-2.37 0-2.73 1.85-2.73 3.76V23H8.34V8.31z"/></svg></a>
+        <a class="social-btn" href="#" aria-label="X" title="X"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a class="social-btn" href="#" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.69-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-6.57-1.6-6.57-7.13 0-1.57.56-2.86 1.48-3.87-.15-.36-.64-1.83.14-3.81 0 0 1.21-.39 3.96 1.48a13.8 13.8 0 0 1 7.22 0c3.32-3.31 4.53-1.48 4.53-1.48.78 1.98.29 3.45.14 3.81.93 1.01 1.48 2.3 1.48 3.87 0 5.54-4.03 6.83-7.87 7.11.62.53 1.17 1.58 1.17 3.19V21.4c0 .3.2.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+        <a class="social-btn" href="#" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 1.5 12 1.5 12 1.5s-7.5 0-9.38.36A3.02 3.02 0 0 0 .5 6 31.6 31.6 0 0 0 .14 12 31.6 31.6 0 0 0 .5 18a3.02 3.02 0 0 0 2.12 2.14C4.5 22.5 12 22.5 12 22.5s7.5 0 9.38-.36A3.02 3.02 0 0 0 23.5 18a31.6 31.6 0 0 0 .36-6 31.6 31.6 0 0 0-.36-5.81zM9.75 15.75v-7.5L15.75 12l-6 3.75z"/></svg></a>
+      </div>
+    </div>
+    <nav class="footer-menus" aria-label="Footer">
+      <div class="footer-col">
+        <p class="footer-col-head">Pages</p>
+        <a href="services.html">Services</a>
+        <a href="platform.html">SIDA</a>
+        <a href="arena.html">Arena</a>
+        <a href="news.html">News</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-head">Company</p>
+        <a href="about-us.html">About us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

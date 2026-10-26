@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d1623"/>
+  <g fill="none" stroke="rgba(155,181,210,.35)" stroke-width="1" stroke-dasharray="5 5">
+    <circle cx="200" cy="225" r="50"/>
+  </g>
+  <g fill="none" stroke="rgba(155,181,210,.4)" stroke-width="1"><circle cx="200" cy="225" r="20"/></g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <circle cx="580" cy="225" r="62"/>
+    <circle cx="580" cy="225" r="92"/>
+  </g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <line x1="272" y1="225" x2="462" y2="225"/>
+    <path d="M452 217 L466 225 L452 233"/>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="14">
+    <text x="170" y="308">PILOT</text>
+    <text x="530" y="344">FULL SCALE</text>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="12"><text x="304" y="206">start small, then scale</text></g></svg>

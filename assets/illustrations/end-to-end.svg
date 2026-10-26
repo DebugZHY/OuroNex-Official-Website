@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d1623"/>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <line x1="200" y1="225" x2="246" y2="225"/>
+    <line x1="390" y1="225" x2="436" y2="225"/>
+    <line x1="580" y1="225" x2="626" y2="225"/>
+    <path d="M240 218 L252 225 L240 232"/>
+    <path d="M430 218 L442 225 L430 232"/>
+    <path d="M620 218 L632 225 L620 232"/>
+  </g>
+  <g fill="none" stroke="rgba(155,181,210,.4)" stroke-width="1">
+    <rect x="60" y="185" width="140" height="80" rx="3"/>
+    <rect x="250" y="185" width="140" height="80" rx="3"/>
+    <rect x="440" y="185" width="140" height="80" rx="3"/>
+    <rect x="630" y="185" width="140" height="80" rx="3"/>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="12">
+    <text x="92" y="230">INPUT</text>
+    <text x="276" y="230">PROCESS</text>
+    <text x="474" y="230">REVIEW</text>
+    <text x="662" y="230">OUTPUT</text>
+    <text x="60" y="166">one connected pipeline</text>
+  </g>
+  <g fill="none" stroke="rgba(155,181,210,.35)" stroke-width="1">
+    <line x1="60" y1="330" x2="770" y2="330"/>
+    <line x1="60" y1="356" x2="600" y2="356"/>
+  </g></svg>

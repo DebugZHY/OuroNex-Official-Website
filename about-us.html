@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080e17">
+<title>About us — The people behind OuroNex | OuroNex</title>
+<meta name="description" content="Meet the OuroNex team: a small, engineering-led group in Hong Kong working on AI transformation for structural engineering.">
+<link rel="icon" href="assets/ouronex-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/company.css">
+<style>
+  /* Page-local layout for the about-us composition: hero sizing, stats row and team grid. */
+  .hero-fit { padding-block: clamp(96px, 14vh, 152px); }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .stat { background: var(--surface); padding: 28px 24px; }
+  .stat-value {
+    margin: 0 0 8px;
+    font: 600 clamp(28px, 3vw, 40px)/1 var(--display);
+    letter-spacing: -.04em;
+    color: var(--ink);
+  }
+  .stat-label {
+    margin: 0;
+    font: 500 11px/1.5 var(--mono);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .team-card { min-width: 0; }
+  .team-avatar {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    margin-bottom: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: linear-gradient(160deg, var(--surface-raised), var(--surface));
+    overflow: hidden;
+  }
+  .team-avatar span {
+    font: 600 clamp(40px, 5vw, 64px)/1 var(--display);
+    letter-spacing: -.02em;
+    color: var(--muted);
+  }
+  .team-card h3 { margin: 0 0 6px; font-size: clamp(20px, 2vw, 24px); }
+  .team-title {
+    margin: 0 0 10px;
+    font: 500 11px/1.5 var(--mono);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .team-card p:not(.team-title) { margin: 0; color: var(--muted); font-size: 15px; }
+  @media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .team-grid { grid-template-columns: 1fr; } }
+</style>
+<link rel="stylesheet" href="assets/motion.css">
+<script src="assets/site.js" defer></script>
+<script src="assets/motion.js" defer></script>
+<script src="assets/engineering-scene.js" defer></script>
+</head>
+<body data-page="about-us">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-shell">
+    <a class="brand" href="index.html" aria-label="OuroNex home"><img src="assets/ouronex-mark.svg" alt="" width="52" height="30"><span>OuroNex</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
+    <nav class="desktop-nav" id="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a><a href="services.html">Services</a><a href="platform.html">SIDA</a><a href="arena.html">Arena</a><a href="news.html">News</a><a href="about-us.html" aria-current="page">About us</a><a class="nav-contact" href="contact.html">Let's talk <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+  <div class="reading-progress" aria-hidden="true"></div>
+</header>
+<main id="main">
+
+<section class="page-hero hero-fit" data-motion-field="orbit">
+  <div class="wrap">
+    <p class="eyebrow" data-motion="rise">About us</p>
+    <h1 data-motion-text>The people behind OuroNex.</h1>
+    <p class="lead" data-motion="rise" data-motion-delay="160">An engineering-led team in Hong Kong, working on AI transformation for structural engineering — combining research, professional practice and product work on SIDA.</p>
+  </div>
+</section>
+
+<section class="page-section" aria-label="OuroNex at a glance">
+  <div class="wrap">
+    <div class="stats-grid" data-stagger>
+      <div class="stat" data-motion="rise">
+        <p class="stat-value">2024</p>
+        <p class="stat-label">Founded</p>
+      </div>
+      <div class="stat" data-motion="rise">
+        <p class="stat-value">Hong Kong</p>
+        <p class="stat-label">Based</p>
+      </div>
+      <div class="stat" data-motion="rise">
+        <p class="stat-value">4</p>
+        <p class="stat-label">Team members</p>
+      </div>
+      <div class="stat" data-motion="rise">
+        <p class="stat-value">1</p>
+        <p class="stat-label">Focus domain — structural engineering</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-section" aria-labelledby="team-title">
+  <div class="wrap">
+    <div class="section-head" data-motion="rise">
+      <div>
+        <p class="eyebrow">Team</p>
+        <h2 id="team-title" data-motion-text>Team</h2>
+      </div>
+      <p class="muted">Four people, one focus: structural engineering. The team combines research, engineering practice and product development.</p>
+    </div>
+    <div class="team-grid" data-stagger data-motion="stagger">
+      <article class="team-card" data-motion-card>
+        <div class="team-avatar" aria-hidden="true"><span>HZ</span></div>
+        <h3>Haoyi Zhang</h3>
+        <p class="team-title">Founder &amp; Director</p>
+        <p>Leads the engineering practice and the SIDA product direction.</p>
+      </article>
+      <article class="team-card" data-motion-card>
+        <div class="team-avatar" aria-hidden="true"><span>JC</span></div>
+        <h3>Dr. Jake Chan</h3>
+        <p class="team-title">Co-founder &amp; Director</p>
+        <p>Leads research translation and client engagements in structural engineering.</p>
+      </article>
+      <article class="team-card" data-motion-card>
+        <div class="team-avatar" aria-hidden="true"><span>SL</span></div>
+        <h3>Ir Prof. Siwei Liu</h3>
+        <p class="team-title">Technical Advisor</p>
+        <p>Advises on numerical methods and the SODA workflow.</p>
+      </article>
+      <article class="team-card" data-motion-card>
+        <div class="team-avatar" aria-hidden="true"><span>SC</span></div>
+        <h3>Ir Prof. Siu-Lai Chan</h3>
+        <p class="team-title">Technical Advisor</p>
+        <p>Advises on structural engineering practice and professional review.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="page-section" aria-labelledby="principles-title">
+  <div class="wrap">
+    <div class="section-head" data-motion="rise">
+      <div>
+        <p class="eyebrow">Principles</p>
+        <h2 id="principles-title">How we work</h2>
+      </div>
+      <p class="muted">Five commitments that shape every engagement — stated plainly enough to be held against. The spine marks your reading progress, not a project status.</p>
+    </div>
+    <ol class="trust-list principles-track" data-motion-track>
+      <li class="trust-row" data-motion-step data-motion-card>
+        <p class="trust-no">01</p>
+        <h3>Start from a real workflow</h3>
+        <p>We begin with a process the firm actually runs — with its real constraints, handoffs, and checking steps — not with a demo looking for a problem.</p>
+      </li>
+      <li class="trust-row" data-motion-step data-motion-card>
+        <p class="trust-no">02</p>
+        <h3>AI assists. Engineers decide.</h3>
+        <p>Human-in-the-loop validation is non-negotiable: qualified engineers verify outputs and hold final professional judgement on anything that ships.</p>
+      </li>
+      <li class="trust-row" data-motion-step data-motion-card>
+        <p class="trust-no">03</p>
+        <h3>Stage the adoption</h3>
+        <p>Pilot first, verify results, then scale. Staged acceptance keeps risk low and lets trust accumulate on evidence rather than promises.</p>
+      </li>
+      <li class="trust-row" data-motion-step data-motion-card>
+        <p class="trust-no">04</p>
+        <h3>Deliverables must be reviewable</h3>
+        <p>Outputs carry their sources, assumptions, and audit trail. If a senior engineer cannot interrogate how a result was produced, it is not a deliverable.</p>
+      </li>
+      <li class="trust-row" data-motion-step data-motion-card>
+        <p class="trust-no">05</p>
+        <h3>Capability stays with the client</h3>
+        <p>Workflow setup, training, and coaching are part of the engagement — so the organization's AI capability compounds after we leave, and each customization feeds back into better shared components.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap closing-inner" data-motion="rise">
+    <h2>Engineering intelligence, designed to be reviewed.</h2>
+    <a class="button" data-magnetic href="contact.html"><span>Start a conversation</span><span aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html"><img src="assets/ouronex-mark.svg" alt="" width="52" height="30"><span>OuroNex</span></a>
+      <p class="footer-copy">© 2026 OuroNex Technology Company Limited<br>Hong Kong · Greater Bay Area</p>
+      <div class="footer-social" aria-label="Social links">
+        <a class="social-btn" href="#" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.31h4.52V23H.24V8.31zM8.34 8.31h4.33v2h.06c.6-1.14 2.08-2.34 4.28-2.34 4.58 0 5.42 3.01 5.42 6.92V23h-4.52v-7.1c0-1.7-.03-3.88-2.37-3.88-2.37 0-2.73 1.85-2.73 3.76V23H8.34V8.31z"/></svg></a>
+        <a class="social-btn" href="#" aria-label="X" title="X"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a class="social-btn" href="#" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.69-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-6.57-1.6-6.57-7.13 0-1.57.56-2.86 1.48-3.87-.15-.36-.64-1.83.14-3.81 0 0 1.21-.39 3.96 1.48a13.8 13.8 0 0 1 7.22 0c3.32-3.31 4.53-1.48 4.53-1.48.78 1.98.29 3.45.14 3.81.93 1.01 1.48 2.3 1.48 3.87 0 5.54-4.03 6.83-7.87 7.11.62.53 1.17 1.58 1.17 3.19V21.4c0 .3.2.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+        <a class="social-btn" href="#" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 1.5 12 1.5 12 1.5s-7.5 0-9.38.36A3.02 3.02 0 0 0 .5 6 31.6 31.6 0 0 0 .14 12 31.6 31.6 0 0 0 .5 18a3.02 3.02 0 0 0 2.12 2.14C4.5 22.5 12 22.5 12 22.5s7.5 0 9.38-.36A3.02 3.02 0 0 0 23.5 18a31.6 31.6 0 0 0 .36-6 31.6 31.6 0 0 0-.36-5.81zM9.75 15.75v-7.5L15.75 12l-6 3.75z"/></svg></a>
+      </div>
+    </div>
+    <nav class="footer-menus" aria-label="Footer">
+      <div class="footer-col">
+        <p class="footer-col-head">Pages</p>
+        <a href="services.html">Services</a>
+        <a href="platform.html">SIDA</a>
+        <a href="arena.html">Arena</a>
+        <a href="news.html">News</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-head">Company</p>
+        <a href="about-us.html">About us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

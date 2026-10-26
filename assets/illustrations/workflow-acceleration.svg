@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d1623"/>
+  <g fill="none" stroke="rgba(155,181,210,.4)" stroke-width="1">
+    <rect x="60" y="96" width="90" height="52" rx="3"/>
+    <rect x="180" y="96" width="90" height="52" rx="3"/>
+    <rect x="300" y="96" width="90" height="52" rx="3"/>
+    <rect x="420" y="96" width="90" height="52" rx="3"/>
+    <rect x="540" y="96" width="90" height="52" rx="3"/>
+    <line x1="150" y1="122" x2="180" y2="122"/>
+    <line x1="270" y1="122" x2="300" y2="122"/>
+    <line x1="390" y1="122" x2="420" y2="122"/>
+    <line x1="510" y1="122" x2="540" y2="122"/>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="12">
+    <text x="60" y="82">SLOW</text>
+    <text x="86" y="128">step</text>
+    <text x="206" y="128">step</text>
+    <text x="326" y="128">step</text>
+    <text x="446" y="128">step</text>
+    <text x="566" y="128">step</text>
+  </g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <line x1="400" y1="176" x2="400" y2="238"/>
+    <path d="M393 230 L400 242 L407 230"/>
+  </g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <rect x="140" y="286" width="64" height="52" rx="3"/>
+    <rect x="230" y="286" width="64" height="52" rx="3"/>
+    <rect x="320" y="286" width="64" height="52" rx="3"/>
+    <rect x="410" y="286" width="64" height="52" rx="3"/>
+    <rect x="500" y="286" width="64" height="52" rx="3"/>
+    <line x1="204" y1="312" x2="230" y2="312"/>
+    <line x1="294" y1="312" x2="320" y2="312"/>
+    <line x1="384" y1="312" x2="410" y2="312"/>
+    <line x1="474" y1="312" x2="500" y2="312"/>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="12">
+    <text x="140" y="272">FAST</text>
+    <text x="156" y="318">step</text>
+    <text x="246" y="318">step</text>
+    <text x="336" y="318">step</text>
+    <text x="426" y="318">step</text>
+    <text x="516" y="318">step</text>
+  </g></svg>

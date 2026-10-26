@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 82" role="img" aria-label="OuroNex logo mark">
+  <title>OuroNex mark</title>
+  <defs>
+    <!-- Colour flows along the infinity path:
+         left loop runs deep blue (top) to bright azure (bottom);
+         right loop runs bright azure (top) to indigo (bottom);
+         the centre mark stays in vivid azure. -->
+    <linearGradient id="onx-left" gradientUnits="userSpaceOnUse"
+                    x1="41" y1="5" x2="41" y2="77">
+      <stop offset="0"   stop-color="#0251A5"/>
+      <stop offset="0.5" stop-color="#0768C2"/>
+      <stop offset="1"   stop-color="#068AE8"/>
+    </linearGradient>
+    <linearGradient id="onx-right" gradientUnits="userSpaceOnUse"
+                    x1="122" y1="5" x2="122" y2="77">
+      <stop offset="0"    stop-color="#0790F3"/>
+      <stop offset="0.38" stop-color="#10A3F3"/>
+      <stop offset="0.5"  stop-color="#2349ED"/>
+      <stop offset="1"    stop-color="#204EEC"/>
+    </linearGradient>
+    <linearGradient id="onx-center" gradientUnits="userSpaceOnUse"
+                    x1="81.5" y1="19.5" x2="81.5" y2="63.5">
+      <stop offset="0"   stop-color="#1583D6"/>
+      <stop offset="0.5" stop-color="#0F89F6"/>
+      <stop offset="1"   stop-color="#1780D3"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left loop of the infinity: thick ring (R35.8/R22 around 41,41.5)
+       opening toward the centre, both ends tapering to points
+       aimed at the central hexagon. -->
+  <path fill="url(#onx-left)"
+        d="M 74.19 28.09
+           A 35.8 35.8 0 1 0 74.19 54.91
+           L 65.9 49.5
+           L 54.75 58.67
+           A 22 22 0 1 1 54.75 24.33
+           L 65.9 33.5
+           Z"/>
+
+  <!-- Right loop: mirror image of the left loop about x = 81.5. -->
+  <path fill="url(#onx-right)"
+        d="M 88.81 28.09
+           A 35.8 35.8 0 1 1 88.81 54.91
+           L 97.1 49.5
+           L 108.25 58.67
+           A 22 22 0 1 0 108.25 24.33
+           L 97.1 33.5
+           Z"/>
+
+  <!-- Centre mark: regular hexagon (pointy-top, circumradius 12)
+       pierced by a bold vertical bar that protrudes above and below. -->
+  <g fill="url(#onx-center)">
+    <path d="M 81.5 29.5
+             L 91.89 35.5
+             L 91.89 47.5
+             L 81.5 53.5
+             L 71.11 47.5
+             L 71.11 35.5
+             Z"/>
+    <rect x="78.5" y="20.2" width="6" height="42.6"/>
+  </g>
+</svg>

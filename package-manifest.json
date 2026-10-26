@@ -1,0 +1,580 @@
+{
+  "purpose": "Web pages package: current site pages plus the four illustration-candidate Services previews; run files only, no evidence/model/generator",
+  "files": [
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/coaching-support.svg",
+      "bytes": 8749,
+      "sha256": "ebc5e0fa370c561f39458dd933c28abd21c319f163f08d33c8bdba1d92ab8112"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/custom-extension.svg",
+      "bytes": 8647,
+      "sha256": "ac341639d7cf1c8213a5343dfc35b6a5de935dd4edb7a0eeb38d0de53bdecf42"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/data-handoff.svg",
+      "bytes": 9525,
+      "sha256": "94fc3a79758f366fb77b70e643c238ec873e14b91c16cf70588be281c27919bb"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/end-to-end.svg",
+      "bytes": 10033,
+      "sha256": "28f43349ac23bd84c1b732315de638232755b748541108d3fe3d9d1db6e106af"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/hands-on-training.svg",
+      "bytes": 11084,
+      "sha256": "c0071d63624802bc32aa689b4ecffa2cf8ba9d23bcfb17c776806d8499aff0ad"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/info-collection.svg",
+      "bytes": 7024,
+      "sha256": "2282b8d78c8fb85cadcc1be43e7086625430412f37d1fab3220f034d381e5e75"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/internal-tool.svg",
+      "bytes": 7764,
+      "sha256": "04c4c4dd17f2f3b57c04d8940c581eefadf4fedac044e90598cc61ade301a798"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/knowledge-base.svg",
+      "bytes": 7911,
+      "sha256": "d7c0b59e0a1bb358aa435cb7a903668e95ab013f6a9612e13e6b0405a1c0a9fe"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/onsite-consultation.svg",
+      "bytes": 11184,
+      "sha256": "6c120957469d160a15c5b69e546e9039006ba356f636af59ef194c0a9619893e"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/pilot-first.svg",
+      "bytes": 8355,
+      "sha256": "710d59916da94f3002795dda947dd7b42cf6feb58d6686c2a8862bf8573da896"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/pilot-validation.svg",
+      "bytes": 6863,
+      "sha256": "bedeaf6db8c3707b98a5a95252818bbb7926122770de06d262c832e20407885d"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/report-drafting.svg",
+      "bytes": 7270,
+      "sha256": "d89beae13f56f6d0af4c22729c3ede9dac0d98de0039d26458b73774873b592e"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/scoped-proposal.svg",
+      "bytes": 8591,
+      "sha256": "d8656422b535b29da04c021f85365d5c8cbbfa962ab1c1efaf732bfd60982a96"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/workflow-acceleration.svg",
+      "bytes": 8161,
+      "sha256": "141a371163a1f6cff356ca03b13901511216ca7b3d51892610ab9c7b49950e21"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/editorial/workflow-matching.svg",
+      "bytes": 11908,
+      "sha256": "b6a8a55527028266cce65bc78e1707a41ba543d02a52365c95f865d8655767f0"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/coaching-support.svg",
+      "bytes": 6050,
+      "sha256": "451a6c636b8d3e1b205bdbde1951fc9a59874ac4beeaa4c278eb017aaebab619"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/custom-extension.svg",
+      "bytes": 5334,
+      "sha256": "d18556f90430b34c7717762a6325c112291c4f7e64141a01bf5cac58e72a8ae3"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/data-handoff.svg",
+      "bytes": 7457,
+      "sha256": "344e9d61060f0b408c76db3be2698e143de9c929d884b57741400895fdb72de1"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/end-to-end.svg",
+      "bytes": 8863,
+      "sha256": "6ea0b476f8483a54ad79d33d63dde781a29e6666c694c8cff3952088f8ac6e13"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/hands-on-training.svg",
+      "bytes": 8244,
+      "sha256": "d60283328cce6fc7db5b28fae2610b5549ec01af7412f85d42680846e9c6b219"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/info-collection.svg",
+      "bytes": 5025,
+      "sha256": "6e76eed532448faf9733fd74e0a7af1d15e4ee568216bca3bb0b3ea7ce9b42fe"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/internal-tool.svg",
+      "bytes": 5824,
+      "sha256": "bac7f204a549debe76a901f183de1ed627dfb518238d881490f16e6032397e8a"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/knowledge-base.svg",
+      "bytes": 5439,
+      "sha256": "7ebf8b295423bc6b96e41590e1f3e3723f87ffe7f22048d06487a3c455a73800"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/onsite-consultation.svg",
+      "bytes": 6569,
+      "sha256": "1ef47a329b1f6eb713616c5852a2617457ec5c88ef4a14798cf48392c2db61f6"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/pilot-first.svg",
+      "bytes": 8362,
+      "sha256": "77358bb42c5e858a96a4c053613c41213fc5263ead045b7702c714626ccb5aad"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/pilot-validation.svg",
+      "bytes": 5557,
+      "sha256": "e42c6ccb0b472ccc66fd59e9918127597287d709051abe4bdbd7096e98b16d8e"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/report-drafting.svg",
+      "bytes": 5203,
+      "sha256": "cc7710188a3db71fed724d92da07319e2863bbf03e6adc4c9389cb2a603b6f9b"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/scoped-proposal.svg",
+      "bytes": 6434,
+      "sha256": "a6ff8ee313530f624d9295b3497fd23696d740b080d41c2dc33df0132690ad0d"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/workflow-acceleration.svg",
+      "bytes": 7075,
+      "sha256": "a0ff6556f602e0728a0cb060d901cccdd9ec6f287f341a8af8e55747ef6b5a0d"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/flat/workflow-matching.svg",
+      "bytes": 7705,
+      "sha256": "b3443863b4d416818107955ce9bbf7674ad03582db2fb7fd4c91d9891571f5aa"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/image-descriptions.json",
+      "bytes": 1607,
+      "sha256": "6d1ee76d9c46e690d443c7e3780a4c5dd85819d0cfd12e546f6d914e5ac5108f"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/coaching-support.webp",
+      "bytes": 213012,
+      "sha256": "9445ee3a6b2ac9e8ac007458d87be8c12a45ff8814a7dff3de93ef3db7c39422"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/custom-extension.webp",
+      "bytes": 218190,
+      "sha256": "c2e3889bbd7339f1bdabd09ca017ac4e19e82d92a5bb8c0c6c1371e233b11438"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/data-handoff.webp",
+      "bytes": 192602,
+      "sha256": "9fb38475fb69f8bc7346e18d119c469845e1d44879547eb8716e239415505cb1"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/end-to-end.webp",
+      "bytes": 209158,
+      "sha256": "96d75f2173b879079af2d22889498a8810b6b4349e7d246a29732f248c8de0c2"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/hands-on-training.webp",
+      "bytes": 190918,
+      "sha256": "1456acd06733664754a79d57c17c44f1e08009d201f74e5308a1ef8af6895e0b"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/info-collection.webp",
+      "bytes": 216464,
+      "sha256": "d9c50e50ec45d4b968c3c1f45e88edf73b15e7387e8b3d600d47fec6b5f32e58"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/internal-tool.webp",
+      "bytes": 178008,
+      "sha256": "49f87c1338f478737ba4be2ea7aa317fbfdd3204105924c4c8f6ea5cf6adb28d"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/knowledge-base.webp",
+      "bytes": 167220,
+      "sha256": "9b9d5e0b794e2f5327f39ff0b6fc2a4de05bf2ed3c3d70e5b1f7aa2a6ff651ae"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/onsite-consultation.webp",
+      "bytes": 188694,
+      "sha256": "b473dc44078b3009738b0a5ec645c7f9cce9cc723b9e78d037ea3c86bf9f3423"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/pilot-first.webp",
+      "bytes": 181108,
+      "sha256": "3ce44920d5ecec8f01224a327653dd6279554450bbd1c7a987d2afb9a3c04a64"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/pilot-validation.webp",
+      "bytes": 217128,
+      "sha256": "aff1619770639eb58a1768ab0ce1400ec78fff36d7cdb202dfb621cdc43e05de"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/report-drafting.webp",
+      "bytes": 197264,
+      "sha256": "03a361a4df1604109f85ed496c24689e0220d144dcc8de711ec3180468e2d3f5"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/scoped-proposal.webp",
+      "bytes": 187372,
+      "sha256": "29c68394abd1b2aa840cc272580797af4e94080b406222af30fee8456717a385"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/workflow-acceleration.webp",
+      "bytes": 220770,
+      "sha256": "d44b6484374ceaf95e1c2e1bd4b9e0109800cdc44b8c1f5959c1ed3476e0e297"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/painterly/workflow-matching.webp",
+      "bytes": 192292,
+      "sha256": "67c6ad8c4867673368cac8c55f65d742ce1b78c78cdadab7d4edeea300645cbc"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/preview.html",
+      "bytes": 18429,
+      "sha256": "6ab64b8341f0d9b99b54678cde33385a06e8a1c4d72f680b7dad8a19f81507a6"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/README.zh.md",
+      "bytes": 3253,
+      "sha256": "d0a5e451330534f4faec689f3eef48b546ac7d381ec3ac625c3e412eadd02486"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/scenes.json",
+      "bytes": 10709,
+      "sha256": "9130d6200941600e5649565e8c7f90589e19e7cc14914395fae52322b90ee5bb"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/services-editorial.html",
+      "bytes": 19258,
+      "sha256": "9bb5da280bb2099932198e5a5d67f660ce3f079a2de12d58f3c451339c5e3966"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/services-flat.html",
+      "bytes": 19174,
+      "sha256": "f94946c169cd2d8a34cbf00b0b9efe2f9d8df3d9c02b86cbad81a9d49890bcb3"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/services-painterly.html",
+      "bytes": 19273,
+      "sha256": "6ce37db9213926985459d497bac913d956a90931f14bd0a11c860f16d1c261a2"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/services-tactile.html",
+      "bytes": 19222,
+      "sha256": "1396928b2cf33ee4d4c3baa3dec161ff3db9406ab7b0961db0e28bf8d92e509b"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/coaching-support.svg",
+      "bytes": 14484,
+      "sha256": "47ed6aad3a264446c23b133207f6601ae21eb48943944290d05725d5e32946ec"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/custom-extension.svg",
+      "bytes": 13961,
+      "sha256": "f2d7c5fb63af7227478a400672d8e947a193cd2fce9b83605b5a667c7757f8fe"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/data-handoff.svg",
+      "bytes": 21171,
+      "sha256": "8de0b6bd8539555d14e737bf65c9a40b45d9feffad7ed30500d787fcdd1f7d35"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/end-to-end.svg",
+      "bytes": 15288,
+      "sha256": "d58b7fd00b59251c934784be1d09611c4ba086e431576da35fefe3d670fdf8f9"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/hands-on-training.svg",
+      "bytes": 20539,
+      "sha256": "e76b9da559ff007feb4ecc06277089bb31d84c1d75ae8d206d9bf57b3da8d784"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/info-collection.svg",
+      "bytes": 13506,
+      "sha256": "08d60c2cb8ddf72f5ed523dc1dc67c37f54573ff1cc774e105cca500d97004a4"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/internal-tool.svg",
+      "bytes": 14210,
+      "sha256": "ed4351ebd4d9839b980f9003c4e3220b553aed88855170681b761653af1b0bb4"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/knowledge-base.svg",
+      "bytes": 13918,
+      "sha256": "030d4ed1a95f23b4f9d04c3e3c8521dd0b634e163db58298a79401fbe7b104c1"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/onsite-consultation.svg",
+      "bytes": 16704,
+      "sha256": "4d85c242c4f37c36e7a4119ae7df62369203a548872cf3c44bf3b29f3cfc889d"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/pilot-first.svg",
+      "bytes": 15201,
+      "sha256": "97dadad9f4162843df304e8491dc1024c559099989b6acafea7366c66de3de53"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/pilot-validation.svg",
+      "bytes": 12635,
+      "sha256": "4923a6038663f8490f42bdbc879807b5138110c0fef223ae6e08922615247e12"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/report-drafting.svg",
+      "bytes": 12379,
+      "sha256": "3ee09a528406c69b87ad4fea941834746a87fbfbac98714e42ff046073f9638b"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/scoped-proposal.svg",
+      "bytes": 12918,
+      "sha256": "d1ff9008e098c32f127bec0255c1e19fd5cf6ee1ebe60692fd105b0d71e786cf"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/workflow-acceleration.svg",
+      "bytes": 15257,
+      "sha256": "26c333743e5cf9691d99f70e4f260000e05a5b08c69d2517e079f21716f5671e"
+    },
+    {
+      "path": "_scratch/services-literal-illustrations/tactile/workflow-matching.svg",
+      "bytes": 19262,
+      "sha256": "6e49ee9a25c19d489af42ac589f5608b5d81a8b13ec2e1b85b28ec8bd5b2ea9b"
+    },
+    {
+      "path": "about-us.html",
+      "bytes": 12228,
+      "sha256": "e98d9f5b4e718e28dd66adf4034f380130d0fc9044ed766898cfc9dbde5f3029"
+    },
+    {
+      "path": "arena.html",
+      "bytes": 6022,
+      "sha256": "dbc6bb05820dd6974a507c9e0bc4afff63b2fa16cef3ce4c8338548a28c27383"
+    },
+    {
+      "path": "assets/company.css",
+      "bytes": 16019,
+      "sha256": "72b4e0be2554b4a52f0790716919012a356e09a6ebe9a6cc55149dc2532a9eb6"
+    },
+    {
+      "path": "assets/engineering-scene.js",
+      "bytes": 12205,
+      "sha256": "3f3988e67ca1656b01885930f50c163b1c017582b0e361a3bcbd06bc158113df"
+    },
+    {
+      "path": "assets/fonts/ibm-plex-mono-400.woff2",
+      "bytes": 37188,
+      "sha256": "9c9a2ff2474bacf5402579f3872c189c11dd18c6a61216649cea07021daad9bf"
+    },
+    {
+      "path": "assets/fonts/ibm-plex-mono-500.woff2",
+      "bytes": 38232,
+      "sha256": "e2de9b129630f92c8c7e9b3fb197eac03910a97f1771520251a139e3877a2ad1"
+    },
+    {
+      "path": "assets/fonts/ibm-plex-mono-OFL.txt",
+      "bytes": 4549,
+      "sha256": "40b12494366ea515cc612a84cd75fba61e31cf2ddade62146ee38de1a2a1f6b9"
+    },
+    {
+      "path": "assets/fonts/manrope-400.woff2",
+      "bytes": 30392,
+      "sha256": "8c0a2568b1d031fad658ae8eed4a96b47a8f16e44e06942ba3712edf7c89bdc8"
+    },
+    {
+      "path": "assets/fonts/manrope-500.woff2",
+      "bytes": 30008,
+      "sha256": "eeeb803f695a0f84584b7a87a7bc1af673718896d2e31f803be6d7227cc51966"
+    },
+    {
+      "path": "assets/fonts/manrope-600.woff2",
+      "bytes": 30408,
+      "sha256": "b87ee32019bad6dc1503ea14d5c946207d08502b22de094f9b635c987cc28ef5"
+    },
+    {
+      "path": "assets/fonts/manrope-700.woff2",
+      "bytes": 30676,
+      "sha256": "5d65246fba96193531408da76ef274f89e288394570091f5c9a4aed0d2187f27"
+    },
+    {
+      "path": "assets/fonts/manrope-OFL.txt",
+      "bytes": 4480,
+      "sha256": "4b8929f05a122b7abb9059501dc7dc4df86f8c97d5a1769d60d82cf2d2795dde"
+    },
+    {
+      "path": "assets/home.css",
+      "bytes": 16255,
+      "sha256": "63ba32021320d114ada57e0485337f23c825b2d60fd02fec0fc32c6b20c21f86"
+    },
+    {
+      "path": "assets/illustrations/coaching-support.svg",
+      "bytes": 1468,
+      "sha256": "0c3af4e3a1e5b2834f6fc21da89aa0ab49a6700df47c325a3dfc8b02a97415ee"
+    },
+    {
+      "path": "assets/illustrations/custom-extension.svg",
+      "bytes": 1321,
+      "sha256": "4a44cf00a2a80109bfefe80b71ef6e02e783f561118f7c9e49cf7e1cfbcde07e"
+    },
+    {
+      "path": "assets/illustrations/data-handoff.svg",
+      "bytes": 1710,
+      "sha256": "b4f6cd3cc6e79ae0eff4306462b0ea942f6e68513ea6208fc6405b2f4899ce63"
+    },
+    {
+      "path": "assets/illustrations/end-to-end.svg",
+      "bytes": 1235,
+      "sha256": "3a785e613324f132a89faf339585191a0edaacbe15583d59ebf8776845873efc"
+    },
+    {
+      "path": "assets/illustrations/hands-on-training.svg",
+      "bytes": 4738,
+      "sha256": "707187eda8c09efaeea63234fc92cbaa4becc681a67d216d658927c5176fd3b8"
+    },
+    {
+      "path": "assets/illustrations/info-collection.svg",
+      "bytes": 2175,
+      "sha256": "16e917c0b5b6333d79b92477435a4b5710c0132be6e4eff808e3c8f0c95b1e7b"
+    },
+    {
+      "path": "assets/illustrations/internal-tool.svg",
+      "bytes": 1680,
+      "sha256": "68f9c606ed1d275356e81e5d72b3eeee99fe468b6cd7121db1992d3dfa1918e2"
+    },
+    {
+      "path": "assets/illustrations/knowledge-base.svg",
+      "bytes": 2463,
+      "sha256": "776645c237fc915d0716e7c4e1b74530c75a80d8b03115d0aaa7b8008c3fd114"
+    },
+    {
+      "path": "assets/illustrations/onsite-consultation.svg",
+      "bytes": 2764,
+      "sha256": "4004528c767ee2acb93334add0828b3ef1e27fe474120e8385661e341b52ba8c"
+    },
+    {
+      "path": "assets/illustrations/pilot-first.svg",
+      "bytes": 933,
+      "sha256": "5567cf5be11addff75bac9935717dda513129805b8db6ac20b91255b579b3620"
+    },
+    {
+      "path": "assets/illustrations/pilot-validation.svg",
+      "bytes": 932,
+      "sha256": "90c69b8962d540b071275f7ff0dd4462706f5c3a7ffb28bee5c450e29bb5f5a9"
+    },
+    {
+      "path": "assets/illustrations/report-drafting.svg",
+      "bytes": 1709,
+      "sha256": "7f82b9ef685ee738907442f00a1af3fd90932dd0ba704929589f554883131dd7"
+    },
+    {
+      "path": "assets/illustrations/scoped-proposal.svg",
+      "bytes": 1349,
+      "sha256": "00699195a2b0b2084284ad94d6a507f94c470f5fb02f9e8f518d1fd8197de929"
+    },
+    {
+      "path": "assets/illustrations/workflow-acceleration.svg",
+      "bytes": 1993,
+      "sha256": "fe1f1709e08356d7bd1ebe27bd0e14d4915f7db133d0d224b1b2f2a62fe3e8ce"
+    },
+    {
+      "path": "assets/illustrations/workflow-matching.svg",
+      "bytes": 1733,
+      "sha256": "ad7ad3b635693681407e869fe116859aec9093e53b0fb8773c0d73d6b7056ff1"
+    },
+    {
+      "path": "assets/motion.css",
+      "bytes": 6650,
+      "sha256": "ae6b9f935ad3e151d267946d86ec218424f718f4f85eb2de4144d56fc602496d"
+    },
+    {
+      "path": "assets/motion.js",
+      "bytes": 22620,
+      "sha256": "3a5cb7a97d597b35fbb7d41863327b680cf304aaebbc720419d8d86f5d7a85a1"
+    },
+    {
+      "path": "assets/ouronex-mark.svg",
+      "bytes": 2436,
+      "sha256": "ff10b96aa535f1c6f919ab53264104842217cf86d2b542e9b5762c805f4d3733"
+    },
+    {
+      "path": "assets/practice.css",
+      "bytes": 18575,
+      "sha256": "3fc88119c694de99f093387214d2deb6c98b04bc5a8deb46c15c1931f847e6b3"
+    },
+    {
+      "path": "assets/site.css",
+      "bytes": 14234,
+      "sha256": "85eec71e640c65cc20eaf0d04bde5dd83c943ad597e2d8ab8837b30dbf8f87e0"
+    },
+    {
+      "path": "assets/site.js",
+      "bytes": 7631,
+      "sha256": "5556f1e03153174b8973491da3ad56f896088c1236884d9dad253222ab507c61"
+    },
+    {
+      "path": "contact.html",
+      "bytes": 9443,
+      "sha256": "4de678245c4214657fdd378de2e3687743a712aa08ed86635a38afe24c732601"
+    },
+    {
+      "path": "index.html",
+      "bytes": 16919,
+      "sha256": "5eb57d4dd5daa6cae324e87c87a36827c576242807db06a6501fcee338deb29d"
+    },
+    {
+      "path": "news/_template.html",
+      "bytes": 7337,
+      "sha256": "694b29da5b0ec97b5a3e9d8cbbeb067b7cd482fbf7a0404f7155df651a5407d8"
+    },
+    {
+      "path": "news/sample-drawings-as-engineer.html",
+      "bytes": 9640,
+      "sha256": "b6b7a1419ea800c88dbc591629728d7aa51285ef17628371eef09d60dee82bf6"
+    },
+    {
+      "path": "news/sample-hong-kong-gba.html",
+      "bytes": 9488,
+      "sha256": "8752e73d9b9dc7b0ea2dc5184ce2bb8433ef99233bd023756fd7f65209cc3db0"
+    },
+    {
+      "path": "news/sample-llm-drawing-review.html",
+      "bytes": 9547,
+      "sha256": "f3ab6ec3a84454688c0d58253f4dc82198a15df419d9985409c221d7ef1fc4b1"
+    },
+    {
+      "path": "news/sample-pilot-to-practice.html",
+      "bytes": 9334,
+      "sha256": "94706e36b00a47ede877b6a9ae65979b2ada28a3d62a2d8a3026952c909137e0"
+    },
+    {
+      "path": "news/sample-review-as-product.html",
+      "bytes": 9485,
+      "sha256": "dfd10d3b34998f44a851d383fb430bffbe21227a3ab8bca682f2121b9f832417"
+    },
+    {
+      "path": "news/sample-sida-2026.html",
+      "bytes": 9814,
+      "sha256": "572f519c7dfc95672bcc53a9f3318358c2c0d096625cfa17b19f9027faa7da54"
+    },
+    {
+      "path": "news/sample-soda-assumptions.html",
+      "bytes": 9741,
+      "sha256": "b843a861e99bb734253554c1ec5032ed49e71b06ecb305633b2b354d090981ef"
+    },
+    {
+      "path": "news.html",
+      "bytes": 13331,
+      "sha256": "b496b344f422aab6a3cc2c7298366e4dc9f7467174eb79865da7b091e6443d43"
+    },
+    {
+      "path": "platform.html",
+      "bytes": 14459,
+      "sha256": "60af853dd2b35832ff26e03b4e13660539765860a99f0cc36cd268a3ea942b88"
+    },
+    {
+      "path": "services.html",
+      "bytes": 16056,
+      "sha256": "b175e1ad483bfc673facfcfc9b2ef0d8d70bca6abf385b96d7aedf11552079f1"
+    }
+  ]
+}

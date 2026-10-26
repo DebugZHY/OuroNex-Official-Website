@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d1623"/>
+  <g fill="none" stroke="rgba(155,181,210,.4)" stroke-width="1">
+    <rect x="70" y="110" width="260" height="230" rx="4"/>
+    <rect x="470" y="110" width="260" height="230" rx="4"/>
+    <line x1="70" y1="152" x2="330" y2="152"/>
+    <line x1="470" y1="152" x2="730" y2="152"/>
+  </g>
+  <g fill="none" stroke="rgba(155,181,210,.35)" stroke-width="1">
+    <circle cx="92" cy="131" r="5"/>
+    <circle cx="110" cy="131" r="5"/>
+    <circle cx="492" cy="131" r="5"/>
+    <circle cx="510" cy="131" r="5"/>
+    <rect x="96" y="186" width="208" height="42" rx="3"/>
+    <rect x="96" y="244" width="208" height="42" rx="3"/>
+    <rect x="496" y="186" width="208" height="42" rx="3"/>
+    <rect x="496" y="244" width="208" height="42" rx="3"/>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="12">
+    <text x="96" y="142">source system</text>
+    <text x="496" y="142">target system</text>
+    <text x="112" y="212">field set</text>
+    <text x="112" y="270">field set</text>
+    <text x="512" y="212">field set</text>
+    <text x="512" y="270">field set</text>
+  </g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <line x1="356" y1="208" x2="444" y2="208"/>
+    <path d="M436 201 L448 208 L436 215"/>
+    <line x1="444" y1="252" x2="356" y2="252"/>
+    <path d="M364 245 L352 252 L364 259"/>
+  </g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <rect x="368" y="286" width="18" height="14" rx="3"/>
+    <rect x="394" y="286" width="18" height="14" rx="3"/>
+    <rect x="420" y="286" width="18" height="14" rx="3"/>
+  </g></svg>

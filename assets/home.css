@@ -1,0 +1,605 @@
+/* ==========================================================================
+   home.css — home-page composition.
+   Hero: full-width headline over a two-column band (argument rail + tall
+   engineering scene). Progress-driven transforms are gated behind the
+   shared motion state and always fall back to a fully assembled layout.
+   ========================================================================== */
+
+/* ---------- Hero: headline first, then rail + scene side by side ---------- */
+
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  background: var(--bg);
+  padding-top: clamp(28px, 4.5vh, 52px);
+}
+
+.home-hero > .hero-head,
+.home-hero > .hero-band { position: relative; z-index: 1; }
+
+.hero-head {
+  display: grid;
+  gap: 12px;
+  padding-bottom: 22px;
+}
+
+.hero-head .eyebrow { margin: 0; }
+
+.hero-head .hero-title {
+  margin: 0;
+}
+
+.hero-title {
+  font-size: clamp(44px, 8.4vw, 124px);
+  line-height: .97;
+  letter-spacing: -.062em;
+  font-weight: 500;
+}
+
+.hero-title .h1-line { display: block; }
+
+/* cross-column headline: second line steps in from the right */
+.hero-title .h1-line--offset { padding-left: clamp(0px, 7vw, 9rem); }
+
+/* argument rail left, engineering scene right; DOM order puts claim + CTA first */
+.hero-band {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 4.5vw, 4.5rem);
+  align-items: stretch;
+  padding-bottom: clamp(28px, 5vh, 56px);
+}
+
+.hero-rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 28px;
+  gap: clamp(16px, 2.2vh, 24px);
+  min-width: 0;
+}
+
+.hero-rail .lead {
+  margin: 0;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.7;
+  color: var(--muted, #9aabc0);
+  max-width: 30rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 0;
+}
+
+.hero-note {
+  margin: 0;
+  font: 500 11px/1.6 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted, #9aabc0);
+}
+
+/* ---------- Scene: readout rows and canvas in one normal-flow column ---------- */
+
+.scene-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.6vh, 16px);
+  min-width: 0;
+  border-left: 1px solid var(--line, rgba(155, 181, 210, 0.17));
+  padding-left: clamp(1.25rem, 2.5vw, 2.75rem);
+}
+
+.scene-topline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  font: 500 10px/1.6 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted, #9aabc0);
+}
+
+.scene-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: clamp(270px, 34vh, 400px);
+}
+
+.scene-drawing { position: absolute; inset: 0; }
+
+.scene-drawing canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+}
+
+.scene-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 28px;
+  border-top: 1px solid var(--line, rgba(155, 181, 210, 0.17));
+  padding-top: clamp(10px, 1.6vh, 14px);
+}
+
+.scene-hud {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.3rem 1.5rem;
+  max-width: 26rem;
+  font: 500 11px/1.7 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.08em;
+}
+
+.scene-hud > * { min-width: 0; }
+
+.scene-hud-label { color: var(--ink, #edf2f8); text-transform: uppercase; }
+.scene-hud-note { color: var(--accent, #729eff); text-transform: uppercase; }
+
+.scene-hud-caption {
+  grid-column: 1 / -1;
+  color: var(--muted, #9aabc0);
+}
+
+.scene-nojs {
+  margin: 0;
+  font: 500 11px/1.6 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.06em;
+  color: var(--muted, #9aabc0);
+}
+
+/* ---------- Principles: one ruled line, three commitments ---------- */
+
+.principles .section-head h2 { max-width: 20ch; }
+
+.principle-line {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  border-top: 1px solid var(--line, rgba(155, 181, 210, 0.17));
+}
+
+.principle-line li {
+  position: relative;
+  padding-top: clamp(1.5rem, 3vh, 2.4rem);
+}
+
+.principle-line li::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: clamp(30px, 4vw, 56px);
+  height: 2px;
+  background: var(--accent, #729eff);
+}
+
+.principle-index {
+  display: block;
+  font: 500 11px/1 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent, #729eff);
+  margin-bottom: 1rem;
+}
+
+.principle-line h3 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(22px, 2.4vw, 34px);
+  letter-spacing: -0.035em;
+}
+
+.principle-line p { margin: 0; color: var(--muted, #9aabc0); max-width: 26rem; }
+
+/* ---------- Services: a large, interactive index rather than stacked cards ---------- */
+
+.service-index { border-top: 1px solid var(--line, rgba(155, 181, 210, 0.17)); }
+
+.service-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(2.5rem, 4vw, 5rem) minmax(0, 1fr) auto clamp(1.5rem, 3vw, 3rem);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+  padding: clamp(1.5rem, 3.4vh, 2.6rem) 0;
+  border-bottom: 1px solid var(--line, rgba(155, 181, 210, 0.17));
+  transition: background 0.3s var(--ease, ease), padding-left 0.3s var(--ease, ease), padding-right 0.3s var(--ease, ease);
+}
+
+.service-row:hover,
+.service-row:focus-visible {
+  background: var(--surface, #0d1623);
+  padding-left: clamp(0.5rem, 1.4vw, 1.25rem);
+  padding-right: clamp(0.5rem, 1.4vw, 1.25rem);
+}
+
+.service-row__no {
+  font: 500 12px/1 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.1em;
+  color: var(--accent, #729eff);
+}
+
+.service-row__body h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(26px, 3.7vw, 54px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.service-row__body p {
+  margin: 0;
+  color: var(--muted, #9aabc0);
+  font-size: 15px;
+  max-width: 46rem;
+}
+
+.service-row__meta {
+  font: 500 10px/1 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted, #9aabc0);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.service-row .arrow {
+  justify-self: end;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  color: var(--muted, #9aabc0);
+  transition: transform 0.3s var(--ease, ease), color 0.3s var(--ease, ease);
+}
+
+.service-row:hover .arrow,
+.service-row:focus-visible .arrow {
+  transform: translateX(6px);
+  color: var(--accent, #729eff);
+}
+
+/* ---------- Light chapter: the review track ---------- */
+
+.focus .section-head > p { color: var(--paper-muted, #526176); }
+
+.review-track {
+  --track-pad: clamp(1.5rem, 3vh, 2.5rem);
+  position: relative;
+  margin-top: clamp(2rem, 4vh, 3rem);
+  padding-top: var(--track-pad);
+}
+
+.review-track__line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  overflow: visible;
+}
+
+.review-track__line path {
+  fill: none;
+  stroke: rgba(20, 32, 51, 0.26);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* baseline: the track reads complete without JavaScript; the guard below hands it to scroll */
+.review-track__progress {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-strong, #346aeb);
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.review-loop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.review-step { position: relative; }
+
+.review-step::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--track-pad) - 4px);
+  left: 0;
+  width: 9px;
+  height: 9px;
+  background: var(--paper-ink, #142033);
+}
+
+.review-step.is-step-past::before,
+.review-step.is-step-active::before { background: var(--accent-strong, #346aeb); }
+
+.review-step.is-step-active h3 { color: var(--accent-strong, #346aeb); }
+
+.review-index {
+  display: block;
+  font: 500 11px/1 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-muted, #526176);
+  margin-bottom: 0.85rem;
+}
+
+.review-step h3 { margin: 0 0 0.55rem; }
+.review-step p { margin: 0; color: var(--paper-muted, #526176); font-size: 15px; }
+
+.review-step.review-checkpoint::before {
+  width: 12px;
+  height: 12px;
+  top: calc(-1 * var(--track-pad) - 5px);
+  background: var(--accent-strong, #346aeb);
+}
+
+.review-step.review-checkpoint .review-index { color: var(--accent-strong, #346aeb); }
+
+.review-step.review-checkpoint h3 { font-size: clamp(22px, 2.3vw, 30px); }
+
+.review-note {
+  margin: 2.5rem 0 0;
+  font: 500 11px/1.6 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---------- SIDA: four perspective layers that settle into place on scroll ---------- */
+
+.sida-section {
+  position: relative;
+  isolation: isolate;
+  background: var(--bg);
+}
+
+.sida-section > .wrap { position: relative; z-index: 1; }
+
+.sida-scene { position: relative; }
+
+.sida-sticky {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.sida-copy h2 { max-width: 20ch; margin-bottom: 1.25rem; }
+.sida-copy .muted { max-width: 32rem; margin-bottom: 1.75rem; }
+.sida-copy .text-link { margin-top: 0.25rem; }
+
+.sida-stack {
+  position: relative;
+  perspective: 1200px;
+}
+
+.sida-word {
+  display: block;
+  font-family: var(--display, 'Manrope', sans-serif);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 0.9;
+  color: var(--ink, #edf2f8);
+  margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+}
+
+.sida-layers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  transform-style: preserve-3d;
+}
+
+.sida-layer {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--line, rgba(155, 181, 210, 0.17));
+  border-radius: 4px;
+  padding: clamp(0.9rem, 1.6vh, 1.3rem) clamp(1rem, 1.6vw, 1.5rem);
+  background: linear-gradient(90deg, rgba(114, 158, 255, 0.06), rgba(114, 158, 255, 0) 55%);
+}
+
+.sida-layer:nth-child(1) { --i: 0; }
+.sida-layer:nth-child(2) { --i: 1; }
+.sida-layer:nth-child(3) { --i: 2; }
+.sida-layer:nth-child(4) { --i: 3; }
+
+.sida-layer__tag {
+  font: 500 10px/1 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted, #9aabc0);
+}
+
+.sida-layer__name {
+  font: 600 clamp(18px, 1.6vw, 24px)/1 var(--display, 'Manrope', sans-serif);
+  letter-spacing: -0.025em;
+}
+
+.sida-layer--review { border-color: rgba(114, 158, 255, 0.44); }
+.sida-layer--review .sida-layer__name { color: var(--accent, #729eff); }
+
+.sida-map-note {
+  margin: clamp(1.25rem, 2.5vh, 2rem) 0 0;
+  font: 500 10px/1.6 var(--mono, 'IBM Plex Mono', monospace);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted, #9aabc0);
+}
+
+/* ---------- Closing statement ---------- */
+
+.closing {
+  position: relative;
+  background: var(--surface, #0d1623);
+  padding-block: clamp(72px, 10vh, 112px);
+}
+
+.closing-layout {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(2rem, 5vw, 4rem);
+  flex-wrap: wrap;
+}
+
+.closing-layout h2 {
+  max-width: 20ch;
+  margin: 0;
+  font-size: clamp(34px, 4.6vw, 66px);
+  letter-spacing: -0.05em;
+}
+
+.closing-layout .eyebrow { margin-bottom: 1.25rem; }
+
+/* ---------- Scroll-driven perspective assembly (wide screens, live motion only) ----------
+   Geometry (pin length, stickiness) is independent of the pause state, so
+   pausing freezes the picture without collapsing the page. Text opacity is
+   never animated: layer labels stay fully readable at every progress value. */
+
+@media (min-width: 1001px) {
+  .sida-sticky { position: sticky; top: calc(var(--header-height, 88px) + 16px); }
+
+  html.motion-ready:not([data-motion-state="reduced"]) .sida-scene { min-height: 130vh; }
+
+  html.motion-ready:not([data-motion-state="reduced"]) .sida-layer {
+    transform-origin: 50% 0;
+    transform:
+      translate3d(
+        0,
+        calc((1 - var(--scene-progress, 1)) * (var(--i, 0) + 1) * 34px),
+        calc((1 - var(--scene-progress, 1)) * var(--i, 0) * -56px)
+      )
+      rotateX(calc((1 - var(--scene-progress, 1)) * (14deg + (3 - var(--i, 0)) * 3deg)));
+  }
+
+  html.motion-ready:not([data-motion-state="reduced"]) .sida-word {
+    transform: translateY(calc((1 - var(--scene-progress, 1)) * 26px));
+  }
+}
+
+/* review track progress follows the reader only while motion is live */
+html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="reduced"]) .review-track__progress {
+  transform: scaleX(var(--track-progress, 0));
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1200px) {
+  .hero-title { font-size: clamp(42px, 8.6vw, 104px); }
+  .hero-title .h1-line--offset { padding-left: clamp(0px, 5vw, 5rem); }
+}
+
+@media (max-width: 1000px) {
+  .hero-head { padding-bottom: clamp(20px, 3.5vh, 32px); }
+  .hero-title .h1-line--offset { padding-left: 0; }
+
+  /* claim, actions, then the scene — the band becomes one reading column */
+  .hero-band { grid-template-columns: 1fr; gap: 2rem; padding-bottom: clamp(24px, 4vh, 40px); }
+  .hero-rail { padding-top: 0; max-width: 44rem; }
+
+  .scene-shell {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line, rgba(155, 181, 210, 0.17));
+    padding-top: clamp(14px, 2vh, 20px);
+  }
+  .scene-stage { min-height: clamp(260px, 50vw, 400px); }
+
+  .service-row { grid-template-columns: clamp(2.5rem, 7vw, 4rem) minmax(0, 1fr) clamp(1.5rem, 4vw, 2.5rem); }
+  .service-row__meta { display: none; }
+
+  .review-loop { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(2rem, 4vh, 3rem); }
+
+  .sida-sticky { grid-template-columns: 1fr; position: static; }
+  .sida-copy h2 { max-width: 24ch; }
+}
+
+@media (max-width: 760px) {
+  .home-hero { padding-top: clamp(24px, 4vh, 36px); }
+  .hero-head { row-gap: 10px; padding-bottom: 20px; }
+  .hero-band { gap: 22px; }
+  .hero-rail { gap: 14px; }
+  .hero-title { font-size: clamp(38px, 10.6vw, 64px); }
+
+  .scene-stage { min-height: clamp(220px, 62vw, 360px); }
+  .scene-foot { flex-direction: column; align-items: stretch; gap: 12px; }
+  .scene-hud { grid-template-columns: minmax(0, 1fr); max-width: none; }
+
+  /* three mode buttons share one row; the diagram pause sits on its own row */
+  .scene-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .scene-controls [data-scene-pause] { grid-column: 1 / -1; }
+
+  /* the track turns vertical so progression reads down the list */
+  .review-track {
+    --track-pad: 0rem;
+    padding-top: 0;
+    padding-left: 1.4rem;
+    border-left: 1px solid rgba(20, 32, 51, 0.26);
+  }
+  .review-track__line { display: none; }
+  .review-track__progress {
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: 100%;
+    transform: scaleY(1);
+    transform-origin: top center;
+  }
+  .review-step { padding-bottom: clamp(1.75rem, 4vh, 2.5rem); }
+  .review-step::before { top: 0; left: calc(-1.4rem - 4px); }
+  .review-step.review-checkpoint::before { top: -1px; left: calc(-1.4rem - 5px); }
+
+  html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="reduced"]) .review-track__progress {
+    transform: scaleY(var(--track-progress, 0));
+  }
+
+  .principle-line { grid-template-columns: 1fr; gap: 2.25rem; }
+  .closing-layout { align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .review-loop { grid-template-columns: 1fr; row-gap: 0; }
+}
+
+@media (max-width: 420px) {
+  .hero-actions { width: 100%; }
+  .hero-actions .button,
+  .hero-actions .button-outline { width: 100%; justify-content: space-between; }
+  .service-row { grid-template-columns: 2.25rem minmax(0, 1fr) 1.5rem; gap: 1rem; }
+  .sida-layer { grid-template-columns: 5.5rem minmax(0, 1fr); }
+}
+
+/* ---------- Reduced motion: everything stays readable and complete ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sida-scene { min-height: 0; }
+  .sida-sticky { position: static; }
+  .review-track__progress { transform: scaleX(1); }
+  .review-track { --track-pad: clamp(1.5rem, 3vh, 2.5rem); }
+}

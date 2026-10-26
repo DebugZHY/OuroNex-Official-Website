@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d1623"/>
+  <g fill="none" stroke="rgba(155,181,210,.4)" stroke-width="1"><rect x="200" y="46" width="400" height="358" rx="4"/></g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5"><rect x="224" y="70" width="352" height="34" rx="3"/></g>
+  <g fill="none" stroke="rgba(155,181,210,.35)" stroke-width="1">
+    <rect x="224" y="132" width="16" height="16" rx="3"/>
+    <rect x="224" y="176" width="16" height="16" rx="3"/>
+    <rect x="224" y="220" width="16" height="16" rx="3"/>
+    <rect x="224" y="264" width="16" height="16" rx="3"/>
+    <line x1="256" y1="140" x2="576" y2="140"/>
+    <line x1="256" y1="184" x2="540" y2="184"/>
+    <line x1="256" y1="228" x2="560" y2="228"/>
+    <line x1="256" y1="272" x2="500" y2="272"/>
+  </g>
+  <g fill="none" stroke="rgba(155,181,210,.4)" stroke-width="1"><rect x="224" y="316" width="352" height="60" rx="3"/></g>
+  <g fill="none" stroke="#729eff" stroke-width="1.5">
+    <line x1="248" y1="346" x2="420" y2="346"/>
+    <line x1="524" y1="346" x2="552" y2="346"/>
+  </g>
+  <g fill="#9aabc0" font-family="monospace" font-size="12">
+    <text x="224" y="94">SCOPED PROPOSAL</text>
+    <text x="248" y="352">scope 01</text>
+    <text x="440" y="352">cost</text>
+  </g></svg>

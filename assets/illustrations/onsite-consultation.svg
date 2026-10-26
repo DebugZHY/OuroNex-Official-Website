@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0d1623"/>
+
+  <!-- Office building -->
+  <rect x="180" y="80" width="220" height="280" rx="3" stroke="rgba(155,181,210,.4)" stroke-width="1.5" fill="none"/>
+  <line x1="170" y1="80" x2="410" y2="80" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <line x1="180" y1="150" x2="400" y2="150" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <line x1="180" y1="220" x2="400" y2="220" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <line x1="180" y1="290" x2="400" y2="290" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <line x1="253" y1="80" x2="253" y2="360" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <line x1="327" y1="80" x2="327" y2="360" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <rect x="268" y="310" width="44" height="50" rx="3" stroke="rgba(155,181,210,.4)" stroke-width="1.5" fill="none"/>
+  <line x1="100" y1="360" x2="500" y2="360" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+
+  <!-- Person with clipboard -->
+  <circle cx="520" cy="200" r="18" stroke="#729eff" stroke-width="1.5" fill="none"/>
+  <line x1="520" y1="218" x2="520" y2="300" stroke="#729eff" stroke-width="1.5"/>
+  <line x1="520" y1="240" x2="555" y2="260" stroke="#729eff" stroke-width="1.5"/>
+  <line x1="520" y1="240" x2="500" y2="265" stroke="#729eff" stroke-width="1.5"/>
+  <line x1="520" y1="300" x2="505" y2="355" stroke="#729eff" stroke-width="1.5"/>
+  <line x1="520" y1="300" x2="535" y2="300" stroke="#729eff" stroke-width="1.5"/>
+  <rect x="545" y="245" width="50" height="70" rx="3" stroke="rgba(155,181,210,.4)" stroke-width="1.5" fill="none"/>
+  <line x1="555" y1="262" x2="585" y2="262" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <line x1="555" y1="275" x2="580" y2="275" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+  <line x1="555" y1="288" x2="578" y2="288" stroke="rgba(155,181,210,.35)" stroke-width="1"/>
+
+  <!-- Magnifying glass on building -->
+  <circle cx="310" cy="180" r="35" stroke="rgba(155,181,210,.4)" stroke-width="1.5" fill="none"/>
+  <line x1="335" y1="205" x2="360" y2="235" stroke="rgba(155,181,210,.4)" stroke-width="1.5"/>
+
+  <!-- Labels -->
+  <text x="140" y="50" fill="#9aabc0" font-family="monospace" font-size="12">on-site visit</text>
+  <line x1="180" y1="55" x2="180" y2="70" stroke="rgba(155,181,210,.35)" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="460" y="140" fill="#729eff" font-family="monospace" font-size="12">observe workflow</text>
+  <line x1="460" y1="148" x2="330" y2="175" stroke="#729eff" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="560" y="330" fill="#9aabc0" font-family="monospace" font-size="12">notes</text>
+</svg>
