@@ -1,7 +1,7 @@
 /* ==========================================================================
    home.css — home-page composition.
-   Hero: full-width headline over a two-column band (argument rail + tall
-   engineering scene). Progress-driven transforms are gated behind the
+   Hero: full-bleed architectural photograph with the claim on the left and
+   a proof strip at the base. Scroll-driven assemblies are gated behind the
    shared motion state and always fall back to a fully assembled layout.
    ========================================================================== */
 
@@ -94,83 +94,6 @@
   font: 500 11px/1.6 var(--mono, 'IBM Plex Mono', monospace);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted, #9aabc0);
-}
-
-/* ---------- Scene: readout rows and canvas in one normal-flow column ---------- */
-
-.scene-section .scene-stage { min-height: clamp(320px, 48vh, 540px); }
-
-.scene-shell {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(10px, 1.6vh, 16px);
-  min-width: 0;
-}
-
-.scene-topline {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.25rem 1.5rem;
-  font: 500 10px/1.6 var(--mono, 'IBM Plex Mono', monospace);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted, #9aabc0);
-}
-
-.scene-stage {
-  position: relative;
-  flex: 1 1 auto;
-  min-height: clamp(270px, 34vh, 400px);
-}
-
-.scene-drawing { position: absolute; inset: 0; }
-
-.scene-drawing canvas {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  touch-action: pan-y;
-}
-
-.scene-foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px 28px;
-  border-top: 1px solid var(--line, rgba(155, 181, 210, 0.17));
-  padding-top: clamp(10px, 1.6vh, 14px);
-}
-
-.scene-hud {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: 0.3rem 1.5rem;
-  max-width: 26rem;
-  font: 500 11px/1.7 var(--mono, 'IBM Plex Mono', monospace);
-  letter-spacing: 0.08em;
-}
-
-.scene-hud > * { min-width: 0; }
-
-.scene-hud-label { color: var(--ink, #edf2f8); text-transform: uppercase; }
-.scene-hud-note { color: var(--accent, #729eff); text-transform: uppercase; }
-
-.scene-hud-caption {
-  grid-column: 1 / -1;
-  color: var(--muted, #9aabc0);
-}
-
-.scene-nojs {
-  margin: 0;
-  font: 500 11px/1.6 var(--mono, 'IBM Plex Mono', monospace);
-  letter-spacing: 0.06em;
   color: var(--muted, #9aabc0);
 }
 
@@ -531,8 +454,6 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
 @media (max-width: 1000px) {
   .hero-title .h1-line--offset { padding-left: 0; }
 
-  .scene-section .scene-stage { min-height: clamp(260px, 50vw, 400px); }
-
   .service-row { grid-template-columns: clamp(2.5rem, 7vw, 4rem) minmax(0, 1fr) clamp(1.5rem, 4vw, 2.5rem); }
   .service-row__meta { display: none; }
 
@@ -546,14 +467,6 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
   .home-hero { min-height: calc(88svh - var(--header-height, 74px)); }
   .hero-inner { padding-top: clamp(48px, 9vh, 80px); }
   .hero-title { font-size: clamp(38px, 10.6vw, 64px); }
-
-  .scene-section .scene-stage { min-height: clamp(220px, 62vw, 360px); }
-  .scene-foot { flex-direction: column; align-items: stretch; gap: 12px; }
-  .scene-hud { grid-template-columns: minmax(0, 1fr); max-width: none; }
-
-  /* three mode buttons share one row; the diagram pause sits on its own row */
-  .scene-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-  .scene-controls [data-scene-pause] { grid-column: 1 / -1; }
 
   /* the track turns vertical so progression reads down the list */
   .review-track {
