@@ -1,0 +1,14 @@
+{
+  "name": "OuroNex",
+  "short_name": "OuroNex",
+  "theme_color": "#080e17",
+  "background_color": "#080e17",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "assets/ouronex-mark.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}
