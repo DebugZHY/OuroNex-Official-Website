@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account — OuroNex</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 40px; width: 100%; max-width: 420px; }
+    h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #f8fafc; }
+    .sub { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; margin-bottom: 6px; }
+    input { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 14px; margin-bottom: 16px; }
+    input:focus { outline: none; border-color: #3b82f6; }
+    button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    .error { background: #7f1d1d; color: #fecaca; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
+    .link { text-align: center; margin-top: 16px; font-size: 13px; color: #94a3b8; }
+    .link a { color: #3b82f6; text-decoration: none; }
+    .link a:hover { text-decoration: underline; }
+    .captcha-row { display: flex; gap: 12px; align-items: center; }
+    .captcha-row input { flex: 1; }
+    .captcha-q { background: #1e293b; padding: 10px 16px; border-radius: 8px; font-size: 16px; font-weight: 600; color: #f8fafc; white-space: nowrap; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</head>
+<body>
+  <div class="card">
+    <h1>Create account</h1>
+    <p class="sub">Join OuroNex</p>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="error">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <form method="post">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required autofocus>
+
+      <div class="row">
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email">
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone">
+        </div>
+      </div>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="password2">Confirm password</label>
+      <input type="password" id="password2" name="password2" required>
+
+      <label>Verification code</label>
+      <div class="captcha-row">
+        <div class="captcha-q">{{ captcha_question }}</div>
+        <input type="text" name="captcha" placeholder="Answer" required>
+        <input type="hidden" name="captcha_expected" value="{{ captcha_expected }}">
+      </div>
+
+      <button type="submit" style="margin-top: 20px;">Create account</button>
+    </form>
+    <p class="link">Already have an account? <a href="/login/">Sign in</a></p>
+  </div>
+</body>
+</html>

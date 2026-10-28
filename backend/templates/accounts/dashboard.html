@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — OuroNex</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar { width: 240px; background: #111827; border-right: 1px solid #1f2937; padding: 24px 16px; }
+    .sidebar h3 { font-size: 12px; text-transform: uppercase; color: #64748b; margin: 24px 0 8px; padding: 0 8px; }
+    .sidebar a { display: block; padding: 8px 12px; color: #cbd5e1; text-decoration: none; border-radius: 6px; font-size: 14px; margin-bottom: 2px; }
+    .sidebar a:hover { background: #1e293b; }
+    .sidebar a.active { background: #1e293b; color: #f8fafc; }
+    .sidebar .section { margin-bottom: 16px; }
+    .sidebar .plan-badge { display: inline-block; background: #1e3a5f; color: #60a5fa; padding: 4px 12px; border-radius: 12px; font-size: 12px; margin-top: 8px; }
+    .main { flex: 1; padding: 32px 40px; max-width: 960px; }
+    .main h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #f8fafc; }
+    .main .sub { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+    .card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #f8fafc; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 20px; }
+    .kpi label { display: block; font-size: 12px; color: #64748b; margin-bottom: 8px; }
+    .kpi .value { font-size: 28px; font-weight: 700; color: #f8fafc; }
+    .kpi .unit { font-size: 14px; color: #94a3b8; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .info-item label { display: block; font-size: 12px; color: #64748b; margin-bottom: 4px; }
+    .info-item p { font-size: 14px; color: #e2e8f0; }
+    .progress-bar { background: #1e293b; border-radius: 8px; height: 8px; overflow: hidden; margin-top: 8px; }
+    .progress-fill { background: #22c55e; height: 100%; border-radius: 8px; }
+    .btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: white; text-decoration: none; border-radius: 6px; font-size: 13px; }
+    .btn:hover { background: #1d4ed8; }
+    .btn-outline { background: transparent; border: 1px solid #334155; color: #cbd5e1; }
+    .btn-outline:hover { border-color: #475569; background: #1e293b; }
+    .btn-danger { background: #dc2626; }
+    .btn-danger:hover { background: #b91c1c; }
+    .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+    .alert-info { background: #1e3a5f; color: #93c5fd; }
+    .alert-success { background: #14532d; color: #86efac; }
+    .alert-error { background: #7f1d1d; color: #fca5a5; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #1f2937; }
+    th { font-size: 12px; color: #64748b; font-weight: 500; }
+    td { font-size: 14px; color: #e2e8f0; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; }
+    .badge-active { background: #14532d; color: #86efac; }
+    .badge-free { background: #1e3a5f; color: #60a5fa; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="section">
+        <div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;">OuroNex</div>
+        <a href="/dashboard/" class="active">Dashboard</a>
+        <a href="/profile/">Profile</a>
+        <a href="/profile/security/">Security</a>
+      </div>
+      <div class="section">
+        <h3>Subscription</h3>
+        <a href="/pricing/">Plans</a>
+        <a href="/dashboard/#usage">Usage</a>
+        {% if subscription %}
+          <div class="plan-badge">{{ subscription.plan.display_name }}</div>
+        {% endif %}
+      </div>
+      <div class="section">
+        <h3>Account</h3>
+        <a href="/logout/">Sign out</a>
+      </div>
+    </nav>
+    <div class="main">
+      <h1>Dashboard</h1>
+      <p class="sub">Welcome back, {{ user.username }}</p>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      {% if subscription %}
+        <div class="card" style="background: linear-gradient(135deg, #1e3a5f 0%, #111827 100%);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h2 style="margin-bottom: 4px;">{{ subscription.plan.display_name }} Plan</h2>
+              <p style="color: #94a3b8; font-size: 14px;">
+                {% if subscription.plan.price_monthly > 0 %}
+                  ${{ subscription.plan.price_monthly }}/month
+                {% else %}
+                  Free forever
+                {% endif %}
+              </p>
+            </div>
+            <a href="/pricing/" class="btn">{% if subscription.plan.name == 'free' %}Upgrade{% else %}Manage{% endif %}</a>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <label>Tokens Remaining</label>
+          <div class="value">{{ subscription.tokens_remaining|default:0 }}</div>
+          <div class="unit">tokens</div>
+        </div>
+        <div class="kpi">
+          <label>Tokens Used</label>
+          <div class="value">{{ token_usage }}</div>
+          <div class="unit">tokens</div>
+        </div>
+        <div class="kpi">
+          <label>Plan</label>
+          <div class="value">{{ subscription.plan.display_name|default:"Free" }}</div>
+        </div>
+        <div class="kpi">
+          <label>Member Since</label>
+          <div class="value">{{ user.date_joined|date:"M Y" }}</div>
+        </div>
+      </div>
+
+      <div class="card" id="usage">
+        <h2>Usage Overview</h2>
+        <div style="margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="font-size: 13px; color: #94a3b8;">Monthly tokens</span>
+            <span style="font-size: 13px; color: #e2e8f0;">{{ token_usage }} / {{ subscription.plan.tokens_monthly }}</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: {% widthratio token_usage subscription.plan.tokens_monthly 100 %}%;"></div>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Subscription Status</label>
+            <p><span class="badge badge-{{ subscription.status }}">{{ subscription.status|title }}</span></p>
+          </div>
+          <div class="info-item">
+            <label>Next Renewal</label>
+            <p>{{ subscription.expires_at|date:"M d, Y"|default:"—" }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Quick Actions</h2>
+        <div style="display: flex; gap: 12px;">
+          <a href="/profile/" class="btn btn-outline">Edit Profile</a>
+          <a href="/profile/security/" class="btn btn-outline">Security Settings</a>
+          <a href="/pricing/" class="btn btn-outline">View Plans</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

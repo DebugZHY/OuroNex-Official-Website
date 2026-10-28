@@ -1,16 +1,26 @@
-_scratch/
-.idea/
+# Django
+backend/db.sqlite3
+backend/__pycache__/
+backend/**/__pycache__/
+backend/staticfiles/
+*.pyc
+*.pyo
+*.pyd
 
-# User system: secrets and dependencies
-server/.env
-server/stack-auth.env
-server/node_modules/
-server/exports/
-server/outbox/
-server/*.log
+# Environment
+.env
+.venv/
+venv/
 
-# OS junk
-NUL
+# OS
 Thumbs.db
 .DS_Store
+NUL
 
+# IDE
+.idea/
+.vscode/
+
+# Exports
+exports/
+outbox/
