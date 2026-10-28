@@ -1,6 +1,6 @@
 # OuroNex local development server.
 param(
-    [int]$Port = 8000,
+    [int]$Port = 8080,
     [switch]$NoBrowser,
     [switch]$NoAdminPrompt
 )
