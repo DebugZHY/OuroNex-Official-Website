@@ -52,7 +52,7 @@
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
     <nav class="desktop-nav" id="site-nav" aria-label="Main navigation">
       <a href="index.html">Home</a><a href="services.html">Services</a><a href="platform.html">SIDA</a><a href="arena.html">Arena</a><a href="news.html">News</a><a href="about-us.html">About us</a><a class="nav-contact" href="contact.html">Let's talk <span aria-hidden="true">↗</span></a><a class="nav-contact" href="pricing.html" style="margin-left:.5rem" aria-current="page">Pricing</a>
-      <a class="nav-contact nav-signin" data-signin href="http://localhost:3100/login.html">Sign in <span aria-hidden="true">&#8594;</span></a>
+      <a class="nav-contact nav-signin" data-signin href="/login/">Sign in <span aria-hidden="true">&#8594;</span></a>
     </nav>
   </div>
   <div class="reading-progress" aria-hidden="true"></div>
@@ -111,7 +111,7 @@
 
       <div id="success" hidden>
         <h2>Success!</h2>
-        <p>Your subscription has been activated. <a href="http://localhost:3100/dashboard">Go to dashboard</a></p>
+        <p>Your subscription has been activated. <a href="/dashboard/">Go to dashboard</a></p>
       </div>
 
       <p class="pricing-back" data-motion="rise"><a class="text-link" href="index.html"><span aria-hidden="true">←</span> Back to home</a></p>
@@ -154,7 +154,7 @@
     // that origin in one place (assets/signin.js uses the same rule); the page itself only carries
     // a plan id, never a price id or an API key.
     function appOrigin() {
-      return (window.OUREX_APP_ORIGIN || 'http://localhost:3100').replace(/\/+$/, '');
+      return (window.OUREX_APP_ORIGIN || '').replace(/\/+$/, '');
     }
 
     async function subscribe(planId) {
@@ -164,13 +164,13 @@
         // returns the user to the app dashboard with the chosen plan and the checkout flag.
         var nextPath = '/dashboard?plan=' + encodeURIComponent(planId) + '&checkout=1';
         sessionStorage.setItem('ouronex.redirectAfterLogin', 'pricing.html?plan=' + planId + '&checkout=1');
-        window.location.href = appOrigin() + '/login.html?next=' + encodeURIComponent(nextPath);
+        window.location.href = appOrigin() + '/login/?next=' + encodeURIComponent(nextPath);
         return;
       }
 
       // The free plan has no Stripe price: it is the default plan, not a purchase.
       if (planId === 'free') {
-        window.location.href = appOrigin() + '/dashboard';
+        window.location.href = appOrigin() + '/dashboard/';
         return;
       }
 
@@ -196,7 +196,7 @@
         if (res.status === 401) {
           sessionStorage.removeItem('ouronex.accessToken');
           alert('Your session has expired. Please sign in again.');
-          window.location.href = appOrigin() + '/login.html?next='
+          window.location.href = appOrigin() + '/login/?next='
             + encodeURIComponent('/dashboard?plan=' + encodeURIComponent(planId) + '&checkout=1');
           return;
         }
