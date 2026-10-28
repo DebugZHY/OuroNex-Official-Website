@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — OuroNex</title>
+  <style>
+    @font-face { font-family: 'Manrope'; src: url('http://localhost:4173/assets/fonts/manrope-var.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+    @font-face { font-family: 'IBM Plex Mono'; src: url('http://localhost:4173/assets/fonts/ibm-plex-mono-var.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+
+    :root {
+      --bg: #080e17;
+      --surface: #0d1623;
+      --surface-raised: #131f2f;
+      --ink: #edf2f8;
+      --muted: #9aabc0;
+      --line: rgba(155,181,210,.17);
+      --accent: #729eff;
+      --danger: #ff8a7a;
+      --display: 'Manrope',sans-serif;
+      --mono: 'IBM Plex Mono',monospace;
+      --ease: cubic-bezier(.22,1,.36,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--display);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    [hidden] { display: none !important; }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+    }
+
+    .brand {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 23px;
+      letter-spacing: -0.06em;
+      color: var(--ink);
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .back-link {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s var(--ease);
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .btn-signout {
+      font-family: var(--display);
+      font-size: 14px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background .2s var(--ease), border-color .2s var(--ease);
+    }
+    .btn-signout:hover {
+      background: var(--surface-raised);
+      border-color: rgba(155,181,210,.35);
+    }
+
+    .dashboard-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 48px 36px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 48px;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: sticky;
+      top: 100px;
+      align-self: start;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 8px 16px;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: color .2s var(--ease), border-left-color .2s var(--ease), background .2s var(--ease);
+      border-radius: 0 4px 4px 0;
+    }
+    .sidebar-link:hover { color: var(--ink); background: rgba(114,158,255,.04); }
+    .sidebar-link[aria-current="page"] {
+      border-left-color: var(--accent);
+      color: var(--ink);
+      background: rgba(114,158,255,.06);
+    }
+
+    .main-content { min-width: 0; }
+
+    .section-heading {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 4px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 32px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 1100px) {
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      animation: fadeSlideIn .6s var(--ease) both;
+    }
+    .card-grid .card:nth-child(1) { animation-delay: 0s; }
+    .card-grid .card:nth-child(2) { animation-delay: .06s; }
+    .card-grid .card:nth-child(3) { animation-delay: .12s; }
+    .card-grid .card:nth-child(4) { animation-delay: .18s; }
+
+    .card-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+
+    .card-value-lg {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card-value-md {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card-value-sm {
+      font-size: 14px;
+      margin: 0 0 8px;
+      word-break: break-all;
+    }
+
+    .card-value-mono {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      word-break: break-all;
+      margin: 0;
+    }
+
+    .card-sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 8px 0 0;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #729eff18;
+      color: var(--accent);
+      border: 1px solid #729eff50;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-top: 12px;
+    }
+    .pill.is-active { background: #2ea04318; color: #5ee08a; border-color: #2ea04350; }
+
+    .usage-chart-card {
+      margin-bottom: 24px;
+      animation: fadeSlideIn .6s var(--ease) .24s both;
+    }
+    .bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 120px;
+      padding: 16px 0 8px;
+    }
+    .bar {
+      flex: 1;
+      background: linear-gradient(180deg, var(--accent) 0%, #346aeb 100%);
+      border-radius: 2px 2px 0 0;
+      min-height: 3px;
+      opacity: 0.85;
+      transition: opacity .2s var(--ease), transform .2s var(--ease);
+    }
+    .bar:hover { opacity: 1; transform: scaleY(1.02); transform-origin: bottom; }
+    .bars-axis {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+    .chart-footnote {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .quick-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .quick-action-row:last-child { border-bottom: 0; }
+    .quick-action-row a, .quick-action-row button {
+      color: var(--ink);
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 0;
+      transition: color .2s var(--ease);
+      text-align: left;
+    }
+    .quick-action-row a:hover, .quick-action-row button:hover { color: var(--accent); }
+    .quick-action-row .arrow {
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 32px 16px;
+    }
+    .empty-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(114,158,255,.12);
+      border: 1px solid rgba(114,158,255,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 18px;
+      font-family: var(--mono);
+    }
+    .empty-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+    .empty-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 12px;
+      max-width: 280px;
+    }
+    .empty-footnote {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .sub-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .sub-stack {
+      display: grid;
+      gap: 16px;
+    }
+    .sub-plan-name {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+      text-transform: capitalize;
+    }
+    .sub-dl {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .sub-dt { color: var(--muted); }
+    .sub-dd {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      word-break: break-all;
+    }
+    .sub-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 13px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: opacity .2s var(--ease);
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:disabled { opacity: 0.5; cursor: default; }
+
+    .btn-quiet {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13px;
+      padding: 11px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color .2s var(--ease), border-color .2s var(--ease);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-quiet:hover { color: var(--ink); border-color: rgba(155,181,210,.35); }
+    .btn-quiet.btn-danger { color: var(--danger); border-color: rgba(255,138,122,.3); }
+    .btn-quiet.btn-danger:hover { background: rgba(255,138,122,.06); border-color: rgba(255,138,122,.5); }
+    .btn-quiet:disabled { opacity: 0.5; cursor: default; }
+
+    .actions-row { margin-top: 26px; }
+
+    .tech-details {
+      margin-top: 32px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .tech-details summary {
+      padding: 16px 24px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--muted);
+      user-select: none;
+      transition: color .2s var(--ease);
+    }
+    .tech-details summary:hover { color: var(--ink); }
+    .tech-details-body {
+      padding: 0 24px 24px;
+      display: grid;
+      gap: 12px;
+    }
+    .tech-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .tech-label { color: var(--muted); }
+    .tech-value { font-family: var(--mono); font-size: 12px; word-break: break-all; }
+
+    .card-inactive { max-width: 480px; }
+    .card-inactive .section-heading { margin-bottom: 8px; }
+    .inactive-fields {
+      margin: 20px 0 28px;
+      display: grid;
+      gap: 10px;
+    }
+    .inactive-row {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .inactive-label { color: var(--muted); }
+    .inactive-value { word-break: break-all; }
+
+    .loading-text {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      animation: pulse 1.6s ease-in-out infinite;
+      margin: 0;
+    }
+
+    .card-signed-out {
+      max-width: 400px;
+      margin: 80px auto 0;
+      text-align: center;
+    }
+    .card-signed-out p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 24px;
+    }
+
+    .error-text {
+      color: #ffb4a8;
+      font-size: 14px;
+      margin: 0;
+    }
+    .success-text {
+      color: #5ee08a;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .resume-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 0 20px;
+      padding: 18px 20px;
+      background: var(--surface-raised);
+      border: 1px solid var(--line);
+      border-left: 2px solid var(--accent);
+      border-radius: 4px;
+    }
+    .resume-title { margin: 0; font-size: 15px; font-weight: 600; }
+    .resume-hint { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    .resume-actions { display: flex; gap: 10px; align-items: center; }
+    .resume-card .error-text { flex-basis: 100%; }
+
+    .settings-stack {
+      display: grid;
+      gap: 16px;
+    }
+    .form-row {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .form-row label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .form-row input {
+      background: var(--bg);
+      border: 1px solid rgba(82,96,120,.6);
+      border-radius: 4px;
+      min-height: 44px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: var(--ink);
+      font-family: inherit;
+      transition: border-color .2s var(--ease);
+    }
+    .form-row input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(114,158,255,.2);
+    }
+    .form-row input[readonly] {
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+    .form-helper {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .form-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .security-row {
+      display: grid;
+      grid-template-columns: 200px 1fr auto;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+      font-size: 14px;
+    }
+    .security-row:last-child { border-bottom: 0; }
+    .security-label { color: var(--muted); }
+    .security-value { word-break: break-all; }
+    .security-action {
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+    }
+    .security-action:hover { text-decoration: underline; }
+    .security-action[disabled] { color: var(--muted); cursor: not-allowed; }
+    .security-action[disabled]:hover { text-decoration: none; }
+    .danger-card { border-color: rgba(255,138,122,.3); }
+    .danger-card .card-eyebrow { color: var(--danger); }
+    .danger-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      gap: 16px;
+    }
+    .danger-row:last-child { border-bottom: 0; }
+    .danger-row .info { flex: 1; }
+    .danger-row .title { font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+    .danger-row .sub { font-size: 12px; color: var(--muted); margin: 0; }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+    .invoice-table th {
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 500;
+    }
+    .invoice-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    @media (max-width: 760px) {
+      .site-header { padding: 0 20px; }
+      .header-actions { gap: 16px; }
+
+      .dashboard-container {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+        gap: 24px;
+      }
+
+      .sidebar-nav {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 4px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+        -webkit-overflow-scrolling: touch;
+      }
+      .sidebar-link {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+        min-height: 40px;
+        border-radius: 4px 4px 0 0;
+      }
+      .sidebar-link[aria-current="page"] {
+        border-left-color: transparent;
+        border-bottom-color: var(--accent);
+      }
+
+      .two-col, .sub-grid { grid-template-columns: 1fr; }
+      .security-row { grid-template-columns: 1fr; gap: 6px; }
+      .card-signed-out { margin: 40px auto 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="http://localhost:4173/index.html">OuroNex</a>
+    <div class="header-actions">
+      <a class="back-link" href="http://localhost:4173/index.html">Back to site</a>
+      <button class="btn-signout" id="sign-out" type="button">Sign out</button>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+
+    <nav class="sidebar-nav" aria-label="Dashboard navigation">
+      <a class="sidebar-link" href="#overview" aria-current="page">Overview</a>
+      <a class="sidebar-link" href="#subscription">Subscription</a>
+      <a class="sidebar-link" href="#billing">Billing history</a>
+      <a class="sidebar-link" href="#settings">Settings</a>
+    </nav>
+
+    <main class="main-content">
+
+      <section id="resume-checkout" class="resume-card" hidden>
+        <div>
+          <p class="resume-title">Finish setting up <span id="resume-plan">your plan</span></p>
+          <p class="resume-hint">You picked this plan before signing in. Nothing has been charged and no subscription exists yet.</p>
+        </div>
+        <div class="resume-actions">
+          <button type="button" class="btn-primary" id="resume-go">Continue to checkout</button>
+          <button type="button" class="btn-quiet" id="resume-dismiss">Not now</button>
+        </div>
+        <p class="error-text" id="resume-status" hidden></p>
+      </section>
+
+      <section id="state-loading">
+        <p class="loading-text">Checking your account…</p>
+      </section>
+
+      <section id="state-signed-out" hidden>
+        <div class="card card-signed-out">
+          <h1 class="section-heading">You are not signed in</h1>
+          <p id="signed-out-detail">No session token was presented, so no account is shown here.</p>
+          <a class="btn-primary" href="/login.html">Sign in</a>
+        </div>
+      </section>
+
+      <section id="state-active" hidden>
+        <h1 class="section-heading" id="active-headline">Overview</h1>
+        <p class="section-sub" id="active-section-sub">Your account and subscription at a glance.</p>
+
+        <div id="section-overview">
+
+          <div class="resume-card" id="upsell-banner" hidden>
+            <div>
+              <p class="resume-title">You're on the Free plan</p>
+              <p class="resume-hint">Unlock unlimited API calls, priority support, and team workspaces by upgrading.</p>
+            </div>
+            <div class="resume-actions">
+              <a class="btn-primary" href="http://localhost:4173/pricing.html">Browse plans</a>
+            </div>
+          </div>
+
+          <div class="card-grid">
+            <div class="card">
+              <p class="card-eyebrow">CURRENT PLAN</p>
+              <p class="card-value-lg" id="active-plan">—</p>
+              <span class="pill" id="active-status">—</span>
+            </div>
+
+            <div class="card">
+              <p class="card-eyebrow">RENEWAL</p>
+              <p class="card-value-md" id="active-period">—</p>
+            </div>
+
+            <div class="card">
+              <p class="card-eyebrow">MEMBER SINCE</p>
+              <p class="card-value-md" id="kpi-member-since">—</p>
+              <p class="card-sub">Account creation date</p>
+            </div>
+
+            <div class="card">
+              <p class="card-eyebrow">API CALLS (30D)</p>
+              <p class="card-value-lg" id="kpi-api-calls">0</p>
+              <p class="card-sub">Free plan limit: 1,000/mo</p>
+            </div>
+          </div>
+
+          <div class="card usage-chart-card">
+            <p class="card-eyebrow">USAGE (LAST 30 DAYS)</p>
+            <div class="bars" id="usage-bars"></div>
+            <div class="bars-axis">
+              <span>30 days ago</span>
+              <span>Today</span>
+            </div>
+            <p class="chart-footnote">Sample data — API usage tracking ships with the next release.</p>
+          </div>
+
+          <div class="two-col">
+            <div class="card">
+              <p class="card-eyebrow">QUICK ACTIONS</p>
+              <div class="quick-action-row">
+                <a href="http://localhost:4173/pricing.html">View pricing plans</a>
+                <span class="arrow">→</span>
+              </div>
+              <div class="quick-action-row">
+                <button type="button" id="quick-manage-sub">Manage subscription</button>
+                <span class="arrow">→</span>
+              </div>
+              <div class="quick-action-row">
+                <button type="button" id="quick-update-profile">Update profile</button>
+                <span class="arrow">→</span>
+              </div>
+              <div class="quick-action-row">
+                <button type="button" id="quick-view-billing">View billing history</button>
+                <span class="arrow">→</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <p class="card-eyebrow">RECENT ACTIVITY</p>
+              <div class="empty-state">
+                <div class="empty-icon">·</div>
+                <p class="empty-title">No recent activity</p>
+                <p class="empty-sub">API calls, sign-ins, and subscription changes will appear here.</p>
+                <p class="empty-footnote">Activity feed ships with the production launch</p>
+              </div>
+            </div>
+          </div>
+
+          <details class="tech-details">
+            <summary>Technical details</summary>
+            <div class="tech-details-body">
+              <div class="tech-row">
+                <span class="tech-label">Account email</span>
+                <span class="tech-value" id="active-email">—</span>
+              </div>
+              <div class="tech-row">
+                <span class="tech-label">User id</span>
+                <span class="tech-value" id="active-user">—</span>
+              </div>
+              <div class="tech-row">
+                <span class="tech-label">Customer id</span>
+                <span class="tech-value" id="active-customer">—</span>
+              </div>
+              <div class="tech-row">
+                <span class="tech-label">Subscription id</span>
+                <span class="tech-value" id="active-subscription">—</span>
+              </div>
+            </div>
+          </details>
+
+          <div class="actions-row">
+            <button class="btn-primary" id="manage-subscription" type="button" hidden>Manage subscription</button>
+          </div>
+          <p id="portal-status" class="error-text" hidden></p>
+
+        </div>
+
+        <div id="section-subscription" hidden>
+
+          <div class="sub-grid">
+            <div class="card">
+              <p class="card-eyebrow">CURRENT SUBSCRIPTION</p>
+              <p class="sub-plan-name" id="sub-plan-name">Free</p>
+              <span class="pill is-active" id="sub-status-pill">—</span>
+
+              <dl class="sub-dl">
+                <dt class="sub-dt">Plan ID</dt>
+                <dd class="sub-dd" id="sub-plan-id">free</dd>
+                <dt class="sub-dt">Billing period</dt>
+                <dd class="sub-dd" id="sub-billing-period">monthly</dd>
+                <dt class="sub-dt">Started</dt>
+                <dd class="sub-dd" id="sub-started">—</dd>
+                <dt class="sub-dt">Renews</dt>
+                <dd class="sub-dd" id="sub-renewal">—</dd>
+              </dl>
+
+              <div class="sub-actions">
+                <button type="button" class="btn-primary" id="manage-subscription-2">Manage subscription</button>
+                <a class="btn-quiet" href="http://localhost:4173/pricing.html">View plans</a>
+              </div>
+            </div>
+
+            <div class="sub-stack">
+              <div class="card">
+                <p class="card-eyebrow">UPCOMING INVOICE</p>
+                <p class="card-value-md" id="next-billing-date">—</p>
+                <p class="card-sub" id="next-billing-amount">No upcoming charge</p>
+              </div>
+
+              <div class="card">
+                <p class="card-eyebrow">PAYMENT METHOD</p>
+                <div class="empty-state" style="padding: 20px 12px;">
+                  <div class="empty-icon">□</div>
+                  <p class="empty-title">No payment method</p>
+                  <p class="empty-sub">Payment methods appear here after your first paid subscription.</p>
+                  <button type="button" class="btn-quiet" id="add-payment-method">Add payment method</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="section-billing" hidden>
+
+          <div class="card">
+            <p class="card-eyebrow">INVOICES</p>
+            <div class="empty-state">
+              <div class="empty-icon">≡</div>
+              <p class="empty-title">No invoices yet</p>
+              <p class="empty-sub">Your paid invoices will appear here once you have an active paid subscription.</p>
+              <a class="btn-quiet" href="http://localhost:4173/pricing.html">Browse plans</a>
+            </div>
+
+            <table class="invoice-table" id="invoice-table" hidden>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Download</th>
+                </tr>
+              </thead>
+              <tbody id="invoice-tbody"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <div id="section-settings" hidden>
+
+          <div class="settings-stack">
+
+            <div class="card">
+              <p class="card-eyebrow">PROFILE</p>
+              <form id="settings-form">
+                <div class="form-row">
+                  <label for="settings-display-name">Full name</label>
+                  <input id="settings-display-name" type="text" autocomplete="name">
+                </div>
+                <div class="form-row">
+                  <label for="settings-username">Username</label>
+                  <input id="settings-username" readonly>
+                  <p class="form-helper">Username is set at sign-up and cannot be changed.</p>
+                </div>
+                <div class="form-row">
+                  <label for="settings-email">Email</label>
+                  <input id="settings-email" readonly>
+                  <p class="form-helper">Contact support to change your email address.</p>
+                </div>
+                <div class="form-row">
+                  <label for="settings-phone">Phone</label>
+                  <input id="settings-phone" type="tel" placeholder="+1 555 000 0000" autocomplete="tel">
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn-primary" id="settings-save">Save changes</button>
+                  <p class="success-text" id="settings-status" hidden></p>
+                </div>
+              </form>
+            </div>
+
+            <div class="card">
+              <p class="card-eyebrow">PASSWORD &amp; SECURITY</p>
+              <div class="security-row">
+                <span class="security-label">Password</span>
+                <span class="security-value">••••••••••</span>
+                <a class="security-action" href="/reset-password.html">Change via reset email</a>
+              </div>
+              <div class="security-row">
+                <span class="security-label">Two-factor authentication</span>
+                <span class="security-value">Not enabled</span>
+                <button class="security-action" type="button" disabled>Enable</button>
+              </div>
+              <div class="security-row">
+                <span class="security-label">Active sessions</span>
+                <span class="security-value">1 session</span>
+                <button class="security-action" type="button" id="sign-out-all">Sign out all</button>
+              </div>
+            </div>
+
+            <div class="card danger-card">
+              <p class="card-eyebrow">DANGER ZONE</p>
+              <div class="danger-row">
+                <div class="info">
+                  <p class="title">Export account data</p>
+                  <p class="sub">Download a copy of your profile, subscription, and activity data.</p>
+                </div>
+                <button type="button" class="btn-quiet" id="btn-export-data">Download my data</button>
+              </div>
+              <div class="danger-row">
+                <div class="info">
+                  <p class="title">Delete account</p>
+                  <p class="sub">Permanently remove your account and all associated data.</p>
+                </div>
+                <button type="button" class="btn-quiet btn-danger" id="btn-delete-account">Delete account</button>
+              </div>
+              <p class="error-text" id="delete-confirm" hidden>This permanently deletes your account and all data. Contact support@ouronex.com to proceed.</p>
+              <p class="error-text" id="export-status" hidden>Data export will be available with the production release.</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section id="state-inactive" hidden>
+        <div class="card card-inactive">
+          <h1 class="section-heading">No active subscription</h1>
+          <p class="section-sub">Your account does not currently have an active subscription.</p>
+
+          <div class="inactive-fields">
+            <div class="inactive-row">
+              <span class="inactive-label">User id</span>
+              <span class="inactive-value" id="inactive-user">—</span>
+            </div>
+            <div class="inactive-row">
+              <span class="inactive-label">Email</span>
+              <span class="inactive-value" id="inactive-email">—</span>
+            </div>
+            <div class="inactive-row">
+              <span class="inactive-label">Reason</span>
+              <span class="inactive-value" id="inactive-reason">—</span>
+            </div>
+            <div class="inactive-row">
+              <span class="inactive-label">Customer id</span>
+              <span class="inactive-value" id="inactive-customer">—</span>
+            </div>
+          </div>
+
+          <a class="btn-primary" href="http://localhost:4173/pricing.html">View plans</a>
+        </div>
+      </section>
+
+      <p id="state-error" class="error-text" hidden></p>
+
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var STATES = ['state-loading', 'state-signed-out', 'state-active', 'state-inactive', 'state-error'];
+
+      function show(stateId) {
+        STATES.forEach(function (id) {
+          document.getElementById(id).hidden = id !== stateId;
+        });
+      }
+
+      function setText(id, value) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = value;
+      }
+
+      function planLabel(planId) {
+        if (!planId) return '—';
+        return planId.charAt(0).toUpperCase() + planId.slice(1);
+      }
+
+      var REASONS = {
+        no_customer_mapping: 'No billing customer is linked to this account yet.',
+        no_subscription_row: 'A billing customer is linked, but it has no subscription row yet.',
+        customer_not_found: 'The linked billing customer no longer exists in the billing database.'
+      };
+
+      function reasonText(reason) {
+        var known = REASONS[reason];
+        return (known ? known + ' ' : '') + '(reason: ' + (reason || 'unknown') + ')';
+      }
+
+      function renderSignedIn(data) {
+        if (data.hasSubscription && data.status) {
+          var freePlan = data.planId === 'free';
+          var renewalText = freePlan
+            ? 'no billing on the free plan'
+            : (data.currentPeriodEnd
+              ? new Date(data.currentPeriodEnd).toLocaleDateString()
+              : 'not yet billed');
+
+          setText('active-user', data.userId || '—');
+          setText('active-email', data.email || '—');
+          setText('active-plan', planLabel(data.planId));
+          setText('active-status', data.status);
+          setText('active-customer', data.customerId || '—');
+          setText('active-subscription', data.subscriptionId || '—');
+          setText('active-period', renewalText);
+
+          setText('sub-plan-name', planLabel(data.planId));
+          setText('sub-status-pill', data.status);
+          setText('sub-plan-id', data.planId || 'free');
+          setText('sub-renewal', renewalText);
+          setText('next-billing-date', freePlan ? '—' : renewalText);
+          setText('next-billing-amount', freePlan ? 'Free plan · no charge' : 'See subscription details');
+          var subPill = document.getElementById('sub-status-pill');
+          if (subPill) subPill.classList.toggle('is-active', String(data.status).toLowerCase() === 'active');
+
+          var manageBtn = document.getElementById('manage-subscription');
+          var manageBtn2 = document.getElementById('manage-subscription-2');
+          if (manageBtn) manageBtn.hidden = freePlan;
+          if (manageBtn2) manageBtn2.hidden = freePlan;
+          var banner = document.getElementById('upsell-banner');
+          if (banner) banner.hidden = !freePlan;
+          show('state-active');
+          return;
+        }
+        /* No subscription: still show the rich overview, but with placeholder KPI values and
+           an inline upgrade CTA in the hero slot. The dedicated inactive section stays as a
+           fallback for direct links but is no longer the default branch. */
+        setText('active-user', data.userId || '—');
+        setText('active-email', data.email || '—');
+        setText('active-plan', 'Free');
+        setText('active-status', 'no subscription');
+        setText('active-customer', data.customerId || '—');
+        setText('active-subscription', '—');
+        setText('active-period', 'no active billing');
+
+        setText('sub-plan-name', 'Free');
+        setText('sub-status-pill', 'no subscription');
+        setText('sub-plan-id', 'free');
+        setText('sub-renewal', '—');
+        setText('next-billing-date', '—');
+        setText('next-billing-amount', 'No upcoming charge');
+        var subPill = document.getElementById('sub-status-pill');
+        if (subPill) subPill.classList.remove('is-active');
+
+        var manageBtn = document.getElementById('manage-subscription');
+        var manageBtn2 = document.getElementById('manage-subscription-2');
+        if (manageBtn) manageBtn.hidden = true;
+        if (manageBtn2) manageBtn2.hidden = true;
+        var banner = document.getElementById('upsell-banner');
+        if (banner) banner.hidden = false;
+        show('state-active');
+      }
+
+      var TOKEN_KEY = 'ouronex.accessToken';
+
+      function sessionToken() {
+        try {
+          var token = window.sessionStorage.getItem(TOKEN_KEY);
+          return token && token.trim() ? token.trim() : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function load() {
+        var token = sessionToken();
+        var headers = { accept: 'application/json' };
+        if (token) headers.authorization = 'Bearer ' + token;
+
+        fetch('/api/account/me/subscription', { headers: headers })
+          .then(function (response) {
+            if (response.status === 401) {
+              return response.json().catch(function () { return {}; }).then(function (body) {
+                if (body.reason === 'stack_session_invalid') {
+                  setText('signed-out-detail', 'The presented session token was rejected by Stack Auth (expired, revoked or not a token for this project).');
+                } else if (body.reason === 'stack_auth_not_configured') {
+                  setText('signed-out-detail', 'Session verification is not configured on this server, so no token can be accepted.');
+                } else if (body.reason === 'stack_lookup_failed') {
+                  setText('signed-out-detail', 'The Stack Auth API could not be reached, so the session could not be checked.');
+                } else {
+                  setText('signed-out-detail', 'No session token was presented, so no account is shown here.');
+                }
+                show('state-signed-out');
+                document.getElementById('sign-out').hidden = true;
+                return null;
+              });
+            }
+            if (!response.ok) {
+              setText('state-error', 'The account API answered with HTTP ' + response.status + '. Nothing is shown because the status could not be read.');
+              show('state-error');
+              return null;
+            }
+            return response.json();
+          })
+          .then(function (data) {
+            if (data) {
+              renderSignedIn(data);
+              prefillSettings(data);
+              renderUsageChart(data.userId || 'anonymous');
+            }
+          })
+          .catch(function (error) {
+            setText('state-error', 'Could not reach the account API: ' + (error && error.message ? error.message : 'network error') + '. No account data is shown.');
+            show('state-error');
+          });
+      }
+
+      (function () {
+        var status = document.getElementById('portal-status');
+
+        function say(message) {
+          if (!status) return;
+          status.textContent = message;
+          status.hidden = false;
+        }
+
+        function openPortal() {
+          var token = sessionToken();
+          if (!token) {
+            say('Sign in again to manage your subscription.');
+            return;
+          }
+          if (status) status.hidden = true;
+          var btn = document.getElementById('manage-subscription');
+          var btn2 = document.getElementById('manage-subscription-2');
+          var btn3 = document.getElementById('add-payment-method');
+          if (btn) btn.disabled = true;
+          if (btn2) btn2.disabled = true;
+          if (btn3) btn3.disabled = true;
+
+          fetch('/api/billing/portal', {
+            method: 'POST',
+            headers: { accept: 'application/json', authorization: 'Bearer ' + token }
+          })
+            .then(function (response) {
+              return response.json().catch(function () { return {}; }).then(function (body) {
+                return { status: response.status, body: body };
+              });
+            })
+            .then(function (result) {
+              if (result.status === 200 && result.body.url) {
+                window.location.href = result.body.url;
+                return;
+              }
+              if (result.status === 401) {
+                say('Your session expired, so the billing portal could not be opened. Sign in again.');
+                return;
+              }
+              if (result.status === 409) {
+                say('No billing customer is linked to this account yet, so there is nothing to manage.');
+                return;
+              }
+              if (result.status === 503) {
+                say('Billing is not configured on this deployment yet.');
+                return;
+              }
+              say('Could not open the billing portal (' + (result.body.error || ('HTTP ' + result.status)) + ').');
+            })
+            .catch(function () {
+              say('Could not reach the billing API. No changes were made to your subscription.');
+            })
+            .finally(function () {
+              if (btn) btn.disabled = false;
+              if (btn2) btn2.disabled = false;
+              if (btn3) btn3.disabled = false;
+            });
+        }
+
+        ['manage-subscription', 'manage-subscription-2', 'add-payment-method'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.addEventListener('click', openPortal);
+        });
+      })();
+
+      function doSignOut() {
+        try {
+          window.sessionStorage.removeItem(TOKEN_KEY);
+          window.sessionStorage.removeItem('ouronex.userEmail');
+          window.sessionStorage.removeItem('ouronex.userName');
+        } catch (error) { /* ignore */ }
+        window.location.href = 'http://localhost:4173/auth-bridge.html?signout=1&next=' + encodeURIComponent('/login.html');
+      }
+      document.getElementById('sign-out').addEventListener('click', doSignOut);
+      var signOutAll = document.getElementById('sign-out-all');
+      if (signOutAll) signOutAll.addEventListener('click', doSignOut);
+
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var plan = (params.get('plan') || '').trim().toLowerCase();
+        if (params.get('checkout') !== '1' || !plan) return;
+
+        var box = document.getElementById('resume-checkout');
+        var go = document.getElementById('resume-go');
+        var dismiss = document.getElementById('resume-dismiss');
+        var status = document.getElementById('resume-status');
+
+        if (plan !== 'basic' && plan !== 'pro') return;
+
+        setText('resume-plan', plan.charAt(0).toUpperCase() + plan.slice(1));
+        box.hidden = false;
+
+        function say(message) {
+          status.textContent = message;
+          status.hidden = false;
+        }
+
+        dismiss.addEventListener('click', function () {
+          box.hidden = true;
+          status.hidden = true;
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', window.location.pathname);
+          }
+        });
+
+        go.addEventListener('click', function () {
+          var token = sessionToken();
+          if (!token) {
+            say('Sign in again to continue with this plan.');
+            return;
+          }
+          status.hidden = true;
+          go.disabled = true;
+
+          fetch('/api/billing/checkout', {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+              accept: 'application/json',
+              authorization: 'Bearer ' + token
+            },
+            body: JSON.stringify({ planId: plan })
+          })
+            .then(function (response) {
+              return response.json().catch(function () { return {}; }).then(function (body) {
+                return { status: response.status, body: body };
+              });
+            })
+            .then(function (result) {
+              if (result.status === 200 && result.body.url) {
+                window.location.href = result.body.url;
+                return;
+              }
+              if (result.status === 401) {
+                say('Your session expired, so checkout could not start. Sign in again.');
+                return;
+              }
+              if (result.status === 503) {
+                say('Billing is not configured on this deployment yet. Nothing has been charged.');
+                return;
+              }
+              say('Checkout could not start (' + (result.body.error || ('HTTP ' + result.status)) + '). Nothing has been charged.');
+            })
+            .catch(function () {
+              say('Could not reach the billing API. Nothing has been charged.');
+            })
+            .finally(function () {
+              go.disabled = false;
+            });
+        });
+      })();
+
+      var SECTION_META = {
+        overview:     { heading: 'Overview',        sub: 'Your account and subscription at a glance.' },
+        subscription: { heading: 'Subscription',    sub: 'Manage your plan, billing cycle, and payment method.' },
+        billing:      { heading: 'Billing history', sub: 'All your invoices in one place.' },
+        settings:     { heading: 'Settings',        sub: 'Profile, security, and account management.' }
+      };
+
+      function currentSection() {
+        var hash = (window.location.hash || '#overview').replace('#', '');
+        return SECTION_META[hash] ? hash : 'overview';
+      }
+
+      function applySection() {
+        var name = currentSection();
+        ['overview', 'subscription', 'billing', 'settings'].forEach(function (n) {
+          var el = document.getElementById('section-' + n);
+          if (el) el.hidden = n !== name;
+        });
+        var meta = SECTION_META[name];
+        setText('active-headline', meta.heading);
+        setText('active-section-sub', meta.sub);
+        document.querySelectorAll('.sidebar-link').forEach(function (link) {
+          var target = (link.getAttribute('href') || '').replace('#', '');
+          if (target === name) link.setAttribute('aria-current', 'page');
+          else link.removeAttribute('aria-current');
+        });
+      }
+
+      window.addEventListener('hashchange', applySection);
+      applySection();
+
+      (function () {
+        var upd = document.getElementById('quick-update-profile');
+        var bill = document.getElementById('quick-view-billing');
+        var mg = document.getElementById('quick-manage-sub');
+        if (upd) upd.addEventListener('click', function () { window.location.hash = '#settings'; });
+        if (bill) bill.addEventListener('click', function () { window.location.hash = '#billing'; });
+        if (mg) mg.addEventListener('click', function () {
+          var btn = document.getElementById('manage-subscription');
+          if (btn && !btn.hidden) btn.click();
+          else window.location.hash = '#subscription';
+        });
+      })();
+
+      function renderUsageChart(seedStr) {
+        var container = document.getElementById('usage-bars');
+        if (!container) return;
+        container.innerHTML = '';
+        var seed = 0;
+        for (var i = 0; i < seedStr.length; i++) {
+          seed = ((seed << 5) - seed + seedStr.charCodeAt(i)) | 0;
+        }
+        if (seed === 0) seed = 1;
+        function next() {
+          seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
+          return ((seed >>> 0) / 4294967296);
+        }
+        for (var d = 0; d < 30; d++) {
+          var bar = document.createElement('div');
+          bar.className = 'bar';
+          var h = 8 + next() * 88;
+          bar.style.height = h.toFixed(1) + '%';
+          container.appendChild(bar);
+        }
+      }
+
+      var authConfigPromise = null;
+      function getAuthConfig() {
+        if (!authConfigPromise) {
+          authConfigPromise = fetch('/api/auth-config').then(function (r) { return r.json(); });
+        }
+        return authConfigPromise;
+      }
+
+      function setInputValue(id, value) {
+        var el = document.getElementById(id);
+        if (el) el.value = value;
+      }
+
+      function fetchCurrentUser() {
+        var token = sessionToken();
+        if (!token) return Promise.resolve(null);
+        return getAuthConfig().then(function (cfg) {
+          return fetch(cfg.apiUrl + '/api/v1/users/me', {
+            headers: {
+              'x-stack-project-id': cfg.projectId,
+              'x-stack-publishable-client-key': cfg.publishableClientKey,
+              'x-stack-access-type': 'client',
+              'x-stack-access-token': token
+            }
+          }).then(function (r) { return r.ok ? r.json() : null; });
+        }).catch(function () { return null; });
+      }
+
+      function prefillSettings(data) {
+        try {
+          var name = sessionStorage.getItem('ouronex.userName') || '';
+          var email = sessionStorage.getItem('ouronex.userEmail') || data.email || '';
+          setInputValue('settings-display-name', name);
+          setInputValue('settings-email', email);
+          fetchCurrentUser().then(function (user) {
+            if (!user) return;
+            if (user.display_name) setInputValue('settings-display-name', user.display_name);
+            var cm = user.client_metadata || {};
+            setInputValue('settings-username', cm.username || '(not set)');
+            setInputValue('settings-phone', cm.phone || '');
+            if (user.primary_email) setInputValue('settings-email', user.primary_email);
+          });
+        } catch (e) { /* ignore */ }
+      }
+
+      (function () {
+        var form = document.getElementById('settings-form');
+        if (!form) return;
+        form.addEventListener('submit', function (ev) {
+          ev.preventDefault();
+          var status = document.getElementById('settings-status');
+          var save = document.getElementById('settings-save');
+          var token = sessionToken();
+          if (!token) {
+            status.textContent = 'Sign in again to save changes.';
+            status.className = 'error-text';
+            status.hidden = false;
+            return;
+          }
+          var displayName = document.getElementById('settings-display-name').value.trim();
+          var phone = document.getElementById('settings-phone').value.trim();
+          save.disabled = true;
+          status.hidden = true;
+
+          getAuthConfig().then(function (cfg) {
+            return fetch(cfg.apiUrl + '/api/v1/users/me', {
+              method: 'PATCH',
+              headers: {
+                'content-type': 'application/json',
+                'x-stack-project-id': cfg.projectId,
+                'x-stack-publishable-client-key': cfg.publishableClientKey,
+                'x-stack-access-type': 'client',
+                'x-stack-access-token': token
+              },
+              body: JSON.stringify({
+                display_name: displayName,
+                client_metadata: { phone: phone }
+              })
+            });
+          }).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          }).then(function () {
+            try { sessionStorage.setItem('ouronex.userName', displayName); } catch (e) { /* ignore */ }
+            status.textContent = 'Profile updated.';
+            status.className = 'success-text';
+            status.hidden = false;
+          }).catch(function (err) {
+            status.textContent = 'Could not save changes: ' + err.message;
+            status.className = 'error-text';
+            status.hidden = false;
+          }).finally(function () {
+            save.disabled = false;
+          });
+        });
+      })();
+
+      (function () {
+        var del = document.getElementById('btn-delete-account');
+        var delC = document.getElementById('delete-confirm');
+        if (del) del.addEventListener('click', function () {
+          if (delC) delC.hidden = false;
+        });
+        var exp = document.getElementById('btn-export-data');
+        var expS = document.getElementById('export-status');
+        if (exp) exp.addEventListener('click', function () {
+          if (expS) expS.hidden = false;
+        });
+      })();
+
+      load();
+    })();
+  </script>
+</body>
+</html>

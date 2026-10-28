@@ -1,0 +1,27 @@
+{
+  "name": "ouronex-server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "export": "bash scripts/export.sh",
+    "restore": "bash scripts/restore-export.sh",
+    "preflight": "node scripts/preflight.mjs",
+    "verify": "bash scripts/verify-all.sh",
+    "verify:offline": "bash scripts/verify-all.sh --offline",
+    "verify:deployed": "bash scripts/verify-deployed.sh",
+    "probe:auth": "node scripts/probe-auth-token.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "paykitjs": "^0.2.0",
+    "pg": "^8.23.1"
+  }
+}

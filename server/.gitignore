@@ -1,0 +1,14 @@
+node_modules/
+exports/
+outbox/
+*.log
+
+# Environment & secrets
+.env
+stack-auth.env
+
+# OS junk
+NUL
+Thumbs.db
+.DS_Store
+

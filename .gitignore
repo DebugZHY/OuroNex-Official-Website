@@ -1,2 +1,16 @@
 _scratch/
 .idea/
+
+# User system: secrets and dependencies
+server/.env
+server/stack-auth.env
+server/node_modules/
+server/exports/
+server/outbox/
+server/*.log
+
+# OS junk
+NUL
+Thumbs.db
+.DS_Store
+

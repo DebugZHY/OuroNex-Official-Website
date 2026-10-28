@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signing you in — OuroNex</title>
+<style>
+  body { margin: 0; background: #080e17; color: #9aabc0; font: 400 14px/1.6 'IBM Plex Mono', Consolas, monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .msg { text-align: center; }
+  .dot { display: inline-block; width: 6px; height: 6px; background: #729eff; border-radius: 50%; margin: 0 2px; animation: pulse 1.2s ease-in-out infinite; }
+  .dot:nth-child(2) { animation-delay: .15s; }
+  .dot:nth-child(3) { animation-delay: .3s; }
+  @keyframes pulse { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+</style>
+</head>
+<body>
+<div class="msg">
+  Signing you in <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+</div>
+<script>
+(function () {
+  'use strict';
+  var params = new URLSearchParams(window.location.search);
+  var token = params.get('token');
+  var email = params.get('email');
+  var name = params.get('name');
+  var next = params.get('next') || '/dashboard';
+  var signout = params.get('signout') === '1';
+  var APP_ORIGIN = 'http://localhost:3100';
+
+  // Only allow relative paths or the known app origin.
+  if (next.charAt(0) !== '/' && next.indexOf(APP_ORIGIN) !== 0) {
+    next = '/dashboard';
+  }
+
+  try {
+    if (signout) {
+      window.sessionStorage.removeItem('ouronex.accessToken');
+      window.sessionStorage.removeItem('ouronex.userEmail');
+      window.sessionStorage.removeItem('ouronex.userName');
+    } else if (token) {
+      window.sessionStorage.setItem('ouronex.accessToken', token);
+      if (email) window.sessionStorage.setItem('ouronex.userEmail', email);
+      if (name) window.sessionStorage.setItem('ouronex.userName', name);
+    }
+  } catch (e) {}
+
+  // If next is app-relative, send to the app origin. Otherwise treat as a static path.
+  var target;
+  if (next.charAt(0) === '/') {
+    target = APP_ORIGIN + next;
+  } else {
+    target = next;
+  }
+  window.location.replace(target);
+})();
+</script>
+</body>
+</html>

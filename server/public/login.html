@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — OuroNex</title>
+  <style>
+    @font-face {
+      font-family: 'Manrope';
+      src: url('http://localhost:4173/assets/fonts/manrope-400.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Manrope';
+      src: url('http://localhost:4173/assets/fonts/manrope-500.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Manrope';
+      src: url('http://localhost:4173/assets/fonts/manrope-600.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Manrope';
+      src: url('http://localhost:4173/assets/fonts/manrope-700.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      src: url('http://localhost:4173/assets/fonts/ibm-plex-mono-400.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      src: url('http://localhost:4173/assets/fonts/ibm-plex-mono-500.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #080e17;
+      --surface: #0d1623;
+      --surface-raised: #131f2f;
+      --ink: #edf2f8;
+      --muted: #9aabc0;
+      --line: rgba(155, 181, 210, .17);
+      --accent: #729eff;
+      --accent-strong: #346aeb;
+      --display: 'Manrope', 'Segoe UI', sans-serif;
+      --mono: 'IBM Plex Mono', Consolas, monospace;
+      --ease: cubic-bezier(.22, 1, .36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--display);
+      background: var(--bg);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Subtle fixed background layers — hairlines + radial glow */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          var(--line) 39px,
+          var(--line) 40px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 39px,
+          var(--line) 39px,
+          var(--line) 40px
+        );
+      opacity: .18;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 0%, rgba(114, 158, 255, .08), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 100%, rgba(52, 106, 235, .05), transparent 55%);
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 44px 40px 36px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, .03) inset,
+        0 24px 48px rgba(0, 0, 0, .35),
+        0 4px 12px rgba(0, 0, 0, .2);
+      animation: cardIn .7s var(--ease) both;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      margin: 0 0 6px;
+      letter-spacing: -.01em;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0 0 28px;
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 500;
+      margin: 16px 0 6px;
+      letter-spacing: .01em;
+    }
+
+    input {
+      width: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      border: 1px solid #52607899;
+      border-radius: 4px;
+      min-height: 48px;
+      padding: 13px 15px;
+      font-size: 14px;
+      font-family: var(--display);
+      transition: border-color .2s var(--ease), outline-color .2s var(--ease);
+      outline: 2px solid transparent;
+      outline-offset: 0;
+    }
+
+    input::placeholder {
+      color: rgba(154, 171, 192, .45);
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      outline: 2px solid #729eff33;
+    }
+
+    button {
+      margin-top: 24px;
+      width: 100%;
+      background: var(--ink);
+      color: var(--bg);
+      border: 0;
+      border-radius: 4px;
+      padding: 13px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--display);
+      cursor: pointer;
+      transition: background .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+    }
+
+    button:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(237, 242, 248, .12);
+    }
+
+    button:active {
+      transform: translateY(0);
+      transition-duration: .1s;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .error {
+      color: #ffb4a8;
+      margin-top: 14px;
+      font-size: .85rem;
+      line-height: 1.45;
+    }
+
+    .success {
+      color: #2ea043;
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .helper {
+      margin: -6px 0 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .opt {
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .forgot {
+      margin-top: 10px;
+      text-align: right;
+      font-size: 13px;
+    }
+
+    .forgot a {
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .forgot a:hover {
+      text-decoration: underline;
+    }
+
+    .reset-title {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 20px;
+      margin: 0 0 8px;
+      color: var(--ink);
+    }
+
+    .switch {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: .85rem;
+      text-align: center;
+    }
+
+    .switch a {
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+      transition: color .2s var(--ease);
+    }
+
+    .switch a:hover {
+      color: var(--accent-strong);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a.home {
+      display: inline-block;
+      margin-top: 22px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .02em;
+      transition: color .2s var(--ease);
+    }
+
+    a.home:hover {
+      color: var(--ink);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 760px) {
+      .card {
+        margin: 24px;
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p class="eyebrow">OuroNex Account</p>
+    <h1 id="title">Sign in</h1>
+    <p class="sub" id="subtitle">Access your OuroNex dashboard</p>
+
+    <form id="form">
+      <label for="email" id="email-label">Email or username</label>
+      <input id="email" type="text" autocomplete="username" required>
+
+      <div class="signup-only" id="signup-only" hidden>
+        <label for="display-name">Full name</label>
+        <input id="display-name" type="text" autocomplete="name">
+
+        <label for="username">Username</label>
+        <input id="username" type="text" pattern="[A-Za-z0-9_.\-]{3,32}" autocomplete="username">
+        <p class="helper">Lowercase letters, numbers, dots, dashes, underscores. 3–32 characters.</p>
+
+        <label for="phone">Phone <span class="opt">(optional)</span></label>
+        <input id="phone" type="tel" autocomplete="tel">
+      </div>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required minlength="8">
+      <button type="submit" id="submit">Sign in</button>
+      <p class="error" id="error" hidden></p>
+      <p class="forgot" id="forgot-row"><a id="forgot-link">Forgot password?</a></p>
+    </form>
+
+    <form id="reset-form" hidden>
+      <h2 class="reset-title">Reset password</h2>
+      <p class="sub">Enter your email and we will send you a reset link.</p>
+      <label for="reset-email">Email</label>
+      <input id="reset-email" type="email" autocomplete="email" required>
+      <button type="submit" id="reset-submit">Send reset link</button>
+      <p class="error" id="reset-error" hidden></p>
+      <p class="success" id="reset-success" hidden>If an account exists for that email, a reset link is on its way.</p>
+      <p class="switch"><a id="reset-back">Back to sign in</a></p>
+    </form>
+
+    <p class="switch" id="switch-row">
+      <span id="switch-text">No account yet?</span>
+      <a id="switch-link">Create one</a>
+    </p>
+    <a class="home" href="http://localhost:4173/index.html">&larr; Back to site</a>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // Accept only a same-origin, root-relative path for ?next. Anything else (absolute URLs,
+      // protocol-relative //host, backslashes, control characters, an empty value) falls back to
+      // the dashboard, so the parameter can never become an open redirect. The auth bridge
+      // re-checks the value before it navigates.
+      function safeNextPath(raw) {
+        var fallback = '/dashboard';
+        if (typeof raw !== 'string') return fallback;
+        var value = raw.trim();
+        if (!value) return fallback;
+        if (/[\u0000-\u001f\u007f]/.test(value)) return fallback;
+        if (value.indexOf('\\') !== -1) return fallback;
+        if (value.charAt(0) !== '/') return fallback;
+        if (value.charAt(1) === '/') return fallback;
+        return value;
+      }
+
+      var nextPath = safeNextPath(new URLSearchParams(window.location.search).get('next'));
+
+      // If we arrived here from a cross-origin sign-out, clear the local token copy too.
+      if (new URLSearchParams(window.location.search).get('signout') === '1') {
+        try {
+          window.sessionStorage.removeItem('ouronex.accessToken');
+          window.sessionStorage.removeItem('ouronex.userEmail');
+          window.sessionStorage.removeItem('ouronex.userName');
+        } catch (e) {}
+        // Strip the query so a refresh doesn't re-clear after a fresh login.
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname);
+        }
+      }
+
+      var configPromise = fetch('/api/auth-config').then(function (r) { return r.json(); });
+      var form = document.getElementById('form');
+      var resetForm = document.getElementById('reset-form');
+      var errorEl = document.getElementById('error');
+      var titleEl = document.getElementById('title');
+      var subtitleEl = document.getElementById('subtitle');
+      var switchTextEl = document.getElementById('switch-text');
+      var switchLinkEl = document.getElementById('switch-link');
+      var switchRowEl = document.getElementById('switch-row');
+      var submitEl = document.getElementById('submit');
+      var signupOnlyEl = document.getElementById('signup-only');
+      var emailInput = document.getElementById('email');
+      var emailLabel = document.getElementById('email-label');
+      var displayNameInput = document.getElementById('display-name');
+      var usernameInput = document.getElementById('username');
+      var phoneInput = document.getElementById('phone');
+      var forgotLink = document.getElementById('forgot-link');
+      var forgotRow = document.getElementById('forgot-row');
+      var resetEmailInput = document.getElementById('reset-email');
+      var resetSubmit = document.getElementById('reset-submit');
+      var resetError = document.getElementById('reset-error');
+      var resetSuccess = document.getElementById('reset-success');
+      var resetBack = document.getElementById('reset-back');
+
+      var mode = 'sign-in'; // or 'sign-up'
+
+      function setMode(next) {
+        mode = next;
+        var isUp = mode === 'sign-up';
+        titleEl.textContent = isUp ? 'Create account' : 'Sign in';
+        subtitleEl.textContent = isUp ? 'A new OuroNex account with email + password' : 'Access your OuroNex dashboard';
+        submitEl.textContent = isUp ? 'Create account' : 'Sign in';
+        switchTextEl.textContent = isUp ? 'Already have an account?' : 'No account yet?';
+        switchLinkEl.textContent = isUp ? 'Sign in' : 'Create one';
+        emailLabel.textContent = isUp ? 'Email' : 'Email or username';
+        emailInput.type = isUp ? 'email' : 'text';
+        emailInput.autocomplete = isUp ? 'email' : 'username';
+        signupOnlyEl.hidden = !isUp;
+        // Required-ness follows mode so sign-in does not demand the extra fields.
+        displayNameInput.required = isUp;
+        usernameInput.required = isUp;
+        forgotRow.style.display = isUp ? 'none' : '';
+        errorEl.hidden = true;
+      }
+
+      switchLinkEl.addEventListener('click', function () {
+        setMode(mode === 'sign-in' ? 'sign-up' : 'sign-in');
+      });
+
+      // -------- Forgot-password panel --------
+      forgotLink.addEventListener('click', function () {
+        form.hidden = true;
+        switchRowEl.hidden = true;
+        resetForm.hidden = false;
+        resetError.hidden = true;
+        resetSuccess.hidden = true;
+        resetEmailInput.focus();
+      });
+      resetBack.addEventListener('click', function () {
+        resetForm.hidden = true;
+        form.hidden = false;
+        switchRowEl.hidden = false;
+      });
+      resetForm.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        resetError.hidden = true;
+        resetSuccess.hidden = true;
+        var email = resetEmailInput.value.trim();
+        if (!email) return;
+        resetSubmit.disabled = true;
+        fetch('/api/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        }).then(function () {
+          resetSuccess.hidden = false;
+        }).catch(function (err) {
+          resetError.textContent = 'Could not send the reset email: ' + (err && err.message ? err.message : 'network error');
+          resetError.hidden = false;
+        }).finally(function () {
+          resetSubmit.disabled = false;
+        });
+      });
+
+      function showError(msg) {
+        errorEl.textContent = msg;
+        errorEl.hidden = false;
+      }
+
+      // Resolve a sign-in identifier to an email. If it looks like an email, pass through;
+      // otherwise treat it as a username and look up the account email on our server.
+      function resolveIdentifier(value) {
+        if (value.indexOf('@') !== -1) return Promise.resolve(value);
+        return fetch('/api/auth/resolve-username', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ username: value })
+        }).then(function (r) { return r.json(); }).then(function (body) {
+          if (!body || !body.email) {
+            throw new Error('No account found for that username.');
+          }
+          return body.email;
+        });
+      }
+
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        errorEl.hidden = true;
+        var identifier = emailInput.value.trim();
+        var password = document.getElementById('password').value;
+        var displayName = displayNameInput.value.trim();
+        var username = usernameInput.value.trim();
+        var phone = phoneInput.value.trim();
+
+        submitEl.disabled = true;
+        var cfg;
+        var email;
+        configPromise
+          .then(function (c) { cfg = c; return resolveIdentifier(identifier); })
+          .then(function (resolvedEmail) {
+            email = resolvedEmail;
+            var url = cfg.apiUrl + '/api/v1/auth/password/' + (mode === 'sign-up' ? 'sign-up' : 'sign-in');
+            return fetch(url, {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                'x-stack-project-id': cfg.projectId,
+                'x-stack-publishable-client-key': cfg.publishableClientKey,
+                'x-stack-access-type': 'client'
+              },
+              body: JSON.stringify({ email: email, password: password })
+            });
+          })
+          .then(function (r) {
+            if (!r.ok) {
+              return r.json().catch(function () { return {}; }).then(function (body) {
+                var code = body && (body.code || body.error);
+                if (code === 'EMAIL_PASSWORD_MISMATCH') throw new Error('Email or password is incorrect.');
+                if (code === 'USER_ALREADY_EXISTS') throw new Error('An account with this email already exists. Try signing in instead.');
+                if (code === 'PASSWORD_TOO_SHORT') throw new Error('Password must be at least 8 characters.');
+                throw new Error('Sign-in failed (' + (code || ('HTTP ' + r.status)) + ').');
+              });
+            }
+            return r.json();
+          })
+          .then(function (body) {
+            if (!body) return;
+            var token = body.access_token || (body.tokens && body.tokens.access_token);
+            if (!token) throw new Error('The auth server did not return an access token.');
+
+            // On sign-up, persist the profile fields to the user record before redirecting.
+            var profilePromise = Promise.resolve();
+            if (mode === 'sign-up') {
+              var profileBody = {
+                display_name: displayName,
+                client_metadata: {
+                  username: username.toLowerCase(),
+                  phone: phone || null
+                }
+              };
+              profilePromise = fetch(cfg.apiUrl + '/api/v1/users/me', {
+                method: 'PATCH',
+                headers: {
+                  'content-type': 'application/json',
+                  'x-stack-project-id': cfg.projectId,
+                  'x-stack-publishable-client-key': cfg.publishableClientKey,
+                  'x-stack-access-type': 'client',
+                  'x-stack-access-token': token
+                },
+                body: JSON.stringify(profileBody)
+              }).catch(function (err) {
+                // Profile persistence is best-effort; log and continue.
+                console.warn('profile patch failed', err);
+              });
+            }
+
+            return profilePromise.then(function () {
+              try {
+                window.sessionStorage.setItem('ouronex.accessToken', token);
+                window.sessionStorage.setItem('ouronex.userEmail', email);
+                if (displayName) window.sessionStorage.setItem('ouronex.userName', displayName);
+              } catch (e) {}
+              var handoff = 'http://localhost:4173/auth-bridge.html'
+                + '?token=' + encodeURIComponent(token)
+                + '&email=' + encodeURIComponent(email)
+                + (displayName ? '&name=' + encodeURIComponent(displayName) : '')
+                + '&next=' + encodeURIComponent(nextPath);
+              window.location.href = handoff;
+            });
+          })
+          .catch(function (err) {
+            showError(err && err.message ? err.message : 'Sign-in failed.');
+          })
+          .finally(function () {
+            submitEl.disabled = false;
+          });
+      });
+
+      setMode('sign-in');
+    })();
+  </script>
+</body>
+</html>
