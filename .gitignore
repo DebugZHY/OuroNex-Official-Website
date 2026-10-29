@@ -24,3 +24,6 @@ NUL
 # Exports
 exports/
 outbox/
+
+# Agent scratch
+_scratch/
