@@ -1,10 +1,6 @@
-/* practice.css — components for services.html & solutions.html.
-   Colors, type scale and shared classes come from assets/site.css;
-   this file only styles the page-specific components below.
-   Motion hooks follow _scratch/motion-contract.md: attributes and CSS
-   variables only, no script, no unreduced infinite animation. */
+/* Shared components for business, arena and news pages. */
 
-/* Anchored targets clear the sticky site header plus the services jump nav */
+/* Anchored targets clear the sticky site header plus the business jump nav */
 main [id]{scroll-margin-top:172px}
 
 /* Shared micro label */

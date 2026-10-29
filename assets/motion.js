@@ -10,8 +10,8 @@
   const fields = [];
   const pointers = [];
   const scrollItems = [];
-  let paused = false, raf = 0, lastTime = 0, layoutDirty = true, scrollDirty = true;
-  const enabled = () => !paused && !reduced.matches;
+  let raf = 0, lastTime = 0, layoutDirty = true, scrollDirty = true;
+  const enabled = () => !reduced.matches;
 
   // Scroll-out exit animations: elements reverse their entrance when they leave the viewport, and data-scroll-scene assemblies disassemble, so scrolling back replays the entrance. window.OuroMotionExitStrategy can force "elements" (element entrances only); window.OuroMotionExitDebug (default false) enables console logging.
   let exitStrategy = window.OuroMotionExitStrategy === 'elements' ? 'elements' : 'scenes';
@@ -34,18 +34,6 @@
   } catch {
     window.OuroMotionExitStrategy = exitStrategy;
   }
-
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'motion-toggle';
-  toggle.setAttribute('data-motion-toggle', '');
-  const toggleIcon = document.createElement('span');
-  toggleIcon.className = 'motion-toggle-icon';
-  toggleIcon.setAttribute('aria-hidden', 'true');
-  const toggleLabel = document.createElement('span');
-  toggleLabel.className = 'motion-toggle-label';
-  toggle.append(toggleIcon, toggleLabel);
-  (document.querySelector('.nav-shell') || document.body).append(toggle);
 
   function request() {
     if (!raf && !document.hidden) raf = requestAnimationFrame(tick);
@@ -393,11 +381,7 @@
   document.querySelectorAll('[role="tabpanel"], [data-brief-output]').forEach(panel => panelObserver.observe(panel, { attributes: true, attributeFilter: ['hidden'] }));
 
   function syncState() {
-    root.dataset.motionState = reduced.matches ? 'reduced' : paused ? 'paused' : 'running';
-    const label = reduced.matches ? 'Reduced motion' : paused ? 'Resume motion' : 'Pause motion';
-    toggleLabel.textContent = label; toggle.setAttribute('aria-label', label);
-    toggle.title = reduced.matches ? 'Reduced motion — follows your device setting' : paused ? 'Resume page motion' : 'Pause page motion';
-    toggle.setAttribute('aria-pressed', String(!enabled())); toggle.disabled = reduced.matches;
+    root.dataset.motionState = reduced.matches ? 'reduced' : 'running';
     if (!enabled()) {
       document.querySelectorAll('.motion-pending, .motion-line-pending, .reveal-pending').forEach(reveal);
       animations.forEach(animation => animation.cancel()); animations.clear();
@@ -431,7 +415,6 @@
     if (enabled() && keepGoing) request();
     else lastTime = 0;
   }
-  toggle.addEventListener('click', () => { if (!reduced.matches) { paused = !paused; syncState(); } });
   reduced.addEventListener('change', syncState);
   fine.addEventListener('change', () => { pointers.forEach(item => { item.tx = item.ty = 0; }); request(); });
   window.addEventListener('scroll', () => { scrollDirty = true; request(); }, { passive: true });

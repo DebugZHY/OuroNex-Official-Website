@@ -33,10 +33,20 @@
 
 <header class="site-header">
   <div class="nav-shell">
-    <a class="brand" href="index.html" aria-label="OuroNex home"><img src="assets/ouronex-mark.svg" alt="" width="52" height="30"><span>OuroNex</span></a>
+    <a class="brand" href="index.html" aria-label="OuroNex home"><img src="assets/ouronex-mark.svg" alt="" width="60" height="36"><span>OuroNex</span></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
     <nav class="desktop-nav" id="site-nav" aria-label="Main navigation">
-      <a href="index.html" aria-current="page">Home</a><a href="services.html">Services</a><a href="platform.html">SIDA</a><a href="arena.html">Arena</a><a href="news.html">News</a><a href="about-us.html">About us</a><a href="/login/" data-signin>Sign in</a><a class="nav-contact" href="contact.html">Let's talk <span aria-hidden="true">↗</span></a>
+      <div class="nav-primary">
+        <a href="news.html">News</a>
+        <a href="platform.html">SIDA</a>
+        <a href="pricing.html">Price</a>
+        <a href="business.html">Business</a>
+        <a href="about-us.html">About</a>
+      </div>
+      <div class="nav-secondary">
+        <a class="nav-contact" href="contact.html">Contact us</a>
+        <a href="/login/" data-signin>Log in</a>
+      </div>
     </nav>
   </div>
   <div class="reading-progress" aria-hidden="true"></div>
@@ -57,10 +67,10 @@
             'assets/backgrounds/isometric-frame.svg',
             'assets/backgrounds/vertical-city.svg',
             'assets/backgrounds/wave-mesh.svg',
-            'services-grid'
+            'business-grid'
           ];
           const source = pool[Math.floor(Math.random() * pool.length)];
-          if (source === 'services-grid') {
+          if (source === 'business-grid') {
             host.dataset.motionField = 'grid';
             host.dataset.background = source;
             return;
@@ -90,7 +100,7 @@
       <p class="lead" data-motion="rise">OuroNex applies AI to real engineering work — grounded in domain knowledge, connected to engineering tools, and always subject to professional review.</p>
       <div class="hero-actions" data-motion="rise" data-motion-delay="120">
         <a class="button" data-magnetic href="platform.html">Explore SIDA <span class="arrow" aria-hidden="true">→</span></a>
-        <a class="button-outline" href="services.html">What we do</a>
+        <a class="button-outline" href="business.html">What we do</a>
       </div>
     </div>
     <div class="hero-proof">
@@ -139,7 +149,7 @@
       </div>
 
       <div class="service-index" data-stagger>
-        <a class="service-row" href="services.html#general" data-motion="slide" data-motion-card>
+        <a class="service-row" href="business.html#general" data-motion="slide" data-motion-card>
           <span class="service-row__no" aria-hidden="true">01</span>
           <div class="service-row__body">
             <h3>General Automation</h3>
@@ -148,7 +158,7 @@
           <span class="service-row__meta" aria-hidden="true">Service 01</span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
-        <a class="service-row" href="services.html#specific" data-motion="slide" data-motion-card>
+        <a class="service-row" href="business.html#specific" data-motion="slide" data-motion-card>
           <span class="service-row__no" aria-hidden="true">02</span>
           <div class="service-row__body">
             <h3>Specific Automation</h3>
@@ -157,7 +167,7 @@
           <span class="service-row__meta" aria-hidden="true">Service 02</span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
-        <a class="service-row" href="services.html#saas" data-motion="slide" data-motion-card>
+        <a class="service-row" href="business.html#saas" data-motion="slide" data-motion-card>
           <span class="service-row__no" aria-hidden="true">03</span>
           <div class="service-row__body">
             <h3>Professional SaaS</h3>
@@ -166,7 +176,7 @@
           <span class="service-row__meta" aria-hidden="true">Service 03</span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
-        <a class="service-row" href="services.html#training" data-motion="slide" data-motion-card>
+        <a class="service-row" href="business.html#training" data-motion="slide" data-motion-card>
           <span class="service-row__no" aria-hidden="true">04</span>
           <div class="service-row__body">
             <h3>AI Workflow &amp; Training</h3>
@@ -260,13 +270,13 @@
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
-      <a class="brand" href="index.html"><img src="assets/ouronex-mark.svg" alt="" width="52" height="30"><span>OuroNex</span></a>
+      <a class="brand" href="index.html"><img src="assets/ouronex-mark.svg" alt="" width="60" height="36"><span>OuroNex</span></a>
       <p class="footer-copy">© 2026 OuroNex Technology Company Limited<br>Hong Kong · Greater Bay Area</p>
     </div>
     <nav class="footer-menus" aria-label="Footer">
       <div class="footer-col">
         <p class="footer-col-head">Pages</p>
-        <a href="services.html">Services</a>
+        <a href="business.html">Business</a>
         <a href="platform.html">SIDA</a>
         <a href="arena.html">Arena</a>
         <a href="news.html">News</a>

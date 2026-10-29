@@ -1,5 +1,5 @@
 {
-  "purpose": "Web pages package: current site pages plus the four illustration-candidate Services previews; run files only, no evidence/model/generator",
+  "purpose": "Web pages package: current site pages plus the four illustration-candidate Business previews; run files only, no evidence/model/generator",
   "files": [
     {
       "path": "_scratch/services-literal-illustrations/editorial/coaching-support.svg",
@@ -572,9 +572,9 @@
       "sha256": "60af853dd2b35832ff26e03b4e13660539765860a99f0cc36cd268a3ea942b88"
     },
     {
-      "path": "services.html",
-      "bytes": 16056,
-      "sha256": "b175e1ad483bfc673facfcfc9b2ef0d8d70bca6abf385b96d7aedf11552079f1"
+      "path": "business.html",
+      "bytes": 15399,
+      "sha256": "fc2c23ebecf74ac3bb43141d85851f35c9fa6ae0c1736fa46c06c4104eaa2843"
     }
   ]
 }
