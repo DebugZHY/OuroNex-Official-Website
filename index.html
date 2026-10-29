@@ -58,9 +58,15 @@
             'assets/backgrounds/isometric-frame.svg',
             'assets/backgrounds/vertical-city.svg',
             'assets/backgrounds/wave-mesh.svg',
-            'assets/hero-digital-twin.svg'
+            'services-grid'
           ];
           const source = pool[Math.floor(Math.random() * pool.length)];
+          if (source === 'services-grid') {
+            host.dataset.motionField = 'grid';
+            host.dataset.background = source;
+            host.querySelector('img')?.remove();
+            return;
+          }
           fetch(source)
             .then(response => {
               if (!response.ok) throw new Error('Background request failed');

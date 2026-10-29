@@ -19,6 +19,7 @@
 }
 
 .hero-media { position: absolute; inset: 0; z-index: -1; }
+.hero-media[data-motion-field] { position: absolute; }
 
 .hero-media img,
 .hero-media > svg {
