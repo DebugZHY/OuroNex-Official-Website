@@ -1,23 +1,33 @@
 /* Shared components for business, arena and news pages. */
 
-/* Anchored targets clear the sticky site header plus the business jump nav */
+/* Anchored targets clear the business jump nav */
 main [id]{scroll-margin-top:172px}
 
 /* Shared micro label */
 .mono-no{display:block;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 
 /* ---- Local jump navigation (services) ---- */
-.jump-nav{position:sticky;top:calc(var(--header-height, 88px) + 1px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.jump-nav{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
 .jump-nav-row{display:flex;flex-wrap:wrap;align-items:center;gap:0 26px;padding:8px 0}
 .jump-label{flex:none;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .jump-nav a{display:inline-flex;align-items:center;min-height:44px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid transparent}
 .jump-nav a:hover{color:var(--ink);border-bottom-color:var(--accent)}
 .jump-nav a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
-/* ---- Services hero: lead + oversized chapter index ---- */
-.hero-svc{padding:88px 0 72px}
-.hero-svc-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:56px 72px;align-items:end}
-.hero-svc-lead h1{max-width:640px}
+/* ---- Business hero: concise lead with a direct service index ---- */
+.hero-svc{min-height:82svh;padding:calc(var(--header-height) + 64px) 0 80px;display:flex;align-items:center}
+.hero-svc-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.8fr);gap:56px 72px;align-items:center}
+.hero-svc-lead h1{max-width:680px}
+.hero-svc-lead .lead{max-width:590px}
+.hero-svc-index{display:grid;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:rgba(8,14,23,.68);backdrop-filter:blur(12px)}
+.hero-svc-index a{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:16px;padding:20px 22px;border-bottom:1px solid var(--line);transition:background .2s,border-color .2s}
+.hero-svc-index a:last-child{border-bottom:0}
+.hero-svc-index a:hover{background:#729eff12}
+.hero-svc-index__no{color:var(--accent);font:500 10px/1 var(--mono);letter-spacing:.1em}
+.hero-svc-index strong{display:block;font-size:16px;line-height:1.4;font-weight:500}
+.hero-svc-index small{display:block;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.5}
+.hero-svc-index .arrow{color:var(--muted);transition:transform .2s,color .2s}
+.hero-svc-index a:hover .arrow{color:var(--accent);transform:translateX(3px)}
 /* staggered editorial rhythm: even rows shift further right, number trails the name; hover underline hugs the actual content span */
 
 /* ---- Ruled editorial columns (model trio / why trio / checkpoints) ---- */
@@ -82,7 +92,7 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
 .detail-body p:last-child{margin-bottom:0}
 
 /* ---- Solutions hero spine + meta index ---- */
-.hero-fit{padding:92px 0 76px}
+.hero-fit{padding:calc(var(--header-height) + 48px) 0 76px}
 .hero-spine{display:flex;flex-wrap:wrap;gap:10px 14px;margin:30px 0 0;font:500 10.5px/1.6 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .hero-spine span{display:inline-flex;align-items:center;min-height:30px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;transition:border-color .35s var(--ease),color .35s var(--ease),transform .35s var(--ease)}
 .hero-spine span:hover{border-color:var(--accent);color:var(--ink);transform:translateY(-2px)}
@@ -201,6 +211,9 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
   .app-num{position:static;display:block;margin-bottom:6px;opacity:.2}
 }
 @media(max-width:760px){
+  .hero-svc{min-height:0;padding-bottom:56px}
+  .hero-svc-index a{padding:16px}
+  .hero-svc-lead h1{font-size:clamp(40px,10vw,64px)}
   main [id]{scroll-margin-top:96px}
   .jump-nav{position:static}
   .jump-nav-row{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;padding:6px 0 10px}

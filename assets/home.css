@@ -1,11 +1,11 @@
 /* ==========================================================================
    home.css — home-page composition.
-   Hero: full-bleed architectural photograph with the claim on the left and
-   a proof strip at the base. Scroll-driven assemblies are gated behind the
-   shared motion state and always fall back to a fully assembled layout.
+   Hero: left-weighted animated artwork, editorial claim and a demo placeholder.
+   Scroll-driven assemblies are gated behind the shared motion state and always
+   fall back to a fully assembled layout.
    ========================================================================== */
 
-/* ---------- Hero: full-bleed cinematic photo, claim left, proof strip at the base ---------- */
+/* ---------- Hero: full-height motion field with a proof strip at the base ---------- */
 
 .home-hero {
   position: relative;
@@ -13,12 +13,12 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: calc(100svh - var(--header-height, 88px));
+  min-height: 100svh;
   background: var(--bg);
   overflow: hidden;
 }
 
-.hero-media { position: absolute; inset: 0; z-index: -1; }
+.hero-media { position: absolute; inset: 0 36% 0 0; z-index: -1; }
 .hero-media[data-motion-field] { position: absolute; }
 
 .hero-media img,
@@ -36,16 +36,26 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(8, 14, 23, 0.94) 0%, rgba(8, 14, 23, 0.76) 34%, rgba(8, 14, 23, 0.28) 62%, rgba(8, 14, 23, 0.40) 100%),
-    linear-gradient(0deg, rgba(8, 14, 23, 0.92) 0%, rgba(8, 14, 23, 0) 42%);
+    linear-gradient(90deg, rgba(8, 14, 23, 0.94) 0%, rgba(8, 14, 23, 0.68) 44%, rgba(8, 14, 23, 0.16) 100%),
+    linear-gradient(0deg, rgba(8, 14, 23, 0.92) 0%, rgba(8, 14, 23, 0) 42%),
+    linear-gradient(180deg, rgba(8, 14, 23, 0.34) 0%, rgba(8, 14, 23, 0) 28%);
 }
 
 .hero-inner {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, .8fr);
+  align-items: center;
+  gap: clamp(36px, 5vw, 80px);
+  padding-top: calc(var(--header-height) + clamp(32px, 6vh, 72px));
+  padding-bottom: clamp(48px, 7vh, 80px);
+}
+
+.hero-copy {
+  min-width: 0;
   display: grid;
   justify-items: start;
   gap: clamp(16px, 2.4vh, 26px);
-  padding-top: clamp(64px, 12vh, 140px);
-  padding-bottom: clamp(40px, 7vh, 80px);
 }
 
 .hero-inner .eyebrow { margin: 0; }
@@ -58,7 +68,7 @@
 
 .hero-title {
   margin: 0;
-  font-size: clamp(42px, 7vw, 104px);
+  font-size: clamp(42px, 5.8vw, 88px);
   line-height: .98;
   letter-spacing: -.058em;
   font-weight: 500;
@@ -67,7 +77,7 @@
 .hero-title .h1-line { display: block; }
 
 /* cross-column headline: second line steps in from the right */
-.hero-title .h1-line--offset { padding-left: clamp(0px, 7vw, 9rem); }
+.hero-title .h1-line--offset { padding-left: clamp(0px, 2vw, 2rem); }
 
 .hero-actions {
   display: flex;
@@ -76,8 +86,60 @@
   margin: 0;
 }
 
-/* outlined button stays legible over photography */
+/* outlined button stays legible over animated artwork */
 .home-hero .button-outline { background: rgba(8, 14, 23, 0.35); backdrop-filter: blur(4px); }
+
+.hero-demo {
+  justify-self: end;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 4 / 3;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  border: 1px solid rgba(155, 181, 210, .25);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(19, 31, 47, .88), rgba(8, 14, 23, .76));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .32);
+  backdrop-filter: blur(14px);
+}
+
+.hero-demo__bar,
+.hero-demo__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 18px;
+  color: var(--muted);
+  font: 500 10px/1.5 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hero-demo__bar { border-bottom: 1px solid var(--line); }
+.hero-demo__footer { justify-content: flex-start; flex-wrap: wrap; gap: 8px 18px; border-top: 1px solid var(--line); font-size: 9px; }
+
+.hero-demo__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+  text-align: center;
+  background-image:
+    linear-gradient(rgba(114, 158, 255, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(114, 158, 255, .045) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.hero-demo__stage p { margin: 8px 0 0; font-size: 21px; line-height: 1.35; color: var(--ink); }
+.hero-demo__stage > span:last-child { color: var(--muted); font: 400 11px/1.6 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.hero-demo__symbol { position: relative; width: 46px; height: 46px; border: 1px solid rgba(114, 158, 255, .55); border-radius: 50%; }
+.hero-demo__symbol::before,
+.hero-demo__symbol::after { content: ""; position: absolute; top: 50%; left: 50%; width: 16px; height: 1px; background: var(--accent); transform: translate(-50%, -50%); }
+.hero-demo__symbol::after { transform: translate(-50%, -50%) rotate(90deg); }
 
 /* proof strip: the base of the hero, separated by a hairline */
 .hero-proof {
@@ -99,51 +161,50 @@
   color: var(--muted, #9aabc0);
 }
 
-/* ---------- Principles: one ruled line, three commitments ---------- */
+/* ---------- SIDA introduction: product promise, confidentiality and four direct benefits ---------- */
 
-.principles .section-head h2 { max-width: 20ch; }
+.sida-intro__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, .85fr);
+  align-items: end;
+  gap: clamp(48px, 8vw, 120px);
+}
 
-.principle-line {
+.sida-intro__title h2 {
+  margin-top: 24px;
+  font-size: clamp(76px, 10vw, 144px);
+  line-height: .84;
+  letter-spacing: -.075em;
+}
+
+.sida-intro__tagline {
+  margin: 30px 0 0;
+  max-width: 28ch;
+  color: var(--ink);
+  font-size: clamp(20px, 2.1vw, 29px);
+  line-height: 1.4;
+  letter-spacing: -.025em;
+}
+
+.sida-intro__copy { max-width: 540px; justify-self: end; }
+.sida-confidentiality { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.8; }
+.sida-confidentiality strong { display: block; margin-bottom: 12px; color: var(--ink); font-size: 20px; line-height: 1.4; }
+.sida-intro__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+.sida-benefits {
   list-style: none;
-  margin: 0;
+  margin: clamp(56px, 8vh, 88px) 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1.75rem, 4vw, 3.5rem);
-  border-top: 1px solid var(--line, rgba(155, 181, 210, 0.17));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 44px);
 }
 
-.principle-line li {
-  position: relative;
-  padding-top: clamp(1.5rem, 3vh, 2.4rem);
-}
-
-.principle-line li::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: clamp(30px, 4vw, 56px);
-  height: 2px;
-  background: var(--accent, #729eff);
-}
-
-.principle-index {
-  display: block;
-  font: 500 11px/1 var(--mono, 'IBM Plex Mono', monospace);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent, #729eff);
-  margin-bottom: 1rem;
-}
-
-.principle-line h3 {
-  margin: 0 0 0.6rem;
-  font-size: clamp(22px, 2.4vw, 34px);
-  letter-spacing: -0.035em;
-}
-
-.principle-line p { margin: 0; color: var(--muted, #9aabc0); max-width: 26rem; }
+.sida-benefits li { position: relative; padding-top: 22px; border-top: 1px solid var(--line); }
+.sida-benefits li::before { content: ""; position: absolute; top: -1px; left: 0; width: 38px; height: 2px; background: var(--accent); }
+.sida-benefits__index { color: var(--accent); font: 500 10px/1 var(--mono); letter-spacing: .14em; }
+.sida-benefits h3 { margin: 16px 0 9px; font-size: 20px; line-height: 1.35; letter-spacing: -.025em; }
+.sida-benefits p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 
 /* ---------- Services: a large, interactive index rather than stacked cards ---------- */
 
@@ -450,11 +511,15 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1200px) {
-  .hero-title .h1-line--offset { padding-left: clamp(0px, 5vw, 5rem); }
+  .hero-title .h1-line--offset { padding-left: 0; }
 }
 
 @media (max-width: 1000px) {
   .hero-title .h1-line--offset { padding-left: 0; }
+  .hero-media { inset: 0; opacity: .68; }
+  .hero-inner { grid-template-columns: 1fr; align-content: center; gap: 40px; }
+  .hero-demo { justify-self: start; max-width: 620px; aspect-ratio: 16 / 8; }
+  .sida-benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .service-row { grid-template-columns: clamp(2.5rem, 7vw, 4rem) minmax(0, 1fr) clamp(1.5rem, 4vw, 2.5rem); }
   .service-row__meta { display: none; }
@@ -466,9 +531,15 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
 }
 
 @media (max-width: 760px) {
-  .home-hero { min-height: calc(88svh - var(--header-height, 74px)); }
-  .hero-inner { padding-top: clamp(48px, 9vh, 80px); }
+  .home-hero { min-height: 100svh; }
+  .hero-inner { padding-top: calc(var(--header-height) + 40px); padding-bottom: 48px; gap: 32px; }
   .hero-title { font-size: clamp(38px, 10.6vw, 64px); }
+  .hero-demo { width: 100%; aspect-ratio: 4 / 3; }
+  .sida-intro__head { grid-template-columns: 1fr; align-items: start; gap: 36px; }
+  .sida-intro__title h2 { font-size: 88px; }
+  .sida-intro__copy { justify-self: start; }
+  .sida-intro__tagline { margin-top: 24px; }
+  .sida-benefits { margin-top: 52px; }
 
   /* the track turns vertical so progression reads down the list */
   .review-track {
@@ -494,11 +565,11 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
     transform: scaleY(var(--track-progress, 0));
   }
 
-  .principle-line { grid-template-columns: 1fr; gap: 2.25rem; }
   .closing-layout { align-items: flex-start; }
 }
 
 @media (max-width: 640px) {
+  .sida-benefits { grid-template-columns: 1fr; gap: 28px; }
   .review-loop { grid-template-columns: 1fr; row-gap: 0; }
 }
 
@@ -506,6 +577,8 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
   .hero-actions { width: 100%; }
   .hero-actions .button,
   .hero-actions .button-outline { width: 100%; justify-content: space-between; }
+  .sida-intro__actions .button,
+  .sida-intro__actions .button-outline { width: 100%; justify-content: space-between; }
   .service-row { grid-template-columns: 2.25rem minmax(0, 1fr) 1.5rem; gap: 1rem; }
   .sida-layer { grid-template-columns: 5.5rem minmax(0, 1fr); }
 }
