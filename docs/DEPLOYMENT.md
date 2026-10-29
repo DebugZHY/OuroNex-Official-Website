@@ -131,6 +131,16 @@ docker run -p 8000:8000 ouronex
 2. Set WSGI file to `backend.wsgi:application`
 3. Add static files mapping
 
+## Application Authentication API
+
+Separately developed applications authenticate through Django rather than reading the SQLite file. The versioned Bearer-token endpoints and response contract are documented in [APPLICATION_AUTH_API.md](APPLICATION_AUTH_API.md).
+
+- `POST /api/v1/auth/login/`
+- `GET /api/v1/auth/me/`
+- `POST /api/v1/auth/logout/`
+
+Set `OURONEX_AUTH_TOKEN_TTL_SECONDS` to override the default 30-day token lifetime. Run `python manage.py migrate` when deploying this feature.
+
 ## Database
 
 **Development**: SQLite (default, no setup)

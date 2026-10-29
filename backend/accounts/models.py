@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
+from datetime import timedelta
+import hashlib
 import secrets
 import string
 
@@ -68,3 +71,39 @@ class TokenUsage(models.Model):
 
     def __str__(self):
         return f"{self.user.username}: {self.tokens_used} tokens"
+
+
+class AuthToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auth_tokens')
+    key_hash = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    last_used_at = models.DateTimeField(null=True, blank=True)
+    revoked_at = models.DateTimeField(null=True, blank=True)
+
+    @classmethod
+    def issue(cls, user):
+        raw_token = f"onx_{secrets.token_urlsafe(32)}"
+        ttl = timedelta(seconds=settings.OURONEX_AUTH_TOKEN_TTL_SECONDS)
+        token = cls.objects.create(
+            user=user,
+            key_hash=hashlib.sha256(raw_token.encode()).hexdigest(),
+            expires_at=timezone.now() + ttl,
+        )
+        return raw_token, token
+
+    @classmethod
+    def verify(cls, raw_token):
+        key_hash = hashlib.sha256(raw_token.encode()).hexdigest()
+        now = timezone.now()
+        token = cls.objects.select_related('user').filter(
+            key_hash=key_hash,
+            expires_at__gt=now,
+            revoked_at__isnull=True,
+            user__is_active=True,
+        ).first()
+        if token is None:
+            return None
+        token.last_used_at = now
+        token.save(update_fields=['last_used_at'])
+        return token

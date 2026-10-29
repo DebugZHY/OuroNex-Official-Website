@@ -1,7 +1,10 @@
 from django.urls import path
-from . import views
+from . import api, views
 
 urlpatterns = [
+    path('api/v1/auth/login/', api.login, name='api-login'),
+    path('api/v1/auth/me/', api.me, name='api-me'),
+    path('api/v1/auth/logout/', api.logout, name='api-logout'),
     path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),

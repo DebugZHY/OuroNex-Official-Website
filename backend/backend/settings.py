@@ -75,3 +75,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
+
+OURONEX_AUTH_TOKEN_TTL_SECONDS = int(os.environ.get('OURONEX_AUTH_TOKEN_TTL_SECONDS', '2592000'))
