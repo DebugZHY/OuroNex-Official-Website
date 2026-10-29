@@ -1,0 +1,88 @@
+// Generated from assets/i18n/sample-review-as-product.json. Edit the JSON, then run python scripts/i18n_compile.py.
+window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
+  "sample-review-as-product.why-we-treat-review-as-the-product-not.760cd8": {
+    "en": "Why we treat review as the product, not the checkpoint — News | OuroNex",
+    "zh-CN": "为什么我们将审查视为产品，而非检查点 — 新闻 | OuroNex",
+    "zh-TW": "為何我們將審查視為產品，而非檢查點 — 新聞 | OuroNex"
+  },
+  "sample-review-as-product.news.34c808": {
+    "en": "News",
+    "zh-CN": "新闻",
+    "zh-TW": "新聞"
+  },
+  "sample-review-as-product.why-we-treat-review-as-the-product-not.def9b3": {
+    "en": "Why we treat review as the product, not the checkpoint",
+    "zh-CN": "为什么我们将审查视为产品，而非检查点",
+    "zh-TW": "為何我們將審查視為產品，而非檢查點"
+  },
+  "sample-review-as-product.practice.3e15ac": {
+    "en": "Practice",
+    "zh-CN": "实践",
+    "zh-TW": "實務"
+  },
+  "sample-review-as-product.21-october-2026.b7c4ed": {
+    "en": "21 October 2026",
+    "zh-CN": "2026年10月21日",
+    "zh-TW": "2026年10月21日"
+  },
+  "sample-review-as-product.ouronex-editorial.eeaf7f": {
+    "en": "OuroNex editorial",
+    "zh-CN": "OuroNex 编辑部",
+    "zh-TW": "OuroNex 編輯部"
+  },
+  "sample-review-as-product.2-min-read.2c1a4d": {
+    "en": "2 min read",
+    "zh-CN": "阅读需时 2 分钟",
+    "zh-TW": "閱讀時間 2 分鐘"
+  },
+  "sample-review-as-product.most-structural-software-treats-review.6812a3": {
+    "en": "Most structural software treats review as a checkpoint: work is produced, then checked, then signed. That model is easy to draw, and it matches how a submission is administratively closed. It is also, in our view, a poor description of how engineering judgement actually behaves.",
+    "zh-CN": "多数结构软件把审查视为检查点：先完成工作，再检查，最后签署。这个模型易于描绘，也符合提交成果在行政流程中办结的方式。但在我们看来，它并不能恰当描述工程判断实际如何运作。",
+    "zh-TW": "多數結構軟體把審查視為檢查點：先完成工作，再檢查，最後簽署。這個模型易於描繪，也符合提交成果在行政流程中辦結的方式。但在我們看來，它並不能恰當描述工程判斷實際如何運作。"
+  },
+  "sample-review-as-product.judgement-does-not-wait-at-the-end-of-.277cab": {
+    "en": "Judgement does not wait at the end of a process. It appears when a load path is chosen, when an assumption is accepted or rejected, when a model is simplified because the alternative is not worth the cost. Each of those moments is a small decision, and each one narrows what a final check can still catch. A review gate placed only at the end inherits all of them at once, with less context than the person who made them.",
+    "zh-CN": "工程判断不会等到流程末端才出现。选择传力路径、接受或否定某项假设，以及因替代方案不值得投入而简化模型时，判断都在发挥作用。每个时刻都是一项小决策，也都会缩小最终检查仍能发现问题的范围。若只在末端设置审查关口，它就要一次性承接所有这些决策，而掌握的背景却少于当初作出决策的人。",
+    "zh-TW": "工程判斷不會等到流程末端才出現。選擇傳力路徑、接受或否定某項假設，以及因替代方案不值得投入而簡化模型時，判斷都在發揮作用。每個時刻都是一項小決策，也都會限縮最終檢查仍能發現問題的範圍。若只在末端設置審查關口，它就要一次性承接所有這些決策，而掌握的背景卻少於當初作出決策的人。"
+  },
+  "sample-review-as-product.review-is-a-flow-property-not-a-final-.68548a": {
+    "en": "Review is a flow property, not a final gate",
+    "zh-CN": "审查是流程的内在属性，而非最终关口",
+    "zh-TW": "審查是流程的內在屬性，而非最終關口"
+  },
+  "sample-review-as-product.so-we-design-the-workflow-the-other-wa.7aa926": {
+    "en": "So we design the workflow the other way round. AI-assisted preparation is expected to carry its sources, assumptions and working as it moves, so a reviewer can see not only what a result is, but how it was reached. That expectation is part of the flow rather than an instruction added to the end of it.",
+    "zh-CN": "因此，我们从相反方向设计工作流。AI 辅助的成果准备工作在推进过程中就应一并携带来源、假设和计算过程，让审查人员不仅看到结果是什么，也看到结果如何得出。这项要求属于流程本身，而不是在流程末端追加的指示。",
+    "zh-TW": "因此，我們從相反方向設計工作流程。AI 輔助的成果準備工作在推進過程中就應一併攜帶來源、假設與計算過程，讓審查人員不僅看到結果是什麼，也看到結果如何得出。這項要求屬於流程本身，而不是在流程末端追加的指示。"
+  },
+  "sample-review-as-product.if-a-reviewer-cannot-see-how-a-result-.202d36": {
+    "en": "If a reviewer cannot see how a result was reached, the review is a signature — not a verification. That distinction shapes everything downstream of it.",
+    "zh-CN": "如果审查人员看不到结果如何得出，所谓审查就只是签署，而非验证。这一区别决定了其后的所有环节。",
+    "zh-TW": "如果審查人員看不到結果如何得出，所謂審查就只是簽署，而非驗證。這一區別決定了其後的所有環節。"
+  },
+  "sample-review-as-product.staged-acceptance-follows-from-the-sam.900163": {
+    "en": "Staged acceptance follows from the same reasoning. A qualified engineer verifies and approves, and the stages before that approval are governed by their own checks rather than left to accumulate. Nothing reaches delivery on model output alone, and responsibility for the professional judgement stays with the professional — not with the software.",
+    "zh-CN": "分阶段验收也遵循同样的逻辑。由具备资质的工程师验证并批准，批准前的各个阶段也各有检查约束，而不是让问题不断累积。任何成果都不能仅凭模型输出交付，专业判断的责任始终由专业人员承担，而非软件。",
+    "zh-TW": "分階段驗收也遵循同樣的邏輯。由具備資格的工程師驗證並批准，批准前的各個階段也各有檢查約束，而不是讓問題不斷累積。任何成果都不能僅憑模型輸出交付，專業判斷的責任始終由專業人員承擔，而非軟體。"
+  },
+  "sample-review-as-product.this-is-also-why-we-are-careful-about-.47a3d0": {
+    "en": "This is also why we are careful about what we claim. Reviewing throughout does not make a workflow autonomous, and it does not remove the need for a signature. It changes where the work of understanding happens: earlier, in smaller pieces, with the reasoning still visible when someone checks it.",
+    "zh-CN": "这也是我们谨慎措辞的原因。全程审查并不意味着工作流可以自主运行，也不能免除签署要求。它改变的是理解工作发生的位置：更早开始、拆成更小的部分，并确保他人检查时仍能看见推理过程。",
+    "zh-TW": "這也是我們謹慎措辭的原因。全程審查並不意味著工作流程可自主運行，也不能免除簽署要求。它改變的是理解工作發生的位置：更早開始、拆成更小的部分，並確保他人檢查時仍能看見推理過程。"
+  },
+  "sample-review-as-product.back-to-all-articles.0cc0a1": {
+    "en": "Back to all articles",
+    "zh-CN": "返回全部文章",
+    "zh-TW": "返回全部文章"
+  },
+  "sample-review-as-product.the-checkpoint-model-assumes-engineeri.d010f3": {
+    "en": "The checkpoint model assumes engineering judgement happens at the end. We think it happens throughout — so we built it into the flow, not around it.",
+    "zh-CN": "检查点模型假设工程判断只发生在末端。我们认为判断贯穿全程，因此将其融入流程之中，而不是附加在流程之外。",
+    "zh-TW": "檢查點模型假設工程判斷只發生在末端。我們認為判斷貫穿全程，因此將其融入流程之中，而不是附加在流程之外。"
+  },
+  "sample-review-as-product.breadcrumb.c766e6": {
+    "en": "Breadcrumb",
+    "zh-CN": "面包屑导航",
+    "zh-TW": "麵包屑導覽"
+  }
+});

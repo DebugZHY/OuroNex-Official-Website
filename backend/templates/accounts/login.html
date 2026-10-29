@@ -1,21 +1,22 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log in — OuroNex</title>
-  <link rel="icon" href="/assets/ouronex-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/site.css">
-  <script src="/assets/site.js" defer></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="account-login.log-in-ouronex.210c98">Log in — OuroNex</title>
+<link href="/assets/ouronex-mark.svg" rel="icon" type="image/svg+xml"/>
+<link href="/assets/site.css" rel="stylesheet"/>
+<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-login.js"></script><script defer="" src="/assets/i18n.js"></script><script defer="" src="/assets/site.js"></script>
+<style>
     .card, .card * { box-sizing: border-box; margin: 0; padding: 0; }
     body { min-height: 100vh; }
     .auth-main { min-height: calc(100vh - var(--header-height)); display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
     .card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; }
     .card h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #f8fafc; }
     .sub { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
-    label { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; margin-bottom: 6px; }
-    input { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 14px; margin-bottom: 16px; }
+    .card label { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; margin-bottom: 6px; }
+    .card input { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 14px; margin-bottom: 16px; }
     input:focus { outline: none; border-color: #3b82f6; }
     .card button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
     .card button:hover { background: #1d4ed8; }
@@ -26,46 +27,46 @@
     @media (max-width: 760px) { .auth-main { padding: 32px 20px; } .card { padding: 28px; } }
   </style>
 </head>
-<body data-page="login">
-<a class="skip-link" href="#main">Skip to content</a>
+<body data-i18n-page="account-login" data-page="login">
+<a class="skip-link" href="#main"><span data-i18n="shared.skip-to-content.0a4470">Skip to content</span></a>
 <header class="site-header">
-  <div class="nav-shell">
-    <a class="brand" href="/index.html" aria-label="OuroNex home"><img src="/assets/ouronex-mark.svg" alt="" width="60" height="36"><span>OuroNex</span></a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
-    <nav class="desktop-nav" id="site-nav" aria-label="Main navigation">
-      <div class="nav-primary">
-        <a href="/news.html">News</a>
-        <a href="/platform.html">SIDA</a>
-        <a href="/pricing.html">Price</a>
-        <a href="/business.html">Business</a>
-        <a href="/about-us.html">About</a>
-      </div>
-      <div class="nav-secondary">
-        <a class="nav-contact" href="/contact.html">Contact us</a>
-        <a href="/login/" data-signin aria-current="page">Log in</a>
-      </div>
-    </nav>
-  </div>
-  <div class="reading-progress" aria-hidden="true"></div>
+<div class="nav-shell">
+<a aria-label="OuroNex home" class="brand" data-i18n-aria-label="shared.ouronex-home.2d87db" href="/index.html"><img alt="" height="36" src="/assets/ouronex-mark.svg" width="60"/><span><span data-i18n="shared.ouronex.3343a9">OuroNex</span></span></a>
+<button aria-controls="site-nav" aria-expanded="false" aria-label="Open navigation" class="menu-toggle" data-i18n-aria-label="shared.open-navigation.0f53b3" type="button"><span></span><span></span></button>
+<nav aria-label="Main navigation" class="desktop-nav" data-i18n-aria-label="shared.main-navigation.efd197" id="site-nav">
+<div class="nav-primary">
+<a href="/news.html"><span data-i18n="shared.news.34c808">News</span></a>
+<a href="/platform.html"><span data-i18n="shared.sida.9da1bc">SIDA</span></a>
+<a href="/pricing.html"><span data-i18n="shared.price.3e8248">Price</span></a>
+<a href="/business.html"><span data-i18n="shared.business.d6663d">Business</span></a>
+<a href="/about-us.html"><span data-i18n="shared.about.6b21fb">About</span></a>
+</div>
+<div class="nav-secondary"><div aria-label="Language / 語言 / 语言" class="language-switcher" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<a class="nav-contact" href="/contact.html"><span data-i18n="shared.contact-us.4832e4">Contact us</span></a>
+<a aria-current="page" data-signin="" href="/login/"><span data-i18n="shared.log-in.f7c400">Log in</span></a>
+</div>
+</nav>
+</div>
+<div aria-hidden="true" class="reading-progress"></div>
 </header>
 <main class="auth-main" id="main">
-  <div class="card">
-    <h1>Log in</h1>
-    <p class="sub">Access your OuroNex dashboard</p>
+<div class="card">
+<h1><span data-i18n="account-login.log-in.f7c400">Log in</span></h1>
+<p class="sub"><span data-i18n="account-login.access-your-ouronex-dashboard.1ec8a4">Access your OuroNex dashboard</span></p>
     {% if messages %}
       {% for message in messages %}
-        <div class="error">{{ message }}</div>
+        <div class="error" data-i18n-dynamic>{{ message }}</div>
       {% endfor %}
     {% endif %}
     <form method="post">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required autofocus>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-      <button type="submit">Log in</button>
-    </form>
-    <p class="link">No account? <a href="/register/">Create one</a></p>
-  </div>
+<label for="username"><span data-i18n="account-login.username.84c290">Username</span></label>
+<input autofocus="" id="username" name="username" required="" type="text"/>
+<label for="password"><span data-i18n="account-login.password.8be3c9">Password</span></label>
+<input id="password" name="password" required="" type="password"/>
+<button type="submit"><span data-i18n="account-login.log-in.f7c400">Log in</span></button>
+</form>
+<p class="link"><span data-i18n="account-login.no-account.06184f">No account?</span> <a href="/register/"><span data-i18n="account-login.create-one.7dbf3d">Create one</span></a></p>
+</div>
 </main>
 </body>
 </html>

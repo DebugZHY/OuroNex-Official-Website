@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — OuroNex</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="account-dashboard.dashboard-ouronex.d85a0e">Dashboard — OuroNex</title>
+<style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; }
     .layout { display: flex; min-height: 100vh; }
@@ -48,110 +49,108 @@
     .badge-active { background: #14532d; color: #86efac; }
     .badge-free { background: #1e3a5f; color: #60a5fa; }
   </style>
-</head>
-<body>
-  <div class="layout">
-    <nav class="sidebar">
-      <div class="section">
-        <div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;">OuroNex</div>
-        <a href="/dashboard/" class="active">Dashboard</a>
-        <a href="/profile/">Profile</a>
-        <a href="/profile/security/">Security</a>
-      </div>
-      <div class="section">
-        <h3>Subscription</h3>
-        <a href="/pricing/">Plans</a>
-        <a href="/dashboard/#usage">Usage</a>
+<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-dashboard.js"></script><script defer="" src="/assets/i18n.js"></script></head>
+<body data-i18n-page="account-dashboard"><div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="section">
+<div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;"><span data-i18n="account-dashboard.ouronex.3343a9">OuroNex</span></div>
+<a class="active" href="/dashboard/"><span data-i18n="account-dashboard.dashboard.d87f47">Dashboard</span></a>
+<a href="/profile/"><span data-i18n="account-dashboard.profile.ff4fc0">Profile</span></a>
+<a href="/profile/security/"><span data-i18n="account-dashboard.security.f25ce1">Security</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-dashboard.subscription.8fde48">Subscription</span></h3>
+<a href="/pricing/"><span data-i18n="account-dashboard.plans.cf2e5f">Plans</span></a>
+<a href="/dashboard/#usage"><span data-i18n="account-dashboard.usage.0bb186">Usage</span></a>
         {% if subscription %}
-          <div class="plan-badge">{{ subscription.plan.display_name }}</div>
+          <div class="plan-badge" data-i18n-dynamic>{{ subscription.plan.display_name }}</div>
         {% endif %}
       </div>
-      <div class="section">
-        <h3>Account</h3>
-        <a href="/logout/">Sign out</a>
-      </div>
-    </nav>
-    <div class="main">
-      <h1>Dashboard</h1>
-      <p class="sub">Welcome back, {{ user.username }}</p>
+<div class="section">
+<h3><span data-i18n="account-dashboard.account.85dfa3">Account</span></h3>
+<a href="/logout/"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></a>
+</div>
+</nav>
+<div class="main">
+<h1><span data-i18n="account-dashboard.dashboard.d87f47">Dashboard</span></h1>
+<p class="sub"><span data-i18n="account-dashboard.welcome-back.8c8b73">Welcome back,</span> {{ user.username }}</p>
 
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          <div class="alert alert-{{ message.tags }}" data-i18n-dynamic>{{ message }}</div>
         {% endfor %}
       {% endif %}
 
       {% if subscription %}
         <div class="card" style="background: linear-gradient(135deg, #1e3a5f 0%, #111827 100%);">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h2 style="margin-bottom: 4px;">{{ subscription.plan.display_name }} Plan</h2>
-              <p style="color: #94a3b8; font-size: 14px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div>
+<h2 style="margin-bottom: 4px;"><span data-i18n-dynamic>{{ subscription.plan.display_name }}</span> <span data-i18n="account-dashboard.plan.ae2f98">Plan</span></h2>
+<p style="color: #94a3b8; font-size: 14px;">
                 {% if subscription.plan.price_monthly > 0 %}
-                  ${{ subscription.plan.price_monthly }}/month
+                  ${{ subscription.plan.price_monthly }}<span data-i18n="account-dashboard.month.ab0cc3">/month</span>
                 {% else %}
-                  Free forever
+                  <span data-i18n="account-dashboard.free-forever.8f31b8">Free forever</span>
                 {% endif %}
               </p>
-            </div>
-            <a href="/pricing/" class="btn">{% if subscription.plan.name == 'free' %}Upgrade{% else %}Manage{% endif %}</a>
-          </div>
-        </div>
+</div>
+<a class="btn" href="/pricing/">{% if subscription.plan.name == 'free' %}<span data-i18n="account-dashboard.upgrade.a6f47e">Upgrade</span>{% else %}<span data-i18n="account-dashboard.manage.bf58d1">Manage</span>{% endif %}</a>
+</div>
+</div>
       {% endif %}
 
       <div class="kpi-grid">
-        <div class="kpi">
-          <label>Tokens Remaining</label>
-          <div class="value">{{ subscription.tokens_remaining|default:0 }}</div>
-          <div class="unit">tokens</div>
-        </div>
-        <div class="kpi">
-          <label>Tokens Used</label>
-          <div class="value">{{ token_usage }}</div>
-          <div class="unit">tokens</div>
-        </div>
-        <div class="kpi">
-          <label>Plan</label>
-          <div class="value">{{ subscription.plan.display_name|default:"Free" }}</div>
-        </div>
-        <div class="kpi">
-          <label>Member Since</label>
-          <div class="value">{{ user.date_joined|date:"M Y" }}</div>
-        </div>
-      </div>
-
-      <div class="card" id="usage">
-        <h2>Usage Overview</h2>
-        <div style="margin-bottom: 16px;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-            <span style="font-size: 13px; color: #94a3b8;">Monthly tokens</span>
-            <span style="font-size: 13px; color: #e2e8f0;">{{ token_usage }} / {{ subscription.plan.tokens_monthly }}</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: {% widthratio token_usage subscription.plan.tokens_monthly 100 %}%;"></div>
-          </div>
-        </div>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>Subscription Status</label>
-            <p><span class="badge badge-{{ subscription.status }}">{{ subscription.status|title }}</span></p>
-          </div>
-          <div class="info-item">
-            <label>Next Renewal</label>
-            <p>{{ subscription.expires_at|date:"M d, Y"|default:"—" }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Quick Actions</h2>
-        <div style="display: flex; gap: 12px;">
-          <a href="/profile/" class="btn btn-outline">Edit Profile</a>
-          <a href="/profile/security/" class="btn btn-outline">Security Settings</a>
-          <a href="/pricing/" class="btn btn-outline">View Plans</a>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="kpi">
+<label><span data-i18n="account-dashboard.tokens-remaining.c00593">Tokens Remaining</span></label>
+<div class="value">{{ subscription.tokens_remaining|default:0 }}</div>
+<div class="unit"><span data-i18n="account-dashboard.tokens.339143">tokens</span></div>
+</div>
+<div class="kpi">
+<label><span data-i18n="account-dashboard.tokens-used.238462">Tokens Used</span></label>
+<div class="value">{{ token_usage }}</div>
+<div class="unit"><span data-i18n="account-dashboard.tokens.339143">tokens</span></div>
+</div>
+<div class="kpi">
+<label><span data-i18n="account-dashboard.plan.ae2f98">Plan</span></label>
+<div class="value" data-i18n-dynamic>{{ subscription.plan.display_name|default:"Free" }}</div>
+</div>
+<div class="kpi">
+<label><span data-i18n="account-dashboard.member-since.c6647c">Member Since</span></label>
+<div class="value"><time data-i18n-date="month-year" datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"M Y" }}</time></div>
+</div>
+</div>
+<div class="card" id="usage">
+<h2><span data-i18n="account-dashboard.usage-overview.fed9a7">Usage Overview</span></h2>
+<div style="margin-bottom: 16px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span style="font-size: 13px; color: #94a3b8;"><span data-i18n="account-dashboard.monthly-tokens.f6f748">Monthly tokens</span></span>
+<span style="font-size: 13px; color: #e2e8f0;">{{ token_usage }} / {{ subscription.plan.tokens_monthly }}</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" style="width: {% widthratio token_usage subscription.plan.tokens_monthly 100 %}%;"></div>
+</div>
+</div>
+<div class="info-grid">
+<div class="info-item">
+<label><span data-i18n="account-dashboard.subscription-status.aa5794">Subscription Status</span></label>
+<p><span class="badge badge-{{ subscription.status }}" data-i18n-dynamic>{{ subscription.status|title }}</span></p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-dashboard.next-renewal.1db7c2">Next Renewal</span></label>
+<p><time data-i18n-date="date" datetime="{{ subscription.expires_at|date:'c' }}">{{ subscription.expires_at|date:"M d, Y"|default:"—" }}</time></p>
+</div>
+</div>
+</div>
+<div class="card">
+<h2><span data-i18n="account-dashboard.quick-actions.c40810">Quick Actions</span></h2>
+<div style="display: flex; gap: 12px;">
+<a class="btn btn-outline" href="/profile/"><span data-i18n="account-dashboard.edit-profile.cd280a">Edit Profile</span></a>
+<a class="btn btn-outline" href="/profile/security/"><span data-i18n="account-dashboard.security-settings.dbe3f2">Security Settings</span></a>
+<a class="btn btn-outline" href="/pricing/"><span data-i18n="account-dashboard.view-plans.c79fd4">View Plans</span></a>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>

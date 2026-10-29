@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create account — OuroNex</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="account-register.create-account-ouronex.985101">Create account — OuroNex</title>
+<style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
     .card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 40px; width: 100%; max-width: 420px; }
@@ -24,47 +25,42 @@
     .captcha-q { background: #1e293b; padding: 10px 16px; border-radius: 8px; font-size: 16px; font-weight: 600; color: #f8fafc; white-space: nowrap; }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   </style>
-</head>
-<body>
-  <div class="card">
-    <h1>Create account</h1>
-    <p class="sub">Join OuroNex</p>
+<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-register.js"></script><script defer="" src="/assets/i18n.js"></script></head>
+<body data-i18n-page="account-register"><div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<div class="card">
+<h1><span data-i18n="account-register.create-account.aaf374">Create account</span></h1>
+<p class="sub"><span data-i18n="account-register.join-ouronex.c2c4d2">Join OuroNex</span></p>
     {% if messages %}
       {% for message in messages %}
-        <div class="error">{{ message }}</div>
+        <div class="error" data-i18n-dynamic>{{ message }}</div>
       {% endfor %}
     {% endif %}
     <form method="post">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required autofocus>
-
-      <div class="row">
-        <div>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email">
-        </div>
-        <div>
-          <label for="phone">Phone</label>
-          <input type="tel" id="phone" name="phone">
-        </div>
-      </div>
-
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-
-      <label for="password2">Confirm password</label>
-      <input type="password" id="password2" name="password2" required>
-
-      <label>Verification code</label>
-      <div class="captcha-row">
-        <div class="captcha-q">{{ captcha_question }}</div>
-        <input type="text" name="captcha" placeholder="Answer" required>
-        <input type="hidden" name="captcha_expected" value="{{ captcha_expected }}">
-      </div>
-
-      <button type="submit" style="margin-top: 20px;">Create account</button>
-    </form>
-    <p class="link">Already have an account? <a href="/login/">Sign in</a></p>
-  </div>
+<label for="username"><span data-i18n="account-register.username.84c290">Username</span></label>
+<input autofocus="" id="username" name="username" required="" type="text"/>
+<div class="row">
+<div>
+<label for="email"><span data-i18n="account-register.email.84add5">Email</span></label>
+<input id="email" name="email" type="email"/>
+</div>
+<div>
+<label for="phone"><span data-i18n="account-register.phone.77064d">Phone</span></label>
+<input id="phone" name="phone" type="tel"/>
+</div>
+</div>
+<label for="password"><span data-i18n="account-register.password.8be3c9">Password</span></label>
+<input id="password" name="password" required="" type="password"/>
+<label for="password2"><span data-i18n="account-register.confirm-password.4a7c56">Confirm password</span></label>
+<input id="password2" name="password2" required="" type="password"/>
+<label><span data-i18n="account-register.verification-code.80f2f2">Verification code</span></label>
+<div class="captcha-row">
+<div class="captcha-q">{{ captcha_question }}</div>
+<input data-i18n-placeholder="account-register.answer.a16a4e" name="captcha" placeholder="Answer" required="" type="text"/>
+<input name="captcha_expected" type="hidden" value="{{ captcha_expected }}"/>
+</div>
+<button style="margin-top: 20px;" type="submit"><span data-i18n="account-register.create-account.aaf374">Create account</span></button>
+</form>
+<p class="link"><span data-i18n="account-register.already-have-an-account.855903">Already have an account?</span> <a href="/login/"><span data-i18n="account-register.sign-in.ada2e9">Sign in</span></a></p>
+</div>
 </body>
 </html>

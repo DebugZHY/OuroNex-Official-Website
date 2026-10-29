@@ -1,0 +1,97 @@
+{
+  "account-security.security-ouronex.4cb6e6": {
+    "en": "Security — OuroNex",
+    "zh-CN": "安全 — OuroNex",
+    "zh-TW": "安全性 — OuroNex"
+  },
+  "account-security.ouronex.3343a9": {
+    "en": "OuroNex",
+    "zh-CN": "OuroNex",
+    "zh-TW": "OuroNex"
+  },
+  "account-security.dashboard.d87f47": {
+    "en": "Dashboard",
+    "zh-CN": "控制台",
+    "zh-TW": "儀表板"
+  },
+  "account-security.profile.ff4fc0": {
+    "en": "Profile",
+    "zh-CN": "个人资料",
+    "zh-TW": "個人資料"
+  },
+  "account-security.security.f25ce1": {
+    "en": "Security",
+    "zh-CN": "安全",
+    "zh-TW": "安全性"
+  },
+  "account-security.subscription.8fde48": {
+    "en": "Subscription",
+    "zh-CN": "订阅",
+    "zh-TW": "訂閱"
+  },
+  "account-security.plans.cf2e5f": {
+    "en": "Plans",
+    "zh-CN": "套餐",
+    "zh-TW": "方案"
+  },
+  "account-security.usage.0bb186": {
+    "en": "Usage",
+    "zh-CN": "使用情况",
+    "zh-TW": "使用情況"
+  },
+  "account-security.account.85dfa3": {
+    "en": "Account",
+    "zh-CN": "账户",
+    "zh-TW": "帳戶"
+  },
+  "account-security.sign-out.dc1649": {
+    "en": "Sign out",
+    "zh-CN": "退出登录",
+    "zh-TW": "登出"
+  },
+  "account-security.manage-your-account-security-settings.93c681": {
+    "en": "Manage your account security settings",
+    "zh-CN": "管理您的账户安全设置",
+    "zh-TW": "管理您的帳戶安全性設定"
+  },
+  "account-security.change-password.49289d": {
+    "en": "Change Password",
+    "zh-CN": "修改密码",
+    "zh-TW": "變更密碼"
+  },
+  "account-security.current-password.4d5967": {
+    "en": "Current Password",
+    "zh-CN": "当前密码",
+    "zh-TW": "目前密碼"
+  },
+  "account-security.new-password.4894cb": {
+    "en": "New Password",
+    "zh-CN": "新密码",
+    "zh-TW": "新密碼"
+  },
+  "account-security.confirm-new-password.68dcd7": {
+    "en": "Confirm New Password",
+    "zh-CN": "确认新密码",
+    "zh-TW": "確認新密碼"
+  },
+  "account-security.danger-zone.8fc83a": {
+    "en": "Danger Zone",
+    "zh-CN": "危险区域",
+    "zh-TW": "危險區域"
+  },
+  "account-security.once-you-delete-your-account-there-is-.ec76ba": {
+    "en": "Once you delete your account, there is no going back. All your data will be permanently removed.",
+    "zh-CN": "删除账户后将无法恢复，您的所有数据都将被永久移除。",
+    "zh-TW": "刪除帳戶後將無法復原，您的所有資料都將被永久移除。"
+  },
+  "account-security.confirm-password.c2d404": {
+    "en": "Confirm Password",
+    "zh-CN": "确认密码",
+    "zh-TW": "確認密碼"
+  },
+  "account-security.delete-account.ee1b9a": {
+    "en": "Delete Account",
+    "zh-CN": "删除账户",
+    "zh-TW": "刪除帳戶"
+  }
+}

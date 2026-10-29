@@ -1,0 +1,52 @@
+{
+  "news-template.article-title-news-ouronex.69b145": {
+    "en": "ARTICLE_TITLE — News | OuroNex",
+    "zh-CN": "ARTICLE_TITLE — 新闻 | OuroNex",
+    "zh-TW": "ARTICLE_TITLE — 新聞 | OuroNex"
+  },
+  "news-template.news.34c808": {
+    "en": "News",
+    "zh-CN": "新闻",
+    "zh-TW": "新聞"
+  },
+  "news-template.article-title.cda0fd": {
+    "en": "ARTICLE_TITLE",
+    "zh-CN": "ARTICLE_TITLE",
+    "zh-TW": "ARTICLE_TITLE"
+  },
+  "news-template.tag.41ea82": {
+    "en": "TAG",
+    "zh-CN": "TAG",
+    "zh-TW": "TAG"
+  },
+  "news-template.date.8c76ab": {
+    "en": "DATE",
+    "zh-CN": "DATE",
+    "zh-TW": "DATE"
+  },
+  "news-template.ouronex-editorial.eeaf7f": {
+    "en": "OuroNex editorial",
+    "zh-CN": "OuroNex 编辑部",
+    "zh-TW": "OuroNex 編輯部"
+  },
+  "news-template.reading-time-min-read.7f8fac": {
+    "en": "READING_TIME min read",
+    "zh-CN": "阅读需时 READING_TIME 分钟",
+    "zh-TW": "閱讀時間 READING_TIME 分鐘"
+  },
+  "news-template.back-to-all-articles.0cc0a1": {
+    "en": "Back to all articles",
+    "zh-CN": "返回全部文章",
+    "zh-TW": "返回全部文章"
+  },
+  "news-template.article-excerpt.2bdc5b": {
+    "en": "ARTICLE_EXCERPT",
+    "zh-CN": "ARTICLE_EXCERPT",
+    "zh-TW": "ARTICLE_EXCERPT"
+  },
+  "news-template.breadcrumb.c766e6": {
+    "en": "Breadcrumb",
+    "zh-CN": "面包屑导航",
+    "zh-TW": "麵包屑導覽"
+  }
+}

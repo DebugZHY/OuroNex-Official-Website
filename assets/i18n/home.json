@@ -1,0 +1,307 @@
+{
+  "home.sida-the-first-ai-agent-for-engineerin.1564d9": {
+    "en": "SIDA — The first AI agent for engineering | OuroNex",
+    "zh-CN": "SIDA — 首个工程 AI 智能体 | OuroNex",
+    "zh-TW": "SIDA — 首個工程 AI 智能代理 | OuroNex"
+  },
+  "home.sida.9da1bc": {
+    "en": "SIDA",
+    "zh-CN": "SIDA",
+    "zh-TW": "SIDA"
+  },
+  "home.the-first-ai-agent-for-engineering.73c904": {
+    "en": "The first AI agent for engineering.",
+    "zh-CN": "首个面向工程领域的 AI 智能体。",
+    "zh-TW": "首個專為工程而設的 AI 智能代理。"
+  },
+  "home.fully-local-fully-confidential.0ea392": {
+    "en": "Fully local. Fully confidential.",
+    "zh-CN": "完全本地运行，确保完全保密。",
+    "zh-TW": "完全本地運作，確保全面保密。"
+  },
+  "home.every-tool-runs-on-your-machine-user-i.a3fb86": {
+    "en": "Every tool runs on your machine. User information and project materials are never uploaded to remote servers.",
+    "zh-CN": "所有工具均在您的电脑上运行。用户信息和项目资料绝不上传至远程服务器。",
+    "zh-TW": "所有工具均在您的電腦上運作。用戶資料及項目資料絕不會上載至遠端伺服器。"
+  },
+  "home.download-sida.18f049": {
+    "en": "Download SIDA",
+    "zh-CN": "下载 SIDA",
+    "zh-TW": "下載 SIDA"
+  },
+  "home.explore-ouronex-services.9a760e": {
+    "en": "Explore OuroNex services",
+    "zh-CN": "探索 OuroNex 服务",
+    "zh-TW": "探索 OuroNex 服務"
+  },
+  "home.sida-product-demo.59ec47": {
+    "en": "SIDA / Product demo",
+    "zh-CN": "SIDA / 产品演示",
+    "zh-TW": "SIDA / 產品示範"
+  },
+  "home.preview.f1fbb2": {
+    "en": "Preview",
+    "zh-CN": "预览",
+    "zh-TW": "預覽"
+  },
+  "home.product-demonstration.c044e4": {
+    "en": "Product demonstration",
+    "zh-CN": "产品演示",
+    "zh-TW": "產品示範"
+  },
+  "home.coming-soon.e4115b": {
+    "en": "Coming soon",
+    "zh-CN": "即将推出",
+    "zh-TW": "即將推出"
+  },
+  "home.local-tools.1e8fe6": {
+    "en": "Local tools",
+    "zh-CN": "本地工具",
+    "zh-TW": "本地工具"
+  },
+  "home.specialist-agents.dc4130": {
+    "en": "Specialist agents",
+    "zh-CN": "专家智能体",
+    "zh-TW": "專家智能代理"
+  },
+  "home.professional-review.c22502": {
+    "en": "Professional review",
+    "zh-CN": "专业审核",
+    "zh-TW": "專業審核"
+  },
+  "home.intelligent-workflow.233b40": {
+    "en": "Intelligent Workflow",
+    "zh-CN": "智能工作流程",
+    "zh-TW": "智能工作流程"
+  },
+  "home.ai-builds-the-right-workflow-from-your.858007": {
+    "en": "AI builds the right workflow from your project type and requirements.",
+    "zh-CN": "AI 根据您的项目类型和要求，构建合适的工作流程。",
+    "zh-TW": "AI 根據您的項目類型及要求，建立合適的工作流程。"
+  },
+  "home.specialist-teams.e8eb4c": {
+    "en": "Specialist Teams",
+    "zh-CN": "专家团队",
+    "zh-TW": "專家團隊"
+  },
+  "home.expert-agents-collaborate-with-profess.7f1906": {
+    "en": "Expert agents collaborate with professional knowledge built in.",
+    "zh-CN": "专家智能体协同工作，运用内置的专业知识。",
+    "zh-TW": "專家智能代理互相協作，結合內置的專業知識。"
+  },
+  "home.professional-tools.cdf1d8": {
+    "en": "Professional Tools",
+    "zh-CN": "专业工具",
+    "zh-TW": "專業工具"
+  },
+  "home.in-house-engineering-tools-keep-result.6b70ce": {
+    "en": "In-house engineering tools keep results precise and verifiable.",
+    "zh-CN": "自研工程工具确保结果精准且可验证。",
+    "zh-TW": "自家研發的工程工具確保結果精確且可驗證。"
+  },
+  "home.traceable-results.6c3948": {
+    "en": "Traceable Results",
+    "zh-CN": "可追溯的结果",
+    "zh-TW": "可追溯的結果"
+  },
+  "home.structured-outputs-and-supporting-evid.a1230b": {
+    "en": "Structured outputs and supporting evidence stay ready for professional review.",
+    "zh-CN": "结构化输出和佐证材料随时可供专业审核。",
+    "zh-TW": "結構化輸出及佐證資料隨時可供專業審核。"
+  },
+  "home.domain-grounded.0b217d": {
+    "en": "Domain-grounded",
+    "zh-CN": "基于领域知识",
+    "zh-TW": "以領域知識為基礎"
+  },
+  "home.human-in-the-loop.4c9831": {
+    "en": "Human-in-the-loop",
+    "zh-CN": "人工参与",
+    "zh-TW": "人員參與"
+  },
+  "home.hong-kong-greater-bay-area.e30057": {
+    "en": "Hong Kong · Greater Bay Area",
+    "zh-CN": "香港 · 粤港澳大湾区",
+    "zh-TW": "香港 · 粵港澳大灣區"
+  },
+  "home.what-we-do.a39b9d": {
+    "en": "What we do",
+    "zh-CN": "我们的业务",
+    "zh-TW": "我們的業務"
+  },
+  "home.four-lines-of-work-one-transformation.18e580": {
+    "en": "Four lines of work, one transformation.",
+    "zh-CN": "四大业务，一体化转型。",
+    "zh-TW": "四大業務，一體化轉型。"
+  },
+  "home.services-software-and-training-that-co.e96c20": {
+    "en": "Services, software and training that compound into a single AI transformation framework for your organisation.",
+    "zh-CN": "服务、软件和培训相互促进，共同构成适用于贵组织的统一 AI 转型框架。",
+    "zh-TW": "服務、軟件及培訓環環相扣，為貴機構構建統一的 AI 轉型框架。"
+  },
+  "home.general-automation.d378dd": {
+    "en": "General Automation",
+    "zh-CN": "通用自动化",
+    "zh-TW": "通用自動化"
+  },
+  "home.company-knowledge-bases-market-intelli.9205f7": {
+    "en": "Company knowledge bases, market intelligence agents, and the routine document workflows every office carries.",
+    "zh-CN": "企业知识库、市场情报智能体，以及办公室日常文书工作流程。",
+    "zh-TW": "企業知識庫、市場情報智能代理，以及辦公室日常文件處理流程。"
+  },
+  "home.service-01.bfe612": {
+    "en": "Service 01",
+    "zh-CN": "服务 01",
+    "zh-TW": "服務 01"
+  },
+  "home.specific-automation.2d82c0": {
+    "en": "Specific Automation",
+    "zh-CN": "专项自动化",
+    "zh-TW": "專項自動化"
+  },
+  "home.ai-built-into-your-core-engineering-an.41d130": {
+    "en": "AI built into your core engineering and business processes — scoped with you, proven in pilots, then scaled.",
+    "zh-CN": "将 AI 融入您的核心工程与业务流程——与您共同界定范围，通过试点验证，再逐步推广。",
+    "zh-TW": "將 AI 融入您的核心工程及業務流程——與您共同界定範圍，在先導項目中驗證成效，再擴大應用。"
+  },
+  "home.service-02.249587": {
+    "en": "Service 02",
+    "zh-CN": "服务 02",
+    "zh-TW": "服務 02"
+  },
+  "home.professional-saas.5eece7": {
+    "en": "Professional SaaS",
+    "zh-CN": "专业 SaaS",
+    "zh-TW": "專業 SaaS"
+  },
+  "home.purpose-built-software-that-extends-yo.f7d819": {
+    "en": "Purpose-built software that extends your team's capability and plugs into the wider automation framework.",
+    "zh-CN": "专门构建的软件，既能扩展团队能力，也可接入更广泛的自动化框架。",
+    "zh-TW": "專為實際需要而設的軟件，既可提升團隊能力，亦可接入更廣泛的自動化框架。"
+  },
+  "home.service-03.2abbc5": {
+    "en": "Service 03",
+    "zh-CN": "服务 03",
+    "zh-TW": "服務 03"
+  },
+  "home.ai-workflow-training.3a0b8c": {
+    "en": "AI Workflow & Training",
+    "zh-CN": "AI 工作流程与培训",
+    "zh-TW": "AI 工作流程及培訓"
+  },
+  "home.internal-workflow-setup-coaching-and-a.a7d776": {
+    "en": "Internal workflow setup, coaching and adoption support — capability that stays after the engagement ends.",
+    "zh-CN": "内部工作流程搭建、辅导与落地支持——合作结束后，能力仍留在团队中。",
+    "zh-TW": "內部工作流程設置、輔導及應用支援——合作結束後，能力仍會留在團隊中。"
+  },
+  "home.service-04.504e99": {
+    "en": "Service 04",
+    "zh-CN": "服务 04",
+    "zh-TW": "服務 04"
+  },
+  "home.why-structural-engineering.9eef48": {
+    "en": "Why structural engineering",
+    "zh-CN": "为什么选择结构工程",
+    "zh-TW": "為何選擇結構工程"
+  },
+  "home.we-start-where-precision-is-not-option.1cca47": {
+    "en": "We start where precision is not optional.",
+    "zh-CN": "我们从精准不容妥协的领域出发。",
+    "zh-TW": "我們從精確度絕不妥協的領域起步。"
+  },
+  "home.structural-work-is-governed-by-codes-c.ef3ad1": {
+    "en": "Structural work is governed by codes, checked by peers and signed by professionals. That is exactly the environment where domain-grounded AI proves its worth — and where generic AI proves its limits.",
+    "zh-CN": "结构工程受规范约束，经同行审查，并由专业人士签署。在这样的环境中，基于领域知识的 AI 能体现价值，通用 AI 则会显露局限。",
+    "zh-TW": "結構工程受規範約束，經同行審核，並由專業人士簽署。在這樣的環境中，以領域知識為基礎的 AI 能彰顯價值，通用 AI 則會顯露局限。"
+  },
+  "home.step-01.42cd9f": {
+    "en": "Step 01",
+    "zh-CN": "步骤 01",
+    "zh-TW": "步驟 01"
+  },
+  "home.ai-prepares.311e3d": {
+    "en": "AI prepares",
+    "zh-CN": "AI 准备",
+    "zh-TW": "AI 準備"
+  },
+  "home.drafts-checks-and-documentation-are-as.83299d": {
+    "en": "Drafts, checks and documentation are assembled with domain knowledge and your project context.",
+    "zh-CN": "结合领域知识和您的项目背景，整理草稿、检查结果与文档。",
+    "zh-TW": "結合領域知識及您的項目背景，整理草稿、查核資料及文件。"
+  },
+  "home.step-02.38cff1": {
+    "en": "Step 02",
+    "zh-CN": "步骤 02",
+    "zh-TW": "步驟 02"
+  },
+  "home.evidence-attached.2fd5d2": {
+    "en": "Evidence attached",
+    "zh-CN": "附上佐证材料",
+    "zh-TW": "附上佐證資料"
+  },
+  "home.outputs-are-prepared-with-references-a.fe7913": {
+    "en": "Outputs are prepared with references and reasoning attached, so a reviewer can see how each result was reached.",
+    "zh-CN": "输出附有参考依据和推理说明，审核人员可了解每项结果的得出过程。",
+    "zh-TW": "輸出附有參考資料及推理說明，審核人員可了解每項結果如何得出。"
+  },
+  "home.checkpoint.5cb9af": {
+    "en": "Checkpoint",
+    "zh-CN": "审核节点",
+    "zh-TW": "審核節點"
+  },
+  "home.a-qualified-engineer-examines-the-work.dd5860": {
+    "en": "A qualified engineer examines the work against codes, standards and engineering judgement.",
+    "zh-CN": "合格工程师依据规范、标准和工程判断审查工作成果。",
+    "zh-TW": "合資格工程師根據規範、標準及工程判斷審核有關成果。"
+  },
+  "home.step-04.1e82da": {
+    "en": "Step 04",
+    "zh-CN": "步骤 04",
+    "zh-TW": "步驟 04"
+  },
+  "home.the-engineer-decides.1e5fb2": {
+    "en": "The engineer decides",
+    "zh-CN": "由工程师决定",
+    "zh-TW": "由工程師決定"
+  },
+  "home.approval-revision-or-rejection-the-fin.97459d": {
+    "en": "Approval, revision or rejection — the final call, and the signature, belong to the professional.",
+    "zh-CN": "批准、修改或驳回——最终决定权和签署权均属于专业人士。",
+    "zh-TW": "核准、修訂或否決——最終決定權及簽署權均屬於專業人士。"
+  },
+  "home.ai-assists-it-never-signs.ba37c9": {
+    "en": "AI assists. It never signs.",
+    "zh-CN": "AI 提供协助，绝不签署。",
+    "zh-TW": "AI 只作輔助，絕不簽署。"
+  },
+  "home.work-together.fb9aa4": {
+    "en": "Work together",
+    "zh-CN": "携手合作",
+    "zh-TW": "攜手合作"
+  },
+  "home.bring-ai-to-the-work-that-has-to-be-ri.c0b2f9": {
+    "en": "Bring AI to the work that has to be right.",
+    "zh-CN": "将 AI 用于必须准确无误的工作。",
+    "zh-TW": "讓 AI 參與必須準確無誤的工作。"
+  },
+  "home.start-a-conversation.244c20": {
+    "en": "Start a conversation",
+    "zh-CN": "开始沟通",
+    "zh-TW": "展開對話"
+  },
+  "home.sida-is-a-local-first-ai-agent-for-eng.6b1cce": {
+    "en": "SIDA is a local-first AI agent for engineering, combining intelligent workflows, specialist teams and professional tools. All tools run locally and project materials are never uploaded to remote servers.",
+    "zh-CN": "SIDA 是本地优先的工程 AI 智能体，集智能工作流程、专家团队和专业工具于一体。所有工具均在本地运行，项目资料绝不上传至远程服务器。",
+    "zh-TW": "SIDA 是以本地為先的工程 AI 智能代理，結合智能工作流程、專家團隊及專業工具。所有工具均在本地運作，項目資料絕不會上載至遠端伺服器。"
+  },
+  "home.sida-product-demonstration-placeholder.721b85": {
+    "en": "SIDA product demonstration placeholder",
+    "zh-CN": "SIDA 产品演示占位内容",
+    "zh-TW": "SIDA 產品示範預留內容"
+  },
+  "home.how-professional-review-stays-in-the-l.d66c86": {
+    "en": "How professional review stays in the loop",
+    "zh-CN": "专业审核如何贯穿整个流程",
+    "zh-TW": "專業審核如何融入每個環節"
+  }
+}

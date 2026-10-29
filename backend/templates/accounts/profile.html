@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile — OuroNex</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="account-profile.profile-ouronex.19225a">Profile — OuroNex</title>
+<style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; }
     .layout { display: flex; min-height: 100vh; }
@@ -35,73 +36,72 @@
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; margin-bottom: 6px; }
   </style>
-</head>
-<body>
-  <div class="layout">
-    <nav class="sidebar">
-      <div class="section">
-        <div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;">OuroNex</div>
-        <a href="/dashboard/">Dashboard</a>
-        <a href="/profile/" class="active">Profile</a>
-        <a href="/profile/security/">Security</a>
-      </div>
-      <div class="section">
-        <h3>Subscription</h3>
-        <a href="/pricing/">Plans</a>
-        <a href="/dashboard/#usage">Usage</a>
-      </div>
-      <div class="section">
-        <h3>Account</h3>
-        <a href="/logout/">Sign out</a>
-      </div>
-    </nav>
-    <div class="main">
-      <h1>Profile</h1>
-      <p class="sub">Manage your account information</p>
+<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-profile.js"></script><script defer="" src="/assets/i18n.js"></script></head>
+<body data-i18n-page="account-profile"><div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="section">
+<div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;"><span data-i18n="account-profile.ouronex.3343a9">OuroNex</span></div>
+<a href="/dashboard/"><span data-i18n="account-profile.dashboard.d87f47">Dashboard</span></a>
+<a class="active" href="/profile/"><span data-i18n="account-profile.profile.ff4fc0">Profile</span></a>
+<a href="/profile/security/"><span data-i18n="account-profile.security.f25ce1">Security</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-profile.subscription.8fde48">Subscription</span></h3>
+<a href="/pricing/"><span data-i18n="account-profile.plans.cf2e5f">Plans</span></a>
+<a href="/dashboard/#usage"><span data-i18n="account-profile.usage.0bb186">Usage</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-profile.account.85dfa3">Account</span></h3>
+<a href="/logout/"><span data-i18n="account-profile.sign-out.dc1649">Sign out</span></a>
+</div>
+</nav>
+<div class="main">
+<h1><span data-i18n="account-profile.profile.ff4fc0">Profile</span></h1>
+<p class="sub"><span data-i18n="account-profile.manage-your-account-information.9ecdc3">Manage your account information</span></p>
 
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          <div class="alert alert-{{ message.tags }}" data-i18n-dynamic>{{ message }}</div>
         {% endfor %}
       {% endif %}
 
       <div class="card">
-        <h2>Basic Information</h2>
-        <form method="post">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="{{ user.username }}">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" value="{{ user.email|default:'' }}">
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" name="phone" value="{{ profile.phone|default:'' }}">
-          </div>
-          <button type="submit" class="btn">Save Changes</button>
-        </form>
-      </div>
-
-      <div class="card">
-        <h2>Account Details</h2>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>UID</label>
-            <p>{{ profile.uid }}</p>
-          </div>
-          <div class="info-item">
-            <label>Member Since</label>
-            <p>{{ user.date_joined|date:"M d, Y" }}</p>
-          </div>
-          <div class="info-item">
-            <label>Last Login</label>
-            <p>{{ user.last_login|date:"M d, Y H:i"|default:"—" }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<h2><span data-i18n="account-profile.basic-information.b0d5be">Basic Information</span></h2>
+<form method="post">
+<div class="form-group">
+<label for="username"><span data-i18n="account-profile.username.84c290">Username</span></label>
+<input id="username" name="username" type="text" value="{{ user.username }}"/>
+</div>
+<div class="form-group">
+<label for="email"><span data-i18n="account-profile.email.84add5">Email</span></label>
+<input id="email" name="email" type="email" value="{{ user.email|default:'' }}"/>
+</div>
+<div class="form-group">
+<label for="phone"><span data-i18n="account-profile.phone.77064d">Phone</span></label>
+<input id="phone" name="phone" type="tel" value="{{ profile.phone|default:'' }}"/>
+</div>
+<button class="btn" type="submit"><span data-i18n="account-profile.save-changes.fa2984">Save Changes</span></button>
+</form>
+</div>
+<div class="card">
+<h2><span data-i18n="account-profile.account-details.a951f4">Account Details</span></h2>
+<div class="info-grid">
+<div class="info-item">
+<label><span data-i18n="account-profile.uid.d946ad">UID</span></label>
+<p>{{ profile.uid }}</p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-profile.member-since.c6647c">Member Since</span></label>
+<p><time data-i18n-date="date" datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"M d, Y" }}</time></p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-profile.last-login.2df48a">Last Login</span></label>
+<p><time data-i18n-date="datetime" datetime="{{ user.last_login|date:'c' }}">{{ user.last_login|date:"M d, Y H:i"|default:"—" }}</time></p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>

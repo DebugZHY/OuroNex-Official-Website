@@ -1,0 +1,138 @@
+// Generated from assets/i18n/pricing.json. Edit the JSON, then run python scripts/i18n_compile.py.
+window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
+  "pricing.pricing-ouronex.f9c5e8": {
+    "en": "Pricing — OuroNex",
+    "zh-CN": "定价 — OuroNex",
+    "zh-TW": "定價 — OuroNex"
+  },
+  "pricing.pricing.a0d9bb": {
+    "en": "Pricing",
+    "zh-CN": "定价",
+    "zh-TW": "定價"
+  },
+  "pricing.plans-that-scale-with-your-work.abf226": {
+    "en": "Plans that scale with your work.",
+    "zh-CN": "随工作需求灵活扩展的方案。",
+    "zh-TW": "隨工作需要靈活擴展的方案。"
+  },
+  "pricing.start-free-upgrade-when-the-work-grows.ab8163": {
+    "en": "Start free, upgrade when the work grows. Every plan runs on the same domain-grounded platform — you only pay for the depth of access you need.",
+    "zh-CN": "免费开始，工作规模扩大时再升级。所有方案均运行于同一个基于领域知识的平台——您只需为所需的使用权限层级付费。",
+    "zh-TW": "免費開始，工作規模擴大時再升級。所有方案均運行於同一個以領域知識為基礎的平台——您只需為所需的使用權限層級付費。"
+  },
+  "pricing.free.75f527": {
+    "en": "Free",
+    "zh-CN": "免费版",
+    "zh-TW": "免費版"
+  },
+  "pricing.month.ab0cc3": {
+    "en": "/month",
+    "zh-CN": "/月",
+    "zh-TW": "/月"
+  },
+  "pricing.basic-access.c5b120": {
+    "en": "Basic access",
+    "zh-CN": "基础使用权限",
+    "zh-TW": "基本使用權限"
+  },
+  "pricing.basic-support.48e2b3": {
+    "en": "Basic support",
+    "zh-CN": "基础支持",
+    "zh-TW": "基本支援"
+  },
+  "pricing.community-access.b8fca8": {
+    "en": "Community access",
+    "zh-CN": "社区使用权限",
+    "zh-TW": "社區使用權限"
+  },
+  "pricing.get-started.90e40d": {
+    "en": "Get started",
+    "zh-CN": "开始使用",
+    "zh-TW": "開始使用"
+  },
+  "pricing.popular.9bc2c5": {
+    "en": "Popular",
+    "zh-CN": "热门",
+    "zh-TW": "熱門"
+  },
+  "pricing.basic.aa2c96": {
+    "en": "Basic",
+    "zh-CN": "基础版",
+    "zh-TW": "基本版"
+  },
+  "pricing.for-individuals.5997b5": {
+    "en": "For individuals",
+    "zh-CN": "个人适用",
+    "zh-TW": "個人適用"
+  },
+  "pricing.email-support.e5efb0": {
+    "en": "Email support",
+    "zh-CN": "电子邮件支持",
+    "zh-TW": "電郵支援"
+  },
+  "pricing.up-to-3-projects.5319f3": {
+    "en": "Up to 3 projects",
+    "zh-CN": "最多 3 个项目",
+    "zh-TW": "最多 3 個項目"
+  },
+  "pricing.subscribe.d6981f": {
+    "en": "Subscribe",
+    "zh-CN": "订阅",
+    "zh-TW": "訂閱"
+  },
+  "pricing.pro.66d0c5": {
+    "en": "Pro",
+    "zh-CN": "专业版",
+    "zh-TW": "專業版"
+  },
+  "pricing.for-teams.27cfc8": {
+    "en": "For teams",
+    "zh-CN": "团队适用",
+    "zh-TW": "團隊適用"
+  },
+  "pricing.priority-support.585b6c": {
+    "en": "Priority support",
+    "zh-CN": "优先支持",
+    "zh-TW": "優先支援"
+  },
+  "pricing.unlimited-projects.fe4886": {
+    "en": "Unlimited projects",
+    "zh-CN": "不限项目数量",
+    "zh-TW": "不限項目數量"
+  },
+  "pricing.api-access.738164": {
+    "en": "API access",
+    "zh-CN": "API 访问权限",
+    "zh-TW": "API 使用權限"
+  },
+  "pricing.success.7ce01f": {
+    "en": "Success!",
+    "zh-CN": "成功！",
+    "zh-TW": "成功！"
+  },
+  "pricing.your-subscription-has-been-activated.1093db": {
+    "en": "Your subscription has been activated.",
+    "zh-CN": "您的订阅已激活。",
+    "zh-TW": "您的訂閱已啟用。"
+  },
+  "pricing.go-to-dashboard.e5fa87": {
+    "en": "Go to dashboard",
+    "zh-CN": "前往控制面板",
+    "zh-TW": "前往儀表板"
+  },
+  "pricing.back-to-home.34ac37": {
+    "en": "Back to home",
+    "zh-CN": "返回首页",
+    "zh-TW": "返回首頁"
+  },
+  "pricing.ouronex-pricing-plans-that-scale-with-.75454c": {
+    "en": "OuroNex pricing — plans that scale with your work, from free access to team deployments.",
+    "zh-CN": "OuroNex 定价——从免费使用到团队部署，方案随工作需求灵活扩展。",
+    "zh-TW": "OuroNex 定價——由免費使用至團隊部署，方案隨工作需要靈活擴展。"
+  },
+  "pricing.plans.cf2e5f": {
+    "en": "Plans",
+    "zh-CN": "方案",
+    "zh-TW": "方案"
+  }
+});

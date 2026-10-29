@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Security — OuroNex</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="account-security.security-ouronex.4cb6e6">Security — OuroNex</title>
+<style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; }
     .layout { display: flex; min-height: 100vh; }
@@ -32,71 +33,70 @@
     .danger-zone { border-color: #dc2626; }
     .danger-zone h2 { color: #fca5a5; }
   </style>
-</head>
-<body>
-  <div class="layout">
-    <nav class="sidebar">
-      <div class="section">
-        <div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;">OuroNex</div>
-        <a href="/dashboard/">Dashboard</a>
-        <a href="/profile/">Profile</a>
-        <a href="/profile/security/" class="active">Security</a>
-      </div>
-      <div class="section">
-        <h3>Subscription</h3>
-        <a href="/pricing/">Plans</a>
-        <a href="/dashboard/#usage">Usage</a>
-      </div>
-      <div class="section">
-        <h3>Account</h3>
-        <a href="/logout/">Sign out</a>
-      </div>
-    </nav>
-    <div class="main">
-      <h1>Security</h1>
-      <p class="sub">Manage your account security settings</p>
+<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-security.js"></script><script defer="" src="/assets/i18n.js"></script></head>
+<body data-i18n-page="account-security"><div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="section">
+<div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;"><span data-i18n="account-security.ouronex.3343a9">OuroNex</span></div>
+<a href="/dashboard/"><span data-i18n="account-security.dashboard.d87f47">Dashboard</span></a>
+<a href="/profile/"><span data-i18n="account-security.profile.ff4fc0">Profile</span></a>
+<a class="active" href="/profile/security/"><span data-i18n="account-security.security.f25ce1">Security</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-security.subscription.8fde48">Subscription</span></h3>
+<a href="/pricing/"><span data-i18n="account-security.plans.cf2e5f">Plans</span></a>
+<a href="/dashboard/#usage"><span data-i18n="account-security.usage.0bb186">Usage</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-security.account.85dfa3">Account</span></h3>
+<a href="/logout/"><span data-i18n="account-security.sign-out.dc1649">Sign out</span></a>
+</div>
+</nav>
+<div class="main">
+<h1><span data-i18n="account-security.security.f25ce1">Security</span></h1>
+<p class="sub"><span data-i18n="account-security.manage-your-account-security-settings.93c681">Manage your account security settings</span></p>
 
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          <div class="alert alert-{{ message.tags }}" data-i18n-dynamic>{{ message }}</div>
         {% endfor %}
       {% endif %}
 
       <div class="card">
-        <h2>Change Password</h2>
-        <form method="post">
-          <input type="hidden" name="action" value="change_password">
-          <div class="form-group">
-            <label for="old_password">Current Password</label>
-            <input type="password" id="old_password" name="old_password" required>
-          </div>
-          <div class="form-group">
-            <label for="new_password">New Password</label>
-            <input type="password" id="new_password" name="new_password" required>
-          </div>
-          <div class="form-group">
-            <label for="new_password2">Confirm New Password</label>
-            <input type="password" id="new_password2" name="new_password2" required>
-          </div>
-          <button type="submit" class="btn">Change Password</button>
-        </form>
-      </div>
-
-      <div class="card danger-zone">
-        <h2>Danger Zone</h2>
-        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 16px;">
-          Once you delete your account, there is no going back. All your data will be permanently removed.
+<h2><span data-i18n="account-security.change-password.49289d">Change Password</span></h2>
+<form method="post">
+<input name="action" type="hidden" value="change_password"/>
+<div class="form-group">
+<label for="old_password"><span data-i18n="account-security.current-password.4d5967">Current Password</span></label>
+<input id="old_password" name="old_password" required="" type="password"/>
+</div>
+<div class="form-group">
+<label for="new_password"><span data-i18n="account-security.new-password.4894cb">New Password</span></label>
+<input id="new_password" name="new_password" required="" type="password"/>
+</div>
+<div class="form-group">
+<label for="new_password2"><span data-i18n="account-security.confirm-new-password.68dcd7">Confirm New Password</span></label>
+<input id="new_password2" name="new_password2" required="" type="password"/>
+</div>
+<button class="btn" type="submit"><span data-i18n="account-security.change-password.49289d">Change Password</span></button>
+</form>
+</div>
+<div class="card danger-zone">
+<h2><span data-i18n="account-security.danger-zone.8fc83a">Danger Zone</span></h2>
+<p style="color: #94a3b8; font-size: 14px; margin-bottom: 16px;">
+          <span data-i18n="account-security.once-you-delete-your-account-there-is-.ec76ba">Once you delete your account, there is no going back. All your data will be permanently removed.</span>
         </p>
-        <form method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
-          <input type="hidden" name="action" value="delete_account">
-          <div class="form-group">
-            <label for="password">Confirm Password</label>
-            <input type="password" id="password" name="password" required>
-          </div>
-          <button type="submit" class="btn btn-danger">Delete Account</button>
-        </form>
-      </div>
-    </div>
-  </div>
+<form method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+<input name="action" type="hidden" value="delete_account"/>
+<div class="form-group">
+<label for="password"><span data-i18n="account-security.confirm-password.c2d404">Confirm Password</span></label>
+<input id="password" name="password" required="" type="password"/>
+</div>
+<button class="btn btn-danger" type="submit"><span data-i18n="account-security.delete-account.ee1b9a">Delete Account</span></button>
+</form>
+</div>
+</div>
+</div>
 </body>
 </html>

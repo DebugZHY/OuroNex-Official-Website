@@ -1,0 +1,103 @@
+// Generated from assets/i18n/account-profile.json. Edit the JSON, then run python scripts/i18n_compile.py.
+window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
+  "account-profile.profile-ouronex.19225a": {
+    "en": "Profile — OuroNex",
+    "zh-CN": "个人资料 — OuroNex",
+    "zh-TW": "個人資料 — OuroNex"
+  },
+  "account-profile.ouronex.3343a9": {
+    "en": "OuroNex",
+    "zh-CN": "OuroNex",
+    "zh-TW": "OuroNex"
+  },
+  "account-profile.dashboard.d87f47": {
+    "en": "Dashboard",
+    "zh-CN": "控制台",
+    "zh-TW": "儀表板"
+  },
+  "account-profile.profile.ff4fc0": {
+    "en": "Profile",
+    "zh-CN": "个人资料",
+    "zh-TW": "個人資料"
+  },
+  "account-profile.security.f25ce1": {
+    "en": "Security",
+    "zh-CN": "安全",
+    "zh-TW": "安全性"
+  },
+  "account-profile.subscription.8fde48": {
+    "en": "Subscription",
+    "zh-CN": "订阅",
+    "zh-TW": "訂閱"
+  },
+  "account-profile.plans.cf2e5f": {
+    "en": "Plans",
+    "zh-CN": "套餐",
+    "zh-TW": "方案"
+  },
+  "account-profile.usage.0bb186": {
+    "en": "Usage",
+    "zh-CN": "使用情况",
+    "zh-TW": "使用情況"
+  },
+  "account-profile.account.85dfa3": {
+    "en": "Account",
+    "zh-CN": "账户",
+    "zh-TW": "帳戶"
+  },
+  "account-profile.sign-out.dc1649": {
+    "en": "Sign out",
+    "zh-CN": "退出登录",
+    "zh-TW": "登出"
+  },
+  "account-profile.manage-your-account-information.9ecdc3": {
+    "en": "Manage your account information",
+    "zh-CN": "管理您的账户信息",
+    "zh-TW": "管理您的帳戶資訊"
+  },
+  "account-profile.basic-information.b0d5be": {
+    "en": "Basic Information",
+    "zh-CN": "基本信息",
+    "zh-TW": "基本資訊"
+  },
+  "account-profile.username.84c290": {
+    "en": "Username",
+    "zh-CN": "用户名",
+    "zh-TW": "使用者名稱"
+  },
+  "account-profile.email.84add5": {
+    "en": "Email",
+    "zh-CN": "电子邮箱",
+    "zh-TW": "電子郵件"
+  },
+  "account-profile.phone.77064d": {
+    "en": "Phone",
+    "zh-CN": "手机号码",
+    "zh-TW": "手機號碼"
+  },
+  "account-profile.save-changes.fa2984": {
+    "en": "Save Changes",
+    "zh-CN": "保存更改",
+    "zh-TW": "儲存變更"
+  },
+  "account-profile.account-details.a951f4": {
+    "en": "Account Details",
+    "zh-CN": "账户详情",
+    "zh-TW": "帳戶詳情"
+  },
+  "account-profile.uid.d946ad": {
+    "en": "UID",
+    "zh-CN": "UID",
+    "zh-TW": "UID"
+  },
+  "account-profile.member-since.c6647c": {
+    "en": "Member Since",
+    "zh-CN": "注册时间",
+    "zh-TW": "註冊時間"
+  },
+  "account-profile.last-login.2df48a": {
+    "en": "Last Login",
+    "zh-CN": "上次登录",
+    "zh-TW": "上次登入"
+  }
+});

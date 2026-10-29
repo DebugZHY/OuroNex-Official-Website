@@ -1,0 +1,227 @@
+{
+  "dynamic.message.username-password-required": {
+    "en": "Username and password are required.",
+    "zh-CN": "用户名和密码为必填项。",
+    "zh-TW": "用戶名和密碼為必填項。"
+  },
+  "dynamic.message.passwords-do-not-match": {
+    "en": "Passwords do not match.",
+    "zh-CN": "两次输入的密码不一致。",
+    "zh-TW": "兩次輸入的密碼不一致。"
+  },
+  "dynamic.message.incorrect-verification-code": {
+    "en": "Incorrect verification code.",
+    "zh-CN": "验证码不正确。",
+    "zh-TW": "驗證碼不正確。"
+  },
+  "dynamic.message.username-taken": {
+    "en": "Username already taken.",
+    "zh-CN": "该用户名已被使用。",
+    "zh-TW": "該用戶名已被使用。"
+  },
+  "dynamic.message.email-registered": {
+    "en": "Email already registered.",
+    "zh-CN": "该邮箱已注册。",
+    "zh-TW": "該電郵已註冊。"
+  },
+  "dynamic.message.invalid-credentials": {
+    "en": "Invalid username or password.",
+    "zh-CN": "用户名或密码不正确。",
+    "zh-TW": "用戶名或密碼不正確。"
+  },
+  "dynamic.message.username-updated": {
+    "en": "Username updated.",
+    "zh-CN": "用户名已更新。",
+    "zh-TW": "用戶名已更新。"
+  },
+  "dynamic.message.email-updated": {
+    "en": "Email updated.",
+    "zh-CN": "邮箱已更新。",
+    "zh-TW": "電郵已更新。"
+  },
+  "dynamic.message.phone-updated": {
+    "en": "Phone updated.",
+    "zh-CN": "电话号码已更新。",
+    "zh-TW": "電話號碼已更新。"
+  },
+  "dynamic.message.current-password-incorrect": {
+    "en": "Current password is incorrect.",
+    "zh-CN": "当前密码不正确。",
+    "zh-TW": "目前密碼不正確。"
+  },
+  "dynamic.message.new-passwords-do-not-match": {
+    "en": "New passwords do not match.",
+    "zh-CN": "两次输入的新密码不一致。",
+    "zh-TW": "兩次輸入的新密碼不一致。"
+  },
+  "dynamic.message.password-length": {
+    "en": "Password must be at least 6 characters.",
+    "zh-CN": "密码至少需要 6 个字符。",
+    "zh-TW": "密碼至少需要 6 個字元。"
+  },
+  "dynamic.message.password-changed": {
+    "en": "Password changed successfully.",
+    "zh-CN": "密码修改成功。",
+    "zh-TW": "密碼修改成功。"
+  },
+  "dynamic.message.account-deleted": {
+    "en": "Account deleted.",
+    "zh-CN": "账户已删除。",
+    "zh-TW": "帳戶已刪除。"
+  },
+  "dynamic.message.incorrect-password": {
+    "en": "Incorrect password.",
+    "zh-CN": "密码不正确。",
+    "zh-TW": "密碼不正確。"
+  },
+  "dynamic.plan.free": {
+    "en": "Free",
+    "zh-CN": "免费版",
+    "zh-TW": "免費版"
+  },
+  "dynamic.plan.lite": {
+    "en": "Lite",
+    "zh-CN": "轻量版",
+    "zh-TW": "輕量版"
+  },
+  "dynamic.plan.standard": {
+    "en": "Standard",
+    "zh-CN": "标准版",
+    "zh-TW": "標準版"
+  },
+  "dynamic.plan.professional": {
+    "en": "Professional",
+    "zh-CN": "专业版",
+    "zh-TW": "專業版"
+  },
+  "dynamic.plan.enterprise": {
+    "en": "Enterprise",
+    "zh-CN": "企业版",
+    "zh-TW": "企業版"
+  },
+  "dynamic.status.active": {
+    "en": "Active",
+    "zh-CN": "生效中",
+    "zh-TW": "生效中"
+  },
+  "dynamic.status.expired": {
+    "en": "Expired",
+    "zh-CN": "已过期",
+    "zh-TW": "已到期"
+  },
+  "dynamic.status.cancelled": {
+    "en": "Cancelled",
+    "zh-CN": "已取消",
+    "zh-TW": "已取消"
+  },
+  "dynamic.feature.5m-tokens": {
+    "en": "5M tokens/month",
+    "zh-CN": "每月 500 万个 Token",
+    "zh-TW": "每月 500 萬個 Token"
+  },
+  "dynamic.feature.basic-models": {
+    "en": "Basic models",
+    "zh-CN": "基础模型",
+    "zh-TW": "基礎模型"
+  },
+  "dynamic.feature.community-support": {
+    "en": "Community support",
+    "zh-CN": "社区支持",
+    "zh-TW": "社群支援"
+  },
+  "dynamic.feature.custom-tokens": {
+    "en": "Custom tokens",
+    "zh-CN": "自定义 Token 额度",
+    "zh-TW": "自訂 Token 額度"
+  },
+  "dynamic.feature.all-models": {
+    "en": "All models",
+    "zh-CN": "所有模型",
+    "zh-TW": "所有模型"
+  },
+  "dynamic.feature.dedicated-support": {
+    "en": "Dedicated support",
+    "zh-CN": "专属支持",
+    "zh-TW": "專屬支援"
+  },
+  "dynamic.feature.sla": {
+    "en": "SLA guarantee",
+    "zh-CN": "SLA 保障",
+    "zh-TW": "SLA 保障"
+  },
+  "dynamic.feature.custom-integration": {
+    "en": "Custom integration",
+    "zh-CN": "定制集成",
+    "zh-TW": "自訂整合"
+  },
+  "dynamic.feature.on-premise": {
+    "en": "On-premise option",
+    "zh-CN": "本地部署选项",
+    "zh-TW": "內部部署選項"
+  },
+  "dynamic.feature.50m-tokens": {
+    "en": "50M tokens/month",
+    "zh-CN": "每月 5000 万个 Token",
+    "zh-TW": "每月 5000 萬個 Token"
+  },
+  "dynamic.feature.all-basic-models": {
+    "en": "All basic models",
+    "zh-CN": "所有基础模型",
+    "zh-TW": "所有基礎模型"
+  },
+  "dynamic.feature.priority-support": {
+    "en": "Priority support",
+    "zh-CN": "优先支持",
+    "zh-TW": "優先支援"
+  },
+  "dynamic.feature.api-access": {
+    "en": "API access",
+    "zh-CN": "API 访问",
+    "zh-TW": "API 存取"
+  },
+  "dynamic.feature.200m-tokens": {
+    "en": "200M tokens/month",
+    "zh-CN": "每月 2 亿个 Token",
+    "zh-TW": "每月 2 億個 Token"
+  },
+  "dynamic.feature.video-models": {
+    "en": "All models including video",
+    "zh-CN": "所有模型（含视频）",
+    "zh-TW": "所有模型（包括影片）"
+  },
+  "dynamic.feature.web-search": {
+    "en": "Web search",
+    "zh-CN": "网络搜索",
+    "zh-TW": "網絡搜尋"
+  },
+  "dynamic.feature.1b-tokens": {
+    "en": "1B tokens/month",
+    "zh-CN": "每月 10 亿个 Token",
+    "zh-TW": "每月 10 億個 Token"
+  },
+  "dynamic.feature.247-priority-support": {
+    "en": "24/7 priority support",
+    "zh-CN": "全天候优先支持",
+    "zh-TW": "全天候優先支援"
+  },
+  "dynamic.feature.early-access": {
+    "en": "Early access",
+    "zh-CN": "抢先体验",
+    "zh-TW": "優先體驗"
+  },
+  "dynamic.message.brief-created": {
+    "en": "Brief created on your device. Nothing has been sent.",
+    "zh-CN": "项目简介已在您的设备上生成，未发送任何内容。",
+    "zh-TW": "項目簡介已在您的裝置上產生，未傳送任何內容。"
+  },
+  "dynamic.message.brief-copied": {
+    "en": "Brief copied. You can paste it into your own notes or email.",
+    "zh-CN": "项目简介已复制，可粘贴到您的笔记或邮件中。",
+    "zh-TW": "項目簡介已複製，可貼到您的筆記或電郵中。"
+  },
+  "dynamic.message.copy-unavailable": {
+    "en": "Automatic copy is unavailable. Your brief is selected; use your device’s copy command.",
+    "zh-CN": "无法自动复制。项目简介已选中，请使用设备的复制命令。",
+    "zh-TW": "無法自動複製。項目簡介已選取，請使用裝置的複製指令。"
+  }
+}

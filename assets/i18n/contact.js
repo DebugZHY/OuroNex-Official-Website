@@ -1,0 +1,168 @@
+// Generated from assets/i18n/contact.json. Edit the JSON, then run python scripts/i18n_compile.py.
+window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
+  "contact.contact-start-from-a-real-workflow-our.184b8f": {
+    "en": "Contact — Start from a Real Workflow | OuroNex",
+    "zh-CN": "联系我们——从真实工作流程出发 | OuroNex",
+    "zh-TW": "聯絡我們——從真實工作流程出發 | OuroNex"
+  },
+  "contact.contact.b37456": {
+    "en": "Contact",
+    "zh-CN": "联系方式",
+    "zh-TW": "聯絡方式"
+  },
+  "contact.start-from-a-real-workflow.646b71": {
+    "en": "Start from a real workflow",
+    "zh-CN": "从真实工作流程出发",
+    "zh-TW": "從真實工作流程出發"
+  },
+  "contact.the-most-useful-first-conversation-beg.ec2768": {
+    "en": "The most useful first conversation begins with a process your team actually runs. Use the brief builder below to shape that thinking — it turns your notes into a structured project brief you can keep and share.",
+    "zh-CN": "最有成效的首次沟通，应从团队实际执行的流程开始。使用下方的项目简介生成器梳理思路，它能将您的笔记整理成结构清晰、可留存和分享的项目简介。",
+    "zh-TW": "最有成效的首次對話，應從團隊實際運作的流程開始。使用下方的項目簡介產生器整理思路，將您的筆記轉化為結構清晰、可保存及分享的項目簡介。"
+  },
+  "contact.project-brief-builder.d0db1c": {
+    "en": "Project brief builder",
+    "zh-CN": "项目简介生成器",
+    "zh-TW": "項目簡介產生器"
+  },
+  "contact.describe-the-work-get-a-brief.831e13": {
+    "en": "Describe the work. Get a brief.",
+    "zh-CN": "描述工作，生成项目简介。",
+    "zh-TW": "說明工作，產生項目簡介。"
+  },
+  "contact.start-with-one-workflow-the-builder-or.3217d4": {
+    "en": "Start with one workflow. The builder organizes your notes into a clear, structured brief you can keep and share.",
+    "zh-CN": "从一个工作流程开始。生成器会将您的笔记整理成结构清晰、可留存和分享的项目简介。",
+    "zh-TW": "從一個工作流程開始。產生器會將您的筆記整理成結構清晰、可保存及分享的項目簡介。"
+  },
+  "contact.what-makes-a-good-workflow-description.7fbeab": {
+    "en": "What makes a good workflow description?",
+    "zh-CN": "如何写好工作流程描述？",
+    "zh-TW": "怎樣寫好工作流程描述？"
+  },
+  "contact.name-the-process-for-example-preparing.ad3fae": {
+    "en": "Name the process (for example, \"preparing calculation packages for code review\"), who runs it, how often, and where time or errors concentrate. Two or three plain sentences are plenty — specifics about tools and checking steps help most.",
+    "zh-CN": "请说明流程名称（例如“准备用于规范审查的计算文件”）、执行人员、执行频率，以及耗时或易出错的环节。用两三句简明的话描述即可，具体说明所用工具和核查步骤最有帮助。",
+    "zh-TW": "請說明流程名稱（例如「準備用於規範審核的計算文件」）、執行人員、執行頻率，以及耗時或容易出錯的環節。用兩三句簡明文字描述即可，具體說明所用工具及審核步驟最有幫助。"
+  },
+  "contact.contact-status.ca6e18": {
+    "en": "Contact status",
+    "zh-CN": "联系渠道状态",
+    "zh-TW": "聯絡渠道狀態"
+  },
+  "contact.our-official-contact-channel-has-not-b.905b7d": {
+    "en": "Our official contact channel has not been published yet. When it is, your generated brief is ready to bring with you — until then, you are welcome to reach us through the professional contact who shared this site.",
+    "zh-CN": "我们的官方联系渠道尚未公布。渠道开通后，您即可使用已生成的项目简介与我们联系；在此之前，欢迎通过向您分享本网站的业内联系人与我们沟通。",
+    "zh-TW": "我們的官方聯絡渠道尚未公佈。渠道開通後，您可攜同已產生的項目簡介與我們聯絡；在此之前，歡迎透過向您分享本網站的業內聯絡人與我們溝通。"
+  },
+  "contact.interactive-brief-generation-needs-jav.614d02": {
+    "en": "Interactive brief generation needs JavaScript, which is currently disabled. You can still prepare notes manually using the fields below as a guide — nothing is submitted or sent from this page.",
+    "zh-CN": "交互式项目简介生成功能需要 JavaScript，但当前已禁用。您仍可参考以下字段手动整理笔记——本页面不会提交或发送任何内容。",
+    "zh-TW": "互動式項目簡介產生功能需要 JavaScript，但目前已被停用。您仍可參考以下欄位手動整理筆記——本頁面不會提交或傳送任何內容。"
+  },
+  "contact.organization.519255": {
+    "en": "Organization",
+    "zh-CN": "机构",
+    "zh-TW": "機構"
+  },
+  "contact.optional.b16c7a": {
+    "en": "(optional)",
+    "zh-CN": "（选填）",
+    "zh-TW": "（選填）"
+  },
+  "contact.workflow-to-improve.7099dc": {
+    "en": "Workflow to improve",
+    "zh-CN": "待改进的工作流程",
+    "zh-TW": "待改善的工作流程"
+  },
+  "contact.required.0002fd": {
+    "en": "(required)",
+    "zh-CN": "（必填）",
+    "zh-TW": "（必填）"
+  },
+  "contact.area-of-interest.970278": {
+    "en": "Area of interest",
+    "zh-CN": "关注领域",
+    "zh-TW": "關注範疇"
+  },
+  "contact.general-automation.d378dd": {
+    "en": "General Automation",
+    "zh-CN": "通用自动化",
+    "zh-TW": "一般自動化"
+  },
+  "contact.specific-automation.2d82c0": {
+    "en": "Specific Automation",
+    "zh-CN": "专项自动化",
+    "zh-TW": "特定自動化"
+  },
+  "contact.professional-saas.5eece7": {
+    "en": "Professional SaaS",
+    "zh-CN": "专业 SaaS",
+    "zh-TW": "專業 SaaS"
+  },
+  "contact.ai-workflow-training.3a0b8c": {
+    "en": "AI Workflow & Training",
+    "zh-CN": "AI 工作流程与培训",
+    "zh-TW": "AI 工作流程及培訓"
+  },
+  "contact.not-sure-yet.1cef1a": {
+    "en": "Not sure yet",
+    "zh-CN": "尚未确定",
+    "zh-TW": "尚未確定"
+  },
+  "contact.what-would-success-look-like.cf7278": {
+    "en": "What would success look like?",
+    "zh-CN": "您期望取得怎样的成果？",
+    "zh-TW": "您期望取得怎樣的成果？"
+  },
+  "contact.processed-on-your-device-not-sent-to-o.86e5b1": {
+    "en": "Processed on your device. Not sent to OuroNex or saved by this site.",
+    "zh-CN": "在您的设备上处理，不会发送至 OuroNex，也不会由本网站保存。",
+    "zh-TW": "在您的裝置上處理，不會傳送至 OuroNex，亦不會由本網站儲存。"
+  },
+  "contact.generate-project-brief.ac6460": {
+    "en": "Generate project brief",
+    "zh-CN": "生成项目简介",
+    "zh-TW": "產生項目簡介"
+  },
+  "contact.your-project-brief.ac0e9e": {
+    "en": "Your project brief",
+    "zh-CN": "您的项目简介",
+    "zh-TW": "您的項目簡介"
+  },
+  "contact.copy-brief.45e060": {
+    "en": "Copy brief",
+    "zh-CN": "复制项目简介",
+    "zh-TW": "複製項目簡介"
+  },
+  "contact.generated-project-brief.0d50d2": {
+    "en": "Generated project brief",
+    "zh-CN": "已生成的项目简介",
+    "zh-TW": "已產生的項目簡介"
+  },
+  "contact.start-a-conversation-with-ouronex-by-b.97f697": {
+    "en": "Start a conversation with OuroNex by building a project brief from a real workflow. Everything is processed locally in your browser — nothing is transmitted.",
+    "zh-CN": "以真实工作流程为基础生成项目简介，开始与 OuroNex 交流。所有内容均在您的浏览器本地处理，不会传输任何数据。",
+    "zh-TW": "以真實工作流程為基礎建立項目簡介，開始與 OuroNex 對話。所有內容均在您的瀏覽器內作本機處理，不會傳輸任何資料。"
+  },
+  "contact.e-g-a-structural-consultancy.955d2c": {
+    "en": "e.g. a structural consultancy",
+    "zh-CN": "例如：结构工程顾问公司",
+    "zh-TW": "例如：結構工程顧問公司"
+  },
+  "contact.describe-a-real-process-your-team-runs.dce129": {
+    "en": "Describe a real process your team runs — who does it, how often, and where it hurts.",
+    "zh-CN": "描述团队实际执行的一项流程：由谁执行、多久执行一次，以及痛点何在。",
+    "zh-TW": "描述團隊實際運作的一項流程：由誰執行、執行頻率，以及痛點所在。"
+  },
+  "contact.e-g-faster-turnaround-on-documentation.53c77c": {
+    "en": "e.g. faster turnaround on documentation with the same checking rigour",
+    "zh-CN": "例如：在保持同等核查标准的前提下，加快文档交付",
+    "zh-TW": "例如：在維持同等審核標準的前提下，加快文件交付"
+  },
+  "contact.your-generated-brief-will-appear-here-.6a46a4": {
+    "en": "Your generated brief will appear here once you use the form above.",
+    "zh-CN": "使用上方表单后，生成的项目简介将显示在此处。",
+    "zh-TW": "使用上方表格後，產生的項目簡介將顯示於此。"
+  }
+});

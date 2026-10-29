@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing — OuroNex</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="account-pricing.pricing-ouronex.f9c5e8">Pricing — OuroNex</title>
+<style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; }
     .layout { display: flex; min-height: 100vh; }
@@ -40,77 +41,77 @@
     .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
     .alert-info { background: #1e3a5f; color: #93c5fd; }
   </style>
-</head>
-<body>
-  <div class="layout">
-    <nav class="sidebar">
-      <div class="section">
-        <div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;">OuroNex</div>
-        <a href="/dashboard/">Dashboard</a>
-        <a href="/profile/">Profile</a>
-        <a href="/profile/security/">Security</a>
-      </div>
-      <div class="section">
-        <h3>Subscription</h3>
-        <a href="/pricing/" class="active">Plans</a>
-        <a href="/dashboard/#usage">Usage</a>
-      </div>
-      <div class="section">
-        <h3>Account</h3>
-        <a href="/logout/">Sign out</a>
-      </div>
-    </nav>
-    <div class="main">
-      <h1>Pricing Plans</h1>
-      <p class="sub">Choose the plan that fits your needs</p>
+<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-pricing.js"></script><script defer="" src="/assets/i18n.js"></script></head>
+<body data-i18n-page="account-pricing"><div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="section">
+<div style="font-size: 18px; font-weight: 700; color: #f8fafc; padding: 0 8px 16px;"><span data-i18n="account-pricing.ouronex.3343a9">OuroNex</span></div>
+<a href="/dashboard/"><span data-i18n="account-pricing.dashboard.d87f47">Dashboard</span></a>
+<a href="/profile/"><span data-i18n="account-pricing.profile.ff4fc0">Profile</span></a>
+<a href="/profile/security/"><span data-i18n="account-pricing.security.f25ce1">Security</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-pricing.subscription.8fde48">Subscription</span></h3>
+<a class="active" href="/pricing/"><span data-i18n="account-pricing.plans.cf2e5f">Plans</span></a>
+<a href="/dashboard/#usage"><span data-i18n="account-pricing.usage.0bb186">Usage</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-pricing.account.85dfa3">Account</span></h3>
+<a href="/logout/"><span data-i18n="account-pricing.sign-out.dc1649">Sign out</span></a>
+</div>
+</nav>
+<div class="main">
+<h1><span data-i18n="account-pricing.pricing-plans.310b6b">Pricing Plans</span></h1>
+<p class="sub"><span data-i18n="account-pricing.choose-the-plan-that-fits-your-needs.aac4a4">Choose the plan that fits your needs</span></p>
 
       {% if current_subscription %}
         <div class="alert alert-info">
-          Your current plan: <strong>{{ current_subscription.plan.display_name }}</strong>
-        </div>
+          <span data-i18n="account-pricing.your-current-plan.ccc965">Your current plan:</span> <strong data-i18n-dynamic>{{ current_subscription.plan.display_name }}</strong>
+</div>
       {% endif %}
 
       <div class="plans-grid">
         {% for plan in plans %}
           <div class="plan-card {% if plan.name == 'standard' %}featured{% endif %} {% if plan.is_enterprise %}enterprise{% endif %}">
             {% if plan.name == 'standard' %}
-              <div class="plan-badge">Most Popular</div>
+              <div class="plan-badge"><span data-i18n="account-pricing.most-popular.385b4b">Most Popular</span></div>
             {% endif %}
-            <h3>{{ plan.display_name }}</h3>
+            <h3 data-i18n-dynamic>{{ plan.display_name }}</h3>
             {% if plan.is_enterprise %}
-              <div class="plan-price">Custom</div>
-              <div class="plan-period">Contact us for pricing</div>
+              <div class="plan-price"><span data-i18n="account-pricing.custom.081ae3">Custom</span></div>
+<div class="plan-period"><span data-i18n="account-pricing.contact-us-for-pricing.36ce05">Contact us for pricing</span></div>
             {% elif plan.price_monthly > 0 %}
               <div class="plan-price">${{ plan.price_monthly }}</div>
-              <div class="plan-period">per month, billed monthly</div>
+<div class="plan-period"><span data-i18n="account-pricing.per-month-billed-monthly.f1f899">per month, billed monthly</span></div>
             {% else %}
-              <div class="plan-price">Free</div>
-              <div class="plan-period">forever</div>
+              <div class="plan-price"><span data-i18n="account-pricing.free.75f527">Free</span></div>
+<div class="plan-period"><span data-i18n="account-pricing.forever.e07f8c">forever</span></div>
             {% endif %}
 
             {% if plan.tokens_monthly > 0 %}
-              <div class="plan-tokens">{{ plan.tokens_monthly }} tokens/month</div>
+              <div class="plan-tokens">{{ plan.tokens_monthly }} <span data-i18n="account-pricing.tokens-month.ec357c">tokens/month</span></div>
             {% endif %}
 
             <ul class="plan-features">
               {% for feature in plan.features %}
-                <li>{{ feature }}</li>
+                <li data-i18n-dynamic>{{ feature }}</li>
               {% endfor %}
             </ul>
 
             {% if current_subscription and current_subscription.plan.id == plan.id %}
-              <span class="btn btn-current">Current Plan</span>
+              <span class="btn btn-current"><span data-i18n="account-pricing.current-plan.440a9f">Current Plan</span></span>
             {% elif plan.is_enterprise %}
-              <a href="/contact/" class="btn btn-contact">Contact Sales</a>
+              <a class="btn btn-contact" href="/contact/"><span data-i18n="account-pricing.contact-sales.7a0a9b">Contact Sales</span></a>
             {% elif plan.price_monthly > 0 %}
-              <a href="/checkout/?plan={{ plan.name }}" class="btn">Subscribe Now</a>
+              <a class="btn" href="/checkout/?plan={{ plan.name }}"><span data-i18n="account-pricing.subscribe-now.378b0c">Subscribe Now</span></a>
             {% else %}
-              <span class="btn btn-outline">Free Forever</span>
+              <span class="btn btn-outline"><span data-i18n="account-pricing.free-forever.5bbe10">Free Forever</span></span>
             {% endif %}
           </div>
         {% endfor %}
       </div>
-    </div>
-  </div>
+</div>
+</div>
 </body>
 </html>
