@@ -6,34 +6,35 @@
 <mask id="b05mask"><rect width="1600" height="900" fill="url(#b05vfade)"/></mask>
 </defs>
 <style>
-#b05 .flow{stroke-dasharray:3 34 82 190;animation:vflow 16s linear infinite}#b05 .drift{animation:vdrift 18s ease-in-out infinite}#b05 .drift-alt{animation:vdriftalt 22s ease-in-out infinite}#b05 .breathe{animation:vbreathe 11s ease-in-out infinite}#b05 .pulse{transform-box:fill-box;transform-origin:center;animation:vpulse 6s ease-in-out infinite}#b05 .spin{transform-box:fill-box;transform-origin:center;animation:vspin 46s linear infinite}#b05 .expand{transform-box:fill-box;transform-origin:center;animation:vexpand 16s ease-in-out infinite}#b05 .delay1{animation-delay:-4s}#b05 .delay2{animation-delay:-8s}#b05 .delay3{animation-delay:-12s}
+#b05 .flow{stroke-dasharray:3 34 82 190;animation:vflow 12s linear infinite}#b05 .drift{animation:vdrift 18s ease-in-out infinite}#b05 .drift-alt{animation:vdriftalt 22s ease-in-out infinite}#b05 .breathe{animation:vbreathe 11s ease-in-out infinite}#b05 .breathe.drift{animation:vdrift 18s ease-in-out infinite,vbreathe 11s ease-in-out infinite}#b05 .pulse{transform-box:fill-box;transform-origin:center;animation:vpulse 6s ease-in-out infinite}#b05 .spin{transform-box:fill-box;transform-origin:center;animation:vspin 46s linear infinite}#b05 .expand{transform-box:fill-box;transform-origin:center;animation:vexpand 16s ease-in-out infinite}#b05 .delay1{animation-delay:-4s}#b05 .delay2{animation-delay:-8s}#b05 .delay3{animation-delay:-12s}
 @keyframes vflow{to{stroke-dashoffset:-310}}@keyframes vdrift{0%,100%{transform:translate(0,0)}50%{transform:translate(10px,-12px)}}@keyframes vdriftalt{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,9px)}}@keyframes vbreathe{0%,100%{opacity:.55}50%{opacity:1}}@keyframes vpulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:.85;transform:scale(1.3)}}@keyframes vspin{to{transform:rotate(360deg)}}@keyframes vexpand{0%,100%{transform:scale(.975);opacity:.6}50%{transform:scale(1.025);opacity:1}}
+#b05 .signal{fill:none;stroke:#a8ccff;stroke-width:1.25;stroke-opacity:.42;stroke-dasharray:6 94;animation:vsignal 9s linear infinite}@keyframes vsignal{from{stroke-dashoffset:100}to{stroke-dashoffset:-100}}
 @media(prefers-reduced-motion:reduce){#b05 *{animation:none!important}}
 </style>
 <rect width="1600" height="900" fill="#080e17"/>
 <rect width="1600" height="900" fill="url(#b05atm)"/>
-<g mask="url(#b05mask)" class="breathe" fill="none" stroke="url(#b05fade)" stroke-width="1">
-<path d="M1030 110C995 330 700 660 620 930"/>
+<g mask="url(#b05mask)" class="breathe drift" fill="none" stroke="url(#b05fade)" stroke-width="1">
+<path class="flow delay1" d="M1030 110C995 330 700 660 620 930"/>
 <path d="M1038 110C1003 330 752 660 672 930"/>
 <path d="M1046 110C1011 330 804 660 724 930"/>
 <path d="M1054 110C1019 330 856 660 776 930"/>
-<path d="M1062 110C1027 330 908 660 828 930"/>
+<path class="flow delay2" d="M1062 110C1027 330 908 660 828 930"/>
 <path d="M1070 110C1035 330 960 660 880 930"/>
 <path d="M1078 110C1043 330 1012 660 932 930"/>
 <path d="M1086 110C1051 330 1064 660 984 930"/>
-<path d="M1094 110C1059 330 1116 660 1036 930"/>
+<path class="flow delay3" d="M1094 110C1059 330 1116 660 1036 930"/>
 <path d="M1102 110C1067 330 1168 660 1088 930"/>
 <path d="M1110 110C1075 330 1220 660 1140 930"/>
 <path d="M1118 110C1083 330 1272 660 1192 930"/>
-<path d="M1126 110C1091 330 1324 660 1244 930"/>
+<path class="flow delay1" d="M1126 110C1091 330 1324 660 1244 930"/>
 <path d="M1134 110C1099 330 1376 660 1296 930"/>
 <path d="M1142 110C1107 330 1428 660 1348 930"/>
 <path d="M1150 110C1115 330 1480 660 1400 930"/>
-<path d="M1158 110C1123 330 1532 660 1452 930"/>
+<path class="flow delay2" d="M1158 110C1123 330 1532 660 1452 930"/>
 <path d="M1166 110C1131 330 1584 660 1504 930"/>
 <path d="M1174 110C1139 330 1636 660 1556 930"/>
 <path d="M1182 110C1147 330 1688 660 1608 930"/>
-<path d="M1190 110C1155 330 1740 660 1660 930"/>
+<path class="flow delay3" d="M1190 110C1155 330 1740 660 1660 930"/>
 <path d="M1198 110C1163 330 1792 660 1712 930"/>
 <path d="M1206 110C1171 330 1844 660 1764 930"/>
 <path d="M1214 110C1179 330 1896 660 1816 930"/>
@@ -43,24 +44,30 @@
 <path d="M961.2 181.1Q1185.0 156.6 1408.8 183.6"/>
 <path d="M945.0 198.5Q1180.0 175.2 1415.0 201.9"/>
 <path d="M928.8 218.6Q1175.0 196.4 1421.2 222.7"/>
-<path class="flow" d="M912.5 241.0Q1170.0 220.0 1427.5 246.0"/>
+<path class="flow delay1" d="M912.5 241.0Q1170.0 220.0 1427.5 246.0"/>
 <path d="M896.2 265.5Q1165.0 245.7 1433.8 271.4"/>
 <path d="M880.0 292.1Q1160.0 273.4 1440.0 298.8"/>
 <path d="M863.8 320.5Q1155.0 303.0 1446.2 328.0"/>
 <path d="M847.5 350.8Q1150.0 334.5 1452.5 359.1"/>
 <path d="M831.2 382.8Q1145.0 367.6 1458.8 391.9"/>
 <path d="M815.0 416.4Q1140.0 402.4 1465.0 426.4"/>
-<path class="flow" d="M798.8 451.6Q1135.0 438.7 1471.2 462.4"/>
+<path class="flow delay2" d="M798.8 451.6Q1135.0 438.7 1471.2 462.4"/>
 <path d="M782.5 488.3Q1130.0 476.6 1477.5 499.9"/>
 <path d="M766.2 526.5Q1125.0 516.0 1483.8 539.0"/>
 <path d="M750.0 566.1Q1120.0 556.7 1490.0 579.4"/>
 <path d="M733.8 607.0Q1115.0 598.9 1496.2 621.2"/>
 <path d="M717.5 649.4Q1110.0 642.4 1502.5 664.4"/>
 <path d="M701.2 693.0Q1105.0 687.2 1508.8 708.9"/>
-<path class="flow" d="M685.0 738.0Q1100.0 733.3 1515.0 754.6"/>
+<path class="flow delay3" d="M685.0 738.0Q1100.0 733.3 1515.0 754.6"/>
 <path d="M668.8 784.2Q1095.0 780.7 1521.2 801.7"/>
 <path d="M652.5 831.6Q1090.0 829.3 1527.5 849.9"/>
 <path d="M636.2 880.2Q1085.0 879.0 1533.8 899.4"/>
 <path d="M620.0 930.0Q1080.0 930.0 1540.0 950.0"/>
+</g>
+<g mask="url(#b05mask)">
+<path class="signal delay1" pathLength="100" d="M1070 110C1035 330 960 660 880 930"/>
+<path class="signal delay2" pathLength="100" d="M1150 110C1115 330 1480 660 1400 930"/>
+<path class="signal delay3" pathLength="100" d="M880.0 292.1Q1160.0 273.4 1440.0 298.8"/>
+<path class="signal delay1" pathLength="100" d="M733.8 607.0Q1115.0 598.9 1496.2 621.2"/>
 </g>
 </svg>

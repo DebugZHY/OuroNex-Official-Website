@@ -6,25 +6,38 @@
 <mask id="b06mask"><rect width="1600" height="900" fill="url(#b06vfade)"/></mask>
 </defs>
 <style>
-#b06 .flow{stroke-dasharray:3 34 82 190;animation:vflow 16s linear infinite}#b06 .drift{animation:vdrift 18s ease-in-out infinite}#b06 .drift-alt{animation:vdriftalt 22s ease-in-out infinite}#b06 .breathe{animation:vbreathe 11s ease-in-out infinite}#b06 .pulse{transform-box:fill-box;transform-origin:center;animation:vpulse 6s ease-in-out infinite}#b06 .spin{transform-box:fill-box;transform-origin:center;animation:vspin 46s linear infinite}#b06 .expand{transform-box:fill-box;transform-origin:center;animation:vexpand 16s ease-in-out infinite}#b06 .delay1{animation-delay:-4s}#b06 .delay2{animation-delay:-8s}#b06 .delay3{animation-delay:-12s}
-@keyframes vflow{to{stroke-dashoffset:-310}}@keyframes vdrift{0%,100%{transform:translate(0,0)}50%{transform:translate(10px,-12px)}}@keyframes vdriftalt{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,9px)}}@keyframes vbreathe{0%,100%{opacity:.55}50%{opacity:1}}@keyframes vpulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:.85;transform:scale(1.3)}}@keyframes vspin{to{transform:rotate(360deg)}}@keyframes vexpand{0%,100%{transform:scale(.975);opacity:.6}50%{transform:scale(1.025);opacity:1}}
+#b06 .flow{stroke-dasharray:3 34 82 190;animation:vflow 14s linear infinite}#b06 .drift{animation:vdrift 18s ease-in-out infinite}#b06 .drift-alt{animation:vdriftalt 22s ease-in-out infinite}#b06 .breathe{animation:vbreathe 11s ease-in-out infinite}#b06 .pulse{transform-box:fill-box;transform-origin:center;animation:vpulse 6s ease-in-out infinite}#b06 .spin{transform-box:fill-box;transform-origin:center;animation:vspin 46s linear infinite}#b06 .expand{transform-box:fill-box;transform-origin:center;animation:vexpand 16s ease-in-out infinite}#b06 .delay1{animation-delay:-4s}#b06 .delay2{animation-delay:-8s}#b06 .delay3{animation-delay:-12s}
+@keyframes vflow{to{stroke-dashoffset:-310}}@keyframes vdrift{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-22px)}}@keyframes vdriftalt{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,9px)}}@keyframes vbreathe{0%,100%{opacity:.55}50%{opacity:1}}@keyframes vpulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:.85;transform:scale(1.3)}}@keyframes vspin{to{transform:rotate(360deg)}}@keyframes vexpand{0%,100%{transform:scale(.975);opacity:.6}50%{transform:scale(1.025);opacity:1}}
+#b06 .signal{fill:none;stroke:#a8ccff;stroke-width:1.4;stroke-opacity:.54;stroke-dasharray:6 94;animation:vsignal 9s linear infinite}@keyframes vsignal{from{stroke-dashoffset:100}to{stroke-dashoffset:-100}}
 @media(prefers-reduced-motion:reduce){#b06 *{animation:none!important}}
 </style>
 <rect width="1600" height="900" fill="#080e17"/>
 <rect width="1600" height="900" fill="url(#b06atm)"/>
 <g mask="url(#b06mask)" class="drift" fill="none" stroke="url(#b06fade)" stroke-width="1">
-<path class="flow" d="M1180 120L1420 190L1180 260L940 190L1180 120"/>
+<path class="flow delay1" d="M1180 120L1420 190L1180 260L940 190L1180 120"/>
 <path d="M1180 173L1452 248L1180 323L908 248L1180 173"/>
 <path d="M1180 226L1484 306L1180 386L876 306L1180 226"/>
-<path class="flow" d="M1180 279L1516 364L1180 449L844 364L1180 279"/>
+<path class="flow delay2" d="M1180 279L1516 364L1180 449L844 364L1180 279"/>
 <path d="M1180 332L1548 422L1180 512L812 422L1180 332"/>
 <path d="M1180 385L1580 480L1180 575L780 480L1180 385"/>
-<path class="flow" d="M1180 438L1612 538L1180 638L748 538L1180 438"/>
+<path class="flow delay3" d="M1180 438L1612 538L1180 638L748 538L1180 438"/>
 <path d="M1180 491L1644 596L1180 701L716 596L1180 491"/>
 <path d="M1180 544L1676 654L1180 764L684 654L1180 544"/>
-<path class="flow" d="M1180 597L1708 712L1180 827L652 712L1180 597"/>
-<path d="M940 260L676.0 790" stroke-opacity=".4"/>
-<path d="M1180 260L1180.0 790" stroke-opacity=".4"/>
-<path d="M1420 260L1684.0 790" stroke-opacity=".4"/>
+<path class="flow delay1" d="M1180 597L1708 712L1180 827L652 712L1180 597"/>
+<path class="flow delay1" d="M940 260L676.0 790" stroke-opacity=".4"/>
+<path class="flow delay2" d="M1180 260L1180.0 790" stroke-opacity=".4"/>
+<path class="flow delay3" d="M1420 260L1684.0 790" stroke-opacity=".4"/>
+</g>
+<g mask="url(#b06mask)">
+<path class="signal delay1" pathLength="100" d="M1180 279L1516 364L1180 449L844 364L1180 279"/>
+<path class="signal delay2" pathLength="100" d="M1180 438L1612 538L1180 638L748 538L1180 438"/>
+<path class="signal delay3" pathLength="100" d="M1180 260L1180.0 790"/>
+<path class="signal delay1" pathLength="100" d="M940 260L676.0 790"/>
+<path class="signal delay1" pathLength="100" d="M1180 120L1420 190L1180 260L940 190L1180 120"/>
+<path class="signal delay2" pathLength="100" d="M1180 173L1452 248L1180 323L908 248L1180 173"/>
+<path class="signal delay3" pathLength="100" d="M1180 332L1548 422L1180 512L812 422L1180 332"/>
+<path class="signal delay1" pathLength="100" d="M1180 385L1580 480L1180 575L780 480L1180 385"/>
+<path class="signal delay2" pathLength="100" d="M1180 491L1644 596L1180 701L716 596L1180 491"/>
+<path class="signal delay3" pathLength="100" d="M1180 544L1676 654L1180 764L684 654L1180 544"/>
 </g>
 </svg>
