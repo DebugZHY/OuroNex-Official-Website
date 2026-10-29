@@ -1,0 +1,66 @@
+<svg id="b08" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+<defs>
+<radialGradient id="b08atm" cx="76%" cy="43%" r="72%"><stop stop-color="#10243b" stop-opacity=".46"/><stop offset=".58" stop-color="#0a1524" stop-opacity=".22"/><stop offset="1" stop-color="#080e17" stop-opacity="0"/></radialGradient>
+<linearGradient id="b08fade" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8fbfff" stop-opacity="0"/><stop offset=".28" stop-color="#8fbfff" stop-opacity=".035"/><stop offset=".66" stop-color="#8fbfff" stop-opacity=".55"/><stop offset="1" stop-color="#8fbfff" stop-opacity=".18"/></linearGradient>
+<linearGradient id="b08vfade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="white" stop-opacity=".12"/><stop offset=".18" stop-color="white"/><stop offset=".84" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+<mask id="b08mask"><rect width="1600" height="900" fill="url(#b08vfade)"/></mask>
+</defs>
+<style>
+#b08 .flow{stroke-dasharray:3 34 82 190;animation:vflow 16s linear infinite}#b08 .drift{animation:vdrift 18s ease-in-out infinite}#b08 .drift-alt{animation:vdriftalt 22s ease-in-out infinite}#b08 .breathe{animation:vbreathe 11s ease-in-out infinite}#b08 .pulse{transform-box:fill-box;transform-origin:center;animation:vpulse 6s ease-in-out infinite}#b08 .spin{transform-box:fill-box;transform-origin:center;animation:vspin 46s linear infinite}#b08 .expand{transform-box:fill-box;transform-origin:center;animation:vexpand 16s ease-in-out infinite}#b08 .delay1{animation-delay:-4s}#b08 .delay2{animation-delay:-8s}#b08 .delay3{animation-delay:-12s}
+@keyframes vflow{to{stroke-dashoffset:-310}}@keyframes vdrift{0%,100%{transform:translate(0,0)}50%{transform:translate(10px,-12px)}}@keyframes vdriftalt{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,9px)}}@keyframes vbreathe{0%,100%{opacity:.55}50%{opacity:1}}@keyframes vpulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:.85;transform:scale(1.3)}}@keyframes vspin{to{transform:rotate(360deg)}}@keyframes vexpand{0%,100%{transform:scale(.975);opacity:.6}50%{transform:scale(1.025);opacity:1}}
+@media(prefers-reduced-motion:reduce){#b08 *{animation:none!important}}
+</style>
+<rect width="1600" height="900" fill="#080e17"/>
+<rect width="1600" height="900" fill="url(#b08atm)"/>
+<g mask="url(#b08mask)" class="drift-alt" fill="none" stroke="url(#b08fade)" stroke-width="1">
+<path d="M690 900L999.6 150" opacity="0.22"/>
+<path d="M718 900L1007.4 174" opacity="0.29"/>
+<path d="M746 900L1015.3 198" opacity="0.36"/>
+<path d="M774 900L1023.1 222" opacity="0.43"/>
+<path d="M802 900L1031.0 246" opacity="0.50"/>
+<path d="M830 900L1038.8 270" opacity="0.22"/>
+<path d="M858 900L1046.6 294" opacity="0.29"/>
+<path d="M886 900L1054.5 150" opacity="0.36"/>
+<path d="M914 900L1062.3 174" opacity="0.43"/>
+<path d="M942 900L1070.2 198" opacity="0.50"/>
+<path d="M970 900L1078.0 222" opacity="0.22"/>
+<path d="M998 900L1085.8 246" opacity="0.29"/>
+<path d="M1026 900L1093.7 270" opacity="0.36"/>
+<path d="M1054 900L1101.5 294" opacity="0.43"/>
+<path d="M1082 900L1109.4 150" opacity="0.50"/>
+<path d="M1110 900L1117.2 174" opacity="0.22"/>
+<path d="M1138 900L1125.0 198" opacity="0.29"/>
+<path d="M1166 900L1132.9 222" opacity="0.36"/>
+<path d="M1194 900L1140.7 246" opacity="0.43"/>
+<path d="M1222 900L1148.6 270" opacity="0.50"/>
+<path d="M1250 900L1156.4 294" opacity="0.22"/>
+<path d="M1278 900L1164.2 150" opacity="0.29"/>
+<path d="M1306 900L1172.1 174" opacity="0.36"/>
+<path d="M1334 900L1179.9 198" opacity="0.43"/>
+<path d="M1362 900L1187.8 222" opacity="0.50"/>
+<path d="M1390 900L1195.6 246" opacity="0.22"/>
+<path d="M1418 900L1203.4 270" opacity="0.29"/>
+<path d="M1446 900L1211.3 294" opacity="0.36"/>
+<path d="M1474 900L1219.1 150" opacity="0.43"/>
+<path d="M1502 900L1227.0 174" opacity="0.50"/>
+<path d="M1530 900L1234.8 198" opacity="0.22"/>
+<path d="M1558 900L1242.6 222" opacity="0.29"/>
+<path d="M1586 900L1250.5 246" opacity="0.36"/>
+<path class="flow" d="M820 260L1490 225" stroke-opacity=".45"/>
+<path d="M812 302L1494 267" stroke-opacity=".45"/>
+<path d="M804 344L1498 309" stroke-opacity=".45"/>
+<path d="M796 386L1502 351" stroke-opacity=".45"/>
+<path d="M788 428L1506 393" stroke-opacity=".45"/>
+<path class="flow" d="M780 470L1510 435" stroke-opacity=".45"/>
+<path d="M772 512L1514 477" stroke-opacity=".45"/>
+<path d="M764 554L1518 519" stroke-opacity=".45"/>
+<path d="M756 596L1522 561" stroke-opacity=".45"/>
+<path d="M748 638L1526 603" stroke-opacity=".45"/>
+<path class="flow" d="M740 680L1530 645" stroke-opacity=".45"/>
+<path d="M732 722L1534 687" stroke-opacity=".45"/>
+<path d="M724 764L1538 729" stroke-opacity=".45"/>
+<path d="M716 806L1542 771" stroke-opacity=".45"/>
+<path d="M708 848L1546 813" stroke-opacity=".45"/>
+<path class="flow" d="M700 890L1550 855" stroke-opacity=".45"/>
+</g>
+</svg>

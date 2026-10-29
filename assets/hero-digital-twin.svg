@@ -1,4 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="hero-twin" viewBox="0 0 2400 1600" preserveAspectRatio="xMidYMid slice" focusable="false">
+<svg xmlns="http://www.w3.org/2000/svg" id="heroDigitalTwin" class="hero-twin" viewBox="0 0 2400 1600" preserveAspectRatio="xMidYMid slice" focusable="false">
+  <style>
+    #heroDigitalTwin .twin-flow { stroke-dasharray: 3 42 80 220; animation: twinDataFlow 10s linear infinite; }
+    #heroDigitalTwin .twin-node { transform-box: fill-box; transform-origin: center; animation: twinNodePulse 5.6s ease-in-out infinite; }
+    #heroDigitalTwin .twin-spine, #heroDigitalTwin .twin-roof { animation: twinStructureBreathe 9s ease-in-out infinite; }
+    #heroDigitalTwin .twin-spine-glow { animation: twinGlowBreathe 9s ease-in-out infinite; }
+    #heroDigitalTwin .twin-scan { animation: twinScan 11s linear infinite; }
+    #heroDigitalTwin .twin-ground { animation: twinGridBreathe 14s ease-in-out infinite; }
+    @keyframes twinDataFlow { from { stroke-dashoffset: 360; opacity: .35; } 45% { opacity: .9; } to { stroke-dashoffset: 0; opacity: .35; } }
+    @keyframes twinNodePulse { 0%,100% { opacity: .25; transform: scale(.8); } 45% { opacity: .95; transform: scale(1.25); } 65% { opacity: .5; transform: scale(1); } }
+    @keyframes twinStructureBreathe { 0%,100% { stroke-opacity: .46; } 50% { stroke-opacity: .9; } }
+    @keyframes twinGlowBreathe { 0%,100% { stroke-opacity: .1; } 50% { stroke-opacity: .28; } }
+    @keyframes twinScan { 0% { transform: translateY(230px); opacity: 0; } 8% { opacity: .85; } 88% { opacity: .65; } 100% { transform: translateY(1540px); opacity: 0; } }
+    @keyframes twinGridBreathe { 0%,100% { opacity: .1; } 50% { opacity: .23; } }
+    @media (prefers-reduced-motion: reduce) { #heroDigitalTwin * { animation: none !important; } #heroDigitalTwin .twin-scan { display: none; } }
+  </style>
   <defs>
     <linearGradient id="twinSky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#01060d"/><stop offset=".55" stop-color="#04111f"/><stop offset="1" stop-color="#071a29"/></linearGradient>
     <radialGradient id="twinHalo" cx="42%" cy="45%" r="62%"><stop stop-color="#0b4c70" stop-opacity=".34"/><stop offset=".5" stop-color="#06253c" stop-opacity=".15"/><stop offset="1" stop-color="#01060d" stop-opacity="0"/></radialGradient>
