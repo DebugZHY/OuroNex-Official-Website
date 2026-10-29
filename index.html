@@ -44,10 +44,9 @@
 
 <main id="main">
 
-  <!-- Hero: randomized vector background with a photographic fallback. -->
+  <!-- Hero: randomized vector background. -->
   <section class="home-hero" aria-labelledby="hero-title">
     <div class="hero-media" aria-hidden="true">
-      <img src="assets/hero-architecture.jpg" alt="" fetchpriority="high">
       <script>
         (() => {
           const host = document.currentScript.parentElement;
@@ -64,7 +63,6 @@
           if (source === 'services-grid') {
             host.dataset.motionField = 'grid';
             host.dataset.background = source;
-            host.querySelector('img')?.remove();
             return;
           }
           fetch(source)
