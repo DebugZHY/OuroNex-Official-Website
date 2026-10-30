@@ -374,3 +374,112 @@ class TokenUsageApiTests(TestCase):
         self.assertEqual(self.other_user.token_usage_records.count(), 0)
         legacy.refresh_from_db()
         self.assertEqual(legacy.tokens_used, 123)
+
+class AccountShellTests(TestCase):
+    """Regression tests for the unified account shell: shared topbar, sidebar and public nav."""
+
+    PAGES = (
+        '/dashboard/',
+        '/dashboard/usage/',
+        '/profile/',
+        '/profile/security/',
+        '/pricing/',
+    )
+    PUBLIC_DESTINATIONS = (
+        '/news.html',
+        '/platform.html',
+        '/pricing.html',
+        '/business.html',
+        '/about-us.html',
+    )
+
+    def setUp(self):
+        self.password = secrets.token_urlsafe(18)
+        self.user = User.objects.create_user(
+            username='shell-user',
+            email='shell@example.com',
+            password=self.password,
+        )
+        self.profile = Profile.objects.create(user=self.user, phone='+852 1234 5678')
+        self.plan = Plan.objects.create(
+            name='professional',
+            display_name='Professional',
+            price_monthly=49,
+            price_yearly=490,
+            tokens_monthly=20_000_000,
+            features=['20M tokens/month', 'All models'],
+        )
+        self.subscription = Subscription.objects.create(
+            user=self.user,
+            plan=self.plan,
+            status='active',
+            tokens_remaining=7_500_000,
+            expires_at=timezone.now() + timedelta(days=30),
+        )
+        self.client.force_login(self.user)
+
+    def render(self, path):
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 200, 'expected HTTP 200 from %s' % path)
+        return response.content.decode('utf-8')
+
+    def test_authenticated_pages_render_shared_shell_and_public_nav(self):
+        for path in self.PAGES:
+            with self.subTest(page=path):
+                html = self.render(path)
+                self.assertIn('/assets/account.css', html, 'missing /assets/account.css on %s' % path)
+                self.assertIn('/assets/ouronex-mark.svg', html, 'missing /assets/ouronex-mark.svg on %s' % path)
+                self.assertIn('href="/index.html"', html, 'missing Home logo link on %s' % path)
+                for target in self.PUBLIC_DESTINATIONS:
+                    self.assertIn(
+                        'href="%s"' % target,
+                        html,
+                        'missing public destination %s on %s' % (target, path),
+                    )
+
+    def test_authenticated_pages_share_shell_classes(self):
+        for path in self.PAGES:
+            with self.subTest(page=path):
+                html = self.render(path)
+                self.assertRegex(
+                    html,
+                    r'<body[^>]*class="[^"]*\baccount-page\b',
+                    'missing body.account-page on %s' % path,
+                )
+                self.assertIn('account-topbar', html, 'missing shared topbar on %s' % path)
+                self.assertIn('class="sidebar"', html, 'missing shared sidebar on %s' % path)
+
+    def test_each_page_has_one_usage_sidebar_link_and_no_legacy_anchor(self):
+        for path in self.PAGES:
+            with self.subTest(page=path):
+                html = self.render(path)
+                self.assertEqual(
+                    html.count('href="/dashboard/usage/"'),
+                    1,
+                    'expected exactly one /dashboard/usage/ link on %s' % path,
+                )
+                self.assertNotIn('/dashboard/#usage', html, 'legacy #usage anchor still on %s' % path)
+
+    def test_dashboard_retires_the_legacy_usage_card(self):
+        html = self.render('/dashboard/')
+        self.assertNotIn('id="usage"', html, 'dashboard must not render the legacy id="usage" card')
+        self.assertIn('kpi-grid', html, 'dashboard lost its KPI grid')
+        self.assertIn('Quick Actions', html, 'dashboard lost its Quick Actions')
+
+    def test_usage_sidebar_item_is_active_only_on_the_usage_page(self):
+        import re
+
+        for path in self.PAGES:
+            with self.subTest(page=path):
+                html = self.render(path)
+                anchors = re.findall(r'<a\b[^>]*href="/dashboard/usage/"[^>]*>', html)
+                self.assertEqual(len(anchors), 1, 'expected exactly one usage anchor on %s' % path)
+                anchor = anchors[0]
+                active = (
+                    'aria-current="page"' in anchor
+                    or re.search(r'class="[^"]*\bactive\b[^"]*"', anchor) is not None
+                )
+                if path == '/dashboard/usage/':
+                    self.assertTrue(active, 'usage item must be active on /dashboard/usage/')
+                else:
+                    self.assertFalse(active, 'usage item must not be active on %s' % path)

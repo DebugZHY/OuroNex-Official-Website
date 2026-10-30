@@ -1,0 +1,1195 @@
+/* ==========================================================================
+   OuroNex — shared authenticated account shell and components
+   Loaded after assets/i18n.css on the five account pages. Every selector is
+   scoped to body.account-page so the public site and the token usage board
+   keep their own styles. Fonts are the local Manrope / IBM Plex Mono files,
+   registered under the family aliases the Token Usage board already uses.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/manrope-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/manrope-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/manrope-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/manrope-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ibm-plex-mono-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/ibm-plex-mono-500.woff2') format('woff2');
+}
+
+/* --------------------------------------------------------------------------
+   Page base
+   -------------------------------------------------------------------------- */
+
+body.account-page {
+  --account-bg: #080e17;
+  --account-surface: #0d1623;
+  --account-surface-raised: #131f2f;
+  --account-ink: #edf2f8;
+  --account-muted: #9aabc0;
+  --account-subtle: #8a9bb2;
+  --account-line: rgba(155, 181, 210, .16);
+  --account-line-strong: rgba(114, 158, 255, .44);
+  --account-accent: #729eff;
+  --account-accent-strong: #346aeb;
+  --account-cyan: #38d6ff;
+  --account-success: #2dd4a7;
+  --account-warning: #ffb454;
+  --account-danger: #ff7a8d;
+  --account-font: 'ONX Board', 'Segoe UI', system-ui, sans-serif;
+  --account-mono: 'ONX Board Mono', 'IBM Plex Mono', Consolas, monospace;
+  --account-radius: 14px;
+  --account-shadow: none;
+  --account-topbar-height: 73px;
+
+  color-scheme: dark;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--account-bg);
+  color: var(--account-ink);
+  font: 400 14px/1.65 var(--account-font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.account-page *,
+body.account-page *::before,
+body.account-page *::after {
+  box-sizing: border-box;
+}
+
+body.account-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body.account-page img {
+  max-width: 100%;
+}
+
+body.account-page strong {
+  font-weight: 600;
+  color: #f2f7ff;
+}
+
+body.account-page ::selection {
+  background: #346aeb;
+  color: #fff;
+}
+
+body.account-page :focus-visible {
+  outline: 2px solid var(--account-accent);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Topbar: Home-style brand, five public links, language switcher
+   -------------------------------------------------------------------------- */
+
+body.account-page .account-topbar {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  min-width: 0;
+  padding: 14px clamp(16px, 2.5vw, 36px);
+  background: var(--account-bg);
+  border-bottom: 1px solid var(--account-line);
+  box-shadow: none;
+}
+
+body.account-page .account-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 44px;
+  color: #f6f9ff;
+  font: 600 24px/1 var(--account-font);
+  letter-spacing: -.055em;
+  white-space: nowrap;
+  transition: color .18s ease;
+}
+
+body.account-page .account-brand img {
+  display: block;
+  width: 60px;
+  height: 36px;
+  flex: none;
+  object-fit: contain;
+}
+
+body.account-page .account-brand span {
+  display: inline-block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.account-page .account-brand:hover {
+  color: #fff;
+}
+
+body.account-page .account-site-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-left: auto;
+  min-width: 0;
+}
+
+body.account-page .account-site-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: var(--account-muted);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  transition: color .16s ease, background-color .16s ease;
+}
+
+body.account-page .account-site-nav a::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  bottom: 5px;
+  left: 12px;
+  height: 1px;
+  background: var(--account-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .22s cubic-bezier(.22, 1, .36, 1);
+}
+
+body.account-page .account-site-nav a:hover,
+body.account-page .account-site-nav a[aria-current='page'] {
+  color: #f2f7ff;
+  background: rgba(114, 158, 255, .08);
+}
+
+body.account-page .account-site-nav a:hover::after,
+body.account-page .account-site-nav a[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+body.account-page .account-topbar .language-switcher {
+  flex: 0 0 auto;
+  margin-left: 4px;
+  padding: 3px;
+  border-color: var(--account-line);
+  background: rgba(8, 14, 23, .78);
+  box-shadow: none;
+}
+
+body.account-page .language-switcher button {
+  width: 30px;
+  height: 30px;
+  color: var(--account-muted);
+  font: 500 11px/1 var(--account-mono);
+}
+
+body.account-page .language-switcher button:hover {
+  color: #f2f7ff;
+  background: rgba(114, 158, 255, .14);
+}
+
+body.account-page .language-switcher button[aria-pressed='true'] {
+  color: #f7faff;
+  background: var(--account-accent-strong);
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Layout and sidebar
+   -------------------------------------------------------------------------- */
+
+body.account-page .layout {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  min-height: calc(100vh - var(--account-topbar-height));
+  /* Paint the sidebar column for the full layout height so the sticky menu
+     never leaves a short background/right-border stub on tall pages. */
+  background: none;
+}
+
+body.account-page .layout::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 248px;
+  background: var(--account-surface);
+  border-right: 1px solid var(--account-line);
+  pointer-events: none;
+}
+
+body.account-page .sidebar {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  align-self: flex-start;
+  flex: 0 0 248px;
+  width: 248px;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: 24px 16px 28px;
+  background: var(--account-surface);
+  border-right: 1px solid var(--account-line);
+  box-shadow: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(114, 158, 255, .3) transparent;
+}
+
+body.account-page .sidebar .section {
+  margin-bottom: 18px;
+  min-width: 0;
+}
+
+body.account-page .sidebar .section:first-child h3:first-child {
+  margin-top: 0;
+}
+
+body.account-page .sidebar h3 {
+  margin: 16px 0 6px;
+  padding: 0 10px;
+  color: #8a9bb2;
+  font: 500 10px/1.8 var(--account-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+body.account-page .sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-bottom: 2px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #a9bbd2;
+  font-size: 13.5px;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+}
+
+body.account-page .sidebar a:hover {
+  border-color: rgba(114, 158, 255, .18);
+  background: rgba(114, 158, 255, .08);
+  color: #eaf2ff;
+}
+
+body.account-page .sidebar a.active,
+body.account-page .sidebar a[aria-current='page'] {
+  border-color: rgba(114, 158, 255, .36);
+  background: rgba(52, 106, 235, .18);
+  box-shadow: inset 3px 0 0 var(--account-accent);
+  color: #f1f6ff;
+}
+
+/* The shell keeps the brand in the topbar only; defensive for stale markup. */
+body.account-page .sidebar .brand,
+body.account-page .sidebar .plan-badge {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Main column and page headings
+   -------------------------------------------------------------------------- */
+
+body.account-page .main {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 32px 40px 56px;
+}
+
+body.account-page .main > h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  margin: 0 0 8px;
+  color: #f6f9ff;
+  font-size: clamp(24px, 2.4vw, 30px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .main > h1::before {
+  content: '';
+  width: 4px;
+  height: .92em;
+  flex: none;
+  border-radius: 2px;
+  background: var(--account-accent);
+  box-shadow: none;
+}
+
+body.account-page .main > .sub {
+  margin: 0 0 26px;
+  max-width: 72ch;
+  color: var(--account-muted);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------------
+   Cards and dashboard rows
+   -------------------------------------------------------------------------- */
+
+body.account-page .card {
+  position: relative;
+  margin: 0 0 20px;
+  padding: 24px;
+  border: 1px solid var(--account-line);
+  border-radius: var(--account-radius);
+  background: var(--account-surface);
+  box-shadow: var(--account-shadow);
+  overflow-wrap: break-word;
+}
+
+body.account-page .card h2 {
+  margin: 0 0 16px;
+  color: #f0f6ff;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -.012em;
+}
+
+body.account-page .card p {
+  margin: 0 0 14px;
+  color: var(--account-muted);
+  font-size: 13.5px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .card p:last-child {
+  margin-bottom: 0;
+}
+
+body.account-page .subscription-card {
+  border-color: rgba(114, 158, 255, .32);
+  background: #10203a;
+}
+
+body.account-page .subscription-card:not(.card) {
+  position: relative;
+  margin: 0 0 20px;
+  padding: 24px;
+  border: 1px solid rgba(114, 158, 255, .32);
+  border-radius: var(--account-radius);
+  box-shadow: var(--account-shadow);
+  overflow-wrap: break-word;
+}
+
+body.account-page .subscription-card h2 {
+  margin-bottom: 6px;
+}
+
+body.account-page .plan-summary {
+  margin: 0;
+  color: var(--account-muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+body.account-page .card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  min-width: 0;
+}
+
+body.account-page .card-row > * {
+  min-width: 0;
+}
+
+body.account-page .action-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-width: 0;
+}
+
+body.account-page .action-row .btn {
+  flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   KPI grid
+   -------------------------------------------------------------------------- */
+
+body.account-page .kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  gap: 14px;
+  margin: 0 0 24px;
+}
+
+body.account-page .kpi {
+  position: relative;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--account-line);
+  border-radius: 12px;
+  background: var(--account-surface-raised);
+  box-shadow: var(--account-shadow);
+  overflow-wrap: anywhere;
+}
+
+body.account-page .kpi label {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--account-muted);
+  font: 500 10.5px/1.5 var(--account-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+body.account-page .kpi .value {
+  color: #f4f8ff;
+  font-size: clamp(24px, 2.4vw, 29px);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .kpi .unit {
+  margin-top: 4px;
+  color: var(--account-subtle);
+  font: 400 11.5px/1.6 var(--account-mono);
+}
+
+/* --------------------------------------------------------------------------
+   Info grid, badges and progress
+   -------------------------------------------------------------------------- */
+
+body.account-page .info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+
+body.account-page .info-item {
+  min-width: 0;
+}
+
+body.account-page .info-item label {
+  display: block;
+  margin: 0 0 4px;
+  color: var(--account-subtle);
+  font: 500 10px/1.7 var(--account-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+body.account-page .info-item p {
+  margin: 0;
+  color: #dbe6f5;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 10px;
+  border: 1px solid var(--account-line);
+  border-radius: 999px;
+  background: rgba(148, 178, 214, .1);
+  color: #c7d5e8;
+  font: 500 11px/1.5 var(--account-mono);
+  letter-spacing: .04em;
+  text-transform: capitalize;
+}
+
+body.account-page .badge-active,
+body.account-page .badge-paid {
+  border-color: rgba(45, 212, 167, .34);
+  background: rgba(45, 212, 167, .1);
+  color: #8df0cf;
+}
+
+body.account-page .badge-free {
+  border-color: rgba(114, 158, 255, .34);
+  background: rgba(114, 158, 255, .12);
+  color: #a9c8ff;
+}
+
+body.account-page .badge-canceled,
+body.account-page .badge-expired {
+  border-color: rgba(155, 181, 210, .2);
+  background: rgba(155, 181, 210, .08);
+  color: var(--account-muted);
+}
+
+body.account-page .badge-past_due,
+body.account-page .badge-incomplete,
+body.account-page .badge-unpaid {
+  border-color: rgba(255, 180, 84, .36);
+  background: rgba(255, 180, 84, .1);
+  color: #ffcf8a;
+}
+
+body.account-page .progress-bar {
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: rgba(148, 178, 214, .14);
+  overflow: hidden;
+}
+
+body.account-page .progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--account-accent-strong);
+  transition: width .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Forms
+   -------------------------------------------------------------------------- */
+
+body.account-page .form-card,
+body.account-page .account-details-card,
+body.account-page .danger-zone {
+  max-width: 960px;
+}
+
+body.account-page .form-group {
+  margin: 0 0 16px;
+  min-width: 0;
+}
+
+body.account-page .form-group > label {
+  display: block;
+  margin: 0 0 6px;
+  color: #c7d5e8;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+body.account-page .form-group input[type='hidden'] {
+  display: none;
+}
+
+body.account-page .form-group input,
+body.account-page .form-group select,
+body.account-page .form-group textarea {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid rgba(155, 181, 210, .3);
+  border-radius: 9px;
+  background: #0a121e;
+  color: var(--account-ink);
+  font: 400 14px/1.5 var(--account-font);
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+body.account-page .form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+body.account-page .form-group input:hover,
+body.account-page .form-group select:hover,
+body.account-page .form-group textarea:hover {
+  border-color: rgba(114, 158, 255, .3);
+}
+
+body.account-page .form-group input:focus,
+body.account-page .form-group select:focus,
+body.account-page .form-group textarea:focus {
+  outline: none;
+  border-color: var(--account-accent);
+  background: rgba(6, 12, 21, .92);
+  box-shadow: 0 0 0 3px rgba(114, 158, 255, .18);
+}
+
+body.account-page .form-group input::placeholder,
+body.account-page .form-group textarea::placeholder {
+  color: var(--account-subtle);
+}
+
+body.account-page .form-group input:disabled,
+body.account-page .form-group select:disabled,
+body.account-page .form-group textarea:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+body.account-page .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 18px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: var(--account-accent-strong);
+  color: #fff;
+  font: 600 13px/1.4 var(--account-font);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .12s ease;
+}
+
+body.account-page a.btn,
+body.account-page button.btn {
+  cursor: pointer;
+}
+
+body.account-page span.btn {
+  cursor: default;
+}
+
+body.account-page .btn:hover {
+  background: #2858c8;
+  box-shadow: none;
+}
+
+body.account-page .btn:active {
+  transform: translateY(1px);
+}
+
+body.account-page .btn-outline {
+  border-color: var(--account-line);
+  background: rgba(19, 31, 47, .7);
+  color: #dbe6f5;
+  box-shadow: none;
+}
+
+body.account-page .btn-outline:hover {
+  border-color: var(--account-line-strong);
+  background: rgba(114, 158, 255, .12);
+  color: #fff;
+}
+
+body.account-page .btn-danger {
+  border-color: rgba(255, 122, 141, .4);
+  background: #c5293e;
+  color: #fff;
+  box-shadow: none;
+}
+
+body.account-page .btn-danger:hover {
+  background: #a92035;
+  box-shadow: none;
+}
+
+body.account-page .btn-current {
+  border-color: rgba(114, 158, 255, .32);
+  background: rgba(114, 158, 255, .12);
+  color: #a9c8ff;
+  box-shadow: none;
+}
+
+body.account-page .btn-current:hover {
+  background: rgba(114, 158, 255, .12);
+  box-shadow: none;
+}
+
+body.account-page .btn-contact {
+  background: #6d3fe0;
+  box-shadow: none;
+}
+
+body.account-page .btn-contact:hover {
+  background: #5930bd;
+}
+
+/* --------------------------------------------------------------------------
+   Alerts
+   -------------------------------------------------------------------------- */
+
+body.account-page .alert {
+  display: block;
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--account-line);
+  border-left: 3px solid var(--account-accent);
+  border-radius: 10px;
+  background: rgba(114, 158, 255, .08);
+  color: #c7d9f7;
+  font-size: 13.5px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .alert-info {
+  border-color: rgba(114, 158, 255, .3);
+  border-left-color: var(--account-accent);
+  background: rgba(52, 106, 235, .12);
+  color: #bcd4ff;
+}
+
+body.account-page .alert-success {
+  border-color: rgba(45, 212, 167, .3);
+  border-left-color: var(--account-success);
+  background: rgba(45, 212, 167, .1);
+  color: #8df0cf;
+}
+
+body.account-page .alert-error,
+body.account-page .alert-danger {
+  border-color: rgba(255, 122, 141, .34);
+  border-left-color: var(--account-danger);
+  background: rgba(255, 122, 141, .1);
+  color: #ffb9c4;
+}
+
+body.account-page .alert-warning {
+  border-color: rgba(255, 180, 84, .34);
+  border-left-color: var(--account-warning);
+  background: rgba(255, 180, 84, .1);
+  color: #ffcf8a;
+}
+
+body.account-page .alert-debug {
+  border-color: rgba(155, 181, 210, .24);
+  border-left-color: var(--account-subtle);
+  background: rgba(155, 181, 210, .08);
+  color: var(--account-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Plan cards
+   -------------------------------------------------------------------------- */
+
+body.account-page .plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+body.account-page .plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--account-line);
+  border-radius: var(--account-radius);
+  background: var(--account-surface);
+  box-shadow: var(--account-shadow);
+  overflow-wrap: break-word;
+}
+
+body.account-page .plan-card.featured {
+  border-color: rgba(114, 158, 255, .55);
+  box-shadow: none;
+}
+
+body.account-page .plan-card.enterprise {
+  border-color: rgba(167, 139, 250, .45);
+  background: #121a2c;
+}
+
+body.account-page .plan-card h3 {
+  margin: 0 0 8px;
+  color: #f2f7ff;
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+
+body.account-page .plan-price {
+  margin: 0 0 4px;
+  color: #f7faff;
+  font-size: clamp(32px, 3vw, 38px);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .plan-period {
+  margin: 0 0 18px;
+  color: var(--account-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+body.account-page .plan-tokens {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  max-width: 100%;
+  margin: 0 0 20px;
+  padding: 7px 12px;
+  border: 1px solid rgba(114, 158, 255, .24);
+  border-radius: 8px;
+  background: rgba(52, 106, 235, .14);
+  color: #a9c8ff;
+  font: 500 12px/1.5 var(--account-mono);
+  overflow-wrap: anywhere;
+}
+
+body.account-page .plan-features {
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+body.account-page .plan-features li {
+  position: relative;
+  padding: 9px 0 9px 24px;
+  border-bottom: 1px solid rgba(155, 181, 210, .1);
+  color: #c7d5e8;
+  font-size: 13.5px;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+body.account-page .plan-features li:last-child {
+  border-bottom: 0;
+}
+
+body.account-page .plan-features li::before {
+  content: '\2713';
+  position: absolute;
+  top: 8px;
+  left: 0;
+  color: var(--account-success);
+  font-weight: 600;
+}
+
+body.account-page .plan-card .btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+body.account-page .plan-badge {
+  position: absolute;
+  top: -11px;
+  right: 20px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--account-accent-strong);
+  color: #fff;
+  font: 600 10px/1.5 var(--account-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Danger zone
+   -------------------------------------------------------------------------- */
+
+body.account-page .danger-zone {
+  border-color: rgba(255, 122, 141, .38);
+  background: #1b141d;
+}
+
+body.account-page .danger-zone h2 {
+  color: #ffb3be;
+}
+
+body.account-page .danger-zone p {
+  margin-bottom: 16px;
+  color: #d4afb8;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive layout
+   account.css loads after i18n.css, so these rules deliberately override the
+   legacy account mobile block (sidebar flex-wrap, standalone-switcher padding,
+   two-column KPI fix, block tables) without editing i18n.css.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  body.account-page .main {
+    padding: 28px 28px 48px;
+  }
+
+  body.account-page .account-topbar {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  body.account-page .account-topbar {
+    gap: 8px 12px;
+    padding: 12px 16px;
+  }
+
+  body.account-page .account-brand {
+    font-size: 20px;
+  }
+
+  body.account-page .account-topbar .language-switcher {
+    order: 2;
+    margin-left: auto;
+  }
+
+  body.account-page .language-switcher button {
+    width: 44px;
+    height: 44px;
+    font-size: 12px;
+  }
+
+  body.account-page .account-site-nav {
+    order: 3;
+    flex: 1 0 100%;
+    flex-wrap: nowrap;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    padding: 2px 0 4px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(114, 158, 255, .35) transparent;
+  }
+
+  body.account-page .account-site-nav a {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  body.account-page .account-site-nav a::after {
+    right: 12px;
+    bottom: 7px;
+    left: 12px;
+  }
+
+  body.account-page .layout {
+    display: block;
+    min-height: 0;
+    background: none;
+  }
+
+  body.account-page .layout::before {
+    display: none;
+  }
+
+  /* Explicit override of the legacy i18n.css flex-wrap sidebar. */
+  body.account-page .sidebar {
+    position: static;
+    display: block;
+    flex: none;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding: 10px 16px 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--account-line);
+  }
+
+  body.account-page .sidebar .section {
+    flex: none;
+    margin-bottom: 10px;
+  }
+
+  body.account-page .sidebar .section:last-child {
+    margin-bottom: 0;
+  }
+
+  body.account-page .sidebar h3 {
+    margin: 10px 0 4px;
+    padding: 0 2px;
+  }
+
+  body.account-page .sidebar a {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  body.account-page .main {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+    padding: 24px 20px 48px;
+  }
+
+  body.account-page .main > h1 {
+    font-size: 24px;
+  }
+
+  body.account-page .main > .sub {
+    margin-bottom: 20px;
+    font-size: 13.5px;
+  }
+
+  body.account-page .card {
+    margin-bottom: 16px;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  body.account-page .subscription-card:not(.card) {
+    margin-bottom: 16px;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  body.account-page .kpi-grid {
+    /* Deliberately replaces the legacy two-column fix with the new rhythm. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  body.account-page .kpi {
+    padding: 16px;
+  }
+
+  body.account-page .kpi .value {
+    font-size: 24px;
+  }
+
+  body.account-page .info-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  body.account-page .plans-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  body.account-page .plan-card {
+    padding: 22px;
+  }
+
+  body.account-page .card-row {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  body.account-page .action-row {
+    gap: 10px;
+  }
+
+  body.account-page .btn {
+    min-height: 44px;
+  }
+
+  /* Legacy i18n.css turns every account table into a scrolling block. */
+  body.account-page .main table {
+    display: table;
+    overflow-x: visible;
+  }
+}
+
+@media (max-width: 420px) {
+  body.account-page .main {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  body.account-page .account-topbar {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  body.account-page .card,
+  body.account-page .subscription-card:not(.card) {
+    padding: 18px;
+  }
+
+  body.account-page .plan-card {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.account-page *,
+  body.account-page *::before,
+  body.account-page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

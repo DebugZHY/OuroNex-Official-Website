@@ -8,6 +8,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 I18N = ROOT / 'assets' / 'i18n'
 FILES = sorted(ROOT.glob('*.html')) + sorted((ROOT / 'news').glob('*.html')) + sorted((ROOT / 'backend' / 'templates').glob('**/*.html'))
+FILES = [path for path in FILES if not path.name.startswith('_')]
 KEY_REFERENCE = re.compile(r'\bdata-i18n(?:-(?:content|alt|aria-label|placeholder|title|value))?="([^"]+)"')
 PAGE = re.compile(r'\bdata-i18n-page="([^"]+)"')
 SCRIPT = re.compile(r'<script[^>]+src="([^"]+)"')

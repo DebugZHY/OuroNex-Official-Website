@@ -527,11 +527,11 @@
       });
       var metricLabels = currentMetricLabels();
       var totalLabel = currentTotalLabel();
-      var padLeft = 56, padRight = 12, padTop = 10, padBottom = 30, chartHeight = 220;
-      var availableWidth = Math.max(els.chart.clientWidth || 0, 420);
-      var width = Math.max(availableWidth, padLeft + padRight + groups.length * 40);
+      var padLeft = 48, padRight = 8, padTop = 10, padBottom = 30, chartHeight = 220;
+      var availableWidth = Math.max(els.chart.clientWidth || 0, 280);
+      var width = Math.max(availableWidth, padLeft + padRight + groups.length * 34);
       var slot = (width - padLeft - padRight) / groups.length;
-      var barWidth = Math.max(26, Math.min(64, slot * .48));
+      var barWidth = Math.max(24, Math.min(64, slot * .48));
       var gap = slot - barWidth;
       var height = chartHeight + padTop + padBottom;
       var dayTotals = groups.map(function (group) {

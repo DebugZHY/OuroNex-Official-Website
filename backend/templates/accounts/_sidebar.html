@@ -1,0 +1,16 @@
+<nav aria-label="Account navigation" class="sidebar" data-i18n-aria-label="account-dashboard.account.85dfa3">
+<div class="section">
+<a class="{% if account_nav == 'dashboard' %}active{% endif %}" {% if account_nav == 'dashboard' %}aria-current="page"{% endif %} href="/dashboard/"><span data-i18n="account-dashboard.dashboard.d87f47">Dashboard</span></a>
+<a class="{% if account_nav == 'profile' %}active{% endif %}" {% if account_nav == 'profile' %}aria-current="page"{% endif %} href="/profile/"><span data-i18n="account-dashboard.profile.ff4fc0">Profile</span></a>
+<a class="{% if account_nav == 'security' %}active{% endif %}" {% if account_nav == 'security' %}aria-current="page"{% endif %} href="/profile/security/"><span data-i18n="account-dashboard.security.f25ce1">Security</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-dashboard.subscription.8fde48">Subscription</span></h3>
+<a class="{% if account_nav == 'pricing' %}active{% endif %}" {% if account_nav == 'pricing' %}aria-current="page"{% endif %} href="/pricing/"><span data-i18n="account-dashboard.plans.cf2e5f">Plans</span></a>
+<a class="{% if account_nav == 'usage' %}active{% endif %}" {% if account_nav == 'usage' %}aria-current="page"{% endif %} href="/dashboard/usage/"><span data-i18n="account-dashboard.usage.0bb186">Usage</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-dashboard.account.85dfa3">Account</span></h3>
+<a href="/logout/"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></a>
+</div>
+</nav>

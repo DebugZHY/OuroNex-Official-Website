@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title data-i18n-dynamic>Token Usage — OuroNex</title>
 <link href="/assets/i18n.css" rel="stylesheet"/>
+<link href="/assets/account.css" rel="stylesheet"/>
 <link href="/assets/token-usage.css" rel="stylesheet"/>
 <script defer src="/assets/i18n/shared.js"></script>
 <script defer src="/assets/i18n/dynamic.js"></script>
@@ -13,34 +14,11 @@
 <script defer src="/assets/i18n.js"></script>
 <script defer src="/assets/token-usage.js"></script>
 </head>
-<body class="token-usage-page" data-i18n-page="account-dashboard">
-<div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group">
-<button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button>
-<button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button>
-<button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button>
-</div>
+<body class="account-page" data-i18n-page="account-dashboard">
+{% include 'accounts/_topbar.html' %}
 <div class="layout">
-<nav class="sidebar">
-<div class="section">
-<div class="brand"><span data-i18n="account-dashboard.ouronex.3343a9">OuroNex</span></div>
-<a href="/dashboard/"><span data-i18n="account-dashboard.dashboard.d87f47">Dashboard</span></a>
-<a href="/profile/"><span data-i18n="account-dashboard.profile.ff4fc0">Profile</span></a>
-<a href="/profile/security/"><span data-i18n="account-dashboard.security.f25ce1">Security</span></a>
-</div>
-<div class="section">
-<h3><span data-i18n="account-dashboard.subscription.8fde48">Subscription</span></h3>
-<a href="/pricing/"><span data-i18n="account-dashboard.plans.cf2e5f">Plans</span></a>
-<a class="active" aria-current="page" href="/dashboard/usage/"><span data-i18n-dynamic>Token Usage</span></a>
-{% if subscription %}
-<div class="plan-badge" data-user-input>{{ subscription.plan.display_name }}</div>
-{% endif %}
-</div>
-<div class="section">
-<h3><span data-i18n="account-dashboard.account.85dfa3">Account</span></h3>
-<a href="/logout/"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></a>
-</div>
-</nav>
-<div class="main">
+{% include 'accounts/_sidebar.html' with account_nav='usage' %}
+<main class="main">
 <div aria-busy="true" class="token-usage-board" data-state="loading" id="token-usage-board">
 <header class="tu-header">
 <div class="tu-heading">
@@ -101,7 +79,7 @@
 <div aria-labelledby="tu-tab-session" class="is-hidden" id="tu-panel-session" role="tabpanel"></div>
 </section>
 </div>
-</div>
+</main>
 </div>
 </body>
 </html>

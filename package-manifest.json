@@ -383,13 +383,18 @@
     },
     {
       "path": "assets/token-usage.css",
-      "bytes": 23316,
-      "sha256": "e4414284d270e619870a9fd820e0fd32658fbe588e3d4ddc76316f50887210b9"
+      "bytes": 18863,
+      "sha256": "2ab4d2c551fea4c40a147cb6aec7c0f251f427f8241026a0f0a5f31952083139"
     },
     {
       "path": "assets/token-usage.js",
-      "bytes": 37000,
-      "sha256": "227cc047fca61535ecae47e986ee2dbf1dda913344f143a7ca32446700d16d37"
+      "bytes": 36999,
+      "sha256": "96c3a6364d20c26563278fbf6544713022612a3427eea00d376211d391819d54"
+    },
+    {
+      "path": "assets/account.css",
+      "bytes": 28373,
+      "sha256": "829100cdca59e21d706f056cf917031b2294730384de26eb30f7d54c13011cc2"
     }
   ]
 }
