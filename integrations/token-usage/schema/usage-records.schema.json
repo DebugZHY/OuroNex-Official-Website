@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OuroNex token usage batch",
+  "description": "Request body for POST /api/v1/usage/. External applications aggregate token usage themselves and submit already-final counters; this schema never derives or counts tokens.",
+  "type": "object",
+  "required": ["records"],
+  "additionalProperties": false,
+  "properties": {
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 500,
+      "description": "One batch is validated and applied atomically: either every record is written or none is.",
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": ["day", "model", "sessionId", "calls", "input", "output", "cacheWrite", "cacheRead"],
+      "additionalProperties": false,
+      "description": "Identity is user + source + day + model + sessionId. Re-submitting the same identity replaces every counter and the title; it never increments.",
+      "properties": {
+        "day": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "description": "Local calendar date in ISO form, YYYY-MM-DD."
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "\\S",
+          "description": "Model name exactly as the external application reports it."
+        },
+        "sessionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S",
+          "description": "Session identifier chosen by the external application."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 255,
+          "default": "",
+          "description": "Optional human-readable session title. User content: never translated or rewritten."
+        },
+        "calls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807,
+          "description": "Number of calls in this record. Calls are not part of the token total."
+        },
+        "input": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807,
+          "description": "Input tokens."
+        },
+        "output": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807,
+          "description": "Output tokens."
+        },
+        "cacheWrite": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807,
+          "description": "Cache-write tokens."
+        },
+        "cacheRead": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9223372036854775807,
+          "description": "Cache-read tokens."
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S",
+          "default": "external",
+          "description": "Optional source label; defaults to external. Part of the idempotency identity."
+        }
+      }
+    }
+  }
+}

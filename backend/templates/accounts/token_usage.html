@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n-dynamic>Token Usage — OuroNex</title>
+<link href="/assets/i18n.css" rel="stylesheet"/>
+<link href="/assets/token-usage.css" rel="stylesheet"/>
+<script defer src="/assets/i18n/shared.js"></script>
+<script defer src="/assets/i18n/dynamic.js"></script>
+<script defer src="/assets/i18n/account-dashboard.js"></script>
+<script defer src="/assets/i18n.js"></script>
+<script defer src="/assets/token-usage.js"></script>
+</head>
+<body class="token-usage-page" data-i18n-page="account-dashboard">
+<div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group">
+<button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button>
+<button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button>
+<button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button>
+</div>
+<div class="layout">
+<nav class="sidebar">
+<div class="section">
+<div class="brand"><span data-i18n="account-dashboard.ouronex.3343a9">OuroNex</span></div>
+<a href="/dashboard/"><span data-i18n="account-dashboard.dashboard.d87f47">Dashboard</span></a>
+<a href="/profile/"><span data-i18n="account-dashboard.profile.ff4fc0">Profile</span></a>
+<a href="/profile/security/"><span data-i18n="account-dashboard.security.f25ce1">Security</span></a>
+</div>
+<div class="section">
+<h3><span data-i18n="account-dashboard.subscription.8fde48">Subscription</span></h3>
+<a href="/pricing/"><span data-i18n="account-dashboard.plans.cf2e5f">Plans</span></a>
+<a class="active" aria-current="page" href="/dashboard/usage/"><span data-i18n-dynamic>Token Usage</span></a>
+{% if subscription %}
+<div class="plan-badge" data-user-input>{{ subscription.plan.display_name }}</div>
+{% endif %}
+</div>
+<div class="section">
+<h3><span data-i18n="account-dashboard.account.85dfa3">Account</span></h3>
+<a href="/logout/"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></a>
+</div>
+</nav>
+<div class="main">
+<div aria-busy="true" class="token-usage-board" data-state="loading" id="token-usage-board">
+<header class="tu-header">
+<div class="tu-heading">
+<h1 class="tu-title"><span data-i18n-dynamic>Token Usage</span></h1>
+<p class="tu-lede"><span data-i18n-dynamic>Daily token consumption across your models and sessions</span></p>
+</div>
+<div class="tu-header-actions">
+<span aria-live="polite" class="tu-status" id="tu-status" role="status"><span data-i18n-dynamic>Loading usage data…</span></span>
+<button aria-busy="false" class="tu-btn tu-refresh" id="tu-refresh" type="button">
+<svg aria-hidden="true" fill="none" focusable="false" height="14" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16" width="14">
+<path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9" stroke-linecap="round"></path>
+<path d="M13.7 1.8v2.8h-2.8" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span data-i18n-dynamic>Refresh</span>
+</button>
+</div>
+</header>
+<div class="tu-alert is-hidden" id="tu-error" role="alert"></div>
+<span class="tu-visually-hidden" data-i18n-dynamic id="tu-filters-label">Filters</span>
+<section aria-labelledby="tu-filters-label" class="tu-toolbar">
+<span class="tu-visually-hidden" data-i18n-dynamic id="tu-range-label">Time range</span>
+<div aria-labelledby="tu-range-label" class="tu-segmented" id="tu-range" role="group">
+<button aria-pressed="false" data-range="today" type="button"><span data-i18n-dynamic>Today</span></button>
+<button aria-pressed="true" data-range="7d" type="button"><span data-i18n-dynamic>Last 7 days</span></button>
+<button aria-pressed="false" data-range="30d" type="button"><span data-i18n-dynamic>Last 30 days</span></button>
+<button aria-pressed="false" data-range="all" type="button"><span data-i18n-dynamic>All</span></button>
+</div>
+<div class="tu-field">
+<label data-i18n-dynamic for="tu-model">Model</label>
+<select class="tu-select" id="tu-model"><option data-i18n-dynamic value="">All models</option></select>
+</div>
+<div class="tu-field">
+<label data-i18n-dynamic for="tu-session">Session</label>
+<select class="tu-select" id="tu-session"><option data-i18n-dynamic value="">All sessions</option></select>
+</div>
+</section>
+<span class="tu-visually-hidden" data-i18n-dynamic id="tu-kpis-label">Usage overview</span>
+<section aria-labelledby="tu-kpis-label" class="tu-kpis" id="tu-kpis"></section>
+<section aria-labelledby="tu-chart-title" class="tu-panel">
+<div class="tu-panel-head">
+<h2 id="tu-chart-title"><span data-i18n-dynamic>Daily trend</span></h2>
+<span class="tu-visually-hidden" data-i18n-dynamic id="tu-metrics-label">Chart metrics</span>
+<div aria-labelledby="tu-metrics-label" class="tu-metrics" id="tu-metrics" role="group"></div>
+</div>
+<span class="tu-visually-hidden" data-i18n-dynamic id="tu-chart-label">Daily token usage chart</span>
+<div aria-labelledby="tu-chart-label" class="tu-chart-scroll" id="tu-chart" role="group" tabindex="0"></div>
+</section>
+<span class="tu-visually-hidden" data-i18n-dynamic id="tu-details-label">Usage details</span>
+<section aria-labelledby="tu-details-label" class="tu-panel">
+<span class="tu-visually-hidden" data-i18n-dynamic id="tu-tabs-label">Detail views</span>
+<div aria-labelledby="tu-tabs-label" class="tu-tabs" id="tu-tabs" role="tablist">
+<button aria-controls="tu-panel-day" aria-selected="true" id="tu-tab-day" role="tab" tabindex="0" type="button"><span data-i18n-dynamic>By day</span></button>
+<button aria-controls="tu-panel-model" aria-selected="false" id="tu-tab-model" role="tab" tabindex="-1" type="button"><span data-i18n-dynamic>By model</span></button>
+<button aria-controls="tu-panel-session" aria-selected="false" id="tu-tab-session" role="tab" tabindex="-1" type="button"><span data-i18n-dynamic>By session</span></button>
+</div>
+<div aria-labelledby="tu-tab-day" id="tu-panel-day" role="tabpanel"></div>
+<div aria-labelledby="tu-tab-model" class="is-hidden" id="tu-panel-model" role="tabpanel"></div>
+<div aria-labelledby="tu-tab-session" class="is-hidden" id="tu-panel-session" role="tabpanel"></div>
+</section>
+</div>
+</div>
+</div>
+</body>
+</html>

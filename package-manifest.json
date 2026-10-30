@@ -258,8 +258,8 @@
     },
     {
       "path": "assets/i18n/account-dashboard.js",
-      "bytes": 3889,
-      "sha256": "b51ef403fe50be432caf86ad61991862f79a4c7579b51f2b4f0dcca02facaca2"
+      "bytes": 12259,
+      "sha256": "4709761b412455633cb62cef2f84370a8db759d646d2398b97826e857f1162f5"
     },
     {
       "path": "assets/i18n/account-login.js",
@@ -380,6 +380,16 @@
       "path": "pricing.html",
       "bytes": 15556,
       "sha256": "1e8171fa7e82d999d142ea892b8895818e740eb2081657c1f05b49b50355a328"
+    },
+    {
+      "path": "assets/token-usage.css",
+      "bytes": 23316,
+      "sha256": "e4414284d270e619870a9fd820e0fd32658fbe588e3d4ddc76316f50887210b9"
+    },
+    {
+      "path": "assets/token-usage.js",
+      "bytes": 37000,
+      "sha256": "227cc047fca61535ecae47e986ee2dbf1dda913344f143a7ca32446700d16d37"
     }
   ]
 }

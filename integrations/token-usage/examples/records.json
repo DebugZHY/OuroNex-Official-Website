@@ -1,0 +1,52 @@
+{
+  "records": [
+    {
+      "day": "2026-10-01",
+      "model": "synthetic-model-alpha",
+      "sessionId": "synthetic-session-001",
+      "title": "Synthetic example - research chat",
+      "calls": 12,
+      "input": 8400,
+      "output": 3200,
+      "cacheWrite": 900,
+      "cacheRead": 1500,
+      "source": "external"
+    },
+    {
+      "day": "2026-10-01",
+      "model": "synthetic-model-beta",
+      "sessionId": "synthetic-session-001",
+      "title": "",
+      "calls": 4,
+      "input": 2100,
+      "output": 700,
+      "cacheWrite": 0,
+      "cacheRead": 300,
+      "source": "external"
+    },
+    {
+      "day": "2026-10-02",
+      "model": "synthetic-model-alpha",
+      "sessionId": "synthetic-session-002",
+      "title": "Synthetic example - batch summarisation",
+      "calls": 9,
+      "input": 5600,
+      "output": 1900,
+      "cacheWrite": 1200,
+      "cacheRead": 800,
+      "source": "external"
+    },
+    {
+      "day": "2026-10-02",
+      "model": "synthetic-model-beta",
+      "sessionId": "synthetic-session-002",
+      "title": "Synthetic example - second session",
+      "calls": 3,
+      "input": 1200,
+      "output": 450,
+      "cacheWrite": 0,
+      "cacheRead": 150,
+      "source": "external"
+    }
+  ]
+}

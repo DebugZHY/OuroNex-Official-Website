@@ -1,0 +1,1009 @@
+/* ==========================================================================
+   OuroNex account — token usage board
+   Loaded only by backend/templates/accounts/token_usage.html.
+   Board selectors are namespaced under .token-usage-board; the account shell
+   is scoped to body.token-usage-page so no style can leak into other pages.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/manrope-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/manrope-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/manrope-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/manrope-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ibm-plex-mono-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'ONX Board Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/ibm-plex-mono-500.woff2') format('woff2');
+}
+
+/* --------------------------------------------------------------------------
+   Account shell (same structure as the existing account sidebar/markup)
+   -------------------------------------------------------------------------- */
+
+body.token-usage-page {
+  color-scheme: dark;
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(880px 520px at 82% -12%, rgba(52, 106, 235, .22), transparent 66%),
+    radial-gradient(680px 420px at 2% 8%, rgba(56, 214, 255, .08), transparent 62%),
+    #080e17;
+  color: #edf2f8;
+  font: 400 14px/1.65 'ONX Board', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.token-usage-page *,
+body.token-usage-page *::before,
+body.token-usage-page *::after {
+  box-sizing: border-box;
+}
+
+body.token-usage-page .layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+body.token-usage-page .sidebar {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  flex: 0 0 248px;
+  width: 248px;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 26px 16px 24px;
+  background: linear-gradient(180deg, rgba(13, 22, 35, .97), rgba(8, 14, 23, .97));
+  border-right: 1px solid rgba(155, 181, 210, .12);
+  box-shadow: inset -1px 0 0 rgba(114, 158, 255, .05);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(114, 158, 255, .3) transparent;
+}
+
+body.token-usage-page .sidebar .section {
+  margin-bottom: 18px;
+}
+
+body.token-usage-page .sidebar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px 20px;
+  color: #f6f9ff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+body.token-usage-page .sidebar .brand::before {
+  content: '';
+  width: 9px;
+  height: 18px;
+  flex: none;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #8fb6ff, #346aeb);
+  box-shadow: 0 0 16px rgba(114, 158, 255, .7);
+}
+
+body.token-usage-page .sidebar h3 {
+  margin: 16px 0 6px;
+  padding: 0 10px;
+  color: #64748b;
+  font: 500 10px/1.8 'ONX Board Mono', Consolas, monospace;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+body.token-usage-page .sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #a9bbd2;
+  font-size: 13.5px;
+  text-decoration: none;
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+}
+
+body.token-usage-page .sidebar a:hover {
+  border-color: rgba(114, 158, 255, .18);
+  background: rgba(114, 158, 255, .08);
+  color: #eaf2ff;
+}
+
+body.token-usage-page .sidebar a.active {
+  border-color: rgba(114, 158, 255, .36);
+  background: linear-gradient(90deg, rgba(52, 106, 235, .32), rgba(52, 106, 235, .08));
+  box-shadow: inset 2px 0 0 #729eff;
+  color: #f1f6ff;
+}
+
+body.token-usage-page .sidebar .plan-badge {
+  display: inline-block;
+  margin: 10px 10px 0;
+  padding: 4px 10px;
+  border: 1px solid rgba(114, 158, 255, .3);
+  border-radius: 999px;
+  background: rgba(114, 158, 255, .12);
+  color: #a7c4ff;
+  font: 500 10px/1.6 'ONX Board Mono', Consolas, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+body.token-usage-page .main {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 64px 40px 56px;
+}
+
+/* --------------------------------------------------------------------------
+   Board root
+   -------------------------------------------------------------------------- */
+
+.token-usage-board {
+  --tu-surface: #0d1623;
+  --tu-surface-raised: #131f2f;
+  --tu-ink: #edf2f8;
+  --tu-muted: #9aabc0;
+  --tu-subtle: #6b7f99;
+  --tu-line: rgba(155, 181, 210, .16);
+  --tu-line-strong: rgba(114, 158, 255, .44);
+  --tu-accent: #729eff;
+  --tu-accent-strong: #346aeb;
+  --tu-cyan: #38d6ff;
+  --tu-danger: #ff7a8d;
+  --tu-good: #2dd4a7;
+  --tu-chart-input: #5aa2ff;
+  --tu-chart-output: #2dd4a7;
+  --tu-chart-cachewrite: #ffb454;
+  --tu-chart-cacheread: #a78bfa;
+  --tu-font: 'ONX Board', 'Segoe UI', system-ui, sans-serif;
+  --tu-mono: 'ONX Board Mono', 'IBM Plex Mono', Consolas, monospace;
+  --tu-radius: 14px;
+  --tu-shadow: 0 26px 64px -34px rgba(0, 0, 0, .95);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  color: var(--tu-ink);
+  font-family: var(--tu-font);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.token-usage-board *,
+.token-usage-board *::before,
+.token-usage-board *::after {
+  box-sizing: border-box;
+}
+
+.token-usage-board button,
+.token-usage-board select {
+  font: inherit;
+  color: inherit;
+}
+
+.token-usage-board :focus-visible {
+  outline: 2px solid var(--tu-accent);
+  outline-offset: 2px;
+}
+
+.token-usage-board .is-hidden {
+  display: none !important;
+}
+
+.token-usage-board .tu-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.token-usage-board .tu-mono {
+  font-family: var(--tu-mono);
+}
+
+/* --------------------------------------------------------------------------
+   Header, status and refresh
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.token-usage-board .tu-heading {
+  min-width: 0;
+}
+
+.token-usage-board .tu-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: #f6f9ff;
+  font-size: clamp(23px, 2.4vw, 29px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+
+.token-usage-board .tu-title::before {
+  content: '';
+  width: 4px;
+  height: 25px;
+  flex: none;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #8fb6ff, #346aeb);
+  box-shadow: 0 0 20px rgba(114, 158, 255, .75);
+}
+
+.token-usage-board .tu-lede {
+  margin: 6px 0 0;
+  max-width: 60ch;
+  color: var(--tu-muted);
+  font-size: 13px;
+}
+
+.token-usage-board .tu-header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.token-usage-board .tu-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  color: var(--tu-subtle);
+  font: 400 11.5px/1.6 var(--tu-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.token-usage-board .tu-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--tu-good);
+  box-shadow: 0 0 9px rgba(45, 212, 167, .8);
+}
+
+.token-usage-board[data-state='loading'] .tu-status::before {
+  background: var(--tu-accent);
+  box-shadow: 0 0 9px rgba(114, 158, 255, .9);
+  animation: tu-pulse 1.2s ease-in-out infinite;
+}
+
+.token-usage-board[data-state='error'] .tu-status::before {
+  background: var(--tu-danger);
+  box-shadow: 0 0 9px rgba(255, 122, 141, .8);
+}
+
+.token-usage-board .tu-status-value {
+  color: #cfe0f7;
+}
+
+.token-usage-board .tu-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border: 1px solid rgba(255, 180, 84, .4);
+  border-radius: 999px;
+  background: rgba(255, 180, 84, .1);
+  color: #ffcf8a;
+  font: 500 10px/1.5 var(--tu-mono);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.token-usage-board .tu-demo::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffb454;
+}
+
+.token-usage-board .tu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--tu-line);
+  border-radius: 9px;
+  background: linear-gradient(180deg, rgba(19, 31, 47, .95), rgba(13, 22, 35, .95));
+  color: var(--tu-ink);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+
+.token-usage-board .tu-btn:hover {
+  border-color: var(--tu-line-strong);
+  background: rgba(52, 106, 235, .2);
+  box-shadow: 0 10px 26px -16px rgba(52, 106, 235, .95);
+}
+
+.token-usage-board .tu-btn svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.token-usage-board .tu-btn[aria-busy='true'] svg {
+  animation: tu-spin .9s linear infinite;
+}
+
+/* --------------------------------------------------------------------------
+   Alert
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-alert {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 122, 141, .45);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255, 122, 141, .12), rgba(255, 122, 141, .06));
+  color: #ffb9c4;
+  font-size: 13px;
+}
+
+.token-usage-board .tu-alert-detail {
+  color: rgba(255, 185, 196, .72);
+  font: 400 11.5px/1.55 var(--tu-mono);
+  word-break: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   Toolbar
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--tu-line);
+  border-radius: var(--tu-radius);
+  background: linear-gradient(180deg, rgba(14, 24, 38, .94), rgba(10, 18, 30, .94));
+  box-shadow: var(--tu-shadow);
+}
+
+.token-usage-board .tu-segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--tu-line);
+  border-radius: 10px;
+  background: rgba(6, 11, 19, .75);
+}
+
+.token-usage-board .tu-segmented button {
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--tu-muted);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+
+.token-usage-board .tu-segmented button:hover {
+  color: var(--tu-ink);
+}
+
+.token-usage-board .tu-segmented button[aria-pressed='true'] {
+  background: linear-gradient(180deg, rgba(52, 106, 235, .5), rgba(52, 106, 235, .22));
+  box-shadow: inset 0 0 0 1px rgba(114, 158, 255, .36), 0 8px 20px -14px rgba(52, 106, 235, .95);
+  color: #f1f6ff;
+}
+
+.token-usage-board .tu-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.token-usage-board .tu-field label {
+  color: var(--tu-subtle);
+  font: 500 10px/1.4 var(--tu-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.token-usage-board .tu-select {
+  appearance: none;
+  height: 32px;
+  max-width: 240px;
+  padding: 0 30px 0 10px;
+  border: 1px solid var(--tu-line);
+  border-radius: 8px;
+  background-color: rgba(13, 22, 35, .92);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%239aabc0' stroke-width='1.6'%3E%3Cpath d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 7px;
+  color: var(--tu-ink);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.token-usage-board .tu-select:hover {
+  border-color: var(--tu-line-strong);
+}
+
+.token-usage-board .tu-select option {
+  background: #0d1623;
+  color: #edf2f8;
+}
+
+/* --------------------------------------------------------------------------
+   KPI cards
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: 12px;
+}
+
+.token-usage-board .tu-kpi {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+  border: 1px solid var(--tu-line);
+  border-radius: 12px;
+  background: linear-gradient(158deg, rgba(19, 31, 47, .94), rgba(10, 18, 30, .94));
+  box-shadow: var(--tu-shadow);
+}
+
+.token-usage-board .tu-kpi::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(130px 84px at 88% -6%, rgba(114, 158, 255, .16), transparent 72%);
+  pointer-events: none;
+}
+
+.token-usage-board .tu-kpi-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--tu-muted);
+  font: 500 10.5px/1.5 var(--tu-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.token-usage-board .tu-kpi-value {
+  margin-top: 6px;
+  color: #f4f8ff;
+  font-size: clamp(22px, 2.2vw, 27px);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.token-usage-board .tu-kpi-sub {
+  margin-top: 3px;
+  color: var(--tu-subtle);
+  font: 400 11.5px/1.6 var(--tu-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.token-usage-board .tu-dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+}
+
+.token-usage-board .tu-dot--input {
+  background: var(--tu-chart-input);
+  box-shadow: 0 0 10px rgba(90, 162, 255, .55);
+}
+
+.token-usage-board .tu-dot--output {
+  background: var(--tu-chart-output);
+  box-shadow: 0 0 10px rgba(45, 212, 167, .5);
+}
+
+.token-usage-board .tu-dot--cacheWrite {
+  background: var(--tu-chart-cachewrite);
+  box-shadow: 0 0 10px rgba(255, 180, 84, .5);
+}
+
+.token-usage-board .tu-dot--cacheRead {
+  background: var(--tu-chart-cacheread);
+  box-shadow: 0 0 10px rgba(167, 139, 250, .5);
+}
+
+/* --------------------------------------------------------------------------
+   Panels
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-panel {
+  position: relative;
+  padding: 20px;
+  border: 1px solid var(--tu-line);
+  border-radius: var(--tu-radius);
+  background: linear-gradient(180deg, rgba(14, 24, 38, .92), rgba(9, 16, 27, .92));
+  box-shadow: var(--tu-shadow);
+}
+
+.token-usage-board .tu-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.token-usage-board .tu-panel h2 {
+  margin: 0;
+  color: #f0f6ff;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.token-usage-board .tu-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.token-usage-board .tu-metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 11px;
+  border: 1px solid var(--tu-line);
+  border-radius: 999px;
+  background: rgba(6, 11, 19, .55);
+  color: var(--tu-muted);
+  font: 500 11.5px/1 var(--tu-mono);
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background-color .15s ease;
+}
+
+.token-usage-board .tu-metric:hover {
+  border-color: var(--tu-line-strong);
+  color: var(--tu-ink);
+}
+
+.token-usage-board .tu-metric[aria-pressed='true'] {
+  border-color: rgba(114, 158, 255, .44);
+  background: rgba(52, 106, 235, .16);
+  color: #eef4ff;
+}
+
+.token-usage-board .tu-metric .tu-dot {
+  opacity: .35;
+  transition: opacity .15s ease;
+}
+
+.token-usage-board .tu-metric[aria-pressed='true'] .tu-dot {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   SVG chart
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-chart-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(114, 158, 255, .35) transparent;
+}
+
+.token-usage-board .tu-chart-scroll svg {
+  display: block;
+  max-width: none;
+}
+
+.token-usage-board .tu-chart-scroll text {
+  font-family: var(--tu-mono);
+  font-size: 11px;
+}
+
+.token-usage-board .tu-grid-line {
+  stroke: rgba(155, 181, 210, .14);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.token-usage-board .tu-axis-label {
+  fill: var(--tu-subtle);
+}
+
+.token-usage-board .tu-bar {
+  transition: filter .15s ease;
+}
+
+.token-usage-board .tu-bar-group:hover .tu-bar {
+  filter: brightness(1.18);
+}
+
+.token-usage-board .tu-bar--input {
+  fill: var(--tu-chart-input);
+}
+
+.token-usage-board .tu-bar--output {
+  fill: var(--tu-chart-output);
+}
+
+.token-usage-board .tu-bar--cacheWrite {
+  fill: var(--tu-chart-cachewrite);
+}
+
+.token-usage-board .tu-bar--cacheRead {
+  fill: var(--tu-chart-cacheread);
+}
+
+.token-usage-board .tu-bar-hit {
+  fill: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Tabs and tables
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--tu-line);
+}
+
+.token-usage-board .tu-tabs button {
+  margin-bottom: -1px;
+  padding: 9px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--tu-subtle);
+  font: 500 12px/1.5 var(--tu-mono);
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease;
+}
+
+.token-usage-board .tu-tabs button:hover {
+  color: var(--tu-ink);
+}
+
+.token-usage-board .tu-tabs button[aria-selected='true'] {
+  border-bottom-color: var(--tu-accent);
+  color: #eef4ff;
+  text-shadow: 0 0 16px rgba(114, 158, 255, .5);
+}
+
+.token-usage-board .tu-table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(114, 158, 255, .35) transparent;
+}
+
+.token-usage-board .tu-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.token-usage-board .tu-table-wrap th {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--tu-line);
+  color: var(--tu-subtle);
+  font: 500 10px/1.8 var(--tu-mono);
+  letter-spacing: .1em;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.token-usage-board .tu-table-wrap td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(155, 181, 210, .08);
+  color: #dbe6f5;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.token-usage-board .tu-table-wrap th:first-child,
+.token-usage-board .tu-table-wrap td:first-child {
+  text-align: left;
+}
+
+.token-usage-board .tu-table-wrap tbody tr {
+  transition: background-color .15s ease;
+}
+
+.token-usage-board .tu-table-wrap tbody tr:hover {
+  background: rgba(114, 158, 255, .06);
+}
+
+.token-usage-board .tu-table-wrap tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.token-usage-board .tu-table-wrap td.tu-total {
+  color: #f2f7ff;
+  font-weight: 600;
+}
+
+.token-usage-board .tu-cell-title {
+  max-width: 320px;
+  overflow: hidden;
+  color: #edf2f8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.token-usage-board .tu-cell-sub {
+  color: var(--tu-subtle);
+  font: 400 11.5px/1.55 var(--tu-mono);
+}
+
+.token-usage-board .tu-date {
+  font-family: var(--tu-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Loading, empty and skeleton states
+   -------------------------------------------------------------------------- */
+
+.token-usage-board .tu-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 122px;
+  padding: 28px 16px;
+  color: var(--tu-subtle);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+.token-usage-board .tu-state--wide {
+  grid-column: 1 / -1;
+}
+
+.token-usage-board .tu-state--loading {
+  color: var(--tu-muted);
+}
+
+.token-usage-board .tu-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(114, 158, 255, .22);
+  border-top-color: var(--tu-accent);
+  border-radius: 50%;
+  animation: tu-spin .8s linear infinite;
+}
+
+.token-usage-board .tu-kpi.is-skeleton {
+  min-height: 108px;
+}
+
+.token-usage-board .tu-skeleton {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(148, 178, 214, .07), rgba(148, 178, 214, .18), rgba(148, 178, 214, .07));
+  background-size: 200% 100%;
+  animation: tu-shimmer 1.4s linear infinite;
+}
+
+.token-usage-board .tu-skeleton-label {
+  width: 58%;
+  height: 9px;
+  margin-bottom: 13px;
+}
+
+.token-usage-board .tu-skeleton-value {
+  width: 76%;
+  height: 22px;
+  margin-bottom: 9px;
+}
+
+.token-usage-board .tu-skeleton-sub {
+  width: 40%;
+  height: 9px;
+}
+
+/* --------------------------------------------------------------------------
+   Motion and responsive
+   -------------------------------------------------------------------------- */
+
+@keyframes tu-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tu-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@keyframes tu-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .35; }
+}
+
+@media (max-width: 1080px) {
+  .token-usage-board .tu-kpis {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  body.token-usage-page .main {
+    padding: 64px 24px 48px;
+  }
+
+  .token-usage-board .tu-header {
+    align-items: flex-start;
+  }
+
+  .token-usage-board .tu-header-actions {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 760px) {
+  body.token-usage-page .layout {
+    flex-direction: column;
+  }
+
+  body.token-usage-page .sidebar {
+    position: static;
+    flex: none;
+    width: 100%;
+    height: auto;
+    padding: 64px 16px 16px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(155, 181, 210, .12);
+  }
+
+  body.token-usage-page .main {
+    max-width: none;
+    padding: 24px 20px 44px;
+  }
+
+  .token-usage-board .tu-title {
+    font-size: 23px;
+  }
+
+  .token-usage-board .tu-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .token-usage-board .tu-toolbar {
+    gap: 10px;
+  }
+
+  .token-usage-board .tu-segmented {
+    width: 100%;
+  }
+
+  .token-usage-board .tu-segmented button {
+    flex: 1;
+    padding: 0 8px;
+  }
+
+  .token-usage-board .tu-field {
+    width: 100%;
+  }
+
+  .token-usage-board .tu-field label {
+    flex: 0 0 56px;
+  }
+
+  .token-usage-board .tu-select {
+    flex: 1;
+    max-width: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .token-usage-board .tu-panel {
+    padding: 16px;
+  }
+
+  .token-usage-board .tu-kpi {
+    padding: 14px;
+  }
+
+  .token-usage-board .tu-metric {
+    padding: 0 9px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.token-usage-page .sidebar a,
+  .token-usage-board *,
+  .token-usage-board *::before,
+  .token-usage-board *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

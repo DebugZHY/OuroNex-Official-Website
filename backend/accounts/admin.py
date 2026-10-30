@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Plan, Subscription, TokenUsage
+from .models import Profile, Plan, Subscription, TokenUsage, TokenUsageRecord
 
 
 @admin.register(Profile)
@@ -27,3 +27,11 @@ class TokenUsageAdmin(admin.ModelAdmin):
     list_display = ['user', 'tokens_used', 'recorded_at']
     list_filter = ['recorded_at']
     search_fields = ['user__username']
+
+
+@admin.register(TokenUsageRecord)
+class TokenUsageRecordAdmin(admin.ModelAdmin):
+    list_display = ['user', 'day', 'model', 'session_id', 'source', 'calls', 'updated_at']
+    list_filter = ['day', 'model', 'source']
+    search_fields = ['user__username', 'session_id', 'title']
+    readonly_fields = ['created_at', 'updated_at']

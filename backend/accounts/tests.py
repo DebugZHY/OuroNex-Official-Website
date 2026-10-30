@@ -163,3 +163,214 @@ class AuthApiTests(TestCase):
 
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error']['code'], 'invalid_token')
+
+
+class TokenUsageApiTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='usage-user', password='unused')
+        self.other_user = User.objects.create_user(username='other-usage-user', password='unused')
+        Profile.objects.create(user=self.user)
+
+    def test_dashboard_usage_requires_login_and_renders(self):
+        response = self.client.get('/dashboard/usage/')
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/login/?next=/dashboard/usage/', response.url)
+        self.client.force_login(self.user)
+        response = self.client.get('/dashboard/usage/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="token-usage-board"')
+        self.assertContains(response, '/assets/token-usage.js')
+        self.assertContains(response, 'href="/dashboard/"')
+        dashboard = self.client.get('/dashboard/')
+        self.assertContains(dashboard, 'href="/dashboard/usage/"')
+
+    def test_session_get_returns_only_own_ordered_records(self):
+        from .models import TokenUsageRecord
+
+        TokenUsageRecord.objects.create(
+            user=self.user,
+            day='2026-10-29',
+            model='model-b',
+            session_id='session-b',
+            title='Later session',
+            calls=2,
+            input_tokens=20,
+            output_tokens=10,
+            cache_write_tokens=4,
+            cache_read_tokens=6,
+        )
+        TokenUsageRecord.objects.create(
+            user=self.user,
+            day='2026-10-30',
+            model='model-a',
+            session_id='session-a',
+            title='Earlier session',
+            calls=3,
+            input_tokens=30,
+            output_tokens=15,
+            cache_write_tokens=5,
+            cache_read_tokens=10,
+        )
+        TokenUsageRecord.objects.create(
+            user=self.other_user,
+            day='2026-10-30',
+            model='private-model',
+            session_id='private-session',
+            calls=99,
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get('/api/v1/usage/')
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body['sessionCount'], 2)
+        self.assertIn('generatedAt', body)
+        self.assertEqual(body['records'], [
+            {
+                'day': '2026-10-29',
+                'model': 'model-b',
+                'sessionId': 'session-b',
+                'title': 'Later session',
+                'calls': 2,
+                'input': 20,
+                'output': 10,
+                'cacheWrite': 4,
+                'cacheRead': 6,
+                'source': 'external',
+            },
+            {
+                'day': '2026-10-30',
+                'model': 'model-a',
+                'sessionId': 'session-a',
+                'title': 'Earlier session',
+                'calls': 3,
+                'input': 30,
+                'output': 15,
+                'cacheWrite': 5,
+                'cacheRead': 10,
+                'source': 'external',
+            },
+        ])
+
+    def test_bearer_post_replaces_same_usage_identity(self):
+        raw_token, _ = AuthToken.issue(self.user)
+        record = {
+            'day': '2026-10-30',
+            'model': 'sida-pro',
+            'sessionId': 'session-1',
+            'title': 'Structural review',
+            'calls': 4,
+            'input': 100,
+            'output': 40,
+            'cacheWrite': 10,
+            'cacheRead': 60,
+            'source': 'sida-desktop',
+        }
+
+        for calls in (4, 9):
+            record['calls'] = calls
+            response = self.client.post(
+                '/api/v1/usage/',
+                data=json.dumps({'records': [record]}),
+                content_type='application/json',
+                HTTP_AUTHORIZATION=f'Bearer {raw_token}',
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json()['received'], 1)
+            self.assertEqual(response.json()['upserted'], 1)
+
+        stored = self.user.token_usage_records.get()
+        self.assertEqual(stored.calls, 9)
+        self.assertEqual(stored.source, 'sida-desktop')
+        self.assertEqual(self.user.token_usage_records.count(), 1)
+
+    def test_invalid_batch_is_rejected_atomically(self):
+        raw_token, _ = AuthToken.issue(self.user)
+        valid = {
+            'day': '2026-10-30',
+            'model': 'sida-pro',
+            'sessionId': 'session-1',
+            'calls': 1,
+            'input': 10,
+            'output': 5,
+            'cacheWrite': 2,
+            'cacheRead': 3,
+        }
+        invalid = dict(valid, sessionId='session-2', input=-1)
+
+        response = self.client.post(
+            '/api/v1/usage/',
+            data=json.dumps({'records': [valid, invalid]}),
+            content_type='application/json',
+            HTTP_AUTHORIZATION=f'Bearer {raw_token}',
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()['error']['code'], 'invalid_records')
+        self.assertEqual(self.user.token_usage_records.count(), 0)
+
+    def test_usage_rejects_bad_payloads_and_authentication(self):
+        raw_token, _ = AuthToken.issue(self.user)
+        headers = {'HTTP_AUTHORIZATION': f'Bearer {raw_token}'}
+        valid = {
+            'day': '2026-10-30',
+            'model': 'sida-pro',
+            'sessionId': 'session-1',
+            'calls': 1,
+            'input': 10,
+            'output': 5,
+            'cacheWrite': 2,
+            'cacheRead': 3,
+        }
+        cases = [
+            ([valid], 'invalid_records'),
+            ({'records': []}, 'invalid_records'),
+            ({'records': [dict(valid, day='2026-02-30')]}, 'invalid_records'),
+            ({'records': [dict(valid, calls=True)]}, 'invalid_records'),
+            ({'records': [dict(valid, unexpected=1)]}, 'invalid_records'),
+            ({'records': [dict(valid, model='   ')]}, 'invalid_records'),
+            ({'records': [dict(valid, source='   ')]}, 'invalid_records'),
+            ({'records': [dict(valid, input=2**63)]}, 'invalid_records'),
+            ({'records': [valid] * 501}, 'invalid_records'),
+            ({'records': 'not-an-array'}, 'invalid_records'),
+            ({'records': [{k: v for k, v in valid.items() if k != 'model'}]}, 'invalid_records'),
+        ]
+        for payload, code in cases:
+            with self.subTest(payload=payload):
+                response = self.client.post(
+                    '/api/v1/usage/', data=json.dumps(payload), content_type='application/json', **headers,
+                )
+                self.assertEqual(response.status_code, 400)
+                self.assertEqual(response.json()['error']['code'], code)
+        malformed = self.client.post(
+            '/api/v1/usage/', data='{"records":', content_type='application/json', **headers,
+        )
+        self.assertEqual(malformed.status_code, 400)
+        self.assertEqual(malformed.json()['error']['code'], 'invalid_json')
+        session_only = self.client.post(
+            '/api/v1/usage/', data=json.dumps({'records': [valid]}), content_type='application/json',
+        )
+        self.assertEqual(session_only.status_code, 401)
+        anonymous_get = self.client.get('/api/v1/usage/')
+        self.assertEqual(anonymous_get.status_code, 401)
+        unsupported = self.client.put('/api/v1/usage/', **headers)
+        self.assertEqual(unsupported.status_code, 405)
+        self.assertEqual(self.user.token_usage_records.count(), 0)
+
+    def test_demo_seed_is_idempotent_and_preserves_users_and_legacy_usage(self):
+        from django.core.management import call_command
+        from .models import TokenUsage
+
+        legacy = TokenUsage.objects.create(user=self.user, tokens_used=123)
+        original_user_count = User.objects.count()
+
+        for _ in range(2):
+            call_command('seed_token_usage_demo', username=self.user.username, days=7, verbosity=0)
+
+        self.assertEqual(User.objects.count(), original_user_count)
+        self.assertEqual(self.user.token_usage_records.count(), 42)
+        self.assertEqual(set(self.user.token_usage_records.values_list('source', flat=True)), {'demo'})
+        self.assertEqual(self.other_user.token_usage_records.count(), 0)
+        legacy.refresh_from_db()
+        self.assertEqual(legacy.tokens_used, 123)

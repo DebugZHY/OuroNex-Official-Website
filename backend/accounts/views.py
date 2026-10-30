@@ -118,6 +118,12 @@ def dashboard(request):
 
 
 @login_required
+def token_usage(request):
+    subscription = Subscription.objects.select_related('plan').filter(user=request.user).first()
+    return render(request, 'accounts/token_usage.html', {'subscription': subscription})
+
+
+@login_required
 def profile_view(request):
     profile = request.user.profile
     if request.method == 'POST':

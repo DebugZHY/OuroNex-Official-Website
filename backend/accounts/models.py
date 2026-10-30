@@ -73,6 +73,38 @@ class TokenUsage(models.Model):
         return f"{self.user.username}: {self.tokens_used} tokens"
 
 
+class TokenUsageRecord(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='token_usage_records')
+    day = models.DateField()
+    model = models.CharField(max_length=120)
+    session_id = models.CharField(max_length=200)
+    title = models.CharField(max_length=255, blank=True)
+    source = models.CharField(max_length=80, default='external')
+    calls = models.PositiveBigIntegerField(default=0)
+    input_tokens = models.PositiveBigIntegerField(default=0)
+    output_tokens = models.PositiveBigIntegerField(default=0)
+    cache_write_tokens = models.PositiveBigIntegerField(default=0)
+    cache_read_tokens = models.PositiveBigIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['day', 'model', 'session_id', 'source']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'source', 'day', 'model', 'session_id'],
+                name='unique_token_usage_record',
+            ),
+        ]
+        indexes = [
+            models.Index(fields=['user', 'day'], name='usage_record_user_day'),
+            models.Index(fields=['user', 'session_id'], name='usage_record_session'),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username}: {self.day} {self.model} {self.session_id}"
+
+
 class AuthToken(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auth_tokens')
     key_hash = models.CharField(max_length=64, unique=True)
