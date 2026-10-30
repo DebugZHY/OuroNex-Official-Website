@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 
 from .models import AuthToken, TokenUsageRecord
+from . import security
 
 
 def api_error(code, message, status):
@@ -44,13 +45,23 @@ def login(request):
         return api_error('invalid_json', 'Request body must be valid JSON.', 400)
     if not isinstance(payload, dict):
         return api_error('invalid_json', 'Request body must be a JSON object.', 400)
-    user = authenticate(
-        request,
-        username=payload.get('username'),
-        password=payload.get('password'),
-    )
+    username = payload.get('username')
+    password = payload.get('password')
+    if security.is_login_throttled(security.API_LOGIN_SCOPE, request, username):
+        response = api_error(
+            'too_many_requests',
+            'Too many login attempts. Try again later.',
+            429,
+        )
+        response['Retry-After'] = str(
+            security.login_retry_after_seconds(security.API_LOGIN_SCOPE, request, username)
+        )
+        return response
+    user = authenticate(request, username=username, password=password)
     if user is None:
+        security.record_login_failure(security.API_LOGIN_SCOPE, request, username)
         return api_error('invalid_credentials', 'Invalid username or password.', 401)
+    security.clear_login_success(security.API_LOGIN_SCOPE, request, username)
     raw_token, token = AuthToken.issue(user)
     return JsonResponse({
         'access_token': raw_token,

@@ -88,6 +88,14 @@ Error responses have a stable envelope:
 | 401 | `invalid_credentials` | Username/password authentication failed. |
 | 401 | `invalid_token` | The Bearer token is missing, unknown, expired, revoked, or belongs to an inactive user. |
 | 405 | `method_not_allowed` | The endpoint was called with the wrong HTTP method. |
+| 429 | `too_many_requests` | The login scope/IP exceeded its failed-attempt window. |
+
+A throttled login includes a `Retry-After` header. Back off for that many seconds
+instead of retrying immediately. Failed attempts are counted in both an aggregate
+scope/IP bucket and a username+scope/IP bucket. A successful API login clears only
+its own account bucket; it never erases aggregate or other-account failures.
+Configure `OURONEX_AUTH_MAX_ATTEMPTS` and `OURONEX_AUTH_WINDOW_SECONDS` to tune the
+policy. Forwarded client IPs are trusted only from `OURONEX_TRUSTED_PROXY_IPS`.
 
 Applications should branch on `error.code`, not on the human-readable `message`.
 
@@ -95,9 +103,10 @@ Applications should branch on `error.code`, not on the human-readable `message`.
 
 1. Collect credentials in the application and send them only to `/api/v1/auth/login/`.
 2. Store the returned token in OS-backed secure storage where available. Do not commit it, log it, or embed it in source code.
-3. Send `Authorization: Bearer <access_token>` when calling `/api/v1/auth/me/` or future protected endpoints.
+3. Send `Authorization: Bearer ***` when calling `/api/v1/auth/me/` or future protected endpoints.
 4. On `invalid_token`, clear local login state and ask the user to log in again.
-5. On logout, call `/api/v1/auth/logout/` and delete the local token even if the network call fails.
+5. On `too_many_requests`, wait for the advertised retry interval and preserve the user's entered username where appropriate.
+6. On logout, call `/api/v1/auth/logout/` and delete the local token even if the network call fails.
 
 ## Database and API contract changes
 
@@ -112,12 +121,16 @@ The application should ignore unknown user fields and must never depend on Djang
 
 ## Operations
 
-Set `OURONEX_AUTH_TOKEN_TTL_SECONDS` to change the token lifetime. Apply migrations after pulling this feature:
+Set `OURONEX_AUTH_TOKEN_TTL_SECONDS` to change the token lifetime. Apply migrations
+as part of a stopped-service release:
 
     python manage.py migrate
 
-Run the API tests:
+Run the API and authentication-security tests:
 
-    python manage.py test accounts.tests.AuthApiTests
+    python manage.py test accounts.tests.AuthApiTests accounts.tests_security
 
-Before public deployment, use HTTPS, add login rate limiting, restore CSRF protection for browser form views, configure appropriate CORS only if a browser-hosted application needs it, and keep tokens out of logs. The token API does not rely on cookie authentication.
+The token API uses Bearer credentials rather than browser cookies and does not
+require a CSRF token. Session-backed browser forms have CSRF protection enabled.
+Use HTTPS in production, keep tokens out of logs, and configure CORS only if a
+browser-hosted application with a different origin explicitly needs it.

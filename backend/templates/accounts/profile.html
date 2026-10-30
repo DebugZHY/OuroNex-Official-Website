@@ -25,6 +25,7 @@
       <div class="card">
 <h2><span data-i18n="account-profile.basic-information.b0d5be">Basic Information</span></h2>
 <form method="post">
+{% csrf_token %}
 <div class="form-group">
 <label for="username"><span data-i18n="account-profile.username.84c290">Username</span></label>
 <input id="username" name="username" type="text" value="{{ user.username }}"/>

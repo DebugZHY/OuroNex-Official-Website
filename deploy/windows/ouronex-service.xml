@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  EXAMPLE ONLY - this is not an installed service and the paths below are
+  placeholders. Nothing in this repository installs, starts, stops or reconfigures
+  a Windows service.
+
+  One deployment route: WinSW (or NSSM) runs powershell.exe, which runs
+  deploy\windows\Start-OuroNex.ps1, which validates the shared .env and then runs
+  Waitress on 127.0.0.1:8000 in the foreground. IIS with ARR and URL Rewrite is the
+  only public listener and proxies to that loopback port. Do not add a second
+  launcher or a second web route.
+
+  Steps for the operator (elevated, run on the server) are documented in
+  docs\WINDOWS_SERVER_DEPLOYMENT.md, including WinSW installation, the equivalent
+  NSSM command and the IIS/firewall/certificate steps. Adjust these values to the
+  real deployment root, virtual environment and port before installing.
+-->
+<service>
+  <id>OuroNex</id>
+  <name>OuroNex Website (Waitress)</name>
+  <description>OuroNex Django site served by Waitress on 127.0.0.1:8000 behind IIS ARR.</description>
+
+  <!-- The single entry point. Keep the arguments on one line or WinSW splits them. -->
+  <executable>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</executable>
+  <arguments>-NoProfile -ExecutionPolicy Bypass -File "D:\OuroNex\current\app\deploy\windows\Start-OuroNex.ps1" -ConfigFile "D:\OuroNex\shared\config\.env" -AppRoot "D:\OuroNex\current\app\backend" -PythonExe "D:\OuroNex\shared\venv\Scripts\python.exe" -Port 8000 -Threads 8</arguments>
+
+  <workingdirectory>D:\OuroNex\current\app</workingdirectory>
+
+  <!-- Console output goes to shared\logs so the wrapper and the launcher log in one place. -->
+  <logpath>D:\OuroNex\shared\logs</logpath>
+  <log mode="roll-by-size">
+    <sizeThreshold>10485760</sizeThreshold>
+    <keepFiles>8</keepFiles>
+  </log>
+
+  <startmode>Automatic</startmode>
+  <delayedautostart>true</delayedautostart>
+
+  <!-- Stop the launcher tree, not just powershell.exe, so Waitress exits with it. -->
+  <stoptimeout>20 sec</stoptimeout>
+  <stopparentprocessfirst>true</stopparentprocessfirst>
+
+  <onfailure action="restart" delay="15 sec"/>
+  <resetfailure>1 hour</resetfailure>
+
+  <env name="PYTHONUNBUFFERED" value="1"/>
+  <env name="PYTHONIOENCODING" value="utf-8"/>
+
+  <!--
+    Required: run the service under a dedicated low-privilege account with least privilege,
+    never an administrator account. Grant exactly:
+      * read on D:\OuroNex\shared\config (the .env holds the secret key);
+      * modify on D:\OuroNex\shared\data, D:\OuroNex\shared\logs and
+        D:\OuroNex\shared\backups (database, logs, backups);
+      * read and execute on D:\OuroNex\releases and D:\OuroNex\shared\venv.
+    Nothing else: no administrative rights, no write access to releases, no access
+    to other server folders. Replace the account name and let WinSW store the
+    logon details:
+
+    <serviceaccount>
+      <domain>.</domain>
+      <user>svc-ouronex</user>
+      <allowservicelogon>true</allowservicelogon>
+    </serviceaccount>
+  -->
+</service>

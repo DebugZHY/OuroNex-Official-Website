@@ -1,195 +1,154 @@
-# OuroNex — Deployment Guide
+# OuroNex Deployment Guide
 
-## Local Development (One-Click)
+This guide covers local development and summarizes the production layout. The
+operator procedure for Windows Server 2022, IIS, WinSW, certificates, updates,
+backups and rollback is in [WINDOWS_SERVER_DEPLOYMENT.md](WINDOWS_SERVER_DEPLOYMENT.md).
 
-### Windows
+## Local development
+
+Requirements: Python 3.12 or newer (the pinned Django 6.1.2 requires it). The
+pinned dependencies are in `backend/requirements.txt`.
+
 ```powershell
 cd D:\Development\OuroNex-Official-Website
-powershell -File scripts\dev.ps1
-```
-
-### Linux/Mac
-```bash
-cd /path/to/OuroNex-Official-Website
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 cd backend
-python manage.py migrate
-python manage.py runserver 8000
+..\.venv\Scripts\python.exe manage.py migrate
+..\.venv\Scripts\python.exe manage.py runserver 8000
 ```
 
-Access:
-- Static site: http://localhost:8000/index.html
-- Login: http://localhost:8000/login/
-- Register: http://localhost:8000/register/
-- Dashboard: http://localhost:8000/dashboard/
-- Admin: http://localhost:8000/admin/
+`scripts\dev.ps1` and `start-local.cmd` are development conveniences only. Do
+not use `runserver` as the production service.
 
-## Remote Deployment
+Local URLs:
 
-### Option 1: Single VPS (Simplest)
+- Home: `http://localhost:8000/`
+- Login: `http://localhost:8000/login/`
+- Register: `http://localhost:8000/register/`
+- Dashboard: `http://localhost:8000/dashboard/`
+- Token Usage: `http://localhost:8000/dashboard/usage/`
+- Admin: `http://localhost:8000/admin/`
+- Health: `http://localhost:8000/health/`
 
-**Requirements**: Ubuntu 22.04+, Python 3.11+
+Development defaults use `backend/db.sqlite3`, local hosts and a development-only
+secret. Create an administrator explicitly with `python manage.py createsuperuser`;
+there is no default production administrator.
 
-```bash
-# 1. Clone repo
-git clone <your-repo> /opt/ouronex
-cd /opt/ouronex
+## Environment configuration
 
-# 2. Install dependencies
-python3 -m venv venv
-source venv/bin/activate
-pip install django gunicorn
+Only the documented `OURONEX_*` variables are read by the application. Copy
+`.env.example` to a location outside the repository and replace every placeholder.
+Never commit the resulting `.env`.
 
-# 3. Configure production settings
+| Variable | Purpose |
+| --- | --- |
+| `OURONEX_ENV` | `development` or `production`; development is the local default |
+| `OURONEX_SECRET_KEY` | Random production secret, at least 50 characters |
+| `OURONEX_ALLOWED_HOSTS` | Comma-separated exact hostnames; no wildcard |
+| `OURONEX_CSRF_TRUSTED_ORIGINS` | Exact HTTPS origins used by browser forms |
+| `OURONEX_DB_PATH` | Absolute SQLite path outside code and public directories |
+| `OURONEX_SQLITE_TIMEOUT_SECONDS` | SQLite busy timeout, default 30 |
+| `OURONEX_SECURE_HSTS_SECONDS` | HSTS duration; keep 0 until HTTPS is verified |
+| `OURONEX_TRUSTED_PROXY_IPS` | Proxy addresses allowed to supply forwarded client IPs |
+| `OURONEX_AUTH_MAX_ATTEMPTS` | Failed authentication attempts per scope/IP window |
+| `OURONEX_AUTH_WINDOW_SECONDS` | Authentication throttle window |
+| `OURONEX_AUTH_TOKEN_TTL_SECONDS` | Bearer-token lifetime, default 30 days |
+
+Production fails closed when required values are missing or unsafe. Secure
+cookies, HTTPS redirects and proxy protocol handling are enabled there; local
+development keeps non-secure cookies so `runserver` remains usable.
+
+## Production layout
+
+The supported route is IIS terminating HTTPS and proxying to Waitress on
+`127.0.0.1:8000`. Gunicorn is not used on native Windows.
+
+```text
+D:\OuroNex\
+  current -> releases\<release-name>
+  releases\<release-name>\
+    app\       application tree and package-manifest.json
+    public\    files copied exclusively from the public manifest
+  shared\
+    config\.env
+    data\ouronex.sqlite3
+    logs\
+    backups\
+    venv\
+    iis\
+```
+
+In production Django serves public files from `current\public`; the manifest
+allowlist remains in `current\app`. The database, configuration, logs and backups
+are never inside a release. IIS serves collected admin assets through the
+`/static/` virtual directory described in the operator runbook.
+
+Build the public package only after all public-file writers have stopped and the
+manifest hashes are current:
+
+```powershell
+.\deploy\windows\Build-PublicSite.ps1 -Destination D:\build\release\public
+```
+
+The builder rejects stale hashes, extra files, private paths and non-empty output
+directories. Do not copy the repository root into an IIS public directory.
+
+## Authentication and browser security
+
+- Django password validation is enabled for registration and password changes.
+- The registration challenge is stored in the server-side session, compared once
+  without case sensitivity and replaced after failures. The answer is not a
+  hidden form value.
+- Session-backed login, registration, profile, security and logout forms use CSRF
+  tokens. Logout accepts POST only.
+- Login `next` redirects allow local paths only.
+- Web and Bearer login throttle repeated failures. Successful authentication
+  clears the applicable failure scope. The defaults are 10 failures in 300 seconds.
+- The existing JSON response schema for Session/Bearer authentication remains in
+  [APPLICATION_AUTH_API.md](APPLICATION_AUTH_API.md). Bearer tokens are stored as
+  SHA-256 hashes; plaintext is returned only when issued.
+
+## Database and updates
+
+SQLite remains the single-server database. Production requires an absolute path
+outside both `app` and `public`. The busy timeout reduces short lock conflicts;
+it does not make SQLite suitable for multiple application instances.
+
+Use the online backup helper before every update or migration:
+
+```powershell
+.\deploy\windows\Backup-SqliteDatabase.ps1 `
+  -DatabasePath D:\OuroNex\shared\data\ouronex.sqlite3 `
+  -Destination D:\OuroNex\shared\backups\ouronex-<timestamp>.sqlite3
+```
+
+The helper uses SQLite's online backup API, verifies integrity and schema, and
+refuses to overwrite an existing backup. Keep an off-server copy. Restore only
+with the application service stopped; restoring an older backup discards later
+writes.
+
+A conservative update order is: stage the new release, back up the database, stop
+the service, activate the new release, install its requirements, migrate, collect
+static files, run preflight checks, start and verify. Never run migrations against
+the old running service. The runbook also explains lock-file and temporary-file
+handling for the online backup helper.
+Code rollback does not require a database restore when no schema change occurred.
+After a schema change, follow the runbook's database-restore trade-off instead of
+assuming old code and new data are compatible.
+
+## Verification
+
+Run the project-side checks before staging a release:
+
+```powershell
 cd backend
-# Edit backend/settings.py:
-#   DEBUG = False
-#   ALLOWED_HOSTS = ['yourdomain.com']
-#   SECRET_KEY = '<generate-strong-key>'
-
-# 4. Migrate
-python manage.py migrate
-
-# 5. Create admin user
-python manage.py createsuperuser
-
-# 6. Collect static
-python manage.py collectstatic
-
-# 7. Run with Gunicorn
-gunicorn --bind 0.0.0.0:8000 backend.wsgi:application
+python manage.py test
+python manage.py check --deploy
+python manage.py makemigrations --check --dry-run
 ```
 
-**With Nginx** (recommended):
-```nginx
-server {
-    listen 80;
-    server_name yourdomain.com;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-
-    location /static/ {
-        alias /opt/ouronex/backend/staticfiles/;
-    }
-}
-```
-
-**With Systemd** (auto-restart):
-```ini
-# /etc/systemd/system/ouronex.service
-[Unit]
-Description=OuroNex
-After=network.target
-
-[Service]
-User=www-data
-WorkingDirectory=/opt/ouronex/backend
-ExecStart=/opt/ouronex/venv/bin/gunicorn --bind 127.0.0.1:8000 backend.wsgi:application
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-```
-
-### Option 2: Docker (Portable)
-
-```dockerfile
-# Dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY backend/requirements.txt .
-RUN pip install -r requirements.txt
-COPY backend/ .
-RUN python manage.py migrate
-EXPOSE 8000
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi:application"]
-```
-
-```bash
-docker build -t ouronex .
-docker run -p 8000:8000 ouronex
-```
-
-### Option 3: Platform-as-a-Service
-
-**Railway**:
-1. Connect GitHub repo
-2. Set build command: `cd backend && pip install -r requirements.txt && python manage.py migrate`
-3. Set start command: `cd backend && gunicorn backend.wsgi:application`
-
-**Render**:
-1. New Web Service
-2. Build command: `cd backend && pip install -r requirements.txt && python manage.py migrate`
-3. Start command: `cd backend && gunicorn backend.wsgi:application`
-
-**PythonAnywhere**:
-1. Upload code
-2. Set WSGI file to `backend.wsgi:application`
-3. Add static files mapping
-
-## Application Authentication API
-
-Separately developed applications authenticate through Django rather than reading the SQLite file. The versioned Bearer-token endpoints and response contract are documented in [APPLICATION_AUTH_API.md](APPLICATION_AUTH_API.md).
-
-- `POST /api/v1/auth/login/`
-- `GET /api/v1/auth/me/`
-- `POST /api/v1/auth/logout/`
-
-Set `OURONEX_AUTH_TOKEN_TTL_SECONDS` to override the default 30-day token lifetime. Run `python manage.py migrate` when deploying this feature.
-
-## Database
-
-**Development**: SQLite (default, no setup)
-
-**Production** (optional):
-```python
-# settings.py
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ouronex',
-        'USER': 'ouronex_user',
-        'PASSWORD': 'strong-password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-## Admin (CMS)
-
-Access: http://yourdomain.com/admin/
-
-Create superuser:
-```bash
-python manage.py createsuperuser
-```
-
-Manage:
-- Users (username, email, active status)
-- Profiles (UID, phone, verification)
-- Plans (Free/Lite/Standard/Professional/Enterprise)
-- Subscriptions (active plans, token balances)
-- Token Usage (consumption history)
-
-## Security Checklist
-
-- [ ] `DEBUG = False` in production
-- [ ] Strong `SECRET_KEY` (use `django.core.management.utils.get_random_secret_key()`)
-- [ ] `ALLOWED_HOSTS` set to your domain
-- [ ] HTTPS enabled (Let's Encrypt / Cloudflare)
-- [ ] CSRF middleware re-enabled (currently disabled for dev)
-- [ ] Rate limiting on login/register
-- [ ] Regular database backups
-
-## Next Steps
-
-1. **Re-enable CSRF**: Remove `#` from `django.middleware.csrf.CsrfViewMiddleware` in settings.py, add `{% csrf_token %}` back to forms
-2. **Email verification**: Add Django's built-in email backend
-3. **Payment integration**: Stripe or PayPal for subscriptions
-4. **Token metering**: Real usage tracking with API keys
-5. **Usage charts**: Chart.js or D3.js for dashboard
+`check --deploy` requires a complete production environment and a temporary
+external database path; it does not use the production database. The full
+operator checklist also covers real Waitress startup, IIS HTTPS, private-file
+404 probes, login/CSRF, backups, service restart and rollback.

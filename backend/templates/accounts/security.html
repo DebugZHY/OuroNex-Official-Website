@@ -25,6 +25,7 @@
       <div class="card">
 <h2><span data-i18n="account-security.change-password.49289d">Change Password</span></h2>
 <form method="post">
+{% csrf_token %}
 <input name="action" type="hidden" value="change_password"/>
 <div class="form-group">
 <label for="old_password"><span data-i18n="account-security.current-password.4d5967">Current Password</span></label>
@@ -47,6 +48,7 @@
           <span data-i18n="account-security.once-you-delete-your-account-there-is-.ec76ba">Once you delete your account, there is no going back. All your data will be permanently removed.</span>
         </p>
 <form method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+{% csrf_token %}
 <input name="action" type="hidden" value="delete_account"/>
 <div class="form-group">
 <label for="password"><span data-i18n="account-security.confirm-password.c2d404">Confirm Password</span></label>

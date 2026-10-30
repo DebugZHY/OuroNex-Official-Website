@@ -36,6 +36,7 @@
       {% endfor %}
     {% endif %}
     <form method="post">
+{% csrf_token %}
 <label for="username"><span data-i18n="account-register.username.84c290">Username</span></label>
 <input autofocus="" id="username" name="username" required="" type="text"/>
 <div class="row">
@@ -56,7 +57,6 @@
 <div class="captcha-row">
 <div class="captcha-q">{{ captcha_question }}</div>
 <input data-i18n-placeholder="account-register.answer.a16a4e" name="captcha" placeholder="Answer" required="" type="text"/>
-<input name="captcha_expected" type="hidden" value="{{ captcha_expected }}"/>
 </div>
 <button style="margin-top: 20px;" type="submit"><span data-i18n="account-register.create-account.aaf374">Create account</span></button>
 </form>

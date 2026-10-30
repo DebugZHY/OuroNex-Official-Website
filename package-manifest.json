@@ -395,6 +395,56 @@
       "path": "assets/illustrations/home-experts.svg",
       "bytes": 1325,
       "sha256": "68f592334b24ad21a821a4bf4e18606aa9f8a85b88b81d61a67713399dd322a8"
+    },
+    {
+      "path": "assets/backgrounds/perspective-grid.svg",
+      "bytes": 5332,
+      "sha256": "00a642ae759172f7479a9837032eb61aa6f0938e9a8c98bee651c68368655def"
+    },
+    {
+      "path": "assets/backgrounds/contour-field.svg",
+      "bytes": 27006,
+      "sha256": "ec4e2d75d3d542aa84e620fd2f6a3ea704d51d5f19ccfb358fa47de46118e305"
+    },
+    {
+      "path": "assets/backgrounds/facade-lines.svg",
+      "bytes": 5765,
+      "sha256": "fe54736a7473ba84abe593400f697a56b5f91745a8798a240a12cb4f9be92d66"
+    },
+    {
+      "path": "assets/backgrounds/isometric-frame.svg",
+      "bytes": 4466,
+      "sha256": "2a63d6d21e6c98d8743ad66acc7f32756a0b40cc00d5393112c376945feffbaa"
+    },
+    {
+      "path": "assets/backgrounds/vertical-city.svg",
+      "bytes": 4896,
+      "sha256": "44617f7c99f5018d9f32214f89054687a5bc094e5297e1d5d8298a56800deca4"
+    },
+    {
+      "path": "assets/backgrounds/wave-mesh.svg",
+      "bytes": 24614,
+      "sha256": "4666c002f26e051aafad354e5ad44f7b928b0025affd17f55ddbc4407b470639"
+    },
+    {
+      "path": "sitemap.xml",
+      "bytes": 1230,
+      "sha256": "26b6b6c8239a535e3d71644762b7a7195f0d1f6aac24f4a99a0031e9e810397e"
+    },
+    {
+      "path": "robots.txt",
+      "bytes": 67,
+      "sha256": "b586ce2c8d6597f590b06c569286b36d0a010bfef5dd35affcc8d37179a8617c"
+    },
+    {
+      "path": "site.webmanifest",
+      "bytes": 273,
+      "sha256": "a3832dae9c2144d90ec7efe2f2082c7256720c9f1110f7506031a846a9614831"
+    },
+    {
+      "path": "assets/og-image.png",
+      "bytes": 117548,
+      "sha256": "3745f3c9dd8e310e4065d4ae3e6df6217c388e6ac6a8f4ef768227793a22f130"
     }
   ]
 }

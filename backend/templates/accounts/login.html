@@ -59,6 +59,7 @@
       {% endfor %}
     {% endif %}
     <form method="post">
+{% csrf_token %}
 <label for="username"><span data-i18n="account-login.username.84c290">Username</span></label>
 <input autofocus="" id="username" name="username" required="" type="text"/>
 <label for="password"><span data-i18n="account-login.password.8be3c9">Password</span></label>

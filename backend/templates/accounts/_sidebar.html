@@ -11,6 +11,15 @@
 </div>
 <div class="section">
 <h3><span data-i18n="account-dashboard.account.85dfa3">Account</span></h3>
-<a href="/logout/"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></a>
+<style>
+body.account-page .sidebar .logout-form { margin: 0; }
+body.account-page .sidebar .logout-form button { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; margin-bottom: 2px; padding: 8px 10px; border: 1px solid transparent; border-radius: 8px; background: none; color: #a9bbd2; font-family: inherit; font-size: 13.5px; line-height: 1.4; text-align: left; cursor: pointer; transition: color .16s ease, background-color .16s ease, border-color .16s ease; }
+body.account-page .sidebar .logout-form button:hover { border-color: rgba(114, 158, 255, .18); background: rgba(114, 158, 255, .08); color: #eaf2ff; }
+body.account-page .sidebar .logout-form button:focus-visible { outline: 2px solid var(--account-accent, #729eff); outline-offset: 2px; }
+@media (max-width: 760px) {
+  body.account-page .sidebar .logout-form button { min-height: 44px; padding: 10px 12px; font-size: 14px; }
+}
+</style>
+<form action="/logout/" class="logout-form" method="post">{% csrf_token %}<button type="submit"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></button></form>
 </div>
 </nav>
