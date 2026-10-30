@@ -31,7 +31,10 @@
 }
 
 .hero-media > svg,
-.hero-media > .motion-field { transform: scaleX(-1); }
+.hero-media > .motion-field {
+  transform: scaleX(-1);
+  filter: brightness(1.35) saturate(1.15);
+}
 
 /* scrim: heavy on the left where the claim sits, a floor at the base for the proof strip */
 .hero-media::after {
@@ -39,9 +42,9 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(8, 14, 23, 0.94) 0%, rgba(8, 14, 23, 0.55) 40%, rgba(8, 14, 23, 0.12) 72%, rgba(8, 14, 23, 1) 100%),
-    linear-gradient(0deg, rgba(8, 14, 23, 0.92) 0%, rgba(8, 14, 23, 0) 42%),
-    linear-gradient(180deg, rgba(8, 14, 23, 0.34) 0%, rgba(8, 14, 23, 0) 28%);
+    linear-gradient(90deg, rgba(8, 14, 23, 0.90) 0%, rgba(8, 14, 23, 0.38) 40%, rgba(8, 14, 23, 0.04) 72%, rgba(8, 14, 23, 1) 100%),
+    linear-gradient(0deg, rgba(8, 14, 23, 0.88) 0%, rgba(8, 14, 23, 0) 42%),
+    linear-gradient(180deg, rgba(8, 14, 23, 0.26) 0%, rgba(8, 14, 23, 0) 28%);
 }
 
 .hero-inner {
@@ -425,7 +428,7 @@ html.motion-ready:not([data-motion-state="paused"]):not([data-motion-state="redu
 
 @media (max-width: 1000px) {
   .hero-title .h1-line--offset { padding-left: 0; }
-  .hero-media { inset: 0; opacity: .68; }
+  .hero-media { inset: 0; opacity: .85; }
   .hero-inner { grid-template-columns: 1fr; align-content: center; gap: 40px; }
   .hero-demo { justify-self: start; max-width: 680px; aspect-ratio: 16 / 8; }
   .sida-benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
