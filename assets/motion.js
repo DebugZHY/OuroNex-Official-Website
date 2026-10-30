@@ -318,18 +318,20 @@
     gradient.addColorStop(1, 'rgba(140,183,246,.36)');
     ctx.strokeStyle = gradient; ctx.lineWidth = .8;
     if (field.kind === 'grid') {
-      const vx = w * .63 + Math.sin(t * .15) * w * .025, vy = h * .2;
-      for (let i = -10; i <= 14; i++) {
-        ctx.beginPath(); ctx.moveTo(vx, vy); ctx.lineTo(w * .5 + i * w * .095, h * 1.1); ctx.stroke();
+      ctx.strokeStyle = 'rgba(114,158,255,.38)'; ctx.lineWidth = 1;
+      const spacing = Math.max(72, w / 14);
+      const drift = Math.sin(t * .12) * spacing * .35;
+      for (let i = -4; i <= 20; i++) {
+        const x = i * spacing + drift;
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + w * .14, h); ctx.stroke();
       }
       for (let i = 0; i < 19; i++) {
-        const depth = ((i / 18 + t * .026) % 1) ** 2;
-        const y = vy + depth * h * .86;
+        const y = ((i / 18 + t * .026) % 1) * h;
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
       }
       ctx.strokeStyle = 'rgba(143,191,255,.34)'; ctx.lineWidth = 1.25;
-      const scan = vy + ((t * .065) % 1) ** 1.5 * h * .86;
-      ctx.beginPath(); ctx.moveTo(w * .22, scan); ctx.lineTo(w, scan); ctx.stroke();
+      const scan = ((t * .065) % 1) * h;
+      ctx.beginPath(); ctx.moveTo(0, scan); ctx.lineTo(w, scan); ctx.stroke();
     } else if (field.kind === 'orbit') {
       const cx = w * .76, cy = h * .49;
       const radius = Math.min(w * .38, h * .69, 600);

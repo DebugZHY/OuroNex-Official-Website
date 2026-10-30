@@ -1,7 +1,10 @@
 import json
+import re
 import secrets
 from datetime import timedelta
+from pathlib import Path
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
@@ -41,6 +44,7 @@ class AuthApiTests(TestCase):
             'email': 'api@example.com',
             'phone': '+852 0000 0000',
             'plan': 'Free',
+            'avatar': None,
         })
         stored_token = AuthToken.objects.get(user=self.user)
         self.assertNotEqual(stored_token.key_hash, body['access_token'])
@@ -93,8 +97,21 @@ class AuthApiTests(TestCase):
             'email': 'api@example.com',
             'phone': '+852 0000 0000',
             'plan': 'Free',
+            'avatar': None,
         }})
         self.assertIsNotNone(AuthToken.objects.get(user=self.user).last_used_at)
+
+    def test_me_accepts_authenticated_django_session_without_bearer(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get('/api/v1/auth/me/')
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body['user']['username'], 'api-user')
+        self.assertEqual(body['user']['uid'], self.profile.uid)
+        self.assertEqual(body['user']['plan'], 'Free')
+        self.assertIsNone(body['user']['avatar'])
 
     def test_me_rejects_missing_or_invalid_bearer_token(self):
         for header in (None, 'Bearer onx_invalid_token'):
@@ -386,11 +403,10 @@ class AccountShellTests(TestCase):
         '/pricing/',
     )
     PUBLIC_DESTINATIONS = (
-        '/news.html',
-        '/platform.html',
-        '/pricing.html',
-        '/business.html',
-        '/about-us.html',
+        '/index.html#sida',
+        '/index.html#price',
+        '/index.html#business',
+        '/index.html#about',
     )
 
     def setUp(self):
@@ -427,13 +443,12 @@ class AccountShellTests(TestCase):
         for path in self.PAGES:
             with self.subTest(page=path):
                 html = self.render(path)
-                self.assertIn('/assets/account.css', html, 'missing /assets/account.css on %s' % path)
-                self.assertIn('/assets/ouronex-mark.svg', html, 'missing /assets/ouronex-mark.svg on %s' % path)
-                self.assertIn('href="/index.html"', html, 'missing Home logo link on %s' % path)
+                self.assertTrue('/assets/account.css' in html, 'missing /assets/account.css on %s' % path)
+                self.assertTrue('/assets/ouronex-mark.svg' in html, 'missing /assets/ouronex-mark.svg on %s' % path)
+                self.assertTrue('href="/index.html"' in html, 'missing Home logo link on %s' % path)
                 for target in self.PUBLIC_DESTINATIONS:
-                    self.assertIn(
-                        'href="%s"' % target,
-                        html,
+                    self.assertTrue(
+                        'href="%s"' % target in html,
                         'missing public destination %s on %s' % (target, path),
                     )
 
@@ -441,13 +456,12 @@ class AccountShellTests(TestCase):
         for path in self.PAGES:
             with self.subTest(page=path):
                 html = self.render(path)
-                self.assertRegex(
-                    html,
-                    r'<body[^>]*class="[^"]*\baccount-page\b',
+                self.assertIsNotNone(
+                    re.search(r'<body[^>]*class="[^"]*\baccount-page\b', html),
                     'missing body.account-page on %s' % path,
                 )
-                self.assertIn('account-topbar', html, 'missing shared topbar on %s' % path)
-                self.assertIn('class="sidebar"', html, 'missing shared sidebar on %s' % path)
+                self.assertTrue('account-topbar' in html, 'missing shared topbar on %s' % path)
+                self.assertTrue('class="sidebar"' in html, 'missing shared sidebar on %s' % path)
 
     def test_each_page_has_one_usage_sidebar_link_and_no_legacy_anchor(self):
         for path in self.PAGES:
@@ -462,9 +476,9 @@ class AccountShellTests(TestCase):
 
     def test_dashboard_retires_the_legacy_usage_card(self):
         html = self.render('/dashboard/')
-        self.assertNotIn('id="usage"', html, 'dashboard must not render the legacy id="usage" card')
-        self.assertIn('kpi-grid', html, 'dashboard lost its KPI grid')
-        self.assertIn('Quick Actions', html, 'dashboard lost its Quick Actions')
+        self.assertFalse('id="usage"' in html, 'dashboard must not render the legacy id="usage" card')
+        self.assertTrue('kpi-grid' in html, 'dashboard lost its KPI grid')
+        self.assertTrue('Quick Actions' in html, 'dashboard lost its Quick Actions')
 
     def test_usage_sidebar_item_is_active_only_on_the_usage_page(self):
         import re
@@ -483,3 +497,95 @@ class AccountShellTests(TestCase):
                     self.assertTrue(active, 'usage item must be active on /dashboard/usage/')
                 else:
                     self.assertFalse(active, 'usage item must not be active on %s' % path)
+
+class HomeOnePageTests(TestCase):
+    """Static checks for the one-page Home consolidation and the five retired pages."""
+
+    HOME_SECTIONS = ('home', 'sida', 'price', 'business', 'about')
+    RETIRED_PAGES = ('news.html', 'platform.html', 'pricing.html', 'business.html', 'about-us.html')
+    TEAM_MEMBERS = ('Jake Chan', 'Haoyi Zhang', 'Ir Prof. Siwei Liu')
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.site_root = Path(settings.STATIC_SITE_ROOT)
+        cls.index_html = (cls.site_root / 'index.html').read_text(encoding='utf-8')
+
+    def nav_primary_block(self):
+        match = re.search(
+            r'<(\w+)[^>]*class="[^"]*\bnav-primary\b[^"]*"[^>]*>(.*?)</\1>',
+            self.index_html,
+            re.S,
+        )
+        self.assertIsNotNone(match, 'index.html has no .nav-primary navigation block')
+        return match.group(2)
+
+    def test_home_has_five_ordered_sections(self):
+        section_tags = re.findall(r'<section\b[^>]*\bdata-home-section\b[^>]*>', self.index_html)
+        self.assertEqual(len(section_tags), 5, 'expected five sections carrying data-home-section')
+        section_ids = [re.search(r'\bid="([^"]+)"', tag).group(1) for tag in section_tags]
+        self.assertEqual(section_ids, list(self.HOME_SECTIONS))
+        main_tag = re.search(r'<main\b[^>]*>', self.index_html)
+        self.assertIsNotNone(main_tag, 'index.html has no <main> element')
+        self.assertIn('id="main"', main_tag.group(0))
+        self.assertIn('home-scroll', main_tag.group(0))
+        for section_id in self.HOME_SECTIONS:
+            with self.subTest(section=section_id):
+                self.assertTrue('id="%s"' % section_id in self.index_html, 'missing #%s section' % section_id)
+
+    def test_home_nav_has_exactly_four_section_anchors(self):
+        block = self.nav_primary_block()
+        hrefs = re.findall(r'<a\b[^>]*href="([^"]*)"', block)
+        self.assertEqual(hrefs, ['#sida', '#price', '#business', '#about'])
+        nav_text = re.sub(r'<[^>]+>', ' ', block).lower()
+        self.assertFalse('news' in nav_text, 'navigation still offers News')
+        self.assertFalse('contact' in nav_text, 'navigation still offers Contact')
+
+    def test_home_lists_the_five_plans_including_enterprise(self):
+        labels = [label for _value, label in Plan.PLAN_CHOICES]
+        self.assertEqual(len(labels), 5)
+        self.assertIn('Enterprise', labels)
+        missing = [label for label in labels if label not in self.index_html]
+        self.assertEqual(missing, [], 'plan names missing from index.html: %s' % missing)
+
+    def test_home_names_the_requested_team_members(self):
+        for name in self.TEAM_MEMBERS:
+            with self.subTest(member=name):
+                self.assertTrue(name in self.index_html, 'missing team member %r' % name)
+
+    def test_retired_page_files_are_deleted(self):
+        existing = [name for name in self.RETIRED_PAGES if (self.site_root / name).exists()]
+        self.assertEqual(existing, [], 'retired pages still on disk: %s' % existing)
+
+    def test_retired_page_routes_return_404(self):
+        for name in self.RETIRED_PAGES:
+            with self.subTest(page=name):
+                response = self.client.get('/' + name)
+                self.assertEqual(response.status_code, 404, '/%s should not be routed' % name)
+
+    def test_retained_pages_have_no_legacy_page_links(self):
+        pattern = re.compile(
+            r'href="(?:\./|/)?(news|platform|pricing|business|about-us)\.html(?:[#?][^"]*)?"',
+            re.I,
+        )
+        offenders = []
+        for page in sorted(self.site_root.glob('*.html')):
+            if page.name in self.RETIRED_PAGES:
+                continue
+            found = pattern.findall(page.read_text(encoding='utf-8'))
+            if found:
+                offenders.append((page.name, sorted(set(found))))
+        self.assertEqual(offenders, [], 'legacy page links remain: %s' % offenders)
+
+    def test_sitemap_has_only_retained_canonical_pages(self):
+        from xml.etree import ElementTree
+
+        root = ElementTree.parse(self.site_root / 'sitemap.xml').getroot()
+        locations = [(node.text or '').strip() for node in root.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
+        retired = {'https://ouronex.com/' + name for name in self.RETIRED_PAGES}
+        self.assertFalse(retired.intersection(locations), 'sitemap lists deleted pages')
+        self.assertEqual(locations.count('https://ouronex.com/'), 1, 'Home must have one canonical sitemap entry')
+        for location in locations:
+            path = location.removeprefix('https://ouronex.com/').split('#', 1)[0].split('?', 1)[0]
+            if path.endswith('.html'):
+                self.assertTrue((self.site_root / path).is_file(), 'sitemap target missing: %s' % location)

@@ -18,12 +18,19 @@ def api_error(code, message, status):
 def serialize_user(user):
     profile = getattr(user, 'profile', None)
     subscription = user.subscriptions.filter(status='active').select_related('plan').first()
+    # avatar stays None until a compatible profile attribute supplies a URL; no model change.
+    avatar = None
+    if profile is not None:
+        candidate = getattr(profile, 'avatar', None) or getattr(profile, 'avatar_url', None)
+        if isinstance(candidate, str) and candidate.strip():
+            avatar = candidate.strip()
     return {
         'uid': profile.uid if profile else None,
         'username': user.username,
         'email': user.email,
         'phone': profile.phone if profile else '',
         'plan': subscription.plan.display_name if subscription else None,
+        'avatar': avatar,
     }
 
 
@@ -56,6 +63,9 @@ def login(request):
 def me(request):
     if request.method != 'GET':
         return api_error('method_not_allowed', 'Use GET for this endpoint.', 405)
+    # A dashboard session is enough on its own; Bearer tokens keep working for integrations.
+    if request.user.is_authenticated:
+        return JsonResponse({'user': serialize_user(request.user)})
     raw_token = request.headers.get('Authorization', '').removeprefix('Bearer ')
     token = AuthToken.verify(raw_token)
     if token is None:

@@ -2,14 +2,9 @@
   "purpose": "Web pages package: current site pages, runtime assets and compiled translation dictionaries; no evidence/model/generator",
   "files": [
     {
-      "path": "about-us.html",
-      "bytes": 15710,
-      "sha256": "8eee3993173f45e0ced6bbd3ef6ff5b5a1cfd0eec93b6baa086c01c4a6cd2150"
-    },
-    {
       "path": "arena.html",
-      "bytes": 7622,
-      "sha256": "178ed5b4a0c8ac5c9ac2e190a93d62a6f1f20c241cc986f792bddf4cf1eb9f26"
+      "bytes": 7306,
+      "sha256": "c1eb68d0676ba0846b234b73eed5ee90aa116abb4a12cff2f71718cf2a445444"
     },
     {
       "path": "assets/company.css",
@@ -63,8 +58,8 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 15164,
-      "sha256": "4d8519cbdc99d1afb722f6358f4a7bf1e601d982bc4ae3759ec389a89366238e"
+      "bytes": 17817,
+      "sha256": "c6632268afcf50a62c56be8114c36d271ce0a80791387b4b4ba89c8065b26f9f"
     },
     {
       "path": "assets/illustrations/coaching-support.svg",
@@ -148,8 +143,8 @@
     },
     {
       "path": "assets/motion.js",
-      "bytes": 21521,
-      "sha256": "daafa4cab7ff6ccb92727ddffc166107ff5d220f1513dd99a8c545fde7633829"
+      "bytes": 21569,
+      "sha256": "6ed52013a96f4690391687dd9e3a42ff42245c228b288db5aa525794d07c6faf"
     },
     {
       "path": "assets/ouronex-mark.svg",
@@ -168,73 +163,58 @@
     },
     {
       "path": "assets/site.js",
-      "bytes": 7631,
-      "sha256": "5556f1e03153174b8973491da3ad56f896088c1236884d9dad253222ab507c61"
+      "bytes": 12789,
+      "sha256": "328e24a4adf6b20eaa2416dd854bb6e91ac9619fcc848ca2f019fa34dcc45738"
     },
     {
       "path": "contact.html",
-      "bytes": 12368,
-      "sha256": "340f4cfa3daa4f9166fbd00b75ec689d0ef15888faba76d00fdd21071d0741e0"
+      "bytes": 11985,
+      "sha256": "695f46961d31800e0e145d99418290e6e6ac162ce82705a877f64fa630a9c530"
     },
     {
       "path": "index.html",
-      "bytes": 18640,
-      "sha256": "9dce6e6c483a1a5ec0f112da8f5d898c0d01b49da59feb3f00e15e97d7028b6e"
+      "bytes": 17195,
+      "sha256": "0480e37529d57c9037ef3a8077f9479a76958abda802e0a1d4886b071d34aea7"
     },
     {
       "path": "news/_template.html",
-      "bytes": 8351,
-      "sha256": "aeb9e00c2e2798c1043f9fe88558e919d4bcd364dbd33383336725b92546d7bf"
+      "bytes": 7721,
+      "sha256": "e9ca3cd3266bdb8e41012df4ad1606d5fe0977d3ab005c98dc929286a51a7d40"
     },
     {
       "path": "news/sample-drawings-as-engineer.html",
-      "bytes": 12079,
-      "sha256": "a3b6799d79b31ea67312db25bb80311ae3baa4b0796e96133e58a43d8a866d43"
+      "bytes": 11415,
+      "sha256": "66cf3224e242c0228196b9c9b17caf252803aef296d0f95663731f96b1ca3241"
     },
     {
       "path": "news/sample-hong-kong-gba.html",
-      "bytes": 11764,
-      "sha256": "c335783b2df673bb5fa2c4ad638c1bbc7abbed3d833fd3d5ba00fb983a481959"
+      "bytes": 11114,
+      "sha256": "684b0ceba85f38a8f64ea3d938e9c5793eff05ce91108841c5d286771cc3efa9"
     },
     {
       "path": "news/sample-llm-drawing-review.html",
-      "bytes": 11930,
-      "sha256": "ce8e3029b2cd9e2522fe0e68bf350aea56e9cda78f9a5526b8f0c52f4c986d1c"
+      "bytes": 11270,
+      "sha256": "4c6da6a25c0f04ef096fca59083ea055daf097981ab82c57b48132935e2d1921"
     },
     {
       "path": "news/sample-pilot-to-practice.html",
-      "bytes": 11716,
-      "sha256": "a8391f245063e3ef90cb4563ee7fa8b0a73943d38a00b32209c96d75c02ae558"
+      "bytes": 11058,
+      "sha256": "d159eb3aa53281d6efc3c8865f46216c5bff42b24f927acd061c0a2c3c421493"
     },
     {
       "path": "news/sample-review-as-product.html",
-      "bytes": 11908,
-      "sha256": "7387f82168571b026fec2a78088c94e6f65b9bd5d057ed5c1654dae09c6c5c93"
+      "bytes": 11250,
+      "sha256": "b6b894c58f5925f54a2138e541cc9046f5f650cd3bf3d921594d0c61babf0480"
     },
     {
       "path": "news/sample-sida-2026.html",
-      "bytes": 11998,
-      "sha256": "c9bd9b2ca68aefd024113cb465144db12e3631946c72f59721a47af7c2c9bf29"
+      "bytes": 11356,
+      "sha256": "180efeffe514868781c24d5670b5937a997a52c80faa56dda862ae524e5cc5ce"
     },
     {
       "path": "news/sample-soda-assumptions.html",
-      "bytes": 12170,
-      "sha256": "7ebdcf8568ab7c8409b36159787447d9acb8868c54b2d6a7acc6f070c5261a4c"
-    },
-    {
-      "path": "news.html",
-      "bytes": 16960,
-      "sha256": "886514a69478409c325d79c05d9248296d04fc892d22a3d4f00985572b7d9dd4"
-    },
-    {
-      "path": "platform.html",
-      "bytes": 18644,
-      "sha256": "f2e58b3eb189db03ce50e79670572a8aeb44091d677b1d8014854e3e898d1f3c"
-    },
-    {
-      "path": "business.html",
-      "bytes": 22292,
-      "sha256": "eda4ec95a920aa64d72fa00d24f632f41ce129a2a95d0b78184203f1941baef3"
+      "bytes": 11513,
+      "sha256": "9f0c8df364db0d60fc3993fe3dd21ece77cc2c76624430388af0c1ad77cf535b"
     },
     {
       "path": "assets/i18n.css",
@@ -308,8 +288,8 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 13703,
-      "sha256": "9cdda8bc22b508157901cb8e755cc55042efc3867cff09f0c5ebc4a23d7001fd"
+      "bytes": 12879,
+      "sha256": "1a58de451b8b9ed426a6cbc442332cb8011b654d42d510f9302198649fbb0dbc"
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -373,13 +353,8 @@
     },
     {
       "path": "404.html",
-      "bytes": 5452,
-      "sha256": "2d9b709ea522a86712ba21f28f7e57fd0e769dc41aa4903a8b8abb1dca0fc6a8"
-    },
-    {
-      "path": "pricing.html",
-      "bytes": 15556,
-      "sha256": "1e8171fa7e82d999d142ea892b8895818e740eb2081657c1f05b49b50355a328"
+      "bytes": 5152,
+      "sha256": "5df41f44688ecf34c4577781403ebc081326313df2b206e101520d8ce4c25fb1"
     },
     {
       "path": "assets/token-usage.css",
@@ -395,6 +370,31 @@
       "path": "assets/account.css",
       "bytes": 28373,
       "sha256": "829100cdca59e21d706f056cf917031b2294730384de26eb30f7d54c13011cc2"
+    },
+    {
+      "path": "assets/home.js",
+      "bytes": 18276,
+      "sha256": "3de67df13cd9406c9b4960a2deaee509c6496983ed02eac32a6cb42e9b7c59fe"
+    },
+    {
+      "path": "assets/illustrations/home-engineering.svg",
+      "bytes": 616,
+      "sha256": "7cc77c46da0898ccbcbcd33a35ea0a98dc675ad4ba0de49405d8f33b454172be"
+    },
+    {
+      "path": "assets/illustrations/home-free.svg",
+      "bytes": 751,
+      "sha256": "ec19416043eed356736c8d0e9f51aeded2a56f021e951a4d8ba8d2a45f9f7de3"
+    },
+    {
+      "path": "assets/illustrations/home-workflow.svg",
+      "bytes": 947,
+      "sha256": "177103b3d8c5f77cc89207bb4c6bda2c7a5ae1f0b252b308ae586848ca5b7ea4"
+    },
+    {
+      "path": "assets/illustrations/home-experts.svg",
+      "bytes": 1325,
+      "sha256": "68f592334b24ad21a821a4bf4e18606aa9f8a85b88b81d61a67713399dd322a8"
     }
   ]
 }

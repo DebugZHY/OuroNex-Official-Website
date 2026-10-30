@@ -32,19 +32,25 @@
     mobile.addEventListener('change', () => setMenu(false));
   }
 
+  const homeScroll = document.querySelector('main#main.home-scroll');
   const progress = document.querySelector('.reading-progress');
   let scrollFrame = 0;
   const updateScroll = () => {
     scrollFrame = 0;
-    header?.classList.toggle('is-scrolled', window.scrollY > 24);
-    const distance = root.scrollHeight - window.innerHeight;
-    const value = distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0;
+    const scrollTop = homeScroll ? homeScroll.scrollTop : window.scrollY;
+    // Home owns its one-page header state; the container supplies the reading position.
+    if (!homeScroll) header?.classList.toggle('is-scrolled', window.scrollY > 24);
+    const distance = homeScroll
+      ? homeScroll.scrollHeight - homeScroll.clientHeight
+      : root.scrollHeight - window.innerHeight;
+    const value = distance > 0 ? Math.min(1, Math.max(0, scrollTop / distance)) : 0;
     if (progress) progress.style.transform = `scaleX(${value})`;
   };
   const queueScroll = () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
   };
   window.addEventListener('scroll', queueScroll, { passive: true });
+  homeScroll?.addEventListener('scroll', queueScroll, { passive: true });
   window.addEventListener('resize', queueScroll, { passive: true });
   if ('ResizeObserver' in window) new ResizeObserver(queueScroll).observe(document.body);
   updateScroll();
@@ -173,4 +179,127 @@
       }
     });
   });
+
+  const safeAvatarUrl = value => {
+    if (typeof value !== 'string') return '';
+    const raw = value.trim();
+    if (!raw) return '';
+    let url;
+    try {
+      url = new URL(raw, document.baseURI || window.location.href);
+    } catch {
+      return '';
+    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return '';
+    if (url.username || url.password) return '';
+    return url.hostname ? url.href : '';
+  };
+  const initialsFromUsername = value => {
+    const name = typeof value === 'string' ? value.trim() : '';
+    if (!name) return '';
+    const spaced = name.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[\s._\-@+]+/g, ' ').trim();
+    const words = spaced.split(/\s+/).filter(Boolean);
+    const lettersOnly = word => Array.from(word).filter(character => /[\p{L}\p{N}]/u.test(character));
+    let characters = [];
+    if (words.length > 1) {
+      const first = lettersOnly(words[0])[0];
+      const second = lettersOnly(words[1])[0];
+      if (first && second) characters = [first, second];
+      else if (first) characters = lettersOnly(words[0]);
+    } else if (words.length === 1) {
+      characters = lettersOnly(words[0]);
+    }
+    if (!characters.length) characters = Array.from(name.replace(/[\s._\-@+]+/g, '')).filter(Boolean);
+    if (!characters.length) return '??';
+    const combined = (characters[0] + (characters[1] || characters[0])).toUpperCase();
+    const upper = Array.from(combined);
+    if (upper.length === 1) return upper[0] + upper[0];
+    return upper.slice(0, 2).join('');
+  };
+  const styleInitials = node => {
+    node.style.display = 'inline-flex';
+    node.style.alignItems = 'center';
+    node.style.justifyContent = 'center';
+    node.style.width = '28px';
+    node.style.height = '28px';
+    node.style.flex = 'none';
+    node.style.borderRadius = '50%';
+    node.style.background = 'rgba(114, 158, 255, .18)';
+    node.style.border = '1px solid rgba(114, 158, 255, .5)';
+    node.style.color = 'var(--ink, #edf2f8)';
+    node.style.fontSize = '11px';
+    node.style.fontWeight = '600';
+    node.style.lineHeight = '1';
+    node.style.letterSpacing = '.02em';
+  };
+  const makeInitials = username => {
+    const node = document.createElement('span');
+    node.className = 'nav-initials';
+    node.dataset.userInput = '';
+    node.setAttribute('aria-hidden', 'true');
+    node.textContent = initialsFromUsername(username);
+    styleInitials(node);
+    return node;
+  };
+  const styleAvatar = image => {
+    image.style.display = 'block';
+    image.style.width = '28px';
+    image.style.height = '28px';
+    image.style.flex = 'none';
+    image.style.borderRadius = '50%';
+    image.style.objectFit = 'cover';
+    image.style.background = 'rgba(114, 158, 255, .18)';
+  };
+  const setSignedIn = (link, user) => {
+    const username = typeof user.username === 'string' ? user.username.trim() : '';
+    if (!username) return;
+    const avatar = safeAvatarUrl(user.avatar);
+    link.setAttribute('href', '/dashboard/');
+    link.classList.add('is-authenticated');
+    link.removeAttribute('data-i18n');
+    link.removeAttribute('data-i18n-dynamic');
+    delete link.dataset.i18nDynamicKey;
+    link.removeAttribute('data-i18n-aria-label');
+    link.removeAttribute('data-i18n-title');
+    link.setAttribute('aria-label', username);
+    link.setAttribute('title', username);
+
+    if (avatar) {
+      const image = document.createElement('img');
+      image.className = 'nav-avatar';
+      image.alt = '';
+      image.width = 28;
+      image.height = 28;
+      image.decoding = 'async';
+      image.dataset.userInput = '';
+      styleAvatar(image);
+      image.addEventListener('error', () => {
+        link.replaceChildren(makeInitials(username));
+      }, { once: true });
+      link.replaceChildren(image);
+      image.src = avatar;
+      return;
+    }
+    link.replaceChildren(makeInitials(username));
+  };
+  const loadSignedInUser = () => {
+    const links = [...document.querySelectorAll('[data-signin]')];
+    if (!links.length || typeof fetch !== 'function') return;
+    fetch('/api/v1/auth/me/', {
+      method: 'GET',
+      credentials: 'same-origin',
+      cache: 'no-store',
+      headers: { Accept: 'application/json' }
+    }).then(response => {
+      if (!response || !response.ok) return null;
+      return response.json().then(body => body, () => null);
+    }).then(payload => {
+      if (!payload || !payload.user || typeof payload.user !== 'object') return;
+      links.forEach(link => setSignedIn(link, payload.user));
+    }).catch(() => {
+      /* Anonymous and offline visitors keep the normal Log in destination. */
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadSignedInUser, { once: true });
+  else loadSignedInUser();
 })();
