@@ -65,11 +65,14 @@ def _decode(raw: bytes) -> str:
     return raw.decode("utf-8", "replace")
 
 
-def _run_packager(repo, output_dir=None, args=()):
+def _run_packager(repo, output_dir=None, args=(), no_pause=True):
     env = os.environ.copy()
     env.pop("OURONEX_RELEASE_OUTPUT", None)
     env.pop("OURONEX_RELEASE_SOURCE", None)
-    env["OURONEX_NO_PAUSE"] = "1"
+    if no_pause:
+        env["OURONEX_NO_PAUSE"] = "1"
+    else:
+        env.pop("OURONEX_NO_PAUSE", None)
     if output_dir is not None:
         env["OURONEX_RELEASE_OUTPUT"] = str(output_dir)
     argv = ["cmd.exe", "/c", str(PACKAGER_CMD), "-RepoRoot", str(repo)]
@@ -217,6 +220,8 @@ class ReleasePackagingTest(unittest.TestCase):
         self.assertIn(str(zip_path), self.stdout)
         digest = hashlib.sha256(zip_path.read_bytes()).hexdigest()
         self.assertIn(digest, self.stdout.lower())
+        # OURONEX_NO_PAUSE=1 must suppress the closing prompt for automation.
+        self.assertNotIn("press any key", self.stdout.lower())
 
     def test_archive_reopens_and_has_app_and_public_roots(self):
         self.assertIsNone(zipfile.ZipFile(self.zip_path).testzip())
@@ -351,6 +356,9 @@ class MissingContentFailureTest(unittest.TestCase):
         cls.removed = "index.html"
         (cls.repo / cls.removed).unlink()
         cls.proc, cls.stdout, cls.stderr = _run_packager(cls.repo, cls.out_dir)
+        cls.paused_proc, cls.paused_stdout, cls.paused_stderr = _run_packager(
+            cls.repo, cls.out_dir, no_pause=False
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -363,6 +371,12 @@ class MissingContentFailureTest(unittest.TestCase):
         self.assertIn(self.removed, combined)
         self.assertNotIn("release package ready", combined)
         self.assertEqual(_release_zips(self.out_dir), [])
+
+    def test_pauses_on_failure_unless_suppressed(self):
+        paused = (self.paused_stdout + self.paused_stderr).lower()
+        self.assertNotEqual(self.paused_proc.returncode, 0)
+        self.assertIn("press any key", paused)
+        self.assertNotIn("release package ready", paused)
 
 
 if __name__ == "__main__":
