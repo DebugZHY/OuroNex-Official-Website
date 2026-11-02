@@ -21,6 +21,18 @@
 <link href="assets/site.css" rel="stylesheet"/>
 <link href="assets/home.css" rel="stylesheet"/>
 <link href="assets/business-flow.css" rel="stylesheet"/>
+<script>
+(function(){
+var root=document.documentElement;
+try{if(!window.matchMedia("(min-width:761px)").matches)return;}catch(e){return;}
+root.setAttribute("data-flow","loading");
+window.__ouroFlowTimer=setTimeout(function(){
+if(root.getAttribute("data-flow")!=="loading")return;
+if(document.querySelector("[data-flow-live]"))return;
+root.removeAttribute("data-flow");
+},45000);
+})();
+</script>
 <link href="assets/motion.css" rel="stylesheet"/>
 <link href="/assets/i18n.css" rel="stylesheet"/>
 <script defer="" src="/assets/i18n/shared.js"></script>
@@ -33,9 +45,19 @@
 function start(){
 var host=document.querySelector("[data-flow-root]");
 if(!host)return;
-function load(){if(window.OuroNexBusinessFlow)return;var s=document.createElement("script");s.src="assets/business-flow.js";s.defer=true;document.head.appendChild(s);}
+var root=document.documentElement;
+var wide=window.matchMedia("(min-width:761px)").matches;
+if(!wide)return;
+if(root.getAttribute("data-flow")!=="loading")root.setAttribute("data-flow","loading");
+function fallback(){if(host.dataset.flowLive)return;root.removeAttribute("data-flow");}
+function load(){if(window.OuroNexBusinessFlow)return;
+var s=document.createElement("script");s.src="assets/business-flow.js";
+try{s.fetchPriority="high";}catch(e){}
+s.onerror=function(){clearTimeout(window.__ouroFlowTimer);fallback();};
+s.onload=function(){clearTimeout(window.__ouroFlowTimer);};
+document.head.appendChild(s);}
 if(!("IntersectionObserver"in window)){load();return;}
-var io=new IntersectionObserver(function(entries){if(entries.some(function(e){return e.isIntersecting;})){io.disconnect();load();}},{rootMargin:"80% 0px"});
+var io=new IntersectionObserver(function(entries){if(entries.some(function(e){return e.isIntersecting;})){io.disconnect();load();}},{rootMargin:"150% 0px"});
 io.observe(host);
 }
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",start);}else{start();}
@@ -195,6 +217,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 <div class="business-flow" data-flow-root>
 <div class="flow-canvas bf-canvas" data-flow-canvas role="group"></div>
+<div aria-hidden="true" class="bf-loading"><div class="bf-loading__col"><i></i><i></i><i></i></div><div class="bf-loading__col bf-loading__col--gate"><i></i></div><div class="bf-loading__col"><i></i><i></i><i></i></div><div class="bf-loading__bar"><i></i></div></div>
 <div class="flow" data-flow-fallback>
 <div class="flow-stage flow-stage--entry">
 <article class="flow-card"><p class="flow-kicker"><span data-i18n="home.flow-entry-1-kicker">No clear picture yet</span></p><h3><span data-i18n="home.flow-entry-1-title">On-site consultation</span></h3><p class="flow-copy"><span data-i18n="home.flow-entry-1-copy">We walk your live workflow and map where the hours go.</span></p></article><article class="flow-card"><p class="flow-kicker"><span data-i18n="home.flow-entry-2-kicker">Scope already defined</span></p><h3><span data-i18n="home.flow-entry-2-title">Scoped proposal</span></h3><p class="flow-copy"><span data-i18n="home.flow-entry-2-copy">Scope, review points and delivery date priced up front.</span></p></article><article class="flow-card"><p class="flow-kicker"><span data-i18n="home.flow-entry-3-kicker">Want to see it working</span></p><h3><span data-i18n="home.flow-entry-3-title">Pilot first</span></h3><p class="flow-copy"><span data-i18n="home.flow-entry-3-copy">One real project runs on SIDA before any invoice.</span></p></article>

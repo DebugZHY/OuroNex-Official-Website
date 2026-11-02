@@ -60,6 +60,41 @@ class FlowAssetWiringTests(unittest.TestCase):
         self.assertIn('role="group"', self.html)
         self.assertRegex(self.html, r'data-flow-canvas[^>]*role="group"')
 
+    def test_the_panel_shows_a_skeleton_while_the_bundle_loads(self) -> None:
+        start = self.html.index('<div class="business-flow" data-flow-root>')
+        end = self.html.index('class="business-cta"', start)
+        block = self.html[start:end]
+        self.assertIn('class="bf-loading"', block, "a slow bundle used to expose the no-JS diagram")
+        self.assertGreaterEqual(block.count("bf-loading__col"), 3)
+        self.assertIn("bf-loading__bar", block)
+
+    def test_the_loader_arms_the_loading_state_and_a_fallback(self) -> None:
+        start = self.html.index("data-flow-root")
+        loader = self.html.rindex("<script>", 0, start)
+        block = self.html[loader : self.html.index("</script>", loader)]
+        # The state is armed in a parse-time script in head: waiting for
+        # DOMContentLoaded meant a slow page showed the no-JS diagram for seconds.
+        head_block = self.html[self.html.index("matchMedia(\"(min-width:761px)\"") - 400 : self.html.index("matchMedia(\"(min-width:761px)\"") + 400]
+        self.assertIn('root.setAttribute("data-flow","loading")', head_block)
+        self.assertIn("45000", head_block, "a page that never finishes loading has to show the static diagram")
+        self.assertIn('removeAttribute("data-flow")', block)
+        self.assertIn('data-flow','root.setAttribute("data-flow","loading")')
+        self.assertIn("s.onerror=", block, "a failed download has to fall back to the static diagram")
+        self.assertIn("clearTimeout(window.__ouroFlowTimer)", block, "a slow but working download must not flip to the static diagram")
+        self.assertIn("__ouroFlowTimer", block, "the head timer is the last resort for a stalled download")
+        self.assertIn('matchMedia("(min-width:761px)")', block, "the canvas never mounts below 761px")
+
+    def test_the_states_drive_the_visible_layer(self) -> None:
+        css = read(ROOT / "assets" / "home.css")
+        self.assertIn('html[data-flow="loading"] .business-flow .bf-loading{', css)
+        self.assertIn('html[data-flow="loading"] .business-flow .flow{display:none}', css)
+        self.assertIn(".business-flow .bf-loading{display:none}", css)
+
+    def test_the_bundle_reports_the_live_state(self) -> None:
+        source = read(TOOL / "src" / "index.jsx")
+        self.assertIn("setAttribute('data-flow', 'live')", source)
+        self.assertIn("removeAttribute('data-flow')", source)
+
     def test_the_controls_carry_translated_labels(self) -> None:
         bundle = read(BUNDLE_JS)
         for key in ("flow-zoom-in", "flow-zoom-out", "flow-reset", "flow-hint"):

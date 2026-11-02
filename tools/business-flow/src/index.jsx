@@ -418,8 +418,10 @@ function boot() {
     requestAnimationFrame(() => {
       try {
         mount(container);
+        document.documentElement.setAttribute('data-flow', 'live');
       } catch (error) {
         delete root.dataset.flowLive;
+        document.documentElement.removeAttribute('data-flow');
         container.dataset.flowMounted = 'false';
         if (window.console) console.error('[business-flow]', error);
       }

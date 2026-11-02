@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 53729,
-      "sha256": "0190c12f92c9385131d010f71da376aa07baab336ea589736115196cdb6aa8a1",
-      "size": 53729
+      "bytes": 54950,
+      "sha256": "370592eb00e09cd634601b3d30943e9bf4650b9d50b7c60004b2209146a41e56",
+      "size": 54950
     },
     {
       "path": "assets/home.js",
@@ -393,9 +393,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 31579,
-      "sha256": "63f2dc397300a2827272bacfb77c8cacebbbfc83671bb17b78eec231538accf2",
-      "size": 31579
+      "bytes": 32688,
+      "sha256": "40826aa787e6c468dbfcf5202adb794970f8dcc5b72acdda4c8104d67ab50a1b",
+      "size": 32688
     },
     {
       "path": "news/_template.html",
@@ -483,9 +483,9 @@
     },
     {
       "path": "assets/business-flow.js",
-      "bytes": 213014,
-      "size": 213014,
-      "sha256": "07d2560f3bc564a1654b23b098604157341136a8af2d11777295eefd7269ace0"
+      "bytes": 213126,
+      "size": 213126,
+      "sha256": "67b1ad8e3e6bb0df1898942753e4c558a6b6e31295a4004ea2c7d371c967e172"
     }
   ]
 }

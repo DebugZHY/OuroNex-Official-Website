@@ -136,10 +136,19 @@ class BusinessScaleFixtures(unittest.TestCase):
         raise AssertionError(f"{selector}: no base rule in assets/home.css")
 
     def media_block(self, *fragments: str):
-        for prelude, body, offset in self.medias:
+        bodies = []
+        offset = None
+        for prelude, body, block_offset in self.medias:
             if all(normalise(fragment) in prelude for fragment in fragments):
-                return body, offset
-        raise AssertionError(f"missing @media block containing {fragments}")
+                bodies.append(body)
+                # The group ends at its last block; that is the point base rules
+                # must not come after.
+                offset = block_offset
+        if not bodies:
+            raise AssertionError(f"missing @media block containing {fragments}")
+        # Several blocks can share a prelude; the cascade reads them in order, so
+        # the whole group has to be inspected together.
+        return "".join(bodies), offset
 
     def media_rule(self, body: str, selector: str) -> dict:
         target = normalise(selector)
