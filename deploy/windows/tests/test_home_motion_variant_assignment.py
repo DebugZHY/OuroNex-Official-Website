@@ -45,7 +45,6 @@ SELECTOR_GROUPS = (
     ".process > h2",
     ".process-list > article",
     ".about-intro > h2",
-    ".about-body > p",
     ".home-footer > .footer-brand-block",
     ".home-footer > .footer-copyright",
     ".home-footer > .footer-content",
@@ -91,7 +90,6 @@ if (typeof fn === 'function') {
     ['depth', ['.delivery-grid > article']],
     ['drift', ['.process-list > article']],
     ['slide', ['.about-intro > h2']],
-    ['fade', ['.about-body > p']],
     ['drift', ['.home-footer > .footer-content']],
     ['rise', []],
     ['rise', ['.unrelated-selector']]

@@ -439,21 +439,6 @@
     "zh-CN": "OuroNex 为结构工程打造 AI 工具，把设计意图转化为经得起专业实践检验的分析、校核与文档。",
     "zh-TW": "OuroNex 為結構工程打造 AI 工具，把設計意圖轉化為經得起專業實踐檢驗的分析、校核與文件。"
   },
-  "home.about-body-1": {
-    "en": "Our work starts from the standards engineers already trust. Analysis, member checks and reports follow recognised design codes and review habits, so results can be defended in a design meeting rather than merely generated.",
-    "zh-CN": "我们的工作从工程师信任的规范出发。分析、构件校核与报告都遵循公认的设计规范与评审习惯，结果可以在设计会议上被论证，而不只是被生成。",
-    "zh-TW": "我們的工作從工程師信任的規範出發。分析、構件校核與報告都遵循公認的設計規範與評審習慣，結果可以在設計會議上被論證，而不只是被生成。"
-  },
-  "home.about-body-2": {
-    "en": "Structural engineering, computational mechanics and machine learning sit in the same team. Models are built and validated against real load paths, material behaviour and construction tolerances, and every result stays explainable to the engineer who signs it.",
-    "zh-CN": "结构工程、计算力学与机器学习在同一个团队里。模型依据真实的传力路径、材料性能与施工容差建立并验证，每一个结果都能向签字负责的工程师解释清楚。",
-    "zh-TW": "結構工程、計算力學與機器學習在同一個團隊裡。模型依據真實的傳力路徑、材料性能與施工容差建立並驗證，每一個結果都能向簽字負責的工程師解釋清楚。"
-  },
-  "home.about-body-3": {
-    "en": "We are a Hong Kong company. Tools are developed alongside practicing engineers and refined on live projects, which keeps them close to the way design work is actually delivered.",
-    "zh-CN": "我们是一家香港公司。工具与实践中的工程师共同开发，并在真实项目上迭代，因此始终贴近设计工作的实际交付方式。",
-    "zh-TW": "我們是一家香港公司。工具與實踐中的工程師共同開發，並在真實專案上迭代，因此始終貼近設計工作的實際交付方式。"
-  },
   "home.about-founder-name": {
     "en": "Haoyi ZHANG",
     "zh-CN": "Haoyi ZHANG",

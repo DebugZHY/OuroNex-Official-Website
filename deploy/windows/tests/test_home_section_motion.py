@@ -57,7 +57,6 @@ MOTION_ITEM_GROUPS = (
     ".process > h2",
     ".process-list > article",
     ".about-intro > h2",
-    ".about-body > p",
     ".home-footer > .footer-brand-block",
     ".home-footer > .footer-copyright",
     ".home-footer > .footer-content",
