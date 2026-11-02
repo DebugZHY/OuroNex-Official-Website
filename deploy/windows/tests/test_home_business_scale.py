@@ -1,12 +1,12 @@
-"""Static CSS contract for the Business tracks and the Application section.
+"""Static contract for the Business flowchart and the Application section.
 
-Pins the exact desktop declarations the Home manager is applying to
-``assets/home.css`` for the Business section, and guards the small-screen rules
-that must survive that scale-up (≤760px stack, ≤420px refinements and the
-short-desktop 761px+ band).
+Pins the desktop geometry of the engagement flowchart in ``assets/home.css``
+(three entry cards, a fan-in bus, one dashed decision gate, a fan-out bus, three
+service lanes, one delivery bar) plus the small-screen rules that must survive
+it, and checks the markup and copy that drive the diagram.
 
-Self-contained: reads only ``assets/home.css``; no dependency on sibling test
-modules, no browser, no server.
+Self-contained: reads only ``assets/home.css``, ``index.html`` and the home
+dictionary; no browser, no server.
 """
 
 from __future__ import annotations
@@ -26,6 +26,16 @@ COPY_KEYS = (
     "home.saas-copy",
     "home.training-copy",
 )
+FLOW_KEYS = tuple(
+    key
+    for group in ("entry-1", "entry-2", "entry-3", "lane-1", "lane-2", "lane-3")
+    for key in (f"home.flow-{group}-kicker", f"home.flow-{group}-title", f"home.flow-{group}-copy")
+) + (
+    "home.flow-lede",
+    "home.flow-band-title",
+    "home.flow-band-note",
+    "home.flow-final-title",
+) + tuple(f"home.flow-pill-{i}" for i in range(1, 6))
 
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -34,6 +44,7 @@ MOBILE = "max-width:760px"
 NARROW = "max-width:420px"
 SHORT_DESKTOP = "max-height:760px"
 TABLET_MIN = "min-width:761px"
+LEFT_TO_RIGHT = "min-width:1101px"
 
 
 def normalise(value: str) -> str:
@@ -147,37 +158,72 @@ class BusinessScaleFixtures(unittest.TestCase):
         )
 
 
-class BusinessDesktopScaleTests(BusinessScaleFixtures):
+class BusinessFlowDesktopTests(BusinessScaleFixtures):
     def test_desktop_layout_is_centred_and_evenly_gapped(self):
         layout = self.base_rule(".business-layout")
         self.assert_decl(layout, "width", "min(1400px,calc(100% - 64px))!important")
         self.assert_decl(layout, "align-content", "center")
-        self.assert_decl(layout, "gap", "clamp(22px,3vh,36px)")
+        self.assert_decl(layout, "gap", "clamp(14px,2.4vh,32px)")
 
     def test_desktop_type_scale(self):
         heading = self.base_rule(".business-layout h2")
         self.assert_decl(heading, "font-size", "clamp(38px,3.2vw,70px)")
         self.assertEqual(margin_side(heading, "bottom"), "0", "the lede, not a margin, spaces the h2")
         self.assert_decl(self.base_rule(".business-lede"), "font-size", "21px")
-        self.assert_decl(self.base_rule(".track h3"), "font-size", "26px")
-        self.assert_decl(self.base_rule(".track-desc"), "font-size", "16px")
-        self.assert_decl(self.base_rule(".track-steps h4"), "font-size", "17px")
-        self.assert_decl(self.base_rule(".track-steps p"), "font-size", "15px")
+        self.assert_decl(self.base_rule(".flow-card h3"), "font-size", "23px")
+        self.assert_decl(self.base_rule(".flow-kicker"), "font-size", "13px")
+        self.assert_decl(self.base_rule(".flow-copy"), "font-size", "15px")
+        self.assert_decl(self.base_rule(".flow-pills li"), "font-size", "14px")
 
-    def test_three_tracks_share_the_row(self):
-        grid = self.base_rule(".track-grid")
-        self.assert_decl(grid, "grid-template-columns", "repeat(3,minmax(0,1fr))")
-        self.assert_decl(grid, "gap", "20px")
-        self.assert_decl(self.base_rule(".track"), "padding", "26px")
+    def test_three_entry_cards_and_three_lane_cards_share_one_grid(self):
+        stage = self.base_rule(".flow-stage")
+        self.assert_decl(stage, "grid-template-columns", "repeat(3,minmax(0,1fr))")
+        self.assert_decl(stage, "gap", "var(--flow-gap)")
+        self.assert_decl(self.base_rule(".flow"), "--flow-gap", "18px")
+        self.assert_decl(
+            self.base_rule(".flow-card"),
+            "padding",
+            "clamp(15px,2.2vh,22px) 24px clamp(17px,2.4vh,24px)",
+        )
+        self.assert_decl(self.base_rule(".flow-card--lane"), "box-shadow", "inset 2px 0 0 rgba(114,158,255,.34)")
 
-    def test_each_track_counts_its_steps_and_closes_on_the_deal(self):
-        steps = self.base_rule(".track-steps")
-        self.assert_decl(steps, "counter-reset", "track-step")
-        self.assert_decl(steps, "list-style", "none")
-        self.assertIn("counter(track-step", normalise(self.base_rule(".track-steps li::before").get("content", "")))
-        deal = self.base_rule(".track-deal")
-        self.assert_decl(deal, "border-top", "1px solid rgba(155,181,210,.13)")
-        self.assert_decl(deal, "font-size", "15px")
+    def test_the_gate_collects_the_entries_and_splits_them_again(self):
+        band = self.base_rule(".flow-band")
+        self.assert_decl(band, "width", "min(540px,100%)")
+        self.assert_decl(band, "margin", "0 auto")
+        self.assert_decl(band, "border", "1px solid rgba(114,158,255,.34)")
+        self.assert_decl(self.base_rule(".flow-band__title"), "font-size", "17px")
+        self.assert_decl(self.base_rule(".flow-band__note"), "font-size", "13px")
+        for pseudo in ("::after", "::before"):
+            with self.subTest(pseudo=pseudo):
+                self.assert_decl(
+                    self.base_rule(f".flow-stage--entry .flow-card{pseudo}"), "display", "none"
+                )
+        self.assert_decl(self.base_rule(".flow-card::after"), "height", "20px")
+        self.assert_decl(self.base_rule(".flow-band::after"), "height", "16px")
+        self.assert_decl(self.base_rule(".flow-fan"), "height", "28px")
+        self.assert_decl(self.base_rule(".flow-fan--in"), "height", "38px")
+
+    def test_one_fan_buses_three_stems_onto_the_card_centres(self):
+        for index, position in (
+            (1, "calc((100% - 2*var(--flow-gap))/6)"),
+            (2, "calc((100% - 2*var(--flow-gap))/2 + var(--flow-gap))"),
+            (3, "calc(100% - (100% - 2*var(--flow-gap))/6)"),
+        ):
+            with self.subTest(stem=index):
+                self.assert_decl(self.base_rule(f".flow-fan span:nth-child({index})"), "left", position)
+        bus = self.base_rule(".flow-fan::before")
+        self.assert_decl(bus, "left", "calc((100% - 2*var(--flow-gap))/6)")
+        self.assert_decl(bus, "right", "calc((100% - 2*var(--flow-gap))/6)")
+        self.assert_decl(bus, "height", "1px")
+
+    def test_delivery_bar_closes_the_flow(self):
+        final = self.base_rule(".flow-final")
+        self.assert_decl(final, "border", "1px solid rgba(114,158,255,.26)")
+        self.assert_decl(self.base_rule(".flow-final h3"), "font-size", "21px")
+        chips = self.media_rule(self.media_block(LEFT_TO_RIGHT)[0], ".flow-pills")
+        self.assert_decl(chips, "display", "grid")
+        self.assert_decl(chips, "grid-template-columns", "repeat(5,minmax(0,1fr))")
 
     def test_delivery_cards_move_to_the_application_section(self):
         self.assert_decl(self.base_rule(".delivery-grid"), "gap", "20px")
@@ -188,25 +234,80 @@ class BusinessDesktopScaleTests(BusinessScaleFixtures):
         self.assert_decl(self.base_rule(".application-layout h2"), "font-size", "clamp(38px,3.2vw,70px)")
 
 
-class BusinessSmallScreenTests(BusinessScaleFixtures):
+class BusinessFlowMarkupTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.index = INDEX_HTML.read_text(encoding="utf-8")
+        section = cls.index[cls.index.index('id="business"'):]
+        cls.business = section[:section.index("</section>")]
+
+    def test_the_diagram_is_three_cards_gate_three_cards_one_bar(self):
+        body = self.business
+        self.assertEqual(body.count('class="flow-card"'), 3, "three entry cards")
+        self.assertEqual(body.count('class="flow-card flow-card--lane"'), 3, "three lane cards")
+        self.assertEqual(body.count('class="flow-fan flow-fan--in"'), 1, "one collecting bus")
+        self.assertEqual(body.count('class="flow-fan"'), 1, "one splitting bus")
+        self.assertEqual(body.count('class="flow-num"'), 3, "only the lanes are numbered, so no 1:1 read")
+        self.assertEqual(body.count("<span></span>"), 6, "each bus anchors three stems")
+        self.assertEqual(body.count('class="flow-pills"'), 1)
+        self.assertEqual(body.count("<li>"), 5, "five delivery chips")
+        order = [body.index(marker) for marker in (
+            "flow-stage--entry",
+            "flow-fan flow-fan--in",
+            'class="flow-band"',
+            'class="flow-fan"',
+            "flow-stage--lane",
+            'class="flow-final"',
+            'class="business-cta"',
+        )]
+        self.assertEqual(order, sorted(order), "the flow must read top to bottom")
+
+    def test_every_flow_string_is_translated(self):
+        dictionary = json.loads(HOME_I18N.read_text(encoding="utf-8"))
+        used = set(re.findall(r'data-i18n="(home\.flow-[^"]+)"', self.business))
+        self.assertEqual(used, set(FLOW_KEYS), "markup and contract drifted apart")
+        for key in FLOW_KEYS:
+            with self.subTest(key=key):
+                for locale in ("en", "zh-CN", "zh-TW"):
+                    self.assertTrue(dictionary[key][locale].strip(), f"{key} {locale} is empty")
+
+    def test_flow_html_matches_the_english_dictionary(self):
+        dictionary = json.loads(HOME_I18N.read_text(encoding="utf-8"))
+        pairs = re.findall(r'data-i18n="(home\.flow-[^"]+)">([^<]*)<', self.business)
+        self.assertEqual(len(pairs), len(FLOW_KEYS))
+        for key, text in pairs:
+            with self.subTest(key=key):
+                self.assertEqual(text, dictionary[key]["en"], f"{key} drift between HTML and home.json")
+
+
+class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
+    def test_tablet_and_mobile_stack_the_diagram(self):
+        for block, gap in (
+            (self.media_block(TABLET_MIN, "max-width:1000px")[0], "12px"),
+            (self.media_block(MOBILE)[0], "10px"),
+        ):
+            stage = self.media_rule(block, ".flow-stage")
+            self.assert_decl(stage, "grid-template-columns", "1fr")
+            self.assert_decl(stage, "gap", gap)
+            self.assert_decl(self.media_rule(block, ".flow-fan"), "display", "none")
+
     def test_mobile_stack_keeps_a_readable_scale(self):
         body, _offset = self.media_block(MOBILE)
-        layout = self.media_rule(body, ".business-layout")
-        self.assert_decl(layout, "width", "calc(100% - 32px)!important")
+        self.assert_decl(self.media_rule(body, ".business-layout"), "width", "calc(100% - 32px)!important")
         self.assert_decl(self.media_rule(body, ".business-layout h2"), "font-size", "28px")
         self.assert_decl(self.media_rule(body, ".business-lede"), "font-size", "17px")
-        self.assert_decl(self.media_rule(body, ".track-grid"), "grid-template-columns", "1fr")
-        self.assert_decl(self.media_rule(body, ".track"), "padding", "18px")
-        self.assert_decl(self.media_rule(body, ".track h3"), "font-size", "20px")
-        self.assert_decl(self.media_rule(body, ".track-steps h4"), "font-size", "15px")
+        self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "16px 18px 18px")
+        self.assert_decl(self.media_rule(body, ".flow-card h3"), "font-size", "19px")
+        self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "14px")
+        self.assert_decl(self.media_rule(body, ".flow-final h3"), "font-size", "17px")
         self.assert_decl(self.media_rule(body, ".delivery-grid article"), "min-height", "0")
 
     def test_narrow_refinement_keeps_a_compact_scale(self):
         body, _offset = self.media_block(NARROW)
         self.assert_decl(self.media_rule(body, ".business-lede"), "font-size", "16px")
         self.assert_decl(self.media_rule(body, ".delivery-grid article"), "padding", "12px")
-        self.assert_decl(self.media_rule(body, ".track"), "padding", "14px")
-        self.assert_decl(self.media_rule(body, ".track-steps p"), "font-size", "13px")
+        self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "14px 16px 16px")
+        self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "13px")
 
     def test_mobile_rules_win_the_cascade_over_the_desktop_scale(self):
         _body, offset = self.media_block(MOBILE)
@@ -214,8 +315,10 @@ class BusinessSmallScreenTests(BusinessScaleFixtures):
             ".business-layout",
             ".business-layout h2",
             ".business-lede",
-            ".track-grid",
-            ".track",
+            ".flow-stage",
+            ".flow-card",
+            ".flow-copy",
+            ".flow-final",
             ".delivery-grid",
             ".delivery-grid article",
         )
@@ -233,7 +336,8 @@ class BusinessSmallScreenTests(BusinessScaleFixtures):
         article = self.media_rule(body, ".delivery-grid article")
         self.assert_decl(article, "min-height", "0")
         self.assert_decl(article, "padding", "18px")
-        self.assert_decl(self.media_rule(body, ".track"), "padding", "20px")
+        self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "18px 20px 20px")
+        self.assert_decl(self.media_rule(body, ".flow-card h3"), "font-size", "20px")
 
 
 class BusinessCopyTests(unittest.TestCase):

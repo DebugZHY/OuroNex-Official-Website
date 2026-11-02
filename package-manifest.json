@@ -1,473 +1,479 @@
 {
-    "purpose": "Web pages package: current site pages, runtime assets and compiled translation dictionaries; no evidence/model/generator",
-    "files": [
-        {
-            "path": "404.html",
-            "bytes": 7485,
-            "sha256": "784023f14289c45cc5c9dc6fc838335988e301ebeaaf6d6f072dec260466766b",
-            "size": 7485
-        },
-        {
-            "path": "arena.html",
-            "bytes": 9699,
-            "sha256": "fa5567d9d61ed58bc9a67abce4f019d787e91e2cbac3fbf44db3337243e53031",
-            "size": 9699
-        },
-        {
-            "path": "assets/account.css",
-            "bytes": 37056,
-            "sha256": "8004df9c32a1a1b2ce9157c9dd412129c4f6e06f2c7aa13337b8b306c8806733",
-            "size": 37056
-        },
-        {
-            "path": "assets/auth-bg.js",
-            "bytes": 2056,
-            "sha256": "fa64abcb494b753b7662bbfebbf258b78baead1621e45e07435e79789a1f72e0",
-            "size": 2056
-        },
-        {
-            "path": "assets/backgrounds/contour-field.svg",
-            "bytes": 27006,
-            "sha256": "ec4e2d75d3d542aa84e620fd2f6a3ea704d51d5f19ccfb358fa47de46118e305",
-            "size": 27006
-        },
-        {
-            "path": "assets/backgrounds/facade-lines.svg",
-            "bytes": 5765,
-            "sha256": "fe54736a7473ba84abe593400f697a56b5f91745a8798a240a12cb4f9be92d66",
-            "size": 5765
-        },
-        {
-            "path": "assets/backgrounds/isometric-frame.svg",
-            "bytes": 4466,
-            "sha256": "2a63d6d21e6c98d8743ad66acc7f32756a0b40cc00d5393112c376945feffbaa",
-            "size": 4466
-        },
-        {
-            "path": "assets/backgrounds/perspective-grid.svg",
-            "bytes": 5332,
-            "sha256": "00a642ae759172f7479a9837032eb61aa6f0938e9a8c98bee651c68368655def",
-            "size": 5332
-        },
-        {
-            "path": "assets/backgrounds/vertical-city.svg",
-            "bytes": 4896,
-            "sha256": "44617f7c99f5018d9f32214f89054687a5bc094e5297e1d5d8298a56800deca4",
-            "size": 4896
-        },
-        {
-            "path": "assets/backgrounds/wave-mesh.svg",
-            "bytes": 24614,
-            "sha256": "4666c002f26e051aafad354e5ad44f7b928b0025affd17f55ddbc4407b470639",
-            "size": 24614
-        },
-        {
-            "path": "assets/company.css",
-            "bytes": 16005,
-            "sha256": "7e743b22a4bb63ea84073246d6f05e33129eb0ee19a762d535c6aa64887ce7db",
-            "size": 16005
-        },
-        {
-            "path": "assets/early-access.css",
-            "bytes": 9663,
-            "sha256": "72c51605cf1fe968040e10473fab7915f207ad657105c312977324f9f25b37d0",
-            "size": 9663
-        },
-        {
-            "path": "assets/early-access.js",
-            "bytes": 4900,
-            "sha256": "5a674096d749bff53aeb7ff645fe1533a951a46ab5a74240c8609f3273075e10",
-            "size": 4900
-        },
-        {
-            "path": "assets/fonts/ibm-plex-mono-400.woff2",
-            "bytes": 37188,
-            "sha256": "9c9a2ff2474bacf5402579f3872c189c11dd18c6a61216649cea07021daad9bf",
-            "size": 37188
-        },
-        {
-            "path": "assets/fonts/ibm-plex-mono-500.woff2",
-            "bytes": 38232,
-            "sha256": "e2de9b129630f92c8c7e9b3fb197eac03910a97f1771520251a139e3877a2ad1",
-            "size": 38232
-        },
-        {
-            "path": "assets/fonts/ibm-plex-mono-OFL.txt",
-            "bytes": 4549,
-            "sha256": "40b12494366ea515cc612a84cd75fba61e31cf2ddade62146ee38de1a2a1f6b9",
-            "size": 4549
-        },
-        {
-            "path": "assets/fonts/manrope-400.woff2",
-            "bytes": 30392,
-            "sha256": "8c0a2568b1d031fad658ae8eed4a96b47a8f16e44e06942ba3712edf7c89bdc8",
-            "size": 30392
-        },
-        {
-            "path": "assets/fonts/manrope-500.woff2",
-            "bytes": 30008,
-            "sha256": "eeeb803f695a0f84584b7a87a7bc1af673718896d2e31f803be6d7227cc51966",
-            "size": 30008
-        },
-        {
-            "path": "assets/fonts/manrope-600.woff2",
-            "bytes": 30408,
-            "sha256": "b87ee32019bad6dc1503ea14d5c946207d08502b22de094f9b635c987cc28ef5",
-            "size": 30408
-        },
-        {
-            "path": "assets/fonts/manrope-700.woff2",
-            "bytes": 30676,
-            "sha256": "5d65246fba96193531408da76ef274f89e288394570091f5c9a4aed0d2187f27",
-            "size": 30676
-        },
-        {
-            "path": "assets/fonts/manrope-OFL.txt",
-            "bytes": 4480,
-            "sha256": "4b8929f05a122b7abb9059501dc7dc4df86f8c97d5a1769d60d82cf2d2795dde",
-            "size": 4480
-        },
-        {
-            "path": "assets/fonts/michroma-400-sida.woff2",
-            "bytes": 3064,
-            "sha256": "8198398e1917d61c1af9d039b9c8f63b6136a1bc028259ad646297ccd278a46c",
-            "size": 3064
-        },
-        {
-            "path": "assets/fonts/michroma-OFL.txt",
-            "bytes": 4395,
-            "sha256": "33c39ce59a45bfb0dae3280e98bdb46be59d6d68efc62d4dc5fae90a26d2f393",
-            "size": 4395
-        },
-        {
-            "path": "assets/home.css",
-            "bytes": 46589,
-            "sha256": "a57fa8421d298c70a77864e87ec7dfa73188ae03d62d1ff3f1f0655f3818bb10",
-            "size": 46589
-        },
-        {
-            "path": "assets/home.js",
-            "bytes": 38166,
-            "sha256": "11e6cc0e3013c5f218fa2fcd2a5c0e141425998db98cbf3a83f6a36bc9d9623f",
-            "size": 38166
-        },
-        {
-            "path": "assets/i18n.css",
-            "bytes": 3625,
-            "sha256": "67a0118d0f280d03b3558887a5855fb8a91468eb4d8d33a5108b068ac6fd3ef2",
-            "size": 3625
-        },
-        {
-            "path": "assets/i18n.js",
-            "bytes": 5486,
-            "sha256": "66e8931a9e475cea037827d476873dc4d45e0043d952f23d232f9ab329e61e42",
-            "size": 5486
-        },
-        {
-            "path": "assets/i18n/404.js",
-            "bytes": 1458,
-            "sha256": "9fa900a16bc3a3bb8a020c2d34639738c2c1f48411accaa77e8c37c835d6a8b7",
-            "size": 1458
-        },
-        {
-            "path": "assets/i18n/account-dashboard.js",
-            "bytes": 12259,
-            "sha256": "4709761b412455633cb62cef2f84370a8db759d646d2398b97826e857f1162f5",
-            "size": 12259
-        },
-        {
-            "path": "assets/i18n/account-login.js",
-            "bytes": 1156,
-            "sha256": "453edd5b02914be2d4bb7dc427a8ff928f1f9cadfee637339323798608597e71",
-            "size": 1156
-        },
-        {
-            "path": "assets/i18n/account-profile.js",
-            "bytes": 4208,
-            "sha256": "83c306c8f83c75d6bf28d6ed8daf92741dea5d3f6aca3426293a42e03001f9fa",
-            "size": 4208
-        },
-        {
-            "path": "assets/i18n/account-register.js",
-            "bytes": 1817,
-            "sha256": "2a0dd93bd1833fc46485c3f1ba07d2734c901c5c629898e8eb2c76b38122901f",
-            "size": 1817
-        },
-        {
-            "path": "assets/i18n/account-security.js",
-            "bytes": 3026,
-            "sha256": "c0a1f631be54169570eb323c76c99cc3e2d7e3e82d88cb961ee6ca5c11fb678d",
-            "size": 3026
-        },
-        {
-            "path": "assets/i18n/arena.js",
-            "bytes": 2465,
-            "sha256": "bb6b9d426b663bd74d79fbf36812155d38c2cfaad7894731fb1edbf3f6c35ee7",
-            "size": 2465
-        },
-        {
-            "path": "assets/i18n/dynamic.js",
-            "bytes": 7269,
-            "sha256": "d2d212d1acaeea91285d2f84529587eb5538be33f01306e28c99ad61fa076089",
-            "size": 7269
-        },
-        {
-            "path": "assets/i18n/early-access.js",
-            "bytes": 173,
-            "sha256": "258d258b4453dfccd73c9d03b1b92d4fad7d0366c9feca7be0734a5b5ea2b1a7",
-            "size": 173
-        },
-        {
-            "path": "assets/i18n/home.js",
-            "bytes": 29159,
-            "sha256": "4aef15bbb7b2ffdd52e4f4fe9f7b7536422ff3a93d45b65699d0a933e4bcea85",
-            "size": 29159
-        },
-        {
-            "path": "assets/i18n/news-template.js",
-            "bytes": 1621,
-            "sha256": "b67681f16dfccdd435659a0cac1cc5a2f3456b38efb9cbe4a10cecc261ca22aa",
-            "size": 1621
-        },
-        {
-            "path": "assets/i18n/privacy.js",
-            "bytes": 168,
-            "sha256": "12e37c7e447ce0cd430ab8b4fad35a47b281ec7428c0f5c5a76143a12fe97dbb",
-            "size": 168
-        },
-        {
-            "path": "assets/i18n/sample-drawings-as-engineer.js",
-            "bytes": 9284,
-            "sha256": "b3b72732a20cde1bbb6030f0b5ada6084a1bb332135554ea0e90c1928ab689bf",
-            "size": 9284
-        },
-        {
-            "path": "assets/i18n/sample-hong-kong-gba.js",
-            "bytes": 8850,
-            "sha256": "4a93a9b6dfec5e4c1525d19607f6f9140605cfbe0a467d900d240f16f1e8146b",
-            "size": 8850
-        },
-        {
-            "path": "assets/i18n/sample-llm-drawing-review.js",
-            "bytes": 8697,
-            "sha256": "d19f1698165413dcd2df00c890b6571eecaa3aee8762282e9518ad87352ef12e",
-            "size": 8697
-        },
-        {
-            "path": "assets/i18n/sample-pilot-to-practice.js",
-            "bytes": 8472,
-            "sha256": "ee3a84d3350a910633e20e662984c594f33125276bfa5feb388b3fbd877e8b46",
-            "size": 8472
-        },
-        {
-            "path": "assets/i18n/sample-review-as-product.js",
-            "bytes": 8647,
-            "sha256": "0d3488b871678910f6f8fed7d89faf3d2fe3461b1d74562c59e3acde74418d3f",
-            "size": 8647
-        },
-        {
-            "path": "assets/i18n/sample-sida-2026.js",
-            "bytes": 9463,
-            "sha256": "d9465c0c1219856d0a94d8d10b611d36b53d7d12bd7e20586a4a697b3b6ab978",
-            "size": 9463
-        },
-        {
-            "path": "assets/i18n/sample-soda-assumptions.js",
-            "bytes": 9314,
-            "sha256": "0dd2d15d973e4f305d567a6cf795fd88b2db6019e9433173608dcff065acd357",
-            "size": 9314
-        },
-        {
-            "path": "assets/i18n/shared.js",
-            "bytes": 3958,
-            "sha256": "a6a4598c5912cb230e3b3721317aab9a2caaa28441d2119f32c929a52d88a5d6",
-            "size": 3958
-        },
-        {
-            "path": "assets/i18n/terms.js",
-            "bytes": 166,
-            "sha256": "52645740658808481123075892d3de2f49005cf5ed327a5b2e0ad56581a9ba33",
-            "size": 166
-        },
-        {
-            "path": "assets/illustrations/haoyi-zhang.png",
-            "bytes": 187312,
-            "size": 187312,
-            "sha256": "56601e8fc3629a77f2d43c2b4981c045570b99d51e8aea3a650e9850e4c5ba8d"
-        },
-        {
-            "path": "assets/illustrations/home-1.png",
-            "bytes": 648540,
-            "sha256": "c44cba1b0254a094de21495a13012439cd253c809325d709cbb922d8153e53ae",
-            "size": 648540
-        },
-        {
-            "path": "assets/illustrations/home-2.png",
-            "bytes": 325788,
-            "sha256": "51edee1f18b9acfd319ff7b13bb77b9280aa6a96763b71d662ca4d865b0c7dc0",
-            "size": 325788
-        },
-        {
-            "path": "assets/illustrations/home-3.png",
-            "bytes": 894146,
-            "sha256": "2cfec8ec5fb92e1094a1c70927d5c4cc1c5416a30ee6be1db699fac7e46a693f",
-            "size": 894146
-        },
-        {
-            "path": "assets/illustrations/home-4.png",
-            "bytes": 551496,
-            "sha256": "497a6ff59cc7dcd3e98ea577972f5c90d2b49b91d023d144e629691193c32fe2",
-            "size": 551496
-        },
-        {
-            "path": "assets/legal.css",
-            "bytes": 9267,
-            "sha256": "02f75f0ca4620b08c56679837aa68e707101f4b8c3a2ac05f47cf0f68e55d6a4",
-            "size": 9267
-        },
-        {
-            "path": "assets/motion.css",
-            "bytes": 4103,
-            "sha256": "1ee354de54668811f5756636ae18cfc73a54d13bf6cda6b27ef267ab949f9735",
-            "size": 4103
-        },
-        {
-            "path": "assets/motion.js",
-            "bytes": 21569,
-            "sha256": "6ed52013a96f4690391687dd9e3a42ff42245c228b288db5aa525794d07c6faf",
-            "size": 21569
-        },
-        {
-            "path": "assets/og-image.png",
-            "bytes": 117548,
-            "sha256": "3745f3c9dd8e310e4065d4ae3e6df6217c388e6ac6a8f4ef768227793a22f130",
-            "size": 117548
-        },
-        {
-            "path": "assets/ouronex-mark.svg",
-            "bytes": 2436,
-            "sha256": "ff10b96aa535f1c6f919ab53264104842217cf86d2b542e9b5762c805f4d3733",
-            "size": 2436
-        },
-        {
-            "path": "assets/practice.css",
-            "bytes": 19464,
-            "sha256": "b51396f76d9ce0e4bb069bbf5629c1402f4acca44cdfd1319e60033ae77ec36f",
-            "size": 19464
-        },
-        {
-            "path": "assets/site.css",
-            "bytes": 24435,
-            "sha256": "12684329bf6ae4fe292c4ae2a337167ff465f9a506846728f2c007cd814ce440",
-            "size": 24435
-        },
-        {
-            "path": "assets/site.js",
-            "bytes": 14555,
-            "sha256": "155fc807e162333d34debbeeab499429bb7981286c54e31de09db936a9ce84c4",
-            "size": 14555
-        },
-        {
-            "path": "assets/token-usage.css",
-            "bytes": 18863,
-            "sha256": "2ab4d2c551fea4c40a147cb6aec7c0f251f427f8241026a0f0a5f31952083139",
-            "size": 18863
-        },
-        {
-            "path": "assets/token-usage.js",
-            "bytes": 36012,
-            "sha256": "e4484013d9b0fd9f5d914d6ad06a12c9f5c0ba59b599735f226e2da82a7f374f",
-            "size": 36012
-        },
-        {
-            "path": "early-access.html",
-            "bytes": 12598,
-            "sha256": "405aaa17c504bc85ee2be368ac3a519b78b833f049abb26ae037495dbdbecccd",
-            "size": 12598
-        },
-        {
-            "path": "index.html",
-            "bytes": 32905,
-            "sha256": "af67bed60c8be1a0e7ef2f761ffdf3a3aa6ab5b2d26b56724256cd65774b768b",
-            "size": 32905
-        },
-        {
-            "path": "news/_template.html",
-            "bytes": 10102,
-            "sha256": "3308be3bba47a3cba02b93adbf9a382e43dfabeb631c9d02477b58e284c75d50",
-            "size": 10102
-        },
-        {
-            "path": "news/sample-drawings-as-engineer.html",
-            "bytes": 13802,
-            "sha256": "335589045156e2bcda3ce1637f90bdc3801161f09ea3efdba4e292206b8ebf56",
-            "size": 13802
-        },
-        {
-            "path": "news/sample-hong-kong-gba.html",
-            "bytes": 13501,
-            "sha256": "7c3d5615bf442f702ace848307c93168b55aaf91bc91c412b9a6ef3ec2198e40",
-            "size": 13501
-        },
-        {
-            "path": "news/sample-llm-drawing-review.html",
-            "bytes": 13657,
-            "sha256": "e93beb4172c9d869a9e152c5e41a3fb44c051d5e47d2d86c4cc5c1a07ecd04c7",
-            "size": 13657
-        },
-        {
-            "path": "news/sample-pilot-to-practice.html",
-            "bytes": 13445,
-            "sha256": "ccd17fdba4470ff3db9514dfe7fec1ac26fb1bdcd2242c26528f1ad6513437b0",
-            "size": 13445
-        },
-        {
-            "path": "news/sample-review-as-product.html",
-            "bytes": 13637,
-            "sha256": "9dc3c7b4e6876da916e0b542f9cce89a54130148cfe292ca9ae257cec7a94cde",
-            "size": 13637
-        },
-        {
-            "path": "news/sample-sida-2026.html",
-            "bytes": 13743,
-            "sha256": "d57fce97f6da8bfad67bd224c828da317591ced09d65fb12ec631d1c7c5f41fd",
-            "size": 13743
-        },
-        {
-            "path": "news/sample-soda-assumptions.html",
-            "bytes": 13901,
-            "sha256": "c6cfbf49cd6cce1460dceafbbd8e997d4460aca821f53feb0e6c06b3a271b5bf",
-            "size": 13901
-        },
-        {
-            "path": "privacy.html",
-            "bytes": 43790,
-            "sha256": "c9817912a64b1d99a097ec950cb2eb59c2a61d34593b504d089ec75edf6472da",
-            "size": 43790
-        },
-        {
-            "path": "robots.txt",
-            "bytes": 67,
-            "sha256": "b586ce2c8d6597f590b06c569286b36d0a010bfef5dd35affcc8d37179a8617c",
-            "size": 67
-        },
-        {
-            "path": "site.webmanifest",
-            "bytes": 273,
-            "sha256": "a3832dae9c2144d90ec7efe2f2082c7256720c9f1110f7506031a846a9614831",
-            "size": 273
-        },
-        {
-            "path": "sitemap.xml",
-            "bytes": 1327,
-            "sha256": "646cf9a271b290ce4c014bbfdc89212e679eda0cd6cf77f79c9188a63838dda3",
-            "size": 1327
-        },
-        {
-            "path": "terms.html",
-            "bytes": 52108,
-            "sha256": "bd438b5ed9f6ff1f8a58e4a2958080f9314b94cd4e5e37bc4927e102e052e928",
-            "size": 52108
-        }
-    ]
+  "purpose": "Web pages package: current site pages, runtime assets and compiled translation dictionaries; no evidence/model/generator",
+  "files": [
+    {
+      "path": "404.html",
+      "bytes": 7485,
+      "sha256": "784023f14289c45cc5c9dc6fc838335988e301ebeaaf6d6f072dec260466766b",
+      "size": 7485
+    },
+    {
+      "path": "arena.html",
+      "bytes": 9699,
+      "sha256": "fa5567d9d61ed58bc9a67abce4f019d787e91e2cbac3fbf44db3337243e53031",
+      "size": 9699
+    },
+    {
+      "path": "assets/account.css",
+      "bytes": 37056,
+      "sha256": "8004df9c32a1a1b2ce9157c9dd412129c4f6e06f2c7aa13337b8b306c8806733",
+      "size": 37056
+    },
+    {
+      "path": "assets/auth-bg.js",
+      "bytes": 2056,
+      "sha256": "fa64abcb494b753b7662bbfebbf258b78baead1621e45e07435e79789a1f72e0",
+      "size": 2056
+    },
+    {
+      "path": "assets/backgrounds/contour-field.svg",
+      "bytes": 27006,
+      "sha256": "ec4e2d75d3d542aa84e620fd2f6a3ea704d51d5f19ccfb358fa47de46118e305",
+      "size": 27006
+    },
+    {
+      "path": "assets/backgrounds/facade-lines.svg",
+      "bytes": 5765,
+      "sha256": "fe54736a7473ba84abe593400f697a56b5f91745a8798a240a12cb4f9be92d66",
+      "size": 5765
+    },
+    {
+      "path": "assets/backgrounds/isometric-frame.svg",
+      "bytes": 4466,
+      "sha256": "2a63d6d21e6c98d8743ad66acc7f32756a0b40cc00d5393112c376945feffbaa",
+      "size": 4466
+    },
+    {
+      "path": "assets/backgrounds/perspective-grid.svg",
+      "bytes": 5332,
+      "sha256": "00a642ae759172f7479a9837032eb61aa6f0938e9a8c98bee651c68368655def",
+      "size": 5332
+    },
+    {
+      "path": "assets/backgrounds/vertical-city.svg",
+      "bytes": 4896,
+      "sha256": "44617f7c99f5018d9f32214f89054687a5bc094e5297e1d5d8298a56800deca4",
+      "size": 4896
+    },
+    {
+      "path": "assets/backgrounds/wave-mesh.svg",
+      "bytes": 24614,
+      "sha256": "4666c002f26e051aafad354e5ad44f7b928b0025affd17f55ddbc4407b470639",
+      "size": 24614
+    },
+    {
+      "path": "assets/company.css",
+      "bytes": 16005,
+      "sha256": "7e743b22a4bb63ea84073246d6f05e33129eb0ee19a762d535c6aa64887ce7db",
+      "size": 16005
+    },
+    {
+      "path": "assets/early-access.css",
+      "bytes": 9391,
+      "sha256": "c71e365da39a111aebc2ba50f8c56c12eee7545b2767f51ae56241cf0345a38e",
+      "size": 9391
+    },
+    {
+      "path": "assets/early-access.js",
+      "bytes": 4900,
+      "sha256": "5a674096d749bff53aeb7ff645fe1533a951a46ab5a74240c8609f3273075e10",
+      "size": 4900
+    },
+    {
+      "path": "assets/fonts/ibm-plex-mono-400.woff2",
+      "bytes": 37188,
+      "sha256": "9c9a2ff2474bacf5402579f3872c189c11dd18c6a61216649cea07021daad9bf",
+      "size": 37188
+    },
+    {
+      "path": "assets/fonts/ibm-plex-mono-500.woff2",
+      "bytes": 38232,
+      "sha256": "e2de9b129630f92c8c7e9b3fb197eac03910a97f1771520251a139e3877a2ad1",
+      "size": 38232
+    },
+    {
+      "path": "assets/fonts/ibm-plex-mono-OFL.txt",
+      "bytes": 4549,
+      "sha256": "40b12494366ea515cc612a84cd75fba61e31cf2ddade62146ee38de1a2a1f6b9",
+      "size": 4549
+    },
+    {
+      "path": "assets/fonts/manrope-400.woff2",
+      "bytes": 30392,
+      "sha256": "8c0a2568b1d031fad658ae8eed4a96b47a8f16e44e06942ba3712edf7c89bdc8",
+      "size": 30392
+    },
+    {
+      "path": "assets/fonts/manrope-500.woff2",
+      "bytes": 30008,
+      "sha256": "eeeb803f695a0f84584b7a87a7bc1af673718896d2e31f803be6d7227cc51966",
+      "size": 30008
+    },
+    {
+      "path": "assets/fonts/manrope-600.woff2",
+      "bytes": 30408,
+      "sha256": "b87ee32019bad6dc1503ea14d5c946207d08502b22de094f9b635c987cc28ef5",
+      "size": 30408
+    },
+    {
+      "path": "assets/fonts/manrope-700.woff2",
+      "bytes": 30676,
+      "sha256": "5d65246fba96193531408da76ef274f89e288394570091f5c9a4aed0d2187f27",
+      "size": 30676
+    },
+    {
+      "path": "assets/fonts/manrope-OFL.txt",
+      "bytes": 4480,
+      "sha256": "4b8929f05a122b7abb9059501dc7dc4df86f8c97d5a1769d60d82cf2d2795dde",
+      "size": 4480
+    },
+    {
+      "path": "assets/fonts/michroma-400-sida.woff2",
+      "bytes": 3064,
+      "sha256": "8198398e1917d61c1af9d039b9c8f63b6136a1bc028259ad646297ccd278a46c",
+      "size": 3064
+    },
+    {
+      "path": "assets/fonts/michroma-OFL.txt",
+      "bytes": 4395,
+      "sha256": "33c39ce59a45bfb0dae3280e98bdb46be59d6d68efc62d4dc5fae90a26d2f393",
+      "size": 4395
+    },
+    {
+      "path": "assets/home.css",
+      "bytes": 53074,
+      "sha256": "1af1dac1c09fc94e1477e3c358441132005b37bd502b8a484158091ba74b3fd9",
+      "size": 53074
+    },
+    {
+      "path": "assets/home.js",
+      "bytes": 38166,
+      "sha256": "11e6cc0e3013c5f218fa2fcd2a5c0e141425998db98cbf3a83f6a36bc9d9623f",
+      "size": 38166
+    },
+    {
+      "path": "assets/i18n.css",
+      "bytes": 3625,
+      "sha256": "67a0118d0f280d03b3558887a5855fb8a91468eb4d8d33a5108b068ac6fd3ef2",
+      "size": 3625
+    },
+    {
+      "path": "assets/i18n.js",
+      "bytes": 5486,
+      "sha256": "66e8931a9e475cea037827d476873dc4d45e0043d952f23d232f9ab329e61e42",
+      "size": 5486
+    },
+    {
+      "path": "assets/i18n/404.js",
+      "bytes": 1458,
+      "sha256": "9fa900a16bc3a3bb8a020c2d34639738c2c1f48411accaa77e8c37c835d6a8b7",
+      "size": 1458
+    },
+    {
+      "path": "assets/i18n/account-dashboard.js",
+      "bytes": 12259,
+      "sha256": "4709761b412455633cb62cef2f84370a8db759d646d2398b97826e857f1162f5",
+      "size": 12259
+    },
+    {
+      "path": "assets/i18n/account-login.js",
+      "bytes": 1156,
+      "sha256": "453edd5b02914be2d4bb7dc427a8ff928f1f9cadfee637339323798608597e71",
+      "size": 1156
+    },
+    {
+      "path": "assets/i18n/account-profile.js",
+      "bytes": 4208,
+      "sha256": "83c306c8f83c75d6bf28d6ed8daf92741dea5d3f6aca3426293a42e03001f9fa",
+      "size": 4208
+    },
+    {
+      "path": "assets/i18n/account-register.js",
+      "bytes": 1817,
+      "sha256": "2a0dd93bd1833fc46485c3f1ba07d2734c901c5c629898e8eb2c76b38122901f",
+      "size": 1817
+    },
+    {
+      "path": "assets/i18n/account-security.js",
+      "bytes": 3026,
+      "sha256": "c0a1f631be54169570eb323c76c99cc3e2d7e3e82d88cb961ee6ca5c11fb678d",
+      "size": 3026
+    },
+    {
+      "path": "assets/i18n/arena.js",
+      "bytes": 2465,
+      "sha256": "bb6b9d426b663bd74d79fbf36812155d38c2cfaad7894731fb1edbf3f6c35ee7",
+      "size": 2465
+    },
+    {
+      "path": "assets/i18n/dynamic.js",
+      "bytes": 7269,
+      "sha256": "d2d212d1acaeea91285d2f84529587eb5538be33f01306e28c99ad61fa076089",
+      "size": 7269
+    },
+    {
+      "path": "assets/i18n/early-access.js",
+      "bytes": 173,
+      "sha256": "258d258b4453dfccd73c9d03b1b92d4fad7d0366c9feca7be0734a5b5ea2b1a7",
+      "size": 173
+    },
+    {
+      "path": "assets/i18n/home.js",
+      "bytes": 25835,
+      "sha256": "538ef7b43bdbd457d9f7d7d4f20b1d7e908d0097782d3e6b9bc8bcb0f125754f",
+      "size": 25835
+    },
+    {
+      "path": "assets/i18n/news-template.js",
+      "bytes": 1621,
+      "sha256": "b67681f16dfccdd435659a0cac1cc5a2f3456b38efb9cbe4a10cecc261ca22aa",
+      "size": 1621
+    },
+    {
+      "path": "assets/i18n/privacy.js",
+      "bytes": 168,
+      "sha256": "12e37c7e447ce0cd430ab8b4fad35a47b281ec7428c0f5c5a76143a12fe97dbb",
+      "size": 168
+    },
+    {
+      "path": "assets/i18n/sample-drawings-as-engineer.js",
+      "bytes": 9284,
+      "sha256": "b3b72732a20cde1bbb6030f0b5ada6084a1bb332135554ea0e90c1928ab689bf",
+      "size": 9284
+    },
+    {
+      "path": "assets/i18n/sample-hong-kong-gba.js",
+      "bytes": 8850,
+      "sha256": "4a93a9b6dfec5e4c1525d19607f6f9140605cfbe0a467d900d240f16f1e8146b",
+      "size": 8850
+    },
+    {
+      "path": "assets/i18n/sample-llm-drawing-review.js",
+      "bytes": 8697,
+      "sha256": "d19f1698165413dcd2df00c890b6571eecaa3aee8762282e9518ad87352ef12e",
+      "size": 8697
+    },
+    {
+      "path": "assets/i18n/sample-pilot-to-practice.js",
+      "bytes": 8472,
+      "sha256": "ee3a84d3350a910633e20e662984c594f33125276bfa5feb388b3fbd877e8b46",
+      "size": 8472
+    },
+    {
+      "path": "assets/i18n/sample-review-as-product.js",
+      "bytes": 8647,
+      "sha256": "0d3488b871678910f6f8fed7d89faf3d2fe3461b1d74562c59e3acde74418d3f",
+      "size": 8647
+    },
+    {
+      "path": "assets/i18n/sample-sida-2026.js",
+      "bytes": 9463,
+      "sha256": "d9465c0c1219856d0a94d8d10b611d36b53d7d12bd7e20586a4a697b3b6ab978",
+      "size": 9463
+    },
+    {
+      "path": "assets/i18n/sample-soda-assumptions.js",
+      "bytes": 9314,
+      "sha256": "0dd2d15d973e4f305d567a6cf795fd88b2db6019e9433173608dcff065acd357",
+      "size": 9314
+    },
+    {
+      "path": "assets/i18n/shared.js",
+      "bytes": 3958,
+      "sha256": "a6a4598c5912cb230e3b3721317aab9a2caaa28441d2119f32c929a52d88a5d6",
+      "size": 3958
+    },
+    {
+      "path": "assets/i18n/terms.js",
+      "bytes": 166,
+      "sha256": "52645740658808481123075892d3de2f49005cf5ed327a5b2e0ad56581a9ba33",
+      "size": 166
+    },
+    {
+      "path": "assets/illustrations/haoyi-zhang.png",
+      "bytes": 187312,
+      "size": 187312,
+      "sha256": "56601e8fc3629a77f2d43c2b4981c045570b99d51e8aea3a650e9850e4c5ba8d"
+    },
+    {
+      "path": "assets/illustrations/home-1.png",
+      "bytes": 648540,
+      "sha256": "c44cba1b0254a094de21495a13012439cd253c809325d709cbb922d8153e53ae",
+      "size": 648540
+    },
+    {
+      "path": "assets/illustrations/home-2.png",
+      "bytes": 325788,
+      "sha256": "51edee1f18b9acfd319ff7b13bb77b9280aa6a96763b71d662ca4d865b0c7dc0",
+      "size": 325788
+    },
+    {
+      "path": "assets/illustrations/home-3.png",
+      "bytes": 894146,
+      "sha256": "2cfec8ec5fb92e1094a1c70927d5c4cc1c5416a30ee6be1db699fac7e46a693f",
+      "size": 894146
+    },
+    {
+      "path": "assets/illustrations/home-4.png",
+      "bytes": 551496,
+      "sha256": "497a6ff59cc7dcd3e98ea577972f5c90d2b49b91d023d144e629691193c32fe2",
+      "size": 551496
+    },
+    {
+      "path": "assets/illustrations/siwei-liu.jpg",
+      "bytes": 263200,
+      "size": 263200,
+      "sha256": "66dee9543150116b77f61572c642f549999c199cdd2638e9c2e3a811c49fd748"
+    },
+    {
+      "path": "assets/legal.css",
+      "bytes": 9267,
+      "sha256": "02f75f0ca4620b08c56679837aa68e707101f4b8c3a2ac05f47cf0f68e55d6a4",
+      "size": 9267
+    },
+    {
+      "path": "assets/motion.css",
+      "bytes": 4103,
+      "sha256": "1ee354de54668811f5756636ae18cfc73a54d13bf6cda6b27ef267ab949f9735",
+      "size": 4103
+    },
+    {
+      "path": "assets/motion.js",
+      "bytes": 21569,
+      "sha256": "6ed52013a96f4690391687dd9e3a42ff42245c228b288db5aa525794d07c6faf",
+      "size": 21569
+    },
+    {
+      "path": "assets/og-image.png",
+      "bytes": 117548,
+      "sha256": "3745f3c9dd8e310e4065d4ae3e6df6217c388e6ac6a8f4ef768227793a22f130",
+      "size": 117548
+    },
+    {
+      "path": "assets/ouronex-mark.svg",
+      "bytes": 2436,
+      "sha256": "ff10b96aa535f1c6f919ab53264104842217cf86d2b542e9b5762c805f4d3733",
+      "size": 2436
+    },
+    {
+      "path": "assets/practice.css",
+      "bytes": 19464,
+      "sha256": "b51396f76d9ce0e4bb069bbf5629c1402f4acca44cdfd1319e60033ae77ec36f",
+      "size": 19464
+    },
+    {
+      "path": "assets/site.css",
+      "bytes": 24435,
+      "sha256": "12684329bf6ae4fe292c4ae2a337167ff465f9a506846728f2c007cd814ce440",
+      "size": 24435
+    },
+    {
+      "path": "assets/site.js",
+      "bytes": 14555,
+      "sha256": "155fc807e162333d34debbeeab499429bb7981286c54e31de09db936a9ce84c4",
+      "size": 14555
+    },
+    {
+      "path": "assets/token-usage.css",
+      "bytes": 18863,
+      "sha256": "2ab4d2c551fea4c40a147cb6aec7c0f251f427f8241026a0f0a5f31952083139",
+      "size": 18863
+    },
+    {
+      "path": "assets/token-usage.js",
+      "bytes": 36012,
+      "sha256": "e4484013d9b0fd9f5d914d6ad06a12c9f5c0ba59b599735f226e2da82a7f374f",
+      "size": 36012
+    },
+    {
+      "path": "early-access.html",
+      "bytes": 12598,
+      "sha256": "405aaa17c504bc85ee2be368ac3a519b78b833f049abb26ae037495dbdbecccd",
+      "size": 12598
+    },
+    {
+      "path": "index.html",
+      "bytes": 31783,
+      "sha256": "69a2c8d3872654f7103cbdd6338e39236cfb95d573e9cca5819da98d28b6dbac",
+      "size": 31783
+    },
+    {
+      "path": "news/_template.html",
+      "bytes": 10102,
+      "sha256": "3308be3bba47a3cba02b93adbf9a382e43dfabeb631c9d02477b58e284c75d50",
+      "size": 10102
+    },
+    {
+      "path": "news/sample-drawings-as-engineer.html",
+      "bytes": 13802,
+      "sha256": "335589045156e2bcda3ce1637f90bdc3801161f09ea3efdba4e292206b8ebf56",
+      "size": 13802
+    },
+    {
+      "path": "news/sample-hong-kong-gba.html",
+      "bytes": 13501,
+      "sha256": "7c3d5615bf442f702ace848307c93168b55aaf91bc91c412b9a6ef3ec2198e40",
+      "size": 13501
+    },
+    {
+      "path": "news/sample-llm-drawing-review.html",
+      "bytes": 13657,
+      "sha256": "e93beb4172c9d869a9e152c5e41a3fb44c051d5e47d2d86c4cc5c1a07ecd04c7",
+      "size": 13657
+    },
+    {
+      "path": "news/sample-pilot-to-practice.html",
+      "bytes": 13445,
+      "sha256": "ccd17fdba4470ff3db9514dfe7fec1ac26fb1bdcd2242c26528f1ad6513437b0",
+      "size": 13445
+    },
+    {
+      "path": "news/sample-review-as-product.html",
+      "bytes": 13637,
+      "sha256": "9dc3c7b4e6876da916e0b542f9cce89a54130148cfe292ca9ae257cec7a94cde",
+      "size": 13637
+    },
+    {
+      "path": "news/sample-sida-2026.html",
+      "bytes": 13743,
+      "sha256": "d57fce97f6da8bfad67bd224c828da317591ced09d65fb12ec631d1c7c5f41fd",
+      "size": 13743
+    },
+    {
+      "path": "news/sample-soda-assumptions.html",
+      "bytes": 13901,
+      "sha256": "c6cfbf49cd6cce1460dceafbbd8e997d4460aca821f53feb0e6c06b3a271b5bf",
+      "size": 13901
+    },
+    {
+      "path": "privacy.html",
+      "bytes": 43790,
+      "sha256": "c9817912a64b1d99a097ec950cb2eb59c2a61d34593b504d089ec75edf6472da",
+      "size": 43790
+    },
+    {
+      "path": "robots.txt",
+      "bytes": 67,
+      "sha256": "b586ce2c8d6597f590b06c569286b36d0a010bfef5dd35affcc8d37179a8617c",
+      "size": 67
+    },
+    {
+      "path": "site.webmanifest",
+      "bytes": 273,
+      "sha256": "a3832dae9c2144d90ec7efe2f2082c7256720c9f1110f7506031a846a9614831",
+      "size": 273
+    },
+    {
+      "path": "sitemap.xml",
+      "bytes": 1327,
+      "sha256": "646cf9a271b290ce4c014bbfdc89212e679eda0cd6cf77f79c9188a63838dda3",
+      "size": 1327
+    },
+    {
+      "path": "terms.html",
+      "bytes": 52108,
+      "sha256": "bd438b5ed9f6ff1f8a58e4a2958080f9314b94cd4e5e37bc4927e102e052e928",
+      "size": 52108
+    }
+  ]
 }

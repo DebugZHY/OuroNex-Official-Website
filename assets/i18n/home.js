@@ -11,19 +11,14 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "OuroNex | 結構工程 AI 智能代理"
   },
   "home.hero-slogan": {
-    "en": "SIDA - Superintelligent Design Agent",
-    "zh-CN": "SIDA - 超级智能设计代理",
-    "zh-TW": "SIDA - 超級智慧設計代理"
+    "en": "SIDA",
+    "zh-CN": "SIDA",
+    "zh-TW": "SIDA"
   },
   "home.hero-description": {
-    "en": "Built-in tools and engineering references.",
-    "zh-CN": "内置工具与工程资料。",
-    "zh-TW": "內置工具與工程資料。"
-  },
-  "home.hero-description-2": {
-    "en": "Automate documentation, optimization and BIM.",
-    "zh-CN": "自动化文档、优化与 BIM。",
-    "zh-TW": "自動化文件、優化與 BIM。"
+    "en": "The AI agent tailor-made for engineers.",
+    "zh-CN": "为工程师量身打造的 AI 智能体。",
+    "zh-TW": "為工程師量身打造的 AI 智慧體。"
   },
   "home.explore-features": {
     "en": "Explore the Features",
@@ -340,176 +335,6 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "我们如何与您合作",
     "zh-TW": "我們如何與您合作"
   },
-  "home.how-lede": {
-    "en": "Three ways to put SIDA to work: take the product as it stands, commission the tool you are missing, or have us model your own process. Every path ends with SIDA running on your projects.",
-    "zh-CN": "三条路径把 SIDA 用起来：直接采用现有产品、委托开发你缺少的工具，或让我们把你的流程建模。每条路径最后都落在 SIDA 跑在你自己的项目上。",
-    "zh-TW": "三條路徑把 SIDA 用起來：直接採用現成產品、委託開發你缺少的工具，或讓我們把你的流程建模。每條路徑最後都落在 SIDA 跑在你自己的專案上。"
-  },
-  "home.track-product-title": {
-    "en": "SIDA licence",
-    "zh-CN": "SIDA 授权",
-    "zh-TW": "SIDA 授權"
-  },
-  "home.track-product-desc": {
-    "en": "The product, running on your own projects.",
-    "zh-CN": "现成产品，跑在你自己的项目上。",
-    "zh-TW": "現成產品，跑在你自己的專案上。"
-  },
-  "home.track-product-step-1-title": {
-    "en": "Pilot on a live workflow",
-    "zh-CN": "在真实工作流上试用",
-    "zh-TW": "在真實工作流程上試用"
-  },
-  "home.track-product-step-1-copy": {
-    "en": "Run one real task — a code check, a calculation, a report — on your own drawings and standards, and count the hours it removes.",
-    "zh-CN": "用一个真实任务——规范核查、一次计算、一份报告——在你自己的图纸与标准上跑一遍，数一数省掉多少小时。",
-    "zh-TW": "用一個真實任務——規範核查、一次計算、一份報告——在你自己的圖紙與標準上跑一遍，數一數省下多少小時。"
-  },
-  "home.track-product-step-2-title": {
-    "en": "Choose the plan",
-    "zh-CN": "选择套餐",
-    "zh-TW": "選擇方案"
-  },
-  "home.track-product-step-2-copy": {
-    "en": "Pay as you go, Lite, Standard, Professional or Enterprise, matched to the token volume your team actually spends.",
-    "zh-CN": "按量付费、Lite、Standard、Professional 或 Enterprise，与团队实际消耗的 token 量匹配。",
-    "zh-TW": "按量付費、Lite、Standard、Professional 或 Enterprise，與團隊實際消耗的 token 量匹配。"
-  },
-  "home.track-product-step-3-title": {
-    "en": "Roll it out to the team",
-    "zh-CN": "推广到团队",
-    "zh-TW": "推廣到團隊"
-  },
-  "home.track-product-step-3-copy": {
-    "en": "Windows or Mac install, your code library and project knowledge bases loaded, and a short brief on the review points that matter.",
-    "zh-CN": "Windows 或 Mac 安装，载入规范库与项目知识库，并交代真正需要人复核的节点。",
-    "zh-TW": "Windows 或 Mac 安裝，載入規範庫與專案知識庫，並交代真正需要人複核的節點。"
-  },
-  "home.track-product-step-4-title": {
-    "en": "Keep the work in house",
-    "zh-CN": "数据留在本地",
-    "zh-TW": "資料留在本地"
-  },
-  "home.track-product-step-4-copy": {
-    "en": "Data stays on the machine. Nothing is uploaded, and the project knowledge base grows with every job.",
-    "zh-CN": "数据不出机器，知识库随每个项目增长。",
-    "zh-TW": "資料不出機器，知識庫隨每個專案成長。"
-  },
-  "home.track-product-deal": {
-    "en": "Billed as a subscription or a token top-up. No implementation fee.",
-    "zh-CN": "按订阅或 token 充值计费，不收取实施费。",
-    "zh-TW": "按訂閱或 token 儲值計費，不收實施費。"
-  },
-  "home.track-custom-title": {
-    "en": "Custom development",
-    "zh-CN": "定制开发",
-    "zh-TW": "客製開發"
-  },
-  "home.track-custom-desc": {
-    "en": "A tool, model or integration SIDA does not ship yet.",
-    "zh-CN": "SIDA 尚未提供的工具、模型或集成。",
-    "zh-TW": "SIDA 尚未提供的工具、模型或整合。"
-  },
-  "home.track-custom-step-1-title": {
-    "en": "On-site consultation",
-    "zh-CN": "现场调研",
-    "zh-TW": "現場調研"
-  },
-  "home.track-custom-step-1-copy": {
-    "en": "We sit with the team, watch the real workflow and find where the manual hours are spent.",
-    "zh-CN": "与团队坐在一起，看真实的工作流，找出人工耗时最大的环节。",
-    "zh-TW": "與團隊坐在一起，看真實的工作流程，找出人力耗時最大的環節。"
-  },
-  "home.track-custom-step-2-title": {
-    "en": "Scoped proposal",
-    "zh-CN": "范围提案",
-    "zh-TW": "範圍提案"
-  },
-  "home.track-custom-step-2-copy": {
-    "en": "Scope, review points, delivery date and a fixed price are agreed before any code is written.",
-    "zh-CN": "在写任何代码之前，先约定范围、复核节点、交付日期与固定价格。",
-    "zh-TW": "在寫任何程式碼之前，先約定範圍、複核節點、交付日期與固定價格。"
-  },
-  "home.track-custom-step-3-title": {
-    "en": "Pilot first",
-    "zh-CN": "先做试点",
-    "zh-TW": "先做試點"
-  },
-  "home.track-custom-step-3-copy": {
-    "en": "The first build runs on one live project and is judged against the way the work is done today.",
-    "zh-CN": "第一个版本放在真实项目上跑，并与现在的做法逐项对比。",
-    "zh-TW": "第一個版本放在真實專案上跑，並與現在的做法逐項對比。"
-  },
-  "home.track-custom-step-4-title": {
-    "en": "Build and hand over",
-    "zh-CN": "开发交付",
-    "zh-TW": "開發交付"
-  },
-  "home.track-custom-step-4-copy": {
-    "en": "Delivered as a SIDA tool inside your workspace, documented, with the rules it checks kept open to your engineers.",
-    "zh-CN": "作为 SIDA 工具交付到你的工作空间，附文档，检查规则对工程师开放。",
-    "zh-TW": "作為 SIDA 工具交付到你的工作空間，附文件，檢查規則對工程師開放。"
-  },
-  "home.track-custom-deal": {
-    "en": "Fixed-scope project fee, then carried on your SIDA subscription.",
-    "zh-CN": "固定范围项目费，之后由 SIDA 订阅延续。",
-    "zh-TW": "固定範圍專案費，之後由 SIDA 訂閱延續。"
-  },
-  "home.track-workflow-title": {
-    "en": "Custom workflow",
-    "zh-CN": "自定义工作流",
-    "zh-TW": "自訂工作流程"
-  },
-  "home.track-workflow-desc": {
-    "en": "Your own process, modelled as a SIDA flowchart.",
-    "zh-CN": "把你的流程画成 SIDA 的流程图。",
-    "zh-TW": "把你的流程畫成 SIDA 的流程圖。"
-  },
-  "home.track-workflow-step-1-title": {
-    "en": "Workflow audit",
-    "zh-CN": "流程审视",
-    "zh-TW": "流程檢視"
-  },
-  "home.track-workflow-step-1-copy": {
-    "en": "One project type mapped end to end: steps, handoffs, deliverables and the people who sign off.",
-    "zh-CN": "挑一类项目，从头到尾梳理步骤、交接、交付物与签核人。",
-    "zh-TW": "挑一類專案，從頭到尾梳理步驟、交接、交付物與簽核人。"
-  },
-  "home.track-workflow-step-2-title": {
-    "en": "Workflow design",
-    "zh-CN": "流程设计",
-    "zh-TW": "流程設計"
-  },
-  "home.track-workflow-step-2-copy": {
-    "en": "The flow becomes a SIDA flowchart — specialist bots, built-in tools, checkpoints and review gates.",
-    "zh-CN": "流程落成 SIDA 流程图——专家机器人、内置工具、检查点与复核关口。",
-    "zh-TW": "流程落成 SIDA 流程圖——專家機器人、內建工具、檢查點與複核關口。"
-  },
-  "home.track-workflow-step-3-title": {
-    "en": "Pilot on a real project",
-    "zh-CN": "真实项目试点",
-    "zh-TW": "真實專案試點"
-  },
-  "home.track-workflow-step-3-copy": {
-    "en": "The new flow runs beside the old one, so the difference is measured rather than assumed.",
-    "zh-CN": "新旧两套流程并排跑，差距是量出来的，不是假设的。",
-    "zh-TW": "新舊兩套流程並排跑，差距是量出來的，不是假設的。"
-  },
-  "home.track-workflow-step-4-title": {
-    "en": "Roll-out and training",
-    "zh-CN": "上线与培训",
-    "zh-TW": "上線與培訓"
-  },
-  "home.track-workflow-step-4-copy": {
-    "en": "Published to the team with training, then reviewed across the first three projects.",
-    "zh-CN": "发布给团队并培训，在头三个项目上复盘。",
-    "zh-TW": "發布給團隊並培訓，在頭三個專案上複盤。"
-  },
-  "home.track-workflow-deal": {
-    "en": "Priced per workflow, maintained with your subscription.",
-    "zh-CN": "按工作流计价，随订阅维护。",
-    "zh-TW": "按工作流程計價，隨訂閱維護。"
-  },
   "home.see-plans": {
     "en": "See the plans",
     "zh-CN": "查看套餐",
@@ -641,13 +466,158 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "創辦人兼董事"
   },
   "home.about-founder-bio-1": {
-    "en": "Founder and Director of OuroNex, steering the company's strategic vision with a blend of academic depth and hands-on engineering insight.",
-    "zh-CN": "OuroNex 创始人兼董事，以学术深度与一线工程洞察相结合，把控公司的战略方向。",
-    "zh-TW": "OuroNex 創辦人兼董事，以學術深度與一線工程洞察相結合，掌握公司的策略方向。"
+    "en": "Founder and Director. A Ph.D. candidate in structural engineering, he builds the computational tools that bring AI into everyday design work.",
+    "zh-CN": "创始人兼董事。结构工程博士候选人，构建把 AI 带入日常设计工作的计算工具。",
+    "zh-TW": "創辦人兼董事。結構工程博士候選人，建構把 AI 帶入日常設計工作的計算工具。"
   },
-  "home.about-founder-bio-2": {
-    "en": "A Ph.D. candidate in structural engineering, he works where AI and structural engineering meet, and builds the computational tools behind landmark projects. Mr. Haoyi Zhang aims to make the most sophisticated engineering feel effortless.",
-    "zh-CN": "结构工程博士候选人，工作处在 AI 与结构工程的交汇处，并构建支撑标志性项目的计算工具。Haoyi Zhang 希望让最高深的工程显得举重若轻。",
-    "zh-TW": "結構工程博士候選人，工作處於 AI 與結構工程的交匯處，並建構支撐標誌性專案的計算工具。Haoyi Zhang 希望讓最高深的工程顯得舉重若輕。"
+  "home.flow-lede": {
+    "en": "Three ways in, one platform out. Wherever you start, the conversation settles on the deliverables that fit your practice.",
+    "zh-CN": "三条入口，一个平台收束。无论从哪里开始，最终都落在适合你团队的交付形态上。",
+    "zh-TW": "三條入口，一個平台收束。無論從哪裡開始，最終都落在適合你團隊的交付形態上。"
+  },
+  "home.flow-entry-1-kicker": {
+    "en": "No clear picture yet",
+    "zh-CN": "还没想清楚",
+    "zh-TW": "還沒想清楚"
+  },
+  "home.flow-entry-1-title": {
+    "en": "On-site consultation",
+    "zh-CN": "现场咨询",
+    "zh-TW": "現場諮詢"
+  },
+  "home.flow-entry-1-copy": {
+    "en": "We walk the live workflow with you and map where the hours are going.",
+    "zh-CN": "我们和你一起走一遍真实的工作流，找出时间到底花在哪里。",
+    "zh-TW": "我們和你一起走一遍真實的工作流程，找出時間到底花在哪裡。"
+  },
+  "home.flow-entry-2-kicker": {
+    "en": "Scope already defined",
+    "zh-CN": "范围已经明确",
+    "zh-TW": "範圍已經明確"
+  },
+  "home.flow-entry-2-title": {
+    "en": "Scoped proposal",
+    "zh-CN": "范围提案",
+    "zh-TW": "範圍提案"
+  },
+  "home.flow-entry-2-copy": {
+    "en": "We price the work, the review points and the delivery date up front.",
+    "zh-CN": "工作范围、复核节点、交付时间与价格，事前一次说清。",
+    "zh-TW": "工作範圍、複核節點、交付時間與價格，事前一次說清。"
+  },
+  "home.flow-entry-3-kicker": {
+    "en": "Want to see it working",
+    "zh-CN": "想先看到效果",
+    "zh-TW": "想先看到效果"
+  },
+  "home.flow-entry-3-title": {
+    "en": "Pilot first",
+    "zh-CN": "先做试点",
+    "zh-TW": "先做試點"
+  },
+  "home.flow-entry-3-copy": {
+    "en": "One real project runs on SIDA, so the result speaks before the invoice.",
+    "zh-CN": "用一个真实项目跑 SIDA，让结果先说话，再谈费用。",
+    "zh-TW": "用一個真實專案跑 SIDA，讓結果先說話，再談費用。"
+  },
+  "home.flow-band-title": {
+    "en": "Match to what you need",
+    "zh-CN": "按实际需求匹配",
+    "zh-TW": "按實際需求匹配"
+  },
+  "home.flow-band-note": {
+    "en": "Agreed in one conversation",
+    "zh-CN": "一次沟通即可确定",
+    "zh-TW": "一次溝通即可確定"
+  },
+  "home.flow-lane-1-kicker": {
+    "en": "Ready to run",
+    "zh-CN": "即开即用",
+    "zh-TW": "即開即用"
+  },
+  "home.flow-lane-1-title": {
+    "en": "Subscribe and use",
+    "zh-CN": "订阅并使用",
+    "zh-TW": "訂閱並使用"
+  },
+  "home.flow-lane-1-copy": {
+    "en": "Take SIDA as it ships: pay as you go or a monthly plan, your codes and knowledge bases loaded, data staying on your machine.",
+    "zh-CN": "直接使用 SIDA：按量付费或包月，载入你的规范与知识库，数据留在你自己的机器上。",
+    "zh-TW": "直接使用 SIDA：按量付費或包月，載入你的規範與知識庫，資料留在你自己的機器上。"
+  },
+  "home.flow-lane-2-kicker": {
+    "en": "Your process, not ours",
+    "zh-CN": "按你的流程",
+    "zh-TW": "按你的流程"
+  },
+  "home.flow-lane-2-title": {
+    "en": "Add custom automation",
+    "zh-CN": "加入自定义自动化",
+    "zh-TW": "加入自訂自動化"
+  },
+  "home.flow-lane-2-copy": {
+    "en": "We model your workflow as a SIDA flowchart — specialist bots, checkpoints and review gates you approve.",
+    "zh-CN": "把你的工作流画成 SIDA 流程图——专家机器人、检查点与由你确认的复核关口。",
+    "zh-TW": "把你的工作流程畫成 SIDA 流程圖——專家機器人、檢查點與由你確認的複核關口。"
+  },
+  "home.flow-lane-3-kicker": {
+    "en": "Nothing off the shelf fits",
+    "zh-CN": "现成工具不够用",
+    "zh-TW": "現成工具不夠用"
+  },
+  "home.flow-lane-3-title": {
+    "en": "Commission a tool",
+    "zh-CN": "委托开发工具",
+    "zh-TW": "委託開發工具"
+  },
+  "home.flow-lane-3-copy": {
+    "en": "A model, solver or software integration built to a fixed scope, delivered inside SIDA.",
+    "zh-CN": "按固定范围开发模型、求解器或软件集成，交付在 SIDA 之内。",
+    "zh-TW": "按固定範圍開發模型、求解器或軟體整合，交付在 SIDA 之內。"
+  },
+  "home.flow-final-title": {
+    "en": "Every path lands on the same platform",
+    "zh-CN": "每条路径都落在同一个平台",
+    "zh-TW": "每條路徑都落在同一個平台"
+  },
+  "home.flow-pill-1": {
+    "en": "SIDA workspace licence",
+    "zh-CN": "SIDA 工作空间授权",
+    "zh-TW": "SIDA 工作空間授權"
+  },
+  "home.flow-pill-2": {
+    "en": "Workflow automation pack",
+    "zh-CN": "工作流自动化包",
+    "zh-TW": "工作流程自動化包"
+  },
+  "home.flow-pill-3": {
+    "en": "Bespoke tools and integrations",
+    "zh-CN": "定制工具与集成",
+    "zh-TW": "客製工具與整合"
+  },
+  "home.flow-pill-4": {
+    "en": "Onboarding and training",
+    "zh-CN": "上线与培训",
+    "zh-TW": "上線與培訓"
+  },
+  "home.flow-pill-5": {
+    "en": "Local data, nothing uploaded",
+    "zh-CN": "数据本地保存，不上传",
+    "zh-TW": "資料本機保存，不上傳"
+  },
+  "home.about-advisor-name": {
+    "en": "Ir Prof. Siwei LIU",
+    "zh-CN": "Ir Prof. Siwei LIU",
+    "zh-TW": "Ir Prof. Siwei LIU"
+  },
+  "home.about-advisor-role": {
+    "en": "Technical Advisor",
+    "zh-CN": "技术顾问",
+    "zh-TW": "技術顧問"
+  },
+  "home.about-advisor-bio": {
+    "en": "Technical Advisor. An assistant professor and Fellow of a leading steel construction institute, he has contributed to multiple regional and national design codes, keeping the company anchored in rigorous science.",
+    "zh-CN": "技术顾问。助理教授、领先钢结构学会会士，参与多项地区与国家设计规范的编制，让公司始终扎根于严谨的科研。",
+    "zh-TW": "技術顧問。助理教授、領先鋼結構學會會士，參與多項地區與國家設計規範的編制，讓公司始終扎根於嚴謹的科研。"
   }
 });
