@@ -66,7 +66,9 @@ class HomePricingLayoutTests(unittest.TestCase):
         table = re.search(r"\.plan-table\{([^}]*)\}", text).group(1)
         cells = re.search(r"\.plan-table th,\.plan-table td\{([^}]*)\}", text).group(1)
         self.assertIn("font-size:15px", table)
-        self.assertIn("min-width:1240px", table)
+        self.assertIn("min-width:1060px", table)
+        self.assertIn("width:min(1180px,calc(100% - 64px))", re.search(r"\.price-layout\{([^}]*)\}", text).group(1),
+                      "the price block sits in the same column as the other sections")
         self.assertIn("height:46px", cells)
         self.assertIn("font-size:15px", cells)
 

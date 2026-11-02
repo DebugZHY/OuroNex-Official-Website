@@ -1148,9 +1148,11 @@ class ExpandedSectionsTest(CssAssertions):
         return matches[0]
 
     def test_wide_desktop_containers_use_the_available_page(self) -> None:
-        for selector in (".hero-inner", ".price-layout"):
+        hero = squash(self.base(".hero-inner").get("width", ""))
+        self.assertIn("1920px", hero, "the hero keeps the expanded wide container")
+        for selector in (".price-layout", ".application-layout"):
             width = squash(self.base(selector).get("width", ""))
-            self.assertIn("1920px", width, f"{selector}: expected the expanded wide container")
+            self.assertIn("1180px", width, f"{selector}: expected the shared content column")
         feature = squash(self.base(".feature-layout").get("width", ""))
         self.assertIn("1180px", feature, "the SIDA block keeps a narrower column than the hero")
         self.assertEqual(squash(self.base(".feature-layout").get("margin-inline", "")), "auto",
@@ -1178,7 +1180,7 @@ class ExpandedSectionsTest(CssAssertions):
         self.assert_decl(self.base(".plan-mini"), "min-height", "250px", where=".plan-mini")
         self.assert_decl(self.base(".plan-mini h2"), "font-size", "26px", where=".plan-mini h2")
         self.assert_decl(self.base(".plan-table"), "font-size", "15px", where=".plan-table")
-        self.assert_decl(self.base(".plan-table"), "min-width", "1240px", where=".plan-table")
+        self.assert_decl(self.base(".plan-table"), "min-width", "1060px", where=".plan-table")
         self.assert_decl(self.base(".plan-table th"), "height", "46px", where=".plan-table th")
         self.assert_decl(self.base(".plan-table th"), "font-size", "15px", where=".plan-table th")
 
