@@ -515,69 +515,79 @@ class AccountLanguageSwitcherTest(CssAssertions):
 
 
 class SignInPillTest(CssAssertions):
-    SIGNIN = ".desktop-nav .nav-secondary [data-signin]"
-    SIGNIN_HOVER = ".desktop-nav .nav-secondary [data-signin]:hover"
+    SIGNIN = ".desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)"
+    SIGNIN_HOVER = ".desktop-nav .nav-secondary [data-signin]:not(.is-authenticated):hover"
     AVATAR = ".home-page .desktop-nav .nav-secondary [data-signin].is-authenticated"
     TOKEN = "var(--nav-pill-height)"
 
-    def test_signin_is_light_blue_pill_with_dark_text(self) -> None:
+    def test_signin_wears_the_outline_cta_pill(self) -> None:
         variants = find_rules(SITE_CSS, self.SIGNIN)
         self.assertTrue(variants, f"{SITE_CSS}: no rule for {self.SIGNIN!r}")
         self.assertTrue(
             any(rule.get("border-radius") == "999px" for rule in variants),
             f"{self.SIGNIN}: existing pill shape (border-radius: 999px) must be preserved",
         )
-        filled = [rule for rule in variants if background(rule) == LIGHT_BLUE]
+        outlined = [rule for rule in variants if rule.get("border") == "1px solid #7894c9"]
         self.assertTrue(
-            filled, f"{self.SIGNIN}: background must be {LIGHT_BLUE}, found "
-            f"{[background(rule) for rule in variants]}",
+            outlined, f"{self.SIGNIN}: rest border must stay the 1px #7894c9 outline, found "
+            f"{[rule.get('border') for rule in variants]}",
         )
-        for rule in filled:
+        for rule in outlined:
             self.assert_in(
                 rule.get("color", ""),
-                DARK_TEXT | {"var(--bg)"},
+                DARK_TEXT | {"var(--ink)"},
                 what=f"{self.SIGNIN} text colour",
             )
-            self.assert_in(
-                rule.get("border", ""),
-                {f"1px solid {LIGHT_BLUE}", LIGHT_BLUE, "1px solid var(--ink)"},
-                what=f"{self.SIGNIN} border",
+            self.assertNotEqual(
+                background(rule),
+                LIGHT_BLUE,
+                f"{self.SIGNIN}: Log in is the quiet outline pill, not the filled one",
+            )
+            self.assertIn(
+                "linear-gradient(115deg",
+                background(rule),
+                f"{self.SIGNIN}: the pill shares the hero CTA gradient, found "
+                f"{background(rule)!r}",
             )
 
-    def test_signin_hover_stays_light_blue(self) -> None:
+    def test_signin_hover_uses_the_shared_cta_ring(self) -> None:
         hover = find_rule(SITE_CSS, self.SIGNIN_HOVER)
-        self.assert_in(
-            background(hover),
-            {LIGHT_BLUE, "#c6d9ff", "#cddcff", "#c9dbff"},
-            what=f"{self.SIGNIN_HOVER} background",
+        self.assertEqual(
+            hover.get("border-color"),
+            "var(--cta-ring,#c2d7ff)",
+            f"{self.SIGNIN_HOVER}: hover must take the shared CTA ring colour",
         )
-        self.assert_in(
-            hover.get("color", ""),
-            DARK_TEXT | {"var(--bg)"},
-            what=f"{self.SIGNIN_HOVER} text colour",
+        self.assertIn(
+            "box-shadow",
+            hover,
+            f"{self.SIGNIN_HOVER}: hover keeps the shared lifted shadow",
+        )
+        self.assertNotEqual(
+            background(hover),
+            LIGHT_BLUE,
+            f"{self.SIGNIN_HOVER}: hover must not repaint the pill light blue",
         )
 
-    def test_signin_width_is_fixed_in_pixels_regardless_of_label(self) -> None:
-        signin = find_rule(SITE_CSS, self.SIGNIN)
-        width = signin.get("width", "")
-        matched = re.fullmatch(r"(\d+)px", width)
-        self.assertIsNotNone(
-            matched, f"{self.SIGNIN}: Log in needs a fixed pixel width, found {width!r}"
-        )
-        self.assertGreaterEqual(
-            int(matched.group(1)), 80, f"{self.SIGNIN}: {width} cannot hold a translated label"
-        )
+    def test_signin_pill_keeps_its_height_and_label_metrics(self) -> None:
+        variants = find_rules(SITE_CSS, self.SIGNIN)
+        heights = {rule.get("height") for rule in variants if rule.get("height")}
         self.assertEqual(
-            signin.get("min-width"),
-            width,
-            f"{self.SIGNIN}: the width must not collapse for a shorter translation",
+            heights,
+            {"52px", "50px"},
+            f"{self.SIGNIN}: the pill is 52px tall and only the mobile block trims it to 50px, "
+            f"found {sorted(h for h in heights if h)}",
         )
-        self.assert_decl(signin, "white-space", "nowrap", where=self.SIGNIN)
-        self.assert_decl(signin, "justify-content", "center", where=self.SIGNIN)
-        self.assertIn(
-            squash(signin.get("padding", "")),
-            {"0", "0px"},
-            f"{self.SIGNIN}: padding must not add to the fixed width, found {signin.get('padding')!r}",
+        base = next(rule for rule in variants if rule.get("height") == "52px")
+        self.assertEqual(
+            base.get("min-height"), "52px", f"{self.SIGNIN}: the height must not collapse"
+        )
+        self.assert_decl(base, "white-space", "nowrap", where=self.SIGNIN)
+        self.assert_decl(base, "justify-content", "center", where=self.SIGNIN)
+        self.assertRegex(
+            base.get("padding", ""),
+            r"^\d+px \d+px$",
+            f"{self.SIGNIN}: the pill is content-sized with a horizontal padding, found "
+            f"{base.get('padding')!r}",
         )
 
     def test_login_keeps_its_token_while_the_avatar_is_enlarged(self) -> None:
@@ -589,12 +599,16 @@ class SignInPillTest(CssAssertions):
             token, r"^\d+px$", f"{SITE_CSS}: token must be a px height, found {token!r}"
         )
 
-        signin = find_rule(SITE_CSS, self.SIGNIN)
+        signin = next(
+            rule
+            for rule in find_rules(SITE_CSS, self.SIGNIN)
+            if rule.get("height") == "52px"
+        )
         for prop in ("height", "min-height"):
             self.assertEqual(
                 signin.get(prop),
-                self.TOKEN,
-                f"{self.SIGNIN}: {prop} must use the shared token",
+                "52px",
+                f"{self.SIGNIN}: {prop} follows the trimmed 52px pill",
             )
 
         avatar = find_rule(HOME_CSS, self.AVATAR)
@@ -833,10 +847,11 @@ class HeroActionsTest(CssAssertions):
         )
 
     def test_both_breathing_keyframes_exist(self) -> None:
-        sheet = _sheet(HOME_CSS)
+        # Shared with the header pills, so the keyframes now live in site.css.
+        shared = _sheet(HOME_CSS) + _sheet(SITE_CSS)
         for name in ("onx-cta-primary-breathe", "onx-cta-outline-breathe"):
             with self.subTest(keyframes=name):
-                self.assertIn(f"@keyframes {name}", sheet)
+                self.assertIn(f"@keyframes {name}", shared)
 
     def test_reduced_motion_disables_cta_animation_glow_and_transform(self) -> None:
         block = media_block(HOME_CSS, "@media(prefers-reduced-motion:reduce)")

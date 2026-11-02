@@ -13,6 +13,7 @@ class HomeCtaEffectTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.index = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
         cls.css = (REPO_ROOT / "assets" / "home.css").read_text(encoding="utf-8")
+        cls.site_css = (REPO_ROOT / "assets" / "site.css").read_text(encoding="utf-8")
         cls.js = (REPO_ROOT / "assets" / "home.js").read_text(encoding="utf-8")
 
     def test_primary_navigation_uses_20px(self) -> None:
@@ -26,8 +27,10 @@ class HomeCtaEffectTests(unittest.TestCase):
 
     def test_ctas_have_gradients_breathing_and_pointer_glow(self) -> None:
         self.assertIn("background:linear-gradient(115deg,rgba(169,197,255,.75)", self.css)
-        self.assertIn("@keyframes onx-cta-primary-breathe", self.css)
-        self.assertIn("@keyframes onx-cta-outline-breathe", self.css)
+        # The breathing keyframes are shared with the header pills and now live in site.css.
+        shared = self.css + self.site_css
+        self.assertIn("@keyframes onx-cta-primary-breathe", shared)
+        self.assertIn("@keyframes onx-cta-outline-breathe", shared)
         self.assertIn("radial-gradient(170px circle at var(--mx) var(--my)", self.css)
         self.assertIn("function initPointerGlow()", self.js)
         self.assertIn("button.addEventListener('pointermove'", self.js)
