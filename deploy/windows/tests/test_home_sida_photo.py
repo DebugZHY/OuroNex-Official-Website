@@ -239,7 +239,7 @@ class FeatureDetailCardTests(unittest.TestCase):
 
     def test_detail_card_has_no_surface(self):
         card = declarations(self.base, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "30px034px")
+        self.assertEqual(normalise(card.get("padding", "")), "26px030px")
         self.assertEqual(normalise(card.get("border", "")), "0")
         self.assertEqual(normalise(card.get("border-radius", "")), "0")
         self.assertEqual(normalise(card.get("background", "")), "none")
@@ -274,17 +274,17 @@ class FeatureDetailCardTests(unittest.TestCase):
 
     def test_card_title_is_a_manrope_display_heading(self):
         title = declarations(self.base, ".feature-detail-card h3")
-        self.assertEqual(normalise(title.get("font", "")), normalise("500 34px/1.16 var(--display)"))
+        self.assertEqual(normalise(title.get("font", "")), normalise("500 41px/1.16 var(--display)"))
         self.assertIn("var(--display)", title.get("font", ""))
         self.assertEqual(normalise(title.get("margin", "")), "0")
         self.assertEqual(title.get("color"), "#f4f9ff")
         self.assertEqual(normalise(title.get("letter-spacing", "")), "-.03em")
 
-    def test_card_copy_is_16_5px(self):
+    def test_card_copy_is_20px(self):
         paragraph = declarations(self.base, ".feature-detail-card p")
-        self.assertEqual(normalise(paragraph.get("margin", "")), "13px00")
+        self.assertEqual(normalise(paragraph.get("margin", "")), "16px00")
         self.assertEqual(paragraph.get("text-align"), "left")
-        self.assertEqual(normalise(paragraph.get("font-size", "")), "16.5px")
+        self.assertEqual(normalise(paragraph.get("font-size", "")), "20px")
         self.assertEqual(normalise(paragraph.get("line-height", "")), "1.74")
         self.assertEqual(normalise(paragraph.get("max-width", "")), "62ch")
         self.assertEqual(paragraph.get("color"), "#a7b9cd")
@@ -335,7 +335,7 @@ class FeatureDetailCardTests(unittest.TestCase):
     def test_short_desktop_only_tightens_the_rows(self):
         short = self.media("max-height:760px)and(min-width:761px")
         card = declarations(short, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "20px022px")
+        self.assertEqual(normalise(card.get("padding", "")), "24px027px")
         self.assertNotIn(".feature-detail-card p", short,
                          "the body scale holds on short desktops")
 

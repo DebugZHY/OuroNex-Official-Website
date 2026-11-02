@@ -1310,10 +1310,10 @@ class ExpandedSectionsTest(CssAssertions):
         self.assert_decl(self.base(".hero-demo"), "height", "min(74vh,760px)", where=".hero-demo")
 
     def test_sida_tabs_panel_and_downloads_are_larger(self) -> None:
-        self.assert_decl(self.base(".feature-tabs"), "grid-template-columns", "396px minmax(0,1fr)", where=".feature-tabs")
-        self.assert_decl(self.base(".feature-tab-list button"), "font", "500 17px/1.3 var(--display)", where=".feature-tab-list button")
-        self.assert_decl(self.base(".feature-detail-card p"), "font-size", "16.5px", where=".feature-detail-card p")
-        self.assert_decl(self.base(".feature-detail-card h3"), "font", "500 34px/1.16 var(--display)", where=".feature-detail-card h3")
+        self.assert_decl(self.base(".feature-tabs"), "grid-template-columns", "480px minmax(0,1fr)", where=".feature-tabs")
+        self.assert_decl(self.base(".feature-tab-list button"), "font", "500 20.5px/1.3 var(--display)", where=".feature-tab-list button")
+        self.assert_decl(self.base(".feature-detail-card p"), "font-size", "20px", where=".feature-detail-card p")
+        self.assert_decl(self.base(".feature-detail-card h3"), "font", "500 41px/1.16 var(--display)", where=".feature-detail-card h3")
         self.assertIn("900px", squash(self.base(".sida-section .download-actions").get("width", "")))
 
     def test_price_cards_and_table_use_more_space(self) -> None:
@@ -1360,7 +1360,7 @@ class HomepageRedesignTest(CssAssertions):
         tabs = find_rules(HOME_CSS, ".feature-tabs")[0]
         self.assertEqual(
             squash(tabs.get("grid-template-columns", "")),
-            "396pxminmax(0,1fr)",
+            "480pxminmax(0,1fr)",
             "the tab list is a fixed rail and the copy takes the rest",
         )
         stack = find_rules(HOME_CSS, ".feature-card-stack")[0]

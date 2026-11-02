@@ -27,15 +27,15 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 
-BASE_RAIL = "396px"
-MEDIUM_RAIL = "clamp(270px,32%,360px)"
-NARROW_RAIL = "clamp(240px,30%,300px)"
-FLUID_RAIL = "clamp(300px,34%,396px)"
+BASE_RAIL = "480px"
+MEDIUM_RAIL = "clamp(327px,36%,436px)"
+NARROW_RAIL = "clamp(291px,30%,363px)"
+FLUID_RAIL = "clamp(363px,40.7%,480px)"
 
-BASE_TITLE_SIZE = "34px"
+BASE_TITLE_SIZE = "41px"
 BASE_TITLE_LINE_HEIGHT = "1.16"
 BASE_TITLE_SPACING = "-.03em"
-BASE_BODY_SIZE = "16.5px"
+BASE_BODY_SIZE = "20px"
 BASE_BODY_LINE_HEIGHT = "1.74"
 BODY_MEASURE = "62ch"
 
@@ -183,7 +183,7 @@ class ShellTests(unittest.TestCase):
         layout = base(self.css, ".feature-layout")
         self.assertEqual(normalise(layout.get("align-content", "")), "center")
         self.assertEqual(normalise(layout.get("gap", "")), "0")
-        self.assertEqual(normalise(layout.get("padding", "")), "24px00",
+        self.assertEqual(normalise(layout.get("padding", "")), "0",
                          "the copy block leaves all spacing to the CTA row")
         self.assertIn("min(1180px,calc(100%-120px))",
                       normalise(layout.get("width", "")),
@@ -191,7 +191,7 @@ class ShellTests(unittest.TestCase):
 
     def test_cta_row_is_pushed_away_from_the_copy(self):
         row = base(self.css, ".sida-section .download-row")
-        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(44px,5.6vh,72px)",
+        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(34px,4.4vh,58px)",
                          "the download row keeps a clear break below the copy")
 
     def test_no_fixed_shared_height_survives(self):
@@ -204,7 +204,7 @@ class RailTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_base_grid_is_a_396px_rail_plus_copy(self):
+    def test_base_grid_is_a_480px_rail_plus_copy(self):
         tabs = base(self.css, TABS)
         self.assertEqual(normalise(tabs.get("grid-template-columns", "")),
                          f"{BASE_RAIL}minmax(0,1fr)")
@@ -253,15 +253,15 @@ class DirectoryRowTests(unittest.TestCase):
         self.assertEqual(normalise(button.get("background", "")), "none")
         self.assertEqual(normalise(button.get("border-top", "")), HAIRLINE)
         self.assertEqual(normalise(base(self.css, BUTTON + ":last-child").get("border-bottom", "")),
-                         "0", "the list ends open, with no closing rule")
+                         HAIRLINE, "the list closes with the same hairline as the row dividers")
 
     def test_row_padding_and_label(self):
         button = base(self.css, BUTTON)
-        self.assertEqual(normalise(button.get("padding", "")), "22px8px22px20px")
+        self.assertEqual(normalise(button.get("padding", "")), "27px10px27px24px")
         self.assertEqual(normalise(button.get("grid-template-columns", "")),
-                         "48pxminmax(0,1fr)")
+                         "58pxminmax(0,1fr)")
         font = font_parts(button)
-        self.assertEqual(font["font-size"], "17px")
+        self.assertEqual(font["font-size"], "20.5px")
         self.assertEqual(font["font-weight"], "500")
         self.assertIn("--display", font["font-family"])
 
@@ -285,10 +285,10 @@ class DirectoryRowTests(unittest.TestCase):
                          "selection never repaints the row as a card")
         self.assertEqual(normalise(selected.get("box-shadow", "")), "none")
 
-    def test_directory_icon_is_a_32px_soft_glow_line(self):
+    def test_directory_icon_is_a_39px_soft_glow_line(self):
         icon = base(self.css, ICON)
-        self.assertEqual(px(icon.get("width", "")), 32.0)
-        self.assertEqual(px(icon.get("height", "")), 32.0)
+        self.assertEqual(px(icon.get("width", "")), 39.0)
+        self.assertEqual(px(icon.get("height", "")), 39.0)
         self.assertIn("drop-shadow", normalise(icon.get("filter", "")))
         selected_icon = base(self.css, BUTTON + "[aria-selected=true]" + " .directory-icon")
         self.assertEqual(normalise(selected_icon.get("color", "")), "#e6f1ff")
@@ -303,11 +303,11 @@ class CopyColumnTests(unittest.TestCase):
 
     def test_column_carries_a_rule_with_a_blue_fade(self):
         panels = base(self.css, PANELS)
-        self.assertEqual(px(panels.get("padding-left", "")), 56.0)
+        self.assertEqual(px(panels.get("padding-left", "")), 68.0)
         self.assertEqual(normalise(panels.get("border-left", "")), HAIRLINE)
         fade = base(self.css, PANELS + "::before")
         self.assertEqual(px(fade.get("width", "")), 1.0)
-        self.assertEqual(px(fade.get("height", "")), 112.0)
+        self.assertEqual(px(fade.get("height", "")), 136.0)
         self.assertIn("#729eff", normalise(fade.get("background", "")))
 
     def test_panel_is_a_bare_host(self):
@@ -327,7 +327,7 @@ class CopyColumnTests(unittest.TestCase):
         self.assertEqual(normalise(card.get("background", "")), "none")
         self.assertEqual(normalise(card.get("box-shadow", "")), "none")
         self.assertEqual(normalise(card.get("border-top", "")), HAIRLINE)
-        self.assertEqual(normalise(card.get("padding", "")), "30px034px")
+        self.assertEqual(normalise(card.get("padding", "")), "26px030px")
 
     def test_first_row_loses_its_rule_and_the_last_closes(self):
         first = base(self.css, CARD + ":first-child")
@@ -362,7 +362,7 @@ class TypographyTests(unittest.TestCase):
         self.assertEqual(normalise(base(self.css, TITLE).get("letter-spacing", "")),
                          BASE_TITLE_SPACING)
 
-    def test_body_is_16_5_over_1_74_capped_at_62ch(self):
+    def test_body_is_20_over_1_74_capped_at_62ch(self):
         body = base(self.css, BODY)
         self.assertEqual(normalise(body.get("font-size", "")), BASE_BODY_SIZE)
         self.assertEqual(normalise(body.get("line-height", "")), BASE_BODY_LINE_HEIGHT)
@@ -400,9 +400,9 @@ class MobileShellTests(unittest.TestCase):
     def test_mobile_rows_keep_a_13px_padding_rhythm(self):
         mobile = rules(block(self.css, MOBILE))
         button = [decl for selectors, decl in mobile if normalise(BUTTON) in selectors][0]
-        self.assertEqual(normalise(button.get("padding", "")), "17px8px17px16px")
+        self.assertEqual(normalise(button.get("padding", "")), "21px10px21px19px")
         icon = [decl for selectors, decl in mobile if normalise(ICON) in selectors][0]
-        self.assertEqual(px(icon.get("width", "")), 26.0)
+        self.assertEqual(px(icon.get("width", "")), 30.0)
 
 
 if __name__ == "__main__":

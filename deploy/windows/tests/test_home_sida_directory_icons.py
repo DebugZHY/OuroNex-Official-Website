@@ -11,7 +11,7 @@ Frozen contract pinned here:
    ``viewBox="0 0 24 24"``), contribute no visible text and reference no
    external icon asset, and the existing label spans / i18n keys are unchanged;
 4. the stylesheet lays each button out as icon + label columns and renders
-   ``.directory-icon`` as a 32 x 32 px soft-glow line icon in the base rules
+   ``.directory-icon`` as a 39 x 39 px soft-glow line icon in the base rules
    (smaller sizes are allowed in responsive rules, never larger).
 
 Stdlib only (``html.parser`` + regex); reads ``index.html`` and
@@ -46,7 +46,7 @@ ICON_CLASS = "directory-icon"
 ICON_SELECTOR = ".feature-tab-list ." + ICON_CLASS
 BUTTON_SELECTOR = ".feature-tab-list button"
 VIEWBOX = "0 0 24 24"
-BASE_SIZE = 32.0
+BASE_SIZE = 39.0
 
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -301,7 +301,7 @@ class DirectoryIconStyleTests(unittest.TestCase):
         self.assertIn(button.get("align-items", "center"),
                       {"center", "start", "baseline", "flex-start"})
 
-    def test_directory_icon_is_a_32px_blue_line(self):
+    def test_directory_icon_is_a_39px_blue_line(self):
         icon = base_rule(self.css, ICON_SELECTOR)
         self.assertEqual(px(icon.get("width")), BASE_SIZE)
         self.assertEqual(px(icon.get("height")), BASE_SIZE)
