@@ -142,7 +142,9 @@ body.account-page .account-brand {
   align-items: center;
   gap: 11px;
   flex: 0 0 auto;
-  min-width: 0;
+  /* The brand absorbs the bar's free space, which is what pins avatar, username
+     and Sign out to the right edge. */
+  margin-right: auto;
   min-height: 44px;
   color: #f6f9ff;
   font: 600 24px/1 var(--account-font);
@@ -173,7 +175,7 @@ body.account-page .account-brand:hover {
 body.account-page .account-topbar .language-switcher {
   flex: 0 0 auto;
   gap: 8px;
-  margin-left: auto;
+  margin-left: 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -1322,7 +1324,7 @@ body.account-page .profile-editor form {
 
   body.account-page .account-topbar .language-switcher {
     order: 2;
-    margin-left: auto;
+    margin-left: 0;
   }
 
   body.account-page .language-switcher button {
@@ -1553,5 +1555,23 @@ body.account-page .profile-editor form {
   body.account-page .plan-metric-unit {
     margin-left: 4px;
     font-size: 10.5px;
+  }
+}
+
+/* Under 352px one row cannot hold the brand and the signed-in cluster: the brand
+   takes its own line and the cluster keeps the right edge of the second. */
+@media (max-width: 351px) {
+  body.account-page .account-topbar {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  body.account-page .account-brand {
+    flex-basis: 100%;
+    margin-right: 0;
+  }
+
+  body.account-page .account-identity {
+    margin-left: auto;
   }
 }

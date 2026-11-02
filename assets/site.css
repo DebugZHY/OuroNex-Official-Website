@@ -33,7 +33,7 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip-link{position:fixed;z-index:200;top:12px;left:20px;padding:12px 20px;color:var(--bg);background:var(--ink);border-radius:4px;transform:translateY(-160%)}.skip-link:focus{transform:none}
 /* Navigation retains direct access to every page at every viewport size. */
-.site-header{position:absolute;top:0;left:0;right:0;z-index:50;min-height:var(--header-height);background:transparent;border-bottom:0;transition:color .25s}
+.site-header{position:absolute;top:0;left:0;right:0;z-index:50;min-height:var(--header-height);background:transparent;border-bottom:0;transition:color .25s;font-family:var(--body)}
 .site-header.is-scrolled{background:transparent;box-shadow:none}
 .nav-shell{width:min(1280px,calc(100% - 128px));min-height:var(--header-height);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:32px}
 .brand{display:inline-flex;align-items:center;gap:12px;color:var(--ink);font:600 26px/1 var(--display);letter-spacing:-.06em;white-space:nowrap;min-height:44px}.brand img{width:60px;height:36px;object-fit:contain}
@@ -71,6 +71,44 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 @keyframes onx-cta-outline-breathe{0%,100%{background-position:0% 50%;border-color:#566f9c}50%{background-position:100% 50%;border-color:#7e95bd}}
 @media(max-width:760px){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),.desktop-nav .nav-secondary [data-register]{height:50px;min-height:50px;padding:11px 18px}}
 @media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),.desktop-nav .nav-secondary [data-register]{animation:none}}
+/* The header pills repeat the hero CTA hover: one soft light that follows the pointer
+   inside the pill and brightens on hover. --mx/--my are written by site.js. */
+.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),
+.desktop-nav .nav-secondary [data-register]{--mx:50%;--my:50%}
+.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)::before,
+.desktop-nav .nav-secondary [data-register]::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:radial-gradient(170px circle at var(--mx) var(--my),rgba(255,255,255,.48),rgba(255,255,255,.12) 38%,transparent 70%);opacity:0;transition:opacity .25s ease}
+.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)::before{background:radial-gradient(180px circle at var(--mx) var(--my),rgba(140,181,255,.18),rgba(114,158,255,.05) 42%,transparent 72%)}
+.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)>span,
+.desktop-nav .nav-secondary [data-register]>span{position:relative;z-index:1}
+.desktop-nav .nav-secondary [data-register]:hover::before{opacity:1}
+.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated):hover::before{opacity:.45}
+@media(hover:none){.desktop-nav .nav-secondary [data-signin]::before,.desktop-nav .nav-secondary [data-register]::before{display:none}}
+@media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary [data-signin]::before,.desktop-nav .nav-secondary [data-register]::before{display:none}}
+/* Public auth pages (login, register) reuse the home header: same logo lockup, nav
+   rhythm and language slots. Values mirror home.css; test_account_header pins them. */
+.auth-page{--header-height:96px}
+.auth-page .nav-shell{width:min(1520px,calc(100% - 64px));min-height:var(--header-height)}
+.auth-page .brand{gap:14px}
+.auth-page .brand img{width:80px;height:48px}
+.auth-page .brand>span{font-size:30px;letter-spacing:-.04em}
+.auth-page .desktop-nav{gap:32px}
+.auth-page .nav-primary{gap:28px}
+.auth-page .nav-primary a{font-size:20px}
+.auth-page .desktop-nav .nav-secondary .language-switcher{gap:6px}
+.auth-page .desktop-nav .nav-secondary .language-switcher button{flex:0 0 40px;width:40px;height:40px;min-width:40px;min-height:40px;font-size:20px}
+@media(max-width:1200px){.auth-page .desktop-nav{gap:20px}.auth-page .nav-primary{gap:20px}.auth-page .nav-shell{width:calc(100% - 40px)}}
+@media(max-width:1000px) and (min-width:761px){.auth-page{--header-height:88px}.auth-page .brand img{width:72px;height:44px}.auth-page .brand>span{font-size:27px}}
+@media(max-width:760px){.auth-page{--header-height:82px}.auth-page .nav-shell{width:calc(100% - 32px);min-height:82px}.auth-page .brand{gap:10px}.auth-page .brand img{width:68px;height:41px}.auth-page .brand>span{font-size:26px}}
+@media(max-height:760px) and (min-width:761px){.auth-page{--header-height:84px}.auth-page .nav-shell{min-height:84px}}
+/* Auth pages reuse the Home hero background: assets/auth-bg.js injects one of the
+   six section SVGs into .auth-background and the SVG animates itself. The vector
+   fills the viewport through its own preserveAspectRatio="xMidYMid slice", so the
+   only transform here is the mirror; any lateral offset would leave an empty strip
+   along the left edge, because a translated box no longer reaches the viewport. */
+.auth-page .auth-background{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
+.auth-page .auth-background>svg{position:relative;display:block;width:100%;height:100%;transform:scaleX(-1);filter:brightness(1.75) saturate(1.25)}
+.auth-page .auth-background::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,14,23,.72) 0%,rgba(8,14,23,.24) 45%,rgba(8,14,23,.08) 100%)}
+@media(max-width:760px){.auth-page .auth-background{opacity:.85}}
 .menu-toggle{display:none;width:46px;height:46px;flex:0 0 46px;border:1px solid var(--line);border-radius:4px;background:transparent;align-items:center;justify-content:center;flex-direction:column;gap:6px}
 .menu-toggle span{width:18px;height:1px;background:var(--ink);transition:transform .2s}
 .menu-toggle[aria-expanded='true'] span:first-child{transform:translateY(3.5px) rotate(45deg)}.menu-toggle[aria-expanded='true'] span:last-child{transform:translateY(-3.5px) rotate(-45deg)}

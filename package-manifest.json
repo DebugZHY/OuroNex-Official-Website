@@ -15,9 +15,15 @@
         },
         {
             "path": "assets/account.css",
-            "bytes": 34868,
-            "sha256": "0d780245734c2c010a22a41d461e664479b89c4f4680a0c50fa7bfaf8689131e",
-            "size": 34868
+            "bytes": 36990,
+            "sha256": "ea5ab0cf8cda069e06f4abe117e911821c2ef424bd6e60652ec602e715d84e76",
+            "size": 36990
+        },
+        {
+            "path": "assets/auth-bg.js",
+            "bytes": 2056,
+            "sha256": "fa64abcb494b753b7662bbfebbf258b78baead1621e45e07435e79789a1f72e0",
+            "size": 2056
         },
         {
             "path": "assets/backgrounds/contour-field.svg",
@@ -129,9 +135,9 @@
         },
         {
             "path": "assets/home.css",
-            "bytes": 43870,
-            "sha256": "7ad958f13a158f1c014ca8cfa031b0d14a06080ea8090f9fe81d79a49971bb02",
-            "size": 43870
+            "bytes": 44241,
+            "sha256": "ed90691e28ba3cbc1ef97c351a44d1fb2eb06f81a836f416fe69c7a9ef68ec33",
+            "size": 44241
         },
         {
             "path": "assets/home.js",
@@ -297,9 +303,9 @@
         },
         {
             "path": "assets/i18n/shared.js",
-            "bytes": 3795,
-            "sha256": "b7a2745e63abaf71504d110ee0bfc5e98aa08f40f3adeea847c279081f38587b",
-            "size": 3795
+            "bytes": 3958,
+            "sha256": "a6a4598c5912cb230e3b3721317aab9a2caaa28441d2119f32c929a52d88a5d6",
+            "size": 3958
         },
         {
             "path": "assets/i18n/terms.js",
@@ -525,15 +531,15 @@
         },
         {
             "path": "assets/site.css",
-            "bytes": 21796,
-            "sha256": "718482c6fed2200c687a19a1028f541e098f92d4d76e293a2f285e9519c0608a",
-            "size": 21796
+            "bytes": 22748,
+            "sha256": "72614d55f9e5d06b1b8ce8f66e20536a12c8f0025ecb1a2c98a61bc215c221ce",
+            "size": 22748
         },
         {
             "path": "assets/site.js",
-            "bytes": 14474,
-            "sha256": "f1bc106b65631caea341ef77f50e8a38587326161033c1a8fe78767a6caebdaa",
-            "size": 14474
+            "bytes": 14530,
+            "sha256": "6d2da5d145ea0b891571c3e5690fe7215183472cf12c8b47d9e713aa3a13ecd1",
+            "size": 14530
         },
         {
             "path": "assets/token-usage.css",

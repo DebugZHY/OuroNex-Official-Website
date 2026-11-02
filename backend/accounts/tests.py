@@ -537,10 +537,10 @@ class HomeOnePageTests(TestCase):
             with self.subTest(section=section_id):
                 self.assertTrue('id="%s"' % section_id in self.index_html, 'missing #%s section' % section_id)
 
-    def test_home_nav_has_exactly_four_section_anchors(self):
+    def test_home_nav_has_the_five_section_anchors(self):
         block = self.nav_primary_block()
         hrefs = re.findall(r'<a\b[^>]*href="([^"]*)"', block)
-        self.assertEqual(hrefs, ['#sida', '#price', '#business', '#about'])
+        self.assertEqual(hrefs, ['#home', '#sida', '#price', '#business', '#about'])
         nav_text = re.sub(r'<[^>]+>', ' ', block).lower()
         self.assertFalse('news' in nav_text, 'navigation still offers News')
         self.assertFalse('contact' in nav_text, 'navigation still offers Contact')

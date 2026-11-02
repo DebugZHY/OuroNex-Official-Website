@@ -304,4 +304,31 @@
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadSignedInUser, { once: true });
   else loadSignedInUser();
+
+  /* The header Log in / Register pills carry a pointer-following light, the same
+     hover the hero CTAs use. site.css owns the look; this only writes --mx/--my. */
+  const glowPills = [...document.querySelectorAll('.nav-secondary [data-signin]:not(.is-authenticated), .nav-secondary [data-register]')];
+  glowPills.forEach(pill => {
+    let frame = 0;
+    const paint = event => {
+      frame = 0;
+      const rect = pill.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const x = Math.min(100, Math.max(0, ((event.clientX - rect.left) / rect.width) * 100));
+      const y = Math.min(100, Math.max(0, ((event.clientY - rect.top) / rect.height) * 100));
+      pill.style.setProperty('--mx', `${x.toFixed(2)}%`);
+      pill.style.setProperty('--my', `${y.toFixed(2)}%`);
+    };
+    const track = event => {
+      if (frame || event.pointerType === 'touch' || reducedMotion.matches) return;
+      frame = requestAnimationFrame(() => paint(event));
+    };
+    pill.addEventListener('pointermove', track);
+    pill.addEventListener('pointerleave', () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      pill.style.setProperty('--mx', '50%');
+      pill.style.setProperty('--my', '50%');
+    });
+  });
 })();

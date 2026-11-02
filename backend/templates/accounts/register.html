@@ -6,27 +6,34 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title data-i18n="account-register.create-account-ouronex.985101">Create account — OuroNex</title>
 <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0f1a; color: #e2e8f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card, .card * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; }
+    .auth-main { min-height: calc(100vh - var(--header-height)); display: flex; align-items: center; justify-content: center; padding: calc(var(--header-height) + 48px) 24px 48px; }
     .card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 40px; width: 100%; max-width: 420px; }
-    h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #f8fafc; }
-    .sub { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
-    label { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; margin-bottom: 6px; }
-    input { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 14px; margin-bottom: 16px; }
-    input:focus { outline: none; border-color: #3b82f6; }
-    button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
-    button:hover { background: #1d4ed8; }
-    .error { background: #7f1d1d; color: #fecaca; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
-    .link { text-align: center; margin-top: 16px; font-size: 13px; color: #94a3b8; }
-    .link a { color: #3b82f6; text-decoration: none; }
-    .link a:hover { text-decoration: underline; }
-    .captcha-row { display: flex; gap: 12px; align-items: center; }
-    .captcha-row input { flex: 1; }
-    .captcha-q { background: #1e293b; padding: 10px 16px; border-radius: 8px; font-size: 16px; font-weight: 600; color: #f8fafc; white-space: nowrap; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .card h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: #f8fafc; }
+    .card .sub { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+    .card label { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; margin-bottom: 6px; }
+    .card input { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 14px; margin-bottom: 16px; }
+    .card input:focus { outline: none; border-color: #3b82f6; }
+    .card button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .card button:hover { background: #1d4ed8; }
+    .card .error { background: #7f1d1d; color: #fecaca; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
+    .card .link { text-align: center; margin-top: 16px; font-size: 13px; color: #94a3b8; }
+    .card .link a { color: #3b82f6; text-decoration: none; }
+    .card .link a:hover { text-decoration: underline; }
+    .card .captcha-row { display: flex; gap: 12px; align-items: stretch; }
+    .card .captcha-row input { flex: 1; margin-bottom: 0; }
+    .card .captcha-q { display: flex; align-items: center; background: #1e293b; padding: 10px 16px; border-radius: 8px; font-size: 16px; font-weight: 600; color: #f8fafc; white-space: nowrap; }
+    .card .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 760px) { .auth-main { padding: calc(var(--header-height) + 32px) 20px 32px; } .card { padding: 28px; } }
   </style>
-<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-register.js"></script><script defer="" src="/assets/i18n.js"></script></head>
-<body data-i18n-page="account-register"><div aria-label="Language / 語言 / 语言" class="language-switcher language-switcher--standalone" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<link href="/assets/site.css" rel="stylesheet"/>
+<link href="/assets/i18n.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-register.js"></script><script defer="" src="/assets/i18n.js"></script><script defer="" src="/assets/site.js"></script><script defer="" src="/assets/auth-bg.js"></script></head>
+<body class="auth-page" data-i18n-page="account-register" data-page="register">
+{% include 'accounts/_background.html' %}
+<a class="skip-link" href="#main"><span data-i18n="shared.skip-to-content.0a4470">Skip to content</span></a>
+{% include 'accounts/_site_header.html' %}
+<main class="auth-main" id="main">
 <div class="card">
 <h1><span data-i18n="account-register.create-account.aaf374">Create account</span></h1>
 <p class="sub"><span data-i18n="account-register.join-ouronex.c2c4d2">Join OuroNex</span></p>
@@ -62,5 +69,6 @@
 </form>
 <p class="link"><span data-i18n="account-register.already-have-an-account.855903">Already have an account?</span> <a href="/login/"><span data-i18n="account-register.sign-in.ada2e9">Sign in</span></a></p>
 </div>
+</main>
 </body>
 </html>
