@@ -323,8 +323,18 @@ class AlignmentTests(unittest.TestCase):
         middle = base(base_css, CARD + ":nth-child(2)")
         self.assertEqual(normalise(middle.get("text-align", "")), "right",
                          "the middle row is right aligned")
-        for selector in (CARD + ":nth-child(2) h3", CARD + ":nth-child(2) p"):
-            self.assertEqual(normalise(base(base_css, selector).get("text-align", "")), "right")
+        self.assertEqual(
+            normalise(base(base_css, CARD + ":nth-child(2) h3").get("text-align", "")),
+            "right",
+            "the middle heading reads from the right edge",
+        )
+        middle_copy = base(base_css, CARD + ":nth-child(2) p")
+        self.assertEqual(
+            normalise(middle_copy.get("text-align", "")),
+            "left",
+            "the middle paragraph keeps left-to-right reading inside a right-anchored block",
+        )
+        self.assertEqual(normalise(middle_copy.get("margin-left", "")), "auto")
 
         for selector, where in ((TITLE, "title"), (BODY, "body")):
             self.assertEqual(
