@@ -27,3 +27,4 @@ outbox/
 
 # Agent scratch
 _scratch/
+.playwright-mcp/
