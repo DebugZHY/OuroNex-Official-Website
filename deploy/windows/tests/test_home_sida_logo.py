@@ -7,8 +7,8 @@ removed with the homepage redesign. This module now pins what replaced it:
   then ``.feature-panels`` - and no brand node or logo asset is referenced;
 * the four tabs keep their order (Massive Information, Complex Workflow,
   Professional Tools, Multidisciplinary Experts), ids and ARIA wiring;
-* the desktop grid splits into a quarter-width tab list and a three-quarter
-  card area with the shared ``--feature-height: clamp(560px, 66vh, 760px)``;
+* the desktop grid gives the tab list a fixed 372px rail and the card area
+  every remaining pixel, with no shared height driving the columns;
 * the removed overlay positioning and the retired 1000px hide rule are gone;
 * the shipped Michroma wordmark font/OFL licence and the retired FoundationOne
   font stay verified against the manifest.
@@ -37,9 +37,9 @@ COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
 
 # Desktop: the list keeps a quarter of the width, the cards reclaim the rest.
-DESKTOP_COLUMNS = "minmax(0,1fr) minmax(0,3fr)"
+DESKTOP_COLUMNS = "372px minmax(0,1fr)"
 # Tablet widths keep the same narrow directory and expanded card area.
-TABLET_COLUMNS = "minmax(0,1fr) minmax(0,3fr)"
+TABLET_COLUMNS = "clamp(250px,30%,340px) minmax(0,1fr)"
 SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 
 TABS = (
@@ -188,22 +188,23 @@ class FeatureTabShellTests(unittest.TestCase):
     def test_desktop_grid_uses_the_quarter_three_quarter_split(self):
         tabs = declarations(self.base, ".feature-tabs")
         self.assertEqual(normalise(tabs.get("grid-template-columns", "")), normalise(DESKTOP_COLUMNS))
-        self.assertEqual(tabs.get("align-items"), "stretch")
-        self.assertEqual(normalise(tabs.get("gap", "")), normalise("clamp(28px,2.6vw,52px)"))
-        self.assertEqual(normalise(tabs.get("--feature-height", "")), normalise(SHARED_HEIGHT))
+        self.assertEqual(tabs.get("align-items"), "center")
+        self.assertEqual(normalise(tabs.get("gap", "")), "0")
+        self.assertNotIn("--feature-height", self.base,
+                         "the shared height ramp is retired")
 
-    def test_left_column_keeps_a_quarter_and_the_cards_reclaim_the_rest(self):
-        tracks = re.findall(r"minmax\(0,([0-9.]+fr)\)", self.base[self.base.index(".feature-tabs{"):])
-        self.assertTrue(tracks, "the desktop tracks must be readable from home.css")
-        left, right = tracks[0], tracks[1]
-        self.assertEqual(left, "1fr", "the tab list keeps one share")
-        self.assertEqual(right, "3fr", "the card area takes three shares")
-        self.assertEqual(float(right[:-2]) / float(left[:-2]), 3.0)
+    def test_left_column_is_a_fixed_rail_and_the_cards_reclaim_the_rest(self):
+        tabs = declarations(self.base, ".feature-tabs")
+        tracks = normalise(tabs.get("grid-template-columns", ""))
+        self.assertTrue(tracks.startswith("372px"), "the tab list is a fixed 372px rail")
+        self.assertEqual(tracks.count("minmax("), 1,
+                         "only the card column grows with the viewport")
 
     def test_no_third_track_or_overlay_positioning_survives(self):
         tabs = declarations(self.base, ".feature-tabs")
         self.assertEqual(
-            tabs.get("grid-template-columns", "").count("minmax("), 2, "exactly two tracks"
+            tabs.get("grid-template-columns", "").count("minmax("), 1,
+            "one fixed rail plus one growing column",
         )
         self.assertNotIn(normalise("top:clamp(18px,2vw,28px)"), normalise(self.css))
 
@@ -214,7 +215,8 @@ class FeatureTabShellTests(unittest.TestCase):
         self.assertIsNotNone(tablet, "missing the @media(max-width:1200px) block")
         tabs = declarations(tablet, ".feature-tabs")
         self.assertEqual(normalise(tabs.get("grid-template-columns", "")), normalise(TABLET_COLUMNS))
-        self.assertEqual(normalise(tabs.get("gap", "")), normalise("26px"))
+        self.assertIn(normalise(tabs.get("gap", "")), ("", "0"),
+                      "the rail keeps its zero gutter at tablet widths")
         self.assertNotIn("sida-brand", tablet)
 
     def test_mobile_stacks_to_one_column_and_no_thousand_pixel_logo_rule_exists(self):

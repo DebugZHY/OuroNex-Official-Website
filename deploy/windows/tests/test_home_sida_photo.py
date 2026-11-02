@@ -232,14 +232,14 @@ class FeatureDetailCardTests(unittest.TestCase):
         )
         self.assertEqual(
             normalise(stack.get("grid-auto-rows", "")),
-            "minmax(0,auto)",
+            "auto",
             "the three blocks stack as content-sized rows",
         )
         self.assertEqual(normalise(stack.get("gap", "")), "0")
 
     def test_detail_card_has_no_surface(self):
         card = declarations(self.base, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "24px0")
+        self.assertEqual(normalise(card.get("padding", "")), "30px034px")
         self.assertEqual(normalise(card.get("border", "")), "0")
         self.assertEqual(normalise(card.get("border-radius", "")), "0")
         self.assertEqual(normalise(card.get("background", "")), "none")
@@ -249,42 +249,45 @@ class FeatureDetailCardTests(unittest.TestCase):
         self.assertEqual(card.get("align-items"), "stretch")
         self.assertEqual(card.get("justify-content"), "center")
 
-    def test_middle_row_sits_right_with_left_read_copy(self):
-        middle = declarations(self.base, ".feature-detail-card:nth-child(2)")
-        self.assertEqual(normalise(middle.get("text-align", "")), "right")
-        heading = declarations(self.base, ".feature-detail-card:nth-child(2) h3")
-        self.assertEqual(normalise(heading.get("text-align", "")), "right")
-        copy = declarations(self.base, ".feature-detail-card:nth-child(2) p")
-        self.assertEqual(normalise(copy.get("text-align", "")), "left",
-                         "lines inside the middle paragraph read left to right")
-        self.assertEqual(normalise(copy.get("margin-left", "")), "auto",
-                         "the paragraph block still hugs the right edge")
-        self.assertIn("max-width", copy)
+    def test_every_row_reads_left(self):
+        self.assertNotIn("feature-detail-card:nth-child(2)", self.base,
+                         "the old right-anchored middle row is gone")
+        heading = declarations(self.base, ".feature-detail-card h3")
+        self.assertEqual(normalise(heading.get("text-align", "")), "left")
+        copy = declarations(self.base, ".feature-detail-card p")
+        self.assertEqual(normalise(copy.get("text-align", "")), "left")
 
     def test_rows_are_separated_by_a_hairline(self):
-        divider = declarations(self.base, ".feature-detail-card+.feature-detail-card")
-        self.assertEqual(
-            normalise(divider.get("border-top", "")),
-            "1pxsolidrgba(155,181,210,.3)",
-        )
+        card = declarations(self.base, ".feature-detail-card")
+        self.assertEqual(normalise(card.get("border-top", "")), "1pxsolidrgba(155,181,210,.13)")
+        first = declarations(self.base, ".feature-detail-card:first-child")
+        self.assertEqual(normalise(first.get("border-top", "")), "0",
+                         "the first row has no rule above it")
+        self.assertEqual(normalise(first.get("padding-top", "")), "2px")
+        last = declarations(self.base, ".feature-detail-card:last-child")
+        self.assertEqual(normalise(last.get("border-bottom", "")), "1pxsolidrgba(155,181,210,.13)",
+                         "the list closes with its own rule")
         self.assertNotIn(".feature-detail-card::before", self.base, "the accent rail is gone")
-        self.assertNotIn(".feature-detail-card::after", self.base, "the corner glow is gone")
+        sweep = declarations(self.base, ".feature-detail-card::after")
+        self.assertIn("linear-gradient", normalise(sweep.get("background", "")),
+                      "hover paints a gradient rule sweep")
 
     def test_card_title_is_a_manrope_display_heading(self):
         title = declarations(self.base, ".feature-detail-card h3")
-        self.assertEqual(normalise(title.get("font", "")), normalise("400 56px/1.1 var(--display)"))
+        self.assertEqual(normalise(title.get("font", "")), normalise("500 34px/1.16 var(--display)"))
         self.assertIn("var(--display)", title.get("font", ""))
-        self.assertEqual(normalise(title.get("margin", "")), "0012px")
-        self.assertEqual(title.get("color"), "#edf4ff")
-        self.assertEqual(normalise(title.get("letter-spacing", "")), "-.025em")
+        self.assertEqual(normalise(title.get("margin", "")), "0")
+        self.assertEqual(title.get("color"), "#f4f9ff")
+        self.assertEqual(normalise(title.get("letter-spacing", "")), "-.03em")
 
-    def test_card_copy_is_24px(self):
+    def test_card_copy_is_16_5px(self):
         paragraph = declarations(self.base, ".feature-detail-card p")
-        self.assertEqual(normalise(paragraph.get("margin", "")), "0")
+        self.assertEqual(normalise(paragraph.get("margin", "")), "13px00")
         self.assertEqual(paragraph.get("text-align"), "left")
-        self.assertEqual(normalise(paragraph.get("font-size", "")), "24px")
-        self.assertEqual(normalise(paragraph.get("line-height", "")), "1.5")
-        self.assertEqual(paragraph.get("color"), "#c0cede")
+        self.assertEqual(normalise(paragraph.get("font-size", "")), "16.5px")
+        self.assertEqual(normalise(paragraph.get("line-height", "")), "1.74")
+        self.assertEqual(normalise(paragraph.get("max-width", "")), "62ch")
+        self.assertEqual(paragraph.get("color"), "#a7b9cd")
 
     # -- responsive -------------------------------------------------------
 
@@ -307,18 +310,18 @@ class FeatureDetailCardTests(unittest.TestCase):
             f"declares {columns or 'no grid-template-columns, so the desktop three-column row is inherited'}",
         )
 
-    def test_mobile_copy_is_18px_and_the_rows_tighten(self):
+    def test_mobile_copy_is_16px_and_the_rows_tighten(self):
         mobile = self.media("max-width:760px")
         card = declarations(mobile, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "14px0")
+        self.assertEqual(normalise(card.get("padding", "")), "22px024px")
         self.assertEqual(
             normalise(declarations(mobile, ".feature-detail-card h3").get("font-size", "")),
-            "32px",
+            "26px",
         )
         self.assertEqual(
             normalise(declarations(mobile, ".feature-detail-card p").get("font-size", "")),
-            "18px",
-            "mobile body copy is 18px",
+            "16px",
+            "mobile body copy is 16px",
         )
 
     def test_panels_release_the_fixed_height_on_mobile(self):
@@ -332,17 +335,16 @@ class FeatureDetailCardTests(unittest.TestCase):
     def test_short_desktop_only_tightens_the_rows(self):
         short = self.media("max-height:760px)and(min-width:761px")
         card = declarations(short, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "12px0")
+        self.assertEqual(normalise(card.get("padding", "")), "20px022px")
         self.assertNotIn(".feature-detail-card p", short,
-                         "the 56/24 display scale is not downscaled on short desktops")
-        self.assertNotIn(".feature-detail-card h3", short)
+                         "the body scale holds on short desktops")
 
     def test_narrow_width_only_tightens_the_rows(self):
         narrow = self.media("max-width:1200px")
         card = declarations(narrow, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "20px0")
+        self.assertEqual(normalise(card.get("padding", "")), "26px030px")
         self.assertNotIn(".feature-detail-card p", narrow,
-                         "56px titles and 24px copy hold down to the tablet band")
+                         "the 34/16.5 scale holds down to the tablet band")
         self.assertNotIn(".feature-detail-card h3", narrow)
 
 

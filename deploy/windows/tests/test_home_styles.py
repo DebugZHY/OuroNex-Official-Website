@@ -1294,7 +1294,7 @@ class ExpandedSectionsTest(CssAssertions):
             width = squash(self.base(selector).get("width", ""))
             self.assertIn("1920px", width, f"{selector}: expected the expanded wide container")
         feature = squash(self.base(".feature-layout").get("width", ""))
-        self.assertIn("1560px", feature, "the SIDA block keeps a narrower column than the hero")
+        self.assertIn("1180px", feature, "the SIDA block keeps a narrower column than the hero")
         self.assertEqual(squash(self.base(".feature-layout").get("margin-inline", "")), "auto",
                          "the narrower SIDA block stays centred")
 
@@ -1310,10 +1310,10 @@ class ExpandedSectionsTest(CssAssertions):
         self.assert_decl(self.base(".hero-demo"), "height", "min(74vh,760px)", where=".hero-demo")
 
     def test_sida_tabs_panel_and_downloads_are_larger(self) -> None:
-        self.assert_decl(self.base(".feature-tabs"), "--feature-height", "clamp(448px,52.8vh,608px)", where=".feature-tabs")
-        self.assert_decl(self.base(".feature-tab-list button"), "font", "500 clamp(20px,1.6vw,30px)/1.22 var(--display)", where=".feature-tab-list button")
-        self.assert_decl(self.base(".feature-detail-card p"), "font-size", "24px", where=".feature-detail-card p")
-        self.assert_decl(self.base(".feature-detail-card h3"), "font", "400 56px/1.1 var(--display)", where=".feature-detail-card h3")
+        self.assert_decl(self.base(".feature-tabs"), "grid-template-columns", "372px minmax(0,1fr)", where=".feature-tabs")
+        self.assert_decl(self.base(".feature-tab-list button"), "font", "500 15px/1.34 var(--display)", where=".feature-tab-list button")
+        self.assert_decl(self.base(".feature-detail-card p"), "font-size", "16.5px", where=".feature-detail-card p")
+        self.assert_decl(self.base(".feature-detail-card h3"), "font", "500 34px/1.16 var(--display)", where=".feature-detail-card h3")
         self.assertIn("900px", squash(self.base(".sida-section .download-actions").get("width", "")))
 
     def test_price_cards_and_table_use_more_space(self) -> None:
@@ -1360,8 +1360,8 @@ class HomepageRedesignTest(CssAssertions):
         tabs = find_rules(HOME_CSS, ".feature-tabs")[0]
         self.assertEqual(
             squash(tabs.get("grid-template-columns", "")),
-            "minmax(0,1fr)minmax(0,3fr)",
-            "the tab list keeps a quarter and the cards reclaim three quarters",
+            "372pxminmax(0,1fr)",
+            "the tab list is a fixed rail and the copy takes the rest",
         )
         stack = find_rules(HOME_CSS, ".feature-card-stack")[0]
         self.assertEqual(
@@ -1371,7 +1371,7 @@ class HomepageRedesignTest(CssAssertions):
         )
         self.assertEqual(
             squash(stack.get("grid-auto-rows", "")),
-            "minmax(0,auto)",
+            "auto",
             "the three blocks stack as content-sized rows",
         )
         html = self.html()

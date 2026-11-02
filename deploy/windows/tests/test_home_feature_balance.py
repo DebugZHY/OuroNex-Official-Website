@@ -1,17 +1,19 @@
-"""SIDA feature section: three stacked detail rows in one shared height.
+"""SIDA feature section: a quiet directory rail beside three detail rows.
 
 Contract pinned here:
 
-* one shared ``--feature-height: clamp(448px, 52.8vh, 608px)`` drives the left
-  directory and the right text column; short viewports override it to 384px
-  (max-height 800 / min-height 601) and 416px (max-height 600);
-* the three ``.feature-detail-card`` rows stack in a single column, carry no
-  card surface and are separated by a 1px hairline between neighbours;
-* row typography: Manrope 400, ``clamp(24px, 1.9vw, 32px)``/1.15/``-.025em`` title
-  with 20px body, stepping to 26/19 (≤1200), 24/18 (≤1000), 24/18 (short
-  601–800), 22/16 (≤600) and 22/17 on mobile; every row aligns its text left;
-* the directory icon is 44px and keeps a 68px tap target on mobile, where the
-  rows stay content-driven (auto height, no clipping).
+* the section content is centred; ``.feature-layout`` is one 1180px column and
+  ``.feature-tabs`` is a grid of a 372px rail plus the copy column, both
+  vertically centred on one another;
+* the rail is a list of hairline rows: no card boxes, no radius, no fill, a 2px
+  gradient accent bar on the selected row, 26px soft-glow line icons and a
+  15px Manrope label;
+* the copy column is separated from the rail by a 1px rule that carries a
+  112px blue fade at the top, and its three rows are split by 1px hairlines
+  with a closing rule under the last one;
+* row typography: Manrope 500 34px/1.16 title with a 16.5px/1.74 body capped
+  at 62ch; on ≤760 the block stacks, the rule disappears, the title is 26px
+  and the body 16px; ≤420 tightens to 23/15.
 
 Only ``assets/home.css`` is read: no browser, no server.
 """
@@ -25,14 +27,19 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 
-SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
-SHORT_HEIGHT = "384px"
-TINY_HEIGHT = "416px"
+BASE_RAIL = "372px"
+MEDIUM_RAIL = "clamp(250px,30%,340px)"
+NARROW_RAIL = "clamp(220px,30%,280px)"
+FLUID_RAIL = "clamp(280px,32%,372px)"
 
-BASE_TITLE_SIZE = "56px"
-BASE_TITLE_LINE_HEIGHT = "1.1"
-BASE_TITLE_SPACING = "-.025em"
-BASE_BODY_SIZE = "24px"
+BASE_TITLE_SIZE = "34px"
+BASE_TITLE_LINE_HEIGHT = "1.16"
+BASE_TITLE_SPACING = "-.03em"
+BASE_BODY_SIZE = "16.5px"
+BASE_BODY_LINE_HEIGHT = "1.74"
+BODY_MEASURE = "62ch"
+
+HAIRLINE = "1pxsolidrgba(155,181,210,.13)"
 
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -40,6 +47,9 @@ RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
 TABS = ".feature-tabs"
 LIST = ".feature-tab-list"
 BUTTON = ".feature-tab-list button"
+ICON = ".feature-tab-list .directory-icon"
+SELECTED = BUTTON + "[aria-selected=true]"
+ACCENT = BUTTON + "::before"
 PANELS = ".feature-panels"
 PANEL = ".feature-panel"
 STACK = ".feature-card-stack"
@@ -50,7 +60,7 @@ BODY = ".feature-detail-card p"
 W1200 = ("max-width:1200px",)
 W1000 = ("max-width:1000px", "min-width:761px")
 MOBILE = ("max-width:760px",)
-H800 = ("max-height:800px", "min-height:601px")
+TINY = ("max-width:420px",)
 
 
 def sheet() -> str:
@@ -128,18 +138,7 @@ def block(css: str, prelude: tuple) -> str:
     return "".join(matches)
 
 
-def block_with_height(css: str, height: str):
-    """Return (prelude, body) of the media block that sets --feature-height:<height>."""
-    target = normalise(height)
-    for prelude, body in split_media(css)[1]:
-        for selectors, declarations in rules(body):
-            if normalise(TABS) in selectors and normalise(declarations.get("--feature-height", "")) == target:
-                return prelude, body
-    raise AssertionError(f"no media block sets --feature-height:{height}")
-
-
 def font_parts(declarations: dict) -> dict:
-    """Resolve weight/size/line-height/family from longhands or the `font` shorthand."""
     parts = {
         "font-family": declarations.get("font-family", ""),
         "font-weight": declarations.get("font-weight", ""),
@@ -148,9 +147,7 @@ def font_parts(declarations: dict) -> dict:
     }
     shorthand = declarations.get("font", "")
     if shorthand:
-        match = re.match(
-            r"(?:(\d{3})\s+)?(\S+?)(?:/(\S+))?\s+(.+)$", shorthand.strip()
-        )
+        match = re.match(r"(?:(\d{3})\s+)?(\S+?)(?:/(\S+))?\s+(.+)$", shorthand.strip())
         if match:
             weight, size, line_height, family = match.groups()
             parts["font-weight"] = parts["font-weight"] or (weight or "")
@@ -170,99 +167,175 @@ def px(value: str) -> float:
     return float(match.group(1))
 
 
-def card_index(selector: str):
-    """Return the card index (1-3) a selector applies to, or None."""
-    match = re.search(r"feature-detail-card:(?:nth-child|nth-of-type)\((\d+)\)", selector)
-    return int(match.group(1)) if match else None
-
-
-class SharedHeightTests(unittest.TestCase):
+class ShellTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_sida_content_group_is_centered_below_the_header(self):
+    def test_section_sits_on_the_shared_background(self):
         section = base(self.css, ".sida-section")
+        self.assertEqual(normalise(section.get("background", "")), "transparent",
+                         "the SIDA section paints no panel of its own")
         self.assertEqual(normalise(section.get("justify-content", "")), "center")
         self.assertEqual(px(section.get("padding-bottom", "")), 32.0)
 
-    def test_desktop_height_is_the_scaled_448_608_ramp(self):
-        tabs = base(self.css, TABS)
-        self.assertEqual(normalise(tabs.get("--feature-height", "")), normalise(SHARED_HEIGHT))
-        self.assertNotIn("clamp(560px,66vh,760px)", self.css, "the old 100 % height ramp must be gone")
+    def test_layout_centres_one_1180_column(self):
+        layout = base(self.css, ".feature-layout")
+        self.assertEqual(normalise(layout.get("align-content", "")), "center")
+        self.assertEqual(normalise(layout.get("gap", "")), "0")
+        self.assertIn("min(1180px,calc(100%-120px))",
+                      normalise(layout.get("width", "")),
+                      "the SIDA column is capped at 1180px")
 
-    def test_directory_stretches_against_the_copy_column(self):
-        listing = base(self.css, LIST)
-        panels = base(self.css, PANELS)
-        self.assertEqual(normalise(listing.get("height", "")), "100%",
-                         "the tabs fill whatever height the rows need")
-        self.assertEqual(normalise(panels.get("height", "")), "auto",
-                         "the copy column sizes to the 56/24 type")
-        self.assertEqual(px(panels.get("min-height")), 0.0)
-        self.assertEqual(normalise(listing.get("grid-template-rows", "")), "repeat(4,minmax(0,1fr))")
-        self.assertEqual(px(listing.get("gap", "")), 20.0)
-
-    def test_short_viewport_overrides_are_384_and_416(self):
-        overrides = {}
-        for prelude, body in split_media(self.css)[1]:
-            for selectors, declarations in rules(body):
-                if normalise(TABS) in selectors and "--feature-height" in declarations:
-                    overrides.setdefault(normalise(declarations["--feature-height"]), []).append(prelude)
-        self.assertEqual(
-            sorted(overrides), ["384px", "416px"],
-            f"expected exactly the 384px and 416px short-height bands, found {overrides}",
-        )
-        short_band = overrides["384px"][0]
-        self.assertIn("max-height:800px", short_band, f"384px belongs to the 800/601 band: {short_band}")
-        self.assertIn("min-height:601px", short_band, f"384px belongs to the 800/601 band: {short_band}")
-        for stale in ("--feature-height:480px", "--feature-height:520px"):
-            self.assertNotIn(stale, self.css, f"stale shared height: {stale}")
+    def test_no_fixed_shared_height_survives(self):
+        self.assertNotIn("--feature-height", self.css,
+                         "the old clamp-driven shared height is retired")
 
 
-class CardLayoutTests(unittest.TestCase):
+class RailTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_three_cards_stack_in_one_column(self):
-        stack = base(self.css, STACK)
-        self.assertEqual(stack.get("display"), "grid")
-        self.assertEqual(normalise(stack.get("grid-template-columns", "")),
-                         "minmax(0,1fr)", "one column holds every row")
-        self.assertEqual(normalise(stack.get("grid-auto-rows", "")),
-                         "minmax(0,auto)", "each row grows with its own copy")
-        self.assertEqual(stack.get("height"), "auto")
-        self.assertEqual(normalise(stack.get("gap", "")), "0",
-                         "the hairlines replace the gutter")
-
-    def test_desktop_grid_is_two_columns(self):
+    def test_base_grid_is_a_372px_rail_plus_copy(self):
         tabs = base(self.css, TABS)
-        tracks = tabs.get("grid-template-columns", "")
-        self.assertEqual(tracks.count("minmax("), 2, f"expected two columns, found {tracks!r}")
-        self.assertEqual(tabs.get("align-items"), "stretch")
+        self.assertEqual(normalise(tabs.get("grid-template-columns", "")),
+                         f"{BASE_RAIL}minmax(0,1fr)")
+        self.assertEqual(normalise(tabs.get("align-items", "")), "center",
+                         "the rail is centred against the copy column")
+        self.assertEqual(normalise(tabs.get("gap", "")), "0",
+                         "the rule, not a gutter, divides the two columns")
 
-    def test_panel_is_a_bare_host_and_the_card_owns_the_surface(self):
+    def test_narrower_viewports_fluidise_the_rail(self):
+        wide = rules(block(self.css, W1200))
+        tracks = [decl.get("grid-template-columns", "") for selectors, decl in wide
+                  if normalise(TABS) in selectors]
+        self.assertTrue(any(normalise(t).startswith(normalise(MEDIUM_RAIL)) for t in tracks),
+                        f"<=1200 swaps the fixed rail for the 30 % clamp, found {tracks}")
+
+        tablet = rules(block(self.css, W1000))
+        tracks = [decl.get("grid-template-columns", "") for selectors, decl in tablet
+                  if normalise(TABS) in selectors]
+        self.assertTrue(any(normalise(t).startswith(normalise(NARROW_RAIL)) for t in tracks),
+                        f"the tablet rail narrows to 280px, found {tracks}")
+
+        desktop = rules(block(self.css, ("min-width:1001px",)))
+        tracks = [decl.get("grid-template-columns", "") for selectors, decl in desktop
+                  if normalise(TABS) in selectors]
+        self.assertTrue(any(normalise(t).startswith(normalise(FLUID_RAIL)) for t in tracks),
+                        f"1001-1200 keeps the rail proportional, found {tracks}")
+
+    def test_mobile_stacks_the_rail_above_the_copy(self):
+        mobile = rules(block(self.css, MOBILE))
+        tabs = [decl for selectors, decl in mobile if normalise(TABS) in selectors][0]
+        self.assertEqual(normalise(tabs.get("grid-template-columns", "")), "1fr")
+        listing = [decl for selectors, decl in mobile if normalise(LIST) in selectors][0]
+        self.assertEqual(normalise(listing.get("grid-template-columns", "")), "1fr")
+        self.assertEqual(normalise(listing.get("padding-right", "")), "0")
+
+
+class DirectoryRowTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.css = sheet()
+
+    def test_rows_are_hairline_strips_not_card_boxes(self):
+        button = base(self.css, BUTTON)
+        self.assertEqual(normalise(button.get("border", "")), "0")
+        self.assertEqual(normalise(button.get("border-radius", "")), "0")
+        self.assertEqual(normalise(button.get("background", "")), "none")
+        self.assertEqual(normalise(button.get("border-top", "")), HAIRLINE)
+        self.assertEqual(normalise(base(self.css, BUTTON + ":last-child").get("border-bottom", "")),
+                         HAIRLINE, "the list closes with its own rule")
+
+    def test_row_padding_and_label(self):
+        button = base(self.css, BUTTON)
+        self.assertEqual(normalise(button.get("padding", "")), "17px6px17px16px")
+        self.assertEqual(normalise(button.get("grid-template-columns", "")),
+                         "40pxminmax(0,1fr)")
+        font = font_parts(button)
+        self.assertEqual(font["font-size"], "15px")
+        self.assertEqual(font["font-weight"], "500")
+        self.assertIn("--display", font["font-family"])
+
+    def test_list_is_centred_and_not_stretched(self):
+        listing = base(self.css, LIST)
+        self.assertEqual(normalise(listing.get("align-content", "")), "center")
+        self.assertEqual(normalise(listing.get("height", "")), "auto")
+        self.assertEqual(px(listing.get("padding-right", "")), 48.0)
+
+    def test_selected_row_uses_a_gradient_accent_bar(self):
+        accent = base(self.css, ACCENT)
+        self.assertEqual(normalise(accent.get("width", "")), "2px")
+        self.assertIn("linear-gradient", normalise(accent.get("background", "")))
+        self.assertEqual(normalise(accent.get("opacity", "")), "0")
+        self.assertEqual(normalise(base(self.css, SELECTED + "::before").get("opacity", "")), "1")
+        selected = base(self.css, SELECTED)
+        self.assertEqual(normalise(selected.get("background", "")), "none",
+                         "selection never repaints the row as a card")
+        self.assertEqual(normalise(selected.get("box-shadow", "")), "none")
+
+    def test_directory_icon_is_a_26px_soft_glow_line(self):
+        icon = base(self.css, ICON)
+        self.assertEqual(px(icon.get("width", "")), 26.0)
+        self.assertEqual(px(icon.get("height", "")), 26.0)
+        self.assertIn("drop-shadow", normalise(icon.get("filter", "")))
+        selected_icon = base(self.css, BUTTON + "[aria-selected=true]" + " .directory-icon")
+        self.assertEqual(normalise(selected_icon.get("color", "")), "#e6f1ff")
+        self.assertEqual(normalise(selected_icon.get("filter", "")).count("drop-shadow"), 2,
+                         "the active row doubles its glow")
+
+
+class CopyColumnTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.css = sheet()
+
+    def test_column_carries_a_rule_with_a_blue_fade(self):
+        panels = base(self.css, PANELS)
+        self.assertEqual(px(panels.get("padding-left", "")), 56.0)
+        self.assertEqual(normalise(panels.get("border-left", "")), HAIRLINE)
+        fade = base(self.css, PANELS + "::before")
+        self.assertEqual(px(fade.get("width", "")), 1.0)
+        self.assertEqual(px(fade.get("height", "")), 112.0)
+        self.assertIn("#729eff", normalise(fade.get("background", "")))
+
+    def test_panel_is_a_bare_host(self):
         panel = base(self.css, PANEL)
         self.assertEqual(panel.get("padding"), "0")
         self.assertEqual(panel.get("border"), "0")
         self.assertEqual(panel.get("background"), "transparent")
         self.assertEqual(panel.get("overflow"), "visible")
 
+    def test_three_rows_stack_with_no_surface(self):
+        stack = base(self.css, STACK)
+        self.assertEqual(normalise(stack.get("grid-template-columns", "")), "minmax(0,1fr)")
+        self.assertEqual(normalise(stack.get("gap", "")), "0")
+
         card = base(self.css, CARD)
         self.assertEqual(normalise(card.get("border-radius", "")), "0")
-        self.assertEqual(normalise(card.get("background", "")), "none",
-                         "the card surface is gone")
+        self.assertEqual(normalise(card.get("background", "")), "none")
         self.assertEqual(normalise(card.get("box-shadow", "")), "none")
-        padding = card.get("padding", "").split()
-        self.assertEqual(len(padding), 2, f"rows need a two-value padding, found {padding!r}")
-        divider = base(self.css, CARD + "+" + CARD)
-        self.assertEqual(normalise(divider.get("border-top", "")),
-                         "1pxsolidrgba(155,181,210,.3)",
-                         "neighbouring rows are split by one hairline")
+        self.assertEqual(normalise(card.get("border-top", "")), HAIRLINE)
+        self.assertEqual(normalise(card.get("padding", "")), "30px034px")
 
-        body_rule = base(self.css, BODY)
-        self.assertEqual(normalise(body_rule.get("margin", "")), "0")
-        self.assertEqual(body_rule.get("color"), "#c0cede")
+    def test_first_row_loses_its_rule_and_the_last_closes(self):
+        first = base(self.css, CARD + ":first-child")
+        self.assertEqual(normalise(first.get("border-top", "")), "0")
+        self.assertEqual(px(first.get("padding-top", "")), 2.0)
+        last = base(self.css, CARD + ":last-child")
+        self.assertEqual(normalise(last.get("border-bottom", "")), HAIRLINE)
+
+    def test_hover_rule_is_a_gradient_sweep(self):
+        sweep = base(self.css, CARD + "::after")
+        self.assertEqual(normalise(sweep.get("transform", "")), "scalex(0)")
+        self.assertIn("linear-gradient", normalise(sweep.get("background", "")))
+        self.assertEqual(normalise(base(self.css, CARD + ":hover::after").get("transform", "")),
+                         "scalex(1)")
+
+    def test_rows_all_read_left(self):
+        self.assertNotIn("feature-detail-card:nth-child(2)", self.css,
+                         "the old right-anchored middle row is gone")
 
 
 class TypographyTests(unittest.TestCase):
@@ -270,137 +343,57 @@ class TypographyTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def assert_type(self, title: dict, body: dict, size: str, body_size: str, where: str) -> None:
-        font = font_parts(title)
-        self.assertEqual(font["font-size"], normalise(size), f"{where}: title size")
-        self.assertEqual(normalise(body.get("font-size", "")), normalise(body_size),
-                         f"{where}: body size")
-
-    def test_base_title_is_manrope_400_at_the_scaled_display_size(self):
-        title = base(self.css, TITLE)
-        font = font_parts(title)
-        self.assertTrue(
-            "manrope" in font["font-family"] or "var(--display" in font["font-family"],
-            f"the card title must use the Manrope display family, found {font['font-family']!r}",
-        )
-        self.assertEqual(font["font-weight"], "400")
+    def test_title_is_manrope_500_at_34px(self):
+        font = font_parts(base(self.css, TITLE))
+        self.assertIn("--display", font["font-family"])
+        self.assertEqual(font["font-weight"], "500")
         self.assertEqual(font["font-size"], normalise(BASE_TITLE_SIZE))
         self.assertEqual(font["line-height"], BASE_TITLE_LINE_HEIGHT)
-        self.assertEqual(normalise(title.get("letter-spacing", "")), BASE_TITLE_SPACING)
-        self.assertEqual(normalise(base(self.css, BODY).get("font-size", "")), BASE_BODY_SIZE)
+        self.assertEqual(normalise(base(self.css, TITLE).get("letter-spacing", "")),
+                         BASE_TITLE_SPACING)
 
-    def test_desktop_widths_keep_the_56_24_scale(self):
-        for prelude in (W1200, W1000):
-            media = block(self.css, prelude)
-            with self.subTest(media=prelude):
-                self.assertNotIn(".feature-detail-card p", media,
-                                 f"{prelude} must not downscale the 24px copy")
-                self.assertNotIn(".feature-detail-card h3", media,
-                                 f"{prelude} must not downscale the 56px title")
-        mobile = block(self.css, MOBILE)
-        self.assert_type(base(mobile, TITLE), base(mobile, BODY),
-                         "32px", "18px", "mobile")
+    def test_body_is_16_5_over_1_74_capped_at_62ch(self):
+        body = base(self.css, BODY)
+        self.assertEqual(normalise(body.get("font-size", "")), BASE_BODY_SIZE)
+        self.assertEqual(normalise(body.get("line-height", "")), BASE_BODY_LINE_HEIGHT)
+        self.assertEqual(normalise(body.get("max-width", "")), BODY_MEASURE)
+        self.assertEqual(normalise(body.get("color", "")), "#a7b9cd")
 
-    def test_short_viewports_only_tighten_the_gutters(self):
-        for height in (SHORT_HEIGHT, TINY_HEIGHT):
-            prelude, media = block_with_height(self.css, height)
-            with self.subTest(media=prelude, height=height):
-                self.assertNotIn(".feature-detail-card p", media,
-                                 f"{prelude} keeps the 24px copy")
-                self.assertNotIn(".feature-detail-card h3", media,
-                                 f"{prelude} keeps the 56px title")
+    def test_mobile_type_steps_down(self):
+        mobile = rules(block(self.css, MOBILE))
+        title = [decl for selectors, decl in mobile if normalise(TITLE) in selectors][0]
+        self.assertEqual(normalise(title.get("font-size", "")), "26px")
+        body = [decl for selectors, decl in mobile if normalise(BODY) in selectors][0]
+        self.assertEqual(normalise(body.get("font-size", "")), "16px")
+
+        tiny = rules(block(self.css, TINY))
+        title = [decl for selectors, decl in tiny if normalise(TITLE) in selectors][0]
+        self.assertEqual(normalise(title.get("font-size", "")), "23px")
+        body = [decl for selectors, decl in tiny if normalise(BODY) in selectors][0]
+        self.assertEqual(normalise(body.get("font-size", "")), "15px")
 
 
-class AlignmentTests(unittest.TestCase):
+class MobileShellTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_first_and_third_rows_read_left_and_the_middle_right(self):
-        expected = {1: "left", 2: "right", 3: "left"}
-        base_css, medias = split_media(self.css)
+    def test_mobile_drops_the_column_rule_and_fade(self):
+        mobile = rules(block(self.css, MOBILE))
+        panels = [decl for selectors, decl in mobile if normalise(PANELS) in selectors][0]
+        self.assertEqual(px(panels.get("padding-left", "")), 0.0)
+        self.assertEqual(normalise(panels.get("border-left", "")), "0")
+        fade = [decl for selectors, decl in mobile if normalise(PANELS + "::before") in selectors]
+        self.assertTrue(fade and normalise(fade[0].get("display", "")) == "none",
+                        "the blue fade is hidden once the columns stack")
 
-        middle = base(base_css, CARD + ":nth-child(2)")
-        self.assertEqual(normalise(middle.get("text-align", "")), "right",
-                         "the middle row is right aligned")
-        self.assertEqual(
-            normalise(base(base_css, CARD + ":nth-child(2) h3").get("text-align", "")),
-            "right",
-            "the middle heading reads from the right edge",
-        )
-        middle_copy = base(base_css, CARD + ":nth-child(2) p")
-        self.assertEqual(
-            normalise(middle_copy.get("text-align", "")),
-            "left",
-            "the middle paragraph keeps left-to-right reading inside a right-anchored block",
-        )
-        self.assertEqual(normalise(middle_copy.get("margin-left", "")), "auto")
-
-        for selector, where in ((TITLE, "title"), (BODY, "body")):
-            self.assertEqual(
-                normalise(base(base_css, selector).get("text-align", "")),
-                "left",
-                f"the outer rows read left-aligned ({where})",
-            )
-        self.assertNotRegex(self.css, r"feature-detail-card:nth-child\((1|3)\)",
-                            "the outer rows must not carry their own alignment rules")
-        for prelude, body in medias:
-            for selector in (TITLE, BODY):
-                try:
-                    value = normalise(base(body, selector).get("text-align", ""))
-                except AssertionError:
-                    continue
-                if not value:
-                    continue
-                self.assertEqual(value, "left", f"{prelude}: {selector} must stay left")
-
-
-class MobileCardTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.css = sheet()
-        cls.mobile = block(cls.css, MOBILE)
-
-    def test_mobile_directory_keeps_a_68px_tap_target(self):
-        button = base(self.mobile, BUTTON)
-        self.assertEqual(px(button.get("min-height")), 68.0)
-
-    def test_mobile_cards_stay_content_driven(self):
-        stack = base(self.mobile, STACK)
-        self.assertEqual(stack.get("height"), "auto")
-        self.assertIn(normalise(stack.get("grid-template-columns", "")), {"1fr", "minmax(0,1fr)"})
-        card = base(self.mobile, CARD)
-        for prop in ("height", "max-height"):
-            self.assertNotIn(prop, card, f"mobile cards must not fix {prop}")
-        panels = base(self.mobile, PANELS)
-        self.assertEqual(panels.get("height"), "auto")
-        self.assertEqual(panels.get("max-height"), "none")
-        self.assertEqual(base(self.mobile, PANEL).get("height"), "auto")
-
-    def test_mobile_cards_are_not_clipped(self):
-        for selectors, declarations in rules(self.mobile):
-            if normalise(STACK) in selectors or normalise(CARD) in selectors:
-                self.assertNotEqual(declarations.get("overflow"), "hidden",
-                                    f"{selectors} must not clip mobile card copy")
-                for prop in ("line-clamp", "-webkit-line-clamp", "max-height"):
-                    self.assertNotIn(prop, declarations, f"{selectors} clips copy ({prop})")
-
-
-class UnrelatedContractsTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.css = sheet()
-
-    def test_tab_buttons_keep_their_row_flexibility(self):
-        button = base(self.css, BUTTON)
-        self.assertEqual(px(button.get("min-height")), 0.0)
-        self.assertEqual(normalise(button.get("border-radius", "")), "12px")
-        self.assertEqual(normalise(button.get("border-left", ""))[:1], "3", "3px accent edge kept")
-
-    def test_selected_tab_still_uses_the_accent_edge(self):
-        selected = base(self.css, ".feature-tab-list button[aria-selected=true]")
-        self.assertEqual(selected.get("border-left-color"), "var(--accent)")
+    def test_mobile_rows_keep_a_13px_padding_rhythm(self):
+        mobile = rules(block(self.css, MOBILE))
+        button = [decl for selectors, decl in mobile if normalise(BUTTON) in selectors][0]
+        self.assertEqual(normalise(button.get("padding", "")), "13px6px13px14px")
+        icon = [decl for selectors, decl in mobile if normalise(ICON) in selectors][0]
+        self.assertEqual(px(icon.get("width", "")), 22.0)
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    unittest.main()

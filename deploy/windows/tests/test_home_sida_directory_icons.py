@@ -11,8 +11,8 @@ Frozen contract pinned here:
    ``viewBox="0 0 24 24"``), contribute no visible text and reference no
    external icon asset, and the existing label spans / i18n keys are unchanged;
 4. the stylesheet lays each button out as icon + label columns and renders
-   ``.directory-icon`` blue at 44 x 44 px in the base rules (smaller sizes are
-   allowed in responsive rules, never larger).
+   ``.directory-icon`` as a 26 x 26 px soft-glow line icon in the base rules
+   (smaller sizes are allowed in responsive rules, never larger).
 
 Stdlib only (``html.parser`` + regex); reads ``index.html`` and
 ``assets/home.css`` through the existing repo paths. No browser, no server.
@@ -46,7 +46,7 @@ ICON_CLASS = "directory-icon"
 ICON_SELECTOR = ".feature-tab-list ." + ICON_CLASS
 BUTTON_SELECTOR = ".feature-tab-list button"
 VIEWBOX = "0 0 24 24"
-BASE_SIZE = 44.0
+BASE_SIZE = 26.0
 
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -301,7 +301,7 @@ class DirectoryIconStyleTests(unittest.TestCase):
         self.assertIn(button.get("align-items", "center"),
                       {"center", "start", "baseline", "flex-start"})
 
-    def test_directory_icon_is_blue_at_forty_four_pixels(self):
+    def test_directory_icon_is_a_26px_blue_line(self):
         icon = base_rule(self.css, ICON_SELECTOR)
         self.assertEqual(px(icon.get("width")), BASE_SIZE)
         self.assertEqual(px(icon.get("height")), BASE_SIZE)
@@ -309,6 +309,8 @@ class DirectoryIconStyleTests(unittest.TestCase):
             filter(None, (icon.get("color", ""), icon.get("fill", ""), icon.get("stroke", "")))
         )
         self.assertTrue(is_blue(colour), f"the directory icon must be blue, found {colour!r}")
+        self.assertIn("drop-shadow", normalise(icon.get("filter", "")),
+                      "the rail icons carry the soft glow")
 
     def test_responsive_rules_only_shrink_the_icon(self):
         base_css, medias = _split_media(self.css)
