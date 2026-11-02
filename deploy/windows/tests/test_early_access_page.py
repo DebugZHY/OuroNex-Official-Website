@@ -120,6 +120,33 @@ class EarlyAccessPageTests(unittest.TestCase):
         self.assertIn("@media (max-width: 720px)", css)
         self.assertIn("@media (prefers-reduced-motion: reduce)", css)
 
+    def test_chrome_styles_come_from_the_home_page_rules(self):
+        """The bar and the footer must be styled by the home page rules, not by a page-local copy."""
+        home = read(REPO_ROOT / "assets" / "home.css")
+        for rule in (".access-page .site-header{", ".access-page .nav-shell{",
+                     ".access-page .brand img{", ".access-page .nav-primary a{",
+                     ".access-page .site-footer{", ".access-page .site-footer>.wrap{"):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, home)
+        self.assertIn(".access-page{--header-height:96px}", home)
+
+        page_css = read(CSS)
+        self.assertNotIn("background: rgba(8, 14, 23, .9)", page_css,
+                         "the bar must not repaint the home page header")
+        self.assertNotIn("backdrop-filter: blur(18px)", page_css)
+
+    def test_hero_pills_share_one_shape(self):
+        markup = read(INDEX)
+        hero = re.search(r'<div class="hero-actions">.*?</div>', markup, re.S).group(0)
+        marks = re.findall(r'<span aria-hidden="true"[^>]*>([^<]+)</span>', hero)
+        self.assertEqual(marks, ["→", "→"],
+                         "both hero pills end in the same horizontal arrow")
+        self.assertNotIn("↗", hero)
+
+        home = read(REPO_ROOT / "assets" / "home.css")
+        self.assertIn(".hero-actions .button,.hero-actions .early-access{gap:10px;padding-inline:24px}", home)
+        self.assertIn("min-width:14.2em", home)
+
     def test_new_files_are_in_the_public_manifest(self):
         entries = {entry["path"] for entry in json.loads(read(MANIFEST))["files"]}
         for path in ("early-access.html", "assets/early-access.css",

@@ -69,9 +69,9 @@
     },
     {
       "path": "assets/early-access.css",
-      "bytes": 9391,
-      "sha256": "c71e365da39a111aebc2ba50f8c56c12eee7545b2767f51ae56241cf0345a38e",
-      "size": 9391
+      "bytes": 9539,
+      "sha256": "d4e67db9f8c4f4000464cb9cf19b36b7b281e4b6119a6c2290ff6325ef55c24f",
+      "size": 9539
     },
     {
       "path": "assets/early-access.js",
@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 53074,
-      "sha256": "1af1dac1c09fc94e1477e3c358441132005b37bd502b8a484158091ba74b3fd9",
-      "size": 53074
+      "bytes": 53423,
+      "sha256": "9c64d28db3cf65a15141219360f78b7a11c0736ec0501ab01ee634fbcde0d699",
+      "size": 53423
     },
     {
       "path": "assets/home.js",

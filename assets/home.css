@@ -53,10 +53,10 @@
 .hero-description{margin:0;max-width:42rem;color:#c1cfdf;font-size:24px;line-height:1.45}
 .hero-description-line{display:block}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
-.hero-actions .button,.hero-actions .early-access{height:60px;min-height:0;padding:14px 26px;border-radius:999px;font-size:20px;font-weight:600;line-height:1.2}
-.hero-actions .button{gap:10px;padding-inline:24px}
-.hero-actions .button span[aria-hidden]{transition:none}
-.hero-actions .button:hover span[aria-hidden]{transform:none}
+.hero-actions .button,.hero-actions .early-access{height:60px;min-height:0;min-width:14.2em;padding:14px 26px;border-radius:999px;font-size:20px;font-weight:600;line-height:1.2}
+.hero-actions .button,.hero-actions .early-access{gap:10px;padding-inline:24px}
+.hero-actions .button span[aria-hidden],.hero-actions .early-access span[aria-hidden]{transition:none}
+.hero-actions .button:hover span[aria-hidden],.hero-actions .early-access:hover span[aria-hidden]{transform:none}
 /* Shared CTA treatment: slow colour breathing and a pointer-tracked hover glow. */
 .hero-actions .button,.hero-actions .early-access,.sida-section .download-actions .button,.sida-section .download-actions .early-access{--mx:50%;--my:50%;position:relative;isolation:isolate;overflow:hidden;box-shadow:0 12px 26px rgba(2,8,20,.34);transition:transform .25s var(--ease),box-shadow .25s ease,border-color .3s ease,color .2s ease}
 .hero-actions .button,.sida-section .download-actions .button{border:1px solid #b7ceff;--cta-ring:#ffffff;background:linear-gradient(115deg,rgba(169,197,255,.75) 0%,rgba(200,217,255,.75) 42%,rgba(148,182,250,.75) 100%);background-size:190% 190%;color:#0b1626;animation:onx-cta-primary-breathe 8s ease-in-out infinite}
