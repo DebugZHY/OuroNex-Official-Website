@@ -869,7 +869,7 @@
     /* ---- Pointer-tracked CTA light ----------------------------------- */
 
     function initPointerGlow() {
-      var buttons = Array.prototype.slice.call(doc.querySelectorAll('.hero-actions .button, .hero-actions .button-outline, .sida-section .download-actions .button, .sida-section .download-actions .early-access'));
+      var buttons = Array.prototype.slice.call(doc.querySelectorAll('.hero-actions .button, .hero-actions .early-access, .sida-section .download-actions .button'));
       var pending = null;
       var frame = 0;
 

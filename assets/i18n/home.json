@@ -24,15 +24,10 @@
     "zh-CN": "自动化文档、优化与 BIM。",
     "zh-TW": "自動化文件、優化與 BIM。"
   },
-  "home.explore-apps": {
-    "en": "Explore the Apps",
-    "zh-CN": "探索应用",
-    "zh-TW": "探索應用"
-  },
-  "home.customized-service": {
-    "en": "Customized Service",
-    "zh-CN": "定制服务",
-    "zh-TW": "客製化服務"
+  "home.explore-features": {
+    "en": "Explore the Features",
+    "zh-CN": "探索功能",
+    "zh-TW": "探索功能"
   },
   "home.product-demo-label": {
     "en": "SIDA product demonstration",
