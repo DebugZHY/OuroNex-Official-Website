@@ -603,6 +603,12 @@
     var configured = Number(root.getAttribute('data-demo-interval'));
     var interval = Number.isFinite(configured) && configured > 0 ? configured : DEMO_INTERVAL_MS;
     var timer = 0;
+    var remaining = interval;
+    var startedAt = 0;
+
+    function now() {
+      return view.Date && view.Date.now ? view.Date.now() : new Date().getTime();
+    }
 
     function stop() {
       if (!timer) return;
@@ -610,13 +616,26 @@
       timer = 0;
     }
 
+    /* Focus pauses the countdown instead of restarting it: the slice already spent is
+       booked so the same slide keeps its remaining time when focus leaves. */
+    function pause() {
+      if (!timer) return;
+      view.clearTimeout(timer);
+      timer = 0;
+      remaining = Math.max(0, remaining - (now() - startedAt));
+    }
+
     function start() {
       stop();
       if (doc.hidden === true) return;
+      if (!(remaining > 0)) remaining = interval;
+      startedAt = now();
       timer = view.setTimeout(function tick() {
         paint(nextDemoIndex(current, slides.length));
+        remaining = interval;
+        startedAt = now();
         timer = view.setTimeout(tick, interval);
-      }, interval);
+      }, remaining);
     }
 
     function paint(index) {
@@ -639,18 +658,10 @@
       control.addEventListener('click', function (event) {
         if (event && typeof event.preventDefault === 'function') event.preventDefault();
         paint(controlIndex);
+        remaining = interval;
         start();
       });
     });
-
-    /* Dropping the fill animation for one frame restarts it, so the pill refills in step
-       with the interval that the blur handler starts. */
-    function restartFill() {
-      if (!root.classList) return;
-      root.classList.add('is-fill-reset');
-      void root.offsetWidth;
-      root.classList.remove('is-fill-reset');
-    }
 
     /* Focusing the demo image hands the carousel to the viewer: the timed advance stops
        until focus leaves, then the cycle restarts from the active slide. */
@@ -658,11 +669,10 @@
     if (stage) {
       stage.addEventListener('focus', function () {
         if (root.classList) root.classList.add('is-focused');
-        stop();
+        pause();
       });
       stage.addEventListener('blur', function () {
         if (root.classList) root.classList.remove('is-focused');
-        restartFill();
         start();
       });
     }
@@ -677,6 +687,7 @@
     return {
       show: function (index) {
         paint(index);
+        remaining = interval;
         start();
       },
       stop: stop,

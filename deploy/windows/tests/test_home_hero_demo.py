@@ -105,11 +105,23 @@ class HeroDemoFocusTests(unittest.TestCase):
         self.assertIn('tabindex="0"', stage.group(0))
 
     def test_focus_draws_a_translucent_frame(self) -> None:
-        rule = re.search(r"\.hero-demo__stage:focus\{([^}]*)\}", self.css)
-        self.assertIsNotNone(rule, "the focused stage paints its own frame")
+        rule = re.search(r"\.hero-demo__stage::before\{([^}]*)\}", self.css)
+        self.assertIsNotNone(rule, "the frame is an overlay, not a background shadow")
         body = rule.group(1)
-        self.assertIn("outline:none", body)
-        self.assertRegex(body, r"box-shadow:inset 0 0 0 1px rgba\(190,214,255,\.5\)")
+        self.assertIn("position:absolute", body)
+        self.assertIn("border:1px solid rgba(190,214,255,.5)", body)
+        self.assertIn("border-radius:inherit", body)
+        self.assertIn("pointer-events:none", body)
+        self.assertIn("opacity:0", body)
+        self.assertRegex(body, r"z-index:[1-9]")
+        shown = re.search(r"\.hero-demo__stage:focus::before[^{]*\{([^}]*)\}", self.css)
+        self.assertIsNotNone(shown)
+        self.assertIn("opacity:1", shown.group(1))
+        self.assertNotRegex(
+            self.css,
+            r"\.hero-demo__stage(:focus)?\{[^}]*box-shadow:inset",
+            "an inset shadow would be painted under the slides",
+        )
 
     def test_the_stage_is_a_rounded_rectangle(self) -> None:
         rule = re.search(r"\.hero-demo__stage\{([^}]*)\}", self.css)
@@ -131,26 +143,24 @@ class HeroDemoFocusTests(unittest.TestCase):
         self.assertIsNotNone(paused)
         self.assertIn("animation-play-state:paused", paused.group(1))
 
-    def test_blur_restarts_the_fill_animation(self) -> None:
-        reset = re.search(r"\.hero-demo\.is-fill-reset \.hero-demo__control\.is-active::after\{([^}]*)\}", self.css)
-        self.assertIsNotNone(reset, "one frame without the animation restarts it")
-        self.assertIn("animation:none", reset.group(1))
-
-    def test_focus_stops_the_timer_and_blur_restarts_it(self) -> None:
+    def test_focus_pauses_the_countdown_and_blur_resumes_it(self) -> None:
         self.assertIn("var DEMO_STAGE_SELECTOR = '.hero-demo__stage';", self.js)
         handler = re.search(r"stage\.addEventListener\('focus'.*?\}\);", self.js, re.DOTALL)
         self.assertIsNotNone(handler)
         self.assertIn("classList.add('is-focused')", handler.group(0))
-        self.assertIn("stop();", handler.group(0))
+        self.assertIn("pause();", handler.group(0))
         blur = re.search(r"stage\.addEventListener\('blur'.*?\}\);", self.js, re.DOTALL)
         self.assertIsNotNone(blur)
         self.assertIn("classList.remove('is-focused')", blur.group(0))
-        self.assertIn("restartFill();", blur.group(0))
         self.assertIn("start();", blur.group(0))
-        restart = re.search(r"function restartFill\(\)[^\n]*\n(?:.*\n)*?    \}", self.js)
-        self.assertIsNotNone(restart, "blur refills the pill from the start")
-        self.assertIn("is-fill-reset", restart.group(0))
-        self.assertIn("offsetWidth", restart.group(0))
+        self.assertNotIn("restartFill", self.js, "blur books the spent time instead of refilling")
+        self.assertNotIn("is-fill-reset", self.css)
+        pause = re.search(r"function pause\(\) \{([^}]*)\}", self.js)
+        self.assertIsNotNone(pause, "the countdown books the time already spent")
+        self.assertIn("remaining - (now() - startedAt)", pause.group(1))
+        starting = re.search(r"function start\(\) \{", self.js)
+        self.assertIsNotNone(starting)
+        self.assertIn("}, remaining);", self.js, "blur waits only the time that is left")
 
 
 if __name__ == "__main__":

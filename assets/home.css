@@ -85,13 +85,12 @@
    section widens, and the fill ends flush with the track's rounded right cap. */
 @keyframes onx-demo-progress{from{width:9px}to{width:28px}}
 @media(prefers-reduced-motion:reduce){.hero-demo__control.is-active::after,.hero-demo__control[aria-pressed=true]::after{animation:none;width:28px}}
-/* Focusing the demo image hands the carousel to the viewer: a translucent frame marks the
-   focused stage and the timed advance waits, so the fill freezes inside its grey groove. */
-.hero-demo__stage:focus{outline:none;box-shadow:inset 0 0 0 1px rgba(190,214,255,.5)}
-.hero-demo__stage:focus-visible{outline:none}
+/* Focusing the demo image hands the carousel to the viewer: the frame is an overlay above
+   the slides (an inset shadow would sit under them) and the countdown pauses in place. */
+.hero-demo__stage{outline:none}
+.hero-demo__stage::before{content:"";position:absolute;inset:0;z-index:2;border:1px solid rgba(190,214,255,.5);border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .18s ease}
+.hero-demo__stage:focus::before,.hero-demo__stage:focus-visible::before{opacity:1}
 .hero-demo.is-focused .hero-demo__control.is-active::after{animation-play-state:paused}
-/* Dropping the animation for one frame restarts the fill in step with the interval. */
-.hero-demo.is-fill-reset .hero-demo__control.is-active::after{animation:none}
 /* SIDA: a narrow feature directory beside three side-by-side detail cards. */
 .sida-section{background:transparent;padding-bottom:32px;justify-content:center}
 .feature-layout{flex:none;min-height:0;display:grid;grid-template-rows:auto auto;align-content:start;gap:28px;padding:24px 0;margin-inline:auto;width:min(1560px,calc(100% - 120px))!important}

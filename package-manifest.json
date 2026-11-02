@@ -135,15 +135,15 @@
         },
         {
             "path": "assets/home.css",
-            "bytes": 44634,
-            "sha256": "6de433fe33d38bd6fccec059f7729152e0a3cfe0ce0e6c9f374158adba51501c",
-            "size": 44634
+            "bytes": 44642,
+            "sha256": "6b1ebb6f4193fb844e8281c323f852a0b9881a832c5d830f5d45e36dda3611f3",
+            "size": 44642
         },
         {
             "path": "assets/home.js",
-            "bytes": 36026,
-            "sha256": "b2e4fe68735970004549674bcab5c651b507c0438a7ff8669e4183609f8422f9",
-            "size": 36026
+            "bytes": 36358,
+            "sha256": "1757d77519dfe5892ffd4a6736680561f0c2b413ba39bb9037dddda0c8a761cc",
+            "size": 36358
         },
         {
             "path": "assets/i18n.css",
