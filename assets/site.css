@@ -55,7 +55,7 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 .desktop-nav .nav-secondary .nav-contact{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 24px;border-radius:999px;font-size:20px;font-weight:500;line-height:1.2;letter-spacing:-.01em;color:var(--ink);background:transparent;border:1px solid #8290a3}
 .desktop-nav .nav-secondary .nav-contact:hover{color:var(--ink);background:#729eff24;border-color:var(--accent)}
 .desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),
-.desktop-nav .nav-secondary [data-register]{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;height:60px;min-height:60px;padding:14px 26px;border-radius:999px;font-size:20px;font-weight:600;line-height:1.2;letter-spacing:normal;white-space:nowrap;overflow:hidden;background-size:190% 190%;box-shadow:0 12px 26px rgba(2,8,20,.34);transition:transform .25s var(--ease),box-shadow .25s ease,border-color .3s ease,color .2s ease}
+.desktop-nav .nav-secondary [data-register]{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;height:52px;min-height:52px;padding:12px 22px;border-radius:999px;font-size:20px;font-weight:600;line-height:1.2;letter-spacing:normal;white-space:nowrap;overflow:hidden;background-size:190% 190%;box-shadow:0 12px 26px rgba(2,8,20,.34);transition:transform .25s var(--ease),box-shadow .25s ease,border-color .3s ease,color .2s ease}
 .desktop-nav .nav-secondary [data-signin]:not(.is-authenticated){border:1px solid #7894c9;--cta-ring:#c2d7ff;background:linear-gradient(115deg,rgba(14,26,43,.75) 0%,rgba(23,44,71,.75) 48%,rgba(16,31,52,.75) 100%);color:var(--ink);animation:onx-cta-outline-breathe 9s ease-in-out infinite}
 .desktop-nav .nav-secondary [data-register]{border:1px solid #b7ceff;--cta-ring:#ffffff;background:linear-gradient(115deg,rgba(169,197,255,.75) 0%,rgba(200,217,255,.75) 42%,rgba(148,182,250,.75) 100%);color:#0b1626;animation:onx-cta-primary-breathe 8s ease-in-out infinite}
 .desktop-nav .nav-secondary [data-signin]::after,
@@ -69,7 +69,7 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 /* Shared with the hero CTAs, which used to declare these keyframes themselves. */
 @keyframes onx-cta-primary-breathe{0%,100%{background-position:0% 50%;border-color:#a9c5ff}50%{background-position:100% 50%;border-color:#d1dfff}}
 @keyframes onx-cta-outline-breathe{0%,100%{background-position:0% 50%;border-color:#566f9c}50%{background-position:100% 50%;border-color:#7e95bd}}
-@media(max-width:760px){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),.desktop-nav .nav-secondary [data-register]{height:56px;min-height:56px;padding:12px 20px}}
+@media(max-width:760px){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),.desktop-nav .nav-secondary [data-register]{height:50px;min-height:50px;padding:11px 18px}}
 @media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),.desktop-nav .nav-secondary [data-register]{animation:none}}
 .menu-toggle{display:none;width:46px;height:46px;flex:0 0 46px;border:1px solid var(--line);border-radius:4px;background:transparent;align-items:center;justify-content:center;flex-direction:column;gap:6px}
 .menu-toggle span{width:18px;height:1px;background:var(--ink);transition:transform .2s}

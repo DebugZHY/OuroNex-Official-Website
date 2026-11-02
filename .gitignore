@@ -28,3 +28,6 @@ outbox/
 # Agent scratch
 _scratch/
 .playwright-mcp/
+
+# Agent handover notes (project-local, never shipped)
+/.pi/
