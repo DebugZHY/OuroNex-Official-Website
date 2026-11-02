@@ -10,7 +10,7 @@ pair per category; this unit only classifies. Pins:
   visibility;
 * no inline ``opacity``/``transform``/``transition``/``animation`` is written and
   ``--motion-delay`` still is;
-* the 16 selector groups, order, IntersectionObserver, reduced-motion handling
+* the 17 selector groups, order, IntersectionObserver, reduced-motion handling
   and existing exports are untouched.
 
 Static analysis plus a Node harness driving fake ``element.matches`` objects; no
@@ -46,6 +46,7 @@ SELECTOR_GROUPS = (
     ".process-list > article",
     ".team-grid > .team-member",
     ".home-footer > .footer-brand-block",
+    ".home-footer > .footer-copyright",
     ".home-footer > .footer-content",
 )
 
@@ -85,6 +86,7 @@ if (typeof fn === 'function') {
     ['pop', ['.download-actions > .button-outline']],
     ['fade', ['.download-actions > .release-note']],
     ['fade', ['.home-footer > .footer-brand-block']],
+    ['fade', ['.home-footer > .footer-copyright']],
     ['flip', ['.plan-strip > .plan-mini']],
     ['depth', ['.delivery-grid > article']],
     ['drift', ['.process-list > article']],
@@ -209,7 +211,7 @@ class MotionSourceTests(unittest.TestCase):
         block = self.js[self.js.index("var MOTION_ITEM_SELECTOR = ["):]
         block = block[: block.index("].join(', ')")]
         found = re.findall(r"'([^']+)'", block)
-        self.assertEqual(tuple(found), SELECTOR_GROUPS, "the 16 groups and their order must stay")
+        self.assertEqual(tuple(found), SELECTOR_GROUPS, "the 17 groups and their order must stay")
         self.assertIn("querySelectorAll(MOTION_ITEM_SELECTOR)", self.js)
 
     def test_reduced_motion_and_observer_are_intact(self):

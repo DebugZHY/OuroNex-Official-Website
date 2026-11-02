@@ -255,6 +255,29 @@ class SectionBackgroundHostTests(HomeFixtures):
     def test_no_new_headings_or_visible_section_copy(self):
         self.assertEqual(headings(self.index), list(EXPECTED_HEADINGS))
 
+    def test_header_navigation_opens_with_home(self):
+        nav = re.search(r'<div class="nav-primary">(.*?)</div>', self.index, re.S)
+        self.assertIsNotNone(nav, "the primary navigation block must exist")
+        links = re.findall(
+            r'<a href="([^"]+)"><span data-i18n="([^"]+)">([^<]+)</span></a>', nav.group(1)
+        )
+        self.assertEqual(
+            [(text, href) for href, _key, text in links],
+            [
+                ("Home", "#home"),
+                ("SIDA", "#sida"),
+                ("Price", "#price"),
+                ("Business", "#business"),
+                ("About", "#about"),
+            ],
+            "Home is the first entry and scrolls to the top of the Home page",
+        )
+        shared = json.loads(
+            (REPO_ROOT / "assets" / "i18n" / "shared.json").read_text(encoding="utf-8")
+        )
+        key = links[0][1]
+        self.assertIn(key, shared, "the Home label must resolve in the shared dictionary")
+
     def test_existing_section_content_is_preserved(self):
         for marker in (
             'class="wrap hero-inner"',

@@ -58,6 +58,7 @@ MOTION_ITEM_GROUPS = (
     ".process-list > article",
     ".team-grid > .team-member",
     ".home-footer > .footer-brand-block",
+    ".home-footer > .footer-copyright",
     ".home-footer > .footer-content",
 )
 

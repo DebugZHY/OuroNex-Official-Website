@@ -61,6 +61,7 @@
     '.process-list > article',
     '.team-grid > .team-member',
     '.home-footer > .footer-brand-block',
+    '.home-footer > .footer-copyright',
     '.home-footer > .footer-content'
   ].join(', ');
   var MOTION_ENTER_STEP = 70;
@@ -120,6 +121,7 @@
     if (element.matches('.process-list > article')) return 'drift';
     if (element.matches('.team-grid > .team-member')) return 'float';
     if (element.matches('.home-footer > .footer-brand-block')) return 'fade';
+    if (element.matches('.home-footer > .footer-copyright')) return 'fade';
     if (element.matches('.home-footer > .footer-content')) return 'drift';
     return 'rise';
   }

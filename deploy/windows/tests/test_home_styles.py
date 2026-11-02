@@ -1390,15 +1390,15 @@ class HomepageRedesignTest(CssAssertions):
         self.assert_decl(hover, "transform", "translatey(-4px)", where=".plan-mini:hover lift")
         self.assertIn("box-shadow", hover, ".plan-mini:hover: expected the deeper shadow")
 
-    def test_currency_and_interval_stay_14px_at_every_breakpoint(self) -> None:
+    def test_currency_and_interval_stay_20px_at_every_breakpoint(self) -> None:
         for selector in (".plan-currency", ".plan-interval"):
             with self.subTest(selector=selector):
                 sizes = declarations_for(HOME_CSS, selector, "font-size")
-                self.assertIn("14px", sizes, f"{selector}: expected the 14px base size")
+                self.assertIn("20px", sizes, f"{selector}: expected the 20px base size")
                 self.assertEqual(
                     set(sizes),
-                    {"14px"},
-                    f"{selector}: HK$ and / month stay 14px everywhere, found {sizes}",
+                    {"20px"},
+                    f"{selector}: HK$ and / month stay 20px everywhere, found {sizes}",
                 )
 
     def test_table_row_labels_use_the_uppercase_treatment(self) -> None:

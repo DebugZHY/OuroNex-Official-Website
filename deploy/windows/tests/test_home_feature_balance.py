@@ -182,6 +182,11 @@ class SharedHeightTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
+    def test_sida_content_group_is_centered_below_the_header(self):
+        section = base(self.css, ".sida-section")
+        self.assertEqual(normalise(section.get("justify-content", "")), "center")
+        self.assertEqual(px(section.get("padding-bottom", "")), 32.0)
+
     def test_desktop_height_is_the_scaled_448_608_ramp(self):
         tabs = base(self.css, TABS)
         self.assertEqual(normalise(tabs.get("--feature-height", "")), normalise(SHARED_HEIGHT))

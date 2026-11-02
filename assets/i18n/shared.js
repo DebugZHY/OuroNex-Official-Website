@@ -10,6 +10,11 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "OuroNex",
     "zh-TW": "OuroNex"
   },
+  "shared.home.5c1d84": {
+    "en": "Home",
+    "zh-CN": "首页",
+    "zh-TW": "首頁"
+  },
   "shared.news.34c808": {
     "en": "News",
     "zh-CN": "新闻",

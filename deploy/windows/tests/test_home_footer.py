@@ -1,8 +1,9 @@
 """Structural and content regression tests for the Home footer.
 
-The footer keeps the brand, wordmark, copyright and social block on the left and
-one right-hand navigation group containing the four section links plus the two
-legal links. The previous two explanatory legal blocks are gone.
+The footer holds three regions: the brand block (enlarged wordmark with the social
+row beneath it) on the left, the copyright line centred and low in the middle, and
+one right-hand navigation column stacked vertically. The previous two explanatory
+legal blocks are gone.
 
 Source inspection only: no browser, no server, no network.
 """
@@ -177,6 +178,18 @@ def squash(value: str) -> str:
     return re.sub(r"\s+", "", (value or "").lower())
 
 
+def _clamp_max(value: str) -> float:
+    """Upper bound of a clamp() length in px, 0.0 when the value is not one."""
+    match = re.search(r"clamp\(([^)]*)\)", value or "")
+    if not match:
+        return 0.0
+    parts = [part.strip() for part in match.group(1).split(",")]
+    try:
+        return float(parts[-1].replace("px", ""))
+    except (IndexError, ValueError):
+        return 0.0
+
+
 class FooterFixtures(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -210,25 +223,37 @@ class FooterLayoutTests(FooterFixtures):
         self.assertIs(children[-1], self.footer)
         self.assertEqual(self.footer["tag"], "footer")
 
-    def test_two_main_regions_in_reference_order(self):
+    def test_three_main_regions_in_reference_order(self):
         regions = [child for child in self.footer["children"] if child["tag"] != "#text"]
-        self.assertEqual(len(regions), 2)
+        self.assertEqual(len(regions), 3)
         self.assertTrue(has_class(regions[0], "footer-brand-block"))
-        self.assertTrue(has_class(regions[1], "footer-content"))
+        self.assertTrue(has_class(regions[1], "footer-copyright"))
+        self.assertTrue(has_class(regions[2], "footer-content"))
 
-    def test_brand_region_holds_logo_wordmark_copyright_and_socials(self):
+    def test_brand_region_holds_logo_wordmark_and_socials(self):
         brand = self.region("footer-brand-block")
         images = find_all(brand, lambda node: node["tag"] == "img")
         self.assertEqual(len(images), 1)
         self.assertEqual(images[0]["attrs"].get("src"), LOGOS)
         self.assertIn("OuroNex", text_of(brand))
-        copies = find_all(brand, lambda node: has_class(node, "footer-copyright"))
-        self.assertEqual(len(copies), 1)
-        self.assertEqual(normalised_text(copies[0]), COPYRIGHT)
+        self.assertEqual(
+            find_all(brand, lambda node: has_class(node, "footer-copyright")),
+            [],
+            "the copyright line moved out of the brand block",
+        )
         buttons = find_all(brand, lambda node: node["tag"] == "button" and has_class(node, "footer-social"))
         self.assertEqual([button["attrs"].get("aria-label") for button in buttons], list(SOCIALS))
+        wordmark = find_all(brand, lambda node: has_class(node, "footer-wordmark"))
+        self.assertEqual(len(wordmark), 1)
+        self.assertIs(wordmark[0]["children"][0], images[0], "the logo leads the wordmark lockup")
 
-    def test_right_region_is_one_nav_row_with_six_direct_links(self):
+    def test_copyright_is_its_own_centred_region(self):
+        copyrights = [child for child in self.footer["children"] if has_class(child, "footer-copyright")]
+        self.assertEqual(len(copyrights), 1)
+        self.assertEqual(normalised_text(copyrights[0]), COPYRIGHT)
+        self.assertEqual(copyrights[0]["attrs"].get("data-i18n"), None, "the legal line stays untranslated")
+
+    def test_right_region_is_one_nav_column_with_six_direct_links(self):
         content = self.region("footer-content")
         children = [child for child in content["children"] if child["tag"] != "#text"]
         self.assertEqual([child["tag"] for child in children], ["nav"])
@@ -267,15 +292,33 @@ class FooterLayoutTests(FooterFixtures):
 
 
 class FooterStyleTests(FooterFixtures):
-    def test_footer_keeps_two_theme_columns(self):
+    def test_footer_uses_three_tracks_with_equal_outer_tracks(self):
         footer = base_declarations(self.css, ".home-footer")
         self.assertEqual(footer.get("background"), "#0b1220")
-        self.assertEqual(footer.get("grid-template-columns", "").count("minmax("), 2)
+        tracks = [part.strip() for part in footer.get("grid-template-columns", "").split()]
+        self.assertEqual(tracks, ["1fr", "auto", "1fr"], "equal outer tracks centre the copyright")
+        self.assertEqual(footer.get("align-items"), "center")
 
-    def test_navigation_links_are_20px_in_one_wrapping_group(self):
+    def test_copyright_is_16px_centred_and_bottom_aligned(self):
+        copyright = base_declarations(self.css, ".home-footer .footer-copyright")
+        self.assertEqual(copyright.get("font-size"), "16px")
+        self.assertEqual(copyright.get("text-align"), "center")
+        self.assertEqual(copyright.get("justify-self"), "center")
+        self.assertEqual(copyright.get("align-self"), "end")
+
+    def test_wordmark_is_enlarged(self):
+        image = base_declarations(self.css, ".home-footer .footer-wordmark img")
+        self.assertIn("clamp(", image.get("width", ""), "the mark scales up with the viewport")
+        name = base_declarations(self.css, ".home-footer .footer-name")
+        self.assertIn("clamp(", name.get("font-size", ""))
+        self.assertGreaterEqual(_clamp_max(name.get("font-size", "")), 38.0)
+
+    def test_navigation_links_are_20px_in_one_vertical_column(self):
         nav = base_declarations(self.css, ".home-footer .footer-nav")
         self.assertEqual(nav.get("display"), "flex")
-        self.assertEqual(nav.get("flex-wrap"), "wrap")
+        self.assertEqual(nav.get("flex-direction"), "column")
+        self.assertEqual(nav.get("flex-wrap"), "nowrap")
+        self.assertEqual(nav.get("align-items"), "flex-end")
         self.assertIn("gap", nav)
         links = declarations(self.css, ".home-footer .footer-nav a")
         self.assertEqual(links.get("font-size"), "20px")
