@@ -5,10 +5,14 @@
   const LANGUAGES = new Set(['en', 'zh-CN', 'zh-TW']);
   const ATTRIBUTES = ['content', 'alt', 'aria-label', 'placeholder', 'title', 'value'];
   const dictionary = window.OuroNexI18n || {};
+  // The language switch is hidden (assets/i18n.css) and the site ships English-only,
+  // so a remembered choice must not override the default language. Set this to true
+  // to honour a stored preference again once the control is shown.
+  const LANGUAGE_CHOICE_ENABLED = false;
   let current = 'en';
 
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = LANGUAGE_CHOICE_ENABLED ? localStorage.getItem(STORAGE_KEY) : null;
     if (LANGUAGES.has(saved)) current = saved;
   } catch (_) {}
 
