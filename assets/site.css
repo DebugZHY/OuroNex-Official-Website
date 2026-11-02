@@ -42,18 +42,24 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 .nav-secondary{display:flex;align-items:center;justify-content:flex-end;gap:20px;flex:0 0 auto}
 .desktop-nav a{position:relative;font-size:14px;color:var(--muted);font-weight:500;padding:14px 0;transition:color .2s,background-color .2s,border-color .2s;white-space:nowrap}
 .desktop-nav a:hover,.desktop-nav a[aria-current='page']{color:var(--ink)}
-.desktop-nav a:not(.nav-contact):not([data-signin])::after{content:'';position:absolute;left:0;right:0;bottom:5px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
+.desktop-nav a:not(.nav-contact):not([data-signin]):not([data-register])::after{content:'';position:absolute;left:0;right:0;bottom:5px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
 .desktop-nav a[aria-current='page']::after,.desktop-nav a:hover::after{transform:scaleX(1)}
 .desktop-nav .nav-contact{display:inline-flex;align-items:center;justify-content:center;color:var(--ink);border:1px solid #60718980;border-radius:4px;padding:10px 16px;min-height:44px}
 .desktop-nav .nav-contact:hover{border-color:var(--accent);background:#729eff0a}
 .nav-secondary{gap:12px}
+/* Header actions: Log in is the quiet secondary on the left, Register the filled
+   primary on the right — the order and the weight split measured on linear.app
+   and vercel.com (Log in left / ghost, Sign up right / solid, 7-12px apart). */
 .desktop-nav .nav-secondary .nav-contact,
-.desktop-nav .nav-secondary [data-signin]{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:6px 18px;border-radius:999px;font-size:14px;line-height:1.2}
+.desktop-nav .nav-secondary [data-signin],
+.desktop-nav .nav-secondary [data-register]{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 24px;border-radius:999px;font-size:20px;font-weight:500;line-height:1.2;letter-spacing:-.01em}
 .desktop-nav .nav-secondary .nav-contact{color:var(--ink);background:transparent;border:1px solid #8290a3}
 .desktop-nav .nav-secondary .nav-contact:hover{color:var(--ink);background:#729eff24;border-color:var(--accent)}
-.desktop-nav .nav-secondary [data-signin]{color:var(--bg);background:#b7ceff;border:1px solid #b7ceff;width:96px;min-width:96px;height:var(--nav-pill-height);min-height:var(--nav-pill-height);padding:0;justify-content:center;white-space:nowrap;font-size:14px;line-height:1.2}
+.desktop-nav .nav-secondary [data-signin]{color:var(--ink);background:transparent;border:1px solid #8290a3;white-space:nowrap}
 /* The signed-in avatar is a circle whose diameter equals that same height. */
-.desktop-nav .nav-secondary [data-signin]:hover{color:var(--bg);background:#c6d9ff;border-color:#c6d9ff}
+.desktop-nav .nav-secondary [data-signin]:hover{color:var(--ink);background:#729eff24;border-color:var(--accent)}
+.desktop-nav .nav-secondary [data-register]{color:var(--bg);background:#b7ceff;border:1px solid #b7ceff;white-space:nowrap}
+.desktop-nav .nav-secondary [data-register]:hover{color:var(--bg);background:#c6d9ff;border-color:#c6d9ff}
 .menu-toggle{display:none;width:46px;height:46px;flex:0 0 46px;border:1px solid var(--line);border-radius:4px;background:transparent;align-items:center;justify-content:center;flex-direction:column;gap:6px}
 .menu-toggle span{width:18px;height:1px;background:var(--ink);transition:transform .2s}
 .menu-toggle[aria-expanded='true'] span:first-child{transform:translateY(3.5px) rotate(45deg)}.menu-toggle[aria-expanded='true'] span:last-child{transform:translateY(-3.5px) rotate(-45deg)}

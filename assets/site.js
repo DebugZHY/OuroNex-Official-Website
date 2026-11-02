@@ -253,6 +253,8 @@
   const setSignedIn = (link, user) => {
     const username = typeof user.username === 'string' ? user.username.trim() : '';
     if (!username) return;
+    /* A signed-in visitor sees an avatar instead of Log in / Register. */
+    document.querySelectorAll('[data-register]').forEach(node => node.remove());
     const avatar = safeAvatarUrl(user.avatar);
     link.setAttribute('href', '/dashboard/');
     link.classList.add('is-authenticated');

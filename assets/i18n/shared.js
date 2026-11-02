@@ -55,6 +55,11 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "登录",
     "zh-TW": "登入"
   },
+  "shared.register.d67299": {
+    "en": "Register",
+    "zh-CN": "注册",
+    "zh-TW": "註冊"
+  },
   "shared.2026-ouronex-technology-company-limite.d294b9": {
     "en": "© 2026 OuroNex Technology Company Limited",
     "zh-CN": "© 2026 OuroNex 科技有限公司",
