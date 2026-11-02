@@ -219,7 +219,7 @@ const VERTICAL_SIZE = {
   entry: [300, 52],
   gate: [300, 64],
   lane: [300, 56],
-  delivery: [300, 150],
+  delivery: [300, 178],
 };
 
 function horizontalLayout() {
