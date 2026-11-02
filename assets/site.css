@@ -94,6 +94,7 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 .auth-page .desktop-nav{gap:32px}
 .auth-page .nav-primary{gap:28px}
 .auth-page .nav-primary a{font-size:20px}
+.auth-page .nav-primary a.nav-placeholder{cursor:default}
 .auth-page .desktop-nav .nav-secondary .language-switcher{gap:6px}
 .auth-page .desktop-nav .nav-secondary .language-switcher button{flex:0 0 40px;width:40px;height:40px;min-width:40px;min-height:40px;font-size:20px}
 @media(max-width:1200px){.auth-page .desktop-nav{gap:20px}.auth-page .nav-primary{gap:20px}.auth-page .nav-shell{width:calc(100% - 40px)}}

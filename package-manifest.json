@@ -531,9 +531,9 @@
         },
         {
             "path": "assets/site.css",
-            "bytes": 22748,
-            "sha256": "72614d55f9e5d06b1b8ce8f66e20536a12c8f0025ecb1a2c98a61bc215c221ce",
-            "size": 22748
+            "bytes": 22807,
+            "sha256": "d669b51b08e20fa217c01bc8c982b9f6ee5950ef8191dd2c174b1e95798051f7",
+            "size": 22807
         },
         {
             "path": "assets/site.js",
