@@ -76,13 +76,15 @@
 .hero-demo__control{position:relative;width:26px;height:26px;padding:0;border:0;border-radius:999px;background:transparent;color:transparent;font-size:0;line-height:0;cursor:pointer}
 .hero-demo__control::before,.hero-demo__control::after{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:999px;transition:width .3s var(--ease),margin-left .3s var(--ease),background .25s ease}
 .hero-demo__control::before{background:rgba(237,242,248,.42)}
-.hero-demo__control::after{background:linear-gradient(90deg,var(--accent-strong),var(--accent));opacity:0;transform:scaleX(0);transform-origin:left center}
+.hero-demo__control::after{background:linear-gradient(90deg,var(--accent-strong),var(--accent));background-size:28px 100%;background-position:left center;background-repeat:no-repeat;opacity:0}
 .hero-demo__control:hover::before,.hero-demo__control:focus-visible::before{background:rgba(237,242,248,.78)}
 .hero-demo__control:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .hero-demo__control.is-active::before,.hero-demo__control[aria-pressed=true]::before{width:28px;margin-left:-14px;background:rgba(237,242,248,.26)}
-.hero-demo__control.is-active::after,.hero-demo__control[aria-pressed=true]::after{width:28px;margin-left:-14px;opacity:1;animation:onx-demo-progress 10s linear forwards}
-@keyframes onx-demo-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@media(prefers-reduced-motion:reduce){.hero-demo__control.is-active::after,.hero-demo__control[aria-pressed=true]::after{animation:none;transform:scaleX(1)}}
+.hero-demo__control.is-active::after,.hero-demo__control[aria-pressed=true]::after{width:9px;margin-left:-14px;opacity:1;animation:onx-demo-progress 10s linear forwards}
+/* The progress grows as a capsule: the left cap stays a circle, the straight middle
+   section widens, and the fill ends flush with the track's rounded right cap. */
+@keyframes onx-demo-progress{from{width:9px}to{width:28px}}
+@media(prefers-reduced-motion:reduce){.hero-demo__control.is-active::after,.hero-demo__control[aria-pressed=true]::after{animation:none;width:28px}}
 /* SIDA: a narrow feature directory beside three side-by-side detail cards. */
 .sida-section{background:transparent;padding-bottom:32px;justify-content:center}
 .feature-layout{flex:none;min-height:0;display:grid;grid-template-rows:auto auto;align-content:start;gap:28px;padding:24px 0;margin-inline:auto;width:min(1560px,calc(100% - 120px))!important}

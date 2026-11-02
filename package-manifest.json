@@ -135,9 +135,9 @@
         },
         {
             "path": "assets/home.css",
-            "bytes": 44241,
-            "sha256": "ed90691e28ba3cbc1ef97c351a44d1fb2eb06f81a836f416fe69c7a9ef68ec33",
-            "size": 44241
+            "bytes": 44045,
+            "sha256": "adfcbf9c552feedbc9ec4c2c7d812e5b0462abc945ee57895383ab926c2113cb",
+            "size": 44045
         },
         {
             "path": "assets/home.js",
