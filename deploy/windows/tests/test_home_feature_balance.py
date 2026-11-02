@@ -3,11 +3,11 @@
 Contract pinned here:
 
 * the section content is centred; ``.feature-layout`` is one 1180px column and
-  ``.feature-tabs`` is a grid of a 576px rail plus the copy column, both
+  ``.feature-tabs`` is a grid of a 448px rail plus the copy column, both
   vertically centred on one another;
 * the rail is a list of hairline rows: no card boxes, no radius, no fill, a 2px
-  gradient accent bar on the selected row, 60px soft-glow line icons and a
-  32px Manrope label;
+  gradient accent bar on the selected row, 45px soft-glow line icons and a
+  24px Manrope label;
 * the copy column is separated from the rail by a 1px rule that carries a
   112px blue fade at the top, and its three rows are split by 1px hairlines
   with a closing rule under the last one;
@@ -27,9 +27,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 
-BASE_RAIL = "576px"
-MEDIUM_RAIL = "clamp(400px,44%,460px)"
-NARROW_RAIL = "clamp(360px,44%,410px)"
+BASE_RAIL = "448px"
+MEDIUM_RAIL = "clamp(340px,40%,424px)"
+NARROW_RAIL = "clamp(320px,40%,380px)"
 
 BASE_TITLE_SIZE = "41px"
 BASE_TITLE_LINE_HEIGHT = "1.16"
@@ -203,7 +203,7 @@ class RailTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_base_grid_is_a_576px_rail_plus_copy(self):
+    def test_base_grid_is_a_448px_rail_plus_copy(self):
         tabs = base(self.css, TABS)
         self.assertEqual(normalise(tabs.get("grid-template-columns", "")),
                          f"{BASE_RAIL}minmax(0,1fr)")
@@ -254,11 +254,11 @@ class DirectoryRowTests(unittest.TestCase):
 
     def test_row_padding_and_label(self):
         button = base(self.css, BUTTON)
-        self.assertEqual(normalise(button.get("padding", "")), "39px12px39px36px")
+        self.assertEqual(normalise(button.get("padding", "")), "29px9px29px27px")
         self.assertEqual(normalise(button.get("grid-template-columns", "")),
-                         "85pxminmax(0,1fr)")
+                         "64pxminmax(0,1fr)")
         font = font_parts(button)
-        self.assertEqual(font["font-size"], "32px")
+        self.assertEqual(font["font-size"], "24px")
         self.assertEqual(font["font-weight"], "500")
         self.assertIn("--display", font["font-family"])
 
@@ -282,10 +282,10 @@ class DirectoryRowTests(unittest.TestCase):
                          "selection never repaints the row as a card")
         self.assertEqual(normalise(selected.get("box-shadow", "")), "none")
 
-    def test_directory_icon_is_a_60px_soft_glow_line(self):
+    def test_directory_icon_is_a_45px_soft_glow_line(self):
         icon = base(self.css, ICON)
-        self.assertEqual(px(icon.get("width", "")), 60.0)
-        self.assertEqual(px(icon.get("height", "")), 60.0)
+        self.assertEqual(px(icon.get("width", "")), 45.0)
+        self.assertEqual(px(icon.get("height", "")), 45.0)
         self.assertIn("drop-shadow", normalise(icon.get("filter", "")))
         selected_icon = base(self.css, BUTTON + "[aria-selected=true]" + " .directory-icon")
         self.assertEqual(normalise(selected_icon.get("color", "")), "#e6f1ff")
@@ -397,9 +397,9 @@ class MobileShellTests(unittest.TestCase):
     def test_mobile_rows_keep_their_padding_rhythm(self):
         mobile = rules(block(self.css, MOBILE))
         button = [decl for selectors, decl in mobile if normalise(BUTTON) in selectors][0]
-        self.assertEqual(normalise(button.get("padding", "")), "21px7px21px18px")
+        self.assertEqual(normalise(button.get("padding", "")), "18px6px18px16px")
         icon = [decl for selectors, decl in mobile if normalise(ICON) in selectors][0]
-        self.assertEqual(px(icon.get("width", "")), 34.0)
+        self.assertEqual(px(icon.get("width", "")), 32.0)
 
 
 if __name__ == "__main__":
