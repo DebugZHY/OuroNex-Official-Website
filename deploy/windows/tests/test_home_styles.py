@@ -1161,12 +1161,18 @@ class AboutCopyTest(CssAssertions):
         smallest_name = float(clamp.group(1))
         role = find_rules(HOME_CSS, self.ROLE)[0]
         role_size = float(re.match(r"(\d+(?:\.\d+)?)px", role["font-size"]).group(1))
+        self.assertEqual(role_size, 20.0, f"{self.ROLE}: the owner asked for 20px role labels")
         self.assertLess(
             role_size,
-            smallest_name / 1.5,
-            f"{self.ROLE}: role {role_size}px must stay far below the name {smallest_name}px",
+            smallest_name,
+            f"{self.ROLE}: role {role_size}px must stay below the smallest name {smallest_name}px",
         )
-        self.assertLessEqual(role_size, 14.0, f"{self.ROLE}: role must stay small")
+        for rule in find_rules(HOME_CSS, self.ROLE):
+            size = rule.get("font-size")
+            if size:
+                self.assertEqual(
+                    size, "20px", f"{self.ROLE}: every rule, including media blocks, must stay 20px"
+                )
         self.assertIn(
             role.get("color"),
             {"#8faccd", "#8fb7ff", "#9aabc0", "var(--muted)", "var(--accent)", "#b9c8dc"},

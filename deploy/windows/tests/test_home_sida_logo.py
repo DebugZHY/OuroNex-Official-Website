@@ -6,7 +6,7 @@ removed with the homepage redesign. This module now pins what replaced it:
 * ``.feature-tabs`` holds exactly two direct children - ``.feature-tab-list``
   then ``.feature-panels`` - and no brand node or logo asset is referenced;
 * the four tabs keep their order (Massive Information, Complex Workflow,
-  Professional Tools, multidisciplinary Experts), ids and ARIA wiring;
+  Professional Tools, Multidisciplinary Experts), ids and ARIA wiring;
 * the desktop grid splits into a quarter-width tab list and a three-quarter
   card area with the shared ``--feature-height: clamp(560px, 66vh, 760px)``;
 * the removed overlay positioning and the retired 1000px hide rule are gone;
@@ -46,7 +46,7 @@ TABS = (
     ("tab-engineering", "feature-engineering", "home.feature-engineering-title", "Massive Information"),
     ("tab-workflow", "feature-workflow", "home.feature-workflow-title", "Complex Workflow"),
     ("tab-free", "feature-free", "home.feature-free-title", "Professional Tools"),
-    ("tab-experts", "feature-experts", "home.feature-experts-title", "multidisciplinary Experts"),
+    ("tab-experts", "feature-experts", "home.feature-experts-title", "Multidisciplinary Experts"),
 )
 
 

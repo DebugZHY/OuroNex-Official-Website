@@ -76,7 +76,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "複雜工作流程"
   },
   "home.feature-experts-title": {
-    "en": "multidisciplinary Experts",
+    "en": "Multidisciplinary Experts",
     "zh-CN": "多学科专家",
     "zh-TW": "多學科專家"
   },
@@ -306,7 +306,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "結合場地與項目文件，跨專業核查規範與法規風險。"
   },
   "home.professional-saas": {
-    "en": "Design optimization",
+    "en": "Design Optimization",
     "zh-CN": "设计优化",
     "zh-TW": "設計優化"
   },
@@ -316,14 +316,14 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "內置結構分析與設計工具，支援多目標優化。"
   },
   "home.training": {
-    "en": "BIM modelling",
+    "en": "BIM Modelling",
     "zh-CN": "BIM 建模",
     "zh-TW": "BIM 建模"
   },
   "home.training-copy": {
-    "en": "Direct BIM export and two-way model information sync.",
-    "zh-CN": "结构模型可直接导出 BIM，并双向同步模型信息。",
-    "zh-TW": "結構模型可直接匯出 BIM，並雙向同步模型資訊。"
+    "en": "Direct BIM export from structural models and efficient model information sync.",
+    "zh-CN": "结构模型可直接导出 BIM，并高效同步模型信息。",
+    "zh-TW": "結構模型可直接匯出 BIM，並高效同步模型資訊。"
   },
   "home.how-work": {
     "en": "How we work with you",

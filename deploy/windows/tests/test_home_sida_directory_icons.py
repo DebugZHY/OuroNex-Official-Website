@@ -39,7 +39,7 @@ TABS = (
     ("tab-engineering", "documents", "home.feature-engineering-title", "Massive Information"),
     ("tab-workflow", "flow", "home.feature-workflow-title", "Complex Workflow"),
     ("tab-free", "wrench", "home.feature-free-title", "Professional Tools"),
-    ("tab-experts", "expert", "home.feature-experts-title", "multidisciplinary Experts"),
+    ("tab-experts", "expert", "home.feature-experts-title", "Multidisciplinary Experts"),
 )
 
 ICON_CLASS = "directory-icon"
