@@ -37,9 +37,9 @@ COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
 
 # Desktop: the list keeps a quarter of the width, the cards reclaim the rest.
-DESKTOP_COLUMNS = "480px minmax(0,1fr)"
+DESKTOP_COLUMNS = "648px minmax(0,1fr)"
 # Tablet widths keep the same narrow directory and expanded card area.
-TABLET_COLUMNS = "clamp(327px,36%,436px) minmax(0,1fr)"
+TABLET_COLUMNS = "clamp(440px,48%,500px) minmax(0,1fr)"
 SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 
 TABS = (
@@ -196,7 +196,7 @@ class FeatureTabShellTests(unittest.TestCase):
     def test_left_column_is_a_fixed_rail_and_the_cards_reclaim_the_rest(self):
         tabs = declarations(self.base, ".feature-tabs")
         tracks = normalise(tabs.get("grid-template-columns", ""))
-        self.assertTrue(tracks.startswith("480px"), "the tab list is a fixed 480px rail")
+        self.assertTrue(tracks.startswith("648px"), "the tab list is a fixed 648px rail")
         self.assertEqual(tracks.count("minmax("), 1,
                          "only the card column grows with the viewport")
 
@@ -234,8 +234,8 @@ class FeatureTabShellTests(unittest.TestCase):
 
     def test_sida_section_keeps_room_for_the_release_note(self):
         section = declarations(self.base, ".sida-section")
-        self.assertEqual(normalise(section.get("padding-bottom", "")), normalise("32px"),
-                         "the note's 26px entrance offset must remain inside the clipped section")
+        self.assertEqual(normalise(section.get("padding-bottom", "")), normalise("16px"),
+                         "the section keeps its own bottom padding outside the clipped note")
 
     def test_foundation_one_font_is_removed(self):
         self.assertFalse(

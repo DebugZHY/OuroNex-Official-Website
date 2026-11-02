@@ -3,7 +3,7 @@
 Contract pinned here:
 
 * the section content is centred; ``.feature-layout`` is one 1180px column and
-  ``.feature-tabs`` is a grid of a 372px rail plus the copy column, both
+  ``.feature-tabs`` is a grid of a 648px rail plus the copy column, both
   vertically centred on one another;
 * the rail is a list of hairline rows: no card boxes, no radius, no fill, a 2px
   gradient accent bar on the selected row, 26px soft-glow line icons and a
@@ -27,10 +27,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 
-BASE_RAIL = "480px"
-MEDIUM_RAIL = "clamp(327px,36%,436px)"
-NARROW_RAIL = "clamp(291px,30%,363px)"
-FLUID_RAIL = "clamp(363px,40.7%,480px)"
+BASE_RAIL = "648px"
+MEDIUM_RAIL = "clamp(440px,48%,500px)"
+NARROW_RAIL = "clamp(400px,48%,440px)"
 
 BASE_TITLE_SIZE = "41px"
 BASE_TITLE_LINE_HEIGHT = "1.16"
@@ -177,7 +176,7 @@ class ShellTests(unittest.TestCase):
         self.assertEqual(normalise(section.get("background", "")), "transparent",
                          "the SIDA section paints no panel of its own")
         self.assertEqual(normalise(section.get("justify-content", "")), "center")
-        self.assertEqual(px(section.get("padding-bottom", "")), 32.0)
+        self.assertEqual(px(section.get("padding-bottom", "")), 16.0)
 
     def test_layout_centres_one_1180_column(self):
         layout = base(self.css, ".feature-layout")
@@ -191,7 +190,7 @@ class ShellTests(unittest.TestCase):
 
     def test_cta_row_is_pushed_away_from_the_copy(self):
         row = base(self.css, ".sida-section .download-row")
-        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(34px,4.4vh,58px)",
+        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(26px,3.6vh,48px)",
                          "the download row keeps a clear break below the copy")
 
     def test_no_fixed_shared_height_survives(self):
@@ -204,7 +203,7 @@ class RailTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_base_grid_is_a_480px_rail_plus_copy(self):
+    def test_base_grid_is_a_648px_rail_plus_copy(self):
         tabs = base(self.css, TABS)
         self.assertEqual(normalise(tabs.get("grid-template-columns", "")),
                          f"{BASE_RAIL}minmax(0,1fr)")
@@ -226,11 +225,9 @@ class RailTests(unittest.TestCase):
         self.assertTrue(any(normalise(t).startswith(normalise(NARROW_RAIL)) for t in tracks),
                         f"the tablet rail narrows to 280px, found {tracks}")
 
-        desktop = rules(block(self.css, ("min-width:1001px",)))
-        tracks = [decl.get("grid-template-columns", "") for selectors, decl in desktop
-                  if normalise(TABS) in selectors]
-        self.assertTrue(any(normalise(t).startswith(normalise(FLUID_RAIL)) for t in tracks),
-                        f"1001-1200 keeps the rail proportional, found {tracks}")
+        self.assertNotIn("min-width:1001px", self.css,
+                         "the tablet band alone owns 1001-1200, so the fixed rail is never "
+                         "overridden by a second breakpoint")
 
     def test_mobile_stacks_the_rail_above_the_copy(self):
         mobile = rules(block(self.css, MOBILE))
@@ -257,11 +254,11 @@ class DirectoryRowTests(unittest.TestCase):
 
     def test_row_padding_and_label(self):
         button = base(self.css, BUTTON)
-        self.assertEqual(normalise(button.get("padding", "")), "27px10px27px24px")
+        self.assertEqual(normalise(button.get("padding", "")), "44px14px44px40px")
         self.assertEqual(normalise(button.get("grid-template-columns", "")),
-                         "58pxminmax(0,1fr)")
+                         "96pxminmax(0,1fr)")
         font = font_parts(button)
-        self.assertEqual(font["font-size"], "20.5px")
+        self.assertEqual(font["font-size"], "36px")
         self.assertEqual(font["font-weight"], "500")
         self.assertIn("--display", font["font-family"])
 
@@ -285,10 +282,10 @@ class DirectoryRowTests(unittest.TestCase):
                          "selection never repaints the row as a card")
         self.assertEqual(normalise(selected.get("box-shadow", "")), "none")
 
-    def test_directory_icon_is_a_39px_soft_glow_line(self):
+    def test_directory_icon_is_a_68px_soft_glow_line(self):
         icon = base(self.css, ICON)
-        self.assertEqual(px(icon.get("width", "")), 39.0)
-        self.assertEqual(px(icon.get("height", "")), 39.0)
+        self.assertEqual(px(icon.get("width", "")), 68.0)
+        self.assertEqual(px(icon.get("height", "")), 68.0)
         self.assertIn("drop-shadow", normalise(icon.get("filter", "")))
         selected_icon = base(self.css, BUTTON + "[aria-selected=true]" + " .directory-icon")
         self.assertEqual(normalise(selected_icon.get("color", "")), "#e6f1ff")
@@ -303,7 +300,7 @@ class CopyColumnTests(unittest.TestCase):
 
     def test_column_carries_a_rule_with_a_blue_fade(self):
         panels = base(self.css, PANELS)
-        self.assertEqual(px(panels.get("padding-left", "")), 68.0)
+        self.assertEqual(px(panels.get("padding-left", "")), 56.0)
         self.assertEqual(normalise(panels.get("border-left", "")), HAIRLINE)
         fade = base(self.css, PANELS + "::before")
         self.assertEqual(px(fade.get("width", "")), 1.0)
@@ -327,7 +324,7 @@ class CopyColumnTests(unittest.TestCase):
         self.assertEqual(normalise(card.get("background", "")), "none")
         self.assertEqual(normalise(card.get("box-shadow", "")), "none")
         self.assertEqual(normalise(card.get("border-top", "")), HAIRLINE)
-        self.assertEqual(normalise(card.get("padding", "")), "26px030px")
+        self.assertEqual(normalise(card.get("padding", "")), "24px028px")
 
     def test_first_row_loses_its_rule_and_the_last_closes(self):
         first = base(self.css, CARD + ":first-child")
@@ -397,12 +394,12 @@ class MobileShellTests(unittest.TestCase):
         self.assertTrue(fade and normalise(fade[0].get("display", "")) == "none",
                         "the blue fade is hidden once the columns stack")
 
-    def test_mobile_rows_keep_a_13px_padding_rhythm(self):
+    def test_mobile_rows_keep_their_padding_rhythm(self):
         mobile = rules(block(self.css, MOBILE))
         button = [decl for selectors, decl in mobile if normalise(BUTTON) in selectors][0]
-        self.assertEqual(normalise(button.get("padding", "")), "21px10px21px19px")
+        self.assertEqual(normalise(button.get("padding", "")), "24px8px24px20px")
         icon = [decl for selectors, decl in mobile if normalise(ICON) in selectors][0]
-        self.assertEqual(px(icon.get("width", "")), 30.0)
+        self.assertEqual(px(icon.get("width", "")), 38.0)
 
 
 if __name__ == "__main__":

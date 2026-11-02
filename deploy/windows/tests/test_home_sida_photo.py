@@ -239,7 +239,7 @@ class FeatureDetailCardTests(unittest.TestCase):
 
     def test_detail_card_has_no_surface(self):
         card = declarations(self.base, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "26px030px")
+        self.assertEqual(normalise(card.get("padding", "")), "24px028px")
         self.assertEqual(normalise(card.get("border", "")), "0")
         self.assertEqual(normalise(card.get("border-radius", "")), "0")
         self.assertEqual(normalise(card.get("background", "")), "none")
@@ -342,7 +342,7 @@ class FeatureDetailCardTests(unittest.TestCase):
     def test_narrow_width_only_tightens_the_rows(self):
         narrow = self.media("max-width:1200px")
         card = declarations(narrow, ".feature-detail-card")
-        self.assertEqual(normalise(card.get("padding", "")), "26px030px")
+        self.assertEqual(normalise(card.get("padding", "")), "24px028px")
         self.assertNotIn(".feature-detail-card p", narrow,
                          "the 34/16.5 scale holds down to the tablet band")
         self.assertNotIn(".feature-detail-card h3", narrow)
