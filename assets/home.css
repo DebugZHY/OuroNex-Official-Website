@@ -39,9 +39,9 @@
 /* Perspective-grid keeps natural cover geometry and shares the generic brightness. */
 .home-page .hero-media[data-background="assets/backgrounds/perspective-grid.svg"]>svg{position:relative;left:0;width:100%;height:100%;object-fit:cover;object-position:left center;transform:none;filter:brightness(1.75) saturate(1.25)}
 .home-page .home-backgrounds>.hero-media[data-background-section="home"][data-background="assets/backgrounds/perspective-grid.svg"]>svg{transform:scaleX(-1)}
-.hero-inner{flex:1;display:grid;grid-template-columns:minmax(0,.85fr) minmax(520px,1.15fr);align-items:center;gap:clamp(32px,4vw,72px);padding-top:calc(var(--header-height) + 16px);padding-bottom:24px;width:min(1920px,calc(100% - 64px))!important}
+.hero-inner{flex:1;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:center;gap:clamp(32px,4vw,72px);padding-top:calc(var(--header-height) + 16px);padding-bottom:24px;width:min(1920px,calc(100% - 64px))!important}
 .hero-copy{min-width:0;display:grid;justify-items:start;gap:24px}
-.hero-copy h1{margin:0;max-width:16ch;font-size:clamp(52px,4.8vw,88px);font-weight:500;line-height:1.04;letter-spacing:-.05em}
+.hero-copy h1{margin:0;max-width:20ch;padding-block:.18em;margin-block:-.18em;font-size:72px;font-weight:500;line-height:1.06;letter-spacing:-.045em}
 .hero-description{margin:0;max-width:42rem;color:#c1cfdf;font-size:24px;line-height:1.45}
 .hero-description-line{display:block}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
@@ -320,7 +320,7 @@ body.home-page[data-section-motion=on] [data-motion-variant=float][data-motion-s
 body.home-page[data-section-motion=reduced] [data-motion-item]{opacity:1!important;transform:none!important;animation:none!important;clip-path:none!important;filter:none!important}
 @media(max-width:1200px){
 .home-page .desktop-nav{gap:20px}.home-page .nav-primary{gap:20px}.home-page .nav-shell{width:calc(100% - 40px)}
-.hero-inner{grid-template-columns:minmax(0,.9fr) minmax(450px,1.1fr);gap:32px}.hero-copy h1{font-size:52px}.hero-demo{min-height:400px}
+.hero-inner{grid-template-columns:minmax(0,.9fr) minmax(450px,1.1fr);gap:32px}.hero-copy h1{font-size:60px}.hero-demo{min-height:400px}
 .feature-tabs{grid-template-columns:minmax(0,1fr) minmax(0,3fr);gap:26px}.feature-tab-list button{grid-template-columns:28px minmax(0,1fr);column-gap:12px;padding:18px 20px;font-size:clamp(16px,1.6vw,20px)}.feature-tab-list .directory-icon{width:28px;height:28px}.feature-detail-card{padding:22px 20px}.feature-detail-card h3{font-size:32px}.feature-detail-card p{font-size:20px}
 .plan-strip{grid-template-columns:repeat(4,minmax(220px,1fr))}
 .business-layout{gap:36px}
