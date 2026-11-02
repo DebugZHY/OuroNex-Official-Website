@@ -1,10 +1,18 @@
-"""Structural and content regression tests for the Home footer.
+"""Structural and content regression tests for the Home footer block.
 
-The footer holds three regions: the brand block (enlarged wordmark with the social
-row beneath it) on the left, the copyright line centred and low in the middle, and
-the right-hand navigation laid out as two horizontal rows - the five section links
-on top, the two legal links beneath them. The container is 200px tall on desktop.
-The previous two explanatory legal blocks are gone.
+Home ships the canonical ``footer.site-footer`` from the footer spec:
+
+* ``div.wrap.footer-top`` with ``a.footer-brand`` (logo + wordmark),
+  ``nav.footer-nav`` (six links, one of them the inert Application placeholder)
+  and ``div.footer-socials`` (five labelled icon buttons) in that order;
+* ``div.wrap.footer-bottom`` with ``p.footer-copyright`` then
+  ``nav.footer-legal`` (Terms of Service, Privacy Policy);
+* the retired ``.home-footer`` markup, the Pages/Company columns, the Hong Kong
+  line and the two explanatory legal blocks are gone.
+
+Site-wide structure, the per-page walk and the stylesheet contract live in
+``test_site_footer.py``; this module pins the Home footer's own copy and the
+shared dictionary entries it renders.
 
 Source inspection only: no browser, no server, no network.
 """
@@ -19,35 +27,45 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 INDEX_HTML = REPO_ROOT / "index.html"
-HOME_CSS = REPO_ROOT / "assets" / "home.css"
 SHARED_JSON = REPO_ROOT / "assets" / "i18n" / "shared.json"
 SHARED_JS = REPO_ROOT / "assets" / "i18n" / "shared.js"
 HOME_JSON = REPO_ROOT / "assets" / "i18n" / "home.json"
 
-LOGOS = "assets/ouronex-mark.svg"
+LOGO = "assets/ouronex-mark.svg"
 COPYRIGHT = "Copyright \u00a9 2026 OuroNex Technology Company Limited. All Rights Reserved."
 SOCIALS = ("X", "LinkedIn", "GitHub", "WeChat", "RedNote")
+
+# label, href (None for the inert placeholders), i18n key
 NAV_LINKS = (
-    ("Home", "#home"),
-    ("SIDA", "#sida"),
-    ("Features", None),
-    ("Application", None),
-    ("Price", "#price"),
-    ("Business", "#business"),
-    ("About", "#about"),
-    ("Terms of Service", "terms.html"),
-    ("Privacy Policy", "privacy.html"),
+    ("Home", "index.html#home", "shared.home.5c1d84"),
+    ("Features", "index.html#sida", "shared.features"),
+    ("Application", None, "shared.application"),
+    ("Price", "index.html#price", "shared.price.3e8248"),
+    ("Business", "index.html#business", "shared.business.d6663d"),
+    ("About", "index.html#about", "shared.about.6b21fb"),
 )
-LEGAL_KEYS = {
-    "shared.terms-of-service.3f9c1a": ("Terms of Service", "服务条款", "服務條款"),
-    "shared.privacy-policy.6b2d4e": ("Privacy Policy", "隐私政策", "隱私政策"),
-}
+LEGAL_LINKS = (
+    ("Terms of Service", "terms.html", "shared.terms-of-service.3f9c1a"),
+    ("Privacy Policy", "privacy.html", "shared.privacy-policy.6b2d4e"),
+)
+RETIRED_CLASSES = (
+    "home-footer",
+    "footer-grid",
+    "footer-menus",
+    "footer-col",
+    "footer-copy",
+    "footer-nav-row",
+    "footer-wordmark",
+    "footer-brand-block",
+    "footer-content",
+)
 LANGUAGES = ("en", "zh-CN", "zh-TW")
-VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
-             "meta", "param", "source", "track", "wbr"}
+VOID_TAGS = {
+    "area", "base", "br", "col", "embed", "hr", "img", "input", "link",
+    "meta", "param", "source", "track", "wbr",
+}
 HEADINGS = ("h1", "h2", "h3", "h4", "h5", "h6")
-COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
-RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
+CLASS_ATTRIBUTE = re.compile(r'\bclass="([^"]*)"')
 
 
 class _TreeBuilder(HTMLParser):
@@ -56,7 +74,7 @@ class _TreeBuilder(HTMLParser):
         self.root = {"tag": "#document", "attrs": {}, "children": [], "text": []}
         self._stack = [self.root]
 
-    def _node(self, tag, attrs):
+    def _node(self, tag: str, attrs) -> dict:
         node = {"tag": tag, "attrs": dict(attrs), "children": [], "text": []}
         self._stack[-1]["children"].append(node)
         return node
@@ -96,6 +114,10 @@ def has_class(node: dict, name: str) -> bool:
     return name in classes(node)
 
 
+def elements(node: dict) -> list:
+    return [child for child in node["children"] if child["tag"] != "#text"]
+
+
 def descendants(node: dict) -> list:
     found = []
     for child in node["children"]:
@@ -119,92 +141,15 @@ def normalised_text(node: dict) -> str:
     return " ".join(text_of(node).split())
 
 
-def text_segments(node: dict) -> list:
-    segments = [text.strip() for text in node["text"] if text.strip()]
-    for child in node["children"]:
-        segments.extend(text_segments(child))
-    return segments
-
-
-def sheet() -> str:
-    return COMMENT_RE.sub("", HOME_CSS.read_text(encoding="utf-8"))
-
-
-def declarations(css: str, selector: str) -> dict:
-    target = re.sub(r"\s+", "", selector).lower()
-    merged: dict = {}
-    for match in RULE_RE.finditer(css):
-        selectors = [re.sub(r"\s+", "", part).lower() for part in match.group(1).split(",")]
-        if target not in selectors:
-            continue
-        for declaration in match.group(2).split(";"):
-            if ":" not in declaration:
-                continue
-            prop, _, value = declaration.partition(":")
-            merged[prop.strip().lower()] = re.sub(r"\s+", " ", value.strip().lower())
-    return merged
-
-
-def base_declarations(css: str, selector: str) -> dict:
-    target = re.sub(r"\s+", "", selector).lower()
-    for match in RULE_RE.finditer(css):
-        selectors = [re.sub(r"\s+", "", part).lower() for part in match.group(1).split(",")]
-        if target not in selectors:
-            continue
-        found: dict = {}
-        for declaration in match.group(2).split(";"):
-            if ":" not in declaration:
-                continue
-            prop, _, value = declaration.partition(":")
-            found[prop.strip().lower()] = re.sub(r"\s+", " ", value.strip().lower())
-        return found
-    return {}
-
-
-def media_block(css: str, prelude: str) -> str:
-    index = css.find(prelude)
-    if index < 0:
-        return ""
-    start = css.index("{", index)
-    depth = 0
-    for position in range(start, len(css)):
-        char = css[position]
-        if char == "{":
-            depth += 1
-        elif char == "}":
-            depth -= 1
-            if depth == 0:
-                return css[start + 1:position]
-    return ""
-
-
-def squash(value: str) -> str:
-    return re.sub(r"\s+", "", (value or "").lower())
-
-
-def _clamp_max(value: str) -> float:
-    """Upper bound of a clamp() length in px, 0.0 when the value is not one."""
-    match = re.search(r"clamp\(([^)]*)\)", value or "")
-    if not match:
-        return 0.0
-    parts = [part.strip() for part in match.group(1).split(",")]
-    try:
-        return float(parts[-1].replace("px", ""))
-    except (IndexError, ValueError):
-        return 0.0
-
-
 class FooterFixtures(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.index = INDEX_HTML.read_text(encoding="utf-8")
         cls.document = parse(cls.index)
-        cls.about = find_all(cls.document, lambda node: node["attrs"].get("id") == "about")[0]
-        footers = find_all(cls.about, lambda node: has_class(node, "home-footer"))
+        footers = find_all(cls.document, lambda node: node["tag"] == "footer")
         if len(footers) != 1:
-            raise AssertionError(f"#about must hold exactly one .home-footer, found {len(footers)}")
+            raise AssertionError(f"index.html must hold exactly one <footer>, found {len(footers)}")
         cls.footer = footers[0]
-        cls.css = sheet()
         cls.shared_json = json.loads(SHARED_JSON.read_text(encoding="utf-8"))
         cls.shared_js = json.loads(
             SHARED_JS.read_text(encoding="utf-8")
@@ -215,84 +160,42 @@ class FooterFixtures(unittest.TestCase):
         )
         cls.home_json = json.loads(HOME_JSON.read_text(encoding="utf-8"))
 
-    def region(self, name: str) -> dict:
-        found = [child for child in self.footer["children"] if has_class(child, name)]
-        self.assertEqual(len(found), 1, f"footer must hold exactly one .{name}")
-        return found[0]
+    def child(self, parent: dict, name: str) -> dict:
+        matches = [node for node in elements(parent) if has_class(node, name)]
+        self.assertEqual(len(matches), 1, f"expected exactly one .{name}")
+        return matches[0]
+
+    def top(self) -> dict:
+        return self.child(self.footer, "footer-top")
+
+    def bottom(self) -> dict:
+        return self.child(self.footer, "footer-bottom")
 
 
 class FooterLayoutTests(FooterFixtures):
-    def test_footer_is_the_last_region_of_about(self):
-        children = [child for child in self.about["children"] if child["tag"] != "#text"]
-        self.assertIs(children[-1], self.footer)
-        self.assertEqual(self.footer["tag"], "footer")
+    def test_index_has_exactly_one_site_footer(self):
+        self.assertIn("site-footer", classes(self.footer))
+        self.assertNotIn("home-footer", classes(self.footer))
+        self.assertEqual(self.index.count("<footer"), 1)
 
-    def test_three_main_regions_in_reference_order(self):
-        regions = [child for child in self.footer["children"] if child["tag"] != "#text"]
-        self.assertEqual(len(regions), 3)
-        self.assertTrue(has_class(regions[0], "footer-brand-block"))
-        self.assertTrue(has_class(regions[1], "footer-copyright"))
-        self.assertTrue(has_class(regions[2], "footer-content"))
+    def test_footer_follows_the_about_section(self):
+        about_index = self.index.find('id="about"')
+        footer_index = self.index.find('<footer class="site-footer"')
+        self.assertGreater(about_index, -1, "the About section must exist")
+        self.assertGreater(footer_index, about_index, "the footer trails the About block")
 
-    def test_brand_region_holds_logo_wordmark_and_socials(self):
-        brand = self.region("footer-brand-block")
-        images = find_all(brand, lambda node: node["tag"] == "img")
-        self.assertEqual(len(images), 1)
-        self.assertEqual(images[0]["attrs"].get("src"), LOGOS)
-        self.assertIn("OuroNex", text_of(brand))
-        self.assertEqual(
-            find_all(brand, lambda node: has_class(node, "footer-copyright")),
-            [],
-            "the copyright line moved out of the brand block",
-        )
-        buttons = find_all(brand, lambda node: node["tag"] == "button" and has_class(node, "footer-social"))
-        self.assertEqual([button["attrs"].get("aria-label") for button in buttons], list(SOCIALS))
-        wordmark = find_all(brand, lambda node: has_class(node, "footer-wordmark"))
-        self.assertEqual(len(wordmark), 1)
-        self.assertIs(wordmark[0]["children"][0], images[0], "the logo leads the wordmark lockup")
+    def test_top_holds_brand_nav_and_socials_in_source_order(self):
+        children = elements(self.top())
+        self.assertEqual([child["tag"] for child in children], ["a", "nav", "div"])
+        self.assertTrue(has_class(children[0], "footer-brand"))
+        self.assertTrue(has_class(children[1], "footer-nav"))
+        self.assertTrue(has_class(children[2], "footer-socials"))
 
-    def test_copyright_is_its_own_centred_region(self):
-        copyrights = [child for child in self.footer["children"] if has_class(child, "footer-copyright")]
-        self.assertEqual(len(copyrights), 1)
-        self.assertEqual(normalised_text(copyrights[0]), COPYRIGHT)
-        self.assertEqual(copyrights[0]["attrs"].get("data-i18n"), None, "the legal line stays untranslated")
-
-    def test_right_region_nav_holds_one_row_of_links(self):
-        content = self.region("footer-content")
-        children = [child for child in content["children"] if child["tag"] != "#text"]
-        self.assertEqual([child["tag"] for child in children], ["nav"])
-        nav = children[0]
-        self.assertTrue(has_class(nav, "footer-nav"))
-        rows = [child for child in nav["children"] if child["tag"] != "#text"]
-        self.assertEqual(len(rows), 1, "every footer link sits on the single row")
-        row = rows[0]
-        self.assertTrue(has_class(row, "footer-nav-row"))
-        self.assertFalse(has_class(row, "footer-nav-row--legal"), "the split legal row is gone")
-        links = [child for child in row["children"] if child["tag"] == "a"]
-        self.assertEqual(
-            [(normalised_text(link), link["attrs"].get("href")) for link in links],
-            list(NAV_LINKS),
-            "the legal links trail About on the same row",
-        )
-        for link in links:
-            spans = [child for child in link["children"] if child["tag"] == "span"]
-            self.assertEqual(len(spans), 1)
-            self.assertTrue(spans[0]["attrs"].get("data-i18n"))
-
-    def test_old_legal_blocks_and_their_copy_are_gone(self):
-        content = self.region("footer-content")
-        self.assertEqual(
-            find_all(content, lambda node: "footer-legal" in (node["attrs"].get("class") or "").split()),
-            [],
-        )
-        markup = normalised_text(self.footer)
-        self.assertNotIn("Confidentiality", markup)
-        self.assertNotIn("All SIDA tools run locally", markup)
-        self.assertNotIn("AI outputs support professional review", markup)
-        self.assertEqual(
-            text_segments(self.footer),
-            ["OuroNex", COPYRIGHT, *[label for label, _href in NAV_LINKS]],
-        )
+    def test_bottom_holds_copyright_then_legal(self):
+        children = elements(self.bottom())
+        self.assertEqual([child["tag"] for child in children], ["p", "nav"])
+        self.assertTrue(has_class(children[0], "footer-copyright"))
+        self.assertTrue(has_class(children[1], "footer-legal"))
 
     def test_no_headings_in_footer(self):
         self.assertEqual(
@@ -301,109 +204,142 @@ class FooterLayoutTests(FooterFixtures):
         )
 
 
-class FooterStyleTests(FooterFixtures):
-    def test_footer_uses_three_tracks_with_equal_outer_tracks(self):
-        footer = base_declarations(self.css, ".home-footer")
-        self.assertEqual(footer.get("background"), "#0b1220")
-        tracks = [part.strip() for part in footer.get("grid-template-columns", "").split()]
-        self.assertEqual(tracks, ["1fr", "auto", "1fr"], "equal outer tracks centre the copyright")
-        self.assertEqual(footer.get("align-items"), "center")
+class FooterBrandAndSocialsTests(FooterFixtures):
+    def test_brand_links_home_with_the_wordmark(self):
+        brand = self.child(self.top(), "footer-brand")
+        self.assertEqual(brand["attrs"].get("href"), "index.html")
+        self.assertEqual(brand["attrs"].get("aria-label"), "OuroNex home")
+        images = [node for node in descendants(brand) if node["tag"] == "img"]
+        self.assertEqual(len(images), 1)
+        self.assertEqual(images[0]["attrs"].get("src"), LOGO)
+        self.assertEqual(images[0]["attrs"].get("alt"), "")
+        names = [node for node in descendants(brand) if has_class(node, "footer-name")]
+        self.assertEqual([normalised_text(node) for node in names], ["OuroNex"])
 
-    def test_copyright_is_16px_centred_and_bottom_aligned(self):
-        copyright = base_declarations(self.css, ".home-footer .footer-copyright")
-        self.assertEqual(copyright.get("font-size"), "16px")
-        self.assertEqual(copyright.get("text-align"), "center")
-        self.assertEqual(copyright.get("justify-self"), "center")
-        self.assertEqual(copyright.get("align-self"), "end")
+    def test_socials_are_the_five_labelled_buttons(self):
+        socials = self.child(self.top(), "footer-socials")
+        buttons = elements(socials)
+        self.assertEqual([button["tag"] for button in buttons], ["button"] * 5)
+        self.assertEqual([button["attrs"].get("aria-label") for button in buttons], list(SOCIALS))
+        for button in buttons:
+            self.assertIn("footer-social", classes(button))
+            self.assertEqual(button["attrs"].get("type"), "button")
+            self.assertIn("data-coming-soon", button["attrs"])
+            icons = [node for node in elements(button) if node["tag"] == "svg"]
+            self.assertEqual(len(icons), 1)
+            self.assertEqual(icons[0]["attrs"].get("aria-hidden"), "true")
+            self.assertEqual(icons[0]["attrs"].get("focusable"), "false")
+            self.assertEqual(normalised_text(button), "", "icon buttons add no text")
+
+
+class FooterNavigationTests(FooterFixtures):
+    def test_nav_holds_the_six_links_in_order(self):
+        nav = self.child(self.top(), "footer-nav")
+        self.assertEqual(nav["attrs"].get("data-i18n-aria-label"), "shared.footer.26c01e")
+        links = elements(nav)
+        self.assertEqual(len(links), 6)
         self.assertEqual(
-            copyright.get("white-space"), "nowrap",
-            "the legal line widens instead of wrapping on a desktop footer",
+            [(normalised_text(link), link["attrs"].get("href")) for link in links],
+            [(label, href) for label, href, _key in NAV_LINKS],
         )
-        self.assertEqual(copyright.get("max-width"), "none", "nothing caps the width below the single-line size")
 
-    def test_wordmark_is_enlarged(self):
-        image = base_declarations(self.css, ".home-footer .footer-wordmark img")
-        self.assertIn("clamp(", image.get("width", ""), "the mark scales up with the viewport")
-        name = base_declarations(self.css, ".home-footer .footer-name")
-        self.assertIn("clamp(", name.get("font-size", ""))
-        self.assertGreaterEqual(_clamp_max(name.get("font-size", "")), 38.0)
+    def test_each_link_carries_its_translated_span(self):
+        links = elements(self.child(self.top(), "footer-nav"))
+        for link, (label, href, key) in zip(links, NAV_LINKS):
+            with self.subTest(label=label):
+                spans = [node for node in elements(link) if node["tag"] == "span"]
+                self.assertEqual(len(spans), 1)
+                self.assertEqual(spans[0]["attrs"].get("data-i18n"), key)
+                self.assertEqual(normalised_text(spans[0]), label)
+                if href is None:
+                    self.assertEqual(
+                        label,
+                        "Application",
+                        "Application is the only remaining inert footer entry",
+                    )
+                    self.assertNotIn("href", link["attrs"], "placeholders must not link")
+                    self.assertEqual(link["attrs"].get("aria-disabled"), "true")
+                    self.assertIn("nav-placeholder", classes(link))
+                    self.assertIn("data-nav-placeholder", link["attrs"])
+                else:
+                    self.assertNotIn("aria-disabled", link["attrs"])
+                    self.assertNotIn("nav-placeholder", classes(link))
+                    self.assertNotIn("data-nav-placeholder", link["attrs"])
 
-    def test_navigation_links_are_20px_on_one_row(self):
-        nav = base_declarations(self.css, ".home-footer .footer-nav")
-        self.assertEqual(nav.get("display"), "flex")
-        self.assertEqual(nav.get("flex-direction"), "column", "the single row is the only child")
-        self.assertEqual(nav.get("align-items"), "flex-end", "the block stays right aligned")
-        self.assertIn("gap", nav)
-        row = base_declarations(self.css, ".home-footer .footer-nav-row")
-        self.assertEqual(row.get("display"), "flex")
-        self.assertEqual(row.get("flex-wrap"), "nowrap", "all seven links stay on one row")
-        self.assertEqual(row.get("justify-content"), "flex-end", "the row ends at the right edge")
-        self.assertIn("gap", row)
-        links = declarations(self.css, ".home-footer .footer-nav a")
-        self.assertEqual(links.get("font-size"), "20px")
-        self.assertEqual(links.get("white-space"), "nowrap")
-        self.assertNotIn("margin-left", links, "the legal links must not be pushed into a separate group")
+    def test_features_links_to_the_sida_section(self):
+        links = elements(self.child(self.top(), "footer-nav"))
+        features = [link for link in links if normalised_text(link) == "Features"]
+        self.assertEqual(len(features), 1, "Features must be one footer entry")
+        self.assertEqual(
+            features[0]["attrs"].get("href"),
+            "index.html#sida",
+            "Features opens the SIDA section instead of being inert",
+        )
 
-    def test_footer_container_is_200px_tall(self):
-        footer = base_declarations(self.css, ".home-footer")
-        self.assertEqual(footer.get("height"), "200px")
-        self.assertEqual(squash(footer.get("padding", "")), "0clamp(20px,4vw,60px)")
 
-    def test_no_legal_block_styles_remain(self):
-        for selector in (
-            ".home-footer .footer-legal",
-            ".home-footer .footer-legal-item",
-            ".home-footer .footer-legal-title",
-            ".home-footer .footer-legal-copy",
+class FooterBottomTests(FooterFixtures):
+    def test_copyright_line_is_exact(self):
+        copyrights = [node for node in elements(self.bottom()) if has_class(node, "footer-copyright")]
+        self.assertEqual(len(copyrights), 1)
+        self.assertEqual(normalised_text(copyrights[0]), COPYRIGHT)
+        self.assertIsNone(copyrights[0]["attrs"].get("data-i18n"), "the legal line stays untranslated")
+
+    def test_legal_nav_links_terms_and_privacy(self):
+        legal = self.child(self.bottom(), "footer-legal")
+        links = elements(legal)
+        self.assertEqual(len(links), 2)
+        self.assertEqual(
+            [(normalised_text(link), link["attrs"].get("href")) for link in links],
+            [(label, href) for label, href, _key in LEGAL_LINKS],
+        )
+        for link, (_label, _href, key) in zip(links, LEGAL_LINKS):
+            spans = [node for node in elements(link) if node["tag"] == "span"]
+            self.assertEqual(len(spans), 1)
+            self.assertEqual(spans[0]["attrs"].get("data-i18n"), key)
+
+
+class FooterRetiredMarkupTests(FooterFixtures):
+    def test_no_retired_footer_class_survives(self):
+        for value in CLASS_ATTRIBUTE.findall(self.index):
+            tokens = value.split()
+            for retired in RETIRED_CLASSES:
+                self.assertNotIn(retired, tokens, f"retired footer class {retired!r} still used")
+
+    def test_old_footer_copy_is_gone(self):
+        footer_text = normalised_text(self.footer)
+        self.assertNotIn("Hong Kong", footer_text)
+        for retired in (
+            "Confidentiality",
+            "All SIDA tools run locally",
+            "AI outputs support professional review",
         ):
-            self.assertEqual(base_declarations(self.css, selector), {}, selector)
-
-    def test_social_buttons_are_circles(self):
-        social = base_declarations(self.css, ".home-footer .footer-social")
-        self.assertEqual(social.get("border-radius"), "50%")
-        self.assertEqual(social.get("width"), social.get("height"))
-
-    def test_mobile_stacks_without_horizontal_overflow(self):
-        mobile = media_block(self.css, "@media(max-width:760px)")
-        self.assertTrue(mobile)
-        self.assertEqual(squash(declarations(mobile, ".home-footer").get("grid-template-columns", "")), "1fr")
-        self.assertEqual(
-            declarations(mobile, ".home-footer").get("height"),
-            "auto",
-            "the fixed desktop height must release on mobile so nothing clips",
-        )
-        self.assertIn("min-width", declarations(mobile, ".home-footer .footer-brand-block"))
-        self.assertIn("gap", declarations(mobile, ".home-footer .footer-nav"))
-
-        mobile_row = declarations(mobile, ".home-footer .footer-nav-row")
-
-        self.assertEqual(mobile_row.get("flex-wrap"), "wrap", "the rows may wrap once the page narrows")
-
-        self.assertEqual(mobile_row.get("justify-content"), "flex-start")
-        mobile_copyright = declarations(mobile, ".home-footer .footer-copyright")
-        self.assertEqual(
-            mobile_copyright.get("white-space"), "normal",
-            "the phone footer lets the legal line wrap again",
-        )
-        self.assertNotIn("footer-legal", mobile)
+            self.assertNotIn(retired, footer_text)
+        self.assertEqual(footer_text.count("Copyright"), 1)
 
 
 class FooterDictionaryTests(FooterFixtures):
-    def test_legal_link_labels_live_in_the_shared_dictionary(self):
-        for key, (english, simplified, traditional) in LEGAL_KEYS.items():
+    def test_nav_and_legal_labels_live_in_the_shared_dictionary(self):
+        keys = [key for _label, _href, key in NAV_LINKS + LEGAL_LINKS]
+        for key in keys:
             with self.subTest(key=key):
-                for data in (self.shared_json, self.shared_js):
-                    self.assertEqual(
-                        data[key],
-                        {"en": english, "zh-CN": simplified, "zh-TW": traditional},
-                    )
-                self.assertNotIn(key, self.home_json)
+                for name, data in (("shared.json", self.shared_json), ("shared.js", self.shared_js)):
+                    self.assertIn(key, data, f"{name} is missing {key}")
+                    entry = data[key]
+                    self.assertEqual(set(entry), set(LANGUAGES), f"{key} language fields")
+                    for language in LANGUAGES:
+                        self.assertTrue(entry[language].strip(), f"{key}.{language} is empty")
+                self.assertNotIn(key, self.home_json, f"{key} must not live in home.json")
 
     def test_compiled_shared_dictionary_matches_the_json_source(self):
         self.assertEqual(self.shared_js, self.shared_json)
 
-    def test_old_legal_copy_was_removed_from_the_home_dictionary(self):
-        for key in ("home.confidentiality", "home.confidentiality-copy", "home.policy", "home.policy-copy"):
+    def test_retired_home_legal_copy_is_gone(self):
+        for key in (
+            "home.confidentiality",
+            "home.confidentiality-copy",
+            "home.policy",
+            "home.policy-copy",
+        ):
             self.assertNotIn(key, self.home_json)
 
 

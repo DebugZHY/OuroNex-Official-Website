@@ -20,7 +20,7 @@ class HomeCtaEffectTests(unittest.TestCase):
         self.assertIn(".home-page .nav-primary a{font-size:20px}", self.css)
 
     def test_hero_has_the_new_slogan_and_two_description_lines(self) -> None:
-        self.assertIn("SIDA, AI Agent for Engineering.", self.index)
+        self.assertIn("SIDA - Superintelligent Design Agent", self.index)
         self.assertEqual(self.index.count('class="hero-description-line"'), 2)
         self.assertIn('data-i18n="home.hero-description-2"', self.index)
         self.assertIn(".hero-description-line{display:block}", self.css)
@@ -39,11 +39,14 @@ class HomeCtaEffectTests(unittest.TestCase):
 
     def test_outline_and_early_access_share_a_thin_rest_border_and_3px_hover_ring(self) -> None:
         self.assertIn(
-            ".hero-actions .button-outline,.sida-section .download-actions .early-access{border:1px solid",
+            ".hero-actions .early-access,.sida-section .download-actions .early-access{border:1px solid #7894c9;"
+            "--cta-ring:#c2d7ff;",
             self.css,
         )
         self.assertIn(
-            ".sida-section .download-actions .early-access:hover{transform:none;border-color:var(--cta-ring,#c2d7ff)",
+            ".hero-actions .button:hover,.hero-actions .early-access:hover,"
+            ".sida-section .download-actions .button:hover,.sida-section .download-actions .early-access:hover{"
+            "transform:none;border-color:var(--cta-ring,#c2d7ff)",
             self.css,
         )
         self.assertIn(

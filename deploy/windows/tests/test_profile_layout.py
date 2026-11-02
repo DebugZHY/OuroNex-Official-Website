@@ -241,7 +241,56 @@ class ProfilePageLayoutTests(unittest.TestCase):
         avatar_rule = re.search(r"\.profile-avatar \.avatar\s*\{([^}]*)\}", css, re.S)
         self.assertIsNotNone(avatar_rule)
         self.assertIn("border-radius: 50%", avatar_rule.group(1))
-        self.assertIn("width: 88px", avatar_rule.group(1))
+        self.assertIn("width: 110px", avatar_rule.group(1))
+
+
+class ProfileAvatarFillTests(unittest.TestCase):
+    """The owner wants the profile avatar circle filled white, initials readable on it."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.css = ACCOUNT_CSS.read_text(encoding="utf-8")
+
+    def rule(self, selector: str) -> str:
+        match = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", self.css)
+        self.assertIsNotNone(match, f"missing rule for {selector}")
+        return match.group(1)
+
+    def test_avatar_circle_is_filled_white_and_clipped(self) -> None:
+        body = self.rule("body.account-page .profile-avatar .avatar")
+        self.assertIn("background: #fff;", body)
+        self.assertIn("border-radius: 50%;", body)
+        self.assertIn("overflow: hidden;", body)
+        self.assertNotIn("#16233a", body.split("background")[1][:40])
+
+    def test_the_white_circle_is_complete_around_the_portrait(self) -> None:
+        """The white disc must show as a ring: the portrait is inset, not edge to edge."""
+        body = self.rule("body.account-page .profile-avatar .avatar")
+        self.assertIn("box-sizing: border-box;", body)
+        self.assertIn("padding: 6px;", body)
+        img = self.rule("body.account-page .profile-avatar .avatar img")
+        self.assertIn("object-fit: cover;", img)
+        self.assertIn("border-radius: 50%;", img)
+
+    def test_avatar_is_a_quarter_larger_than_the_original_88px(self) -> None:
+        body = self.rule("body.account-page .profile-avatar .avatar")
+        self.assertIn("width: 110px;", body)
+        self.assertIn("height: 110px;", body)
+
+    def test_initials_stay_readable_on_the_white_fill(self) -> None:
+        body = self.rule("body.account-page .avatar-initials")
+        self.assertIn("color: #16233a;", body)
+        self.assertGreaterEqual(self._contrast("#16233a", "#ffffff"), 4.5)
+
+    @staticmethod
+    def _contrast(fg: str, bg: str) -> float:
+        def lum(hex_colour: str) -> float:
+            r, g, b = (int(hex_colour[i:i + 2], 16) / 255 for i in (1, 3, 5))
+            chan = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4 for c in (r, g, b)]
+            return 0.2126 * chan[0] + 0.7152 * chan[1] + 0.0722 * chan[2]
+
+        a, b = sorted((lum(fg), lum(bg)), reverse=True)
+        return (a + 0.05) / (b + 0.05)
 
 
 if __name__ == "__main__":

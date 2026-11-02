@@ -1101,12 +1101,14 @@ body.account-page .profile-avatar .avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 88px;
-  height: 88px;
+  box-sizing: border-box;
+  width: 110px;
+  height: 110px;
+  padding: 6px;
   overflow: hidden;
   border: 1px solid rgba(114, 158, 255, .28);
   border-radius: 50%;
-  background: #16233a;
+  background: #fff;
 }
 
 body.account-page .profile-avatar .avatar img {
@@ -1114,11 +1116,12 @@ body.account-page .profile-avatar .avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
 body.account-page .avatar-initials {
-  color: #eaf2ff;
-  font-size: 28px;
+  color: #16233a;
+  font-size: 33px;
   font-weight: 600;
   line-height: 1;
   letter-spacing: .02em;

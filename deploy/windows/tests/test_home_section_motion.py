@@ -9,7 +9,7 @@ the motion behaviour.  Only ``assets/home.js``, ``assets/home.css`` and
 Contract under test
 -------------------
 * ``assets/home.js`` defines one ``MOTION_ITEM_SELECTOR`` whose groups are the
-  exact sixteen selectors below, in that order; it marks the matches with
+  exact nineteen selectors below, in that order; it marks the matches with
   ``data-motion-item`` at runtime, drives them with an ``IntersectionObserver``
   rooted on ``main#main.home-scroll``, and sets
   ``data-motion-state="in" | "out"``.
@@ -56,7 +56,8 @@ MOTION_ITEM_GROUPS = (
     ".delivery-grid > article",
     ".process > h2",
     ".process-list > article",
-    ".team-grid > .team-member",
+    ".about-intro > h2",
+    ".about-body > p",
     ".home-footer > .footer-brand-block",
     ".home-footer > .footer-copyright",
     ".home-footer > .footer-content",
@@ -746,7 +747,7 @@ class ProgressiveEnhancementTest(unittest.TestCase):
                 f"section #{section_id} must keep data-home-section",
             )
         about_index = self.html.find('id="about"')
-        footer_index = self.html.find('<footer class="home-footer"')
+        footer_index = self.html.find('<footer class="site-footer"')
         self.assertGreater(about_index, -1, "the About section must exist")
         self.assertGreater(
             footer_index,

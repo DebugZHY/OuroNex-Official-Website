@@ -2,7 +2,6 @@
 
 All secrets and database paths in this module are non-secret dummy values.
 """
-import hashlib
 import importlib
 import json
 import re
@@ -34,10 +33,8 @@ CONTACT_CONTROL_KEYS = (
     'shared.contact.b37456',
     'arena.tell-us-what-you-need.9ef53e',
 )
-ALERT_SNIPPETS = ("window.alert('Available soon')", "alert('Available soon')")
 ANCHOR_PATTERN = re.compile(r'<a\b[^>]*>.*?</a>', re.IGNORECASE | re.DOTALL)
 HREF_PATTERN = re.compile(r'href="([^"]*)"', re.IGNORECASE)
-NAVIGATION_GUARDS = (re.compile(r'return\s+false'), re.compile(r'preventDefault\s*\('))
 
 
 def repo_root():
@@ -535,42 +532,7 @@ class SitemapAndManifestIntegrityTests(SimpleTestCase):
         self.assertEqual(retired, [])
 
 
-class PublicPhotoAssetTests(TestCase):
-    PHOTOS = (
-        ('assets/illustrations/jake-chan.jpeg', 'image/jpeg'),
-        ('assets/illustrations/haoyi-zhang.png', 'image/png'),
-        ('assets/illustrations/siwei-liu.jpeg', 'image/jpeg'),
-    )
-
-    def test_photos_are_manifest_listed_with_current_size_and_hash(self):
-        entries = {
-            entry['path']: entry
-            for entry in manifest_entries()
-            if isinstance(entry, dict) and entry.get('path')
-        }
-        for relative, _ in self.PHOTOS:
-            with self.subTest(path=relative):
-                self.assertIn(relative, entries)
-                entry = entries[relative]
-                payload = (repo_root() / relative).read_bytes()
-                self.assertEqual(entry['bytes'], len(payload))
-                digest = entry['sha256']
-                self.assertEqual(digest, digest.lower())
-                self.assertEqual(digest, hashlib.sha256(payload).hexdigest())
-
-    def test_photos_are_served_from_the_public_package(self):
-        for relative, content_type in self.PHOTOS:
-            with self.subTest(path=relative):
-                response = self.client.get('/' + relative)
-                self.assertEqual(response.status_code, 200)
-                self.assertTrue(response['Content-Type'].startswith(content_type))
-                payload = (repo_root() / relative).read_bytes()
-                self.assertEqual(b''.join(response.streaming_content), payload)
-
-
 class RetainedContactControlTests(SimpleTestCase):
-    EXPECTED_CONTROLS = {'404.html': 1, 'arena.html': 2}
-
     def test_owned_public_pages_do_not_reference_the_retired_contact_url(self):
         pages = retained_public_pages()
         self.assertGreaterEqual(len(pages), 9)
@@ -580,23 +542,24 @@ class RetainedContactControlTests(SimpleTestCase):
                 for marker in CONTACT_URL_MARKERS:
                     self.assertNotIn(marker, text)
 
-    def test_contact_controls_alert_available_soon_and_do_not_navigate(self):
+    # arena.html keeps its own in-page "Tell us what you need" link; everywhere else the
+    # legacy alert anchor is retired in favour of the data-coming-soon buttons.
+    LEGACY_ALERT_LINKS = {'arena.html': 1}
+
+    def test_waiting_list_controls_are_coming_soon_buttons(self):
         for page in retained_public_pages():
             text = page.read_text(encoding='utf-8')
-            anchors = [
-                tag for tag in ANCHOR_PATTERN.findall(text)
-                if any(key in tag for key in CONTACT_CONTROL_KEYS)
-            ]
-            expected = self.EXPECTED_CONTROLS.get(page.name, 1)
             with self.subTest(page=page.name):
-                self.assertEqual(len(anchors), expected, anchors)
-                for anchor in anchors:
+                legacy = [
+                    tag for tag in ANCHOR_PATTERN.findall(text)
+                    if any(key in tag for key in CONTACT_CONTROL_KEYS)
+                ]
+                self.assertEqual(len(legacy), self.LEGACY_ALERT_LINKS.get(page.name, 0), legacy)
+                for anchor in legacy:
                     href = HREF_PATTERN.search(anchor)
                     self.assertIsNotNone(href, anchor)
                     self.assertNotIn('contact', href.group(1).lower(), anchor)
-                    self.assertTrue(any(snippet in anchor for snippet in ALERT_SNIPPETS), anchor)
-                    self.assertIn('Available soon', anchor)
-                    self.assertTrue(any(guard.search(anchor) for guard in NAVIGATION_GUARDS), anchor)
-                    self.assertIn('onclick=', anchor)
-                # Exact English copy, no duplicated or extra visible text.
-                self.assertEqual(text.count('Available soon'), expected)
+                self.assertGreaterEqual(
+                    text.count('data-coming-soon'), 1,
+                    'the page must ask through a coming-soon button',
+                )

@@ -19,8 +19,8 @@ Contract under test (shared markup supplied elsewhere):
   central logo or photo.
 * Price cards use layered gradients, hairline borders and hover lift; `HK$` and
   `/ month` stay 14px at every breakpoint.
-* About renders three equal columns of 4:5 portraits with one concise bio each
-  (22px base, 20px on short desktops, 18px on mobile) inside a 1080px layout.
+* About renders one company-introduction layout (`.about-layout`); every
+  retired team-card selector is gone from the stylesheet.
 * Every `.home-section` background host lives in the shared `.home-backgrounds`
   stack, which crossfades one active layer at a time.
 * The obsolete `.download-dialog` styles are gone.
@@ -161,20 +161,35 @@ def declarations_for(name: str, selector: str, prop: str) -> list[str]:
 
 
 def media_block(name: str, prelude: str) -> str:
-    """Return the full ``@media`` block whose prelude starts with ``prelude``."""
+    """Return every ``@media`` block whose prelude starts with ``prelude``.
+
+    The sheet may declare the same prelude more than once, so the bodies are
+    concatenated to describe all rules that apply at that breakpoint.
+    """
     text = _sheet(name)
-    start = text.index(prelude)
-    depth = 0
-    index = text.index("{", start)
-    while index < len(text):
-        if text[index] == "{":
-            depth += 1
-        elif text[index] == "}":
-            depth -= 1
-            if depth == 0:
-                return text[start : index + 1]
-        index += 1
-    raise AssertionError(f"{name}: unterminated block {prelude!r}")
+    bodies = []
+    cursor = 0
+    while True:
+        start = text.find(prelude, cursor)
+        if start < 0:
+            break
+        depth = 0
+        index = text.index("{", start)
+        while index < len(text):
+            if text[index] == "{":
+                depth += 1
+            elif text[index] == "}":
+                depth -= 1
+                if depth == 0:
+                    bodies.append(text[start : index + 1])
+                    break
+            index += 1
+        else:
+            raise AssertionError(f"{name}: unterminated block {prelude!r}")
+        cursor = index + 1
+    if not bodies:
+        raise AssertionError(f"{name}: no block for {prelude!r}")
+    return "\n".join(bodies)
 
 
 def rule_index(name: str, selector: str) -> list[int]:
@@ -728,9 +743,9 @@ class PriceTypographyTest(CssAssertions):
 
 
 class HeroActionsTest(CssAssertions):
-    SHARED = ".hero-actions .button,.hero-actions .button-outline"
+    SHARED = ".hero-actions .button,.hero-actions .early-access"
     PRIMARY = ".hero-actions .button"
-    OUTLINE = ".hero-actions .button-outline"
+    OUTLINE = ".hero-actions .early-access"
     GLOW = ".hero-actions .button::before"
     GLOW_HOVER = ".hero-actions .button:hover::before"
 
@@ -1069,211 +1084,53 @@ class DownloadRowsTest(CssAssertions):
 # ---------------------------------------------------------------------------
 
 
-class TeamPhotoTest(CssAssertions):
-    PHOTO = ".team-photo"
-    IMAGE = ".team-photo img"
-
-    def test_photo_is_a_4x5_clipping_portrait_card(self) -> None:
-        photo = find_rules(HOME_CSS, self.PHOTO)[0]
-        self.assert_decl(photo, "overflow", "hidden", where=self.PHOTO)
-        self.assert_decl(photo, "width", "100%", where=self.PHOTO)
-        self.assert_decl(photo, "aspect-ratio", "4/5", where=self.PHOTO)
-        self.assert_decl(photo, "border-radius", "20px", where=self.PHOTO)
-        self.assertIn("border", photo, f"{self.PHOTO}: expected the hairline frame")
-        self.assertIn("box-shadow", photo, f"{self.PHOTO}: expected the portrait shadow")
-        self.assertNotEqual(photo.get("height"), "92px", "the fixed circle frame is gone")
-
-    def test_image_fills_and_crops_without_stretching(self) -> None:
-        image = find_rules(HOME_CSS, self.IMAGE)[0]
-        self.assert_decl(image, "display", "block", where=self.IMAGE)
-        self.assert_decl(image, "width", "100%", where=self.IMAGE)
-        self.assert_decl(image, "height", "100%", where=self.IMAGE)
-        self.assert_decl(image, "object-fit", "cover", where=self.IMAGE)
-        self.assertIn("object-position", image, f"{self.IMAGE}: portraits need an anchor")
-        self.assertNotIn("transform", image, f"{self.IMAGE}: no stretching allowed")
-        self.assertNotIn("filter", image, f"{self.IMAGE}: no filters allowed")
-        self.assertIn(
-            "transform",
-            image.get("transition", ""),
-            f"{self.IMAGE}: hover growth is animated through transition",
-        )
-
-    def test_photo_frame_scales_with_the_member_layout(self) -> None:
-        widths = declarations_for(HOME_CSS, self.PHOTO, "width")
-        self.assertEqual(
-            set(widths),
-            {"100%"},
-            f"{self.PHOTO}: the portrait must always fill its column, found {sorted(set(widths))}",
-        )
-        aspects = declarations_for(HOME_CSS, self.PHOTO, "aspect-ratio")
-        self.assertEqual(
-            set(aspects), {"4/5"}, f"{self.PHOTO}: keep the 4:5 portrait ratio, found {aspects}"
-        )
-        grid = find_rules(HOME_CSS, ".team-grid")[0]
-        self.assertEqual(
-            squash(grid.get("grid-template-columns", "")), "repeat(3,minmax(0,1fr))"
-        )
-        narrow = find_rules(HOME_CSS, ".team-grid")[-1]
-        self.assertEqual(squash(narrow.get("grid-template-columns", "")), "minmax(0,1fr)")
-
-
-class AboutCopyTest(CssAssertions):
-    """About renders three horizontal portrait cards with one concise bio each."""
+class AboutLayoutTest(CssAssertions):
+    """About now renders a company introduction; the team cards are retired."""
 
     SECTION = ".about-section"
-    LAYOUT = ".team-layout"
-    GRID = ".team-grid"
-    MEMBER = ".team-member"
-    LAST = ".team-member:last-child"
-    PHOTO = ".team-photo"
-    COPY = ".team-copy"
-    NAME = ".team-member h2"
-    ROLE = ".team-role"
-    BIO = ".team-bio"
-    FOOTER = ".home-footer"
+    LAYOUT = ".about-layout"
+    FOOTER = ".home-section>.site-footer"
 
-    def test_member_stacks_the_portrait_above_the_copy(self) -> None:
-        member = find_rules(HOME_CSS, self.MEMBER)[0]
-        self.assert_decl(member, "display", "flex", where=self.MEMBER)
-        self.assert_decl(member, "flex-direction", "column", where=self.MEMBER)
-        self.assert_decl(member, "background", "transparent", where=self.MEMBER)
-        photo = find_rules(HOME_CSS, self.PHOTO)[0]
-        self.assert_decl(photo, "overflow", "hidden", where=self.PHOTO)
-        self.assert_decl(photo, "border-radius", "20px", where=self.PHOTO)
-        copy = find_rules(HOME_CSS, self.COPY)[0]
-        self.assert_decl(copy, "min-width", "0", where=f"{self.COPY} must not overflow")
-        self.assertIn(
-            copy.get("display"),
-            {"flex", "grid", "block"},
-            f"{self.COPY}: copy column needs an explicit layout, found {copy.get('display')!r}",
-        )
-        self.assertIn("padding", copy, f"{self.COPY}: expected the portrait spacing")
-        self.assertIn(
-            "auto",
-            copy.get("flex", ""),
-            f"{self.COPY}: the copy column must take the leftover space, found {copy.get('flex')!r}",
+    def test_no_team_selector_survives_in_the_stylesheet(self) -> None:
+        for selectors, _declarations in rules(HOME_CSS):
+            for selector in selectors:
+                with self.subTest(selector=selector):
+                    self.assertNotIn(
+                        "team",
+                        selector,
+                        "retired team-card selectors must be removed from the stylesheet",
+                    )
+
+    def test_about_layout_is_defined(self) -> None:
+        self.assertTrue(
+            find_rules(HOME_CSS, self.LAYOUT),
+            f"{HOME_CSS}: .about-layout must be styled",
         )
 
-    def test_roles_are_visually_subordinate_to_names(self) -> None:
-        name_rule = find_rules(HOME_CSS, self.NAME)[0]
-        clamp = re.search(r"clamp\((\d+(?:\.\d+)?)px", name_rule["font-size"])
-        self.assertIsNotNone(clamp, f"{self.NAME}: expected the responsive name size")
-        smallest_name = float(clamp.group(1))
-        role = find_rules(HOME_CSS, self.ROLE)[0]
-        role_size = float(re.match(r"(\d+(?:\.\d+)?)px", role["font-size"]).group(1))
-        self.assertEqual(role_size, 20.0, f"{self.ROLE}: the owner asked for 20px role labels")
-        self.assertLess(
-            role_size,
-            smallest_name,
-            f"{self.ROLE}: role {role_size}px must stay below the smallest name {smallest_name}px",
-        )
-        for rule in find_rules(HOME_CSS, self.ROLE):
-            size = rule.get("font-size")
-            if size:
-                self.assertEqual(
-                    size, "20px", f"{self.ROLE}: every rule, including media blocks, must stay 20px"
-                )
-        self.assertIn(
-            role.get("color"),
-            {"#8faccd", "#8fb7ff", "#9aabc0", "var(--muted)", "var(--accent)", "#b9c8dc"},
-            f"{self.ROLE}: role must use a subordinate colour, found {role.get('color')!r}",
-        )
-        self.assert_decl(role, "text-transform", "uppercase", where=self.ROLE)
-
-    def test_bio_is_22px_on_desktop_20px_when_short_and_18px_on_mobile(self) -> None:
-        bio = find_rules(HOME_CSS, self.BIO)[0]
-        self.assert_decl(bio, "font-size", "22px", where=self.BIO)
-        self.assert_decl(bio, "line-height", "1.55", where=self.BIO)
-        self.assertGreaterEqual(float(bio["line-height"]), 1.5, f"{self.BIO}: line-height too tight")
-        self.assertIn(
-            "break",
-            squash(bio.get("overflow-wrap", "") + bio.get("word-break", "")),
-            f"{self.BIO}: long words must wrap instead of overflowing",
-        )
-        sizes = declarations_for(HOME_CSS, self.BIO, "font-size")
-        self.assertEqual(
-            sizes,
-            ["22px", "18px", "20px"],
-            f"{self.BIO}: expected 22px base, 18px mobile and 20px short desktop, found {sizes}",
-        )
-        for rule in find_rules(HOME_CSS, self.BIO):
-            for prop in ("max-height", "overflow", "text-overflow", "-webkit-line-clamp", "height"):
-                self.assertNotIn(
-                    prop, rule, f"{self.BIO}: biographies must never be clipped ({prop})"
-                )
-            if "display" in rule:
-                self.assertNotEqual(rule["display"], "-webkit-box", f"{self.BIO}: no line clamp")
-        paragraphs = find_rule(HOME_CSS, self.BIO + " p")
-        self.assertEqual(
-            squash(paragraphs.get("margin", "")), "0", f"{self.BIO} p: paragraph flow must stay flat"
-        )
-        self.assertNotIn(
-            self.BIO + " p+p",
-            _sheet(HOME_CSS),
-            "the long multi-paragraph biography rhythm is intentionally gone",
-        )
-
-    def test_about_may_grow_past_one_viewport(self) -> None:
+    def test_about_section_may_grow_past_one_viewport(self) -> None:
         section = find_rule(HOME_CSS, self.SECTION)
-        self.assert_decl(section, "height", "auto", where=f"{self.SECTION} must not clip bios")
+        self.assert_decl(section, "height", "auto", where=f"{self.SECTION} must not clip the copy")
         self.assert_decl(section, "min-height", "100svh", where=self.SECTION)
 
-    def test_desktop_uses_three_equal_columns(self) -> None:
-        layout = find_rules(HOME_CSS, self.LAYOUT)[0]
-        self.assertIn("1080px", layout.get("width", ""))
-        self.assertEqual(squash(layout.get("width", "")), "min(1080px,calc(100%-64px))!important")
-        grid = find_rules(HOME_CSS, self.GRID)[0]
-        self.assertEqual(squash(grid.get("gap", "")), "28px")
-        self.assertEqual(
-            squash(grid.get("grid-template-columns", "")),
-            "repeat(3,minmax(0,1fr))",
-            "the three people sit in one horizontal row",
-        )
-        desktop = find_rules(HOME_CSS, self.LAST)[0]
-        self.assertEqual(desktop.get("grid-column"), "auto")
-        self.assertEqual(desktop.get("justify-self"), "stretch")
-        self.assertEqual(desktop.get("width"), "100%")
-        member = find_rules(HOME_CSS, self.MEMBER)[0]
-        self.assertEqual(member.get("min-height"), "0")
-
-    def test_narrow_layout_is_single_column_and_caps_the_member_width(self) -> None:
-        grid_rules = find_rules(HOME_CSS, self.GRID)
-        self.assertGreaterEqual(len(grid_rules), 2, "a narrow single-column override is required")
-        narrow = grid_rules[-1]
-        self.assertEqual(
-            squash(narrow.get("grid-template-columns", "")),
-            "minmax(0,1fr)",
-            f"{self.GRID}: narrow viewports must use one column, found {narrow.get('grid-template-columns')!r}",
-        )
-        widths = declarations_for(HOME_CSS, self.MEMBER, "width")
-        self.assertIn(
-            "min(100%,340px)",
-            widths,
-            f"{self.MEMBER}: narrow members must be capped at 340px so photo and copy align",
-        )
-        centring = declarations_for(HOME_CSS, self.MEMBER, "margin-inline")
-        if "auto" not in centring:
-            shorthands = declarations_for(HOME_CSS, self.MEMBER, "margin")
-            self.assertTrue(
-                any("auto" in value for value in shorthands),
-                f"{self.MEMBER}: narrow members must be centred horizontally",
-            )
-        last_rules = find_rules(HOME_CSS, self.LAST)
-        self.assertGreaterEqual(len(last_rules), 2, "the third member needs a narrow reset")
-        narrow_last = last_rules[-1]
-        self.assertEqual(
-            narrow_last.get("grid-column"),
-            "auto",
-            f"{self.LAST}: the narrow flow must not keep the desktop span",
-        )
-
-    def test_footer_stays_readable(self) -> None:
+    def test_footer_paints_above_section_content(self) -> None:
         footer = find_rule(HOME_CSS, self.FOOTER)
-        self.assert_decl(footer, "background", "#0b1220", where=self.FOOTER)
-        self.assertIn("grid-template-columns", footer, f"{self.FOOTER}: columns must stay defined")
-        text = find_rule(HOME_CSS, self.FOOTER + " p")
-        size = float(re.match(r"(\d+(?:\.\d+)?)px", text["font-size"]).group(1))
-        self.assertGreaterEqual(size, 12.0, f"{self.FOOTER} p: footer copy must stay legible")
+        self.assert_decl(footer, "position", "relative", where=self.FOOTER)
+        z_index = footer.get("z-index", "")
+        self.assertTrue(
+            re.fullmatch(r"\d+", z_index) and int(z_index) > 0,
+            f"{self.FOOTER}: footer must sit above the section media, found {z_index!r}",
+        )
+        wrap = find_rule(HOME_CSS, self.FOOTER + ">.wrap")
+        self.assertIn("width", wrap, f"{self.FOOTER}>.wrap: the footer rows stay aligned")
+
+    def test_no_home_footer_rule_survives(self) -> None:
+        offenders = [
+            selector
+            for selectors, _declarations in rules(HOME_CSS)
+            for selector in selectors
+            if "home-footer" in selector
+        ]
+        self.assertEqual(offenders, [], "retired .home-footer rules must be removed from home.css")
 
     def test_five_sections_use_native_free_scroll(self) -> None:
         scroller = find_rule(HOME_CSS, ".home-scroll")
@@ -1282,6 +1139,7 @@ class AboutCopyTest(CssAssertions):
         section = find_rule(HOME_CSS, ".home-section")
         self.assertNotIn("scroll-snap-align", section)
         self.assert_decl(section, "height", "auto", where=".home-section")
+
 
 class ExpandedSectionsTest(CssAssertions):
     def base(self, selector: str) -> dict[str, str]:
@@ -1299,7 +1157,7 @@ class ExpandedSectionsTest(CssAssertions):
                          "the narrower SIDA block stays centred")
 
     def test_hero_type_and_demo_are_larger(self) -> None:
-        self.assert_decl(self.base(".hero-copy h1"), "font-size", "clamp(52px,4.8vw,88px)", where=".hero-copy h1")
+        self.assert_decl(self.base(".hero-copy h1"), "font-size", "clamp(52px,5vw,72px)", where=".hero-copy h1")
         self.assert_decl(self.base(".hero-description"), "font-size", "24px", where=".hero-description")
         self.assert_decl(
             self.base(".hero-description-line"),
@@ -1307,7 +1165,7 @@ class ExpandedSectionsTest(CssAssertions):
             "block",
             where=".hero-description-line keeps the two subtitle lines stacked",
         )
-        self.assert_decl(self.base(".hero-demo"), "height", "min(74vh,760px)", where=".hero-demo")
+        self.assert_decl(self.base(".hero-demo__stage"), "aspect-ratio", "3200/2200", where=".hero-demo__stage")
 
     def test_sida_tabs_panel_and_downloads_are_larger(self) -> None:
         self.assert_decl(self.base(".feature-tabs"), "grid-template-columns", "648px minmax(0,1fr)", where=".feature-tabs")
@@ -1316,13 +1174,13 @@ class ExpandedSectionsTest(CssAssertions):
         self.assert_decl(self.base(".feature-detail-card h3"), "font", "500 41px/1.16 var(--display)", where=".feature-detail-card h3")
         self.assertIn("900px", squash(self.base(".sida-section .download-actions").get("width", "")))
 
-    def test_price_cards_and_table_use_more_space(self) -> None:
-        self.assert_decl(self.base(".plan-mini"), "min-height", "320px", where=".plan-mini")
-        self.assert_decl(self.base(".plan-mini h2"), "font-size", "34px", where=".plan-mini h2")
-        self.assert_decl(self.base(".plan-table"), "font-size", "20px", where=".plan-table")
-        self.assert_decl(self.base(".plan-table"), "min-width", "1150px", where=".plan-table")
-        self.assert_decl(self.base(".plan-table th"), "height", "60px", where=".plan-table th")
-        self.assert_decl(self.base(".plan-table th"), "font-size", "20px", where=".plan-table th")
+    def test_price_cards_and_table_are_compact(self) -> None:
+        self.assert_decl(self.base(".plan-mini"), "min-height", "250px", where=".plan-mini")
+        self.assert_decl(self.base(".plan-mini h2"), "font-size", "26px", where=".plan-mini h2")
+        self.assert_decl(self.base(".plan-table"), "font-size", "15px", where=".plan-table")
+        self.assert_decl(self.base(".plan-table"), "min-width", "1240px", where=".plan-table")
+        self.assert_decl(self.base(".plan-table th"), "height", "46px", where=".plan-table th")
+        self.assert_decl(self.base(".plan-table th"), "font-size", "15px", where=".plan-table th")
 
 
 class HomepageRedesignTest(CssAssertions):
@@ -1338,7 +1196,7 @@ class HomepageRedesignTest(CssAssertions):
 
     def test_hero_slogan_and_two_block_subtitle_lines(self) -> None:
         html = self.html()
-        self.assertIn("SIDA, AI Agent for Engineering.", html)
+        self.assertIn("SIDA - Superintelligent Design Agent", html)
         description = re.search(r'<p class="hero-description">(.*?)</p>', html, re.S)
         self.assertIsNotNone(description, "the hero subtitle is required")
         lines = re.findall(r'<span class="hero-description-line"[^>]*>', description.group(1))
@@ -1403,8 +1261,8 @@ class HomepageRedesignTest(CssAssertions):
         )
         self.assertIn("rgba(155,181,210,.2)", squash(card.get("border", "")), card.get("border"))
         self.assertIn("inset", card.get("box-shadow", ""), ".plan-mini: expected the inner highlight")
-        self.assert_decl(card, "border-radius", "18px", where=".plan-mini")
-        featured = find_rules(HOME_CSS, ".plan-mini:nth-child(2)")[0]
+        self.assert_decl(card, "border-radius", "14px", where=".plan-mini")
+        featured = find_rules(HOME_CSS, ".plan-mini:nth-child(3)")[0]
         self.assertIn("padding-box", featured.get("background", ""), "featured card gradient frame")
         self.assertIn("border-box", featured.get("background", ""), "featured card gradient frame")
         hairline = find_rule(HOME_CSS, ".plan-mini::before")
@@ -1415,20 +1273,20 @@ class HomepageRedesignTest(CssAssertions):
         self.assert_decl(hover, "transform", "translatey(-4px)", where=".plan-mini:hover lift")
         self.assertIn("box-shadow", hover, ".plan-mini:hover: expected the deeper shadow")
 
-    def test_currency_and_interval_stay_20px_at_every_breakpoint(self) -> None:
+    def test_currency_and_interval_ride_the_scaled_down_ramp(self) -> None:
         for selector in (".plan-currency", ".plan-interval"):
             with self.subTest(selector=selector):
                 sizes = declarations_for(HOME_CSS, selector, "font-size")
-                self.assertIn("20px", sizes, f"{selector}: expected the 20px base size")
+                self.assertIn("15px", sizes, f"{selector}: expected the 15px base size")
                 self.assertEqual(
                     set(sizes),
-                    {"20px"},
-                    f"{selector}: HK$ and / month stay 20px everywhere, found {sizes}",
+                    {"14px", "15px"},
+                    f"{selector}: HK$ and / month follow the compact ramp, found {sizes}",
                 )
 
     def test_table_row_labels_use_the_uppercase_treatment(self) -> None:
         label = find_rules(HOME_CSS, ".plan-table tbody th")[0]
-        self.assert_decl(label, "font-size", "20px", where=".plan-table tbody th")
+        self.assert_decl(label, "font-size", "15px", where=".plan-table tbody th")
         self.assert_decl(label, "font-weight", "600", where=".plan-table tbody th")
         self.assertIn("letter-spacing", label, ".plan-table tbody th: expect the tracked label")
         self.assertNotIn(
@@ -1442,9 +1300,9 @@ class HomepageRedesignTest(CssAssertions):
         yes = find_rule(HOME_CSS, ".plan-table .yes")
         self.assertIn("color", yes, ".plan-table .yes: checks keep their accent colour")
 
-    def test_reduced_motion_disables_card_and_portrait_motion(self) -> None:
+    def test_reduced_motion_disables_card_motion(self) -> None:
         block = media_block(HOME_CSS, "@media(prefers-reduced-motion:reduce)")
-        for selector in (".plan-mini", ".team-member", ".team-photo"):
+        for selector in (".plan-mini",):
             with self.subTest(selector=selector):
                 self.assertIn(selector, block, f"reduced motion must cover {selector}")
         self.assertIn("transform:none!important", block)
@@ -1461,7 +1319,7 @@ class SectionBackgroundTest(CssAssertions):
     SUBTLE = '.home-backgrounds>.hero-media:not([data-background-section="home"]).is-active'
     SCRIM = '.home-backgrounds>.hero-media:not([data-background-section="home"])::after'
     WRAP = ".home-section>.wrap"
-    FOOTER = ".home-section>.home-footer"
+    FOOTER = ".home-section>.site-footer"
     PERSPECTIVE = (
         '.home-page .hero-media[data-background="assets/backgrounds/perspective-grid.svg"]>svg'
     )

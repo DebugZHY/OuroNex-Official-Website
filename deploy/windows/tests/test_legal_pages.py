@@ -23,9 +23,9 @@ def read(path: Path) -> str:
 
 
 def footer_of(markup: str) -> str:
-    match = re.search(r'<footer class="home-footer">.*?</footer>', markup, re.S)
+    match = re.search(r'<footer class="site-footer">.*?</footer>', markup, re.S)
     if match is None:
-        raise AssertionError("no <footer class=\"home-footer\"> block")
+        raise AssertionError("no <footer class=\"site-footer\"> block")
     return match.group(0)
 
 
@@ -86,36 +86,43 @@ class LegalPageTests(unittest.TestCase):
     def test_navigation_and_shared_home_footer(self):
         home_footer = footer_of(read(INDEX))
 
-        def rebuild(footer: str) -> str:
-            """Undo the only differences a subpage may carry: rooted paths and aria-current."""
-            footer = footer.replace('src="/assets/', 'src="assets/')
-            footer = footer.replace('href="/index.html#', 'href="#')
-            return footer.replace(' aria-current="page"', "")
-
         for path, (title, self_href, other_href, _sections) in CASE.items():
             with self.subTest(page=path.name):
                 markup = read(path)
-                self.assertIn('href="/index.html"', markup)
-                for section in ("home", "sida", "price", "business", "about"):
-                    self.assertIn(f'href="/index.html#{section}"', markup)
+                self.assertIn('href="/index.html"', markup, "the page links back to Home")
                 footer = footer_of(markup)
+                for section in ("home", "sida", "price", "business", "about"):
+                    self.assertIn(
+                        f'href="index.html#{section}"',
+                        footer,
+                        f"the shared footer keeps the #{section} anchor",
+                    )
                 self.assertEqual(
-                    rebuild(footer),
-                    rebuild(home_footer),
-                    "the legal pages must reuse the home footer markup verbatim",
+                    footer,
+                    home_footer,
+                    "the legal pages must reuse the root-level footer block verbatim",
                 )
-                self.assertEqual(
-                    footer.count('class="footer-nav-row"'), 1,
-                    "the shared footer keeps one link row",
-                )
+                self.assertIn('class="footer-nav"', footer)
                 links = re.findall(r'<a href="([^"]+)"([^>]*)><span data-i18n="([^"]+)"', footer)
-                self.assertEqual(len(links), 7, "Home joins the other six footer links")
-                self.assertIn(("terms.html", ' aria-current="page"' if title == "Terms of Service" else "",
-                               "shared.terms-of-service.3f9c1a"), links)
-                self.assertIn(("privacy.html", ' aria-current="page"' if title == "Privacy Policy" else "",
-                               "shared.privacy-policy.6b2d4e"), links)
+                self.assertEqual(
+                    len(links), 7, "five section anchors plus the two legal links"
+                )
+                self.assertEqual(
+                    len(re.findall(r'<span data-i18n="[^"]+">', footer)),
+                    8,
+                    "six footer nav labels plus the two legal labels",
+                )
+                self.assertEqual(
+                    footer.count("data-nav-placeholder"),
+                    1,
+                    "Application is the only inert placeholder left",
+                )
+                self.assertIn((self_href, "", "shared.terms-of-service.3f9c1a" if title == "Terms of Service"
+                               else "shared.privacy-policy.6b2d4e"), links)
+                self.assertIn((other_href, "", "shared.privacy-policy.6b2d4e" if title == "Terms of Service"
+                               else "shared.terms-of-service.3f9c1a"), links)
+                self.assertIn('class="footer-legal"', footer)
                 self.assertIn("Copyright © 2026 OuroNex Technology Company Limited", footer)
-                self.assertIn(f'href="{other_href}"', markup)
 
     def test_terms_keep_the_engineering_and_liability_guardrails(self):
         text = read(TERMS)

@@ -267,8 +267,8 @@ class FeatureTabShellTests(unittest.TestCase):
             self.assertEqual(entry["bytes"], len(payload), path)
             self.assertEqual(entry["sha256"], hashlib.sha256(payload).hexdigest(), path)
 
-    def test_retired_logo_asset_is_no_longer_referenced(self):
-        self.assertTrue(LOGO.is_file(), "the source PNG should still exist on disk")
+    def test_retired_logo_asset_is_deleted(self):
+        self.assertFalse(LOGO.is_file(), "the retired PNG is deleted with the unused-asset cleanup")
         self.assertNotIn("sida-logo.png", self.index)
         self.assertNotIn("sida-logo.png", self.css)
 

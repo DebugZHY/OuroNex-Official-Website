@@ -59,7 +59,8 @@
     '.delivery-grid > article',
     '.process > h2',
     '.process-list > article',
-    '.team-grid > .team-member',
+    '.about-intro > h2',
+    '.about-body > p',
     '.home-footer > .footer-brand-block',
     '.home-footer > .footer-copyright',
     '.home-footer > .footer-content'
@@ -120,7 +121,8 @@
     if (element.matches('.process > h2')) return 'slide';
     if (element.matches('.delivery-grid > article')) return 'depth';
     if (element.matches('.process-list > article')) return 'drift';
-    if (element.matches('.team-grid > .team-member')) return 'float';
+    if (element.matches('.about-intro > h2')) return 'slide';
+    if (element.matches('.about-body > p')) return 'fade';
     if (element.matches('.home-footer > .footer-brand-block')) return 'fade';
     if (element.matches('.home-footer > .footer-copyright')) return 'fade';
     if (element.matches('.home-footer > .footer-content')) return 'drift';

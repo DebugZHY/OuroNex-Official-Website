@@ -3,15 +3,15 @@
 The stylesheet owns one ``onx-<category>-in`` / ``onx-<category>-out`` keyframe
 pair per category; this unit only classifies. Pins:
 
-* ``motionVariantFor`` is a pure, exported helper implementing the 17-rule
-  priority contract (12 categories plus the ``rise`` fallback);
+* ``motionVariantFor`` is a pure, exported helper implementing the 21-rule
+  priority contract (11 categories plus the ``rise`` fallback);
 * every collected item receives ``data-motion-variant`` in the same pass that
   writes ``data-motion-item`` — including hidden tab panels, never waiting for
   visibility;
 * no inline ``opacity``/``transform``/``transition``/``animation`` is written and
   ``--motion-delay`` still is;
-* the 17 selector groups, order, IntersectionObserver, reduced-motion handling
-  and existing exports are untouched.
+* the 19 selector groups (including the three About groups), their order,
+  the IntersectionObserver, reduced-motion handling and exports are untouched.
 
 Static analysis plus a Node harness driving fake ``element.matches`` objects; no
 browser, no server.
@@ -44,7 +44,8 @@ SELECTOR_GROUPS = (
     ".delivery-grid > article",
     ".process > h2",
     ".process-list > article",
-    ".team-grid > .team-member",
+    ".about-intro > h2",
+    ".about-body > p",
     ".home-footer > .footer-brand-block",
     ".home-footer > .footer-copyright",
     ".home-footer > .footer-content",
@@ -62,7 +63,6 @@ CATEGORIES = (
     "flip",
     "depth",
     "drift",
-    "float",
 )
 
 HARNESS = r"""
@@ -90,8 +90,9 @@ if (typeof fn === 'function') {
     ['flip', ['.plan-strip > .plan-mini']],
     ['depth', ['.delivery-grid > article']],
     ['drift', ['.process-list > article']],
+    ['slide', ['.about-intro > h2']],
+    ['fade', ['.about-body > p']],
     ['drift', ['.home-footer > .footer-content']],
-    ['float', ['.team-grid > .team-member']],
     ['rise', []],
     ['rise', ['.unrelated-selector']]
   ];
@@ -211,7 +212,7 @@ class MotionSourceTests(unittest.TestCase):
         block = self.js[self.js.index("var MOTION_ITEM_SELECTOR = ["):]
         block = block[: block.index("].join(', ')")]
         found = re.findall(r"'([^']+)'", block)
-        self.assertEqual(tuple(found), SELECTOR_GROUPS, "the 17 groups and their order must stay")
+        self.assertEqual(tuple(found), SELECTOR_GROUPS, "the motion groups and their order must stay")
         self.assertIn("querySelectorAll(MOTION_ITEM_SELECTOR)", self.js)
 
     def test_reduced_motion_and_observer_are_intact(self):

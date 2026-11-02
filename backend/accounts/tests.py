@@ -502,12 +502,65 @@ class AccountShellTests(TestCase):
                 else:
                     self.assertFalse(active, 'usage item must not be active on %s' % path)
 
+class PublicAuthHeaderNavTests(TestCase):
+    """The shared login/register header follows the six-link public nav.
+
+    SIDA is retired and Features is promoted to the live SIDA section link, so
+    Application is the only inert entry left in ``_site_header.html``.
+    """
+
+    PAGES = ('/login/', '/register/')
+    NAV = (
+        ('Home', '/index.html#home'),
+        ('Features', '/index.html#sida'),
+        ('Application', None),
+        ('Price', '/index.html#price'),
+        ('Business', '/index.html#business'),
+        ('About', '/index.html#about'),
+    )
+
+    def primary_block(self, path):
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 200, 'expected HTTP 200 from %s' % path)
+        html = response.content.decode('utf-8')
+        match = re.search(r'<div class="nav-primary">(.*?)</div>', html, re.S)
+        self.assertIsNotNone(match, 'missing .nav-primary on %s' % path)
+        return match.group(1)
+
+    def test_auth_header_nav_holds_the_six_public_links(self):
+        for path in self.PAGES:
+            with self.subTest(page=path):
+                block = self.primary_block(path)
+                items = re.findall(
+                    r'<a(?: href="([^"]+)")?[^>]*>'
+                    r'<span data-i18n="([^"]+)">([^<]+)</span></a>',
+                    block,
+                )
+                self.assertEqual(
+                    [(label, href or None) for href, _key, label in items],
+                    list(self.NAV),
+                    'the auth header keeps the six public nav entries in order',
+                )
+                self.assertEqual(
+                    block.count('data-nav-placeholder'),
+                    1,
+                    'Application is the only inert entry on %s' % path,
+                )
+                self.assertIn(
+                    '<a href="/index.html#sida">'
+                    '<span data-i18n="shared.features">Features</span></a>',
+                    block,
+                    'Features must link to the SIDA section on %s' % path,
+                )
+                self.assertNotIn('shared.sida', block, 'the retired SIDA key must be gone')
+
+
 class HomeOnePageTests(TestCase):
     """Static checks for the one-page Home consolidation and the five retired pages."""
 
     HOME_SECTIONS = ('home', 'sida', 'price', 'business', 'about')
     RETIRED_PAGES = ('news.html', 'platform.html', 'pricing.html', 'business.html', 'about-us.html')
-    TEAM_MEMBERS = ('Jake Chan', 'Haoyi Zhang', 'Ir Prof. Siwei Liu')
+    ABOUT_SECTION_ID = 'about'
 
     @classmethod
     def setUpClass(cls):
@@ -552,10 +605,23 @@ class HomeOnePageTests(TestCase):
         missing = [label for label in labels if label not in self.index_html]
         self.assertEqual(missing, [], 'plan names missing from index.html: %s' % missing)
 
-    def test_home_names_the_requested_team_members(self):
-        for name in self.TEAM_MEMBERS:
+    def test_home_about_section_introduces_the_company(self):
+        about_start = self.index_html.find('id="%s"' % self.ABOUT_SECTION_ID)
+        self.assertGreaterEqual(about_start, 0, 'index.html has no #about section')
+        about_html = self.index_html[about_start:]
+        self.assertIn('about-layout', about_html, '#about lost the company-introduction layout')
+        self.assertIn('home.about-title', about_html, '#about lost its translated title')
+        self.assertNotIn(
+            'about-principles',
+            about_html,
+            '#about must not carry the retired principles block',
+        )
+        # The founder card is part of the introduction again (owner request).
+        self.assertIn('about-founder__card', about_html, '#about lost the founder card')
+        self.assertIn('Haoyi ZHANG', about_html, 'the founder card must name Haoyi ZHANG')
+        for name in ('Jake Chan', 'Ir Prof. Siwei Liu'):
             with self.subTest(member=name):
-                self.assertTrue(name in self.index_html, 'missing team member %r' % name)
+                self.assertNotIn(name, about_html, 'retired person %r still listed in #about' % name)
 
     def test_retired_page_files_are_deleted(self):
         existing = [name for name in self.RETIRED_PAGES if (self.site_root / name).exists()]

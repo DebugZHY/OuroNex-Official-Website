@@ -1,7 +1,7 @@
 """Home pricing card and comparison-table content regression tests.
 
-Scope: the current Price layout — four cards (Lite, Standard, Professional,
-Enterprise), no billing period lines, and the retuned comparison table with
+Scope: the current Price layout — five cards (Pay as you go, Lite, Standard,
+Professional, Enterprise), no billing period lines, and the retuned comparison table with
 uppercase row labels, four added capability rows, one Enterprise-only custom
 models row, one priority-support row and a trailing custom integration row.
 Removed rows stay removed. Copy is pinned verbatim in the index and in all three
@@ -25,17 +25,18 @@ HOME_JSON = REPO_ROOT / "assets" / "i18n" / "home.json"
 HOME_JS = REPO_ROOT / "assets" / "i18n" / "home.js"
 
 CARD_TEXTS = (
+    "Pay as you go Buy tokens directly HK$ 0.2 /1M token Top up",
     "Lite Efficient trial HK$ 49 / month Subscribe Now",
     "Standard Standard choice HK$ 119 / month Subscribe Now",
     "Professional Premium mode HK$ 469 / month Subscribe Now",
     "Enterprise Empowerment as you wish Custom Contact Sales",
 )
 
-PRICE_COLUMNS = ("Free", "Lite", "Standard", "Professional", "Enterprise")
+PRICE_COLUMNS = ("Pay as you go", "Lite", "Standard", "Professional", "Enterprise")
 
-# Row label, then the five plan cells in PRICE_COLUMNS order.
+# Row label, then the plan cells in PRICE_COLUMNS order.
 TABLE_ROWS = (
-    ("MONTHLY TOKENS", ("10M (The 1st month only)", "300M", "850M", "3B", "Custom")),
+    ("MONTHLY TOKENS", ("10M (The 1st month only)", "300M", "850M", "4B", "Custom")),
     ("STANDARD MODELS", ("\u2713", "\u2713", "\u2713", "\u2713", "\u2713")),
     ("CUSTOM MODELS", ("\u2014", "\u2014", "\u2014", "\u2014", "\u2713")),
     ("FREE DOCUMENTATION", ("\u2713", "\u2713", "\u2713", "\u2713", "\u2713")),
@@ -140,14 +141,16 @@ def table_rows() -> list:
 
 
 class HomePricingCardTests(unittest.TestCase):
-    def test_free_card_is_gone_and_four_cards_remain_in_order(self):
+    def test_free_card_is_gone_and_five_cards_remain_in_order(self):
         cards = pricing_cards()
-        self.assertEqual(len(cards), 4, "the Free card must be removed")
+        self.assertEqual(len(cards), 5, "the Free card must be removed; Pay as you go was added")
         names = [
             visible_text(re.search(r"<h2[^>]*>(.*?)</h2>", card, re.DOTALL).group(1))
             for card in cards
         ]
-        self.assertEqual(names, ["Lite", "Standard", "Professional", "Enterprise"])
+        self.assertEqual(
+            names, ["Pay as you go", "Lite", "Standard", "Professional", "Enterprise"]
+        )
 
     def test_card_text_is_exact(self):
         self.assertEqual(
@@ -163,7 +166,7 @@ class HomePricingCardTests(unittest.TestCase):
         self.assertNotIn("data-i18n=\"home.contact-pricing\"", strip)
 
     def test_enterprise_description_is_exact(self):
-        enterprise = pricing_cards()[3]
+        enterprise = pricing_cards()[4]
         description = re.search(
             r'<p class="plan-description"[^>]*>(.*?)</p>', enterprise, re.DOTALL
         )
@@ -172,7 +175,7 @@ class HomePricingCardTests(unittest.TestCase):
 
     def test_prices_buttons_and_description_carriers_are_preserved(self):
         cards = pricing_cards()
-        for card, amount in zip(cards[:3], ("49", "119", "469")):
+        for card, amount in zip(cards[1:4], ("49", "119", "469")):
             self.assertIn('class="plan-currency"', card)
             self.assertIn('class="plan-amount">' + amount + "<", card)
             self.assertIn('class="plan-interval">/ month<', card)
@@ -182,7 +185,7 @@ class HomePricingCardTests(unittest.TestCase):
             self.assertNotIn('href', card)
             self.assertIn('data-i18n="home.subscribe-now">Subscribe Now<', card)
             self.assertIn('class="plan-description"', card)
-        enterprise = cards[3]
+        enterprise = cards[4]
         self.assertIn('class="plan-price plan-price--text"', enterprise)
         self.assertIn('data-i18n="home.custom">Custom<', enterprise)
         self.assertIn('class="button-outline plan-action"', enterprise)
@@ -226,7 +229,10 @@ class HomePricingTableTests(unittest.TestCase):
     def test_custom_integration_is_the_last_row(self):
         rendered = table_rows()
         self.assertEqual(rendered[-1][0], "CUSTOM INTEGRATION")
-        self.assertEqual(rendered[-1][1:], ("\u2014", "\u2014", "\u2014", "\u2014", "\u2713"))
+        self.assertEqual(
+            rendered[-1][1:],
+            ("\u2014", "\u2014", "\u2014", "\u2014", "\u2713"),
+        )
 
     def test_row_labels_use_the_uppercase_english_style(self):
         labels = [row[0] for row in table_rows()[1:]]
@@ -237,7 +243,7 @@ class HomePricingTableTests(unittest.TestCase):
 
     def test_only_enterprise_offers_custom_models(self):
         row = dict(TABLE_ROWS)["CUSTOM MODELS"]
-        self.assertEqual(row, ("\u2014", "\u2014", "\u2014", "\u2014", "\u2713"))
+        self.assertEqual(row, (("\u2014", "\u2014", "\u2014", "\u2014", "\u2713")))
 
 
 class HomePricingDictionaryTests(unittest.TestCase):

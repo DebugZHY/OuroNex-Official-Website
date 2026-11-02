@@ -4,7 +4,7 @@ Scope:
 
 * ``accounts/_site_header.html`` is the single copy of the public header and both
   ``login.html`` and ``register.html`` include it exactly once;
-* that header is the Home header: same brand lockup, same five nav items in the
+* that header is the Home header: same brand lockup, same six nav items in the
   same order with the same i18n keys, same language switcher and the same
   Log in / Register pills (only the link targets point back at ``/index.html``);
 * ``site.css`` mirrors the Home header metrics for the ``auth-page`` body class,
@@ -34,18 +34,25 @@ SITE_JS = REPO_ROOT / "assets" / "site.js"
 
 INCLUDE_TAG = "{% include 'accounts/_site_header.html' %}"
 
-NAV_LABELS = ["Home", "SIDA", "Features", "Application", "Price", "Business", "About"]
+NAV_LABELS = ["Home", "Features", "Application", "Price", "Business", "About"]
 NAV_KEYS = [
     "shared.home.5c1d84",
-    "shared.sida.9da1bc",
     "shared.features",
     "shared.application",
     "shared.price.3e8248",
     "shared.business.d6663d",
     "shared.about.6b21fb",
 ]
+# Home section each label scrolls to. Features promotes the retired SIDA entry.
+NAV_SECTIONS = {
+    "Home": "home",
+    "Features": "sida",
+    "Price": "price",
+    "Business": "business",
+    "About": "about",
+}
 # Nav entries that only carry a look: no destination yet, so no href.
-NAV_PLACEHOLDERS = {"Features", "Application"}
+NAV_PLACEHOLDERS = {"Application"}
 
 # Selectors whose declarations the auth pages must share with the Home header.
 MIRRORED = [
@@ -151,7 +158,9 @@ class AuthHeaderMarkupTest(unittest.TestCase):
                 self.assertIsNone(href, f"{label} is styling only and must not link anywhere")
                 continue
             self.assertEqual(
-                href, f"/index.html#{label.lower()}", f"{label} must return to its Home section"
+                href,
+                f"/index.html#{NAV_SECTIONS[label]}",
+                f"{label} must return to its Home section",
             )
 
         home_primary = re.search(

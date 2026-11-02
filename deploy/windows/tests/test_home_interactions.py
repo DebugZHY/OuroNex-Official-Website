@@ -9,7 +9,7 @@ Scope of this module (interaction unit only):
 * native ``alert('Available soon')`` for every download trigger and for the
   Enterprise Contact Sales control, plus ``alert('Coming soon')`` for the
   enabled Request early access control, with the custom ``dialog`` removed;
-* the three About portraits with their exact source mapping;
+* the About company-introduction block (intro, the founder card and the body);
 * preserved five-section structure, content and one-section navigation helpers.
 
 Everything here is source/static analysis plus pure-JS checks executed with the
@@ -61,12 +61,6 @@ DOWNLOAD_LABELS = {
     "home.mac": "Download for Mac",
 }
 
-TEAM_PHOTOS = (
-    ("Jake Chan", "assets/illustrations/jake-chan.jpeg", "jpeg"),
-    ("Haoyi Zhang", "assets/illustrations/haoyi-zhang.png", "png"),
-    ("Ir Prof. Siwei Liu", "assets/illustrations/siwei-liu.jpeg", "jpeg"),
-)
-
 # Headings are locked so the change cannot introduce new visible copy.
 # The twelve SIDA detail-card titles are requested content, so they are part of
 # the locked heading order before the Price section.
@@ -86,8 +80,20 @@ SIDA_CARD_TITLES = (
 )
 
 EXPECTED_HEADINGS = (
-    ("h1", "SIDA, AI Agent for Engineering."),
-    *[("h3", title) for title in SIDA_CARD_TITLES],
+    ("h1", "SIDA - Superintelligent Design Agent"),
+    ("h3", "Pain point"),
+    ("h3", "Comparison"),
+    ("h3", "Confidentiality"),
+    ("h3", "Pain point"),
+    ("h3", "Traditional agents"),
+    ("h3", "Visual flowcharts"),
+    ("h3", "Pain point"),
+    ("h3", "Built-in tools"),
+    ("h3", "Computer use"),
+    ("h3", "Pain point"),
+    ("h3", "Specialist bots"),
+    ("h3", "Hong Kong library"),
+    ("h2", "Pay as you go"),
     ("h2", "Lite"),
     ("h2", "Standard"),
     ("h2", "Professional"),
@@ -101,9 +107,8 @@ EXPECTED_HEADINGS = (
     ("h3", "On-site consultation"),
     ("h3", "Scoped proposal"),
     ("h3", "Pilot first"),
-    ("h2", "Jake Chan"),
-    ("h2", "Haoyi Zhang"),
-    ("h2", "Ir Prof. Siwei Liu"),
+    ("h2", "An engineering-led AI company"),
+    ("h3", "Haoyi ZHANG"),
 )
 
 VOID_TAGS = {
@@ -265,12 +270,22 @@ class SectionBackgroundHostTests(HomeFixtures):
             [(text, href) for href, _key, text in links],
             [
                 ("Home", "#home"),
-                ("SIDA", "#sida"),
+                ("Features", "#sida"),
                 ("Price", "#price"),
                 ("Business", "#business"),
                 ("About", "#about"),
             ],
-            "Home is the first entry and scrolls to the top of the Home page",
+            "Home is the first entry and Features now scrolls to the SIDA section",
+        )
+        self.assertEqual(
+            nav.group(1).count("data-nav-placeholder"),
+            1,
+            "Application is the only inert nav entry left",
+        )
+        self.assertIn(
+            '<a href="#sida"><span data-i18n="shared.features">Features</span></a>',
+            nav.group(1),
+            "Features must be a live link to the SIDA section",
         )
         shared = json.loads(
             (REPO_ROOT / "assets" / "i18n" / "shared.json").read_text(encoding="utf-8")
@@ -290,8 +305,8 @@ class SectionBackgroundHostTests(HomeFixtures):
             'class="plan-table-scroll"',
             'class="delivery-grid"',
             'class="process-list"',
-            'class="team-grid"',
-            'class="home-footer"',
+            'class="wrap about-layout"',
+            'class="site-footer"',
         ):
             self.assertIn(marker, self.index, f"missing preserved content: {marker}")
         for section_id in SECTION_IDS:
@@ -331,7 +346,7 @@ class NativeAvailableSoonTests(HomeFixtures):
     def test_contact_sales_is_a_safe_native_alert_trigger(self):
         self.assertNotIn("contact.html", self.index)
         self.assertNotIn("/contact/", self.index)
-        self.assertEqual(self.index.count("data-available-soon"), 4)
+        self.assertEqual(self.index.count("data-available-soon"), 5)
         contact_control = re.search(
             r'<[^>]*data-available-soon[^>]*>(?=[^<]*<span data-i18n="home.contact-sales")',
             self.index,
@@ -403,7 +418,7 @@ class SidaDownloadActionsTests(HomeFixtures):
 
     def test_download_buttons_have_platform_icons_before_labels(self):
         segments = self.button_segments(self.actions_block())
-        self.assertEqual(len(segments), 3)
+        self.assertEqual(len(segments), 2)
         for index, key in ((0, "home.windows"), (1, "home.mac")):
             with self.subTest(key=key):
                 match = re.search(r'<svg\b[^>]*class="download-icon"', segments[index])
@@ -413,7 +428,6 @@ class SidaDownloadActionsTests(HomeFixtures):
                 self.assertGreater(label, icon, f"{key}: icon must precede the label")
                 self.assertIn('aria-hidden="true"', segments[index])
                 self.assertIn('focusable="false"', segments[index])
-        self.assertNotIn('class="download-icon"', segments[2])
 
     def test_dictionaries_carry_the_labels_in_all_three_languages(self):
         source = json.loads(read_text(HOME_I18N_JSON))
@@ -437,35 +451,31 @@ class SidaDownloadActionsTests(HomeFixtures):
                     )
                     self.assertIn(platform, value, f"{key}.{language} must name {platform}")
 
-    def test_three_action_buttons_share_one_container(self):
+    def test_two_download_buttons_share_one_container(self):
         block = self.actions_block()
         segments = self.button_segments(block)
-        self.assertEqual(len(segments), 3, f"expected three actions in one row, found {segments}")
+        self.assertEqual(len(segments), 2, f"expected the two downloads in one row, found {segments}")
         self.assertIn('data-download=""', segments[0])
         self.assertIn('data-i18n="home.windows"', segments[0])
         self.assertIn('data-download=""', segments[1])
         self.assertIn('data-i18n="home.mac"', segments[1])
-        self.assertIn('data-coming-soon=""', segments[2])
-        self.assertIn('class="button-outline early-access"', segments[2])
-        self.assertIn('data-i18n="home.request-access"', segments[2])
-        self.assertIn('class="release-note"', segments[2], "the note follows the third button")
+        self.assertIn('class="release-note"', segments[1], "the note follows the two buttons")
         self.assertEqual(block.count('data-download=""'), 2)
-        self.assertEqual(block.count('data-coming-soon=""'), 1)
+        self.assertEqual(block.count('data-coming-soon=""'), 0, "early access moved out of the download row")
         row_start = self.index.find('<div class="download-row">')
         self.assertGreater(row_start, -1, "the download-row wrapper must stay")
         row = self.index[row_start : self.index.find("</section>", row_start)]
-        self.assertEqual(row.count("<button"), 3, "all three actions must sit in the row")
+        self.assertEqual(row.count("<button"), 2, "both downloads must sit in the row")
 
     def test_request_early_access_is_enabled_and_native(self):
-        block = self.actions_block()
-        control = re.search(r"<button[^>]*data-coming-soon[^>]*>", block)
-        self.assertIsNotNone(control)
+        control = re.search(r'<button[^>]*data-coming-soon[^>]*>', self.index)
+        self.assertIsNotNone(control, "the Request early access control is required")
         markup = control.group(0)
         self.assertNotIn("disabled", markup, "early access must no longer be disabled")
         self.assertNotIn("href", markup, "early access must not navigate")
         self.assertNotIn("onclick", markup, "early access must use the shared click handler")
         self.assertIn('type="button"', markup)
-        self.assertIn('data-i18n="home.request-access"', block)
+        self.assertIn('data-i18n="home.request-access"', self.index)
 
     def test_coming_soon_uses_the_existing_native_alert(self):
         self.assertRegex(
@@ -486,40 +496,8 @@ class SidaDownloadActionsTests(HomeFixtures):
     def test_available_soon_alerts_are_unchanged(self):
         block = self.actions_block()
         self.assertEqual(block.count('data-available-soon=""'), 0)
-        self.assertEqual(self.index.count('data-available-soon'), 4)
+        self.assertEqual(self.index.count('data-available-soon'), 5)
         self.assertRegex(self.home_js, r"\.alert\(\s*'Available soon'\s*\)")
-
-
-class AboutPhotoTests(HomeFixtures):
-    def test_three_exact_photo_blocks_replace_initials(self):
-        for name, source, _kind in TEAM_PHOTOS:
-            expected = (
-                f'<div class="team-photo"><img alt="{name}" src="{source}"></div>'
-            )
-            self.assertIn(expected, self.index, f"missing portrait block for {name}")
-        self.assertNotIn("team-initials", self.index)
-
-    def test_member_names_and_order_are_preserved(self):
-        positions = [self.index.find(f'>{name}</h2>') for name, _source, _kind in TEAM_PHOTOS]
-        self.assertTrue(all(position > -1 for position in positions))
-        self.assertEqual(positions, sorted(positions), "team member order must be preserved")
-        team_grid = self.index[self.index.find('class="team-grid"') :]
-        self.assertEqual(team_grid.count('class="team-member"'), 3)
-
-    def test_photo_files_exist_and_keep_their_real_formats(self):
-        signatures = {
-            "jpeg": b"\xff\xd8\xff",
-            "png": b"\x89PNG\r\n\x1a\n",
-        }
-        for name, source, kind in TEAM_PHOTOS:
-            path = REPO_ROOT / source
-            self.assertTrue(path.is_file(), f"missing portrait file for {name}: {source}")
-            payload = path.read_bytes()
-            self.assertGreater(len(payload), 1024, f"portrait too small: {source}")
-            self.assertTrue(
-                payload.startswith(signatures[kind]),
-                f"{source} is not a real {kind} image",
-            )
 
 
 class RandomizedSectionBackgroundTests(HomeFixtures):

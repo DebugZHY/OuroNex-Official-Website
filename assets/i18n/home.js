@@ -185,6 +185,11 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "立即订阅",
     "zh-TW": "立即訂閱"
   },
+  "home.top-up": {
+    "en": "Top up",
+    "zh-CN": "充值",
+    "zh-TW": "儲值"
+  },
   "home.most-popular": {
     "en": "Most Popular",
     "zh-CN": "最受欢迎",
@@ -385,36 +390,6 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "专属",
     "zh-TW": "專屬"
   },
-  "home.team-jake-role": {
-    "en": "Director",
-    "zh-CN": "董事",
-    "zh-TW": "董事"
-  },
-  "home.team-jake-bio-1": {
-    "en": "Civil engineering PhD and Director of OuroNex, connecting rigorous engineering with global business strategy.",
-    "zh-CN": "土木工程博士，OuroNex 董事，将严谨工程与全球商业策略相连接。",
-    "zh-TW": "土木工程博士，OuroNex 董事，將嚴謹工程與全球商業策略相連接。"
-  },
-  "home.team-haoyi-role": {
-    "en": "Director",
-    "zh-CN": "董事",
-    "zh-TW": "董事"
-  },
-  "home.team-haoyi-bio-1": {
-    "en": "Founder and Director of OuroNex, working across AI, computational mechanics and structural analysis.",
-    "zh-CN": "OuroNex 创始人兼董事，工作涵盖 AI、计算力学与结构分析。",
-    "zh-TW": "OuroNex 創辦人兼董事，工作涵蓋 AI、計算力學與結構分析。"
-  },
-  "home.team-siwei-role": {
-    "en": "Technical Advisor",
-    "zh-CN": "技术顾问",
-    "zh-TW": "技術顧問"
-  },
-  "home.team-siwei-bio-1": {
-    "en": "Technical Advisor and structural engineering researcher, contributing to regional and national design standards.",
-    "zh-CN": "技术顾问、结构工程研究者，参与地区及国家设计标准的制定。",
-    "zh-TW": "技術顧問、結構工程研究者，參與地區及國家設計標準的制定。"
-  },
   "home.feature-engineering-card-1-title": {
     "en": "Pain point",
     "zh-CN": "痛点",
@@ -474,5 +449,50 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "en": "Hong Kong library",
     "zh-CN": "香港资料库",
     "zh-TW": "香港資料庫"
+  },
+  "home.about-title": {
+    "en": "An engineering-led AI company",
+    "zh-CN": "以工程为本的 AI 公司",
+    "zh-TW": "以工程為本的 AI 公司"
+  },
+  "home.about-lede": {
+    "en": "OuroNex builds AI tools for structural engineering, turning design intent into analysis, checks and documentation that hold up in professional practice.",
+    "zh-CN": "OuroNex 为结构工程打造 AI 工具，把设计意图转化为经得起专业实践检验的分析、校核与文档。",
+    "zh-TW": "OuroNex 為結構工程打造 AI 工具，把設計意圖轉化為經得起專業實踐檢驗的分析、校核與文件。"
+  },
+  "home.about-body-1": {
+    "en": "Our work starts from the standards engineers already trust. Analysis, member checks and reports follow recognised design codes and review habits, so results can be defended in a design meeting rather than merely generated.",
+    "zh-CN": "我们的工作从工程师信任的规范出发。分析、构件校核与报告都遵循公认的设计规范与评审习惯，结果可以在设计会议上被论证，而不只是被生成。",
+    "zh-TW": "我們的工作從工程師信任的規範出發。分析、構件校核與報告都遵循公認的設計規範與評審習慣，結果可以在設計會議上被論證，而不只是被生成。"
+  },
+  "home.about-body-2": {
+    "en": "Structural engineering, computational mechanics and machine learning sit in the same team. Models are built and validated against real load paths, material behaviour and construction tolerances, and every result stays explainable to the engineer who signs it.",
+    "zh-CN": "结构工程、计算力学与机器学习在同一个团队里。模型依据真实的传力路径、材料性能与施工容差建立并验证，每一个结果都能向签字负责的工程师解释清楚。",
+    "zh-TW": "結構工程、計算力學與機器學習在同一個團隊裡。模型依據真實的傳力路徑、材料性能與施工容差建立並驗證，每一個結果都能向簽字負責的工程師解釋清楚。"
+  },
+  "home.about-body-3": {
+    "en": "We are a Hong Kong company. Tools are developed alongside practicing engineers and refined on live projects, which keeps them close to the way design work is actually delivered.",
+    "zh-CN": "我们是一家香港公司。工具与实践中的工程师共同开发，并在真实项目上迭代，因此始终贴近设计工作的实际交付方式。",
+    "zh-TW": "我們是一家香港公司。工具與實踐中的工程師共同開發，並在真實專案上迭代，因此始終貼近設計工作的實際交付方式。"
+  },
+  "home.about-founder-name": {
+    "en": "Haoyi ZHANG",
+    "zh-CN": "Haoyi ZHANG",
+    "zh-TW": "Haoyi ZHANG"
+  },
+  "home.about-founder-role": {
+    "en": "Founder and Director",
+    "zh-CN": "创始人兼董事",
+    "zh-TW": "創辦人兼董事"
+  },
+  "home.about-founder-bio-1": {
+    "en": "Founder and Director of OuroNex, steering the company's strategic vision with a blend of academic depth and hands-on engineering insight.",
+    "zh-CN": "OuroNex 创始人兼董事，以学术深度与一线工程洞察相结合，把控公司的战略方向。",
+    "zh-TW": "OuroNex 創辦人兼董事，以學術深度與一線工程洞察相結合，掌握公司的策略方向。"
+  },
+  "home.about-founder-bio-2": {
+    "en": "A Ph.D. candidate in structural engineering, he works where AI and structural engineering meet, and builds the computational tools behind landmark projects. Mr. Haoyi Zhang aims to make the most sophisticated engineering feel effortless.",
+    "zh-CN": "结构工程博士候选人，工作处在 AI 与结构工程的交汇处，并构建支撑标志性项目的计算工具。Haoyi Zhang 希望让最高深的工程显得举重若轻。",
+    "zh-TW": "結構工程博士候選人，工作處於 AI 與結構工程的交匯處，並建構支撐標誌性專案的計算工具。Haoyi Zhang 希望讓最高深的工程顯得舉重若輕。"
   }
 });

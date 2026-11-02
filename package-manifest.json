@@ -3,21 +3,21 @@
     "files": [
         {
             "path": "404.html",
-            "bytes": 5378,
-            "sha256": "e431999d20b302228246be10ec9baf6ea882722048654b01520644d745f42b00",
-            "size": 5378
+            "bytes": 7429,
+            "sha256": "03e35d2054a64382b3f851d20c4ece573db0805f7cb7fd161e1e388c45f7c640",
+            "size": 7429
         },
         {
             "path": "arena.html",
-            "bytes": 7592,
-            "sha256": "5b2b8fcdff799fc1e3c4a43dfd86aa8eb8e7ddadf9c5d8954c7d82bbd5052a8c",
-            "size": 7592
+            "bytes": 9643,
+            "sha256": "f3ed6a46efe53537ba7406b4334f5c8a0673c9218733c9165a327cfb167b29ae",
+            "size": 9643
         },
         {
             "path": "assets/account.css",
-            "bytes": 36990,
-            "sha256": "ea5ab0cf8cda069e06f4abe117e911821c2ef424bd6e60652ec602e715d84e76",
-            "size": 36990
+            "bytes": 37056,
+            "sha256": "8004df9c32a1a1b2ce9157c9dd412129c4f6e06f2c7aa13337b8b306c8806733",
+            "size": 37056
         },
         {
             "path": "assets/auth-bg.js",
@@ -66,12 +66,6 @@
             "bytes": 16005,
             "sha256": "7e743b22a4bb63ea84073246d6f05e33129eb0ee19a762d535c6aa64887ce7db",
             "size": 16005
-        },
-        {
-            "path": "assets/engineering-scene.js",
-            "bytes": 12205,
-            "sha256": "3f3988e67ca1656b01885930f50c163b1c017582b0e361a3bcbd06bc158113df",
-            "size": 12205
         },
         {
             "path": "assets/fonts/ibm-plex-mono-400.woff2",
@@ -135,15 +129,15 @@
         },
         {
             "path": "assets/home.css",
-            "bytes": 44642,
-            "sha256": "6b1ebb6f4193fb844e8281c323f852a0b9881a832c5d830f5d45e36dda3611f3",
-            "size": 44642
+            "bytes": 42553,
+            "sha256": "4f72624b17269c5438a8bdd3d49b79e9fc968123a1c88158cc1b4ab9ee7d0d3f",
+            "size": 42553
         },
         {
             "path": "assets/home.js",
-            "bytes": 36358,
-            "sha256": "1757d77519dfe5892ffd4a6736680561f0c2b413ba39bb9037dddda0c8a761cc",
-            "size": 36358
+            "bytes": 36424,
+            "sha256": "ab0f0d69b74aa40a62ebfc8ffb955889d2fcb39b7ae6f7b60faf4b055e32c079",
+            "size": 36424
         },
         {
             "path": "assets/i18n.css",
@@ -162,12 +156,6 @@
             "bytes": 1458,
             "sha256": "9fa900a16bc3a3bb8a020c2d34639738c2c1f48411accaa77e8c37c835d6a8b7",
             "size": 1458
-        },
-        {
-            "path": "assets/i18n/about-us.js",
-            "bytes": 10799,
-            "sha256": "4f302d0dfc8d88a0ded238264b0880d9cc698e99d82082559a099583b17c6211",
-            "size": 10799
         },
         {
             "path": "assets/i18n/account-dashboard.js",
@@ -206,18 +194,6 @@
             "size": 2465
         },
         {
-            "path": "assets/i18n/business.js",
-            "bytes": 18963,
-            "sha256": "d876b61fdbae5308a6a06f10a9f100c431d071be17833d32a53e404c91be5f6d",
-            "size": 18963
-        },
-        {
-            "path": "assets/i18n/contact.js",
-            "bytes": 9311,
-            "sha256": "400fb733393539cc01fcddaec1b199567a67e0839d9cf2779f3576096cbfba62",
-            "size": 9311
-        },
-        {
             "path": "assets/i18n/dynamic.js",
             "bytes": 7269,
             "sha256": "d2d212d1acaeea91285d2f84529587eb5538be33f01306e28c99ad61fa076089",
@@ -225,33 +201,15 @@
         },
         {
             "path": "assets/i18n/home.js",
-            "bytes": 18113,
-            "sha256": "659d722b0e4160b8ba89db4cbd8ff05876314e702517fa594e57118d6fe300ed",
-            "size": 18113
+            "bytes": 20875,
+            "sha256": "474ad0bc128a4479bfbb492859b545db687c1d57cee471e21ead4d98b24deb02",
+            "size": 20875
         },
         {
             "path": "assets/i18n/news-template.js",
             "bytes": 1621,
             "sha256": "b67681f16dfccdd435659a0cac1cc5a2f3456b38efb9cbe4a10cecc261ca22aa",
             "size": 1621
-        },
-        {
-            "path": "assets/i18n/news.js",
-            "bytes": 10832,
-            "sha256": "ea5e46519e375fcbbf8500b7fcba0566c51357ed1e795f6e51c10d0cca635b97",
-            "size": 10832
-        },
-        {
-            "path": "assets/i18n/platform.js",
-            "bytes": 17096,
-            "sha256": "3090f591537ea175fb352772f4b15f4b0ff9d89d203f56fa9dedf60d64527301",
-            "size": 17096
-        },
-        {
-            "path": "assets/i18n/pricing.js",
-            "bytes": 4448,
-            "sha256": "7bac472e1747fb721f0c5fcdc26427e2c5ec22b592a59e6a30a6e0f97cfb940b",
-            "size": 4448
         },
         {
             "path": "assets/i18n/privacy.js",
@@ -314,40 +272,10 @@
             "size": 166
         },
         {
-            "path": "assets/illustrations/coaching-support.svg",
-            "bytes": 1468,
-            "sha256": "0c3af4e3a1e5b2834f6fc21da89aa0ab49a6700df47c325a3dfc8b02a97415ee",
-            "size": 1468
-        },
-        {
-            "path": "assets/illustrations/custom-extension.svg",
-            "bytes": 1321,
-            "sha256": "4a44cf00a2a80109bfefe80b71ef6e02e783f561118f7c9e49cf7e1cfbcde07e",
-            "size": 1321
-        },
-        {
-            "path": "assets/illustrations/data-handoff.svg",
-            "bytes": 1710,
-            "sha256": "b4f6cd3cc6e79ae0eff4306462b0ea942f6e68513ea6208fc6405b2f4899ce63",
-            "size": 1710
-        },
-        {
-            "path": "assets/illustrations/end-to-end.svg",
-            "bytes": 1235,
-            "sha256": "3a785e613324f132a89faf339585191a0edaacbe15583d59ebf8776845873efc",
-            "size": 1235
-        },
-        {
-            "path": "assets/illustrations/hands-on-training.svg",
-            "bytes": 4738,
-            "sha256": "707187eda8c09efaeea63234fc92cbaa4becc681a67d216d658927c5176fd3b8",
-            "size": 4738
-        },
-        {
             "path": "assets/illustrations/haoyi-zhang.png",
-            "bytes": 66448,
-            "sha256": "b2a152229906cafed59ae9e854b79bf92a52e97b506076b422c371490f869aaa",
-            "size": 66448
+            "bytes": 187312,
+            "size": 187312,
+            "sha256": "56601e8fc3629a77f2d43c2b4981c045570b99d51e8aea3a650e9850e4c5ba8d"
         },
         {
             "path": "assets/illustrations/home-1.png",
@@ -372,126 +300,6 @@
             "bytes": 551496,
             "sha256": "497a6ff59cc7dcd3e98ea577972f5c90d2b49b91d023d144e629691193c32fe2",
             "size": 551496
-        },
-        {
-            "path": "assets/illustrations/home-engineering.svg",
-            "bytes": 616,
-            "sha256": "7cc77c46da0898ccbcbcd33a35ea0a98dc675ad4ba0de49405d8f33b454172be",
-            "size": 616
-        },
-        {
-            "path": "assets/illustrations/home-experts.svg",
-            "bytes": 1325,
-            "sha256": "68f592334b24ad21a821a4bf4e18606aa9f8a85b88b81d61a67713399dd322a8",
-            "size": 1325
-        },
-        {
-            "path": "assets/illustrations/home-free.svg",
-            "bytes": 751,
-            "sha256": "ec19416043eed356736c8d0e9f51aeded2a56f021e951a4d8ba8d2a45f9f7de3",
-            "size": 751
-        },
-        {
-            "path": "assets/illustrations/home-workflow.svg",
-            "bytes": 947,
-            "sha256": "177103b3d8c5f77cc89207bb4c6bda2c7a5ae1f0b252b308ae586848ca5b7ea4",
-            "size": 947
-        },
-        {
-            "path": "assets/illustrations/info-collection.svg",
-            "bytes": 2175,
-            "sha256": "16e917c0b5b6333d79b92477435a4b5710c0132be6e4eff808e3c8f0c95b1e7b",
-            "size": 2175
-        },
-        {
-            "path": "assets/illustrations/internal-tool.svg",
-            "bytes": 1680,
-            "sha256": "68f9c606ed1d275356e81e5d72b3eeee99fe468b6cd7121db1992d3dfa1918e2",
-            "size": 1680
-        },
-        {
-            "path": "assets/illustrations/jake-chan.jpeg",
-            "bytes": 16896,
-            "sha256": "c9d6ac775fedf8f4d3b417ef86de042cb4cebc324202e0507baf7a2c066acd2d",
-            "size": 16896
-        },
-        {
-            "path": "assets/illustrations/knowledge-base.svg",
-            "bytes": 2463,
-            "sha256": "776645c237fc915d0716e7c4e1b74530c75a80d8b03115d0aaa7b8008c3fd114",
-            "size": 2463
-        },
-        {
-            "path": "assets/illustrations/onsite-consultation.svg",
-            "bytes": 2764,
-            "sha256": "4004528c767ee2acb93334add0828b3ef1e27fe474120e8385661e341b52ba8c",
-            "size": 2764
-        },
-        {
-            "path": "assets/illustrations/pilot-first.svg",
-            "bytes": 933,
-            "sha256": "5567cf5be11addff75bac9935717dda513129805b8db6ac20b91255b579b3620",
-            "size": 933
-        },
-        {
-            "path": "assets/illustrations/pilot-validation.svg",
-            "bytes": 932,
-            "sha256": "90c69b8962d540b071275f7ff0dd4462706f5c3a7ffb28bee5c450e29bb5f5a9",
-            "size": 932
-        },
-        {
-            "path": "assets/illustrations/report-drafting.svg",
-            "bytes": 1709,
-            "sha256": "7f82b9ef685ee738907442f00a1af3fd90932dd0ba704929589f554883131dd7",
-            "size": 1709
-        },
-        {
-            "path": "assets/illustrations/scoped-proposal.svg",
-            "bytes": 1349,
-            "sha256": "00699195a2b0b2084284ad94d6a507f94c470f5fb02f9e8f518d1fd8197de929",
-            "size": 1349
-        },
-        {
-            "path": "assets/illustrations/sida-1-photo.jpg",
-            "bytes": 944505,
-            "sha256": "5176c2e093aff3be886b32429883de586daae5759bab67cc14b4f658a4a00e57",
-            "size": 944505
-        },
-        {
-            "path": "assets/illustrations/sida-2-visual.jpg",
-            "bytes": 486580,
-            "sha256": "015ff6a6cd0ade2c225ab747d8359d752911b89779c54fa9a70e2bc10e6cc2a1",
-            "size": 486580
-        },
-        {
-            "path": "assets/illustrations/sida-3.png",
-            "bytes": 112694,
-            "sha256": "eab9052faf017b1ac893e08b14db9f0628f1c3fb26a44fa28b592268b5c8b0e8",
-            "size": 112694
-        },
-        {
-            "path": "assets/illustrations/sida-logo.png",
-            "bytes": 76566,
-            "sha256": "e7af2257fabef9f754d463f90cbe3c426f53b48842eaa213d69d8ca9a10df318",
-            "size": 76566
-        },
-        {
-            "path": "assets/illustrations/siwei-liu.jpeg",
-            "bytes": 8160,
-            "sha256": "90a68111bd804cbfde7e3e75dbb29ca5db7bdf6400a84dbe8d28a378043af1a1",
-            "size": 8160
-        },
-        {
-            "path": "assets/illustrations/workflow-acceleration.svg",
-            "bytes": 1993,
-            "sha256": "fe1f1709e08356d7bd1ebe27bd0e14d4915f7db133d0d224b1b2f2a62fe3e8ce",
-            "size": 1993
-        },
-        {
-            "path": "assets/illustrations/workflow-matching.svg",
-            "bytes": 1733,
-            "sha256": "ad7ad3b635693681407e869fe116859aec9093e53b0fb8773c0d73d6b7056ff1",
-            "size": 1733
         },
         {
             "path": "assets/legal.css",
@@ -531,15 +339,15 @@
         },
         {
             "path": "assets/site.css",
-            "bytes": 22807,
-            "sha256": "d669b51b08e20fa217c01bc8c982b9f6ee5950ef8191dd2c174b1e95798051f7",
-            "size": 22807
+            "bytes": 24435,
+            "sha256": "c7bcea532be0136b01119af739041ae77d473abf83b1cca0b6133ab1ecd8621f",
+            "size": 24435
         },
         {
             "path": "assets/site.js",
-            "bytes": 14530,
-            "sha256": "6d2da5d145ea0b891571c3e5690fe7215183472cf12c8b47d9e713aa3a13ecd1",
-            "size": 14530
+            "bytes": 14555,
+            "sha256": "155fc807e162333d34debbeeab499429bb7981286c54e31de09db936a9ce84c4",
+            "size": 14555
         },
         {
             "path": "assets/token-usage.css",
@@ -555,63 +363,63 @@
         },
         {
             "path": "index.html",
-            "bytes": 26588,
-            "sha256": "b6783adca37421e162d01ebf422590f0dcfda4f04ac2395b10c9bdc67c9ea127",
-            "size": 26588
+            "bytes": 27548,
+            "sha256": "7841ed19c5be01f2b77783d39f2719c4a418f7549964ba65c9d6c8b03ab7d323",
+            "size": 27548
         },
         {
             "path": "news/_template.html",
-            "bytes": 7974,
-            "sha256": "e4ec64cc25a1ffe1a424355486baafdeb37f6cc49724c3131512ebd5f6c9cb46",
-            "size": 7974
+            "bytes": 10043,
+            "sha256": "95a0d5ca150606c8e016d76af162a2288af22c24c3ce395a4c3693740530096b",
+            "size": 10043
         },
         {
             "path": "news/sample-drawings-as-engineer.html",
-            "bytes": 11674,
-            "sha256": "bc0cbca2680c6137727cea0fd0400812782ba528571c108c49369ddd75f5e40f",
-            "size": 11674
+            "bytes": 13743,
+            "sha256": "8c9b4227ed88363e9da6559869fd3eb84efdec89bd0f36634e4d15f62bf381c8",
+            "size": 13743
         },
         {
             "path": "news/sample-hong-kong-gba.html",
-            "bytes": 11373,
-            "sha256": "21eb3d770a4d49e432bb8024d67444b6be63790c01fbf9ced28d045bc394d47b",
-            "size": 11373
+            "bytes": 13442,
+            "sha256": "b71b2d77a837f8cfd61cf152736dad335c067f72dca370274c3d9139209da9ed",
+            "size": 13442
         },
         {
             "path": "news/sample-llm-drawing-review.html",
-            "bytes": 11529,
-            "sha256": "cfb311bbccd6055a09a9e00de49536e2225fa202cfc215d8120c48c0c885b476",
-            "size": 11529
+            "bytes": 13598,
+            "sha256": "6a3ebb6675e69813960413117c0cc1a5fcdb1f692514ab504332af9405f538d6",
+            "size": 13598
         },
         {
             "path": "news/sample-pilot-to-practice.html",
-            "bytes": 11317,
-            "sha256": "d30732fd27b1473e744c902d19b2d250b009b1ac1a93e61eb3aae5e90903339a",
-            "size": 11317
+            "bytes": 13386,
+            "sha256": "4483831d42f804ad683a92b41f193d344e4d66447ad2652bdead7287895e5f8d",
+            "size": 13386
         },
         {
             "path": "news/sample-review-as-product.html",
-            "bytes": 11509,
-            "sha256": "e115ad68c44fc0b3a79d59b8eda09e929c4d432543330d0803dced8b9093536d",
-            "size": 11509
+            "bytes": 13578,
+            "sha256": "0a21cd3e5dead9e97f4c5d3dd262e0037ba5e0f21669477808559c12998901a9",
+            "size": 13578
         },
         {
             "path": "news/sample-sida-2026.html",
-            "bytes": 11615,
-            "sha256": "015bd07b07b499cfbacf0df097867b1cbf12cd08fc5a09fe3c5816e57bad7b08",
-            "size": 11615
+            "bytes": 13684,
+            "sha256": "394980df24e3b2663985ba0a5e607c03fa7684dbc84935a3529fd9192028df98",
+            "size": 13684
         },
         {
             "path": "news/sample-soda-assumptions.html",
-            "bytes": 11773,
-            "sha256": "23848167317c46a597cdc522ccdb8afaf65ecd14399621868cf1f8c650c741ae",
-            "size": 11773
+            "bytes": 13842,
+            "sha256": "9f8831fd8d48e1e38317c3c00d758edbf42af116d8a91e6a9ecf075e93485537",
+            "size": 13842
         },
         {
             "path": "privacy.html",
-            "bytes": 43606,
-            "sha256": "25f90427bfeb63e5aee9fc831101c6c240359f3478b9b7bf84cdf336bb38435a",
-            "size": 43606
+            "bytes": 43867,
+            "sha256": "89054a0e2baef3de614fc0fbe5115152141fca32a9f038a9082555c9ef27df4a",
+            "size": 43867
         },
         {
             "path": "robots.txt",
@@ -633,9 +441,9 @@
         },
         {
             "path": "terms.html",
-            "bytes": 51961,
-            "sha256": "1da5a32db145004b711a2a8da3740cd69785f3ba15ccc3146af9d28d800a7a62",
-            "size": 51961
+            "bytes": 52185,
+            "sha256": "1ec3b485167e01d89de11c5200221c84f257f9228d31b44b678976f95e6da4bd",
+            "size": 52185
         }
     ]
 }

@@ -307,7 +307,7 @@
 
   /* The header Log in / Register pills carry a pointer-following light, the same
      hover the hero CTAs use. site.css owns the look; this only writes --mx/--my. */
-  const glowPills = [...document.querySelectorAll('.nav-secondary [data-signin]:not(.is-authenticated), .nav-secondary [data-register]')];
+  const glowPills = [...document.querySelectorAll('.nav-secondary [data-signin]:not(.is-authenticated), .nav-secondary [data-register], .plan-mini .plan-action')];
   glowPills.forEach(pill => {
     let frame = 0;
     const paint = event => {

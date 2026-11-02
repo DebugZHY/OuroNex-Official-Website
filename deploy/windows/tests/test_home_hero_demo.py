@@ -48,18 +48,24 @@ class HeroDemoMarkupTests(unittest.TestCase):
         self.assertIn('aria-roledescription="carousel"', self.index)
 
     def test_carousel_styles_fill_the_same_sized_rounded_box(self) -> None:
-        self.assertRegex(self.css, r"\.hero-demo\{[^}]*grid-template-rows:52px minmax\(0,1fr\) auto")
-        self.assertRegex(self.css, r"\.hero-demo\{[^}]*border-radius:16px")
+        self.assertRegex(self.css, r"\.hero-demo\{[^}]*display:flex")
+        self.assertRegex(self.css, r"\.hero-demo\{[^}]*flex-direction:column")
         self.assertRegex(self.css, r"\.hero-demo__stage\{[^}]*position:relative")
+        self.assertRegex(self.css, r"\.hero-demo__stage\{[^}]*border-radius:16px")
         self.assertRegex(self.css, r"\.hero-demo__slide\{[^}]*position:absolute")
-        self.assertRegex(self.css, r"\.hero-demo__slide img\{[^}]*object-fit:cover")
+        self.assertRegex(self.css, r"\.hero-demo__slide img\{[^}]*object-fit:contain")
         self.assertRegex(self.css, r"\.hero-demo__slide\.is-active\{[^}]*opacity:1")
         self.assertRegex(self.css, r"\.hero-demo__controls\{[^}]*justify-content:center")
         self.assertRegex(self.css, r"\.hero-demo__control\{[^}]*border-radius:999px")
-        self.assertRegex(
-            self.css,
-            r"\.hero-demo\{[^}]*grid-template-rows:42px minmax\(0,1fr\) auto",
-        )
+
+    def test_the_switch_row_has_no_container_behind_it(self) -> None:
+        rule = re.search(r"\.hero-demo__controls\{([^}]*)\}", self.css)
+        self.assertIsNotNone(rule)
+        body = rule.group(1)
+        self.assertIn("background:none", body, "no pill behind the switches")
+        self.assertIn("border:0", body, "no outline behind the switches")
+        self.assertIn("box-shadow:none", body)
+        self.assertIn("backdrop-filter:none", body)
 
     def test_images_exist_at_the_same_size(self) -> None:
         for path in SLIDES:
@@ -109,7 +115,7 @@ class HeroDemoFocusTests(unittest.TestCase):
         self.assertIsNotNone(rule, "the frame is an overlay, not a background shadow")
         body = rule.group(1)
         self.assertIn("position:absolute", body)
-        self.assertIn("border:1px solid rgba(190,214,255,.5)", body)
+        self.assertIn("border:1px solid rgba(255,255,255,.5)", body)
         self.assertIn("border-radius:inherit", body)
         self.assertIn("pointer-events:none", body)
         self.assertIn("opacity:0", body)
@@ -129,10 +135,10 @@ class HeroDemoFocusTests(unittest.TestCase):
         self.assertIn("border-radius:16px", rule.group(1))
         self.assertIn("overflow:hidden", rule.group(1))
 
-    def test_focus_keeps_the_grey_groove_and_pauses_the_fill(self) -> None:
+    def test_focus_keeps_the_translucent_white_groove_and_pauses_the_fill(self) -> None:
         groove = re.search(r"\.hero-demo__control\.is-active::before[^{]*\{([^}]*)\}", self.css)
         self.assertIsNotNone(groove)
-        self.assertIn("rgba(237,242,248,.26)", groove.group(1), "the groove stays grey")
+        self.assertIn("rgba(255,255,255,.26)", groove.group(1), "the groove is translucent white")
         self.assertIsNone(
             re.search(r"\.hero-demo\.is-focused[^{]*::before\{", self.css),
             "focus must not repaint the groove",

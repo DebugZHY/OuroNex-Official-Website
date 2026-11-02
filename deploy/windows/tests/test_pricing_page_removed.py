@@ -101,9 +101,11 @@ class RetiredPricingPageTests(unittest.TestCase):
 
 
 class HomePriceActionTests(unittest.TestCase):
-    def test_four_cards_and_native_alert_actions(self):
+    def test_five_cards_and_native_alert_actions(self):
         found = cards()
-        self.assertEqual(len(found), 4, "Lite, Standard, Professional, Enterprise")
+        self.assertEqual(
+            len(found), 5, "Pay as you go, Lite, Standard, Professional, Enterprise"
+        )
         for card in found:
             with self.subTest(card=card[:60]):
                 tag = action(card)
@@ -114,11 +116,17 @@ class HomePriceActionTests(unittest.TestCase):
 
     def test_paid_cards_keep_their_classes_and_labels(self):
         found = cards()
-        for card in found[:3]:
+        payg = found[0]
+        self.assertIn('data-i18n="home.top-up">Top up<', payg)
+        self.assertEqual(
+            action(payg),
+            '<button class="button plan-action" data-available-soon="" type="button">',
+        )
+        for card in found[1:4]:
             tag = action(card)
             self.assertEqual(tag, '<button class="button plan-action" data-available-soon="" type="button">')
             self.assertIn(SUBSCRIBE_LABEL, card)
-        enterprise = found[3]
+        enterprise = found[4]
         self.assertIn('class="button-outline plan-action"', action(enterprise))
         self.assertIn(CONTACT_LABEL, enterprise)
 
@@ -167,8 +175,10 @@ class ManifestTests(unittest.TestCase):
         if "size" in entry:
             self.assertEqual(entry["size"], len(payload))
 
-    def test_public_pricing_marketing_dictionary_is_untouched(self):
-        self.assertIn("assets/i18n/pricing.js", self.paths)
+    def test_retired_marketing_dictionary_is_not_packaged(self):
+        self.assertNotIn("assets/i18n/pricing.js", self.paths)
+        self.assertFalse((REPO_ROOT / "assets" / "i18n" / "pricing.js").exists())
+        self.assertFalse((REPO_ROOT / "assets" / "i18n" / "pricing.json").exists())
 
 
 if __name__ == "__main__":
