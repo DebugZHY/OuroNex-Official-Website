@@ -1,18 +1,17 @@
-"""SIDA feature section: three side-by-side detail cards in one shared height.
+"""SIDA feature section: three stacked detail rows in one shared height.
 
-Contract pinned here (user's 80 %-size revision):
+Contract pinned here:
 
 * one shared ``--feature-height: clamp(448px, 52.8vh, 608px)`` drives the left
-  directory and the right card strip; short viewports override it to 384px
+  directory and the right text column; short viewports override it to 384px
   (max-height 800 / min-height 601) and 416px (max-height 600);
-* the three ``.feature-detail-card`` elements stay side by side;
-* card typography: Manrope 400, ``clamp(30px, 2vw, 40px)``/1.08/``-.025em`` title
-  with 22px body, stepping to 32/20 (≤1200), 30/19 (≤1000), 30/20 (short
-  601–800), 28/18 (≤600) and 26/18 on mobile;
-* the first and third cards align their text right, the second left, at every
-  breakpoint;
-* on mobile the directory keeps a 68px tap target and the cards stay
-  content-driven (auto height, no clipping).
+* the three ``.feature-detail-card`` rows stack in a single column, carry no
+  card surface and are separated by a 1px hairline between neighbours;
+* row typography: Manrope 400, ``clamp(24px, 1.9vw, 32px)``/1.15/``-.025em`` title
+  with 20px body, stepping to 26/19 (≤1200), 24/18 (≤1000), 24/18 (short
+  601–800), 22/16 (≤600) and 22/17 on mobile; every row aligns its text left;
+* the directory icon is 44px and keeps a 68px tap target on mobile, where the
+  rows stay content-driven (auto height, no clipping).
 
 Only ``assets/home.css`` is read: no browser, no server.
 """
@@ -30,10 +29,10 @@ SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 SHORT_HEIGHT = "384px"
 TINY_HEIGHT = "416px"
 
-BASE_TITLE_SIZE = "clamp(30px,2vw,40px)"
-BASE_TITLE_LINE_HEIGHT = "1.08"
+BASE_TITLE_SIZE = "clamp(24px,1.9vw,32px)"
+BASE_TITLE_LINE_HEIGHT = "1.15"
 BASE_TITLE_SPACING = "-.025em"
-BASE_BODY_SIZE = "22px"
+BASE_BODY_SIZE = "20px"
 
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -223,15 +222,15 @@ class CardLayoutTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_three_cards_sit_side_by_side(self):
+    def test_three_cards_stack_in_one_column(self):
         stack = base(self.css, STACK)
         self.assertEqual(stack.get("display"), "grid")
         self.assertEqual(normalise(stack.get("grid-template-columns", "")),
-                         "repeat(3,minmax(0,1fr))")
-        self.assertEqual(normalise(stack.get("gap", "")), "16px")
-        self.assertNotIn("repeat(3,minmax(0,1fr))",
-                         normalise(stack.get("grid-template-rows", "")),
-                         "the cards must not be stacked in three rows")
+                         "minmax(0,1fr)", "one column holds every row")
+        self.assertEqual(normalise(stack.get("grid-template-rows", "")),
+                         "repeat(3,minmax(0,1fr))", "three equal rows")
+        self.assertEqual(normalise(stack.get("gap", "")), "0",
+                         "the hairlines replace the gutter")
 
     def test_desktop_grid_is_two_columns(self):
         tabs = base(self.css, TABS)
@@ -247,10 +246,16 @@ class CardLayoutTests(unittest.TestCase):
         self.assertEqual(panel.get("overflow"), "visible")
 
         card = base(self.css, CARD)
-        self.assertEqual(normalise(card.get("border-radius", "")), "14px")
-        self.assertIn("linear-gradient(", card.get("background", ""))
+        self.assertEqual(normalise(card.get("border-radius", "")), "0")
+        self.assertEqual(normalise(card.get("background", "")), "none",
+                         "the card surface is gone")
+        self.assertEqual(normalise(card.get("box-shadow", "")), "none")
         padding = card.get("padding", "").split()
-        self.assertEqual(len(padding), 2, f"card needs a two-value padding, found {padding!r}")
+        self.assertEqual(len(padding), 2, f"rows need a two-value padding, found {padding!r}")
+        divider = base(self.css, CARD + "+" + CARD)
+        self.assertEqual(normalise(divider.get("border-top", "")),
+                         "1pxsolidrgba(155,181,210,.3)",
+                         "neighbouring rows are split by one hairline")
 
         body_rule = base(self.css, BODY)
         self.assertEqual(normalise(body_rule.get("margin", "")), "0")
@@ -283,9 +288,9 @@ class TypographyTests(unittest.TestCase):
 
     def test_width_ladder_typography(self):
         for prelude, title_size, body_size in (
-            (W1200, "32px", "20px"),
-            (W1000, "30px", "19px"),
-            (MOBILE, "26px", "18px"),
+            (W1200, "26px", "19px"),
+            (W1000, "24px", "18px"),
+            (MOBILE, "22px", "17px"),
         ):
             media = block(self.css, prelude)
             with self.subTest(media=prelude):
@@ -294,8 +299,8 @@ class TypographyTests(unittest.TestCase):
 
     def test_height_ladder_typography(self):
         for height, title_size, body_size in (
-            (SHORT_HEIGHT, "30px", "20px"),
-            (TINY_HEIGHT, "28px", "18px"),
+            (SHORT_HEIGHT, "24px", "18px"),
+            (TINY_HEIGHT, "22px", "16px"),
         ):
             prelude, media = block_with_height(self.css, height)
             with self.subTest(media=prelude, height=height):
@@ -308,46 +313,28 @@ class AlignmentTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def effective_alignment(self, css: str, index: int) -> dict:
-        """Last declared text-align for card `index` on the card, its h3 and its p."""
-        resolved = {}
-        for selectors, declarations in rules(css):
-            alignment = declarations.get("text-align")
-            if alignment is None:
-                continue
-            for selector in selectors:
-                if "feature-detail-card" not in selector:
-                    continue
-                if card_index(selector) != index:
-                    continue
-                target = "title" if selector.endswith("h3") else "body" if selector.endswith("p") else "card"
-                resolved[target] = normalise(alignment)
-        return resolved
-
-    def test_first_and_third_cards_align_right_second_left_everywhere(self):
-        expected = {1: "right", 3: "right", 2: "left"}
+    def test_every_row_aligns_its_text_left(self):
         base_css, medias = split_media(self.css)
-
-        # (a) the base rules must declare right / left / right.
-        for index, alignment in expected.items():
-            with self.subTest(where="base", card=index):
-                resolved = self.effective_alignment(base_css, index)
-                self.assertTrue(resolved, f"card {index} has no explicit text-align in the base rules")
-                for target, value in resolved.items():
-                    self.assertEqual(
-                        value, alignment,
-                        f"card {index} {target} must be {alignment}, found {value!r}",
-                    )
-
-        # (b) no media block may contradict that pattern (unset = inherited).
+        for selector, where in ((TITLE, "title"), (BODY, "body")):
+            self.assertEqual(
+                normalise(base(base_css, selector).get("text-align", "")),
+                "left",
+                f"the stacked rows read left-aligned ({where})",
+            )
+        self.assertNotRegex(
+            self.css,
+            r"feature-detail-card:nth-child\(\d+\)",
+            "no row may flip or override its own alignment any more",
+        )
         for prelude, body in medias:
-            for index, alignment in expected.items():
-                with self.subTest(where=prelude, card=index):
-                    for target, value in self.effective_alignment(body, index).items():
-                        self.assertEqual(
-                            value, alignment,
-                            f"{prelude}: card {index} {target} must stay {alignment}, found {value!r}",
-                        )
+            for selector in (TITLE, BODY):
+                try:
+                    value = normalise(base(body, selector).get("text-align", ""))
+                except AssertionError:
+                    continue
+                if not value:
+                    continue
+                self.assertEqual(value, "left", f"{prelude}: {selector} must stay left")
 
 
 class MobileCardTests(unittest.TestCase):

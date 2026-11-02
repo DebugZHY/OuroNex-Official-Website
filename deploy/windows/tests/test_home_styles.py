@@ -1302,8 +1302,8 @@ class ExpandedSectionsTest(CssAssertions):
     def test_sida_tabs_panel_and_downloads_are_larger(self) -> None:
         self.assert_decl(self.base(".feature-tabs"), "--feature-height", "clamp(448px,52.8vh,608px)", where=".feature-tabs")
         self.assert_decl(self.base(".feature-tab-list button"), "font", "500 clamp(20px,1.6vw,30px)/1.22 var(--display)", where=".feature-tab-list button")
-        self.assert_decl(self.base(".feature-detail-card p"), "font-size", "22px", where=".feature-detail-card p")
-        self.assert_decl(self.base(".feature-detail-card h3"), "font", "400 clamp(30px,2vw,40px)/1.08 var(--display)", where=".feature-detail-card h3")
+        self.assert_decl(self.base(".feature-detail-card p"), "font-size", "20px", where=".feature-detail-card p")
+        self.assert_decl(self.base(".feature-detail-card h3"), "font", "400 clamp(24px,1.9vw,32px)/1.15 var(--display)", where=".feature-detail-card h3")
         self.assertIn("900px", squash(self.base(".sida-section .download-actions").get("width", "")))
 
     def test_price_cards_and_table_use_more_space(self) -> None:
@@ -1346,7 +1346,7 @@ class HomepageRedesignTest(CssAssertions):
             where=".hero-description on desktop",
         )
 
-    def test_sida_uses_a_quarter_column_and_three_side_by_side_cards(self) -> None:
+    def test_sida_uses_a_quarter_column_and_one_stacked_text_column(self) -> None:
         tabs = find_rules(HOME_CSS, ".feature-tabs")[0]
         self.assertEqual(
             squash(tabs.get("grid-template-columns", "")),
@@ -1356,13 +1356,13 @@ class HomepageRedesignTest(CssAssertions):
         stack = find_rules(HOME_CSS, ".feature-card-stack")[0]
         self.assertEqual(
             squash(stack.get("grid-template-columns", "")),
-            "repeat(3,minmax(0,1fr))",
-            "the three detail cards sit side by side",
+            "minmax(0,1fr)",
+            "the three detail rows share one column",
         )
         self.assertEqual(
             squash(stack.get("grid-template-rows", "")),
-            "none",
-            "the retired three-row stack must not come back",
+            "repeat(3,minmax(0,1fr))",
+            "the three blocks stack as equal rows",
         )
         html = self.html()
         stacks = re.findall(
