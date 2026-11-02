@@ -1284,9 +1284,13 @@ class ExpandedSectionsTest(CssAssertions):
         return matches[0]
 
     def test_wide_desktop_containers_use_the_available_page(self) -> None:
-        for selector in (".hero-inner", ".feature-layout", ".price-layout"):
+        for selector in (".hero-inner", ".price-layout"):
             width = squash(self.base(selector).get("width", ""))
             self.assertIn("1920px", width, f"{selector}: expected the expanded wide container")
+        feature = squash(self.base(".feature-layout").get("width", ""))
+        self.assertIn("1560px", feature, "the SIDA block keeps a narrower column than the hero")
+        self.assertEqual(squash(self.base(".feature-layout").get("margin-inline", "")), "auto",
+                         "the narrower SIDA block stays centred")
 
     def test_hero_type_and_demo_are_larger(self) -> None:
         self.assert_decl(self.base(".hero-copy h1"), "font-size", "clamp(52px,4.8vw,88px)", where=".hero-copy h1")
