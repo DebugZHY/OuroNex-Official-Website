@@ -485,9 +485,9 @@
     "zh-TW": "現場諮詢"
   },
   "home.flow-entry-1-copy": {
-    "en": "We walk the live workflow with you and map where the hours are going.",
-    "zh-CN": "我们和你一起走一遍真实的工作流，找出时间到底花在哪里。",
-    "zh-TW": "我們和你一起走一遍真實的工作流程，找出時間到底花在哪裡。"
+    "en": "We walk your live workflow and map where the hours go.",
+    "zh-CN": "一起走一遍真实工作流，找出时间花在哪里。",
+    "zh-TW": "一起走一遍真實工作流程，找出時間花在哪裡。"
   },
   "home.flow-entry-2-kicker": {
     "en": "Scope already defined",
@@ -500,9 +500,9 @@
     "zh-TW": "範圍提案"
   },
   "home.flow-entry-2-copy": {
-    "en": "We price the work, the review points and the delivery date up front.",
-    "zh-CN": "工作范围、复核节点、交付时间与价格，事前一次说清。",
-    "zh-TW": "工作範圍、複核節點、交付時間與價格，事前一次說清。"
+    "en": "Scope, review points and delivery date priced up front.",
+    "zh-CN": "工作范围、复核节点与交付时间，事前定价。",
+    "zh-TW": "工作範圍、複核節點與交付時間，事前定價。"
   },
   "home.flow-entry-3-kicker": {
     "en": "Want to see it working",
@@ -515,9 +515,9 @@
     "zh-TW": "先做試點"
   },
   "home.flow-entry-3-copy": {
-    "en": "One real project runs on SIDA, so the result speaks before the invoice.",
-    "zh-CN": "用一个真实项目跑 SIDA，让结果先说话，再谈费用。",
-    "zh-TW": "用一個真實專案跑 SIDA，讓結果先說話，再談費用。"
+    "en": "One real project runs on SIDA before any invoice.",
+    "zh-CN": "先用一个真实项目跑 SIDA，再谈费用。",
+    "zh-TW": "先用一個真實專案跑 SIDA，再談費用。"
   },
   "home.flow-band-title": {
     "en": "Match to what you need",
@@ -540,9 +540,9 @@
     "zh-TW": "訂閱並使用"
   },
   "home.flow-lane-1-copy": {
-    "en": "Take SIDA as it ships: pay as you go or a monthly plan, your codes and knowledge bases loaded, data staying on your machine.",
-    "zh-CN": "直接使用 SIDA：按量付费或包月，载入你的规范与知识库，数据留在你自己的机器上。",
-    "zh-TW": "直接使用 SIDA：按量付費或包月，載入你的規範與知識庫，資料留在你自己的機器上。"
+    "en": "Pay as you go or monthly; your codes loaded, data local.",
+    "zh-CN": "按量或包月，载入你的规范，数据留在本机。",
+    "zh-TW": "按量或包月，載入你的規範，資料留在本機。"
   },
   "home.flow-lane-2-kicker": {
     "en": "Your process, not ours",
@@ -555,9 +555,9 @@
     "zh-TW": "加入自訂自動化"
   },
   "home.flow-lane-2-copy": {
-    "en": "We model your workflow as a SIDA flowchart — specialist bots, checkpoints and review gates you approve.",
-    "zh-CN": "把你的工作流画成 SIDA 流程图——专家机器人、检查点与由你确认的复核关口。",
-    "zh-TW": "把你的工作流程畫成 SIDA 流程圖——專家機器人、檢查點與由你確認的複核關口。"
+    "en": "Your process modelled as a SIDA flowchart, with your approvals.",
+    "zh-CN": "把你的流程画成 SIDA 流程图，复核关口由你确认。",
+    "zh-TW": "把你的流程畫成 SIDA 流程圖，複核關口由你確認。"
   },
   "home.flow-lane-3-kicker": {
     "en": "Nothing off the shelf fits",
@@ -570,9 +570,9 @@
     "zh-TW": "委託開發工具"
   },
   "home.flow-lane-3-copy": {
-    "en": "A model, solver or software integration built to a fixed scope, delivered inside SIDA.",
-    "zh-CN": "按固定范围开发模型、求解器或软件集成，交付在 SIDA 之内。",
-    "zh-TW": "按固定範圍開發模型、求解器或軟體整合，交付在 SIDA 之內。"
+    "en": "A model, solver or integration built to a fixed scope.",
+    "zh-CN": "按固定范围开发模型、求解器或软件集成。",
+    "zh-TW": "按固定範圍開發模型、求解器或軟體整合。"
   },
   "home.flow-final-title": {
     "en": "Every path lands on the same platform",
@@ -618,5 +618,25 @@
     "en": "Technical Advisor. An assistant professor and Fellow of a leading steel construction institute, he has contributed to multiple regional and national design codes, keeping the company anchored in rigorous science.",
     "zh-CN": "技术顾问。助理教授、领先钢结构学会会士，参与多项地区与国家设计规范的编制，让公司始终扎根于严谨的科研。",
     "zh-TW": "技術顧問。助理教授、領先鋼結構學會會士，參與多項地區與國家設計規範的編制，讓公司始終扎根於嚴謹的科研。"
+  },
+  "home.flow-hint": {
+    "en": "Drag to explore",
+    "zh-CN": "拖动查看",
+    "zh-TW": "拖動查看"
+  },
+  "home.flow-reset": {
+    "en": "Fit to view",
+    "zh-CN": "适应窗口",
+    "zh-TW": "適應視窗"
+  },
+  "home.flow-zoom-in": {
+    "en": "Zoom in",
+    "zh-CN": "放大",
+    "zh-TW": "放大"
+  },
+  "home.flow-zoom-out": {
+    "en": "Zoom out",
+    "zh-CN": "缩小",
+    "zh-TW": "縮小"
   }
 }

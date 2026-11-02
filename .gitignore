@@ -25,6 +25,9 @@ NUL
 exports/
 outbox/
 
+# Node tooling (business-flow build)
+node_modules/
+
 # Agent scratch
 _scratch/
 .playwright-mcp/

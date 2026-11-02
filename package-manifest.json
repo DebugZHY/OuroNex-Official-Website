@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 53423,
-      "sha256": "9a523db21f7fbccd3cf6bd5da0bb8172706e1b03f7f641cf165cc6698d12fd32",
-      "size": 53423
+      "bytes": 53892,
+      "sha256": "524d6815420bfe0c373ee0fad35d1c2df8230c4d0828f3a2cac8866bcec76096",
+      "size": 53892
     },
     {
       "path": "assets/home.js",
@@ -219,9 +219,9 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 25835,
-      "sha256": "538ef7b43bdbd457d9f7d7d4f20b1d7e908d0097782d3e6b9bc8bcb0f125754f",
-      "size": 25835
+      "bytes": 25737,
+      "sha256": "b467eefea6c18d94ba39486267e85721abfab43097affab74f17527bc05a6af8",
+      "size": 25737
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -291,9 +291,9 @@
     },
     {
       "path": "assets/illustrations/haoyi-zhang.png",
-      "bytes": 187312,
-      "size": 187312,
-      "sha256": "56601e8fc3629a77f2d43c2b4981c045570b99d51e8aea3a650e9850e4c5ba8d"
+      "bytes": 386427,
+      "size": 386427,
+      "sha256": "b1463f8fc2046268067aeb3fd9a3cb1629efbc68c03c2e562036758fecb60ac2"
     },
     {
       "path": "assets/illustrations/home-1.png",
@@ -321,9 +321,9 @@
     },
     {
       "path": "assets/illustrations/siwei-liu.jpg",
-      "bytes": 263200,
-      "size": 263200,
-      "sha256": "66dee9543150116b77f61572c642f549999c199cdd2638e9c2e3a811c49fd748"
+      "bytes": 116445,
+      "size": 116445,
+      "sha256": "734b5e101b150ef99cfbffe89ea2ea30825bc5a69670989a02a0023a6c82d311"
     },
     {
       "path": "assets/legal.css",
@@ -393,9 +393,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 31783,
-      "sha256": "69a2c8d3872654f7103cbdd6338e39236cfb95d573e9cca5819da98d28b6dbac",
-      "size": 31783
+      "bytes": 32122,
+      "sha256": "736af9d5662c1da0daa66710a3ca75250aedecfebe13632c6a5a8e25b74160f5",
+      "size": 32122
     },
     {
       "path": "news/_template.html",
@@ -474,6 +474,18 @@
       "bytes": 52108,
       "sha256": "bd438b5ed9f6ff1f8a58e4a2958080f9314b94cd4e5e37bc4927e102e052e928",
       "size": 52108
+    },
+    {
+      "path": "assets/business-flow.css",
+      "bytes": 20498,
+      "size": 20498,
+      "sha256": "312c5e9900f2072e52d4739a0ebb9ef890b279496db875d5dd769b6ee0c76f2a"
+    },
+    {
+      "path": "assets/business-flow.js",
+      "bytes": 331927,
+      "size": 331927,
+      "sha256": "e6fb2d7d464576f973dfaf553b1c6b7b3bbd4ed79c034bdc3a9fd910ac7411cd"
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "name": "ouroonex-business-flow",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Interactive engagement flowchart for the Business section",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.3.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

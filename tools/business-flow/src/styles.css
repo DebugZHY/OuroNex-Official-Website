@@ -1,0 +1,310 @@
+/* Interactive engagement flowchart: node cards, buses and controls. */
+
+.bf-canvas .react-flow {
+  background: transparent;
+}
+
+.bf-canvas .react-flow__pane {
+  cursor: grab;
+}
+
+.bf-canvas .react-flow__pane:active {
+  cursor: grabbing;
+}
+
+.bf-canvas .react-flow__attribution {
+  display: none;
+}
+
+.bf-canvas .react-flow__handle {
+  width: 2px;
+  height: 2px;
+  min-width: 2px;
+  min-height: 2px;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The edges holder must own the pane box, otherwise the path svg collapses to 0 width. */
+.bf-canvas .react-flow__edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bf-canvas .react-flow__edges > svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Edges: hairline bus with a slow travelling dot. */
+.bf-canvas .react-flow__edge-path {
+  stroke: rgba(146, 182, 238, 0.72);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: stroke 0.25s ease, stroke-width 0.25s ease, opacity 0.25s ease;
+}
+
+.bf-canvas .react-flow__edge.is-lit .react-flow__edge-path {
+  stroke: rgba(168, 202, 255, 0.95);
+  stroke-width: 1.9;
+  filter: drop-shadow(0 0 5px rgba(114, 158, 255, 0.55));
+}
+
+.bf-canvas .react-flow__edge.is-dim {
+  opacity: 0.28;
+}
+
+/* Nodes */
+.bf-canvas .react-flow__node {
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.bf-canvas .react-flow__node.is-dim {
+  opacity: 0.38;
+  filter: saturate(0.6);
+}
+
+.bf-canvas .react-flow__node.dragging {
+  cursor: grabbing;
+}
+
+.bf-card {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 18px;
+  border: 1px solid rgba(140, 170, 210, 0.15);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #121d2f, #0c1523);
+  box-shadow: inset 0 1px 0 rgba(190, 215, 255, 0.06), 0 16px 34px -26px #000;
+  transition: border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+  cursor: grab;
+}
+
+.bf-card:hover {
+  border-color: rgba(126, 168, 255, 0.45);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(190, 215, 255, 0.09), 0 22px 44px -28px rgba(114, 158, 255, 0.65);
+}
+
+.bf-card__kicker {
+  color: #a6c6f2;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.bf-card__title {
+  text-wrap: pretty;
+  margin: 0;
+  color: #f4f9ff;
+  font-family: var(--display, inherit);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+}
+
+.bf-card__copy {
+  text-wrap: pretty;
+  margin: 2px 0 0;
+  color: #c3d3e5;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.bf-card__index {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  color: rgba(126, 168, 255, 0.6);
+  font-family: var(--display, inherit);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.bf-card__pills {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bf-card__pills li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px 8px;
+  border: 1px solid rgba(150, 185, 230, 0.2);
+  border-radius: 999px;
+  background: rgba(9, 16, 26, 0.55);
+  color: #d3e2f6;
+  font-size: 11.5px;
+  line-height: 1.3;
+}
+
+.bf-card__pills li:last-child {
+  grid-column: 1 / -1;
+}
+
+/* Entry cards: quiet, they are only the starting point. */
+/* The gate: the one node that is a decision. */
+.bf-card--gate {
+  border-color: rgba(126, 168, 255, 0.42);
+  background: linear-gradient(180deg, #16263f, #0e1a2b);
+  box-shadow: inset 0 1px 0 rgba(190, 215, 255, 0.14), 0 20px 46px -30px rgba(114, 158, 255, 0.85);
+}
+
+.bf-card--gate .bf-card__title {
+  font-size: 19px;
+}
+
+.bf-card--gate .bf-card__copy {
+  color: #94aac6;
+}
+
+/* Service lanes: the commercial options, so they carry the accent rail. */
+.bf-card--lane {
+  padding-left: 20px;
+}
+
+.bf-card--lane::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(126, 168, 255, 0.85), rgba(126, 168, 255, 0.18));
+}
+
+.bf-card--lane .bf-card__title {
+  padding-right: 26px;
+}
+
+/* Delivery node: the destination, brightest surface in the canvas. */
+.bf-card--delivery {
+  border-color: rgba(126, 168, 255, 0.34);
+  background: linear-gradient(150deg, rgba(22, 38, 62, 0.98), rgba(11, 19, 31, 0.98));
+  box-shadow: inset 0 1px 0 rgba(198, 220, 255, 0.16), 0 24px 50px -30px rgba(114, 158, 255, 0.8);
+}
+
+.bf-card--delivery .bf-card__title {
+  font-size: 18px;
+}
+
+/* Controls and hint */
+.bf-controls {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  gap: 6px;
+  z-index: 5;
+}
+
+.bf-controls button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid rgba(150, 180, 220, 0.18);
+  border-radius: 8px;
+  background: rgba(12, 21, 35, 0.86);
+  color: #cfe0f6;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.bf-controls button:hover {
+  border-color: rgba(126, 168, 255, 0.55);
+  background: rgba(20, 33, 54, 0.95);
+  color: #f2f8ff;
+}
+
+.bf-controls__fit {
+  width: 11px;
+  height: 11px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 2px rgba(12, 21, 35, 0.9);
+}
+
+.bf-hint {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  border: 1px solid rgba(150, 180, 220, 0.14);
+  border-radius: 999px;
+  background: rgba(10, 18, 30, 0.7);
+  color: #93a9c4;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.bf-hint.is-hidden {
+  opacity: 0;
+}
+
+.bf-hint__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #729eff;
+  box-shadow: 0 0 8px rgba(114, 158, 255, 0.8);
+}
+
+/* Tablet: single column, copy stays out of the way. */
+.bf-canvas[data-axis='vertical'] .bf-card__copy {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bf-canvas .react-flow__edge.animated path {
+    animation: none;
+  }
+
+  .bf-card,
+  .bf-canvas .react-flow__edge-path {
+    transition: none;
+  }
+}
+
+.bf-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a8c6ff;
+  box-shadow: 0 0 0 3px rgba(114, 158, 255, 0.16), 0 0 12px rgba(114, 158, 255, 0.55);
+}
+
+.bf-canvas .react-flow__node[data-id^='junction'] {
+  pointer-events: none;
+}
