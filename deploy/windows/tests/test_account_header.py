@@ -34,14 +34,18 @@ SITE_JS = REPO_ROOT / "assets" / "site.js"
 
 INCLUDE_TAG = "{% include 'accounts/_site_header.html' %}"
 
-NAV_LABELS = ["Home", "SIDA", "Price", "Business", "About"]
+NAV_LABELS = ["Home", "SIDA", "Features", "Application", "Price", "Business", "About"]
 NAV_KEYS = [
     "shared.home.5c1d84",
     "shared.sida.9da1bc",
+    "shared.features",
+    "shared.application",
     "shared.price.3e8248",
     "shared.business.d6663d",
     "shared.about.6b21fb",
 ]
+# Nav entries that only carry a look: no destination yet, so no href.
+NAV_PLACEHOLDERS = {"Features", "Application"}
 
 # Selectors whose declarations the auth pages must share with the Home header.
 MIRRORED = [
@@ -133,13 +137,19 @@ class AuthHeaderMarkupTest(unittest.TestCase):
     def test_nav_items_match_the_home_header(self) -> None:
         primary = re.search(r'<div class="nav-primary">(.*?)</div>', self.header, re.S)
         self.assertIsNotNone(primary)
-        items = re.findall(
-            r'<a href="([^"]+)"><span data-i18n="([^"]+)">([^<]+)</span></a>',
-            primary.group(1),
-        )
+        items = [
+            (href or None, key, label)
+            for href, key, label in re.findall(
+                r'<a(?: href="([^"]+)")?[^>]*><span data-i18n="([^"]+)">([^<]+)</span></a>',
+                primary.group(1),
+            )
+        ]
         self.assertEqual([label for _, _, label in items], NAV_LABELS)
         self.assertEqual([key for _, key, _ in items], NAV_KEYS)
         for href, _, label in items:
+            if label in NAV_PLACEHOLDERS:
+                self.assertIsNone(href, f"{label} is styling only and must not link anywhere")
+                continue
             self.assertEqual(
                 href, f"/index.html#{label.lower()}", f"{label} must return to its Home section"
             )
