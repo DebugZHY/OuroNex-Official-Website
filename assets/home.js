@@ -643,6 +643,15 @@
       });
     });
 
+    /* Dropping the fill animation for one frame restarts it, so the pill refills in step
+       with the interval that the blur handler starts. */
+    function restartFill() {
+      if (!root.classList) return;
+      root.classList.add('is-fill-reset');
+      void root.offsetWidth;
+      root.classList.remove('is-fill-reset');
+    }
+
     /* Focusing the demo image hands the carousel to the viewer: the timed advance stops
        until focus leaves, then the cycle restarts from the active slide. */
     var stage = root.querySelector(DEMO_STAGE_SELECTOR);
@@ -653,6 +662,7 @@
       });
       stage.addEventListener('blur', function () {
         if (root.classList) root.classList.remove('is-focused');
+        restartFill();
         start();
       });
     }

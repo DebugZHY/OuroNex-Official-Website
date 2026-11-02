@@ -67,7 +67,7 @@
 .hero-demo__bar{display:none}
 .hero-demo__bar>span:first-child{display:inline-flex;align-items:center;gap:8px}
 .hero-demo__bar>span:first-child::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(114,158,255,.9)}
-.hero-demo__stage{position:relative;display:block;width:100%;aspect-ratio:3200/2200;min-height:0;padding:0;overflow:hidden;background:#0a1220}
+.hero-demo__stage{position:relative;display:block;width:100%;aspect-ratio:3200/2200;min-height:0;padding:0;overflow:hidden;border-radius:16px;background:#0a1220}
 .hero-demo__stage::after{content:none}
 .hero-demo__slide{position:absolute;inset:0;margin:0;opacity:0;pointer-events:none;transition:opacity .55s ease}
 .hero-demo__slide.is-active{opacity:1;pointer-events:auto}
@@ -85,12 +85,13 @@
    section widens, and the fill ends flush with the track's rounded right cap. */
 @keyframes onx-demo-progress{from{width:9px}to{width:28px}}
 @media(prefers-reduced-motion:reduce){.hero-demo__control.is-active::after,.hero-demo__control[aria-pressed=true]::after{animation:none;width:28px}}
-/* Focusing the demo image hands the carousel to the viewer: the frame turns visible, the
-   grey groove fills blue and the timed advance waits until focus leaves. */
+/* Focusing the demo image hands the carousel to the viewer: a translucent frame marks the
+   focused stage and the timed advance waits, so the fill freezes inside its grey groove. */
 .hero-demo__stage:focus{outline:none;box-shadow:inset 0 0 0 1px rgba(190,214,255,.5)}
 .hero-demo__stage:focus-visible{outline:none}
-.hero-demo.is-focused .hero-demo__control.is-active::before{background:rgba(114,158,255,.55)}
-.hero-demo.is-focused .hero-demo__control.is-active::after{animation:none;width:28px}
+.hero-demo.is-focused .hero-demo__control.is-active::after{animation-play-state:paused}
+/* Dropping the animation for one frame restarts the fill in step with the interval. */
+.hero-demo.is-fill-reset .hero-demo__control.is-active::after{animation:none}
 /* SIDA: a narrow feature directory beside three side-by-side detail cards. */
 .sida-section{background:transparent;padding-bottom:32px;justify-content:center}
 .feature-layout{flex:none;min-height:0;display:grid;grid-template-rows:auto auto;align-content:start;gap:28px;padding:24px 0;margin-inline:auto;width:min(1560px,calc(100% - 120px))!important}

@@ -111,14 +111,30 @@ class HeroDemoFocusTests(unittest.TestCase):
         self.assertIn("outline:none", body)
         self.assertRegex(body, r"box-shadow:inset 0 0 0 1px rgba\(190,214,255,\.5\)")
 
-    def test_focus_paints_the_groove_blue_and_holds_the_fill(self) -> None:
-        track = re.search(r"\.hero-demo\.is-focused \.hero-demo__control\.is-active::before\{([^}]*)\}", self.css)
-        self.assertIsNotNone(track)
-        self.assertIn("rgba(114,158,255,.55)", track.group(1))
-        fill = re.search(r"\.hero-demo\.is-focused \.hero-demo__control\.is-active::after\{([^}]*)\}", self.css)
-        self.assertIsNotNone(fill)
-        self.assertIn("animation:none", fill.group(1))
-        self.assertIn("width:28px", fill.group(1))
+    def test_the_stage_is_a_rounded_rectangle(self) -> None:
+        rule = re.search(r"\.hero-demo__stage\{([^}]*)\}", self.css)
+        self.assertIsNotNone(rule)
+        self.assertIn("border-radius:16px", rule.group(1))
+        self.assertIn("overflow:hidden", rule.group(1))
+
+    def test_focus_keeps_the_grey_groove_and_pauses_the_fill(self) -> None:
+        groove = re.search(r"\.hero-demo__control\.is-active::before[^{]*\{([^}]*)\}", self.css)
+        self.assertIsNotNone(groove)
+        self.assertIn("rgba(237,242,248,.26)", groove.group(1), "the groove stays grey")
+        self.assertIsNone(
+            re.search(r"\.hero-demo\.is-focused[^{]*::before\{", self.css),
+            "focus must not repaint the groove",
+        )
+        paused = re.search(
+            r"\.hero-demo\.is-focused \.hero-demo__control\.is-active::after\{([^}]*)\}", self.css
+        )
+        self.assertIsNotNone(paused)
+        self.assertIn("animation-play-state:paused", paused.group(1))
+
+    def test_blur_restarts_the_fill_animation(self) -> None:
+        reset = re.search(r"\.hero-demo\.is-fill-reset \.hero-demo__control\.is-active::after\{([^}]*)\}", self.css)
+        self.assertIsNotNone(reset, "one frame without the animation restarts it")
+        self.assertIn("animation:none", reset.group(1))
 
     def test_focus_stops_the_timer_and_blur_restarts_it(self) -> None:
         self.assertIn("var DEMO_STAGE_SELECTOR = '.hero-demo__stage';", self.js)
@@ -129,7 +145,12 @@ class HeroDemoFocusTests(unittest.TestCase):
         blur = re.search(r"stage\.addEventListener\('blur'.*?\}\);", self.js, re.DOTALL)
         self.assertIsNotNone(blur)
         self.assertIn("classList.remove('is-focused')", blur.group(0))
+        self.assertIn("restartFill();", blur.group(0))
         self.assertIn("start();", blur.group(0))
+        restart = re.search(r"function restartFill\(\)[^\n]*\n(?:.*\n)*?    \}", self.js)
+        self.assertIsNotNone(restart, "blur refills the pill from the start")
+        self.assertIn("is-fill-reset", restart.group(0))
+        self.assertIn("offsetWidth", restart.group(0))
 
 
 if __name__ == "__main__":
