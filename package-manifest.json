@@ -393,9 +393,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 31849,
-      "sha256": "1434c63da579529c012b6ed6137585bb24a7ca6e776b313bc215bf6d177bb37b",
-      "size": 31849
+      "bytes": 32422,
+      "sha256": "c0cc2db1bddf2ee004d30587c0b1b043b9d279de8085c5f006963e9f4a914a0d",
+      "size": 32422
     },
     {
       "path": "news/_template.html",

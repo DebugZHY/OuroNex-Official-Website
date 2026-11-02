@@ -32,14 +32,17 @@ class FlowAssetWiringTests(unittest.TestCase):
     def test_the_page_loads_the_bundle_stylesheet(self) -> None:
         self.assertIn('<link href="assets/business-flow.css" rel="stylesheet"', self.html)
 
-    def test_the_bundle_is_deferred_and_runs_before_motion(self) -> None:
-        scripts = re.findall(r'<script defer="" src="([^"]+)"', self.html)
-        self.assertIn("assets/business-flow.js", scripts)
-        self.assertLess(
-            scripts.index("assets/business-flow.js"),
-            scripts.index("assets/motion.js"),
-            "the flowchart bundle must be in place before the motion layer runs",
-        )
+    def test_the_bundle_is_never_loaded_eagerly(self) -> None:
+        eager = re.findall(r'<script[^>]+src="assets/business-flow\.js"', self.html)
+        self.assertEqual(eager, [], "the canvas bundle must load on demand, not with the page")
+
+    def test_a_loader_fetches_the_bundle_near_the_section(self) -> None:
+        start = self.html.index("data-flow-root")
+        loader = self.html.rindex("<script>", 0, start)
+        block = self.html[loader : self.html.index("</script>", loader)]
+        self.assertIn('assets/business-flow.js', block)
+        self.assertIn("IntersectionObserver", block)
+        self.assertIn("DOMContentLoaded", block, "the loader runs in head and needs the section in the DOM")
 
     def test_the_canvas_host_wraps_the_static_fallback(self) -> None:
         start = self.html.index('<div class="business-flow" data-flow-root>')
