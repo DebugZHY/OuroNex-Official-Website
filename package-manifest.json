@@ -381,9 +381,9 @@
         },
         {
             "path": "early-access.html",
-            "bytes": 12616,
-            "sha256": "ea494e19460e3ed0aa1a8f54c4e5d8e90969e07904be9cefbcd17e7c2a5025ea",
-            "size": 12616
+            "bytes": 12598,
+            "sha256": "405aaa17c504bc85ee2be368ac3a519b78b833f049abb26ae037495dbdbecccd",
+            "size": 12598
         },
         {
             "path": "index.html",
