@@ -50,9 +50,24 @@ class EarlyAccessPageTests(unittest.TestCase):
         self.assertEqual(block(markup, "header", "site-header"),
                          block(legal, "header", "site-header"),
                          "the header must be the shared site header")
-        self.assertEqual(block(markup, "footer", "site-footer"),
-                         block(legal, "footer", "site-footer"),
-                         "the footer must be the shared site footer")
+
+    def test_footer_keeps_only_the_legal_row(self):
+        """The page closes on the divider, the copyright and the two legal links."""
+        footer = block(read(PAGE), "footer", "site-footer")
+        self.assertIn('class="wrap footer-bottom"', footer)
+        self.assertNotIn("footer-top", footer, "no brand row on this page")
+        self.assertNotIn("footer-nav", footer, "no section links on this page")
+        self.assertNotIn("footer-social", footer, "no social icons on this page")
+        self.assertIn("Copyright © 2026 OuroNex Technology Company Limited. All Rights Reserved.", footer)
+        for href, label in (("terms.html", "Terms of Service"), ("privacy.html", "Privacy Policy")):
+            with self.subTest(href=href):
+                self.assertRegex(footer, rf'href="{href}"[^>]*>\s*<span[^>]*>{label}</span>')
+        source = read(PRIVACY)
+        tail = block(source, "footer", "site-footer").split('<div class="wrap footer-bottom">', 1)[1]
+        expected = '<footer class="site-footer">\n<div class="wrap footer-bottom">' + tail
+        squash = lambda markup: re.sub(r"\s+", " ", markup).strip()
+        self.assertEqual(squash(footer), squash(expected),
+                         "the kept row is the site footer's own bottom row")
 
     def test_form_carries_the_four_customer_fields(self):
         markup = read(PAGE)
