@@ -335,7 +335,7 @@ function Canvas() {
     () =>
       graph.nodes.map((node) => ({
         ...node,
-        className: lit ? (lit.has(node.id) ? 'is-lit' : 'is-dim') : undefined,
+        className: lit && lit.has(node.id) ? 'is-lit' : undefined,
       })),
     [graph.nodes, lit],
   );
@@ -344,18 +344,20 @@ function Canvas() {
     () =>
       graph.edges.map((edge) => ({
         ...edge,
-        className: lit
-          ? lit.has(edge.source) && lit.has(edge.target)
-            ? 'is-lit'
-            : 'is-dim'
-          : undefined,
+        className:
+          lit && lit.has(edge.source) && lit.has(edge.target) ? 'is-lit' : undefined,
       })),
     [graph.edges, lit],
   );
 
   const onPointerMove = (event) => {
     const node = event.target.closest ? event.target.closest('.react-flow__node') : null;
-    const id = node ? node.getAttribute('data-id') : null;
+    // Crossing the gaps and the connectors between cards used to clear the
+    // highlight, so a sweep blinked the whole diagram off and on. Keep the last
+    // card lit until the pointer lands on another one or leaves the canvas.
+    if (!node) return;
+    const id = node.getAttribute('data-id');
+    if (!id || id.indexOf('junction') === 0) return;
     if (id !== hovered) setHovered(id);
   };
 

@@ -477,15 +477,15 @@
     },
     {
       "path": "assets/business-flow.css",
-      "bytes": 20449,
-      "size": 20449,
-      "sha256": "8e6442bad29f7267803087ee2c6e9c6594491b4fd12636d6a84c68501fe3b0cb"
+      "bytes": 20185,
+      "size": 20185,
+      "sha256": "a874927cbfc89ca98b9e40e0e34f51ef11ca01e61322a2666232e7944f17eecb"
     },
     {
       "path": "assets/business-flow.js",
-      "bytes": 212890,
-      "size": 212890,
-      "sha256": "9e08569e97e46295e2c644f18acb890096c8f90167830c6a8767dd3ea3e44bc0"
+      "bytes": 212915,
+      "size": 212915,
+      "sha256": "16d5e281b4f38012afc1234d1dced75c56c4c9359724f8aaee1dfb68cd277c3b"
     }
   ]
 }
