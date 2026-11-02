@@ -249,13 +249,17 @@ class FeatureDetailCardTests(unittest.TestCase):
         self.assertEqual(card.get("align-items"), "stretch")
         self.assertEqual(card.get("justify-content"), "center")
 
-    def test_middle_row_reads_right_aligned(self):
+    def test_middle_row_sits_right_with_left_read_copy(self):
         middle = declarations(self.base, ".feature-detail-card:nth-child(2)")
         self.assertEqual(normalise(middle.get("text-align", "")), "right")
-        for selector in (".feature-detail-card:nth-child(2) h3",
-                         ".feature-detail-card:nth-child(2) p"):
-            self.assertEqual(normalise(declarations(self.base, selector).get("text-align", "")),
-                             "right", selector)
+        heading = declarations(self.base, ".feature-detail-card:nth-child(2) h3")
+        self.assertEqual(normalise(heading.get("text-align", "")), "right")
+        copy = declarations(self.base, ".feature-detail-card:nth-child(2) p")
+        self.assertEqual(normalise(copy.get("text-align", "")), "left",
+                         "lines inside the middle paragraph read left to right")
+        self.assertEqual(normalise(copy.get("margin-left", "")), "auto",
+                         "the paragraph block still hugs the right edge")
+        self.assertIn("max-width", copy)
 
     def test_rows_are_separated_by_a_hairline(self):
         divider = declarations(self.base, ".feature-detail-card+.feature-detail-card")

@@ -100,7 +100,8 @@
 .feature-card-stack{height:auto;display:grid;grid-template-columns:minmax(0,1fr);grid-auto-rows:minmax(0,auto);gap:0}
 .feature-detail-card{position:relative;isolation:auto;min-height:0;display:flex;flex-direction:column;align-items:stretch;justify-content:center;padding:24px 0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible;transition:color .2s ease}
 .feature-detail-card+.feature-detail-card{border-top:1px solid rgba(155,181,210,.3)}
-.feature-detail-card:nth-child(2),.feature-detail-card:nth-child(2) h3,.feature-detail-card:nth-child(2) p{text-align:right}
+.feature-detail-card:nth-child(2),.feature-detail-card:nth-child(2) h3{text-align:right}
+.feature-detail-card:nth-child(2) p{text-align:left;margin-left:auto;max-width:80%}
 
 
 
