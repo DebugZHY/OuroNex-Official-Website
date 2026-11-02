@@ -3,7 +3,7 @@
 Home ships the canonical ``footer.site-footer`` from the footer spec:
 
 * ``div.wrap.footer-top`` with ``a.footer-brand`` (logo + wordmark),
-  ``nav.footer-nav`` (six links, one of them the inert Application placeholder)
+  ``nav.footer-nav`` (six live links, Application now opening #application)
   and ``div.footer-socials`` (five labelled icon buttons) in that order;
 * ``div.wrap.footer-bottom`` with ``p.footer-copyright`` then
   ``nav.footer-legal`` (Terms of Service, Privacy Policy);
@@ -39,7 +39,7 @@ SOCIALS = ("X", "LinkedIn", "GitHub", "WeChat", "RedNote")
 NAV_LINKS = (
     ("Home", "index.html#home", "shared.home.5c1d84"),
     ("Features", "index.html#sida", "shared.features"),
-    ("Application", None, "shared.application"),
+    ("Application", "index.html#application", "shared.application"),
     ("Price", "index.html#price", "shared.price.3e8248"),
     ("Business", "index.html#business", "shared.business.d6663d"),
     ("About", "index.html#about", "shared.about.6b21fb"),
@@ -251,20 +251,10 @@ class FooterNavigationTests(FooterFixtures):
                 self.assertEqual(len(spans), 1)
                 self.assertEqual(spans[0]["attrs"].get("data-i18n"), key)
                 self.assertEqual(normalised_text(spans[0]), label)
-                if href is None:
-                    self.assertEqual(
-                        label,
-                        "Application",
-                        "Application is the only remaining inert footer entry",
-                    )
-                    self.assertNotIn("href", link["attrs"], "placeholders must not link")
-                    self.assertEqual(link["attrs"].get("aria-disabled"), "true")
-                    self.assertIn("nav-placeholder", classes(link))
-                    self.assertIn("data-nav-placeholder", link["attrs"])
-                else:
-                    self.assertNotIn("aria-disabled", link["attrs"])
-                    self.assertNotIn("nav-placeholder", classes(link))
-                    self.assertNotIn("data-nav-placeholder", link["attrs"])
+                self.assertEqual(link["attrs"].get("href"), href)
+                self.assertNotIn("aria-disabled", link["attrs"])
+                self.assertNotIn("nav-placeholder", classes(link))
+                self.assertNotIn("data-nav-placeholder", link["attrs"])
 
     def test_features_links_to_the_sida_section(self):
         links = elements(self.child(self.top(), "footer-nav"))

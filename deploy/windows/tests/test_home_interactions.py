@@ -2,7 +2,7 @@
 
 Scope of this module (interaction unit only):
 
-* five direct ``[data-home-section]`` sections, each with one direct-child
+* six direct ``[data-home-section]`` sections, each with one direct-child
   ``<div aria-hidden="true" class="hero-media" data-section-background>`` host;
 * one randomized dynamic background per section, drawn only from the six SVG
   engines in ``assets/backgrounds``;
@@ -10,7 +10,7 @@ Scope of this module (interaction unit only):
   Enterprise Contact Sales control, plus ``alert('Coming soon')`` for the
   enabled Request early access control, with the custom ``dialog`` removed;
 * the About company-introduction block (intro, the founder card and the body);
-* preserved five-section structure, content and one-section navigation helpers.
+* preserved six-section structure, content and one-section navigation helpers.
 
 Everything here is source/static analysis plus pure-JS checks executed with the
 Node binary.  No browser and no server is started by this module.
@@ -38,7 +38,7 @@ MOTION_JS = REPO_ROOT / "assets" / "motion.js"
 BACKGROUND_DIR = REPO_ROOT / "assets" / "backgrounds"
 ILLUSTRATION_DIR = REPO_ROOT / "assets" / "illustrations"
 
-SECTION_IDS = ("home", "sida", "price", "business", "about")
+SECTION_IDS = ("home", "sida", "application", "price", "business", "about")
 
 BACKGROUND_HOST_HTML = (
     '<div aria-hidden="true" class="hero-media" data-section-background></div>'
@@ -80,7 +80,7 @@ SIDA_CARD_TITLES = (
 )
 
 EXPECTED_HEADINGS = (
-    ("h1", "SIDA - Superintelligent Design Agent"),
+    ("h1", "SIDASuper-intelligent Design Agent"),
     ("h3", "Pain point"),
     ("h3", "Comparison"),
     ("h3", "Confidentiality"),
@@ -93,20 +93,32 @@ EXPECTED_HEADINGS = (
     ("h3", "Pain point"),
     ("h3", "Specialist bots"),
     ("h3", "Hong Kong library"),
-    ("h2", "Pay as you go"),
-    ("h2", "Lite"),
-    ("h2", "Standard"),
-    ("h2", "Professional"),
-    ("h2", "Enterprise"),
     ("h2", "What we deliver"),
     ("h3", "Free Documentation"),
     ("h3", "Project Planning"),
     ("h3", "Design Optimization"),
     ("h3", "BIM Modelling"),
+    ("h2", "Pay as you go"),
+    ("h2", "Lite"),
+    ("h2", "Standard"),
+    ("h2", "Professional"),
+    ("h2", "Enterprise"),
     ("h2", "How we work with you"),
-    ("h3", "On-site consultation"),
-    ("h3", "Scoped proposal"),
-    ("h3", "Pilot first"),
+    ("h3", "SIDA licence"),
+    ("h4", "Pilot on a live workflow"),
+    ("h4", "Choose the plan"),
+    ("h4", "Roll it out to the team"),
+    ("h4", "Keep the work in house"),
+    ("h3", "Custom development"),
+    ("h4", "On-site consultation"),
+    ("h4", "Scoped proposal"),
+    ("h4", "Pilot first"),
+    ("h4", "Build and hand over"),
+    ("h3", "Custom workflow"),
+    ("h4", "Workflow audit"),
+    ("h4", "Workflow design"),
+    ("h4", "Pilot on a real project"),
+    ("h4", "Roll-out and training"),
     ("h2", "An engineering-led AI company"),
     ("h3", "Haoyi ZHANG"),
 )
@@ -221,14 +233,14 @@ class HomeFixtures(unittest.TestCase):
 
 
 class SectionBackgroundHostTests(HomeFixtures):
-    def test_five_ordered_data_home_sections(self):
-        self.assertEqual(len(self.sections), 5, "Home must keep exactly five sections")
+    def test_six_ordered_data_home_sections(self):
+        self.assertEqual(len(self.sections), 6, "Home must keep exactly six sections")
         self.assertEqual([section["id"] for section in self.sections], list(SECTION_IDS))
         for section in self.sections:
             self.assertEqual(section["tag"], "section")
 
     def test_each_section_has_one_direct_background_host(self):
-        self.assertEqual(len(self.sections), 5)
+        self.assertEqual(len(self.sections), 6)
         for section in self.sections:
             hosts = [
                 child
@@ -248,12 +260,12 @@ class SectionBackgroundHostTests(HomeFixtures):
     def test_background_host_markup_is_exact_and_not_nested(self):
         self.assertEqual(
             self.index.count(BACKGROUND_HOST_HTML),
-            5,
+            6,
             "Every section host must use the exact agreed markup",
         )
         self.assertEqual(
             self.index.count("data-section-background"),
-            5,
+            6,
             "No extra or nested background hosts may be added",
         )
 
@@ -271,16 +283,17 @@ class SectionBackgroundHostTests(HomeFixtures):
             [
                 ("Home", "#home"),
                 ("Features", "#sida"),
+                ("Application", "#application"),
                 ("Price", "#price"),
                 ("Business", "#business"),
                 ("About", "#about"),
             ],
-            "Home is the first entry and Features now scrolls to the SIDA section",
+            "Home is the first entry and every section has its own nav link",
         )
         self.assertEqual(
             nav.group(1).count("data-nav-placeholder"),
-            1,
-            "Application is the only inert nav entry left",
+            0,
+            "no nav entry stays inert",
         )
         self.assertIn(
             '<a href="#sida"><span data-i18n="shared.features">Features</span></a>',
@@ -304,7 +317,10 @@ class SectionBackgroundHostTests(HomeFixtures):
             'class="plan-strip"',
             'class="plan-table-scroll"',
             'class="delivery-grid"',
-            'class="process-list"',
+            'class="wrap application-layout"',
+            'class="track-grid"',
+            'class="track-steps"',
+            'class="business-cta"',
             'class="wrap about-layout"',
             'class="site-footer"',
         ):

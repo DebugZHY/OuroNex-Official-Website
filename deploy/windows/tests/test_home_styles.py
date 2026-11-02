@@ -1194,13 +1194,15 @@ class HomepageRedesignTest(CssAssertions):
         nav = find_rule(HOME_CSS, ".home-page .nav-primary a")
         self.assert_decl(nav, "font-size", "20px", where="primary nav links")
 
-    def test_hero_slogan_and_two_block_subtitle_lines(self) -> None:
+    def test_hero_slogan_and_one_block_subtitle_line(self) -> None:
         html = self.html()
-        self.assertIn("SIDA - Superintelligent Design Agent", html)
+        self.assertIn('<span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span>', html)
+        self.assertIn('<span class="hero-title__accent">A</span>gent</span>', html)
         description = re.search(r'<p class="hero-description">(.*?)</p>', html, re.S)
         self.assertIsNotNone(description, "the hero subtitle is required")
+        self.assertIn("The AI agent tailor-made for engineers.", description.group(1))
         lines = re.findall(r'<span class="hero-description-line"[^>]*>', description.group(1))
-        self.assertEqual(len(lines), 2, "the subtitle is two block lines")
+        self.assertEqual(len(lines), 1, "the subtitle is a single block line")
         self.assert_decl(
             find_rules(HOME_CSS, ".hero-description-line")[0],
             "display",

@@ -19,10 +19,28 @@ class HomeCtaEffectTests(unittest.TestCase):
     def test_primary_navigation_uses_20px(self) -> None:
         self.assertIn(".home-page .nav-primary a{font-size:20px}", self.css)
 
-    def test_hero_has_the_new_slogan_and_two_description_lines(self) -> None:
-        self.assertIn("SIDA - Superintelligent Design Agent", self.index)
-        self.assertEqual(self.index.count('class="hero-description-line"'), 2)
-        self.assertIn('data-i18n="home.hero-description-2"', self.index)
+    def test_hero_title_splits_into_a_brand_and_a_smaller_qualifier(self) -> None:
+        self.assertIn(
+            '<span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span>',
+            self.index,
+        )
+        self.assertIn(
+            '<span class="hero-title__rest" data-user-input=""><span class="hero-title__accent">S</span>uper-'
+            '<span class="hero-title__accent">i</span>ntelligent <span class="hero-title__accent">D</span>esign '
+            '<span class="hero-title__accent">A</span>gent</span>',
+            self.index,
+        )
+        self.assertIn("font-size:clamp(56px,8.7vw,120px)", self.css)
+        self.assertIn("font-size:clamp(19px,2.6vw,36px)", self.css)
+        self.assertIn("font-weight:800", self.css)
+        self.assertIn(".hero-description{margin:0;max-width:42rem;color:#c1cfdf", self.css)
+        self.assertNotIn(".hero-description::before", self.css)
+        self.assertIn(".hero-title__accent{color:#84b8ff;-webkit-text-fill-color:#84b8ff}", self.css)
+
+    def test_hero_description_is_one_line(self) -> None:
+        self.assertEqual(self.index.count('class="hero-description-line"'), 1)
+        self.assertIn("The AI agent tailor-made for engineers.", self.index)
+        self.assertNotIn("home.hero-description-2", self.index)
         self.assertIn(".hero-description-line{display:block}", self.css)
 
     def test_ctas_have_gradients_breathing_and_pointer_glow(self) -> None:

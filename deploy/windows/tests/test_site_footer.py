@@ -43,11 +43,11 @@ COPYRIGHT = (
 )
 LOGO_SRC = "assets/ouronex-mark.svg"
 
-# label, href suffix (None for the inert placeholders), i18n key
+# label, href suffix, i18n key
 NAV_LINKS = (
     ("Home", "index.html#home", "shared.home.5c1d84"),
     ("Features", "index.html#sida", "shared.features"),
-    ("Application", None, "shared.application"),
+    ("Application", "index.html#application", "shared.application"),
     ("Price", "index.html#price", "shared.price.3e8248"),
     ("Business", "index.html#business", "shared.business.d6663d"),
     ("About", "index.html#about", "shared.about.6b21fb"),
@@ -84,12 +84,12 @@ CSS_CONTRACT = (
     "justify-content:space-between",
 )
 
-FOOTER_TYPE_SCALE = (
-    ".site-footer .footer-nav a",
-    ".site-footer .footer-legal a",
-    ".site-footer .footer-copyright",
-)
-FOOTER_TYPE_PX = "20px"
+# Navigation stays at the 20px display size; the metadata row sits below it at 16px.
+FOOTER_NAV_TYPE = (".site-footer .footer-nav a",)
+FOOTER_NAV_PX = "20px"
+FOOTER_META_TYPE = (".site-footer .footer-legal a", ".site-footer .footer-copyright")
+FOOTER_META_PX = "16px"
+FOOTER_TYPE_SCALE = FOOTER_NAV_TYPE + FOOTER_META_TYPE
 
 VOID_TAGS = {
     "area", "base", "br", "col", "embed", "hr", "img", "input", "link",
@@ -395,7 +395,7 @@ class FooterNavigationTests(FooterContract):
                 ]
                 self.assertEqual(actual, expected)
 
-    def test_placeholders_are_inert_and_translated(self) -> None:
+    def test_every_footer_link_is_live_and_translated(self) -> None:
         for relative in self.pages:
             with self.subTest(page=relative):
                 links = elements(self.top_part(relative, "footer-nav"))
@@ -403,20 +403,10 @@ class FooterNavigationTests(FooterContract):
                     spans = [node for node in elements(link) if node["tag"] == "span"]
                     self.assertEqual(len(spans), 1, "each footer link holds one label span")
                     self.assertEqual(spans[0]["attrs"].get("data-i18n"), key)
-                    if href is None:
-                        self.assertEqual(
-                            _label,
-                            "Application",
-                            "Application is the only remaining inert footer entry",
-                        )
-                        self.assertNotIn("href", link["attrs"], "placeholders must not link")
-                        self.assertEqual(link["attrs"].get("aria-disabled"), "true")
-                        self.assertIn("nav-placeholder", classes(link))
-                        self.assertIn("data-nav-placeholder", link["attrs"])
-                    else:
-                        self.assertNotIn("aria-disabled", link["attrs"])
-                        self.assertNotIn("nav-placeholder", classes(link))
-                        self.assertNotIn("data-nav-placeholder", link["attrs"])
+                    self.assertEqual(link["attrs"].get("href"), prefix_for(relative) + href)
+                    self.assertNotIn("aria-disabled", link["attrs"])
+                    self.assertNotIn("nav-placeholder", classes(link))
+                    self.assertNotIn("data-nav-placeholder", link["attrs"])
 
     def test_features_links_to_the_sida_section(self) -> None:
         for relative in self.pages:
@@ -600,8 +590,9 @@ class FooterStyleTests(unittest.TestCase):
             f"{bodies}",
         )
 
-    def test_footer_type_scale_is_20px(self) -> None:
-        for selector in FOOTER_TYPE_SCALE:
+    def test_footer_type_scale(self) -> None:
+        for selector in FOOTER_NAV_TYPE + FOOTER_META_TYPE:
+            expected = FOOTER_NAV_PX if selector in FOOTER_NAV_TYPE else FOOTER_META_PX
             with self.subTest(selector=selector):
                 bodies = rule_body(self.site, selector)
                 self.assertTrue(bodies, f"{selector} must be styled")
@@ -614,8 +605,8 @@ class FooterStyleTests(unittest.TestCase):
                 for size in sizes:
                     self.assertEqual(
                         size,
-                        FOOTER_TYPE_PX,
-                        f"{selector} must render at {FOOTER_TYPE_PX}, found {bodies}",
+                        expected,
+                        f"{selector} must render at {expected}, found {bodies}",
                     )
 
     def test_mobile_block_does_not_shrink_the_footer_type_scale(self) -> None:
@@ -637,10 +628,11 @@ class FooterStyleTests(unittest.TestCase):
                             self.assertTrue(
                                 values, f"unreadable footer size in the mobile block: {rule}"
                             )
+                            floor = 20.0 if selector in FOOTER_NAV_TYPE else 16.0
                             self.assertGreaterEqual(
                                 min(values),
-                                20.0,
-                                f"the mobile block must not shrink {selector} below 20px: {rule}",
+                                floor,
+                                f"the mobile block must not shrink {selector} below {floor}px: {rule}",
                             )
 
     def test_no_home_footer_rule_survives(self) -> None:

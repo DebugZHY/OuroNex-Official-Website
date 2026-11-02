@@ -47,12 +47,13 @@ NAV_KEYS = [
 NAV_SECTIONS = {
     "Home": "home",
     "Features": "sida",
+    "Application": "application",
     "Price": "price",
     "Business": "business",
     "About": "about",
 }
-# Nav entries that only carry a look: no destination yet, so no href.
-NAV_PLACEHOLDERS = {"Application"}
+# Every entry is live now that Application owns a section.
+NAV_PLACEHOLDERS = set()
 
 # Selectors whose declarations the auth pages must share with the Home header.
 MIRRORED = [

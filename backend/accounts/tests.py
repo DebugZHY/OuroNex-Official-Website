@@ -505,15 +505,15 @@ class AccountShellTests(TestCase):
 class PublicAuthHeaderNavTests(TestCase):
     """The shared login/register header follows the six-link public nav.
 
-    SIDA is retired and Features is promoted to the live SIDA section link, so
-    Application is the only inert entry left in ``_site_header.html``.
+    SIDA is retired and Features is promoted to the live SIDA section link;
+    Application now opens the delivery section, so no entry is inert.
     """
 
     PAGES = ('/login/', '/register/')
     NAV = (
         ('Home', '/index.html#home'),
         ('Features', '/index.html#sida'),
-        ('Application', None),
+        ('Application', '/index.html#application'),
         ('Price', '/index.html#price'),
         ('Business', '/index.html#business'),
         ('About', '/index.html#about'),
@@ -543,8 +543,8 @@ class PublicAuthHeaderNavTests(TestCase):
                 )
                 self.assertEqual(
                     block.count('data-nav-placeholder'),
-                    1,
-                    'Application is the only inert entry on %s' % path,
+                    0,
+                    'no nav entry stays inert on %s' % path,
                 )
                 self.assertIn(
                     '<a href="/index.html#sida">'
@@ -558,7 +558,7 @@ class PublicAuthHeaderNavTests(TestCase):
 class HomeOnePageTests(TestCase):
     """Static checks for the one-page Home consolidation and the five retired pages."""
 
-    HOME_SECTIONS = ('home', 'sida', 'price', 'business', 'about')
+    HOME_SECTIONS = ('home', 'sida', 'application', 'price', 'business', 'about')
     RETIRED_PAGES = ('news.html', 'platform.html', 'pricing.html', 'business.html', 'about-us.html')
     ABOUT_SECTION_ID = 'about'
 
@@ -577,9 +577,9 @@ class HomeOnePageTests(TestCase):
         self.assertIsNotNone(match, 'index.html has no .nav-primary navigation block')
         return match.group(2)
 
-    def test_home_has_five_ordered_sections(self):
+    def test_home_has_six_ordered_sections(self):
         section_tags = re.findall(r'<section\b[^>]*\bdata-home-section\b[^>]*>', self.index_html)
-        self.assertEqual(len(section_tags), 5, 'expected five sections carrying data-home-section')
+        self.assertEqual(len(section_tags), 6, 'expected six sections carrying data-home-section')
         section_ids = [re.search(r'\bid="([^"]+)"', tag).group(1) for tag in section_tags]
         self.assertEqual(section_ids, list(self.HOME_SECTIONS))
         main_tag = re.search(r'<main\b[^>]*>', self.index_html)
@@ -590,10 +590,10 @@ class HomeOnePageTests(TestCase):
             with self.subTest(section=section_id):
                 self.assertTrue('id="%s"' % section_id in self.index_html, 'missing #%s section' % section_id)
 
-    def test_home_nav_has_the_five_section_anchors(self):
+    def test_home_nav_has_the_six_section_anchors(self):
         block = self.nav_primary_block()
         hrefs = re.findall(r'<a\b[^>]*href="([^"]*)"', block)
-        self.assertEqual(hrefs, ['#home', '#sida', '#price', '#business', '#about'])
+        self.assertEqual(hrefs, ['#home', '#sida', '#application', '#price', '#business', '#about'])
         nav_text = re.sub(r'<[^>]+>', ' ', block).lower()
         self.assertFalse('news' in nav_text, 'navigation still offers News')
         self.assertFalse('contact' in nav_text, 'navigation still offers Contact')

@@ -68,6 +68,18 @@
             "size": 16005
         },
         {
+            "path": "assets/early-access.css",
+            "bytes": 9630,
+            "sha256": "14b0bef0ad9bc6cf3d5cd5bc11dbece5410ee3beb4b7666a807bd6501e46249d",
+            "size": 9630
+        },
+        {
+            "path": "assets/early-access.js",
+            "bytes": 4900,
+            "sha256": "5a674096d749bff53aeb7ff645fe1533a951a46ab5a74240c8609f3273075e10",
+            "size": 4900
+        },
+        {
             "path": "assets/fonts/ibm-plex-mono-400.woff2",
             "bytes": 37188,
             "sha256": "9c9a2ff2474bacf5402579f3872c189c11dd18c6a61216649cea07021daad9bf",
@@ -198,6 +210,12 @@
             "bytes": 7269,
             "sha256": "d2d212d1acaeea91285d2f84529587eb5538be33f01306e28c99ad61fa076089",
             "size": 7269
+        },
+        {
+            "path": "assets/i18n/early-access.js",
+            "bytes": 173,
+            "sha256": "258d258b4453dfccd73c9d03b1b92d4fad7d0366c9feca7be0734a5b5ea2b1a7",
+            "size": 173
         },
         {
             "path": "assets/i18n/home.js",
@@ -360,6 +378,12 @@
             "bytes": 36012,
             "sha256": "e4484013d9b0fd9f5d914d6ad06a12c9f5c0ba59b599735f226e2da82a7f374f",
             "size": 36012
+        },
+        {
+            "path": "early-access.html",
+            "bytes": 12616,
+            "sha256": "ea494e19460e3ed0aa1a8f54c4e5d8e90969e07904be9cefbcd17e7c2a5025ea",
+            "size": 12616
         },
         {
             "path": "index.html",

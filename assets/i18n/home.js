@@ -290,6 +290,11 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "我们提供什么",
     "zh-TW": "我們提供甚麼"
   },
+  "home.application-lede": {
+    "en": "Four capabilities ship with SIDA. Each one runs on your own documents, codes and models, inside the workspace your projects already live in.",
+    "zh-CN": "SIDA 内置四项能力，全部在你自己的文档、规范与模型上运行，与项目已有的工作空间同步。",
+    "zh-TW": "SIDA 內建四項能力，全部在你自己的文件、規範與模型上執行，與專案已有的工作空間同步。"
+  },
   "home.general-automation": {
     "en": "Free Documentation",
     "zh-CN": "免费文档",
@@ -335,35 +340,185 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "我们如何与您合作",
     "zh-TW": "我們如何與您合作"
   },
-  "home.consultation": {
+  "home.how-lede": {
+    "en": "Three ways to put SIDA to work: take the product as it stands, commission the tool you are missing, or have us model your own process. Every path ends with SIDA running on your projects.",
+    "zh-CN": "三条路径把 SIDA 用起来：直接采用现有产品、委托开发你缺少的工具，或让我们把你的流程建模。每条路径最后都落在 SIDA 跑在你自己的项目上。",
+    "zh-TW": "三條路徑把 SIDA 用起來：直接採用現成產品、委託開發你缺少的工具，或讓我們把你的流程建模。每條路徑最後都落在 SIDA 跑在你自己的專案上。"
+  },
+  "home.track-product-title": {
+    "en": "SIDA licence",
+    "zh-CN": "SIDA 授权",
+    "zh-TW": "SIDA 授權"
+  },
+  "home.track-product-desc": {
+    "en": "The product, running on your own projects.",
+    "zh-CN": "现成产品，跑在你自己的项目上。",
+    "zh-TW": "現成產品，跑在你自己的專案上。"
+  },
+  "home.track-product-step-1-title": {
+    "en": "Pilot on a live workflow",
+    "zh-CN": "在真实工作流上试用",
+    "zh-TW": "在真實工作流程上試用"
+  },
+  "home.track-product-step-1-copy": {
+    "en": "Run one real task — a code check, a calculation, a report — on your own drawings and standards, and count the hours it removes.",
+    "zh-CN": "用一个真实任务——规范核查、一次计算、一份报告——在你自己的图纸与标准上跑一遍，数一数省掉多少小时。",
+    "zh-TW": "用一個真實任務——規範核查、一次計算、一份報告——在你自己的圖紙與標準上跑一遍，數一數省下多少小時。"
+  },
+  "home.track-product-step-2-title": {
+    "en": "Choose the plan",
+    "zh-CN": "选择套餐",
+    "zh-TW": "選擇方案"
+  },
+  "home.track-product-step-2-copy": {
+    "en": "Pay as you go, Lite, Standard, Professional or Enterprise, matched to the token volume your team actually spends.",
+    "zh-CN": "按量付费、Lite、Standard、Professional 或 Enterprise，与团队实际消耗的 token 量匹配。",
+    "zh-TW": "按量付費、Lite、Standard、Professional 或 Enterprise，與團隊實際消耗的 token 量匹配。"
+  },
+  "home.track-product-step-3-title": {
+    "en": "Roll it out to the team",
+    "zh-CN": "推广到团队",
+    "zh-TW": "推廣到團隊"
+  },
+  "home.track-product-step-3-copy": {
+    "en": "Windows or Mac install, your code library and project knowledge bases loaded, and a short brief on the review points that matter.",
+    "zh-CN": "Windows 或 Mac 安装，载入规范库与项目知识库，并交代真正需要人复核的节点。",
+    "zh-TW": "Windows 或 Mac 安裝，載入規範庫與專案知識庫，並交代真正需要人複核的節點。"
+  },
+  "home.track-product-step-4-title": {
+    "en": "Keep the work in house",
+    "zh-CN": "数据留在本地",
+    "zh-TW": "資料留在本地"
+  },
+  "home.track-product-step-4-copy": {
+    "en": "Data stays on the machine. Nothing is uploaded, and the project knowledge base grows with every job.",
+    "zh-CN": "数据不出机器，知识库随每个项目增长。",
+    "zh-TW": "資料不出機器，知識庫隨每個專案成長。"
+  },
+  "home.track-product-deal": {
+    "en": "Billed as a subscription or a token top-up. No implementation fee.",
+    "zh-CN": "按订阅或 token 充值计费，不收取实施费。",
+    "zh-TW": "按訂閱或 token 儲值計費，不收實施費。"
+  },
+  "home.track-custom-title": {
+    "en": "Custom development",
+    "zh-CN": "定制开发",
+    "zh-TW": "客製開發"
+  },
+  "home.track-custom-desc": {
+    "en": "A tool, model or integration SIDA does not ship yet.",
+    "zh-CN": "SIDA 尚未提供的工具、模型或集成。",
+    "zh-TW": "SIDA 尚未提供的工具、模型或整合。"
+  },
+  "home.track-custom-step-1-title": {
     "en": "On-site consultation",
-    "zh-CN": "现场咨询",
-    "zh-TW": "現場諮詢"
+    "zh-CN": "现场调研",
+    "zh-TW": "現場調研"
   },
-  "home.consultation-copy": {
-    "en": "Inspect real workflows and identify where AI can help.",
-    "zh-CN": "检查实际工作流，找出 AI 可发挥作用之处。",
-    "zh-TW": "檢查實際工作流程，找出 AI 可發揮作用之處。"
+  "home.track-custom-step-1-copy": {
+    "en": "We sit with the team, watch the real workflow and find where the manual hours are spent.",
+    "zh-CN": "与团队坐在一起，看真实的工作流，找出人工耗时最大的环节。",
+    "zh-TW": "與團隊坐在一起，看真實的工作流程，找出人力耗時最大的環節。"
   },
-  "home.proposal": {
+  "home.track-custom-step-2-title": {
     "en": "Scoped proposal",
-    "zh-CN": "明确范围的方案",
-    "zh-TW": "明確範圍的方案"
+    "zh-CN": "范围提案",
+    "zh-TW": "範圍提案"
   },
-  "home.proposal-copy": {
-    "en": "Agree scope, review points and price before delivery.",
-    "zh-CN": "交付前确认范围、审核节点与价格。",
-    "zh-TW": "交付前確認範圍、審核節點與價格。"
+  "home.track-custom-step-2-copy": {
+    "en": "Scope, review points, delivery date and a fixed price are agreed before any code is written.",
+    "zh-CN": "在写任何代码之前，先约定范围、复核节点、交付日期与固定价格。",
+    "zh-TW": "在寫任何程式碼之前，先約定範圍、複核節點、交付日期與固定價格。"
   },
-  "home.pilot": {
+  "home.track-custom-step-3-title": {
     "en": "Pilot first",
-    "zh-CN": "试点先行",
-    "zh-TW": "先導項目先行"
+    "zh-CN": "先做试点",
+    "zh-TW": "先做試點"
   },
-  "home.pilot-copy": {
-    "en": "Prove value on one real workflow before scaling.",
-    "zh-CN": "先在一个真实工作流中验证价值，再逐步推广。",
-    "zh-TW": "先在一個真實工作流程中驗證價值，再逐步推廣。"
+  "home.track-custom-step-3-copy": {
+    "en": "The first build runs on one live project and is judged against the way the work is done today.",
+    "zh-CN": "第一个版本放在真实项目上跑，并与现在的做法逐项对比。",
+    "zh-TW": "第一個版本放在真實專案上跑，並與現在的做法逐項對比。"
+  },
+  "home.track-custom-step-4-title": {
+    "en": "Build and hand over",
+    "zh-CN": "开发交付",
+    "zh-TW": "開發交付"
+  },
+  "home.track-custom-step-4-copy": {
+    "en": "Delivered as a SIDA tool inside your workspace, documented, with the rules it checks kept open to your engineers.",
+    "zh-CN": "作为 SIDA 工具交付到你的工作空间，附文档，检查规则对工程师开放。",
+    "zh-TW": "作為 SIDA 工具交付到你的工作空間，附文件，檢查規則對工程師開放。"
+  },
+  "home.track-custom-deal": {
+    "en": "Fixed-scope project fee, then carried on your SIDA subscription.",
+    "zh-CN": "固定范围项目费，之后由 SIDA 订阅延续。",
+    "zh-TW": "固定範圍專案費，之後由 SIDA 訂閱延續。"
+  },
+  "home.track-workflow-title": {
+    "en": "Custom workflow",
+    "zh-CN": "自定义工作流",
+    "zh-TW": "自訂工作流程"
+  },
+  "home.track-workflow-desc": {
+    "en": "Your own process, modelled as a SIDA flowchart.",
+    "zh-CN": "把你的流程画成 SIDA 的流程图。",
+    "zh-TW": "把你的流程畫成 SIDA 的流程圖。"
+  },
+  "home.track-workflow-step-1-title": {
+    "en": "Workflow audit",
+    "zh-CN": "流程审视",
+    "zh-TW": "流程檢視"
+  },
+  "home.track-workflow-step-1-copy": {
+    "en": "One project type mapped end to end: steps, handoffs, deliverables and the people who sign off.",
+    "zh-CN": "挑一类项目，从头到尾梳理步骤、交接、交付物与签核人。",
+    "zh-TW": "挑一類專案，從頭到尾梳理步驟、交接、交付物與簽核人。"
+  },
+  "home.track-workflow-step-2-title": {
+    "en": "Workflow design",
+    "zh-CN": "流程设计",
+    "zh-TW": "流程設計"
+  },
+  "home.track-workflow-step-2-copy": {
+    "en": "The flow becomes a SIDA flowchart — specialist bots, built-in tools, checkpoints and review gates.",
+    "zh-CN": "流程落成 SIDA 流程图——专家机器人、内置工具、检查点与复核关口。",
+    "zh-TW": "流程落成 SIDA 流程圖——專家機器人、內建工具、檢查點與複核關口。"
+  },
+  "home.track-workflow-step-3-title": {
+    "en": "Pilot on a real project",
+    "zh-CN": "真实项目试点",
+    "zh-TW": "真實專案試點"
+  },
+  "home.track-workflow-step-3-copy": {
+    "en": "The new flow runs beside the old one, so the difference is measured rather than assumed.",
+    "zh-CN": "新旧两套流程并排跑，差距是量出来的，不是假设的。",
+    "zh-TW": "新舊兩套流程並排跑，差距是量出來的，不是假設的。"
+  },
+  "home.track-workflow-step-4-title": {
+    "en": "Roll-out and training",
+    "zh-CN": "上线与培训",
+    "zh-TW": "上線與培訓"
+  },
+  "home.track-workflow-step-4-copy": {
+    "en": "Published to the team with training, then reviewed across the first three projects.",
+    "zh-CN": "发布给团队并培训，在头三个项目上复盘。",
+    "zh-TW": "發布給團隊並培訓，在頭三個專案上複盤。"
+  },
+  "home.track-workflow-deal": {
+    "en": "Priced per workflow, maintained with your subscription.",
+    "zh-CN": "按工作流计价，随订阅维护。",
+    "zh-TW": "按工作流程計價，隨訂閱維護。"
+  },
+  "home.see-plans": {
+    "en": "See the plans",
+    "zh-CN": "查看套餐",
+    "zh-TW": "查看方案"
+  },
+  "home.talk-pilot": {
+    "en": "Talk to us about a pilot",
+    "zh-CN": "与我们聊聊试点",
+    "zh-TW": "與我們聊聊試點"
   },
   "home.available-soon": {
     "en": "Available soon",

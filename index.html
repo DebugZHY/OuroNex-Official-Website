@@ -39,7 +39,7 @@
 <div class="nav-primary">
 <a href="#home"><span data-i18n="shared.home.5c1d84">Home</span></a>
 <a href="#sida"><span data-i18n="shared.features">Features</span></a>
-<a aria-disabled="true" class="nav-placeholder" data-nav-placeholder=""><span data-i18n="shared.application">Application</span></a>
+<a href="#application"><span data-i18n="shared.application">Application</span></a>
 <a href="#price"><span data-i18n="shared.price.3e8248">Price</span></a>
 <a href="#business"><span data-i18n="shared.business.d6663d">Business</span></a>
 <a href="#about"><span data-i18n="shared.about.6b21fb">About</span></a>
@@ -58,11 +58,11 @@
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap hero-inner">
 <div class="hero-copy">
-<h1 id="hero-title"><span data-i18n="home.hero-slogan">SIDA - Superintelligent Design Agent</span></h1>
-<p class="hero-description"><span class="hero-description-line" data-i18n="home.hero-description">Built-in tools and engineering references.</span><span class="hero-description-line" data-i18n="home.hero-description-2">Automate documentation, optimization and BIM.</span></p>
+<h1 id="hero-title"><span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span><span class="hero-title__rest" data-user-input=""><span class="hero-title__accent">S</span>uper-<span class="hero-title__accent">i</span>ntelligent <span class="hero-title__accent">D</span>esign <span class="hero-title__accent">A</span>gent</span></h1>
+<p class="hero-description"><span class="hero-description-line" data-i18n="home.hero-description">The AI agent tailor-made for engineers.</span></p>
 <div class="hero-actions">
 <a class="button" href="#sida"><span data-i18n="home.explore-features">Explore the Features</span><span aria-hidden="true">→</span></a>
-<button class="button-outline early-access" data-coming-soon="" type="button"><span data-i18n="home.request-access">Request early access</span></button>
+<a class="button-outline early-access" href="/early-access.html" rel="noopener" target="_blank"><span data-i18n="home.request-access">Request early access</span><span aria-hidden="true" class="early-access__out">↗</span></a>
 </div>
 </div>
 <aside aria-label="SIDA product demonstration" class="hero-demo" data-i18n-aria-label="home.product-demo-label" data-demo-carousel data-demo-interval="10000">
@@ -129,6 +129,21 @@
 </div>
 </div>
 </section>
+<section class="home-section application-section" data-home-section="" id="application">
+<div aria-hidden="true" class="hero-media" data-section-background></div>
+<div class="wrap application-layout">
+<div class="application-intro">
+<h2><span data-i18n="home.what-deliver">What we deliver</span></h2>
+<p class="application-lede"><span data-i18n="home.application-lede">Four capabilities ship with SIDA. Each one runs on your own documents, codes and models, inside the workspace your projects already live in.</span></p>
+</div>
+<div class="delivery-grid">
+<article><h3><span data-i18n="home.general-automation">Free Documentation</span></h3><p><span data-i18n="home.general-copy">An LLM wiki for fast professional answers, plus private knowledge bases at no extra cost.</span></p></article>
+<article><h3><span data-i18n="home.specific-automation">Project Planning</span></h3><p><span data-i18n="home.specific-copy">Checks codes and legal databases from site data and documents across disciplines.</span></p></article>
+<article><h3><span data-i18n="home.professional-saas">Design Optimization</span></h3><p><span data-i18n="home.saas-copy">Built-in structural analysis and design tools with multi-objective optimisation.</span></p></article>
+<article><h3><span data-i18n="home.training">BIM Modelling</span></h3><p><span data-i18n="home.training-copy">Direct BIM export from structural models and efficient model information sync.</span></p></article>
+</div>
+</div>
+</section>
 <section class="home-section price-section" data-home-section="" id="price">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap price-layout">
@@ -160,17 +175,49 @@
 <section class="home-section business-section" data-home-section="" id="business">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap business-layout">
-<div class="delivery"><h2><span data-i18n="home.what-deliver">What we deliver</span></h2><div class="delivery-grid">
-<article><h3><span data-i18n="home.general-automation">Free Documentation</span></h3><p><span data-i18n="home.general-copy">An LLM wiki for fast professional answers, plus private knowledge bases at no extra cost.</span></p></article>
-<article><h3><span data-i18n="home.specific-automation">Project Planning</span></h3><p><span data-i18n="home.specific-copy">Checks codes and legal databases from site data and documents across disciplines.</span></p></article>
-<article><h3><span data-i18n="home.professional-saas">Design Optimization</span></h3><p><span data-i18n="home.saas-copy">Built-in structural analysis and design tools with multi-objective optimisation.</span></p></article>
-<article><h3><span data-i18n="home.training">BIM Modelling</span></h3><p><span data-i18n="home.training-copy">Direct BIM export from structural models and efficient model information sync.</span></p></article>
-</div></div>
-<div class="process"><h2><span data-i18n="home.how-work">How we work with you</span></h2><div class="process-list">
-<article><h3><span data-i18n="home.consultation">On-site consultation</span></h3><p><span data-i18n="home.consultation-copy">Inspect real workflows and identify where AI can help.</span></p></article>
-<article><h3><span data-i18n="home.proposal">Scoped proposal</span></h3><p><span data-i18n="home.proposal-copy">Agree scope, review points and price before delivery.</span></p></article>
-<article><h3><span data-i18n="home.pilot">Pilot first</span></h3><p><span data-i18n="home.pilot-copy">Prove value on one real workflow before scaling.</span></p></article>
-</div></div>
+<div class="business-intro">
+<h2><span data-i18n="home.how-work">How we work with you</span></h2>
+<p class="business-lede"><span data-i18n="home.how-lede">Three ways to put SIDA to work: take the product as it stands, commission the tool you are missing, or have us model your own process. Every path ends with SIDA running on your projects.</span></p>
+</div>
+<div class="track-grid">
+<article class="track">
+<div class="track-head"><span class="track-index">01</span><h3><span data-i18n="home.track-product-title">SIDA licence</span></h3></div>
+<p class="track-desc"><span data-i18n="home.track-product-desc">The product, running on your own projects.</span></p>
+<ol class="track-steps">
+<li><h4><span data-i18n="home.track-product-step-1-title">Pilot on a live workflow</span></h4><p><span data-i18n="home.track-product-step-1-copy">Run one real task — a code check, a calculation, a report — on your own drawings and standards, and count the hours it removes.</span></p></li>
+<li><h4><span data-i18n="home.track-product-step-2-title">Choose the plan</span></h4><p><span data-i18n="home.track-product-step-2-copy">Pay as you go, Lite, Standard, Professional or Enterprise, matched to the token volume your team actually spends.</span></p></li>
+<li><h4><span data-i18n="home.track-product-step-3-title">Roll it out to the team</span></h4><p><span data-i18n="home.track-product-step-3-copy">Windows or Mac install, your code library and project knowledge bases loaded, and a short brief on the review points that matter.</span></p></li>
+<li><h4><span data-i18n="home.track-product-step-4-title">Keep the work in house</span></h4><p><span data-i18n="home.track-product-step-4-copy">Data stays on the machine. Nothing is uploaded, and the project knowledge base grows with every job.</span></p></li>
+</ol>
+<p class="track-deal"><span data-i18n="home.track-product-deal">Billed as a subscription or a token top-up. No implementation fee.</span></p>
+</article>
+<article class="track">
+<div class="track-head"><span class="track-index">02</span><h3><span data-i18n="home.track-custom-title">Custom development</span></h3></div>
+<p class="track-desc"><span data-i18n="home.track-custom-desc">A tool, model or integration SIDA does not ship yet.</span></p>
+<ol class="track-steps">
+<li><h4><span data-i18n="home.track-custom-step-1-title">On-site consultation</span></h4><p><span data-i18n="home.track-custom-step-1-copy">We sit with the team, watch the real workflow and find where the manual hours are spent.</span></p></li>
+<li><h4><span data-i18n="home.track-custom-step-2-title">Scoped proposal</span></h4><p><span data-i18n="home.track-custom-step-2-copy">Scope, review points, delivery date and a fixed price are agreed before any code is written.</span></p></li>
+<li><h4><span data-i18n="home.track-custom-step-3-title">Pilot first</span></h4><p><span data-i18n="home.track-custom-step-3-copy">The first build runs on one live project and is judged against the way the work is done today.</span></p></li>
+<li><h4><span data-i18n="home.track-custom-step-4-title">Build and hand over</span></h4><p><span data-i18n="home.track-custom-step-4-copy">Delivered as a SIDA tool inside your workspace, documented, with the rules it checks kept open to your engineers.</span></p></li>
+</ol>
+<p class="track-deal"><span data-i18n="home.track-custom-deal">Fixed-scope project fee, then carried on your SIDA subscription.</span></p>
+</article>
+<article class="track">
+<div class="track-head"><span class="track-index">03</span><h3><span data-i18n="home.track-workflow-title">Custom workflow</span></h3></div>
+<p class="track-desc"><span data-i18n="home.track-workflow-desc">Your own process, modelled as a SIDA flowchart.</span></p>
+<ol class="track-steps">
+<li><h4><span data-i18n="home.track-workflow-step-1-title">Workflow audit</span></h4><p><span data-i18n="home.track-workflow-step-1-copy">One project type mapped end to end: steps, handoffs, deliverables and the people who sign off.</span></p></li>
+<li><h4><span data-i18n="home.track-workflow-step-2-title">Workflow design</span></h4><p><span data-i18n="home.track-workflow-step-2-copy">The flow becomes a SIDA flowchart — specialist bots, built-in tools, checkpoints and review gates.</span></p></li>
+<li><h4><span data-i18n="home.track-workflow-step-3-title">Pilot on a real project</span></h4><p><span data-i18n="home.track-workflow-step-3-copy">The new flow runs beside the old one, so the difference is measured rather than assumed.</span></p></li>
+<li><h4><span data-i18n="home.track-workflow-step-4-title">Roll-out and training</span></h4><p><span data-i18n="home.track-workflow-step-4-copy">Published to the team with training, then reviewed across the first three projects.</span></p></li>
+</ol>
+<p class="track-deal"><span data-i18n="home.track-workflow-deal">Priced per workflow, maintained with your subscription.</span></p>
+</article>
+</div>
+<div class="business-cta">
+<a class="button" href="#price"><span data-i18n="home.see-plans">See the plans</span><span aria-hidden="true">→</span></a>
+<button class="button-outline early-access" data-coming-soon="" type="button"><span data-i18n="home.talk-pilot">Talk to us about a pilot</span></button>
+</div>
 </div>
 </section>
 <section class="home-section about-section" data-home-section="" id="about">
@@ -203,7 +250,7 @@
 <nav aria-label="Footer" class="footer-nav" data-i18n-aria-label="shared.footer.26c01e">
 <a href="index.html#home"><span data-i18n="shared.home.5c1d84">Home</span></a>
 <a href="index.html#sida"><span data-i18n="shared.features">Features</span></a>
-<a aria-disabled="true" class="nav-placeholder" data-nav-placeholder=""><span data-i18n="shared.application">Application</span></a>
+<a href="index.html#application"><span data-i18n="shared.application">Application</span></a>
 <a href="index.html#price"><span data-i18n="shared.price.3e8248">Price</span></a>
 <a href="index.html#business"><span data-i18n="shared.business.d6663d">Business</span></a>
 <a href="index.html#about"><span data-i18n="shared.about.6b21fb">About</span></a>

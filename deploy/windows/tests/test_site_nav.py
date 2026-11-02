@@ -4,11 +4,9 @@ The public header keeps one canonical order on every page::
 
     Home, Features, Application, Price, Business, About
 
-* the three root pages that ship the Home header (``index.html``,
-  ``terms.html``, ``privacy.html``) carry all six entries, with ``Application``
-  as the only inert placeholder;
-* the stand-alone pages (``404.html``, ``arena.html`` and every ``news/*.html``)
-  carry five entries - no placeholders at all;
+* every public page carries all six entries; ``Application`` now opens the
+  delivery section (``#application``) instead of sitting inert;
+* no page carries a placeholder entry any more;
 * ``Features`` always points at the SIDA section (``#sida`` on the Home page,
   the same page's ``#home`` prefix plus ``#sida`` everywhere else) and is never
   inert again: no ``aria-disabled``, no ``data-nav-placeholder`` and no
@@ -37,16 +35,16 @@ NEWS_PAGES = tuple(
 )
 ALL_PAGES = ROOT_PAGES + NEWS_PAGES
 
-# Six links: five Home sections plus the inert Application entry.
-SIX_LINK_PAGES = ("index.html", "terms.html", "privacy.html")
-# Five links: no placeholders on the stand-alone pages.
+# Six links on every page: five Home sections plus the Application section.
+SIX_LINK_PAGES = ALL_PAGES
+# Kept as the stand-alone subset so the shared footer/header contract stays explicit.
 FIVE_LINK_PAGES = ("404.html", "arena.html") + NEWS_PAGES
 
-# label -> Home section fragment (None for the inert placeholder)
+# label -> Home section fragment
 HEADER_NAV = (
     ("Home", "home"),
     ("Features", "sida"),
-    ("Application", None),
+    ("Application", "application"),
     ("Price", "price"),
     ("Business", "business"),
     ("About", "about"),
@@ -120,15 +118,15 @@ class HeaderNavigationTests(unittest.TestCase):
                     expected,
                 )
 
-    def test_five_link_pages_hold_the_public_order_without_placeholders(self) -> None:
+    def test_no_header_entry_is_inert_any_more(self) -> None:
         for relative in FIVE_LINK_PAGES:
             with self.subTest(page=relative):
                 block = primary_block(self.markup[relative])
                 items = nav_items(self.markup[relative])
                 self.assertEqual(
                     [label for label, _href, _key, _attrs in items],
-                    ["Home", "Features", "Price", "Business", "About"],
-                    "the stand-alone pages drop the inert Application entry",
+                    ["Home", "Features", "Application", "Price", "Business", "About"],
+                    "the stand-alone pages carry the Application entry too",
                 )
                 for label, href, _key, attrs in items:
                     self.assertIsNotNone(href, f"{relative}: {label} must link somewhere")
@@ -138,9 +136,9 @@ class HeaderNavigationTests(unittest.TestCase):
                             attrs,
                             f"{relative}: {label} must not be inert",
                         )
-                for flag in ("aria-disabled", "data-nav-placeholder"):
+                for flag in PLACEHOLDER_FLAGS:
                     self.assertNotIn(flag, block, f"{relative}: header has no placeholders")
-                self.assertNotIn(">Application<", block, f"{relative}: Application is gone")
+                self.assertIn(">Application<", block, f"{relative}: Application must stay visible")
 
     def test_features_links_to_the_sida_section_and_is_never_inert(self) -> None:
         for relative in ALL_PAGES:

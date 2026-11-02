@@ -729,6 +729,41 @@
       ? view.cancelAnimationFrame.bind(view)
       : function (handle) { view.clearTimeout(handle); };
 
+    // Hero headline: a restrained cursor tilt plus a sheen that follows the pointer.
+    var heroTitle = doc.getElementById('hero-title');
+    var finePointer = view.matchMedia ? view.matchMedia('(hover: hover)') : { matches: false };
+    if (heroTitle && finePointer.matches && !reduced.matches) {
+      var tiltFrame = 0;
+      var tiltState = null;
+      var TILT_MAX_DEG = 20;
+      var paintTilt = function () {
+        tiltFrame = 0;
+        if (!tiltState) return;
+        heroTitle.style.setProperty('--tilt-y', (tiltState.x * TILT_MAX_DEG).toFixed(2) + 'deg');
+        heroTitle.style.setProperty('--tilt-x', (-tiltState.y * TILT_MAX_DEG).toFixed(2) + 'deg');
+        heroTitle.style.setProperty('--glare-x', (tiltState.gx * 100).toFixed(1) + '%');
+        heroTitle.style.setProperty('--glare-y', (tiltState.gy * 100).toFixed(1) + '%');
+        heroTitle.style.setProperty('--glare-a', '0.9');
+      };
+      var resetTilt = function () {
+        if (tiltFrame) { caf(tiltFrame); tiltFrame = 0; }
+        tiltState = null;
+        heroTitle.style.setProperty('--tilt-x', '0deg');
+        heroTitle.style.setProperty('--tilt-y', '0deg');
+        heroTitle.style.setProperty('--glare-a', '0');
+      };
+      heroTitle.addEventListener('pointermove', function (event) {
+        var box = heroTitle.getBoundingClientRect();
+        if (!box.width || !box.height) return;
+        var gx = (event.clientX - box.left) / box.width;
+        var gy = (event.clientY - box.top) / box.height;
+        tiltState = { x: gx - 0.5, y: gy - 0.5, gx: gx, gy: gy };
+        if (!tiltFrame) tiltFrame = raf(paintTilt);
+      });
+      heroTitle.addEventListener('pointerleave', resetTilt);
+      heroTitle.addEventListener('blur', resetTilt);
+    }
+
     function sectionIdFromLink(link) {
       var href = link.getAttribute('href') || '';
       var hashIndex = href.indexOf('#');

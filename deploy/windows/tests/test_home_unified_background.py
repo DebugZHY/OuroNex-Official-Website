@@ -31,7 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_JS = REPO_ROOT / "assets" / "home.js"
 INDEX_HTML = REPO_ROOT / "index.html"
 
-SECTION_IDS = ("home", "sida", "price", "business", "about")
+SECTION_IDS = ("home", "sida", "application", "price", "business", "about")
 SVG_SOURCES = (
     "perspective-grid",
     "contour-field",
@@ -290,9 +290,9 @@ class UnifiedBackgroundSourceTests(unittest.TestCase):
             with self.subTest(source=name):
                 self.assertIn(f"assets/backgrounds/{name}.svg", self.source)
 
-    def test_markup_still_offers_five_section_hosts_to_move(self) -> None:
-        self.assertEqual(self.index.count("data-home-section"), 5)
-        self.assertEqual(self.index.count("data-section-background"), 5)
+    def test_markup_still_offers_six_section_hosts_to_move(self) -> None:
+        self.assertEqual(self.index.count("data-home-section"), 6)
+        self.assertEqual(self.index.count("data-section-background"), 6)
         for section_id in SECTION_IDS:
             with self.subTest(section=section_id):
                 self.assertRegex(

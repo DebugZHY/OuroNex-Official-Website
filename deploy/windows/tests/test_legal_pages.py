@@ -91,7 +91,7 @@ class LegalPageTests(unittest.TestCase):
                 markup = read(path)
                 self.assertIn('href="/index.html"', markup, "the page links back to Home")
                 footer = footer_of(markup)
-                for section in ("home", "sida", "price", "business", "about"):
+                for section in ("home", "sida", "application", "price", "business", "about"):
                     self.assertIn(
                         f'href="index.html#{section}"',
                         footer,
@@ -105,7 +105,7 @@ class LegalPageTests(unittest.TestCase):
                 self.assertIn('class="footer-nav"', footer)
                 links = re.findall(r'<a href="([^"]+)"([^>]*)><span data-i18n="([^"]+)"', footer)
                 self.assertEqual(
-                    len(links), 7, "five section anchors plus the two legal links"
+                    len(links), 8, "six section anchors plus the two legal links"
                 )
                 self.assertEqual(
                     len(re.findall(r'<span data-i18n="[^"]+">', footer)),
@@ -114,8 +114,8 @@ class LegalPageTests(unittest.TestCase):
                 )
                 self.assertEqual(
                     footer.count("data-nav-placeholder"),
-                    1,
-                    "Application is the only inert placeholder left",
+                    0,
+                    "no footer entry stays inert",
                 )
                 self.assertIn((self_href, "", "shared.terms-of-service.3f9c1a" if title == "Terms of Service"
                                else "shared.privacy-policy.6b2d4e"), links)

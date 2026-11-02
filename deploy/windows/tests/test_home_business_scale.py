@@ -1,4 +1,4 @@
-"""Static CSS contract for the Business desktop scale-up.
+"""Static CSS contract for the Business tracks and the Application section.
 
 Pins the exact desktop declarations the Home manager is applying to
 ``assets/home.css`` for the Business section, and guards the small-screen rules
@@ -148,33 +148,44 @@ class BusinessScaleFixtures(unittest.TestCase):
 
 
 class BusinessDesktopScaleTests(BusinessScaleFixtures):
-    def test_desktop_layout_is_wide_and_evenly_gapped(self):
+    def test_desktop_layout_is_centred_and_evenly_gapped(self):
         layout = self.base_rule(".business-layout")
-        self.assert_decl(layout, "width", "min(1920px,calc(100% - 64px))!important")
-        self.assert_decl(layout, "grid-template-columns", "1.2fr .8fr")
-        self.assert_decl(layout, "align-items", "center")
-        self.assert_decl(layout, "gap", "clamp(40px,4vw,80px)")
+        self.assert_decl(layout, "width", "min(1400px,calc(100% - 64px))!important")
+        self.assert_decl(layout, "align-content", "center")
+        self.assert_decl(layout, "gap", "clamp(22px,3vh,36px)")
 
     def test_desktop_type_scale(self):
         heading = self.base_rule(".business-layout h2")
         self.assert_decl(heading, "font-size", "clamp(38px,3.2vw,70px)")
-        self.assertEqual(margin_side(heading, "bottom"), "32px", "h2 needs a 32px bottom margin")
-        self.assert_decl(self.base_rule(".business-layout h3"), "font-size", "30px")
-        self.assert_decl(self.base_rule(".business-layout p"), "font-size", "21px")
+        self.assertEqual(margin_side(heading, "bottom"), "0", "the lede, not a margin, spaces the h2")
+        self.assert_decl(self.base_rule(".business-lede"), "font-size", "21px")
+        self.assert_decl(self.base_rule(".track h3"), "font-size", "26px")
+        self.assert_decl(self.base_rule(".track-desc"), "font-size", "16px")
+        self.assert_decl(self.base_rule(".track-steps h4"), "font-size", "17px")
+        self.assert_decl(self.base_rule(".track-steps p"), "font-size", "15px")
 
-    def test_delivery_cards_grow(self):
+    def test_three_tracks_share_the_row(self):
+        grid = self.base_rule(".track-grid")
+        self.assert_decl(grid, "grid-template-columns", "repeat(3,minmax(0,1fr))")
+        self.assert_decl(grid, "gap", "20px")
+        self.assert_decl(self.base_rule(".track"), "padding", "26px")
+
+    def test_each_track_counts_its_steps_and_closes_on_the_deal(self):
+        steps = self.base_rule(".track-steps")
+        self.assert_decl(steps, "counter-reset", "track-step")
+        self.assert_decl(steps, "list-style", "none")
+        self.assertIn("counter(track-step", normalise(self.base_rule(".track-steps li::before").get("content", "")))
+        deal = self.base_rule(".track-deal")
+        self.assert_decl(deal, "border-top", "1px solid rgba(155,181,210,.13)")
+        self.assert_decl(deal, "font-size", "15px")
+
+    def test_delivery_cards_move_to_the_application_section(self):
         self.assert_decl(self.base_rule(".delivery-grid"), "gap", "20px")
         article = self.base_rule(".delivery-grid article")
-        self.assert_decl(article, "min-height", "220px")
-        self.assert_decl(article, "padding", "32px")
+        self.assert_decl(article, "min-height", "186px")
+        self.assert_decl(article, "padding", "30px")
         self.assert_decl(article, "justify-content", "center")
-
-    def test_process_rows_grow(self):
-        self.assert_decl(self.base_rule(".process-list"), "gap", "20px")
-        article = self.base_rule(".process-list article")
-        self.assert_decl(article, "min-height", "132px")
-        self.assert_decl(article, "padding", "12px 0 12px 28px")
-        self.assert_decl(article, "border-left", "3px solid var(--accent-strong)")
+        self.assert_decl(self.base_rule(".application-layout h2"), "font-size", "clamp(38px,3.2vw,70px)")
 
 
 class BusinessSmallScreenTests(BusinessScaleFixtures):
@@ -182,33 +193,31 @@ class BusinessSmallScreenTests(BusinessScaleFixtures):
         body, _offset = self.media_block(MOBILE)
         layout = self.media_rule(body, ".business-layout")
         self.assert_decl(layout, "width", "calc(100% - 32px)!important")
-        self.assert_decl(layout, "grid-template-columns", "1fr")
         self.assert_decl(self.media_rule(body, ".business-layout h2"), "font-size", "28px")
-        self.assert_decl(self.media_rule(body, ".business-layout h3"), "font-size", "18px")
-        self.assert_decl(self.media_rule(body, ".business-layout p"), "font-size", "15px")
-        self.assert_decl(self.media_rule(body, ".process-list h3"), "font-size", "16px")
-        self.assert_decl(self.media_rule(body, ".process-list p"), "font-size", "14px")
+        self.assert_decl(self.media_rule(body, ".business-lede"), "font-size", "17px")
+        self.assert_decl(self.media_rule(body, ".track-grid"), "grid-template-columns", "1fr")
+        self.assert_decl(self.media_rule(body, ".track"), "padding", "18px")
+        self.assert_decl(self.media_rule(body, ".track h3"), "font-size", "20px")
+        self.assert_decl(self.media_rule(body, ".track-steps h4"), "font-size", "15px")
         self.assert_decl(self.media_rule(body, ".delivery-grid article"), "min-height", "0")
-        self.assert_decl(self.media_rule(body, ".process-list article"), "min-height", "0")
 
-    def test_narrow_refinement_keeps_the_larger_copy(self):
+    def test_narrow_refinement_keeps_a_compact_scale(self):
         body, _offset = self.media_block(NARROW)
-        self.assert_decl(self.media_rule(body, ".business-layout p"), "font-size", "14px")
-        self.assert_decl(self.media_rule(body, ".process-list h3"), "font-size", "15px")
+        self.assert_decl(self.media_rule(body, ".business-lede"), "font-size", "16px")
         self.assert_decl(self.media_rule(body, ".delivery-grid article"), "padding", "12px")
-        self.assert_decl(self.media_rule(body, ".process-list article"), "padding", "10px")
+        self.assert_decl(self.media_rule(body, ".track"), "padding", "14px")
+        self.assert_decl(self.media_rule(body, ".track-steps p"), "font-size", "13px")
 
     def test_mobile_rules_win_the_cascade_over_the_desktop_scale(self):
         _body, offset = self.media_block(MOBILE)
         widened = (
             ".business-layout",
             ".business-layout h2",
-            ".business-layout h3",
-            ".business-layout p",
+            ".business-lede",
+            ".track-grid",
+            ".track",
             ".delivery-grid",
             ".delivery-grid article",
-            ".process-list",
-            ".process-list article",
         )
         late = [
             selector
@@ -218,14 +227,13 @@ class BusinessSmallScreenTests(BusinessScaleFixtures):
             if selector in {normalise(item) for item in widened}
         ]
         self.assertEqual(late, [], f"base rules after the mobile block would undo the stack: {late}")
-        for selectors, _declarations, position in self.base_rules:
-            if any(selector in {normalise(item) for item in widened} for selector in selectors):
-                self.assertLess(position, offset, "desktop rules must precede the mobile overrides")
 
-    def test_short_desktop_keeps_the_compact_delivery_cards(self):
+    def test_short_desktop_keeps_the_compact_cards(self):
         body, _offset = self.media_block(SHORT_DESKTOP, TABLET_MIN)
         article = self.media_rule(body, ".delivery-grid article")
-        self.assert_decl(article, "min-height", "120px")
+        self.assert_decl(article, "min-height", "0")
+        self.assert_decl(article, "padding", "18px")
+        self.assert_decl(self.media_rule(body, ".track"), "padding", "20px")
 
 
 class BusinessCopyTests(unittest.TestCase):
