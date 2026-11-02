@@ -27,20 +27,15 @@ HOME_JSON = REPO_ROOT / "assets" / "i18n" / "home.json"
 LOGOS = "assets/ouronex-mark.svg"
 COPYRIGHT = "Copyright \u00a9 2026 OuroNex Technology Company Limited. All Rights Reserved."
 SOCIALS = ("X", "LinkedIn", "GitHub", "WeChat", "RedNote")
-NAV_ROWS = (
-    (
-        ("Home", "#home"),
-        ("SIDA", "#sida"),
-        ("Price", "#price"),
-        ("Business", "#business"),
-        ("About", "#about"),
-    ),
-    (
-        ("Terms of Service", "terms.html"),
-        ("Privacy Policy", "privacy.html"),
-    ),
+NAV_LINKS = (
+    ("Home", "#home"),
+    ("SIDA", "#sida"),
+    ("Price", "#price"),
+    ("Business", "#business"),
+    ("About", "#about"),
+    ("Terms of Service", "terms.html"),
+    ("Privacy Policy", "privacy.html"),
 )
-NAV_LINKS = tuple(link for row in NAV_ROWS for link in row)
 LEGAL_KEYS = {
     "shared.terms-of-service.3f9c1a": ("Terms of Service", "服务条款", "服務條款"),
     "shared.privacy-policy.6b2d4e": ("Privacy Policy", "隐私政策", "隱私政策"),
@@ -260,27 +255,27 @@ class FooterLayoutTests(FooterFixtures):
         self.assertEqual(normalised_text(copyrights[0]), COPYRIGHT)
         self.assertEqual(copyrights[0]["attrs"].get("data-i18n"), None, "the legal line stays untranslated")
 
-    def test_right_region_nav_holds_two_rows_of_links(self):
+    def test_right_region_nav_holds_one_row_of_links(self):
         content = self.region("footer-content")
         children = [child for child in content["children"] if child["tag"] != "#text"]
         self.assertEqual([child["tag"] for child in children], ["nav"])
         nav = children[0]
         self.assertTrue(has_class(nav, "footer-nav"))
         rows = [child for child in nav["children"] if child["tag"] != "#text"]
-        self.assertEqual(len(rows), 2, "the footer nav carries the section row and the legal row")
-        for row, expected in zip(rows, NAV_ROWS):
-            self.assertTrue(has_class(row, "footer-nav-row"))
-            links = [child for child in row["children"] if child["tag"] == "a"]
-            self.assertEqual(
-                [(normalised_text(link), link["attrs"].get("href")) for link in links],
-                list(expected),
-            )
-            for link in links:
-                spans = [child for child in link["children"] if child["tag"] == "span"]
-                self.assertEqual(len(spans), 1)
-                self.assertTrue(spans[0]["attrs"].get("data-i18n"))
-        self.assertTrue(has_class(rows[1], "footer-nav-row--legal"))
-        self.assertFalse(has_class(rows[0], "footer-nav-row--legal"))
+        self.assertEqual(len(rows), 1, "every footer link sits on the single row")
+        row = rows[0]
+        self.assertTrue(has_class(row, "footer-nav-row"))
+        self.assertFalse(has_class(row, "footer-nav-row--legal"), "the split legal row is gone")
+        links = [child for child in row["children"] if child["tag"] == "a"]
+        self.assertEqual(
+            [(normalised_text(link), link["attrs"].get("href")) for link in links],
+            list(NAV_LINKS),
+            "the legal links trail About on the same row",
+        )
+        for link in links:
+            spans = [child for child in link["children"] if child["tag"] == "span"]
+            self.assertEqual(len(spans), 1)
+            self.assertTrue(spans[0]["attrs"].get("data-i18n"))
 
     def test_old_legal_blocks_and_their_copy_are_gone(self):
         content = self.region("footer-content")
@@ -318,6 +313,11 @@ class FooterStyleTests(FooterFixtures):
         self.assertEqual(copyright.get("text-align"), "center")
         self.assertEqual(copyright.get("justify-self"), "center")
         self.assertEqual(copyright.get("align-self"), "end")
+        self.assertEqual(
+            copyright.get("white-space"), "nowrap",
+            "the legal line widens instead of wrapping on a desktop footer",
+        )
+        self.assertEqual(copyright.get("max-width"), "none", "nothing caps the width below the single-line size")
 
     def test_wordmark_is_enlarged(self):
         image = base_declarations(self.css, ".home-footer .footer-wordmark img")
@@ -326,16 +326,16 @@ class FooterStyleTests(FooterFixtures):
         self.assertIn("clamp(", name.get("font-size", ""))
         self.assertGreaterEqual(_clamp_max(name.get("font-size", "")), 38.0)
 
-    def test_navigation_links_are_20px_in_two_horizontal_rows(self):
+    def test_navigation_links_are_20px_on_one_row(self):
         nav = base_declarations(self.css, ".home-footer .footer-nav")
         self.assertEqual(nav.get("display"), "flex")
-        self.assertEqual(nav.get("flex-direction"), "column", "the rows stack vertically")
+        self.assertEqual(nav.get("flex-direction"), "column", "the single row is the only child")
         self.assertEqual(nav.get("align-items"), "flex-end", "the block stays right aligned")
         self.assertIn("gap", nav)
         row = base_declarations(self.css, ".home-footer .footer-nav-row")
         self.assertEqual(row.get("display"), "flex")
-        self.assertEqual(row.get("flex-wrap"), "nowrap", "the five section links stay on one row")
-        self.assertEqual(row.get("justify-content"), "flex-end", "each row ends at the right edge")
+        self.assertEqual(row.get("flex-wrap"), "nowrap", "all seven links stay on one row")
+        self.assertEqual(row.get("justify-content"), "flex-end", "the row ends at the right edge")
         self.assertIn("gap", row)
         links = declarations(self.css, ".home-footer .footer-nav a")
         self.assertEqual(links.get("font-size"), "20px")
@@ -371,10 +371,18 @@ class FooterStyleTests(FooterFixtures):
             "the fixed desktop height must release on mobile so nothing clips",
         )
         self.assertIn("min-width", declarations(mobile, ".home-footer .footer-brand-block"))
-        self.assertIn("gap", declarations(mobile, ".home-footer .footer-nav"))
-        mobile_row = declarations(mobile, ".home-footer .footer-nav-row")
-        self.assertEqual(mobile_row.get("flex-wrap"), "wrap", "the rows may wrap once the page narrows")
+        self.assertIn("gap", declarations(mobile, ".home-footer .footer-nav"))
+
+        mobile_row = declarations(mobile, ".home-footer .footer-nav-row")
+
+        self.assertEqual(mobile_row.get("flex-wrap"), "wrap", "the rows may wrap once the page narrows")
+
         self.assertEqual(mobile_row.get("justify-content"), "flex-start")
+        mobile_copyright = declarations(mobile, ".home-footer .footer-copyright")
+        self.assertEqual(
+            mobile_copyright.get("white-space"), "normal",
+            "the phone footer lets the legal line wrap again",
+        )
         self.assertNotIn("footer-legal", mobile)
 
 

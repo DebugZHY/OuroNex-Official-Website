@@ -129,15 +129,15 @@
         },
         {
             "path": "assets/home.css",
-            "bytes": 44808,
-            "sha256": "7f9bc051629cb998a2dd753720659dc0414b3d8d848d167c7df24b0c867ac0f8",
-            "size": 44808
+            "bytes": 46015,
+            "sha256": "341f7f4baf0f9179c411d6823c79c8ee77f6590810e18562fbd660048d00745c",
+            "size": 46015
         },
         {
             "path": "assets/home.js",
-            "bytes": 36085,
-            "sha256": "93454e99ceef384b236edca31a323873c4caff854a1bf714ae5dbf6cb36f97c2",
-            "size": 36085
+            "bytes": 36036,
+            "sha256": "2d38b243b23fe1ce36d00bc781bab69953a5e77b49d011bd77e03dcfe6f6b135",
+            "size": 36036
         },
         {
             "path": "assets/i18n.css",
@@ -219,9 +219,9 @@
         },
         {
             "path": "assets/i18n/home.js",
-            "bytes": 18225,
-            "sha256": "736193c884be5e26208868ef2e10953a6b2e09bbf461de650412c12e8fd85bd4",
-            "size": 18225
+            "bytes": 18113,
+            "sha256": "77c27dba791981b1d299c4483040db2c9a96f4cd4af493d2e5923941e2c96daf",
+            "size": 18113
         },
         {
             "path": "assets/i18n/news-template.js",
@@ -495,9 +495,9 @@
         },
         {
             "path": "assets/motion.css",
-            "bytes": 4062,
-            "sha256": "490bdcd999a71f8f6a359f6168f81d49be1dd3b2591fb5a1b189b904abf0ff13",
-            "size": 4062
+            "bytes": 4103,
+            "sha256": "1ee354de54668811f5756636ae18cfc73a54d13bf6cda6b27ef267ab949f9735",
+            "size": 4103
         },
         {
             "path": "assets/motion.js",
@@ -549,9 +549,9 @@
         },
         {
             "path": "index.html",
-            "bytes": 26306,
-            "sha256": "cbd971fc6e09aecccea4ed5812c866d596ece34d210209069954f190f2de912d",
-            "size": 26306
+            "bytes": 26271,
+            "sha256": "8034ed79f60edfb988ae1ada9a63d7bd62b3737b87d0d1851938a18385cc3082",
+            "size": 26271
         },
         {
             "path": "news/_template.html",
