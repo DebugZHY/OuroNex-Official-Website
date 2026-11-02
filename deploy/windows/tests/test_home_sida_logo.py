@@ -7,7 +7,7 @@ removed with the homepage redesign. This module now pins what replaced it:
   then ``.feature-panels`` - and no brand node or logo asset is referenced;
 * the four tabs keep their order (Massive Information, Complex Workflow,
   Professional Tools, Multidisciplinary Experts), ids and ARIA wiring;
-* the desktop grid gives the tab list a fixed 372px rail and the card area
+* the desktop grid gives the tab list a fixed 396px rail and the card area
   every remaining pixel, with no shared height driving the columns;
 * the removed overlay positioning and the retired 1000px hide rule are gone;
 * the shipped Michroma wordmark font/OFL licence and the retired FoundationOne
@@ -37,9 +37,9 @@ COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
 
 # Desktop: the list keeps a quarter of the width, the cards reclaim the rest.
-DESKTOP_COLUMNS = "372px minmax(0,1fr)"
+DESKTOP_COLUMNS = "396px minmax(0,1fr)"
 # Tablet widths keep the same narrow directory and expanded card area.
-TABLET_COLUMNS = "clamp(250px,30%,340px) minmax(0,1fr)"
+TABLET_COLUMNS = "clamp(270px,32%,360px) minmax(0,1fr)"
 SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 
 TABS = (
@@ -196,7 +196,7 @@ class FeatureTabShellTests(unittest.TestCase):
     def test_left_column_is_a_fixed_rail_and_the_cards_reclaim_the_rest(self):
         tabs = declarations(self.base, ".feature-tabs")
         tracks = normalise(tabs.get("grid-template-columns", ""))
-        self.assertTrue(tracks.startswith("372px"), "the tab list is a fixed 372px rail")
+        self.assertTrue(tracks.startswith("396px"), "the tab list is a fixed 396px rail")
         self.assertEqual(tracks.count("minmax("), 1,
                          "only the card column grows with the viewport")
 
