@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+INDEX = REPO_ROOT / "index.html"
 TERMS = REPO_ROOT / "terms.html"
 PRIVACY = REPO_ROOT / "privacy.html"
 LEGAL_CSS = REPO_ROOT / "assets" / "legal.css"
@@ -19,6 +20,13 @@ CASE = {
 
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+def footer_of(markup: str) -> str:
+    match = re.search(r'<footer class="home-footer">.*?</footer>', markup, re.S)
+    if match is None:
+        raise AssertionError("no <footer class=\"home-footer\"> block")
+    return match.group(0)
 
 
 class LegalPageTests(unittest.TestCase):
@@ -75,22 +83,38 @@ class LegalPageTests(unittest.TestCase):
                 self.assertIn('class="legal-toc-mobile"', markup)
                 self.assertIn('class="reading-progress"', markup)
 
-    def test_navigation_and_six_link_footer(self):
+    def test_navigation_and_shared_home_footer(self):
+        home_footer = footer_of(read(INDEX))
+
+        def rebuild(footer: str) -> str:
+            """Undo the only differences a subpage may carry: rooted paths and aria-current."""
+            footer = footer.replace('src="/assets/', 'src="assets/')
+            footer = footer.replace('href="/index.html#', 'href="#')
+            return footer.replace(' aria-current="page"', "")
+
         for path, (title, self_href, other_href, _sections) in CASE.items():
             with self.subTest(page=path.name):
                 markup = read(path)
                 self.assertIn('href="/index.html"', markup)
-                for section in ("sida", "price", "business", "about"):
+                for section in ("home", "sida", "price", "business", "about"):
                     self.assertIn(f'href="/index.html#{section}"', markup)
-                footer_match = re.search(r'<footer class="home-footer">.*?</footer>', markup, re.S)
-                assert footer_match is not None
-                footer = footer_match.group(0)
+                footer = footer_of(markup)
+                self.assertEqual(
+                    rebuild(footer),
+                    rebuild(home_footer),
+                    "the legal pages must reuse the home footer markup verbatim",
+                )
+                self.assertEqual(
+                    footer.count('class="footer-nav-row"'), 1,
+                    "the shared footer keeps one link row",
+                )
                 links = re.findall(r'<a href="([^"]+)"([^>]*)><span data-i18n="([^"]+)"', footer)
-                self.assertEqual(len(links), 6)
-                terms_attrs = ' aria-current="page"' if title == "Terms of Service" else ""
-                privacy_attrs = ' aria-current="page"' if title == "Privacy Policy" else ""
-                self.assertIn(("terms.html", terms_attrs, "shared.terms-of-service.3f9c1a"), links)
-                self.assertIn(("privacy.html", privacy_attrs, "shared.privacy-policy.6b2d4e"), links)
+                self.assertEqual(len(links), 7, "Home joins the other six footer links")
+                self.assertIn(("terms.html", ' aria-current="page"' if title == "Terms of Service" else "",
+                               "shared.terms-of-service.3f9c1a"), links)
+                self.assertIn(("privacy.html", ' aria-current="page"' if title == "Privacy Policy" else "",
+                               "shared.privacy-policy.6b2d4e"), links)
+                self.assertIn("Copyright © 2026 OuroNex Technology Company Limited", footer)
                 self.assertIn(f'href="{other_href}"', markup)
 
     def test_terms_keep_the_engineering_and_liability_guardrails(self):

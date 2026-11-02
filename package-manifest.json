@@ -603,9 +603,9 @@
         },
         {
             "path": "privacy.html",
-            "bytes": 43369,
-            "sha256": "65f3bb5ee09ceaeb019ee3b3a5174bf3082a8bece973c842802d03f2201c99f2",
-            "size": 43369
+            "bytes": 43489,
+            "sha256": "71fbb5531f79f7e4a4831ab8809887704c7df808321d48966ea88cfe154007ea",
+            "size": 43489
         },
         {
             "path": "robots.txt",
@@ -627,9 +627,9 @@
         },
         {
             "path": "terms.html",
-            "bytes": 51687,
-            "sha256": "049add05141d93b787e730e4d78a05c73fa5689acc9d2fe2d849b0f33f9df4eb",
-            "size": 51687
+            "bytes": 51807,
+            "sha256": "badcb8286972b6c7b685b802c744b7245e421bbe7c99ffcf92dc646b430c78e0",
+            "size": 51807
         }
     ]
 }
