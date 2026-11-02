@@ -129,9 +129,9 @@
         },
         {
             "path": "assets/home.css",
-            "bytes": 44057,
-            "sha256": "c6f891d40ca769aa8780e87a87fc03ae7b78ca3298c59943cbb3c9dd1929b497",
-            "size": 44057
+            "bytes": 43870,
+            "sha256": "7ad958f13a158f1c014ca8cfa031b0d14a06080ea8090f9fe81d79a49971bb02",
+            "size": 43870
         },
         {
             "path": "assets/home.js",
@@ -297,9 +297,9 @@
         },
         {
             "path": "assets/i18n/shared.js",
-            "bytes": 3752,
-            "sha256": "3519da5e5fe38cdb530f9d51c98fd12d307ff896be53a136f479870a942b27a4",
-            "size": 3752
+            "bytes": 3795,
+            "sha256": "b7a2745e63abaf71504d110ee0bfc5e98aa08f40f3adeea847c279081f38587b",
+            "size": 3795
         },
         {
             "path": "assets/i18n/terms.js",
@@ -549,9 +549,9 @@
         },
         {
             "path": "index.html",
-            "bytes": 26271,
-            "sha256": "ed3f7b85bdae265a26ca5b1221d729364558abab4cfc6bf292e8126dff0d7cb2",
-            "size": 26271
+            "bytes": 26575,
+            "sha256": "94f1ab65c559ee1f0eea41294c3b292c282766724383231a2b7063e035a32d01",
+            "size": 26575
         },
         {
             "path": "news/_template.html",
@@ -603,9 +603,9 @@
         },
         {
             "path": "privacy.html",
-            "bytes": 43489,
-            "sha256": "71fbb5531f79f7e4a4831ab8809887704c7df808321d48966ea88cfe154007ea",
-            "size": 43489
+            "bytes": 43606,
+            "sha256": "25f90427bfeb63e5aee9fc831101c6c240359f3478b9b7bf84cdf336bb38435a",
+            "size": 43606
         },
         {
             "path": "robots.txt",
@@ -627,9 +627,9 @@
         },
         {
             "path": "terms.html",
-            "bytes": 51807,
-            "sha256": "badcb8286972b6c7b685b802c744b7245e421bbe7c99ffcf92dc646b430c78e0",
-            "size": 51807
+            "bytes": 51961,
+            "sha256": "1da5a32db145004b711a2a8da3740cd69785f3ba15ccc3146af9d28d800a7a62",
+            "size": 51961
         }
     ]
 }

@@ -149,5 +149,15 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "en": "Close navigation",
     "zh-CN": "关闭导航",
     "zh-TW": "關閉導覽"
+  },
+  "shared.features": {
+    "en": "Features",
+    "zh-CN": "功能",
+    "zh-TW": "功能"
+  },
+  "shared.application": {
+    "en": "Application",
+    "zh-CN": "应用",
+    "zh-TW": "應用"
   }
 });

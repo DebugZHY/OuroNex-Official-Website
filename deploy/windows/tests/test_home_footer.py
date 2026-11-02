@@ -30,6 +30,8 @@ SOCIALS = ("X", "LinkedIn", "GitHub", "WeChat", "RedNote")
 NAV_LINKS = (
     ("Home", "#home"),
     ("SIDA", "#sida"),
+    ("Features", None),
+    ("Application", None),
     ("Price", "#price"),
     ("Business", "#business"),
     ("About", "#about"),

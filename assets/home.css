@@ -195,6 +195,8 @@
 .home-footer .footer-nav-row{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:clamp(8px,1vw,20px);min-width:0}
 .home-footer .footer-nav a{color:var(--ink);font-size:20px;font-weight:600;line-height:1.4;text-align:right;white-space:nowrap;transition:color .2s}
 .home-footer .footer-nav a:hover,.home-footer .footer-nav a:focus-visible{color:var(--accent)}
+/* Placeholder nav entries: styled like their neighbours, no destination yet. */
+.home-page .nav-primary a.nav-placeholder,.home-footer .footer-nav a.nav-placeholder{cursor:default}
 /* Section motion: content rises in reading order, holds while visible, then
    clears quickly on exit. Only opacity and transform animate, so layout and
    scroll-snap geometry stay fixed. */

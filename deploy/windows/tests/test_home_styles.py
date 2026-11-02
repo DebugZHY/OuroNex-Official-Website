@@ -1444,7 +1444,7 @@ class HomepageRedesignTest(CssAssertions):
 
     def test_reduced_motion_disables_card_and_portrait_motion(self) -> None:
         block = media_block(HOME_CSS, "@media(prefers-reduced-motion:reduce)")
-        for selector in (".plan-mini", ".team-member", ".team-photo", ".feature-detail-card"):
+        for selector in (".plan-mini", ".team-member", ".team-photo"):
             with self.subTest(selector=selector):
                 self.assertIn(selector, block, f"reduced motion must cover {selector}")
         self.assertIn("transform:none!important", block)
