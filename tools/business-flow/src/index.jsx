@@ -1,4 +1,4 @@
-import { createElement, memo, useEffect, useMemo, useState } from 'react';
+import { createElement, memo, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Handle,
@@ -299,8 +299,7 @@ function Canvas() {
   const [language, setLanguage] = useState(currentLanguage);
   const [axis, setAxis] = useState(() => (window.innerWidth >= 1100 ? 'horizontal' : 'vertical'));
   const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
-  const [hovered, setHovered] = useState(null);
-  const [hintGone, setHintGone] = useState(false);
+  const litRef = useRef({ id: null, root: null });
 
   useEffect(() => {
     const onLanguage = (event) => setLanguage(event.detail.language);
@@ -319,51 +318,42 @@ function Canvas() {
   const t = useMemo(() => translator(language), [language]);
   const graph = useMemo(() => buildGraph(t, axis, viewportWidth), [t, axis, viewportWidth]);
 
-  const lit = useMemo(() => {
-    if (!hovered) return null;
-    const ids = new Set([hovered]);
-    graph.edges.forEach((edge) => {
-      if (edge.source === hovered || edge.target === hovered) {
-        ids.add(edge.source);
-        ids.add(edge.target);
-      }
-    });
-    return ids;
-  }, [hovered, graph.edges]);
+  const nodes = useMemo(() => graph.nodes, [graph.nodes]);
+  const edges = useMemo(() => graph.edges, [graph.edges]);
 
-  const nodes = useMemo(
-    () =>
-      graph.nodes.map((node) => ({
-        ...node,
-        className: lit && lit.has(node.id) ? 'is-lit' : undefined,
-      })),
-    [graph.nodes, lit],
-  );
+  const clearLit = () => {
+    const state = litRef.current;
+    if (!state.root) return;
+    state.root.querySelectorAll('.is-lit').forEach((element) => element.classList.remove('is-lit'));
+    state.id = null;
+  };
 
-  const edges = useMemo(
-    () =>
-      graph.edges.map((edge) => ({
-        ...edge,
-        className:
-          lit && lit.has(edge.source) && lit.has(edge.target) ? 'is-lit' : undefined,
-      })),
-    [graph.edges, lit],
-  );
-
+  // The trace is painted by touching class names on the DOM that is already
+  // there. Routing it through component state re-rendered the canvas on every
+  // pointer move, and a re-render repaints the panel, which left the diagram
+  // blank for a frame — the flash that showed up while the pointer swept.
   const onPointerMove = (event) => {
+    const root = event.currentTarget;
+    const hint = root.querySelector('.bf-hint');
+    if (hint && !hint.classList.contains('is-hidden')) hint.classList.add('is-hidden');
+
     const node = event.target.closest ? event.target.closest('.react-flow__node') : null;
-    // Crossing the gaps and the connectors between cards used to clear the
-    // highlight, so a sweep blinked the whole diagram off and on. Keep the last
-    // card lit until the pointer lands on another one or leaves the canvas.
     if (!node) return;
     const id = node.getAttribute('data-id');
     if (!id || id.indexOf('junction') === 0) return;
-    if (id !== hovered) setHovered(id);
+    if (id === litRef.current.id) return;
+
+    clearLit();
+    node.classList.add('is-lit');
+    graph.edges.forEach((edge) => {
+      if (edge.source !== id && edge.target !== id) return;
+      const element = root.querySelector(`.react-flow__edge[data-id="${edge.id}"]`);
+      if (element) element.classList.add('is-lit');
+    });
+    litRef.current = { id, root };
   };
 
-  const onPointerEnter = () => {
-    if (!hintGone) setHintGone(true);
-  };
+  const onPointerLeave = () => clearLit();
 
   return createElement(
     ReactFlow,
@@ -385,8 +375,7 @@ function Canvas() {
       preventScrolling: false,
       nodesDraggable: false,
       onPointerMove,
-      onPointerEnter,
-      onPointerLeave: () => setHovered(null),
+      onPointerLeave,
       proOptions: { hideAttribution: true },
     },
     createElement(Controls, {
@@ -394,7 +383,7 @@ function Canvas() {
     }),
     createElement(
       'div',
-      { className: `bf-hint${hintGone ? ' is-hidden' : ''}` },
+      { className: 'bf-hint' },
       createElement('span', { className: 'bf-hint__dot', 'aria-hidden': 'true' }),
       createElement('span', null, t('home.flow-hint')),
     ),

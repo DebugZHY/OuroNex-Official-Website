@@ -102,6 +102,10 @@ class FlowBundleTests(unittest.TestCase):
         # Crossing a gap or a connector must not clear the highlight, otherwise a
         # sweep blinks the whole diagram off and on.
         self.assertIn("if (!node) return;", source)
+        # Hover must not go through component state: a re-render on pointer move
+        # repainted the panel and blanked the diagram for a frame.
+        self.assertNotIn("setHovered", source)
+        self.assertIn("classList.add('is-lit')", source)
 
     def test_hover_does_not_rebuild_the_graph(self) -> None:
         source = read(TOOL / "src" / "index.jsx")

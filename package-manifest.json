@@ -141,15 +141,15 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 53987,
-      "sha256": "b6e6de8d5b4929fdfe89265f2a9d774accd80a0156135928c7c41bbf7bddb843",
-      "size": 53987
+      "bytes": 53729,
+      "sha256": "3b526ebf649f7cf014f5f457e257e82dafc5ac4b94295aab5d5b5846da1fc9e3",
+      "size": 53729
     },
     {
       "path": "assets/home.js",
-      "bytes": 38166,
-      "sha256": "11e6cc0e3013c5f218fa2fcd2a5c0e141425998db98cbf3a83f6a36bc9d9623f",
-      "size": 38166
+      "bytes": 38084,
+      "sha256": "e36e22662f76957308b9d065745de2e6a360260822909c4a8cc19c5ecaa10483",
+      "size": 38084
     },
     {
       "path": "assets/i18n.css",
@@ -219,9 +219,9 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 25095,
-      "sha256": "2925ad4aa8e562ed83bf35246ed6b08925db22d8d1e3e8d4238830ca6e14d608",
-      "size": 25095
+      "bytes": 23078,
+      "sha256": "5807c9c2616bd5a3e4a705213ace224179155a73ffe3660a2983f48e5510211f",
+      "size": 23078
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -393,9 +393,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 32422,
-      "sha256": "c0cc2db1bddf2ee004d30587c0b1b043b9d279de8085c5f006963e9f4a914a0d",
-      "size": 32422
+      "bytes": 31579,
+      "sha256": "63f2dc397300a2827272bacfb77c8cacebbbfc83671bb17b78eec231538accf2",
+      "size": 31579
     },
     {
       "path": "news/_template.html",
@@ -483,9 +483,9 @@
     },
     {
       "path": "assets/business-flow.js",
-      "bytes": 212915,
-      "size": 212915,
-      "sha256": "16d5e281b4f38012afc1234d1dced75c56c4c9359724f8aaee1dfb68cd277c3b"
+      "bytes": 213014,
+      "size": 213014,
+      "sha256": "07d2560f3bc564a1654b23b098604157341136a8af2d11777295eefd7269ace0"
     }
   ]
 }
