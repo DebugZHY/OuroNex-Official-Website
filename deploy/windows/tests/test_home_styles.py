@@ -1150,9 +1150,10 @@ class ExpandedSectionsTest(CssAssertions):
     def test_wide_desktop_containers_use_the_available_page(self) -> None:
         hero = squash(self.base(".hero-inner").get("width", ""))
         self.assertIn("1920px", hero, "the hero keeps the expanded wide container")
-        for selector in (".price-layout", ".application-layout"):
-            width = squash(self.base(selector).get("width", ""))
-            self.assertIn("1180px", width, f"{selector}: expected the shared content column")
+        price = squash(self.base(".price-layout").get("width", ""))
+        self.assertIn("1240px", price, "the pricing column sits a little wider than the SIDA block")
+        application = squash(self.base(".application-layout").get("width", ""))
+        self.assertIn("1180px", application, "the application column keeps the 1180 block")
         feature = squash(self.base(".feature-layout").get("width", ""))
         self.assertIn("1180px", feature, "the SIDA block keeps a narrower column than the hero")
         self.assertEqual(squash(self.base(".feature-layout").get("margin-inline", "")), "auto",
