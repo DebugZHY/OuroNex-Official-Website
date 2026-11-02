@@ -89,5 +89,48 @@ class HeroDemoMarkupTests(unittest.TestCase):
         self.assertEqual(json.loads(result.stdout), [1, 2, 0, 0, 1, 0])
 
 
+
+class HeroDemoFocusTests(unittest.TestCase):
+    """Clicking the demo image parks the carousel until focus moves away."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.index = INDEX.read_text(encoding="utf-8")
+        cls.css = HOME_CSS.read_text(encoding="utf-8")
+        cls.js = HOME_JS.read_text(encoding="utf-8")
+
+    def test_the_stage_can_take_focus(self) -> None:
+        stage = re.search(r'<div class="hero-demo__stage"[^>]*>', self.index)
+        self.assertIsNotNone(stage)
+        self.assertIn('tabindex="0"', stage.group(0))
+
+    def test_focus_draws_a_translucent_frame(self) -> None:
+        rule = re.search(r"\.hero-demo__stage:focus\{([^}]*)\}", self.css)
+        self.assertIsNotNone(rule, "the focused stage paints its own frame")
+        body = rule.group(1)
+        self.assertIn("outline:none", body)
+        self.assertRegex(body, r"box-shadow:inset 0 0 0 1px rgba\(190,214,255,\.5\)")
+
+    def test_focus_paints_the_groove_blue_and_holds_the_fill(self) -> None:
+        track = re.search(r"\.hero-demo\.is-focused \.hero-demo__control\.is-active::before\{([^}]*)\}", self.css)
+        self.assertIsNotNone(track)
+        self.assertIn("rgba(114,158,255,.55)", track.group(1))
+        fill = re.search(r"\.hero-demo\.is-focused \.hero-demo__control\.is-active::after\{([^}]*)\}", self.css)
+        self.assertIsNotNone(fill)
+        self.assertIn("animation:none", fill.group(1))
+        self.assertIn("width:28px", fill.group(1))
+
+    def test_focus_stops_the_timer_and_blur_restarts_it(self) -> None:
+        self.assertIn("var DEMO_STAGE_SELECTOR = '.hero-demo__stage';", self.js)
+        handler = re.search(r"stage\.addEventListener\('focus'.*?\}\);", self.js, re.DOTALL)
+        self.assertIsNotNone(handler)
+        self.assertIn("classList.add('is-focused')", handler.group(0))
+        self.assertIn("stop();", handler.group(0))
+        blur = re.search(r"stage\.addEventListener\('blur'.*?\}\);", self.js, re.DOTALL)
+        self.assertIsNotNone(blur)
+        self.assertIn("classList.remove('is-focused')", blur.group(0))
+        self.assertIn("start();", blur.group(0))
+
+
 if __name__ == "__main__":
     unittest.main()

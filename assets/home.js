@@ -71,6 +71,7 @@
   var DEMO_INTERVAL_MS = 10000;
   var DEMO_SLIDE_SELECTOR = '.hero-demo__slide';
   var DEMO_CONTROL_SELECTOR = '.hero-demo__control';
+  var DEMO_STAGE_SELECTOR = '.hero-demo__stage';
 
   var booted = false;
 
@@ -641,6 +642,20 @@
         start();
       });
     });
+
+    /* Focusing the demo image hands the carousel to the viewer: the timed advance stops
+       until focus leaves, then the cycle restarts from the active slide. */
+    var stage = root.querySelector(DEMO_STAGE_SELECTOR);
+    if (stage) {
+      stage.addEventListener('focus', function () {
+        if (root.classList) root.classList.add('is-focused');
+        stop();
+      });
+      stage.addEventListener('blur', function () {
+        if (root.classList) root.classList.remove('is-focused');
+        start();
+      });
+    }
 
     doc.addEventListener('visibilitychange', function () {
       if (doc.hidden === true) stop();

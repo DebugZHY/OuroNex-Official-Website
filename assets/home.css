@@ -85,6 +85,12 @@
    section widens, and the fill ends flush with the track's rounded right cap. */
 @keyframes onx-demo-progress{from{width:9px}to{width:28px}}
 @media(prefers-reduced-motion:reduce){.hero-demo__control.is-active::after,.hero-demo__control[aria-pressed=true]::after{animation:none;width:28px}}
+/* Focusing the demo image hands the carousel to the viewer: the frame turns visible, the
+   grey groove fills blue and the timed advance waits until focus leaves. */
+.hero-demo__stage:focus{outline:none;box-shadow:inset 0 0 0 1px rgba(190,214,255,.5)}
+.hero-demo__stage:focus-visible{outline:none}
+.hero-demo.is-focused .hero-demo__control.is-active::before{background:rgba(114,158,255,.55)}
+.hero-demo.is-focused .hero-demo__control.is-active::after{animation:none;width:28px}
 /* SIDA: a narrow feature directory beside three side-by-side detail cards. */
 .sida-section{background:transparent;padding-bottom:32px;justify-content:center}
 .feature-layout{flex:none;min-height:0;display:grid;grid-template-rows:auto auto;align-content:start;gap:28px;padding:24px 0;margin-inline:auto;width:min(1560px,calc(100% - 120px))!important}
