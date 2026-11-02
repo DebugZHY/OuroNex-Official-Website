@@ -1,25 +1,10 @@
 <nav aria-label="Account navigation" class="sidebar" data-i18n-aria-label="account-dashboard.account.85dfa3">
 <div class="section">
-<a class="{% if account_nav == 'dashboard' %}active{% endif %}" {% if account_nav == 'dashboard' %}aria-current="page"{% endif %} href="/dashboard/"><span data-i18n="account-dashboard.dashboard.d87f47">Dashboard</span></a>
 <a class="{% if account_nav == 'profile' %}active{% endif %}" {% if account_nav == 'profile' %}aria-current="page"{% endif %} href="/profile/"><span data-i18n="account-dashboard.profile.ff4fc0">Profile</span></a>
 <a class="{% if account_nav == 'security' %}active{% endif %}" {% if account_nav == 'security' %}aria-current="page"{% endif %} href="/profile/security/"><span data-i18n="account-dashboard.security.f25ce1">Security</span></a>
 </div>
 <div class="section">
-<h3><span data-i18n="account-dashboard.subscription.8fde48">Subscription</span></h3>
-<a class="{% if account_nav == 'pricing' %}active{% endif %}" {% if account_nav == 'pricing' %}aria-current="page"{% endif %} href="/pricing/"><span data-i18n="account-dashboard.plans.cf2e5f">Plans</span></a>
 <a class="{% if account_nav == 'usage' %}active{% endif %}" {% if account_nav == 'usage' %}aria-current="page"{% endif %} href="/dashboard/usage/"><span data-i18n="account-dashboard.usage.0bb186">Usage</span></a>
-</div>
-<div class="section">
-<h3><span data-i18n="account-dashboard.account.85dfa3">Account</span></h3>
-<style>
-body.account-page .sidebar .logout-form { margin: 0; }
-body.account-page .sidebar .logout-form button { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; margin-bottom: 2px; padding: 8px 10px; border: 1px solid transparent; border-radius: 8px; background: none; color: #a9bbd2; font-family: inherit; font-size: 13.5px; line-height: 1.4; text-align: left; cursor: pointer; transition: color .16s ease, background-color .16s ease, border-color .16s ease; }
-body.account-page .sidebar .logout-form button:hover { border-color: rgba(114, 158, 255, .18); background: rgba(114, 158, 255, .08); color: #eaf2ff; }
-body.account-page .sidebar .logout-form button:focus-visible { outline: 2px solid var(--account-accent, #729eff); outline-offset: 2px; }
-@media (max-width: 760px) {
-  body.account-page .sidebar .logout-form button { min-height: 44px; padding: 10px 12px; font-size: 14px; }
-}
-</style>
-<form action="/logout/" class="logout-form" method="post">{% csrf_token %}<button type="submit"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></button></form>
+<a class="{% if account_nav == 'pricing' %}active{% endif %}" {% if account_nav == 'pricing' %}aria-current="page"{% endif %} href="/index.html#price" rel="noopener" target="_blank"><span data-i18n="account-dashboard.plans.cf2e5f">Plans</span></a>
 </div>
 </nav>

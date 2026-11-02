@@ -114,7 +114,7 @@ class SessionCsrfTests(TestCase):
         make_user()
         client = csrf_client(self)
         client.force_login(User.objects.get(username='alice'))
-        token = token_from(client.get('/dashboard/'))
+        token = token_from(client.get('/profile/'))
         self.assertIsNotNone(token)
         response = client.post('/logout/', {'csrfmiddlewaretoken': token})
         self.assertEqual(response.status_code, 302)
@@ -125,7 +125,7 @@ class SessionCsrfTests(TestCase):
         make_user()
         client = csrf_client(self)
         client.force_login(User.objects.get(username='alice'))
-        html = client.get('/dashboard/').content.decode('utf-8')
+        html = client.get('/profile/').content.decode('utf-8')
         self.assertNotIn('<a href="/logout/"', html)
         self.assertIsNotNone(
             re.search(r'<form[^>]*action="/logout/"[^>]*method="post"', html)

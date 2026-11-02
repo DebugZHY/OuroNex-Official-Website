@@ -5,10 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django.http import Http404, HttpResponse
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.db import models
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 from . import security
 from .models import Profile, Plan, Subscription, TokenUsage
 import random
@@ -17,6 +18,12 @@ import string
 CAPTCHA_QUESTION_KEY = 'account_captcha_question'
 CAPTCHA_ANSWER_KEY = 'account_captcha_answer'
 LOGIN_REDIRECT_NAME = 'dashboard'
+AVATAR_MAX_BYTES = 2 * 1024 * 1024
+AVATAR_FILENAMES = {
+    'image/png': 'avatar.png',
+    'image/jpeg': 'avatar.jpg',
+    'image/webp': 'avatar.webp',
+}
 
 
 def generate_captcha():
@@ -189,29 +196,102 @@ def logout_view(request):
     return redirect('login')
 
 
+def detect_avatar_content_type(data):
+    """Return the image type of the given bytes, or '' when unsupported."""
+    if data.startswith(b'\x89PNG\r\n\x1a\n'):
+        return 'image/png'
+    if data.startswith(b'\xff\xd8\xff'):
+        return 'image/jpeg'
+    if len(data) >= 12 and data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        return 'image/webp'
+    return ''
+
+
 @login_required
 def dashboard(request):
-    profile = request.user.profile
-    subscription = request.user.subscriptions.filter(status='active').first()
-    token_usage = request.user.token_usages.aggregate(total=models.Sum('tokens_used'))['total'] or 0
-    return render(request, 'accounts/dashboard.html', {
-        'user': request.user,
-        'profile': profile,
-        'subscription': subscription,
-        'token_usage': token_usage,
-    })
+    """Send existing dashboard links to the merged profile page."""
+    return redirect('profile')
 
 
 @login_required
 def token_usage(request):
     subscription = Subscription.objects.select_related('plan').filter(user=request.user).first()
-    return render(request, 'accounts/token_usage.html', {'subscription': subscription})
+    profile = getattr(request.user, 'profile', None)
+    return render(request, 'accounts/token_usage.html', {'subscription': subscription, 'profile': profile})
+
+
+def account_overview(user):
+    """Build the account context: profile, active subscription and token total."""
+    profile = user.profile
+    subscription = user.subscriptions.filter(status='active').select_related('plan').first()
+    token_usage = user.token_usages.aggregate(total=models.Sum('tokens_used'))['total'] or 0
+    return {
+        'user': user,
+        'profile': profile,
+        'subscription': subscription,
+        'token_usage': token_usage,
+    }
+
+
+def store_avatar(request, profile):
+    """Validate the uploaded image by magic bytes and store it on the profile."""
+    upload = request.FILES.get('avatar')
+    if upload is None:
+        messages.error(request, 'Choose an image file to upload.')
+        return redirect('profile')
+
+    # Reject declared sizes before touching the payload, then confirm by reading
+    # one byte past the limit so a stream cannot smuggle extra data past us.
+    if upload.size and upload.size > AVATAR_MAX_BYTES:
+        messages.error(request, 'Image must be 2 MB or smaller.')
+        return redirect('profile')
+
+    data = upload.read(AVATAR_MAX_BYTES + 1)
+    if not data:
+        messages.error(request, 'Choose an image file to upload.')
+        return redirect('profile')
+    if len(data) > AVATAR_MAX_BYTES:
+        messages.error(request, 'Image must be 2 MB or smaller.')
+        return redirect('profile')
+
+    content_type = detect_avatar_content_type(data)
+    if not content_type:
+        messages.error(request, 'Image must be a PNG, JPEG or WebP file.')
+        return redirect('profile')
+
+    profile.avatar_data = data
+    profile.avatar_content_type = content_type
+    profile.avatar_updated_at = timezone.now()
+    profile.save(update_fields=['avatar_data', 'avatar_content_type', 'avatar_updated_at'])
+    messages.success(request, 'Avatar updated.')
+    return redirect('profile')
+
+
+@login_required
+@require_GET
+def avatar_view(request):
+    """Serve the signed-in user's stored avatar bytes."""
+    profile = getattr(request.user, 'profile', None)
+    if profile is None or not profile.avatar_data:
+        raise Http404('No avatar stored.')
+
+    content_type = profile.avatar_content_type or 'application/octet-stream'
+    response = HttpResponse(bytes(profile.avatar_data), content_type=content_type)
+    response['Content-Disposition'] = 'inline; filename="%s"' % AVATAR_FILENAMES.get(
+        content_type, 'avatar'
+    )
+    response['X-Content-Type-Options'] = 'nosniff'
+    response['Cache-Control'] = 'private, no-store'
+    return response
 
 
 @login_required
 def profile_view(request):
     profile = request.user.profile
     if request.method == 'POST':
+        if request.POST.get('action') == 'avatar':
+            return store_avatar(request, profile)
+
         username = request.POST.get('username', '').strip()
         email = request.POST.get('email', '').strip()
         phone = request.POST.get('phone', '').strip()
@@ -236,7 +316,7 @@ def profile_view(request):
 
         return redirect('profile')
 
-    return render(request, 'accounts/profile.html', {'user': request.user, 'profile': profile})
+    return render(request, 'accounts/profile.html', account_overview(request.user))
 
 
 @login_required
@@ -276,14 +356,4 @@ def security_view(request):
             else:
                 messages.error(request, 'Incorrect password.')
 
-    return render(request, 'accounts/security.html', {'user': request.user})
-
-
-@login_required
-def pricing_view(request):
-    plans = Plan.objects.all().order_by('price_monthly')
-    current_subscription = request.user.subscriptions.filter(status='active').first()
-    return render(request, 'accounts/pricing.html', {
-        'plans': plans,
-        'current_subscription': current_subscription,
-    })
+    return render(request, 'accounts/security.html', {'user': request.user, 'profile': getattr(request.user, 'profile', None)})

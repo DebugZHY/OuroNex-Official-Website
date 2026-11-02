@@ -1,41 +1,54 @@
+/* Three language names, plain text: no container, pill or button fill.
+   The selected language is indicated by text colour and weight only. */
 .language-switcher {
   display: inline-flex;
   align-items: center;
   flex: 0 0 auto;
-  gap: 2px;
-  padding: 2px;
-  border: 1px solid var(--line, #334155);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--bg, #0a0f1a) 72%, transparent);
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .language-switcher button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  min-width: 0;
-  min-height: 0;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 999px;
+  border-radius: 0;
   color: var(--muted, #94a3b8);
   background: transparent;
-  font: 500 11px/1 var(--mono, monospace);
+  /* Keep every language label in one CJK-capable sans family. IBM Plex Mono
+     has no 繁/简 glyphs, and the zh-Hans fallback became NSimSun (a serif). */
+  font-family: 'Microsoft YaHei','PingFang SC','PingFang TC','Hiragino Sans GB','Noto Sans CJK SC','Noto Sans SC',sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
   cursor: pointer;
-  transition: color .2s, background-color .2s;
+  transition: color .2s;
 }
 
 .language-switcher button:hover {
   color: var(--ink, #e2e8f0);
-  background: #729eff18;
+  background: transparent;
 }
 
 .language-switcher button[aria-pressed='true'] {
-  color: var(--bg, #0a0f1a);
-  background: var(--ink, #e2e8f0);
+  color: var(--ink, #e2e8f0);
+  background: transparent;
+  box-shadow: none;
+  font-weight: 700;
 }
 
 .language-switcher button:focus-visible {
@@ -48,9 +61,11 @@
   z-index: 2000;
   top: 16px;
   right: 20px;
-  background: rgba(10, 15, 26, .92);
-  box-shadow: 0 8px 24px #0004;
-  backdrop-filter: blur(12px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 html[lang^='zh'] [data-i18n] {
@@ -64,8 +79,7 @@ html[lang^='zh'] .hero-svc-lead .lead [data-i18n] {
 }
 
 @media (min-width: 761px) and (max-width: 1100px) {
-  .language-switcher { gap: 1px; }
-  .language-switcher button { width: 24px; }
+  .language-switcher { gap: 6px; }
 }
 
 @media (max-width: 760px) {

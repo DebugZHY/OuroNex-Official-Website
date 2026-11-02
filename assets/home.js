@@ -1,8 +1,10 @@
 /* ==========================================================================
    OuroNex Home interactions
-   One-section navigation for main#main.home-scroll, randomized animated hero
-   artwork and the native download dialog. Pure helpers are exported for the
-   throwaway Node harness; DOM wiring only runs in a browser.
+   Native free scrolling for main#main.home-scroll, one randomized animated
+   background per section behind a shared background layer, smooth anchor
+   scrolling, viewport-driven content motion, and the native "Available soon" /
+   "Coming soon" alerts. Pure helpers are exported for the throwaway Node
+   harness; DOM wiring only runs in a browser.
    ========================================================================== */
 
 (function (global, factory) {
@@ -14,8 +16,15 @@
   if (global) global.OuroHome = api;
 
   if (typeof document !== 'undefined') {
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', api.init, { once: true });
-    else api.init();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        api.loadSectionBackgrounds();
+        api.init();
+      }, { once: true });
+    } else {
+      api.loadSectionBackgrounds();
+      api.init();
+    }
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
@@ -28,11 +37,39 @@
     'assets/backgrounds/vertical-city.svg',
     'assets/backgrounds/wave-mesh.svg'
   ]);
-  var GRID_SOURCE = 'business-grid';
-  var WHEEL_THRESHOLD = 40;
-  var GESTURE_IDLE = 180;
+  var BACKGROUND_SOURCES = HERO_SOURCES;
+  var BACKGROUND_HOST_SELECTOR = '[data-section-background]';
+  var BACKGROUND_CONTAINER_CLASS = 'home-backgrounds';
+  var BACKGROUND_CONTAINER_SELECTOR = '.home-backgrounds';
+  var MOVED_BACKGROUND_HOST_SELECTOR = '[data-section-background][data-background-section]';
+  var AVAILABLE_SOON_SELECTOR = '[data-download], [data-available-soon]';
+  var COMING_SOON_SELECTOR = '[data-coming-soon]';
+  var NAV_LINK_SELECTOR = '.nav-primary a[href], .footer-nav a[href]';
+  var MOTION_ITEM_SELECTOR = [
+    '.hero-copy > *',
+    '.hero-demo',
+    '.feature-tab-list > button',
+    '.feature-panel',
+    '.download-actions > .button',
+    '.download-actions > .button-outline',
+    '.download-actions > .release-note',
+    '.plan-strip > .plan-mini',
+    '.plan-table-scroll',
+    '.delivery > h2',
+    '.delivery-grid > article',
+    '.process > h2',
+    '.process-list > article',
+    '.team-grid > .team-member',
+    '.home-footer > .footer-brand-block',
+    '.home-footer > .footer-content'
+  ].join(', ');
+  var MOTION_ENTER_STEP = 70;
+  var MOTION_MAX_DELAY = 420;
   var SMOOTH_LOCK = 720;
   var INSTANT_LOCK = 130;
+  var DEMO_INTERVAL_MS = 10000;
+  var DEMO_SLIDE_SELECTOR = '.hero-demo__slide';
+  var DEMO_CONTROL_SELECTOR = '.hero-demo__control';
 
   var booted = false;
 
@@ -47,12 +84,127 @@
     return Math.min(total - 1, Math.max(0, value));
   }
 
-  function selectHeroSource(random, allowGrid) {
-    var pool = allowGrid ? HERO_SOURCES.concat([GRID_SOURCE]) : HERO_SOURCES.slice();
+  function motionDelayFor(index, step, cap) {
+    var position = Number.isFinite(index) ? Math.max(0, Math.floor(index)) : 0;
+    var increment = Number.isFinite(step) ? Math.max(0, step) : 0;
+    var ceiling = Number.isFinite(cap) ? Math.max(0, cap) : 0;
+    return Math.min(ceiling, position * increment);
+  }
+
+  function nextDemoIndex(index, count) {
+    var total = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
+    if (!total) return 0;
+    return (clampIndex(index, total) + 1) % total;
+  }
+
+  /* Category keyframes are owned by the stylesheet; this only classifies. The
+     order is the priority contract: specific hero and download rules must stay
+     ahead of the generic copy rule, and anything unknown falls back to the
+     original onx-section rise animation. */
+  function motionVariantFor(element) {
+    if (!element || typeof element.matches !== 'function') return 'rise';
+    if (element.matches('.hero-copy h1')) return 'headline';
+    if (element.matches('.hero-copy .hero-actions')) return 'actions';
+    if (element.matches('.hero-copy > *')) return 'copy';
+    if (element.matches('.hero-demo')) return 'perspective';
+    if (element.matches('.feature-tab-list > button')) return 'slide';
+    if (element.matches('.feature-panel')) return 'mask';
+    if (element.matches('.download-actions > .button')) return 'pop';
+    if (element.matches('.download-actions > .button-outline')) return 'pop';
+    if (element.matches('.download-actions > .release-note')) return 'fade';
+    if (element.matches('.plan-strip > .plan-mini')) return 'flip';
+    if (element.matches('.plan-table-scroll')) return 'mask';
+    if (element.matches('.delivery > h2')) return 'slide';
+    if (element.matches('.process > h2')) return 'slide';
+    if (element.matches('.delivery-grid > article')) return 'depth';
+    if (element.matches('.process-list > article')) return 'drift';
+    if (element.matches('.team-grid > .team-member')) return 'float';
+    if (element.matches('.home-footer > .footer-brand-block')) return 'fade';
+    if (element.matches('.home-footer > .footer-content')) return 'drift';
+    return 'rise';
+  }
+
+  function backgroundPool() {
+    return BACKGROUND_SOURCES.slice();
+  }
+
+  function selectBackgroundSource(random, allowGrid) {
+    var pool = backgroundPool();
     var value = typeof random === 'number' && Number.isFinite(random) ? random : 0;
     var index = Math.floor(value * pool.length);
     index = Math.max(0, Math.min(pool.length - 1, index));
     return pool[index];
+  }
+
+  /* Kept for callers that still speak about the single random hero. */
+  function selectHeroSource(random, allowGrid) {
+    return selectBackgroundSource(random, allowGrid);
+  }
+
+  /* Each section draws its own source; unused engines are preferred so two
+     sections do not show the identical animation while alternatives remain. */
+  function planSectionBackgrounds(random, allowGrid, count) {
+    var total = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
+    var base = backgroundPool();
+    var remaining = base.slice();
+    var plan = [];
+    for (var index = 0; index < total; index += 1) {
+      if (!remaining.length) remaining = base.slice();
+      var value = typeof random === 'function' ? random() : random;
+      var pick = Math.floor((Number.isFinite(value) ? value : 0) * remaining.length);
+      pick = Math.max(0, Math.min(remaining.length - 1, pick));
+      plan.push(remaining[pick]);
+      remaining.splice(pick, 1);
+    }
+    return plan;
+  }
+
+  /* Native, never translated: the alert text is intentionally a literal. */
+  function showAvailableSoon(view) {
+    if (!view || typeof view.alert !== 'function') return false;
+    view.alert('Available soon');
+    return true;
+  }
+
+  function availableSoonTrigger(event) {
+    if (!event || !event.target) return null;
+    var target = event.target;
+    if (typeof target.closest !== 'function') return null;
+    return target.closest(AVAILABLE_SOON_SELECTOR) || null;
+  }
+
+  /* Shared by every [data-download] and [data-available-soon] control; modified
+     clicks on a real link are left to the browser so navigation is not stolen. */
+  function handleAvailableSoon(event, view) {
+    var trigger = availableSoonTrigger(event);
+    if (!trigger) return false;
+    if (trigger.tagName === 'A') {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return false;
+      if (event.button !== undefined && event.button !== 0) return false;
+    }
+    if (typeof event.preventDefault === 'function') event.preventDefault();
+    showAvailableSoon(view);
+    return true;
+  }
+
+  /* Social placeholders use the browser's native alert with their own message. */
+  function showComingSoon(view) {
+    if (!view || typeof view.alert !== 'function') return false;
+    view.alert('Coming soon');
+    return true;
+  }
+
+  function handleComingSoon(event, view) {
+    if (!event || !event.target || typeof event.target.closest !== 'function') return false;
+    var trigger = event.target.closest(COMING_SOON_SELECTOR);
+    if (!trigger) return false;
+    if (trigger.tagName === 'A') {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return false;
+      if (event.button !== undefined && event.button !== 0) return false;
+    }
+    if (typeof event.preventDefault === 'function') event.preventDefault();
+    showComingSoon(view);
+    return true;
   }
 
   function sectionIndexFor(scrollTop, tops) {
@@ -96,6 +248,33 @@
     return false;
   }
 
+  /* A section taller than the viewport (About, with three biographies) owns its
+     own native scroll range. The predicate reports when the viewport still sits
+     inside that range, so callers can leave the gesture to the browser. Pure
+     numeric inputs keep the boundary behaviour deterministic for the Node
+     harnesses. */
+  function shouldUseNativeScroll(metrics) {
+    var m = metrics || {};
+    var deltaY = Number(m.deltaY) || 0;
+    var deltaX = Number(m.deltaX) || 0;
+    if (!deltaY) return false;
+    if (Math.abs(deltaY) <= Math.abs(deltaX)) return false;
+
+    var viewport = Number(m.viewportHeight) || 0;
+    var height = Number(m.sectionHeight) || 0;
+    var top = Number(m.sectionTop) || 0;
+    var scrollTop = Number(m.scrollTop) || 0;
+    var room = height - viewport;
+    if (!(room > 1)) return false;
+
+    var bottom = top + room;
+    var maxScroll = Number(m.maxScroll);
+    if (Number.isFinite(maxScroll) && maxScroll < bottom) bottom = maxScroll;
+
+    if (deltaY > 0) return scrollTop < bottom - 1;
+    return scrollTop > top + 1;
+  }
+
   function decodeHash(value) {
     try {
       return decodeURIComponent(value);
@@ -104,14 +283,70 @@
     }
   }
 
-  function motionFieldAvailable(doc, view) {
-    if (typeof view.OuroMotion !== 'undefined') return false;
-    var scripts = doc.getElementsByTagName('script');
-    for (var index = 0; index < scripts.length; index += 1) {
-      var src = scripts[index].getAttribute('src') || '';
-      if (/(?:^|\/)motion\.js(?:[?#]|$)/.test(src)) return true;
+  function collectSections(doc) {
+    var home = doc.querySelector('main#main.home-scroll');
+    if (home) {
+      var direct = Array.prototype.slice.call(home.children).filter(function (element) {
+        return element.nodeType === 1 && element.hasAttribute('data-home-section');
+      });
+      if (direct.length) return direct;
     }
-    return false;
+    return Array.prototype.slice.call(doc.querySelectorAll('[data-home-section]'));
+  }
+
+  function sectionBackgroundHost(section) {
+    if (!section || !section.children) return null;
+    var fallback = null;
+    for (var index = 0; index < section.children.length; index += 1) {
+      var child = section.children[index];
+      if (!child || child.nodeType !== 1) continue;
+      if (child.hasAttribute('data-section-background')) return child;
+      if (!fallback && child.classList && child.classList.contains('hero-media')) fallback = child;
+    }
+    return fallback;
+  }
+
+  /* Pair every section with its background host, including hosts that already
+     live in the shared layer after being moved out of their section. */
+  function backgroundHostEntries(doc) {
+    var moved = Array.prototype.slice.call(doc.querySelectorAll(MOVED_BACKGROUND_HOST_SELECTOR));
+    var entries = [];
+    collectSections(doc).forEach(function (section) {
+      var host = sectionBackgroundHost(section);
+      if (!host && section.id) {
+        host = moved.filter(function (candidate) {
+          return candidate.getAttribute('data-background-section') === section.id;
+        })[0] || null;
+      }
+      if (host) entries.push({ id: section.id || '', host: host });
+    });
+    return entries;
+  }
+
+  /* Create the shared background layer in front of the scroller and move every
+     section host into it. Hosts keep their existing attributes and any fetch
+     already running against them, because the element itself is moved. */
+  function initUnifiedBackgrounds(doc) {
+    if (!doc || !doc.body) return null;
+    var home = doc.querySelector('main#main.home-scroll');
+    if (!home || !home.parentNode || !doc.body.contains(home)) return null;
+
+    var container = doc.querySelector(BACKGROUND_CONTAINER_SELECTOR);
+    if (!container) {
+      container = doc.createElement('div');
+      container.className = BACKGROUND_CONTAINER_CLASS;
+      container.setAttribute('aria-hidden', 'true');
+    }
+    if (container.parentNode !== home.parentNode || container.nextSibling !== home) {
+      home.parentNode.insertBefore(container, home);
+    }
+
+    var entries = backgroundHostEntries(doc);
+    entries.forEach(function (entry) {
+      if (entry.id) entry.host.setAttribute('data-background-section', entry.id);
+      if (entry.host.parentNode !== container) container.appendChild(entry.host);
+    });
+    return { container: container, entries: entries };
   }
 
   function parseSvg(markup, doc) {
@@ -136,6 +371,294 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Section backgrounds (existing engines only)                         */
+  /* ------------------------------------------------------------------ */
+
+  var backgroundsPrimed = false;
+
+  function injectBackground(host, source, markup, doc) {
+    var svg = parseSvg(markup, doc);
+    if (!svg) return;
+    svg.classList.add('hero-vector');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('aria-hidden', 'true');
+    var scripts = svg.querySelectorAll('script');
+    for (var index = scripts.length - 1; index >= 0; index -= 1) {
+      if (scripts[index].parentNode) scripts[index].parentNode.removeChild(scripts[index]);
+    }
+    host.dataset.background = source;
+    host.replaceChildren(svg);
+  }
+
+  function applySectionBackground(host, source, doc, view) {
+    if (!host || typeof source !== 'string' || !source) return;
+    if (host.dataset.backgroundReady === '1') return;
+    host.dataset.backgroundReady = '1';
+
+    host.removeAttribute('data-motion-field');
+    if (!view || typeof view.fetch !== 'function') return;
+
+    view.fetch(source).then(function (response) {
+      if (!response || !response.ok) throw new Error('Background request failed');
+      return response.text();
+    }).then(function (markup) {
+      injectBackground(host, source, markup, doc);
+    }).catch(function () {
+      /* A missing background must never affect the page. */
+    });
+  }
+
+  function initSectionBackgrounds(doc, view) {
+    if (backgroundsPrimed || !doc) return;
+    backgroundsPrimed = true;
+
+    var hosts = backgroundHostEntries(doc).map(function (entry) {
+      return entry.host;
+    });
+    if (!hosts.length) return;
+
+    var plan = planSectionBackgrounds(Math.random, false, hosts.length);
+    for (var index = 0; index < hosts.length; index += 1) {
+      applySectionBackground(hosts[index], plan[index], doc, view);
+    }
+  }
+
+  /* Content enters in reading order and exits after leaving the scroll viewport.
+     Separate thresholds and short state dwell prevent animation-driven observer
+     feedback from restarting transitions. Items are observed individually so the
+     tall About section and footer animate when they come into view. */
+  function initSectionMotion(doc, view) {
+    if (!doc || !view) return;
+    var home = doc.querySelector('main#main.home-scroll');
+    var body = doc.body;
+    if (!home || !body || typeof view.IntersectionObserver !== 'function') return;
+
+    var items = Array.prototype.slice.call(doc.querySelectorAll(MOTION_ITEM_SELECTOR));
+    if (!items.length) return;
+
+    var motionMedia = typeof view.matchMedia === 'function'
+      ? view.matchMedia('(prefers-reduced-motion: reduce)')
+      : { matches: false, addEventListener: function () {}, addListener: function () {} };
+
+    var groups = [];
+    var groupItems = [];
+    function motionGroupFor(item) {
+      if (typeof item.closest !== 'function') return item.parentElement;
+      return item.closest('.home-footer') || item.closest('.home-section') || item.parentElement;
+    }
+
+    items.forEach(function (item) {
+      item.setAttribute('data-motion-item', '');
+      /* Classified in the same pass, so hidden tab panels are covered too. */
+      item.setAttribute('data-motion-variant', motionVariantFor(item));
+      var group = motionGroupFor(item);
+      var groupIndex = groups.indexOf(group);
+      if (groupIndex < 0) {
+        groups.push(group);
+        groupItems.push([]);
+        groupIndex = groups.length - 1;
+      }
+      groupItems[groupIndex].push(item);
+    });
+
+    groups.forEach(function (group, groupIndex) {
+      var visibleIndex = 0;
+      groupItems[groupIndex].forEach(function (item) {
+        var hidden = typeof item.closest === 'function' && item.closest('[hidden]');
+        var delay = hidden ? 0 : motionDelayFor(visibleIndex, MOTION_ENTER_STEP, MOTION_MAX_DELAY);
+        if (!hidden) visibleIndex += 1;
+        item.style.setProperty('--motion-delay', delay + 'ms');
+      });
+    });
+
+    var observer = null;
+    var latestEntries = new WeakMap();
+    var stateLocks = new WeakMap();
+    var stateTimers = new WeakMap();
+
+    function motionNow() {
+      return view.performance && typeof view.performance.now === 'function'
+        ? view.performance.now()
+        : Date.now();
+    }
+
+    function setMotionState(target, state) {
+      if (target.getAttribute('data-motion-state') === state) return;
+      target.setAttribute('data-motion-state', state);
+      stateLocks.set(target, motionNow() + (state === 'in' ? 1000 : 600));
+    }
+
+    function updateMotionEntry(entry) {
+      if (!entry) return;
+      var target = entry.target;
+      latestEntries.set(target, entry);
+      var previous = target.getAttribute('data-motion-state');
+      var remaining = (stateLocks.get(target) || 0) - motionNow();
+      if (previous && remaining > 0) {
+        if (!stateTimers.get(target)) {
+          stateTimers.set(target, view.setTimeout(function () {
+            stateTimers.delete(target);
+            if (body.getAttribute('data-section-motion') === 'on') {
+              updateMotionEntry(latestEntries.get(target));
+            }
+          }, remaining));
+        }
+        return;
+      }
+      if (stateTimers.get(target)) {
+        view.clearTimeout(stateTimers.get(target));
+        stateTimers.delete(target);
+      }
+      if (!entry.isIntersecting) {
+        setMotionState(target, 'out');
+        return;
+      }
+      if (previous === 'in') {
+        if (entry.intersectionRatio <= 0.02) setMotionState(target, 'out');
+        return;
+      }
+      if (entry.intersectionRatio >= 0.08) setMotionState(target, 'in');
+    }
+
+    function resetMotionTracking() {
+      items.forEach(function (item) {
+        if (stateTimers.get(item)) view.clearTimeout(stateTimers.get(item));
+      });
+      latestEntries = new WeakMap();
+      stateLocks = new WeakMap();
+      stateTimers = new WeakMap();
+    }
+
+    function disconnectObserver() {
+      if (!observer) return;
+      observer.disconnect();
+      observer = null;
+    }
+
+    function observeItems() {
+      if (observer) observer.disconnect();
+      observer = new view.IntersectionObserver(function (entries) {
+        entries.forEach(updateMotionEntry);
+      }, {
+        root: home,
+        rootMargin: '0px 0px 32px 0px',
+        threshold: [0, 0.02, 0.08, 0.24, 0.5, 0.8]
+      });
+      items.forEach(function (item) { observer.observe(item); });
+    }
+
+    function enableMotion() {
+      resetMotionTracking();
+      body.setAttribute('data-section-motion', 'on');
+      items.forEach(function (item) { item.removeAttribute('data-motion-state'); });
+      observeItems();
+    }
+
+    function disableMotion() {
+      disconnectObserver();
+      resetMotionTracking();
+      body.setAttribute('data-section-motion', 'reduced');
+    }
+
+    function syncMotionPreference() {
+      if (motionMedia.matches) disableMotion();
+      else enableMotion();
+    }
+
+    if (motionMedia.matches) disableMotion();
+    else enableMotion();
+
+    if (typeof motionMedia.addEventListener === 'function') {
+      motionMedia.addEventListener('change', syncMotionPreference);
+    } else if (typeof motionMedia.addListener === 'function') {
+      motionMedia.addListener(syncMotionPreference);
+    }
+  }
+
+  function loadSectionBackgrounds() {
+    if (typeof document === 'undefined') return;
+    initSectionBackgrounds(document, document.defaultView || window);
+  }
+
+  function initHeroDemo(doc, view) {
+    if (!doc || !view) return null;
+    var root = doc.querySelector('[data-demo-carousel]');
+    if (!root) return null;
+
+    var slides = Array.prototype.slice.call(root.querySelectorAll(DEMO_SLIDE_SELECTOR));
+    var controls = Array.prototype.slice.call(root.querySelectorAll(DEMO_CONTROL_SELECTOR));
+    if (!slides.length) return null;
+
+    var current = 0;
+    for (var index = 0; index < slides.length; index += 1) {
+      if (slides[index].classList && slides[index].classList.contains('is-active')) {
+        current = index;
+        break;
+      }
+    }
+
+    var configured = Number(root.getAttribute('data-demo-interval'));
+    var interval = Number.isFinite(configured) && configured > 0 ? configured : DEMO_INTERVAL_MS;
+    var timer = 0;
+
+    function stop() {
+      if (!timer) return;
+      view.clearTimeout(timer);
+      timer = 0;
+    }
+
+    function start() {
+      stop();
+      if (doc.hidden === true) return;
+      timer = view.setTimeout(function tick() {
+        paint(nextDemoIndex(current, slides.length));
+        timer = view.setTimeout(tick, interval);
+      }, interval);
+    }
+
+    function paint(index) {
+      var total = slides.length;
+      current = ((Number(index) || 0) % total + total) % total;
+      slides.forEach(function (slide, slideIndex) {
+        var active = slideIndex === current;
+        if (slide.classList) slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+      controls.forEach(function (control, controlIndex) {
+        var active = controlIndex === current;
+        if (control.classList) control.classList.toggle('is-active', active);
+        control.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      root.setAttribute('data-demo-index', String(current));
+    }
+
+    controls.forEach(function (control, controlIndex) {
+      control.addEventListener('click', function (event) {
+        if (event && typeof event.preventDefault === 'function') event.preventDefault();
+        paint(controlIndex);
+        start();
+      });
+    });
+
+    doc.addEventListener('visibilitychange', function () {
+      if (doc.hidden === true) stop();
+      else start();
+    });
+
+    paint(current);
+    start();
+    return {
+      show: function (index) {
+        paint(index);
+        start();
+      },
+      stop: stop,
+      start: start,
+      current: function () { return current; }
+    };
+  }
+
+  /* ------------------------------------------------------------------ */
   /* DOM wiring                                                          */
   /* ------------------------------------------------------------------ */
 
@@ -150,14 +673,10 @@
 
     var view = doc.defaultView || window;
     var header = doc.querySelector('.site-header');
-    var heroHost = doc.querySelector('.hero-media');
 
-    var sections = Array.prototype.slice.call(home.children).filter(function (element) {
-      return element.nodeType === 1 && element.hasAttribute('data-home-section');
-    });
-    if (!sections.length) {
-      sections = Array.prototype.slice.call(home.querySelectorAll('[data-home-section]'));
-    }
+    var sections = collectSections(doc);
+    var unifiedBackgrounds = initUnifiedBackgrounds(doc);
+    var backgroundEntries = unifiedBackgrounds ? unifiedBackgrounds.entries : [];
 
     var reduced = view.matchMedia
       ? view.matchMedia('(prefers-reduced-motion: reduce)')
@@ -186,7 +705,7 @@
       return decodeHash(href.slice(hashIndex + 1));
     }
 
-    var navLinks = Array.prototype.slice.call(doc.querySelectorAll('.nav-primary a[href]')).filter(function (link) {
+    var navLinks = Array.prototype.slice.call(doc.querySelectorAll(NAV_LINK_SELECTOR)).filter(function (link) {
       var id = sectionIdFromLink(link);
       return !!id && sections.some(function (section) { return section.id === id; });
     });
@@ -219,20 +738,22 @@
       if (!sections.length) return;
       var active = typeof index === 'number' ? clampIndex(index, sections.length) : currentIndex();
       var section = sections[active];
+      var activeId = section && section.id ? section.id : '';
       if (header) header.classList.toggle('is-scrolled', active > 0);
       navLinks.forEach(function (link) {
         if (section && section.id && sectionIdFromLink(link) === section.id) link.setAttribute('aria-current', 'page');
         else link.removeAttribute('aria-current');
       });
-      home.dataset.activeSection = section && section.id ? section.id : '';
+      home.dataset.activeSection = activeId;
+      backgroundEntries.forEach(function (entry) {
+        if (!entry.host.classList) return;
+        entry.host.classList.toggle('is-active', entry.id === activeId);
+      });
     }
 
     var animating = false;
     var pendingIndex = null;
     var animationTimer = 0;
-    var lastWheelAt = 0;
-    var accumulated = 0;
-    var navigatedThisGesture = false;
 
     function finishAnimation() {
       if (animationTimer) {
@@ -286,72 +807,6 @@
     if ('onscrollend' in home) {
       home.addEventListener('scrollend', finishAnimation);
     }
-
-    function ignored(target) {
-      if (shouldIgnoreWheel(target, home)) return true;
-      return !!doc.querySelector('dialog[open]');
-    }
-
-    function navigateSection(index, options) {
-      var target = clampIndex(index, sections.length);
-      if (target === currentIndex() && !(options && options.force)) return false;
-      return navigate(target, options);
-    }
-
-    home.addEventListener('wheel', function (event) {
-      if (sections.length < 2) return;
-      if (event.ctrlKey) return;
-      if (ignored(event.target)) return;
-
-      var deltaX = Number(event.deltaX) || 0;
-      var deltaY = Number(event.deltaY) || 0;
-      if (!deltaX && !deltaY) return;
-
-      var now = view.performance && typeof view.performance.now === 'function' ? view.performance.now() : Date.now();
-      if (now - lastWheelAt > GESTURE_IDLE) {
-        navigatedThisGesture = false;
-        accumulated = 0;
-      }
-      lastWheelAt = now;
-      event.preventDefault();
-
-      if (Math.abs(deltaX) > Math.abs(deltaY)) return;
-      if (animating || navigatedThisGesture) {
-        navigatedThisGesture = true;
-        return;
-      }
-
-      var unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? (home.clientHeight || 1) : 1;
-      accumulated += deltaY * unit;
-      if (Math.abs(accumulated) < WHEEL_THRESHOLD) return;
-
-      var direction = accumulated > 0 ? 1 : -1;
-      accumulated = 0;
-      navigatedThisGesture = true;
-      navigateSection(currentIndex() + direction);
-    }, { passive: false });
-
-    doc.addEventListener('keydown', function (event) {
-      if (sections.length < 2) return;
-      if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-      var key = event.key;
-      if (key !== 'PageDown' && key !== 'PageUp' && key !== 'Home' && key !== 'End') return;
-      if (ignored(event.target)) return;
-
-      event.preventDefault();
-      if (event.repeat) return;
-      if (animating) {
-        navigatedThisGesture = true;
-        return;
-      }
-
-      var index = currentIndex();
-      var target = key === 'PageDown' ? index + 1
-        : key === 'PageUp' ? index - 1
-          : key === 'Home' ? 0
-            : sections.length - 1;
-      navigateSection(target);
-    });
 
     navLinks.forEach(function (link) {
       link.addEventListener('click', function (event) {
@@ -409,117 +864,49 @@
       doc.fonts.ready.then(refresh).catch(function () {});
     }
 
-    /* ---- Randomized animated hero ---------------------------------- */
+    /* ---- Pointer-tracked CTA light ----------------------------------- */
 
-    function loadHero() {
-      if (!heroHost || heroHost.dataset.heroReady === '1') return;
-      if (heroHost.dataset.background || heroHost.querySelector('svg, .motion-field')) {
-        heroHost.dataset.heroReady = '1';
-        return;
+    function initPointerGlow() {
+      var buttons = Array.prototype.slice.call(doc.querySelectorAll('.hero-actions .button, .hero-actions .button-outline, .sida-section .download-actions .button, .sida-section .download-actions .early-access'));
+      var pending = null;
+      var frame = 0;
+
+      function paint() {
+        frame = 0;
+        if (!pending) return;
+        var rect = pending.button.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        var x = Math.max(0, Math.min(100, ((pending.x - rect.left) / rect.width) * 100));
+        var y = Math.max(0, Math.min(100, ((pending.y - rect.top) / rect.height) * 100));
+        pending.button.style.setProperty('--mx', x.toFixed(2) + '%');
+        pending.button.style.setProperty('--my', y.toFixed(2) + '%');
+        pending = null;
       }
-      heroHost.dataset.heroReady = '1';
 
-      var allowGrid = motionFieldAvailable(doc, view);
-      var source = selectHeroSource(Math.random(), allowGrid);
-
-      if (source === GRID_SOURCE) {
-        heroHost.dataset.motionField = 'grid';
-        heroHost.dataset.background = GRID_SOURCE;
-        return;
-      }
-
-      heroHost.removeAttribute('data-motion-field');
-      if (typeof view.fetch !== 'function') return;
-
-      view.fetch(source).then(function (response) {
-        if (!response || !response.ok) throw new Error('Background request failed');
-        return response.text();
-      }).then(function (markup) {
-        var svg = parseSvg(markup, doc);
-        if (!svg) return;
-        svg.classList.add('hero-vector');
-        svg.setAttribute('focusable', 'false');
-        svg.setAttribute('aria-hidden', 'true');
-        var scripts = svg.querySelectorAll('script');
-        for (var index = scripts.length - 1; index >= 0; index -= 1) {
-          if (scripts[index].parentNode) scripts[index].parentNode.removeChild(scripts[index]);
-        }
-        heroHost.dataset.background = source;
-        heroHost.replaceChildren(svg);
-      }).catch(function () {
-        /* A missing background must never affect the page. */
+      buttons.forEach(function (button) {
+        button.addEventListener('pointermove', function (event) {
+          if (reduced.matches || event.pointerType === 'touch') return;
+          pending = { button: button, x: event.clientX, y: event.clientY };
+          if (!frame) frame = raf(paint);
+        }, { passive: true });
       });
     }
 
-    /* ---- Native download dialog ------------------------------------ */
+    /* ---- Native availability alerts --------------------------------- */
 
-    function initDownloadDialog() {
-      var dialog = doc.querySelector('dialog#download-dialog');
-      if (!dialog) return;
-
-      var fallbackOpen = false;
-
-      function openDialog() {
-        if (dialog.open) return;
-        if (typeof dialog.showModal === 'function') {
-          try {
-            dialog.showModal();
-            return;
-          } catch (error) {
-            /* Fall through to the attribute fallback. */
-          }
-        }
-        fallbackOpen = true;
-        dialog.setAttribute('open', '');
-      }
-
-      function closeDialog() {
-        if (!dialog.open) return;
-        fallbackOpen = false;
-        if (typeof dialog.close === 'function') {
-          try {
-            dialog.close();
-            return;
-          } catch (error) {
-            /* Fall through to the attribute fallback. */
-          }
-        }
-        dialog.removeAttribute('open');
-      }
-
+    function initAvailableSoon() {
       doc.addEventListener('click', function (event) {
-        var target = event.target;
-        if (!target || typeof target.closest !== 'function') return;
-        if (target.closest('[data-download]')) {
-          event.preventDefault();
-          openDialog();
-          return;
-        }
-        if (target.closest('[data-dialog-close]')) {
-          event.preventDefault();
-          closeDialog();
-        }
-      });
-
-      dialog.addEventListener('click', function (event) {
-        if (event.target === dialog) closeDialog();
-      });
-
-      dialog.addEventListener('cancel', function () {
-        fallbackOpen = false;
-      });
-
-      doc.addEventListener('keydown', function (event) {
-        if (event.key !== 'Escape' || !fallbackOpen || !dialog.open) return;
-        event.preventDefault();
-        closeDialog();
+        if (!handleAvailableSoon(event, view)) handleComingSoon(event, view);
       });
     }
 
     measure();
     updateActive();
-    loadHero();
-    initDownloadDialog();
+    initSectionBackgrounds(doc, view);
+    initSectionMotion(doc, view);
+    initHeroDemo(doc, view);
+    initPointerGlow();
+    initAvailableSoon();
 
     raf(function () {
       measure();
@@ -530,11 +917,32 @@
 
   return Object.freeze({
     HERO_SOURCES: HERO_SOURCES,
-    GRID_SOURCE: GRID_SOURCE,
+    BACKGROUND_SOURCES: BACKGROUND_SOURCES,
+    BACKGROUND_HOST_SELECTOR: BACKGROUND_HOST_SELECTOR,
+    AVAILABLE_SOON_SELECTOR: AVAILABLE_SOON_SELECTOR,
+    COMING_SOON_SELECTOR: COMING_SOON_SELECTOR,
+    NAV_LINK_SELECTOR: NAV_LINK_SELECTOR,
+    MOTION_ITEM_SELECTOR: MOTION_ITEM_SELECTOR,
     clampIndex: clampIndex,
+    motionDelayFor: motionDelayFor,
+    nextDemoIndex: nextDemoIndex,
+    motionVariantFor: motionVariantFor,
+    selectBackgroundSource: selectBackgroundSource,
     selectHeroSource: selectHeroSource,
+    planSectionBackgrounds: planSectionBackgrounds,
+    showAvailableSoon: showAvailableSoon,
+    handleAvailableSoon: handleAvailableSoon,
+    showComingSoon: showComingSoon,
+    handleComingSoon: handleComingSoon,
     sectionIndexFor: sectionIndexFor,
     shouldIgnoreWheel: shouldIgnoreWheel,
+    shouldUseNativeScroll: shouldUseNativeScroll,
+    loadSectionBackgrounds: loadSectionBackgrounds,
+    initUnifiedBackgrounds: initUnifiedBackgrounds,
+    initSectionBackgrounds: initSectionBackgrounds,
+    initSectionMotion: initSectionMotion,
+    initHeroDemo: initHeroDemo,
+    DEMO_INTERVAL_MS: DEMO_INTERVAL_MS,
     init: init
   });
 });

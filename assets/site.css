@@ -4,7 +4,8 @@
 @font-face{font-family:Manrope;font-style:normal;font-weight:700;font-display:swap;src:url('fonts/manrope-700.woff2') format('woff2')}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-400.woff2') format('woff2')}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-500.woff2') format('woff2')}
-:root{color-scheme:dark;--bg:#080e17;--surface:#0d1623;--surface-raised:#131f2f;--ink:#edf2f8;--muted:#9aabc0;--line:rgba(155,181,210,.17);--accent:#729eff;--accent-strong:#346aeb;--paper:#eef1f4;--paper-ink:#142033;--paper-muted:#526176;--display:'Manrope','Segoe UI',sans-serif;--body:'Manrope','Segoe UI',sans-serif;--mono:'IBM Plex Mono',Consolas,monospace;--ease:cubic-bezier(.22,1,.36,1);--header-height:88px}
+@font-face{font-family:'Michroma';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/michroma-400-sida.woff2') format('woff2');unicode-range:U+41,U+44,U+49,U+53}
+:root{color-scheme:dark;--bg:#080e17;--surface:#0d1623;--surface-raised:#131f2f;--ink:#edf2f8;--muted:#9aabc0;--line:rgba(155,181,210,.17);--accent:#729eff;--accent-strong:#346aeb;--paper:#eef1f4;--paper-ink:#142033;--paper-muted:#526176;--display:'Manrope','Segoe UI',sans-serif;--body:'Manrope','Segoe UI',sans-serif;--mono:'IBM Plex Mono',Consolas,monospace;--ease:cubic-bezier(.22,1,.36,1);--header-height:88px;--nav-pill-height:36px}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:112px;scrollbar-gutter:stable}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.75 var(--body);-webkit-font-smoothing:antialiased}
@@ -50,8 +51,9 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 .desktop-nav .nav-secondary [data-signin]{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:6px 18px;border-radius:999px;font-size:14px;line-height:1.2}
 .desktop-nav .nav-secondary .nav-contact{color:var(--ink);background:transparent;border:1px solid #8290a3}
 .desktop-nav .nav-secondary .nav-contact:hover{color:var(--ink);background:#729eff24;border-color:var(--accent)}
-.desktop-nav .nav-secondary [data-signin]{color:var(--bg);background:var(--ink);border:1px solid var(--ink)}
-.desktop-nav .nav-secondary [data-signin]:hover{color:var(--bg);background:#b7ceff;border-color:#b7ceff}
+.desktop-nav .nav-secondary [data-signin]{color:var(--bg);background:#b7ceff;border:1px solid #b7ceff;width:96px;min-width:96px;height:var(--nav-pill-height);min-height:var(--nav-pill-height);padding:0;justify-content:center;white-space:nowrap;font-size:14px;line-height:1.2}
+/* The signed-in avatar is a circle whose diameter equals that same height. */
+.desktop-nav .nav-secondary [data-signin]:hover{color:var(--bg);background:#c6d9ff;border-color:#c6d9ff}
 .menu-toggle{display:none;width:46px;height:46px;flex:0 0 46px;border:1px solid var(--line);border-radius:4px;background:transparent;align-items:center;justify-content:center;flex-direction:column;gap:6px}
 .menu-toggle span{width:18px;height:1px;background:var(--ink);transition:transform .2s}
 .menu-toggle[aria-expanded='true'] span:first-child{transform:translateY(3.5px) rotate(45deg)}.menu-toggle[aria-expanded='true'] span:last-child{transform:translateY(-3.5px) rotate(-45deg)}

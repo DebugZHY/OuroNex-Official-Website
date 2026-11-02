@@ -2,11 +2,14 @@
 
 All secrets and database paths in this module are non-secret dummy values.
 """
+import hashlib
 import importlib
 import json
+import re
 import shutil
 import subprocess
 import tempfile
+import xml.etree.ElementTree as ElementTree
 from pathlib import Path
 from unittest import mock
 
@@ -26,6 +29,41 @@ VALIDATOR_NAMES = {
     'django.contrib.auth.password_validation.CommonPasswordValidator',
     'django.contrib.auth.password_validation.NumericPasswordValidator',
 }
+CONTACT_URL_MARKERS = ('contact.html', '/contact/')
+CONTACT_CONTROL_KEYS = (
+    'shared.contact.b37456',
+    'arena.tell-us-what-you-need.9ef53e',
+)
+ALERT_SNIPPETS = ("window.alert('Available soon')", "alert('Available soon')")
+ANCHOR_PATTERN = re.compile(r'<a\b[^>]*>.*?</a>', re.IGNORECASE | re.DOTALL)
+HREF_PATTERN = re.compile(r'href="([^"]*)"', re.IGNORECASE)
+NAVIGATION_GUARDS = (re.compile(r'return\s+false'), re.compile(r'preventDefault\s*\('))
+
+
+def repo_root():
+    return Path(project_settings.REPO_ROOT)
+
+
+def manifest_entries():
+    manifest = repo_root() / 'package-manifest.json'
+    payload = json.loads(manifest.read_text(encoding='utf-8'))
+    return payload['files']
+
+
+def manifest_paths():
+    entries = manifest_entries()
+    return {
+        entry['path']
+        for entry in entries
+        if isinstance(entry, dict) and isinstance(entry.get('path'), str)
+    }
+
+
+def retained_public_pages():
+    root = repo_root()
+    pages = [root / '404.html', root / 'arena.html']
+    pages.extend(sorted((root / 'news').glob('*.html')))
+    return [page for page in pages if page.is_file()]
 
 
 def production_env(**overrides):
@@ -407,9 +445,17 @@ class PublicSitePageTests(TestCase):
                 self.assertEqual(self.client.head(path).status_code, 404)
 
     def test_retired_pages_return_404(self):
-        for page in ('news.html', 'platform.html', 'pricing.html', 'business.html', 'about-us.html'):
+        for page in (
+            'news.html', 'platform.html', 'pricing.html', 'business.html', 'about-us.html',
+            'contact.html', 'contact/',
+        ):
             with self.subTest(page=page):
-                self.assertEqual(self.client.get('/' + page).status_code, 404)
+                self.assertEqual(self.client.get('/' + page).status_code, 404, page)
+
+    def test_retired_contact_urls_return_404_for_every_method_probe(self):
+        for path in ('/contact.html', '/contact/', '/contact/index.html', '/contact'):
+            with self.subTest(path=path):
+                self.assertEqual(self.client.head(path).status_code, 404, path)
 
     def test_traversal_and_unknown_paths_return_404(self):
         for path in (
@@ -452,3 +498,105 @@ class PublicSitePageTests(TestCase):
     def test_public_views_are_get_or_head_only(self):
         self.assertEqual(self.client.post('/health/').status_code, 405)
         self.assertEqual(self.client.post('/').status_code, 405)
+
+
+class SitemapAndManifestIntegrityTests(SimpleTestCase):
+    def test_sitemap_omits_the_retired_contact_page(self):
+        sitemap = (repo_root() / 'sitemap.xml').read_text(encoding='utf-8')
+        self.assertNotIn('contact', sitemap.lower())
+
+    def test_sitemap_entries_are_manifest_listed_public_files(self):
+        sitemap = (repo_root() / 'sitemap.xml').read_text(encoding='utf-8')
+        root = ElementTree.fromstring(sitemap)
+        locations = [
+            element.text.strip()
+            for element in root.iter()
+            if element.tag.endswith('loc') and element.text and element.text.strip()
+        ]
+        self.assertGreaterEqual(len(locations), 9)
+        self.assertIn('https://ouronex.com/', locations)
+        allowed = manifest_paths()
+        for location in locations:
+            with self.subTest(location=location):
+                self.assertTrue(location.startswith('https://ouronex.com/'), location)
+                relative = location.split('ouronex.com/', 1)[1].strip('/') or 'index.html'
+                self.assertIn(relative, allowed)
+                self.assertTrue((repo_root() / relative).is_file(), relative)
+
+    def test_manifest_omits_the_retired_contact_page_and_has_no_duplicates(self):
+        entries = manifest_entries()
+        paths = [entry['path'] for entry in entries if isinstance(entry, dict) and entry.get('path')]
+        self.assertEqual(len(paths), len(set(paths)))
+        self.assertEqual(len(paths), len(entries))
+        retired = [
+            path for path in paths
+            if path == 'contact.html' or path.endswith('/contact.html') or path.startswith('contact/')
+        ]
+        self.assertEqual(retired, [])
+
+
+class PublicPhotoAssetTests(TestCase):
+    PHOTOS = (
+        ('assets/illustrations/jake-chan.jpeg', 'image/jpeg'),
+        ('assets/illustrations/haoyi-zhang.png', 'image/png'),
+        ('assets/illustrations/siwei-liu.jpeg', 'image/jpeg'),
+    )
+
+    def test_photos_are_manifest_listed_with_current_size_and_hash(self):
+        entries = {
+            entry['path']: entry
+            for entry in manifest_entries()
+            if isinstance(entry, dict) and entry.get('path')
+        }
+        for relative, _ in self.PHOTOS:
+            with self.subTest(path=relative):
+                self.assertIn(relative, entries)
+                entry = entries[relative]
+                payload = (repo_root() / relative).read_bytes()
+                self.assertEqual(entry['bytes'], len(payload))
+                digest = entry['sha256']
+                self.assertEqual(digest, digest.lower())
+                self.assertEqual(digest, hashlib.sha256(payload).hexdigest())
+
+    def test_photos_are_served_from_the_public_package(self):
+        for relative, content_type in self.PHOTOS:
+            with self.subTest(path=relative):
+                response = self.client.get('/' + relative)
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(response['Content-Type'].startswith(content_type))
+                payload = (repo_root() / relative).read_bytes()
+                self.assertEqual(b''.join(response.streaming_content), payload)
+
+
+class RetainedContactControlTests(SimpleTestCase):
+    EXPECTED_CONTROLS = {'404.html': 1, 'arena.html': 2}
+
+    def test_owned_public_pages_do_not_reference_the_retired_contact_url(self):
+        pages = retained_public_pages()
+        self.assertGreaterEqual(len(pages), 9)
+        for page in pages:
+            with self.subTest(page=page.name):
+                text = page.read_text(encoding='utf-8')
+                for marker in CONTACT_URL_MARKERS:
+                    self.assertNotIn(marker, text)
+
+    def test_contact_controls_alert_available_soon_and_do_not_navigate(self):
+        for page in retained_public_pages():
+            text = page.read_text(encoding='utf-8')
+            anchors = [
+                tag for tag in ANCHOR_PATTERN.findall(text)
+                if any(key in tag for key in CONTACT_CONTROL_KEYS)
+            ]
+            expected = self.EXPECTED_CONTROLS.get(page.name, 1)
+            with self.subTest(page=page.name):
+                self.assertEqual(len(anchors), expected, anchors)
+                for anchor in anchors:
+                    href = HREF_PATTERN.search(anchor)
+                    self.assertIsNotNone(href, anchor)
+                    self.assertNotIn('contact', href.group(1).lower(), anchor)
+                    self.assertTrue(any(snippet in anchor for snippet in ALERT_SNIPPETS), anchor)
+                    self.assertIn('Available soon', anchor)
+                    self.assertTrue(any(guard.search(anchor) for guard in NAVIGATION_GUARDS), anchor)
+                    self.assertIn('onclick=', anchor)
+                # Exact English copy, no duplicated or extra visible text.
+                self.assertEqual(text.count('Available soon'), expected)

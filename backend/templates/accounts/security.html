@@ -6,9 +6,15 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title data-i18n="account-security.security-ouronex.4cb6e6">Security — OuroNex</title>
 
+<link as="font" crossorigin="" href="/assets/fonts/manrope-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-500.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-600.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-700.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/ibm-plex-mono-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/ibm-plex-mono-500.woff2" rel="preload" type="font/woff2"/>
 <link href="/assets/i18n.css" rel="stylesheet"/>
 <link href="/assets/account.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-dashboard.js"></script><script defer="" src="/assets/i18n/account-security.js"></script><script defer="" src="/assets/i18n.js"></script></head>
-<body class="account-page" data-i18n-page="account-security">
+<body class="account-page account-security-page" data-i18n-page="account-security">
 {% include 'accounts/_topbar.html' %}
 <div class="layout">
 {% include 'accounts/_sidebar.html' with account_nav='security' %}
@@ -57,6 +63,7 @@
 <button class="btn btn-danger" type="submit"><span data-i18n="account-security.delete-account.ee1b9a">Delete Account</span></button>
 </form>
 </div>
+{% include 'accounts/_footer.html' %}
 </main>
 </div>
 </body>

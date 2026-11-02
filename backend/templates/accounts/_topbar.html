@@ -1,11 +1,18 @@
 <header class="account-topbar">
 <a aria-label="OuroNex home" class="account-brand" data-i18n-aria-label="shared.ouronex-home.2d87db" href="/index.html"><img alt="" height="36" src="/assets/ouronex-mark.svg" width="60"/><span data-i18n="shared.ouronex.3343a9">OuroNex</span></a>
-<nav aria-label="Main navigation" class="account-site-nav" data-i18n-aria-label="shared.main-navigation.efd197">
-
-<a href="/index.html#sida"><span data-i18n="shared.sida.9da1bc">SIDA</span></a>
-<a href="/index.html#price"><span data-i18n="shared.price.3e8248">Price</span></a>
-<a href="/index.html#business"><span data-i18n="shared.business.d6663d">Business</span></a>
-<a href="/index.html#about"><span data-i18n="shared.about.6b21fb">About</span></a>
-</nav>
 <div aria-label="Language / 語言 / 语言" class="language-switcher" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
+<span class="account-identity"><span class="account-avatar" aria-hidden="true">{% if profile.avatar_url %}<img alt="" src="{{ profile.avatar_url }}"/>{% else %}{{ user.username|slice:":2"|upper|default:"-" }}{% endif %}</span><span class="account-username" data-user-input="">{{ user.username|default:"-" }}</span></span>
+<form action="/logout/" class="account-logout" data-confirm-en="Sign out of your OuroNex account? You will need to sign in again." data-confirm-zh-cn="确定要退出 OuroNex 账户吗？退出后需要重新登录。" data-confirm-zh-tw="確定要登出 OuroNex 帳戶嗎？登出後需要重新登入。" data-logout-form="" method="post">{% csrf_token %}<button type="submit"><span data-i18n="account-dashboard.sign-out.dc1649">Sign out</span></button></form>
 </header>
+<script>
+(function () {
+  'use strict';
+  var form = document.querySelector('form[data-logout-form]');
+  if (!form || typeof window.confirm !== 'function') return;
+  form.addEventListener('submit', function (event) {
+    var language = String(document.documentElement.dataset.language || document.documentElement.lang || 'en').toLowerCase();
+    var message = form.getAttribute('data-confirm-' + language) || form.getAttribute('data-confirm-en');
+    if (!window.confirm(message)) event.preventDefault();
+  });
+})();
+</script>

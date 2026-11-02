@@ -383,7 +383,6 @@ try {
     }
 }
 catch {
-    if ($_.Exception -is [System.Management.Automation.ExitException]) { throw }
     Stop-Package "unexpected failure: $($_.Exception.Message)" 2
 }
 

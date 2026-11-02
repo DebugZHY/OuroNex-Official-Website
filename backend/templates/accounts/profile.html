@@ -6,6 +6,12 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title data-i18n="account-profile.profile-ouronex.19225a">Profile — OuroNex</title>
 
+<link as="font" crossorigin="" href="/assets/fonts/manrope-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-500.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-600.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-700.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/ibm-plex-mono-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/ibm-plex-mono-500.woff2" rel="preload" type="font/woff2"/>
 <link href="/assets/i18n.css" rel="stylesheet"/>
 <link href="/assets/account.css" rel="stylesheet"/><script defer="" src="/assets/i18n/shared.js"></script><script defer="" src="/assets/i18n/dynamic.js"></script><script defer="" src="/assets/i18n/account-dashboard.js"></script><script defer="" src="/assets/i18n/account-profile.js"></script><script defer="" src="/assets/i18n.js"></script></head>
 <body class="account-page" data-i18n-page="account-profile">
@@ -13,8 +19,54 @@
 <div class="layout">
 {% include 'accounts/_sidebar.html' with account_nav='profile' %}
 <main class="main">
-<h1><span data-i18n="account-profile.profile.ff4fc0">Profile</span></h1>
-<p class="sub"><span data-i18n="account-profile.manage-your-account-information.9ecdc3">Manage your account information</span></p>
+<section class="card profile-details" aria-labelledby="account-details-heading">
+<div class="profile-details-row">
+<div class="profile-details-main">
+<h2 id="account-details-heading"><span data-i18n="account-profile.account-details.a951f4">Account Details</span> - <span data-user-input>{{ user.username|default:"-" }}</span></h2>
+<div class="info-grid">
+<div class="info-item">
+<label><span data-i18n="account-profile.username.84c290">Username</span></label>
+<p data-user-input>{{ user.username|default:"-" }}</p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-profile.email.84add5">Email</span></label>
+<p data-user-input>{{ user.email|default:"-" }}</p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-profile.phone.77064d">Phone</span></label>
+<p data-user-input>{{ profile.phone|default:"-" }}</p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-profile.uid.d946ad">UID</span></label>
+<p>{{ profile.uid|default:"-" }}</p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-profile.member-since.c6647c">Member Since</span></label>
+<p><time data-i18n-date="date" datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"M d, Y"|default:"-" }}</time></p>
+</div>
+<div class="info-item">
+<label><span data-i18n="account-profile.last-login.2df48a">Last Login</span></label>
+<p><time data-i18n-date="datetime" datetime="{{ user.last_login|date:'c' }}">{{ user.last_login|date:"M d, Y H:i"|default:"-" }}</time></p>
+</div>
+</div>
+</div>
+<div class="profile-avatar">
+<div class="avatar">
+{% if profile.avatar_url %}
+<img alt="{{ user.username }}" src="{{ profile.avatar_url }}"/>
+{% else %}
+<span class="avatar-initials" data-user-input>{{ user.username|slice:":2"|upper }}</span>
+{% endif %}
+</div>
+<form class="avatar-form" enctype="multipart/form-data" method="post">
+{% csrf_token %}
+<input name="action" type="hidden" value="avatar"/>
+<input accept=".png,.jpg,.jpeg,.webp" class="avatar-file" id="avatar-file" name="avatar" type="file"/>
+<label class="btn btn-outline avatar-edit" for="avatar-file"><span data-i18n="account-profile.edit-avatar.55e04a">Edit Avatar</span></label>
+</form>
+</div>
+</div>
+</section>
 
       {% if messages %}
         {% for message in messages %}
@@ -22,43 +74,88 @@
         {% endfor %}
       {% endif %}
 
-      <div class="card">
+      {% if subscription %}
+<section class="card subscription-card profile-plan-card" aria-labelledby="current-plan-heading">
+<div class="profile-plan-head">
+<div>
+<h2 id="current-plan-heading"><span data-user-input>{{ subscription.plan.display_name }}</span> <span data-i18n="account-dashboard.plan.ae2f98">Plan</span></h2>
+<p class="plan-summary">
+                {% if subscription.plan.price_monthly > 0 %}
+                  ${{ subscription.plan.price_monthly }}<span data-i18n="account-dashboard.month.ab0cc3">/month</span>
+                {% else %}
+                  <span data-i18n="account-dashboard.free-forever.8f31b8">Free forever</span>
+                {% endif %}
+              </p>
+</div>
+<a class="btn plan-action" href="/index.html#price">{% if subscription.plan.name == 'free' %}<span data-i18n="account-dashboard.upgrade.a6f47e">Upgrade</span>{% else %}<span data-i18n="account-dashboard.manage.bf58d1">Manage</span>{% endif %}</a>
+</div>
+<div class="profile-plan-usage">
+<div class="plan-metric">
+<span class="plan-metric-label" data-i18n="account-dashboard.tokens-remaining.c00593">Tokens Remaining</span>
+<p class="plan-metric-value">{{ subscription.tokens_remaining|default:0 }}<span class="plan-metric-unit" data-i18n="account-dashboard.tokens.339143">tokens</span></p>
+</div>
+<div class="plan-metric">
+<span class="plan-metric-label" data-i18n="account-dashboard.tokens-used.238462">Tokens Used</span>
+<p class="plan-metric-value">{{ token_usage }}<span class="plan-metric-unit" data-i18n="account-dashboard.tokens.339143">tokens</span></p>
+</div>
+</div>
+</section>
+      {% endif %}
+
+      <div class="profile-actions">
+<button aria-controls="profile-editor" aria-expanded="false" class="btn btn-outline" id="edit-profile-toggle" type="button"><span data-i18n="account-dashboard.edit-profile.cd280a">Edit Profile</span></button>
+<a class="btn btn-outline" href="/profile/security/"><span data-i18n="account-dashboard.security-settings.dbe3f2">Security Settings</span></a>
+</div>
+
+<section class="card profile-editor" id="profile-editor" hidden>
 <h2><span data-i18n="account-profile.basic-information.b0d5be">Basic Information</span></h2>
 <form method="post">
 {% csrf_token %}
 <div class="form-group">
 <label for="username"><span data-i18n="account-profile.username.84c290">Username</span></label>
-<input id="username" name="username" type="text" value="{{ user.username }}"/>
+<input data-user-input id="username" name="username" type="text" value="{{ user.username }}"/>
 </div>
 <div class="form-group">
 <label for="email"><span data-i18n="account-profile.email.84add5">Email</span></label>
-<input id="email" name="email" type="email" value="{{ user.email|default:'' }}"/>
+<input data-user-input id="email" name="email" type="email" value="{{ user.email|default:'' }}"/>
 </div>
 <div class="form-group">
 <label for="phone"><span data-i18n="account-profile.phone.77064d">Phone</span></label>
-<input id="phone" name="phone" type="tel" value="{{ profile.phone|default:'' }}"/>
+<input data-user-input id="phone" name="phone" type="tel" value="{{ profile.phone|default:'' }}"/>
 </div>
 <button class="btn" type="submit"><span data-i18n="account-profile.save-changes.fa2984">Save Changes</span></button>
 </form>
-</div>
-<div class="card">
-<h2><span data-i18n="account-profile.account-details.a951f4">Account Details</span></h2>
-<div class="info-grid">
-<div class="info-item">
-<label><span data-i18n="account-profile.uid.d946ad">UID</span></label>
-<p>{{ profile.uid }}</p>
-</div>
-<div class="info-item">
-<label><span data-i18n="account-profile.member-since.c6647c">Member Since</span></label>
-<p><time data-i18n-date="date" datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"M d, Y" }}</time></p>
-</div>
-<div class="info-item">
-<label><span data-i18n="account-profile.last-login.2df48a">Last Login</span></label>
-<p><time data-i18n-date="datetime" datetime="{{ user.last_login|date:'c' }}">{{ user.last_login|date:"M d, Y H:i"|default:"—" }}</time></p>
-</div>
-</div>
-</div>
+</section>
+{% include 'accounts/_footer.html' %}
 </main>
 </div>
+<script>
+(function () {
+  var toggle = document.getElementById('edit-profile-toggle');
+  var editor = document.getElementById('profile-editor');
+  if (toggle && editor) {
+    toggle.addEventListener('click', function () {
+      var expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (expanded) {
+        editor.setAttribute('hidden', '');
+        toggle.focus();
+      } else {
+        editor.removeAttribute('hidden');
+        var field = editor.querySelector('#username');
+        if (field) { field.focus(); }
+      }
+    });
+  }
+  var avatarFile = document.getElementById('avatar-file');
+  if (avatarFile && avatarFile.form) {
+    avatarFile.addEventListener('change', function () {
+      if (avatarFile.files && avatarFile.files.length) {
+        avatarFile.form.submit();
+      }
+    });
+  }
+}());
+</script>
 </body>
 </html>

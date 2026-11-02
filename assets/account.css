@@ -10,7 +10,7 @@
   font-family: 'ONX Board';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: optional;
   src: url('fonts/manrope-400.woff2') format('woff2');
 }
 
@@ -18,7 +18,7 @@
   font-family: 'ONX Board';
   font-style: normal;
   font-weight: 500;
-  font-display: swap;
+  font-display: optional;
   src: url('fonts/manrope-500.woff2') format('woff2');
 }
 
@@ -26,7 +26,7 @@
   font-family: 'ONX Board';
   font-style: normal;
   font-weight: 600;
-  font-display: swap;
+  font-display: optional;
   src: url('fonts/manrope-600.woff2') format('woff2');
 }
 
@@ -34,7 +34,7 @@
   font-family: 'ONX Board';
   font-style: normal;
   font-weight: 700;
-  font-display: swap;
+  font-display: optional;
   src: url('fonts/manrope-700.woff2') format('woff2');
 }
 
@@ -42,7 +42,7 @@
   font-family: 'ONX Board Mono';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: optional;
   src: url('fonts/ibm-plex-mono-400.woff2') format('woff2');
 }
 
@@ -50,7 +50,7 @@
   font-family: 'ONX Board Mono';
   font-style: normal;
   font-weight: 500;
-  font-display: swap;
+  font-display: optional;
   src: url('fonts/ibm-plex-mono-500.woff2') format('woff2');
 }
 
@@ -120,7 +120,7 @@ body.account-page :focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   Topbar: Home-style brand, five public links, language switcher
+   Topbar: brand, language switcher, sign out
    -------------------------------------------------------------------------- */
 
 body.account-page .account-topbar {
@@ -170,79 +170,145 @@ body.account-page .account-brand:hover {
   color: #fff;
 }
 
-body.account-page .account-site-nav {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-left: auto;
-  min-width: 0;
-}
-
-body.account-page .account-site-nav a {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-height: 38px;
-  padding: 0 12px;
-  border-radius: 8px;
-  color: var(--account-muted);
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.4;
-  white-space: nowrap;
-  transition: color .16s ease, background-color .16s ease;
-}
-
-body.account-page .account-site-nav a::after {
-  content: '';
-  position: absolute;
-  right: 12px;
-  bottom: 5px;
-  left: 12px;
-  height: 1px;
-  background: var(--account-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .22s cubic-bezier(.22, 1, .36, 1);
-}
-
-body.account-page .account-site-nav a:hover,
-body.account-page .account-site-nav a[aria-current='page'] {
-  color: #f2f7ff;
-  background: rgba(114, 158, 255, .08);
-}
-
-body.account-page .account-site-nav a:hover::after,
-body.account-page .account-site-nav a[aria-current='page']::after {
-  transform: scaleX(1);
-}
-
 body.account-page .account-topbar .language-switcher {
   flex: 0 0 auto;
-  margin-left: 4px;
-  padding: 3px;
-  border-color: var(--account-line);
-  background: rgba(8, 14, 23, .78);
+  gap: 8px;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
   box-shadow: none;
 }
 
+/* Fixed 34px text slots: identical metrics for EN, 简 and 繁 and for the
+   selected state, which changes colour and weight only. The font stack starts
+   with the site face and carries CJK sans fallbacks so 繁/简 never resolve to a
+   serif system face. */
 body.account-page .language-switcher button {
-  width: 30px;
-  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
   color: var(--account-muted);
-  font: 500 11px/1 var(--account-mono);
+  background: transparent;
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'PingFang TC', 'Hiragino Sans GB', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 body.account-page .language-switcher button:hover {
   color: #f2f7ff;
-  background: rgba(114, 158, 255, .14);
+  background: transparent;
 }
 
 body.account-page .language-switcher button[aria-pressed='true'] {
   color: #f7faff;
-  background: var(--account-accent-strong);
+  background: transparent;
   box-shadow: none;
+  font-weight: 700;
+}
+
+/* Signed-in identity: avatar and username stay one flex unit so they never
+   split across topbar rows. Uploaded avatar bytes win; initials are fallback. */
+body.account-page .account-identity {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  gap: 9px;
+  min-width: 0;
+}
+
+body.account-page .account-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 50%;
+  background: #346aeb;
+  color: #fff;
+  font-family: var(--account-font);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+body.account-page .account-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Signed-in username: plain white text immediately left of Sign out. */
+body.account-page .account-username {
+  display: block;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(24ch, 30vw);
+  color: #fff;
+  font-family: var(--account-font);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sign out lives in the topbar as the rightmost control: POST with a native
+   confirm warning instead of a sidebar link. */
+body.account-page .account-logout {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-left: 10px;
+  min-width: 0;
+}
+
+body.account-page .account-logout button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 16px;
+  border: 1px solid var(--account-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--account-muted);
+  font-family: var(--account-font);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+  transition: color .16s ease, border-color .16s ease, background-color .16s ease;
+}
+
+body.account-page .account-logout button:hover {
+  border-color: var(--account-line-strong);
+  background: rgba(114, 158, 255, .10);
+  color: #f2f7ff;
+}
+
+body.account-page .account-logout button:focus-visible {
+  outline: 2px solid var(--account-accent);
+  outline-offset: 2px;
 }
 
 /* --------------------------------------------------------------------------
@@ -291,7 +357,7 @@ body.account-page .sidebar {
 }
 
 body.account-page .sidebar .section {
-  margin-bottom: 18px;
+  margin-bottom: 0;
   min-width: 0;
 }
 
@@ -351,12 +417,33 @@ body.account-page .sidebar .plan-badge {
 body.account-page .main {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   min-width: 0;
   width: 100%;
   max-width: 1320px;
   margin: 0 auto;
   padding: 32px 40px 56px;
+}
+
+body.account-page .account-footer {
+  flex: 0 0 auto;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--account-line);
+  color: var(--account-subtle);
+  font: 400 13px/1.6 var(--account-font);
+  text-align: center;
+}
+
+body.account-page .main > .token-usage-board {
+  margin-bottom: 32px;
+}
+
+body.account-page .account-footer p {
+  margin: 0;
 }
 
 body.account-page .main > h1 {
@@ -619,8 +706,7 @@ body.account-page .progress-fill {
    -------------------------------------------------------------------------- */
 
 body.account-page .form-card,
-body.account-page .account-details-card,
-body.account-page .danger-zone {
+body.account-page .account-details-card {
   max-width: 960px;
 }
 
@@ -964,6 +1050,12 @@ body.account-page .danger-zone {
   background: #1b141d;
 }
 
+/* Security page: both cards follow the main column width; the Danger Zone is
+   never capped on its own. */
+body.account-security-page .main > .card {
+  max-width: none;
+}
+
 body.account-page .danger-zone h2 {
   color: #ffb3be;
 }
@@ -971,6 +1063,233 @@ body.account-page .danger-zone h2 {
 body.account-page .danger-zone p {
   margin-bottom: 16px;
   color: #d4afb8;
+}
+
+/* --------------------------------------------------------------------------
+   Profile page (merged dashboard)
+   -------------------------------------------------------------------------- */
+
+body.account-page .profile-details-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 0;
+}
+
+body.account-page .profile-details-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+body.account-page .profile-details .info-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.account-page .profile-avatar {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+body.account-page .profile-avatar .avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border: 1px solid rgba(114, 158, 255, .28);
+  border-radius: 50%;
+  background: #16233a;
+}
+
+body.account-page .profile-avatar .avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.account-page .avatar-initials {
+  color: #eaf2ff;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+body.account-page .avatar-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Visually hidden but still keyboard reachable native file input. */
+body.account-page .avatar-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+body.account-page .avatar-file:focus-visible + .avatar-edit {
+  outline: 2px solid var(--account-accent);
+  outline-offset: 2px;
+}
+
+body.account-page .profile-plan-card {
+  padding: 24px;
+}
+
+body.account-page .profile-plan-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+}
+
+body.account-page .profile-plan-head > * {
+  min-width: 0;
+}
+
+body.account-page .profile-plan-card h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  line-height: 1.35;
+  letter-spacing: -.015em;
+}
+
+body.account-page .profile-plan-card .plan-summary {
+  margin: 0;
+  color: var(--account-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+body.account-page .profile-plan-card .plan-action {
+  flex: 0 0 auto;
+}
+
+body.account-page .profile-plan-usage {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(114, 158, 255, .18);
+}
+
+body.account-page .plan-metric {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .plan-metric-label {
+  display: block;
+  margin: 0 0 6px;
+  color: var(--account-muted);
+  font: 500 10.5px/1.5 var(--account-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+body.account-page .plan-metric-value {
+  display: block;
+  margin: 0;
+  color: #f4f8ff;
+  font-size: clamp(22px, 2.2vw, 26px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+body.account-page .plan-metric-unit {
+  margin-left: 6px;
+  color: var(--account-subtle);
+  font: 400 11.5px/1.6 var(--account-mono);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+body.account-page .profile-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 20px;
+}
+
+body.account-page .profile-actions .btn {
+  flex: 0 0 auto;
+}
+
+body.account-page .profile-editor {
+  max-width: none;
+}
+
+body.account-page .profile-editor[hidden] {
+  display: none;
+}
+
+body.account-page .profile-editor form {
+  margin: 0;
+}
+
+@media (min-width: 761px) {
+  body.account-page .profile-plan-card .plan-action {
+    min-height: 36px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+  }
+
+  body.account-page .profile-editor {
+    padding: 22px;
+    border-radius: 12px;
+  }
+
+  body.account-page .profile-editor h2 {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  body.account-page .profile-editor .form-group {
+    margin-bottom: 14px;
+  }
+
+  body.account-page .profile-editor .form-group > label {
+    margin-bottom: 6px;
+    font-size: 11.5px;
+  }
+
+  body.account-page .profile-editor .form-group input {
+    min-height: 38px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  body.account-page .profile-editor .btn {
+    min-height: 36px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12.5px;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1007,38 +1326,32 @@ body.account-page .danger-zone p {
   }
 
   body.account-page .language-switcher button {
+    flex: 0 0 44px;
     width: 44px;
     height: 44px;
-    font-size: 12px;
-  }
-
-  body.account-page .account-site-nav {
-    order: 3;
-    flex: 1 0 100%;
-    flex-wrap: nowrap;
-    gap: 4px;
-    width: 100%;
-    min-width: 0;
-    margin-left: 0;
-    padding: 2px 0 4px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(114, 158, 255, .35) transparent;
-  }
-
-  body.account-page .account-site-nav a {
-    flex: 0 0 auto;
+    min-width: 44px;
     min-height: 44px;
-    padding: 0 12px;
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1;
   }
 
-  body.account-page .account-site-nav a::after {
-    right: 12px;
-    bottom: 7px;
-    left: 12px;
+  body.account-page .account-identity {
+    order: 3;
+  }
+
+  body.account-page .account-username {
+    max-width: min(16ch, 34vw);
+  }
+
+  body.account-page .account-logout {
+    order: 4;
+    margin-left: 0;
+  }
+
+  body.account-page .account-logout button {
+    min-height: 44px;
+    padding: 10px 16px;
+    font-size: 13px;
   }
 
   body.account-page .layout {
@@ -1191,5 +1504,54 @@ body.account-page .danger-zone p {
   body.account-page *::after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Profile page (merged dashboard) — narrow viewports
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 760px) {
+  body.account-page .profile-details-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  body.account-page .profile-avatar {
+    align-self: center;
+  }
+
+  body.account-page .profile-details .info-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.account-page .profile-plan-head {
+    gap: 12px;
+  }
+
+  body.account-page .profile-plan-usage {
+    gap: 12px 16px;
+    margin-top: 16px;
+    padding-top: 14px;
+  }
+
+  body.account-page .plan-metric-value {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 420px) {
+  body.account-page .profile-plan-head {
+    flex-wrap: wrap;
+  }
+
+  body.account-page .plan-metric-value {
+    font-size: 20px;
+  }
+
+  body.account-page .plan-metric-unit {
+    margin-left: 4px;
+    font-size: 10.5px;
   }
 }

@@ -10,14 +10,19 @@
     "zh-TW": "OuroNex | 結構工程 AI 智能代理"
   },
   "home.hero-slogan": {
-    "en": "AI for Structural Engineering. Minus the Busywork.",
-    "zh-CN": "结构工程 AI，减去繁琐工作。",
-    "zh-TW": "結構工程 AI，減去繁瑣工作。"
+    "en": "SIDA, AI Agent for Engineering.",
+    "zh-CN": "SIDA，面向工程的 AI 智能体。",
+    "zh-TW": "SIDA，面向工程的 AI 智能代理。"
   },
   "home.hero-description": {
-    "en": "Meet SIDA, the AI agent built for everyday structural engineering. It streamlines daily work with professional tools and specialist workflows, saving time and effort.",
-    "zh-CN": "认识 SIDA，专为日常结构工程工作打造的 AI 智能体。通过专业工具与专家工作流简化日常工作，节省时间与精力。",
-    "zh-TW": "認識 SIDA，專為日常結構工程工作打造的 AI 智能代理。透過專業工具與專家工作流程簡化日常工作，節省時間與精力。"
+    "en": "Built-in tools and engineering references.",
+    "zh-CN": "内置工具与工程资料。",
+    "zh-TW": "內置工具與工程資料。"
+  },
+  "home.hero-description-2": {
+    "en": "Automate documentation, optimization and BIM.",
+    "zh-CN": "自动化文档、优化与 BIM。",
+    "zh-TW": "自動化文件、優化與 BIM。"
   },
   "home.explore-apps": {
     "en": "Explore the Apps",
@@ -30,9 +35,9 @@
     "zh-TW": "客製化服務"
   },
   "home.product-demo-label": {
-    "en": "SIDA product demonstration placeholder",
-    "zh-CN": "SIDA 产品演示占位内容",
-    "zh-TW": "SIDA 產品示範預留內容"
+    "en": "SIDA product demonstration",
+    "zh-CN": "SIDA 产品演示",
+    "zh-TW": "SIDA 產品示範"
   },
   "home.product-demo": {
     "en": "SIDA / Product demo",
@@ -60,54 +65,94 @@
     "zh-TW": "SIDA 特點"
   },
   "home.feature-engineering-title": {
-    "en": "Purpose-Built for Structural Engineering",
-    "zh-CN": "专为结构工程而生",
-    "zh-TW": "專為結構工程而生"
+    "en": "Massive Information",
+    "zh-CN": "海量信息",
+    "zh-TW": "海量資訊"
   },
   "home.feature-free-title": {
-    "en": "Free Tools. Pay Only for AI.",
-    "zh-CN": "工具免费，AI 按量付费",
-    "zh-TW": "工具免費，AI 按量付費"
+    "en": "Professional Tools",
+    "zh-CN": "专业工具",
+    "zh-TW": "專業工具"
   },
   "home.feature-workflow-title": {
-    "en": "A Workflow You Can See and Shape.",
-    "zh-CN": "清晰可见、灵活可调的工作流",
-    "zh-TW": "清晰可見、靈活可調的工作流程"
+    "en": "Complex Workflow",
+    "zh-CN": "复杂工作流",
+    "zh-TW": "複雜工作流程"
   },
   "home.feature-experts-title": {
-    "en": "Specialist Agents. One Expert Team.",
-    "zh-CN": "专家智能体，协同如一队",
-    "zh-TW": "專家智能代理，協同如一團隊"
+    "en": "multidisciplinary Experts",
+    "zh-CN": "多学科专家",
+    "zh-TW": "多學科專家"
   },
   "home.feature-engineering-copy": {
-    "en": "Authoritative codes, technical references and professional tools are built in. Every capability is designed specifically for structural engineering.",
-    "zh-CN": "内置权威规范、技术资料与专业工具。每项能力都专为结构工程设计。",
-    "zh-TW": "內置權威規範、技術資料與專業工具。每項能力都專為結構工程設計。"
+    "en": "Engineers must review extensive documentation, codes, drawings and data.",
+    "zh-CN": "工程师必须查阅大量文档、规范、图纸与数据。",
+    "zh-TW": "工程師必須查閱大量文件、規範、圖紙與數據。"
+  },
+  "home.feature-engineering-copy-2": {
+    "en": "Typical agents read documents one by one and can take 10+ minutes to respond. SIDA uses state-of-the-art embedding models to build an LLM knowledge base, returning answers in seconds — up to 100× faster.",
+    "zh-CN": "常规智能体逐份读取文档，响应可能需要 10 分钟以上。SIDA 采用先进嵌入模型构建 LLM 知识库，数秒内返回答案——速度最高提升 100 倍。",
+    "zh-TW": "常規智能代理逐份讀取文件，回應可能需要 10 分鐘以上。SIDA 採用先進嵌入模型構建 LLM 知識庫，數秒內返回答案——速度最高提升 100 倍。"
+  },
+  "home.feature-engineering-copy-3": {
+    "en": "All project data stays local. Nothing is uploaded, eliminating exposure risk.",
+    "zh-CN": "所有项目数据保留在本地，不上传任何内容，杜绝外泄风险。",
+    "zh-TW": "所有項目數據保留在本地，不上載任何內容，杜絕外洩風險。"
   },
   "home.feature-free-copy": {
-    "en": "Download SIDA and use its internal tools for free. Token charges apply only when you use AI features.",
-    "zh-CN": "下载 SIDA 即可免费使用内部工具。只有使用 AI 功能时才收取 Token 费用。",
-    "zh-TW": "下載 SIDA 即可免費使用內部工具。只有使用 AI 功能時才收取 Token 費用。"
+    "en": "Traditional engineering software has a steep learning curve and takes a long time to master.",
+    "zh-CN": "传统工程软件学习曲线陡峭，需要很长时间才能熟练。",
+    "zh-TW": "傳統工程軟件學習曲線陡峭，需要很長時間才能熟練。"
+  },
+  "home.feature-free-copy-2": {
+    "en": "SIDA includes multiple built-in professional tools, called through MCP for fast execution and very low token usage.",
+    "zh-CN": "SIDA 内置多种专业工具，通过 MCP 调用，执行快速且 Token 消耗极低。",
+    "zh-TW": "SIDA 內置多種專業工具，透過 MCP 調用，執行快速且 Token 消耗極低。"
+  },
+  "home.feature-free-copy-3": {
+    "en": "SIDA also supports computer use, directly operating any engineering software on the user's computer, at the cost of more tokens and slower execution.",
+    "zh-CN": "SIDA 还支持电脑操作，可直接操作用户电脑上的任何工程软件，但会消耗更多 Token 且执行较慢。",
+    "zh-TW": "SIDA 亦支援電腦操作，可直接操作用戶電腦上的任何工程軟件，但會消耗更多 Token 且執行較慢。"
   },
   "home.feature-workflow-copy": {
-    "en": "SIDA builds a detailed workflow from your project type and information requirements. Every step stays visible, manageable and easy to check, with custom adjustments whenever you need them.",
-    "zh-CN": "SIDA 根据项目类型与资料需求生成详细工作流。每一步都清晰可见、易于管理和检查，并可随时自定义调整。",
-    "zh-TW": "SIDA 根據項目類型與資料需求生成詳細工作流程。每一步都清晰可見、易於管理和檢查，並可隨時自訂調整。"
+    "en": "Engineering projects require long-term, multi-step teamwork across complex workflows that are difficult to manage.",
+    "zh-CN": "工程项目需要长期、多步骤的团队协作，跨越复杂且难以管理的工作流。",
+    "zh-TW": "工程項目需要長期、多步驟的團隊協作，跨越複雜且難以管理工作流程。"
+  },
+  "home.feature-workflow-copy-2": {
+    "en": "Traditional agents follow linear steps, so they can only handle simple, small-scale projects.",
+    "zh-CN": "传统智能体按线性步骤执行，只能处理简单、小规模的项目。",
+    "zh-TW": "傳統智能代理按線性步驟執行，只能處理簡單、小規模的項目。"
+  },
+  "home.feature-workflow-copy-3": {
+    "en": "SIDA uses a visual flowchart to manage project workflows, supports user customization and can manage complex projects.",
+    "zh-CN": "SIDA 以可视化流程图管理工作流，支持用户自定义，可管理复杂项目。",
+    "zh-TW": "SIDA 以可視化流程圖管理工作流程，支援用戶自訂，可管理複雜項目。"
   },
   "home.feature-experts-copy": {
-    "en": "Each bot is carefully configured with professional knowledge and dedicated tools. Specialists divide the work and collaborate as one expert system.",
-    "zh-CN": "每个 Bot 都精心配置专业知识与专用工具。专家分工协作，组成统一的专家系统。",
-    "zh-TW": "每個 Bot 都精心配置專業知識與專用工具。專家分工協作，組成統一的專家系統。"
+    "en": "Engineering projects span architecture, structural, municipal, water and environmental disciplines, making multi-team collaboration difficult.",
+    "zh-CN": "工程项目涉及建筑、结构、市政、水务与环境等专业，多团队协作困难。",
+    "zh-TW": "工程項目涉及建築、結構、市政、水務與環境等專業，多團隊協作困難。"
+  },
+  "home.feature-experts-copy-2": {
+    "en": "SIDA provides a team of specialist bots. Each bot is assigned dedicated skills and a knowledge base to become an expert in its field.",
+    "zh-CN": "SIDA 提供专家 Bot 团队。每个 Bot 都配置专用技能与知识库，成为各自领域的专家。",
+    "zh-TW": "SIDA 提供專家 Bot 團隊。每個 Bot 都配置專用技能與知識庫，成為各自領域的專家。"
+  },
+  "home.feature-experts-copy-3": {
+    "en": "SIDA includes an extensive Hong Kong library of Buildings Department regulations, PNAP practice notes and other codes and legislation, giving every specialist broad, accurate professional coverage.",
+    "zh-CN": "SIDA 内置丰富的香港资料库，涵盖屋宇署规例、PNAP 作业备考及其他规范与法例，为每位专家提供广泛而准确的专业覆盖。",
+    "zh-TW": "SIDA 內置豐富的香港資料庫，涵蓋屋宇署規例、PNAP 作業備考及其他規範與法例，為每位專家提供廣泛而準確的專業覆蓋。"
   },
   "home.windows": {
-    "en": "Windows",
-    "zh-CN": "Windows",
-    "zh-TW": "Windows"
+    "en": "Download for Windows",
+    "zh-CN": "下载 Windows 版",
+    "zh-TW": "下載 Windows 版"
   },
   "home.mac": {
-    "en": "Mac",
-    "zh-CN": "Mac",
-    "zh-TW": "Mac"
+    "en": "Download for Mac",
+    "zh-CN": "下载 Mac 版",
+    "zh-TW": "下載 Mac 版"
   },
   "home.public-release": {
     "en": "Public release coming later",
@@ -175,27 +220,42 @@
     "zh-TW": "功能"
   },
   "home.table-tokens": {
-    "en": "Monthly tokens",
+    "en": "MONTHLY TOKENS",
     "zh-CN": "每月 Token",
     "zh-TW": "每月 Token"
   },
   "home.table-basic-models": {
-    "en": "Basic models",
-    "zh-CN": "基础模型",
-    "zh-TW": "基礎模型"
+    "en": "STANDARD MODELS",
+    "zh-CN": "标准模型",
+    "zh-TW": "標準模型"
   },
   "home.table-video-models": {
-    "en": "Video models",
-    "zh-CN": "视频模型",
-    "zh-TW": "影片模型"
+    "en": "CUSTOM MODELS",
+    "zh-CN": "定制模型",
+    "zh-TW": "客製化模型"
   },
-  "home.table-community": {
-    "en": "Community support",
-    "zh-CN": "社区支持",
-    "zh-TW": "社群支援"
+  "home.table-free-documentation": {
+    "en": "FREE DOCUMENTATION",
+    "zh-CN": "免费文档",
+    "zh-TW": "免費文件"
+  },
+  "home.table-data-management": {
+    "en": "DATA MANAGEMENT",
+    "zh-CN": "数据管理",
+    "zh-TW": "數據管理"
+  },
+  "home.table-built-in-tools": {
+    "en": "BUILT-IN TOOLS",
+    "zh-CN": "内置工具",
+    "zh-TW": "內置工具"
+  },
+  "home.table-computer-use": {
+    "en": "COMPUTER USE",
+    "zh-CN": "电脑操作",
+    "zh-TW": "電腦操作"
   },
   "home.table-priority": {
-    "en": "Priority support",
+    "en": "PRIORITY SUPPORT",
     "zh-CN": "优先支持",
     "zh-TW": "優先支援"
   },
@@ -219,20 +279,10 @@
     "zh-CN": "抢先体验",
     "zh-TW": "搶先體驗"
   },
-  "home.table-sla": {
-    "en": "SLA guarantee",
-    "zh-CN": "SLA 保障",
-    "zh-TW": "SLA 保障"
-  },
   "home.table-integration": {
-    "en": "Custom integration",
+    "en": "CUSTOM INTEGRATION",
     "zh-CN": "定制集成",
     "zh-TW": "客製化整合"
-  },
-  "home.table-onprem": {
-    "en": "On-premise option",
-    "zh-CN": "本地部署选项",
-    "zh-TW": "內部部署選項"
   },
   "home.what-deliver": {
     "en": "What we deliver",
@@ -240,44 +290,44 @@
     "zh-TW": "我們提供甚麼"
   },
   "home.general-automation": {
-    "en": "General Automation",
-    "zh-CN": "通用自动化",
-    "zh-TW": "通用自動化"
+    "en": "Free Documentation",
+    "zh-CN": "免费文档",
+    "zh-TW": "免費文件"
   },
   "home.general-copy": {
-    "en": "Knowledge bases, market intelligence and routine document workflows.",
-    "zh-CN": "知识库、市场情报与日常文档工作流。",
-    "zh-TW": "知識庫、市場情報與日常文件工作流程。"
+    "en": "An LLM wiki for fast professional answers, plus private knowledge bases at no extra cost.",
+    "zh-CN": "内置 LLM wiki 快速检索专业资料，并免费支持企业私有知识库。",
+    "zh-TW": "內置 LLM wiki 快速檢索專業資料，並免費支援企業私有知識庫。"
   },
   "home.specific-automation": {
-    "en": "Specific Automation",
-    "zh-CN": "专项自动化",
-    "zh-TW": "專項自動化"
+    "en": "Project Planning",
+    "zh-CN": "项目规划",
+    "zh-TW": "項目規劃"
   },
   "home.specific-copy": {
-    "en": "AI embedded in your core engineering and business processes.",
-    "zh-CN": "将 AI 融入核心工程与业务流程。",
-    "zh-TW": "將 AI 融入核心工程與業務流程。"
+    "en": "Checks codes and legal databases from site data and documents across disciplines.",
+    "zh-CN": "结合场地与项目文档，跨专业核查规范与法规风险。",
+    "zh-TW": "結合場地與項目文件，跨專業核查規範與法規風險。"
   },
   "home.professional-saas": {
-    "en": "Professional SaaS",
-    "zh-CN": "专业 SaaS",
-    "zh-TW": "專業 SaaS"
+    "en": "Design optimization",
+    "zh-CN": "设计优化",
+    "zh-TW": "設計優化"
   },
   "home.saas-copy": {
-    "en": "Purpose-built tools designed around your requirements.",
-    "zh-CN": "围绕您的需求打造专用工具。",
-    "zh-TW": "圍繞您的需求打造專用工具。"
+    "en": "Built-in structural analysis and design tools with multi-objective optimisation.",
+    "zh-CN": "内置结构分析与设计工具，支持多目标优化。",
+    "zh-TW": "內置結構分析與設計工具，支援多目標優化。"
   },
   "home.training": {
-    "en": "AI Workflow & Training",
-    "zh-CN": "AI 工作流与培训",
-    "zh-TW": "AI 工作流程與培訓"
+    "en": "BIM modelling",
+    "zh-CN": "BIM 建模",
+    "zh-TW": "BIM 建模"
   },
   "home.training-copy": {
-    "en": "Workflow setup, coaching and adoption support.",
-    "zh-CN": "工作流搭建、辅导与落地支持。",
-    "zh-TW": "工作流程搭建、輔導與落地支援。"
+    "en": "Direct BIM export and two-way model information sync.",
+    "zh-CN": "结构模型可直接导出 BIM，并双向同步模型信息。",
+    "zh-TW": "結構模型可直接匯出 BIM，並雙向同步模型資訊。"
   },
   "home.how-work": {
     "en": "How we work with you",
@@ -314,26 +364,6 @@
     "zh-CN": "先在一个真实工作流中验证价值，再逐步推广。",
     "zh-TW": "先在一個真實工作流程中驗證價值，再逐步推廣。"
   },
-  "home.confidentiality": {
-    "en": "Confidentiality",
-    "zh-CN": "保密声明",
-    "zh-TW": "保密聲明"
-  },
-  "home.confidentiality-copy": {
-    "en": "SIDA tools run locally; user information and project materials are never uploaded to remote servers.",
-    "zh-CN": "SIDA 工具在本地运行；用户信息与项目资料绝不上传至远程服务器。",
-    "zh-TW": "SIDA 工具在本地運作；用戶資料與項目資料絕不上載至遠端伺服器。"
-  },
-  "home.policy": {
-    "en": "Policy",
-    "zh-CN": "政策声明",
-    "zh-TW": "政策聲明"
-  },
-  "home.policy-copy": {
-    "en": "AI outputs support professional review; final engineering judgement remains with qualified engineers.",
-    "zh-CN": "AI 输出用于辅助专业审核；最终工程判断由合格工程师作出。",
-    "zh-TW": "AI 輸出用於輔助專業審核；最終工程判斷由合資格工程師作出。"
-  },
   "home.available-soon": {
     "en": "Available soon",
     "zh-CN": "即将开放",
@@ -358,5 +388,95 @@
     "en": "Dedicated",
     "zh-CN": "专属",
     "zh-TW": "專屬"
+  },
+  "home.team-jake-role": {
+    "en": "Director",
+    "zh-CN": "董事",
+    "zh-TW": "董事"
+  },
+  "home.team-jake-bio-1": {
+    "en": "Civil engineering PhD and Director of OuroNex, connecting rigorous engineering with global business strategy.",
+    "zh-CN": "土木工程博士，OuroNex 董事，将严谨工程与全球商业策略相连接。",
+    "zh-TW": "土木工程博士，OuroNex 董事，將嚴謹工程與全球商業策略相連接。"
+  },
+  "home.team-haoyi-role": {
+    "en": "Director",
+    "zh-CN": "董事",
+    "zh-TW": "董事"
+  },
+  "home.team-haoyi-bio-1": {
+    "en": "Founder and Director of OuroNex, working across AI, computational mechanics and structural analysis.",
+    "zh-CN": "OuroNex 创始人兼董事，工作涵盖 AI、计算力学与结构分析。",
+    "zh-TW": "OuroNex 創辦人兼董事，工作涵蓋 AI、計算力學與結構分析。"
+  },
+  "home.team-siwei-role": {
+    "en": "Technical Advisor",
+    "zh-CN": "技术顾问",
+    "zh-TW": "技術顧問"
+  },
+  "home.team-siwei-bio-1": {
+    "en": "Technical Advisor and structural engineering researcher, contributing to regional and national design standards.",
+    "zh-CN": "技术顾问、结构工程研究者，参与地区及国家设计标准的制定。",
+    "zh-TW": "技術顧問、結構工程研究者，參與地區及國家設計標準的制定。"
+  },
+  "home.feature-engineering-card-1-title": {
+    "en": "Pain point",
+    "zh-CN": "痛点",
+    "zh-TW": "痛點"
+  },
+  "home.feature-engineering-card-2-title": {
+    "en": "Comparison",
+    "zh-CN": "对比",
+    "zh-TW": "對比"
+  },
+  "home.feature-engineering-card-3-title": {
+    "en": "Confidentiality",
+    "zh-CN": "保密性",
+    "zh-TW": "保密性"
+  },
+  "home.feature-workflow-card-1-title": {
+    "en": "Pain point",
+    "zh-CN": "痛点",
+    "zh-TW": "痛點"
+  },
+  "home.feature-workflow-card-2-title": {
+    "en": "Traditional agents",
+    "zh-CN": "传统智能体",
+    "zh-TW": "傳統智能代理"
+  },
+  "home.feature-workflow-card-3-title": {
+    "en": "Visual flowcharts",
+    "zh-CN": "可视化流程图",
+    "zh-TW": "可視化流程圖"
+  },
+  "home.feature-free-card-1-title": {
+    "en": "Pain point",
+    "zh-CN": "痛点",
+    "zh-TW": "痛點"
+  },
+  "home.feature-free-card-2-title": {
+    "en": "Built-in tools",
+    "zh-CN": "内置工具",
+    "zh-TW": "內置工具"
+  },
+  "home.feature-free-card-3-title": {
+    "en": "Computer use",
+    "zh-CN": "电脑操作",
+    "zh-TW": "電腦操作"
+  },
+  "home.feature-experts-card-1-title": {
+    "en": "Pain point",
+    "zh-CN": "痛点",
+    "zh-TW": "痛點"
+  },
+  "home.feature-experts-card-2-title": {
+    "en": "Specialist bots",
+    "zh-CN": "专家 Bot",
+    "zh-TW": "專家 Bot"
+  },
+  "home.feature-experts-card-3-title": {
+    "en": "Hong Kong library",
+    "zh-CN": "香港资料库",
+    "zh-TW": "香港資料庫"
   }
 }

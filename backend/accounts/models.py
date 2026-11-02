@@ -17,11 +17,27 @@ class Profile(models.Model):
     uid = models.CharField(max_length=20, unique=True, default=generate_uid)
     phone = models.CharField(max_length=20, blank=True)
     email_verified = models.BooleanField(default=False)
+    avatar_data = models.BinaryField(null=True, blank=True)
+    avatar_content_type = models.CharField(max_length=64, blank=True, default='')
+    avatar_updated_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user.username}'s profile"
+
+    @property
+    def has_avatar(self):
+        """Whether this profile stores avatar bytes."""
+        return bool(self.avatar_data)
+
+    @property
+    def avatar_url(self):
+        """Versioned avatar URL, or an empty string when no bytes are stored."""
+        if not self.avatar_data:
+            return ''
+        version = int(self.avatar_updated_at.timestamp()) if self.avatar_updated_at else 0
+        return f'/profile/avatar/?v={version}'
 
 
 class Plan(models.Model):

@@ -12,6 +12,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard/usage/', views.token_usage, name='token-usage'),
     path('profile/', views.profile_view, name='profile'),
+    path('profile/avatar/', views.avatar_view, name='profile-avatar'),
     path('profile/security/', views.security_view, name='security'),
-    path('pricing/', views.pricing_view, name='pricing'),
 ]

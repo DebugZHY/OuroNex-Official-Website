@@ -98,12 +98,11 @@
   function filterRecords(records, filters) {
     var options = filters || {};
     var cutoff = rangeCutoff(options.range || '7d', options.now || new Date());
-    var model = typeof options.model === 'string' ? options.model : '';
     var session = typeof options.session === 'string' ? options.session : '';
     return (Array.isArray(records) ? records : []).filter(function (record) {
       if (!record) return false;
       if (cutoff && record.day < cutoff) return false;
-      if (model && record.model !== model) return false;
+      // Model is report data only: a legacy model option is deliberately ignored.
       if (session && record.sessionId !== session) return false;
       return true;
     });
@@ -272,7 +271,6 @@
       generatedAt: null,
       sessionCount: 0,
       range: '7d',
-      model: '',
       session: '',
       metricsOn: new Set(METRIC_KEYS),
       activeTab: 'day',
@@ -285,7 +283,6 @@
       refresh: document.getElementById('tu-refresh'),
       error: document.getElementById('tu-error'),
       range: document.getElementById('tu-range'),
-      model: document.getElementById('tu-model'),
       session: document.getElementById('tu-session'),
       kpis: document.getElementById('tu-kpis'),
       metrics: document.getElementById('tu-metrics'),
@@ -777,23 +774,6 @@
     /* ---- filters and tabs --------------------------------------------- */
 
     function refreshFilterOptions() {
-      var models = Array.from(new Set(state.records.map(function (record) { return record.model; }))).sort();
-      if (state.model && models.indexOf(state.model) === -1) state.model = '';
-
-      var modelFragment = document.createDocumentFragment();
-      var allModels = make('option', null, 'All models');
-      allModels.value = '';
-      allModels.dataset.i18nDynamic = '';
-      modelFragment.appendChild(allModels);
-      models.forEach(function (name) {
-        var option = make('option', null, name);
-        option.value = name;
-        option.dataset.userInput = '';
-        modelFragment.appendChild(option);
-      });
-      els.model.replaceChildren(modelFragment);
-      els.model.value = state.model;
-
       var sessions = aggregateBySession(state.records);
       var sessionKeys = sessions.map(function (group) { return group.key; });
       if (state.session && sessionKeys.indexOf(state.session) === -1) state.session = '';
@@ -818,7 +798,6 @@
     function filtered() {
       return filterRecords(state.records, {
         range: state.range,
-        model: state.model,
         session: state.session,
         now: new Date()
       });
@@ -853,11 +832,6 @@
       Array.prototype.forEach.call(els.range.querySelectorAll('button'), function (item) {
         item.setAttribute('aria-pressed', String(item === button));
       });
-      renderAll();
-    });
-
-    els.model.addEventListener('change', function (event) {
-      state.model = event.target.value;
       renderAll();
     });
 

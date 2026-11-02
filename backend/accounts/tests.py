@@ -197,9 +197,9 @@ class TokenUsageApiTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'id="token-usage-board"')
         self.assertContains(response, '/assets/token-usage.js')
-        self.assertContains(response, 'href="/dashboard/"')
-        dashboard = self.client.get('/dashboard/')
-        self.assertContains(dashboard, 'href="/dashboard/usage/"')
+        self.assertContains(response, 'href="/profile/"')
+        profile = self.client.get('/profile/')
+        self.assertContains(profile, 'href="/dashboard/usage/"')
 
     def test_session_get_returns_only_own_ordered_records(self):
         from .models import TokenUsageRecord
@@ -396,11 +396,9 @@ class AccountShellTests(TestCase):
     """Regression tests for the unified account shell: shared topbar, sidebar and public nav."""
 
     PAGES = (
-        '/dashboard/',
         '/dashboard/usage/',
         '/profile/',
         '/profile/security/',
-        '/pricing/',
     )
     PUBLIC_DESTINATIONS = (
         '/index.html#sida',
@@ -439,18 +437,19 @@ class AccountShellTests(TestCase):
         self.assertEqual(response.status_code, 200, 'expected HTTP 200 from %s' % path)
         return response.content.decode('utf-8')
 
-    def test_authenticated_pages_render_shared_shell_and_public_nav(self):
+    def test_authenticated_pages_remove_public_nav_from_topbar(self):
         for path in self.PAGES:
             with self.subTest(page=path):
                 html = self.render(path)
                 self.assertTrue('/assets/account.css' in html, 'missing /assets/account.css on %s' % path)
                 self.assertTrue('/assets/ouronex-mark.svg' in html, 'missing /assets/ouronex-mark.svg on %s' % path)
                 self.assertTrue('href="/index.html"' in html, 'missing Home logo link on %s' % path)
+                topbar = re.search(r'<header class="account-topbar">(.*?)</header>', html, re.S)
+                self.assertIsNotNone(topbar, 'missing shared topbar on %s' % path)
+                topbar_html = topbar.group(1) if topbar else ''
+                self.assertNotIn('account-site-nav', topbar_html)
                 for target in self.PUBLIC_DESTINATIONS:
-                    self.assertTrue(
-                        'href="%s"' % target in html,
-                        'missing public destination %s on %s' % (target, path),
-                    )
+                    self.assertNotIn('href="%s"' % target, topbar_html)
 
     def test_authenticated_pages_share_shell_classes(self):
         for path in self.PAGES:
@@ -474,11 +473,16 @@ class AccountShellTests(TestCase):
                 )
                 self.assertNotIn('/dashboard/#usage', html, 'legacy #usage anchor still on %s' % path)
 
-    def test_dashboard_retires_the_legacy_usage_card(self):
-        html = self.render('/dashboard/')
-        self.assertFalse('id="usage"' in html, 'dashboard must not render the legacy id="usage" card')
-        self.assertTrue('kpi-grid' in html, 'dashboard lost its KPI grid')
-        self.assertTrue('Quick Actions' in html, 'dashboard lost its Quick Actions')
+    def test_profile_retires_the_legacy_dashboard_cards(self):
+        html = self.render('/profile/')
+        self.assertFalse('id="usage"' in html, 'profile must not render the legacy id="usage" card')
+        self.assertFalse('kpi-grid' in html, 'profile must not retain the separate dashboard KPI grid')
+        self.assertFalse('Quick Actions' in html, 'profile must not retain the Quick Actions card')
+
+    def test_retired_pricing_page_returns_404(self):
+        for path in ('/pricing/', '/pricing'):
+            with self.subTest(path=path):
+                self.assertEqual(self.client.get(path).status_code, 404, path)
 
     def test_usage_sidebar_item_is_active_only_on_the_usage_page(self):
         import re

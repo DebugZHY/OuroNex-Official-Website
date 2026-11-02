@@ -99,5 +99,60 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "en": "Last Login",
     "zh-CN": "上次登录",
     "zh-TW": "上次登入"
+  },
+  "account-dashboard.plan.ae2f98": {
+    "en": "Plan",
+    "zh-CN": "套餐",
+    "zh-TW": "方案"
+  },
+  "account-dashboard.month.ab0cc3": {
+    "en": "/month",
+    "zh-CN": "/月",
+    "zh-TW": "/月"
+  },
+  "account-dashboard.free-forever.8f31b8": {
+    "en": "Free forever",
+    "zh-CN": "永久免费",
+    "zh-TW": "永久免費"
+  },
+  "account-dashboard.upgrade.a6f47e": {
+    "en": "Upgrade",
+    "zh-CN": "升级",
+    "zh-TW": "升級"
+  },
+  "account-dashboard.manage.bf58d1": {
+    "en": "Manage",
+    "zh-CN": "管理",
+    "zh-TW": "管理"
+  },
+  "account-dashboard.tokens-remaining.c00593": {
+    "en": "Tokens Remaining",
+    "zh-CN": "剩余 Token",
+    "zh-TW": "剩餘 Token"
+  },
+  "account-dashboard.tokens-used.238462": {
+    "en": "Tokens Used",
+    "zh-CN": "已使用 Token",
+    "zh-TW": "已使用 Token"
+  },
+  "account-dashboard.tokens.339143": {
+    "en": "tokens",
+    "zh-CN": "Token",
+    "zh-TW": "Token"
+  },
+  "account-dashboard.edit-profile.cd280a": {
+    "en": "Edit Profile",
+    "zh-CN": "编辑个人资料",
+    "zh-TW": "編輯個人資料"
+  },
+  "account-dashboard.security-settings.dbe3f2": {
+    "en": "Security Settings",
+    "zh-CN": "安全设置",
+    "zh-TW": "安全性設定"
+  },
+  "account-profile.edit-avatar.55e04a": {
+    "en": "Edit Avatar",
+    "zh-CN": "编辑头像",
+    "zh-TW": "編輯頭像"
   }
 });

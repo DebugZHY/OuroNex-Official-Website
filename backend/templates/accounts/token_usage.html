@@ -5,6 +5,12 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title data-i18n-dynamic>Token Usage — OuroNex</title>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-500.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-600.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/manrope-700.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/ibm-plex-mono-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/ibm-plex-mono-500.woff2" rel="preload" type="font/woff2"/>
 <link href="/assets/i18n.css" rel="stylesheet"/>
 <link href="/assets/account.css" rel="stylesheet"/>
 <link href="/assets/token-usage.css" rel="stylesheet"/>
@@ -47,10 +53,6 @@
 <button aria-pressed="false" data-range="all" type="button"><span data-i18n-dynamic>All</span></button>
 </div>
 <div class="tu-field">
-<label data-i18n-dynamic for="tu-model">Model</label>
-<select class="tu-select" id="tu-model"><option data-i18n-dynamic value="">All models</option></select>
-</div>
-<div class="tu-field">
 <label data-i18n-dynamic for="tu-session">Session</label>
 <select class="tu-select" id="tu-session"><option data-i18n-dynamic value="">All sessions</option></select>
 </div>
@@ -79,6 +81,7 @@
 <div aria-labelledby="tu-tab-session" class="is-hidden" id="tu-panel-session" role="tabpanel"></div>
 </section>
 </div>
+{% include 'accounts/_footer.html' %}
 </main>
 </div>
 </body>
