@@ -3,11 +3,11 @@
 Contract pinned here:
 
 * the section content is centred; ``.feature-layout`` is one 1180px column and
-  ``.feature-tabs`` is a grid of a 648px rail plus the copy column, both
+  ``.feature-tabs`` is a grid of a 576px rail plus the copy column, both
   vertically centred on one another;
 * the rail is a list of hairline rows: no card boxes, no radius, no fill, a 2px
-  gradient accent bar on the selected row, 26px soft-glow line icons and a
-  15px Manrope label;
+  gradient accent bar on the selected row, 60px soft-glow line icons and a
+  32px Manrope label;
 * the copy column is separated from the rail by a 1px rule that carries a
   112px blue fade at the top, and its three rows are split by 1px hairlines
   with a closing rule under the last one;
@@ -27,9 +27,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 
-BASE_RAIL = "648px"
-MEDIUM_RAIL = "clamp(440px,48%,500px)"
-NARROW_RAIL = "clamp(400px,48%,440px)"
+BASE_RAIL = "576px"
+MEDIUM_RAIL = "clamp(400px,44%,460px)"
+NARROW_RAIL = "clamp(360px,44%,410px)"
 
 BASE_TITLE_SIZE = "41px"
 BASE_TITLE_LINE_HEIGHT = "1.16"
@@ -176,7 +176,7 @@ class ShellTests(unittest.TestCase):
         self.assertEqual(normalise(section.get("background", "")), "transparent",
                          "the SIDA section paints no panel of its own")
         self.assertEqual(normalise(section.get("justify-content", "")), "center")
-        self.assertEqual(px(section.get("padding-bottom", "")), 16.0)
+        self.assertEqual(px(section.get("padding-bottom", "")), 32.0)
 
     def test_layout_centres_one_1180_column(self):
         layout = base(self.css, ".feature-layout")
@@ -190,7 +190,7 @@ class ShellTests(unittest.TestCase):
 
     def test_cta_row_is_pushed_away_from_the_copy(self):
         row = base(self.css, ".sida-section .download-row")
-        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(26px,3.6vh,48px)",
+        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(34px,4.4vh,58px)",
                          "the download row keeps a clear break below the copy")
 
     def test_no_fixed_shared_height_survives(self):
@@ -203,7 +203,7 @@ class RailTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_base_grid_is_a_648px_rail_plus_copy(self):
+    def test_base_grid_is_a_576px_rail_plus_copy(self):
         tabs = base(self.css, TABS)
         self.assertEqual(normalise(tabs.get("grid-template-columns", "")),
                          f"{BASE_RAIL}minmax(0,1fr)")
@@ -254,11 +254,11 @@ class DirectoryRowTests(unittest.TestCase):
 
     def test_row_padding_and_label(self):
         button = base(self.css, BUTTON)
-        self.assertEqual(normalise(button.get("padding", "")), "44px14px44px40px")
+        self.assertEqual(normalise(button.get("padding", "")), "39px12px39px36px")
         self.assertEqual(normalise(button.get("grid-template-columns", "")),
-                         "96pxminmax(0,1fr)")
+                         "85pxminmax(0,1fr)")
         font = font_parts(button)
-        self.assertEqual(font["font-size"], "36px")
+        self.assertEqual(font["font-size"], "32px")
         self.assertEqual(font["font-weight"], "500")
         self.assertIn("--display", font["font-family"])
 
@@ -282,10 +282,10 @@ class DirectoryRowTests(unittest.TestCase):
                          "selection never repaints the row as a card")
         self.assertEqual(normalise(selected.get("box-shadow", "")), "none")
 
-    def test_directory_icon_is_a_68px_soft_glow_line(self):
+    def test_directory_icon_is_a_60px_soft_glow_line(self):
         icon = base(self.css, ICON)
-        self.assertEqual(px(icon.get("width", "")), 68.0)
-        self.assertEqual(px(icon.get("height", "")), 68.0)
+        self.assertEqual(px(icon.get("width", "")), 60.0)
+        self.assertEqual(px(icon.get("height", "")), 60.0)
         self.assertIn("drop-shadow", normalise(icon.get("filter", "")))
         selected_icon = base(self.css, BUTTON + "[aria-selected=true]" + " .directory-icon")
         self.assertEqual(normalise(selected_icon.get("color", "")), "#e6f1ff")
@@ -397,9 +397,9 @@ class MobileShellTests(unittest.TestCase):
     def test_mobile_rows_keep_their_padding_rhythm(self):
         mobile = rules(block(self.css, MOBILE))
         button = [decl for selectors, decl in mobile if normalise(BUTTON) in selectors][0]
-        self.assertEqual(normalise(button.get("padding", "")), "24px8px24px20px")
+        self.assertEqual(normalise(button.get("padding", "")), "21px7px21px18px")
         icon = [decl for selectors, decl in mobile if normalise(ICON) in selectors][0]
-        self.assertEqual(px(icon.get("width", "")), 38.0)
+        self.assertEqual(px(icon.get("width", "")), 34.0)
 
 
 if __name__ == "__main__":
