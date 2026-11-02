@@ -29,10 +29,10 @@ SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 SHORT_HEIGHT = "384px"
 TINY_HEIGHT = "416px"
 
-BASE_TITLE_SIZE = "clamp(24px,1.9vw,32px)"
-BASE_TITLE_LINE_HEIGHT = "1.15"
+BASE_TITLE_SIZE = "56px"
+BASE_TITLE_LINE_HEIGHT = "1.1"
 BASE_TITLE_SPACING = "-.025em"
-BASE_BODY_SIZE = "20px"
+BASE_BODY_SIZE = "24px"
 
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -191,11 +191,13 @@ class SharedHeightTests(unittest.TestCase):
         self.assertEqual(normalise(tabs.get("--feature-height", "")), normalise(SHARED_HEIGHT))
         self.assertNotIn("clamp(560px,66vh,760px)", self.css, "the old 100 % height ramp must be gone")
 
-    def test_directory_and_card_strip_share_the_very_same_height(self):
+    def test_directory_stretches_against_the_copy_column(self):
         listing = base(self.css, LIST)
         panels = base(self.css, PANELS)
-        self.assertEqual(normalise(listing.get("height", "")), "var(--feature-height)")
-        self.assertEqual(normalise(panels.get("height", "")), "var(--feature-height)")
+        self.assertEqual(normalise(listing.get("height", "")), "100%",
+                         "the tabs fill whatever height the rows need")
+        self.assertEqual(normalise(panels.get("height", "")), "auto",
+                         "the copy column sizes to the 56/24 type")
         self.assertEqual(px(panels.get("min-height")), 0.0)
         self.assertEqual(normalise(listing.get("grid-template-rows", "")), "repeat(4,minmax(0,1fr))")
         self.assertEqual(px(listing.get("gap", "")), 20.0)
@@ -227,8 +229,9 @@ class CardLayoutTests(unittest.TestCase):
         self.assertEqual(stack.get("display"), "grid")
         self.assertEqual(normalise(stack.get("grid-template-columns", "")),
                          "minmax(0,1fr)", "one column holds every row")
-        self.assertEqual(normalise(stack.get("grid-template-rows", "")),
-                         "repeat(3,minmax(0,1fr))", "three equal rows")
+        self.assertEqual(normalise(stack.get("grid-auto-rows", "")),
+                         "minmax(0,auto)", "each row grows with its own copy")
+        self.assertEqual(stack.get("height"), "auto")
         self.assertEqual(normalise(stack.get("gap", "")), "0",
                          "the hairlines replace the gutter")
 
@@ -286,26 +289,26 @@ class TypographyTests(unittest.TestCase):
         self.assertEqual(normalise(title.get("letter-spacing", "")), BASE_TITLE_SPACING)
         self.assertEqual(normalise(base(self.css, BODY).get("font-size", "")), BASE_BODY_SIZE)
 
-    def test_width_ladder_typography(self):
-        for prelude, title_size, body_size in (
-            (W1200, "26px", "19px"),
-            (W1000, "24px", "18px"),
-            (MOBILE, "22px", "17px"),
-        ):
+    def test_desktop_widths_keep_the_56_24_scale(self):
+        for prelude in (W1200, W1000):
             media = block(self.css, prelude)
             with self.subTest(media=prelude):
-                self.assert_type(base(media, TITLE), base(media, BODY),
-                                 title_size, body_size, str(prelude))
+                self.assertNotIn(".feature-detail-card p", media,
+                                 f"{prelude} must not downscale the 24px copy")
+                self.assertNotIn(".feature-detail-card h3", media,
+                                 f"{prelude} must not downscale the 56px title")
+        mobile = block(self.css, MOBILE)
+        self.assert_type(base(mobile, TITLE), base(mobile, BODY),
+                         "32px", "18px", "mobile")
 
-    def test_height_ladder_typography(self):
-        for height, title_size, body_size in (
-            (SHORT_HEIGHT, "24px", "18px"),
-            (TINY_HEIGHT, "22px", "16px"),
-        ):
+    def test_short_viewports_only_tighten_the_gutters(self):
+        for height in (SHORT_HEIGHT, TINY_HEIGHT):
             prelude, media = block_with_height(self.css, height)
             with self.subTest(media=prelude, height=height):
-                self.assert_type(base(media, TITLE), base(media, BODY),
-                                 title_size, body_size, prelude)
+                self.assertNotIn(".feature-detail-card p", media,
+                                 f"{prelude} keeps the 24px copy")
+                self.assertNotIn(".feature-detail-card h3", media,
+                                 f"{prelude} keeps the 56px title")
 
 
 class AlignmentTests(unittest.TestCase):
@@ -313,19 +316,24 @@ class AlignmentTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_every_row_aligns_its_text_left(self):
+    def test_first_and_third_rows_read_left_and_the_middle_right(self):
+        expected = {1: "left", 2: "right", 3: "left"}
         base_css, medias = split_media(self.css)
+
+        middle = base(base_css, CARD + ":nth-child(2)")
+        self.assertEqual(normalise(middle.get("text-align", "")), "right",
+                         "the middle row is right aligned")
+        for selector in (CARD + ":nth-child(2) h3", CARD + ":nth-child(2) p"):
+            self.assertEqual(normalise(base(base_css, selector).get("text-align", "")), "right")
+
         for selector, where in ((TITLE, "title"), (BODY, "body")):
             self.assertEqual(
                 normalise(base(base_css, selector).get("text-align", "")),
                 "left",
-                f"the stacked rows read left-aligned ({where})",
+                f"the outer rows read left-aligned ({where})",
             )
-        self.assertNotRegex(
-            self.css,
-            r"feature-detail-card:nth-child\(\d+\)",
-            "no row may flip or override its own alignment any more",
-        )
+        self.assertNotRegex(self.css, r"feature-detail-card:nth-child\((1|3)\)",
+                            "the outer rows must not carry their own alignment rules")
         for prelude, body in medias:
             for selector in (TITLE, BODY):
                 try:
