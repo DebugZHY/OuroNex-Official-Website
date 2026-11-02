@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 53892,
-      "sha256": "524d6815420bfe0c373ee0fad35d1c2df8230c4d0828f3a2cac8866bcec76096",
-      "size": 53892
+      "bytes": 53987,
+      "sha256": "7d1dabba93c63422797ee9d254d700c014026f2fcc60badba3eeb2edf2641301",
+      "size": 53987
     },
     {
       "path": "assets/home.js",
@@ -477,15 +477,15 @@
     },
     {
       "path": "assets/business-flow.css",
-      "bytes": 20498,
-      "size": 20498,
-      "sha256": "312c5e9900f2072e52d4739a0ebb9ef890b279496db875d5dd769b6ee0c76f2a"
+      "bytes": 20449,
+      "size": 20449,
+      "sha256": "8e6442bad29f7267803087ee2c6e9c6594491b4fd12636d6a84c68501fe3b0cb"
     },
     {
       "path": "assets/business-flow.js",
-      "bytes": 331927,
-      "size": 331927,
-      "sha256": "f7e70a2e1f8cd2bd569c8404404b1cfd9333f4ddf1f107d45cb070546673ece9"
+      "bytes": 212890,
+      "size": 212890,
+      "sha256": "9e08569e97e46295e2c644f18acb890096c8f90167830c6a8767dd3ea3e44bc0"
     }
   ]
 }

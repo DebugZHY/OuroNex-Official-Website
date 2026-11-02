@@ -189,7 +189,7 @@
 .business-layout h2{margin:0;font-size:clamp(38px,3.2vw,70px);line-height:1.12;letter-spacing:-.04em}
 .business-lede{margin:14px 0 0;color:#b0bfd2;font-size:21px;line-height:1.55;max-width:78ch;text-wrap:balance}
 .business-flow{position:relative}
-.business-flow .flow-canvas{display:none;position:relative;height:clamp(500px,56vh,600px);border:1px solid rgba(140,170,210,.13);border-radius:14px;overflow:hidden;background:radial-gradient(120% 150% at 50% 0%,#12213a 0%,#0a1220 58%,#080e17 100%);box-shadow:inset 0 1px 0 rgba(190,215,255,.06),0 30px 70px -60px rgba(114,158,255,.9)}
+.business-flow .flow-canvas{display:none;position:relative;height:clamp(500px,56vh,600px);border:1px solid rgba(140,170,210,.13);border-radius:14px;overflow:hidden;background:radial-gradient(120% 150% at 50% 0%,#12213a 0%,#0a1220 58%,#080e17 100%),radial-gradient(circle at 1px 1px,rgba(132,166,214,.38) 1.1px,transparent 1.8px) 0 0/22px 22px;box-shadow:inset 0 1px 0 rgba(190,215,255,.06),0 30px 70px -60px rgba(114,158,255,.9)}
 .business-flow .flow-canvas::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(62% 72% at 50% 0%,rgba(114,158,255,.12),transparent 72%)}
 .business-flow[data-flow-live="true"] .flow-canvas{display:block}
 .business-flow[data-flow-live="true"] .flow{display:none}

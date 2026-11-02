@@ -1,8 +1,6 @@
-import { createElement, useEffect, useMemo, useRef, useState } from 'react';
+import { createElement, memo, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  Background,
-  BackgroundVariant,
   Handle,
   MarkerType,
   Position,
@@ -64,7 +62,7 @@ function translator(language) {
 
 const HANDLES = { horizontal: ['Left', 'Right'], vertical: ['Top', 'Bottom'] };
 
-function FlowCard({ data }) {
+const FlowCard = memo(function FlowCard({ data }) {
   const [targetSide, sourceSide] = HANDLES[data.axis];
   return (
     createElement(
@@ -97,7 +95,7 @@ function FlowCard({ data }) {
       }),
     )
   );
-}
+});
 
 function FlowDot() {
   return createElement('span', { className: 'bf-dot' });
@@ -302,7 +300,7 @@ function Canvas() {
   const [axis, setAxis] = useState(() => (window.innerWidth >= 1100 ? 'horizontal' : 'vertical'));
   const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
   const [hovered, setHovered] = useState(null);
-  const [moved, setMoved] = useState(false);
+  const [hintGone, setHintGone] = useState(false);
 
   useEffect(() => {
     const onLanguage = (event) => setLanguage(event.detail.language);
@@ -355,6 +353,16 @@ function Canvas() {
     [graph.edges, lit],
   );
 
+  const onPointerMove = (event) => {
+    const node = event.target.closest ? event.target.closest('.react-flow__node') : null;
+    const id = node ? node.getAttribute('data-id') : null;
+    if (id !== hovered) setHovered(id);
+  };
+
+  const onPointerEnter = () => {
+    if (!hintGone) setHintGone(true);
+  };
+
   return createElement(
     ReactFlow,
     {
@@ -365,7 +373,6 @@ function Canvas() {
       fitViewOptions: { padding: 0.09, duration: 0 },
       minZoom: 0.5,
       maxZoom: 1.6,
-      nodesDraggable: true,
       colorMode: 'dark',
       nodesConnectable: false,
       elementsSelectable: false,
@@ -374,23 +381,18 @@ function Canvas() {
       zoomOnPinch: true,
       panOnScroll: false,
       preventScrolling: false,
-      onNodeMouseEnter: (_event, node) => setHovered(node.id),
-      onNodeMouseLeave: () => setHovered(null),
-      onMoveStart: () => setMoved(true),
+      nodesDraggable: false,
+      onPointerMove,
+      onPointerEnter,
+      onPointerLeave: () => setHovered(null),
       proOptions: { hideAttribution: true },
     },
-    createElement(Background, {
-      variant: BackgroundVariant.Dots,
-      gap: 22,
-      size: 1.3,
-      color: 'rgba(126,158,205,.26)',
-    }),
     createElement(Controls, {
       label: { zoomIn: t('home.flow-zoom-in'), zoomOut: t('home.flow-zoom-out'), reset: t('home.flow-reset') },
     }),
     createElement(
       'div',
-      { className: `bf-hint${moved ? ' is-hidden' : ''}` },
+      { className: `bf-hint${hintGone ? ' is-hidden' : ''}` },
       createElement('span', { className: 'bf-hint__dot', 'aria-hidden': 'true' }),
       createElement('span', null, t('home.flow-hint')),
     ),

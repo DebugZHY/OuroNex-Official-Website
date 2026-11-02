@@ -12,6 +12,13 @@ const result = await build({
   format: 'iife',
   target: ['chrome110', 'safari16', 'firefox115'],
   jsx: 'automatic',
+  jsxImportSource: 'preact',
+  alias: {
+    react: 'preact/compat',
+    'react-dom': 'preact/compat',
+    'react-dom/client': 'preact/compat/client',
+    'react/jsx-runtime': 'preact/jsx-runtime',
+  },
   loader: { '.jsx': 'jsx' },
   define: { 'process.env.NODE_ENV': '"production"' },
   outfile: path.join(outDir, 'business-flow.js'),

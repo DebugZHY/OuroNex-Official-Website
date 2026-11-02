@@ -88,6 +88,24 @@ class FlowBundleTests(unittest.TestCase):
         for tone in ("gate", "lane", "delivery"):
             self.assertIn(f".bf-card--{tone}", self.css)
 
+    def test_hover_uses_one_pointer_handler(self) -> None:
+        source = read(TOOL / "src" / "index.jsx")
+        # Per-node enter/leave handlers re-fired on every highlight re-render and
+        # fed a class-toggle loop (~370 mutations/s) that flashed the connectors.
+        self.assertNotIn("onNodeMouseEnter", source)
+        self.assertNotIn("onNodeMouseLeave", source)
+        self.assertIn(".react-flow__node", source)
+        self.assertIn("onPointerMove", source)
+
+    def test_hover_does_not_rebuild_the_graph(self) -> None:
+        source = read(TOOL / "src" / "index.jsx")
+        self.assertIn("memo(function FlowCard", source)
+        self.assertIn("nodesDraggable: false", source)
+
+    def test_bundle_stays_within_its_budget(self) -> None:
+        size = BUNDLE_JS.stat().st_size
+        self.assertLess(size, 260_000, f"bundle grew to {size} bytes")
+
     def test_handles_are_hidden_but_edges_are_not(self) -> None:
         marker = ".bf-canvas .react-flow__handle{"
         self.assertIn(marker, self.css)
@@ -123,8 +141,13 @@ class FlowToolchainTests(unittest.TestCase):
     def test_package_json_pins_the_renderer(self) -> None:
         pkg = json.loads(read(TOOL / "package.json"))
         self.assertIn("@xyflow/react", pkg["dependencies"])
-        self.assertIn("react", pkg["dependencies"])
+        self.assertIn("preact", pkg["dependencies"])
         self.assertEqual(pkg["scripts"]["build"], "node build.mjs")
+
+    def test_the_build_compiles_against_preact(self) -> None:
+        build_script = read(TOOL / "build.mjs")
+        self.assertIn("preact/compat", build_script)
+        self.assertNotIn("react.development", read(BUNDLE_JS))
 
     def test_node_modules_is_ignored(self) -> None:
         ignored = read(ROOT / ".gitignore")
