@@ -16,7 +16,7 @@ const FALLBACK = {
   'home.flow-entry-1-title': 'On-site consultation',
   'home.flow-entry-1-copy': 'Inspect your workflow for potential automation.',
   'home.flow-entry-2-kicker': 'Scope already defined',
-  'home.flow-entry-2-title': 'Plan Refinement',
+  'home.flow-entry-2-title': 'Plan refinement',
   'home.flow-entry-2-copy': 'Align your need with our delivery.',
   'home.flow-entry-3-kicker': 'Want to see it working',
   'home.flow-entry-3-title': 'Pilot first',
@@ -27,19 +27,14 @@ const FALLBACK = {
   'home.flow-lane-1-title': 'Use SIDA directly',
   'home.flow-lane-1-copy': 'pay as you go or subscribe.',
   'home.flow-lane-2-kicker': 'Your process, not ours',
-  'home.flow-lane-2-title': 'Add custom automation',
+  'home.flow-lane-2-title': 'Workflow automation',
   'home.flow-lane-2-copy':
     'We model your workflow as a SIDA flowchart — specialist bots, checkpoints and review gates you approve.',
   'home.flow-lane-3-kicker': 'Nothing off the shelf fits',
-  'home.flow-lane-3-title': 'Commission a tool',
+  'home.flow-lane-3-title': 'Customized SaaS',
   'home.flow-lane-3-copy':
-    'A model, solver or software integration built to a fixed scope, delivered inside SIDA.',
-  'home.flow-final-title': 'Every path lands on the same platform',
-  'home.flow-pill-1': 'SIDA workspace licence',
-  'home.flow-pill-2': 'Workflow automation pack',
-  'home.flow-pill-3': 'Bespoke tools and integrations',
-  'home.flow-pill-4': 'Onboarding and training',
-  'home.flow-pill-5': 'Local data, nothing uploaded',
+    'Tools for your need, integrated into SIDA.',
+  'home.flow-final-title': 'All needs lands on the saame platform - SIDA',
   'home.flow-hint': 'Drag to explore',
   'home.flow-reset': 'Fit to view',
   'home.flow-zoom-in': 'Zoom in',
@@ -71,14 +66,15 @@ const FlowCard = memo(function FlowCard({ data }) {
       createElement('span', { className: 'bf-card__kicker' }, data.kicker),
       createElement('h3', { className: 'bf-card__title' }, data.title),
       data.copy ? createElement('p', { className: 'bf-card__copy' }, data.copy) : null,
-      data.pills
-        ? createElement(
-            'ul',
-            { className: 'bf-card__pills' },
-            data.pills.map((pill) =>
-              createElement('li', { key: pill }, createElement('span', null, pill)),
-            ),
-          )
+      data.logo
+        ? createElement('img', {
+            alt: '',
+            className: 'bf-card__logo',
+            decoding: 'async',
+            height: 72,
+            src: 'assets/illustrations/sida-logo.png',
+            width: 72,
+          })
         : null,
       createElement(Handle, {
         type: 'target',
@@ -137,9 +133,9 @@ function buildGraph(t, axis, viewportWidth = 1000) {
   const delivery = {
     id: 'delivery',
     tone: 'delivery',
-    kicker: 'Delivered',
+    kicker: 'Deliverables',
     title: t('home.flow-final-title'),
-    pills: [1, 2, 3, 4, 5].map((n) => t(`home.flow-pill-${n}`)),
+    logo: true,
   };
 
   const sizes = horizontal
@@ -209,14 +205,14 @@ const HORIZONTAL_SIZE = {
   entry: [228, 126],
   gate: [240, 126],
   lane: [274, 150],
-  delivery: [290, 214],
+  delivery: [290, 196],
 };
 
 const VERTICAL_SIZE = {
   entry: [300, 52],
   gate: [300, 64],
   lane: [300, 56],
-  delivery: [300, 178],
+  delivery: [300, 96],
 };
 
 function horizontalLayout() {

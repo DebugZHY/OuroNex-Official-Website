@@ -126,31 +126,12 @@
   letter-spacing: 0.12em;
 }
 
-.bf-card__pills {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-  margin: 10px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.bf-card__pills li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 5px 8px;
-  border: 1px solid rgba(150, 185, 230, 0.2);
-  border-radius: 999px;
-  background: rgba(9, 16, 26, 0.55);
-  color: #d3e2f6;
-  font-size: 11.5px;
-  line-height: 1.3;
-}
-
-.bf-card__pills li:last-child {
-  grid-column: 1 / -1;
+.bf-card__logo {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin-top: 12px;
+  object-fit: contain;
 }
 
 /* Entry cards: quiet, they are only the starting point. */
@@ -274,6 +255,21 @@
 /* Tablet: single column, copy stays out of the way. */
 .bf-canvas[data-axis='vertical'] .bf-card__copy {
   display: none;
+}
+
+/* Tablet: the mark rides beside the text so the card stays as short as its neighbours. */
+.bf-canvas[data-axis='vertical'] .bf-card--delivery {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding-right: 16px;
+}
+
+.bf-canvas[data-axis='vertical'] .bf-card--delivery .bf-card__logo {
+  margin: 0 0 0 auto;
+  flex: none;
+  width: 56px;
+  height: 56px;
 }
 
 @media (prefers-reduced-motion: reduce) {

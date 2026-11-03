@@ -34,7 +34,7 @@ FLOW_KEYS = tuple(
     "home.flow-band-title",
     "home.flow-band-note",
     "home.flow-final-title",
-) + tuple(f"home.flow-pill-{i}" for i in range(1, 6))
+)
 
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -180,7 +180,7 @@ class BusinessFlowDesktopTests(BusinessScaleFixtures):
         self.assert_decl(self.base_rule(".flow-card h3"), "font-size", "23px")
         self.assert_decl(self.base_rule(".flow-kicker"), "font-size", "13px")
         self.assert_decl(self.base_rule(".flow-copy"), "font-size", "15px")
-        self.assert_decl(self.base_rule(".flow-pills li"), "font-size", "14px")
+        self.assert_decl(self.base_rule(".flow-final__logo"), "width", "72px")
 
     def test_three_entry_cards_and_three_lane_cards_share_one_grid(self):
         stage = self.base_rule(".flow-stage")
@@ -228,9 +228,9 @@ class BusinessFlowDesktopTests(BusinessScaleFixtures):
         final = self.base_rule(".flow-final")
         self.assert_decl(final, "border", "1px solid rgba(114,158,255,.26)")
         self.assert_decl(self.base_rule(".flow-final h3"), "font-size", "21px")
-        chips = self.media_rule(self.media_block(LEFT_TO_RIGHT)[0], ".flow-pills")
-        self.assert_decl(chips, "display", "grid")
-        self.assert_decl(chips, "grid-template-columns", "repeat(5,minmax(0,1fr))")
+        mark = self.base_rule(".flow-final__logo")
+        self.assert_decl(mark, "display", "block")
+        self.assert_decl(mark, "object-fit", "contain")
 
     def test_delivery_cards_move_to_the_application_section(self):
         self.assert_decl(self.base_rule(".delivery-grid"), "gap", "20px")
@@ -256,8 +256,8 @@ class BusinessFlowMarkupTests(unittest.TestCase):
         self.assertEqual(body.count('class="flow-fan"'), 1, "one splitting bus")
         self.assertEqual(body.count('class="flow-num"'), 3, "only the lanes are numbered, so no 1:1 read")
         self.assertEqual(body.count("<span></span>"), 6, "each bus anchors three stems")
-        self.assertEqual(body.count('class="flow-pills"'), 1)
-        self.assertEqual(body.count("<li>"), 5, "five delivery chips")
+        self.assertEqual(body.count('class="flow-pills"'), 0, "the chip row is retired")
+        self.assertIn('src="assets/illustrations/sida-logo.png"', body, "the mark closes the flow")
         order = [body.index(marker) for marker in (
             "flow-stage--entry",
             "flow-fan flow-fan--in",
