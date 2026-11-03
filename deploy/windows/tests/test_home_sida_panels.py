@@ -2,8 +2,8 @@
 
 Every ``.feature-panel`` now owns a single ``.feature-stage`` that fills a shared
 fixed body height, so switching tabs never moves the download row below. The
-stage content differs per tab: a Buildings Department keyword matrix, a React
-Flow project workflow, the professional-tool illustration, and a placeholder.
+stage content differs per tab: a React TagCloud of code names, a React Flow
+project workflow, the professional-tool illustration, and a placeholder.
 
 Self-contained stdlib checks (regex, div slicing, manifest hashing); no browser,
 no server. The visual result is verified separately in Chrome.
@@ -28,8 +28,7 @@ COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 
 PANEL_IDS = ("feature-engineering", "feature-workflow", "feature-free", "feature-experts")
 
-# Rows of the matrix: the Buildings Department documents, in DOM order.
-MATRIX_DOCUMENTS = ("COP 2011", "COP 2019", "COP 2013", "COP 2011", "PNAP")
+TAGCLOUD_BUNDLE = REPO_ROOT / "assets" / "sida-tagcloud.js"
 
 
 def div_bounds(html: str, start: int) -> tuple:
@@ -135,24 +134,27 @@ class FeaturePanelStageTests(unittest.TestCase):
         self.assertIn("height:auto", mobile.replace(" ", ""),
                       "phones let the stage size to its content")
 
-    # -- Information Overload: keyword matrix -------------------------------
+    # -- Information Overload: the regulation tag cloud ---------------------
 
-    def test_information_overload_shows_a_keyword_matrix(self) -> None:
+    def test_information_overload_hosts_the_tag_cloud(self) -> None:
         block = self.panel("feature-engineering")
-        self.assertIn('class="keyword-matrix__grid"', block)
-        self.assertIn("Buildings Department", block)
-        body = re.search(r"<tbody>(.*?)</tbody>", block, re.S).group(1)
-        rows = re.findall(r"<tr>(.*?)</tr>", body, re.S)
-        self.assertEqual(len(rows), len(MATRIX_DOCUMENTS), "one row per code document")
-        for row, document in zip(rows, MATRIX_DOCUMENTS):
-            with self.subTest(document=document):
-                self.assertIn(document, row)
-        chips = re.findall(r'<span class="kw[^"]*">([^<]+)</span>', body)
-        self.assertGreaterEqual(len(chips), 14, "the matrix carries a real keyword set")
-        for expected in ("imposed load", "crack width", "bolt grade"):
-            self.assertIn(expected, chips)
-        head = re.search(r"<thead>(.*?)</thead>", block, re.S).group(1)
-        self.assertEqual(len(re.findall(r"<th\b", head)), 4, "document column plus three topics")
+        self.assertIn("data-sida-tagcloud", block)
+        self.assertIn('class="sida-tagcloud"', block)
+        self.assertNotIn("<table", block, "the matrix is replaced by the cloud")
+        self.assertNotIn("keyword-matrix", block)
+
+    def test_the_tag_cloud_bundle_is_wired_and_shipped(self) -> None:
+        self.assertIn('src="assets/sida-tagcloud.js"', self.index)
+        self.assertTrue(TAGCLOUD_BUNDLE.exists(), "the bundle is built")
+        size = TAGCLOUD_BUNDLE.stat().st_size
+        self.assertLess(size, 230 * 1024, f"bundle is {size} bytes")
+        source = TAGCLOUD_BUNDLE.read_text(encoding="utf-8", errors="ignore")
+        self.assertIn("OuroNexSidaTagCloud", source)
+
+    def test_tag_cloud_host_fills_the_stage(self) -> None:
+        host = declarations(self.base, ".sida-tagcloud")
+        self.assertEqual(host.get("height"), "100%")
+        self.assertEqual(host.get("position"), "relative")
 
     # -- Complex Workflow: the React Flow canvas ----------------------------
 
@@ -200,6 +202,7 @@ class FeaturePanelStageTests(unittest.TestCase):
         for relative in (
             "assets/sida-panels.css",
             "assets/sida-workflow.js",
+            "assets/sida-tagcloud.js",
             "assets/illustrations/professional-tools.jpg",
         ):
             with self.subTest(path=relative):

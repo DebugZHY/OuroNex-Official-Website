@@ -375,9 +375,15 @@
     },
     {
       "path": "assets/sida-panels.css",
-      "bytes": 4988,
-      "sha256": "ac17ae644bf213df7be68c94ddbd7cbd327a778b61fa290a07352517c85536f1",
-      "size": 4988
+      "bytes": 3196,
+      "sha256": "4af61eabafc7e7ce21dac5e01fe08d1e01d3d319910bc30a0833714fe6d45306",
+      "size": 3196
+    },
+    {
+      "path": "assets/sida-tagcloud.js",
+      "bytes": 55377,
+      "sha256": "934bb532918daa0f54f14654a9799b9b2953cd45a18bedc196abd31e29a1ee15",
+      "size": 55377
     },
     {
       "path": "assets/sida-workflow.js",
@@ -417,9 +423,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 31736,
-      "sha256": "5c13bfa2606a20e9ffb5d4cf800547c85794a8ca3a30342088f6ad4035825808",
-      "size": 31736
+      "bytes": 30065,
+      "sha256": "b9fc522431678ef17c3eed565e58f48250f52c971f88dd30bac9a7d06f8c5cb4",
+      "size": 30065
     },
     {
       "path": "news/_template.html",
