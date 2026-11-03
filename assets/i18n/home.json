@@ -475,7 +475,7 @@
     "zh-TW": "範圍已經明確"
   },
   "home.flow-entry-2-title": {
-    "en": "Plan Refinement",
+    "en": "Plan refinement",
     "zh-CN": "需求细化",
     "zh-TW": "需求細化"
   },
@@ -530,9 +530,9 @@
     "zh-TW": "按你的流程"
   },
   "home.flow-lane-2-title": {
-    "en": "Add custom automation",
-    "zh-CN": "加入自定义自动化",
-    "zh-TW": "加入自訂自動化"
+    "en": "Workflow automation",
+    "zh-CN": "工作流自动化",
+    "zh-TW": "工作流程自動化"
   },
   "home.flow-lane-2-copy": {
     "en": "Your process modelled as a SIDA flowchart, with your approvals.",
@@ -545,44 +545,19 @@
     "zh-TW": "現成工具不夠用"
   },
   "home.flow-lane-3-title": {
-    "en": "Commission a tool",
-    "zh-CN": "委托开发工具",
-    "zh-TW": "委託開發工具"
+    "en": "Customized SaaS",
+    "zh-CN": "定制 SaaS",
+    "zh-TW": "客製 SaaS"
   },
   "home.flow-lane-3-copy": {
-    "en": "A model, solver or integration built to a fixed scope.",
-    "zh-CN": "按固定范围开发模型、求解器或软件集成。",
-    "zh-TW": "按固定範圍開發模型、求解器或軟體整合。"
+    "en": "Tools for your need, integrated into SIDA.",
+    "zh-CN": "按需定制的工具，集成进 SIDA。",
+    "zh-TW": "依需求客製的工具，整合進 SIDA。"
   },
   "home.flow-final-title": {
-    "en": "Every path lands on the same platform",
-    "zh-CN": "每条路径都落在同一个平台",
-    "zh-TW": "每條路徑都落在同一個平台"
-  },
-  "home.flow-pill-1": {
-    "en": "SIDA workspace licence",
-    "zh-CN": "SIDA 工作空间授权",
-    "zh-TW": "SIDA 工作空間授權"
-  },
-  "home.flow-pill-2": {
-    "en": "Workflow automation pack",
-    "zh-CN": "工作流自动化包",
-    "zh-TW": "工作流程自動化包"
-  },
-  "home.flow-pill-3": {
-    "en": "Bespoke tools and integrations",
-    "zh-CN": "定制工具与集成",
-    "zh-TW": "客製工具與整合"
-  },
-  "home.flow-pill-4": {
-    "en": "Onboarding and training",
-    "zh-CN": "上线与培训",
-    "zh-TW": "上線與培訓"
-  },
-  "home.flow-pill-5": {
-    "en": "Local data, nothing uploaded",
-    "zh-CN": "数据本地保存，不上传",
-    "zh-TW": "資料本機保存，不上傳"
+    "en": "All needs lands on the saame platform - SIDA",
+    "zh-CN": "所有需求，都落到同一个平台 - SIDA",
+    "zh-TW": "所有需求，都落到同一個平台 - SIDA"
   },
   "home.about-advisor-name": {
     "en": "Ir Prof. Siwei LIU",
