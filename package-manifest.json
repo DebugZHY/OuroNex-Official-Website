@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 55370,
-      "sha256": "4f4a1c94ed25eb84e2ce588ea01972b00cada23bfbaf3d79eed41c1643ae0bfd",
-      "size": 55370
+      "bytes": 55066,
+      "sha256": "30d1db0e444b47dfd8e131291826b82bb9e9e7518b4ae9e30c91b0213df4e11e",
+      "size": 55066
     },
     {
       "path": "assets/home.js",
@@ -399,9 +399,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 33010,
-      "sha256": "59bfe9eb6907f7a91eb0b75e37965c3d7f95d601bb8618ea7e098e53707eaa6d",
-      "size": 33010
+      "bytes": 32599,
+      "sha256": "cd0fb295c133d85d7b38ce5e4c0b81045d46b7d348c52a807f33ea2a5394bf13",
+      "size": 32599
     },
     {
       "path": "news/_template.html",

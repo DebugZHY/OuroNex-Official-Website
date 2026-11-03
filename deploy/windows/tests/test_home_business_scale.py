@@ -31,7 +31,6 @@ FLOW_KEYS = tuple(
     for group in ("entry-1", "entry-2", "entry-3", "lane-1", "lane-2", "lane-3")
     for key in (f"home.flow-{group}-kicker", f"home.flow-{group}-title", f"home.flow-{group}-copy")
 ) + (
-    "home.flow-lede",
     "home.flow-band-title",
     "home.flow-band-note",
     "home.flow-final-title",
@@ -177,8 +176,7 @@ class BusinessFlowDesktopTests(BusinessScaleFixtures):
     def test_desktop_type_scale(self):
         heading = self.base_rule(".business-layout h2")
         self.assert_decl(heading, "font-size", "clamp(38px,3.2vw,70px)")
-        self.assertEqual(margin_side(heading, "bottom"), "0", "the lede, not a margin, spaces the h2")
-        self.assert_decl(self.base_rule(".business-lede"), "font-size", "21px")
+        self.assertEqual(margin_side(heading, "bottom"), "0")
         self.assert_decl(self.base_rule(".flow-card h3"), "font-size", "23px")
         self.assert_decl(self.base_rule(".flow-kicker"), "font-size", "13px")
         self.assert_decl(self.base_rule(".flow-copy"), "font-size", "15px")
@@ -304,7 +302,6 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
         body, _offset = self.media_block(MOBILE)
         self.assert_decl(self.media_rule(body, ".business-layout"), "width", "calc(100% - 32px)!important")
         self.assert_decl(self.media_rule(body, ".business-layout h2"), "font-size", "28px")
-        self.assert_decl(self.media_rule(body, ".business-lede"), "font-size", "17px")
         self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "16px 18px 18px")
         self.assert_decl(self.media_rule(body, ".flow-card h3"), "font-size", "19px")
         self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "14px")
@@ -313,7 +310,6 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
 
     def test_narrow_refinement_keeps_a_compact_scale(self):
         body, _offset = self.media_block(NARROW)
-        self.assert_decl(self.media_rule(body, ".business-lede"), "font-size", "16px")
         self.assert_decl(self.media_rule(body, ".delivery-grid article"), "padding", "12px")
         self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "14px 16px 16px")
         self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "13px")
@@ -323,7 +319,6 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
         widened = (
             ".business-layout",
             ".business-layout h2",
-            ".business-lede",
             ".flow-stage",
             ".flow-card",
             ".flow-copy",
@@ -347,6 +342,22 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
         self.assert_decl(article, "padding", "18px")
         self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "18px 20px 20px")
         self.assert_decl(self.media_rule(body, ".flow-card h3"), "font-size", "20px")
+
+
+class SectionLedeRemovalTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.html = INDEX_HTML.read_text(encoding="utf-8")
+        self.css = HOME_CSS.read_text(encoding="utf-8")
+
+    def test_neither_section_carries_a_lede_under_its_heading(self) -> None:
+        self.assertNotIn('class="application-lede"', self.html)
+        self.assertNotIn('class="business-lede"', self.html)
+        self.assertNotIn("home.application-lede", self.html)
+        self.assertNotIn("home.flow-lede", self.html)
+
+    def test_the_lede_rules_are_gone_from_the_stylesheet(self) -> None:
+        self.assertNotIn(".application-lede", self.css)
+        self.assertNotIn(".business-lede", self.css)
 
 
 class BusinessCopyTests(unittest.TestCase):
