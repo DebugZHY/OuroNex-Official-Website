@@ -265,7 +265,7 @@ class DeliveryPhotoTests(unittest.TestCase):
 
     PHOTOS = (
         ("Project Planning", "assets/illustrations/project-planning.jpg", (1400, 882)),
-        ("Design Optimization", "assets/illustrations/design-optimization.jpg", (1400, 1071)),
+        ("Design Optimization", "assets/illustrations/design-optimization-web.jpg", (1400, 781)),
         ("Tendering", "assets/illustrations/tendering-web.jpg", (1400, 574)),
         ("BIM Modelling", "assets/illustrations/bim-modelling-web.jpg", (1400, 1045)),
     )

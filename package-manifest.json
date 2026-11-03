@@ -314,6 +314,12 @@
       "size": 296828
     },
     {
+      "path": "assets/illustrations/design-optimization-web.jpg",
+      "bytes": 167836,
+      "sha256": "795b4f0b47202fb368c9868e0893f68d08fde42c07a3f50ca3d6f22c042852bc",
+      "size": 167836
+    },
+    {
       "path": "assets/illustrations/design-optimization.jpg",
       "bytes": 420627,
       "sha256": "12658b5a71fc4160e67f215064f614babaf34c0ae156c8b99b7f2b09594fb673",
@@ -477,9 +483,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 29871,
-      "sha256": "2e0ddff62a0431f2737ed6db9c80f15942f46e54a23465e0afa11e6937ad1758",
-      "size": 29871
+      "bytes": 29874,
+      "sha256": "db5b5707c46eac09acf59be3cf4add4f9494795fc9612d02bbb95761a3856d6a",
+      "size": 29874
     },
     {
       "path": "news/_template.html",
