@@ -3,21 +3,21 @@
   "files": [
     {
       "path": "404.html",
-      "bytes": 7485,
-      "sha256": "784023f14289c45cc5c9dc6fc838335988e301ebeaaf6d6f072dec260466766b",
-      "size": 7485
+      "bytes": 7395,
+      "sha256": "65fb4a0eca1a0814686544dc4398dfa30b05f67d0aa07d5409f8699c789d4385",
+      "size": 7395
     },
     {
       "path": "arena.html",
-      "bytes": 9699,
-      "sha256": "fa5567d9d61ed58bc9a67abce4f019d787e91e2cbac3fbf44db3337243e53031",
-      "size": 9699
+      "bytes": 9593,
+      "sha256": "6c0547a2273cf1c3c69841381626cb5662c90d9b3f1e06069c9ebaf437e5c98d",
+      "size": 9593
     },
     {
       "path": "assets/account.css",
-      "bytes": 37056,
-      "sha256": "8004df9c32a1a1b2ce9157c9dd412129c4f6e06f2c7aa13337b8b306c8806733",
-      "size": 37056
+      "bytes": 35476,
+      "sha256": "9f09e2e821f10d577637870779283077aa7ff9e39add881ffa7c267114b75297",
+      "size": 35476
     },
     {
       "path": "assets/auth-bg.js",
@@ -135,9 +135,9 @@
     },
     {
       "path": "assets/fonts/manrope-OFL.txt",
-      "bytes": 4480,
-      "sha256": "4b8929f05a122b7abb9059501dc7dc4df86f8c97d5a1769d60d82cf2d2795dde",
-      "size": 4480
+      "bytes": 4387,
+      "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b",
+      "size": 4387
     },
     {
       "path": "assets/fonts/michroma-400-sida.woff2",
@@ -153,9 +153,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 55190,
-      "sha256": "e1c9794b013bb1df13e171933686adc8aeb3dfb07990369eb7713ba14bb800fa",
-      "size": 55190
+      "bytes": 55658,
+      "sha256": "613fa376008fa6dcccb195bde8f70afe798b4b127e2e3dc02af4e085ff924bbf",
+      "size": 55658
     },
     {
       "path": "assets/home.js",
@@ -165,147 +165,147 @@
     },
     {
       "path": "assets/i18n.css",
-      "bytes": 3625,
-      "sha256": "67a0118d0f280d03b3558887a5855fb8a91468eb4d8d33a5108b068ac6fd3ef2",
-      "size": 3625
+      "bytes": 3505,
+      "sha256": "f7105856eab484c21cb8c4383d494dd66dc755c5967aa06535cee973948e947a",
+      "size": 3505
     },
     {
       "path": "assets/i18n.js",
-      "bytes": 5486,
-      "sha256": "66e8931a9e475cea037827d476873dc4d45e0043d952f23d232f9ab329e61e42",
-      "size": 5486
+      "bytes": 5360,
+      "sha256": "29a8cc053198bc0f750634ca6761e8533df01db497a5f2c5b35c9a6fcb2e91bd",
+      "size": 5360
     },
     {
       "path": "assets/i18n/404.js",
-      "bytes": 1458,
-      "sha256": "9fa900a16bc3a3bb8a020c2d34639738c2c1f48411accaa77e8c37c835d6a8b7",
-      "size": 1458
+      "bytes": 1430,
+      "sha256": "4b6ad677caddd3d13a23f71629ff85e1a720cd2c966bdac1f86881bb952114e6",
+      "size": 1430
     },
     {
       "path": "assets/i18n/account-dashboard.js",
-      "bytes": 12259,
-      "sha256": "4709761b412455633cb62cef2f84370a8db759d646d2398b97826e857f1162f5",
-      "size": 12259
+      "bytes": 11841,
+      "sha256": "69c89dcf16c46a11d0c51fc023258e34545fd55a078604d5afabd0c720b4543b",
+      "size": 11841
     },
     {
       "path": "assets/i18n/account-login.js",
-      "bytes": 1156,
-      "sha256": "453edd5b02914be2d4bb7dc427a8ff928f1f9cadfee637339323798608597e71",
-      "size": 1156
+      "bytes": 1118,
+      "sha256": "50c425b23fc76f57be9ca6f2e848190f9b8b92ae120e297c2a8dacf132d82154",
+      "size": 1118
     },
     {
       "path": "assets/i18n/account-profile.js",
-      "bytes": 4208,
-      "sha256": "83c306c8f83c75d6bf28d6ed8daf92741dea5d3f6aca3426293a42e03001f9fa",
-      "size": 4208
+      "bytes": 4050,
+      "sha256": "197424a0807592a4017650d2b4e337e15583bbcdc6db9fa3765836f13ecd05b5",
+      "size": 4050
     },
     {
       "path": "assets/i18n/account-register.js",
-      "bytes": 1817,
-      "sha256": "2a0dd93bd1833fc46485c3f1ba07d2734c901c5c629898e8eb2c76b38122901f",
-      "size": 1817
+      "bytes": 1754,
+      "sha256": "a4fd10a7a45531a71d5d4b9a9583005489df63b35a9196b3b62a878298e2bbf8",
+      "size": 1754
     },
     {
       "path": "assets/i18n/account-security.js",
-      "bytes": 3026,
-      "sha256": "c0a1f631be54169570eb323c76c99cc3e2d7e3e82d88cb961ee6ca5c11fb678d",
-      "size": 3026
+      "bytes": 2928,
+      "sha256": "aa9cb304cd192ed5173911ca35beaedadb8536bc4f5df495943ae4b58fac4a2a",
+      "size": 2928
     },
     {
       "path": "assets/i18n/arena.js",
-      "bytes": 2465,
-      "sha256": "bb6b9d426b663bd74d79fbf36812155d38c2cfaad7894731fb1edbf3f6c35ee7",
-      "size": 2465
+      "bytes": 2422,
+      "sha256": "0df624eb3b691a61fce3ee34ff6df9a086fd7876064c60127e44f7ee1cb6684c",
+      "size": 2422
     },
     {
       "path": "assets/i18n/dynamic.js",
-      "bytes": 7269,
-      "sha256": "d2d212d1acaeea91285d2f84529587eb5538be33f01306e28c99ad61fa076089",
-      "size": 7269
+      "bytes": 7041,
+      "sha256": "4092a9cb8dcf191c845f9fe6838abbdc101ed87309b9336c3c46be224549114f",
+      "size": 7041
     },
     {
       "path": "assets/i18n/early-access.js",
-      "bytes": 173,
-      "sha256": "258d258b4453dfccd73c9d03b1b92d4fad7d0366c9feca7be0734a5b5ea2b1a7",
-      "size": 173
+      "bytes": 171,
+      "sha256": "b7c22585a499c3b7da185c82113a972de14d8bde3c9ade19ff3abea072a329e8",
+      "size": 171
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 21760,
-      "sha256": "1a1adc487961a5ee72b3dc47532f77c13604e1e99673c9c25b200b52b6acf5dd",
-      "size": 21760
+      "bytes": 22190,
+      "sha256": "c66e82d0cd1eddd2655c9f2a5dfc628c2acb7e7ad1f118e24462ca9a862001d4",
+      "size": 22190
     },
     {
       "path": "assets/i18n/home.json",
-      "bytes": 21599,
-      "size": 21599,
-      "sha256": "c1d3e31d04bdd527ea3c0f55dc126b92de801de6d6adb10a5cd3557dd3496873"
+      "bytes": 22029,
+      "size": 22029,
+      "sha256": "5e39bc317f5f616af7f116f25112362b2c45e9c5946857801e293e69bb844f38"
     },
     {
       "path": "assets/i18n/news-template.js",
-      "bytes": 1621,
-      "sha256": "b67681f16dfccdd435659a0cac1cc5a2f3456b38efb9cbe4a10cecc261ca22aa",
-      "size": 1621
+      "bytes": 1568,
+      "sha256": "33f8db74b2dfe971a8a7487292518c99e7213498631d4e2058663abc5a5c72b6",
+      "size": 1568
     },
     {
       "path": "assets/i18n/privacy.js",
-      "bytes": 168,
-      "sha256": "12e37c7e447ce0cd430ab8b4fad35a47b281ec7428c0f5c5a76143a12fe97dbb",
-      "size": 168
+      "bytes": 166,
+      "sha256": "7ef64c472a98f5b9b52aaa3a94eb78b8a5bdc2e07d8f6b477cb9b0b125364006",
+      "size": 166
     },
     {
       "path": "assets/i18n/sample-drawings-as-engineer.js",
-      "bytes": 9284,
-      "sha256": "b3b72732a20cde1bbb6030f0b5ada6084a1bb332135554ea0e90c1928ab689bf",
-      "size": 9284
+      "bytes": 9196,
+      "sha256": "18a6243a79c013022cdf22f1d4b47df5869a1ace8106ac9952fa1ad5ee2199c8",
+      "size": 9196
     },
     {
       "path": "assets/i18n/sample-hong-kong-gba.js",
-      "bytes": 8850,
-      "sha256": "4a93a9b6dfec5e4c1525d19607f6f9140605cfbe0a467d900d240f16f1e8146b",
-      "size": 8850
+      "bytes": 8762,
+      "sha256": "9cebdb8e6bef4d9e9c2b55a79fbe0dad04aa790fb71d7cb73de2451d780724bd",
+      "size": 8762
     },
     {
       "path": "assets/i18n/sample-llm-drawing-review.js",
-      "bytes": 8697,
-      "sha256": "d19f1698165413dcd2df00c890b6571eecaa3aee8762282e9518ad87352ef12e",
-      "size": 8697
+      "bytes": 8609,
+      "sha256": "e9ac0777330479de1b67c824d0a6ed8965ddf47f356bedf4dbd616468bc321ec",
+      "size": 8609
     },
     {
       "path": "assets/i18n/sample-pilot-to-practice.js",
-      "bytes": 8472,
-      "sha256": "ee3a84d3350a910633e20e662984c594f33125276bfa5feb388b3fbd877e8b46",
-      "size": 8472
+      "bytes": 8384,
+      "sha256": "7e7f6bb47cded1481aa16ef3dda55a93e2cfbf0c06c4872f47c419c0e7918fcc",
+      "size": 8384
     },
     {
       "path": "assets/i18n/sample-review-as-product.js",
-      "bytes": 8647,
-      "sha256": "0d3488b871678910f6f8fed7d89faf3d2fe3461b1d74562c59e3acde74418d3f",
-      "size": 8647
+      "bytes": 8559,
+      "sha256": "b557de652d48abc1e13ebdfd0b66f21e23f28b1c7959a3a4f4560b0f3c5f21d0",
+      "size": 8559
     },
     {
       "path": "assets/i18n/sample-sida-2026.js",
-      "bytes": 9463,
-      "sha256": "d9465c0c1219856d0a94d8d10b611d36b53d7d12bd7e20586a4a697b3b6ab978",
-      "size": 9463
+      "bytes": 9375,
+      "sha256": "8ceaea332001fa3c8f4eaea56abc5b0589ad8a3cad6ea86c8a41e1b91ba52c1b",
+      "size": 9375
     },
     {
       "path": "assets/i18n/sample-soda-assumptions.js",
-      "bytes": 9314,
-      "sha256": "0dd2d15d973e4f305d567a6cf795fd88b2db6019e9433173608dcff065acd357",
-      "size": 9314
+      "bytes": 9221,
+      "sha256": "5949dccf15fe5797f341c2659fc984067b0550368b2cea07af9ae7ccb609af7e",
+      "size": 9221
     },
     {
       "path": "assets/i18n/shared.js",
-      "bytes": 3958,
-      "sha256": "a6a4598c5912cb230e3b3721317aab9a2caaa28441d2119f32c929a52d88a5d6",
-      "size": 3958
+      "bytes": 3795,
+      "sha256": "b7a2745e63abaf71504d110ee0bfc5e98aa08f40f3adeea847c279081f38587b",
+      "size": 3795
     },
     {
       "path": "assets/i18n/terms.js",
-      "bytes": 166,
-      "sha256": "52645740658808481123075892d3de2f49005cf5ed327a5b2e0ad56581a9ba33",
-      "size": 166
+      "bytes": 164,
+      "sha256": "7446f98c4996c814f46e4266f13e1aa583376aafbe2594386012f65bc281b4a5",
+      "size": 164
     },
     {
       "path": "assets/illustrations/haoyi-zhang.png",
@@ -363,15 +363,15 @@
     },
     {
       "path": "assets/legal.css",
-      "bytes": 9267,
-      "sha256": "02f75f0ca4620b08c56679837aa68e707101f4b8c3a2ac05f47cf0f68e55d6a4",
-      "size": 9267
+      "bytes": 8734,
+      "sha256": "958a776c027e069b09450818f96a6da090bb56e0580312d05b255a5037f8f7bd",
+      "size": 8734
     },
     {
       "path": "assets/motion.css",
-      "bytes": 4103,
-      "sha256": "1ee354de54668811f5756636ae18cfc73a54d13bf6cda6b27ef267ab949f9735",
-      "size": 4103
+      "bytes": 4062,
+      "sha256": "626800a7c34eb070761f8315eca8f028078ed3cc951c318155f01a5fc7838c39",
+      "size": 4062
     },
     {
       "path": "assets/motion.js",
@@ -393,9 +393,9 @@
     },
     {
       "path": "assets/practice.css",
-      "bytes": 19464,
-      "sha256": "b51396f76d9ce0e4bb069bbf5629c1402f4acca44cdfd1319e60033ae77ec36f",
-      "size": 19464
+      "bytes": 19216,
+      "sha256": "6f52291ac514620b348ae8da0f662d61410f5763eade9f753edcce6d9db30037",
+      "size": 19216
     },
     {
       "path": "assets/sida-panels.css",
@@ -417,21 +417,21 @@
     },
     {
       "path": "assets/site.css",
-      "bytes": 24435,
-      "sha256": "12684329bf6ae4fe292c4ae2a337167ff465f9a506846728f2c007cd814ce440",
-      "size": 24435
+      "bytes": 24260,
+      "sha256": "7fd5d6213cf23d9856ef9430922c155a8daf95bde9624d75f44357d145c55a7c",
+      "size": 24260
     },
     {
       "path": "assets/site.js",
-      "bytes": 14555,
-      "sha256": "155fc807e162333d34debbeeab499429bb7981286c54e31de09db936a9ce84c4",
-      "size": 14555
+      "bytes": 14221,
+      "sha256": "2af542697ef78a5ff7ed07e6b93e50d850cc8f9ebea6d57670fee9fc8679db28",
+      "size": 14221
     },
     {
       "path": "assets/token-usage.css",
-      "bytes": 18863,
-      "sha256": "2ab4d2c551fea4c40a147cb6aec7c0f251f427f8241026a0f0a5f31952083139",
-      "size": 18863
+      "bytes": 18037,
+      "sha256": "62acdd95fc8eb23632a27885c1b1e624de7ba4d19a7832ff4bc9b4313813d90d",
+      "size": 18037
     },
     {
       "path": "assets/token-usage.js",
@@ -447,75 +447,75 @@
     },
     {
       "path": "index.html",
-      "bytes": 29964,
-      "sha256": "f1b7dc7fbd6e36859dffee5d8705da58ab34ccd8acdd962588f2ad9b1e46f7cf",
-      "size": 29964
+      "bytes": 29947,
+      "sha256": "5b3728cff02c97a644c18d27a74d4dc64be8e64e36804531d115d21e93a900d9",
+      "size": 29947
     },
     {
       "path": "news/_template.html",
-      "bytes": 10102,
-      "sha256": "3308be3bba47a3cba02b93adbf9a382e43dfabeb631c9d02477b58e284c75d50",
-      "size": 10102
+      "bytes": 9982,
+      "sha256": "3f688868b11d7c2f532d2422de9385e3437bb699f27220c48768754690bd1832",
+      "size": 9982
     },
     {
       "path": "news/sample-drawings-as-engineer.html",
-      "bytes": 13802,
-      "sha256": "335589045156e2bcda3ce1637f90bdc3801161f09ea3efdba4e292206b8ebf56",
-      "size": 13802
+      "bytes": 13676,
+      "sha256": "3eef6c7320b474604e08f36c8365a465d129d4c8b572c9c3812af6737474b85a",
+      "size": 13676
     },
     {
       "path": "news/sample-hong-kong-gba.html",
-      "bytes": 13501,
-      "sha256": "7c3d5615bf442f702ace848307c93168b55aaf91bc91c412b9a6ef3ec2198e40",
-      "size": 13501
+      "bytes": 13375,
+      "sha256": "8257e17d1ac197524b338d050ecc67f3c19be1dee00f04a53047aad068b0ac14",
+      "size": 13375
     },
     {
       "path": "news/sample-llm-drawing-review.html",
-      "bytes": 13657,
-      "sha256": "e93beb4172c9d869a9e152c5e41a3fb44c051d5e47d2d86c4cc5c1a07ecd04c7",
-      "size": 13657
+      "bytes": 13531,
+      "sha256": "fa6873286532c9906cc0884b15e42644e12c80af46cf097a9f3ad09c72e60c13",
+      "size": 13531
     },
     {
       "path": "news/sample-pilot-to-practice.html",
-      "bytes": 13445,
-      "sha256": "ccd17fdba4470ff3db9514dfe7fec1ac26fb1bdcd2242c26528f1ad6513437b0",
-      "size": 13445
+      "bytes": 13319,
+      "sha256": "9eebc2945387291cb431a1ebb2aaf8aeacba7b8463ba65574cf5dfa684f2edb6",
+      "size": 13319
     },
     {
       "path": "news/sample-review-as-product.html",
-      "bytes": 13637,
-      "sha256": "9dc3c7b4e6876da916e0b542f9cce89a54130148cfe292ca9ae257cec7a94cde",
-      "size": 13637
+      "bytes": 13511,
+      "sha256": "6cf6a48afb55efabd54805ede760c69511499c2cb02e76f3119eb5db88a34972",
+      "size": 13511
     },
     {
       "path": "news/sample-sida-2026.html",
-      "bytes": 13743,
-      "sha256": "d57fce97f6da8bfad67bd224c828da317591ced09d65fb12ec631d1c7c5f41fd",
-      "size": 13743
+      "bytes": 13617,
+      "sha256": "12b312dbaa490a946db7a3c903a3f96aedffa5daa4751f34946839d8316fa959",
+      "size": 13617
     },
     {
       "path": "news/sample-soda-assumptions.html",
-      "bytes": 13901,
-      "sha256": "c6cfbf49cd6cce1460dceafbbd8e997d4460aca821f53feb0e6c06b3a271b5bf",
-      "size": 13901
+      "bytes": 13774,
+      "sha256": "e0e952d37161641e10cf91ead19a790698a9c2e17985ca4a518fa1f1604f25fa",
+      "size": 13774
     },
     {
       "path": "privacy.html",
-      "bytes": 43790,
-      "sha256": "c9817912a64b1d99a097ec950cb2eb59c2a61d34593b504d089ec75edf6472da",
-      "size": 43790
+      "bytes": 43388,
+      "sha256": "faaf1fa482487a9a05ab4b5f3b828ac71cc4c95b0d3702245e9db351a4660c1e",
+      "size": 43388
     },
     {
       "path": "robots.txt",
-      "bytes": 67,
-      "sha256": "b586ce2c8d6597f590b06c569286b36d0a010bfef5dd35affcc8d37179a8617c",
-      "size": 67
+      "bytes": 64,
+      "sha256": "bb4a5f7530a2d0c103bb18eb9d12354ec30454fd419d672e0953d1404515df8c",
+      "size": 64
     },
     {
       "path": "site.webmanifest",
-      "bytes": 273,
-      "sha256": "a3832dae9c2144d90ec7efe2f2082c7256720c9f1110f7506031a846a9614831",
-      "size": 273
+      "bytes": 260,
+      "sha256": "fd2f384cbf7c44dfb158ab06f09351c2dff91ff9bd1743a5bb1795c7827f52e7",
+      "size": 260
     },
     {
       "path": "sitemap.xml",
@@ -525,9 +525,9 @@
     },
     {
       "path": "terms.html",
-      "bytes": 52108,
-      "sha256": "bd438b5ed9f6ff1f8a58e4a2958080f9314b94cd4e5e37bc4927e102e052e928",
-      "size": 52108
+      "bytes": 51743,
+      "sha256": "0d356f39304751ad6a4202b4ad7be51aa111b4f5d805276dd540db8542bc749c",
+      "size": 51743
     }
   ]
 }

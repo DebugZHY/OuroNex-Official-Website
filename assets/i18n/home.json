@@ -598,5 +598,15 @@
     "en": "Director",
     "zh-CN": "董事",
     "zh-TW": "董事"
+  },
+  "home.tendering": {
+    "en": "Tendering",
+    "zh-CN": "投标",
+    "zh-TW": "投標"
+  },
+  "home.tendering-copy": {
+    "en": "Automates the whole tendering workflow, shortening preparation cycles and cutting costs.",
+    "zh-CN": "为整个投标工作流提供自动化，大幅缩短准备周期，降低成本。",
+    "zh-TW": "為整個投標工作流提供自動化，大幅縮短準備週期，降低成本。"
   }
 }
