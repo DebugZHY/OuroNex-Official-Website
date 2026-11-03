@@ -470,9 +470,9 @@
     "zh-TW": "現場諮詢"
   },
   "home.flow-entry-1-copy": {
-    "en": "We walk your live workflow and map where the hours go.",
-    "zh-CN": "一起走一遍真实工作流，找出时间花在哪里。",
-    "zh-TW": "一起走一遍真實工作流程，找出時間花在哪裡。"
+    "en": "Inspect your workflow for potential automation.",
+    "zh-CN": "检视你的工作流程，找出可自动化的环节。",
+    "zh-TW": "檢視你的工作流程，找出可自動化的環節。"
   },
   "home.flow-entry-2-kicker": {
     "en": "Scope already defined",
@@ -480,14 +480,14 @@
     "zh-TW": "範圍已經明確"
   },
   "home.flow-entry-2-title": {
-    "en": "Scoped proposal",
-    "zh-CN": "范围提案",
-    "zh-TW": "範圍提案"
+    "en": "Plan Refinement",
+    "zh-CN": "需求细化",
+    "zh-TW": "需求細化"
   },
   "home.flow-entry-2-copy": {
-    "en": "Scope, review points and delivery date priced up front.",
-    "zh-CN": "工作范围、复核节点与交付时间，事前定价。",
-    "zh-TW": "工作範圍、複核節點與交付時間，事前定價。"
+    "en": "Align your need with our delivery.",
+    "zh-CN": "把你的需求与我们的交付对齐。",
+    "zh-TW": "把你的需求與我們的交付對齊。"
   },
   "home.flow-entry-3-kicker": {
     "en": "Want to see it working",
@@ -520,14 +520,14 @@
     "zh-TW": "即開即用"
   },
   "home.flow-lane-1-title": {
-    "en": "Subscribe and use",
-    "zh-CN": "订阅并使用",
-    "zh-TW": "訂閱並使用"
+    "en": "Use SIDA directly",
+    "zh-CN": "直接使用 SIDA",
+    "zh-TW": "直接使用 SIDA"
   },
   "home.flow-lane-1-copy": {
-    "en": "Pay as you go or monthly; your codes loaded, data local.",
-    "zh-CN": "按量或包月，载入你的规范，数据留在本机。",
-    "zh-TW": "按量或包月，載入你的規範，資料留在本機。"
+    "en": "pay as you go or subscribe.",
+    "zh-CN": "按量付费或订阅。",
+    "zh-TW": "按量付費或訂閱。"
   },
   "home.flow-lane-2-kicker": {
     "en": "Your process, not ours",
