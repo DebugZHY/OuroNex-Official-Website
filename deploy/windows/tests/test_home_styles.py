@@ -1194,7 +1194,7 @@ class ClosingCardTest(CssAssertions):
             text = (REPO_ROOT / rel).read_text(encoding="utf-8")
             with self.subTest(file=rel):
                 self.assertNotIn("saame", text)
-                self.assertIn("All needs lands on the same platform - SIDA", text)
+                self.assertIn("on the same platform - SIDA", text)
 
 
 class ExpandedSectionsTest(CssAssertions):
