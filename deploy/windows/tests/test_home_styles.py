@@ -1178,6 +1178,16 @@ class ClosingCardTest(CssAssertions):
         self.assert_decl(find_rule(HOME_CSS, ".flow-final__logo"), "grid-area", "1/1",
                          where=".flow-final__logo")
 
+    def test_the_closing_node_is_sized_to_its_content(self) -> None:
+        bundle = (REPO_ROOT / "assets/business-flow.js").read_text(encoding="utf-8")
+        wide = re.search(r"delivery:\[(\d+),(\d+)\]", bundle)
+        tall = re.findall(r"delivery:\[(\d+),(\d+)\]", bundle)
+        self.assertTrue(tall, "the bundle must declare the closing node size")
+        # The mark sits beside the words now, so the card only needs room for two text lines.
+        for width, height in tall:
+            with self.subTest(size=(width, height)):
+                self.assertLessEqual(int(height), 130, "the closing node must hug its content")
+
     def test_the_sentence_is_spelled_same(self) -> None:
         for rel in ("index.html", "assets/i18n/home.json", "assets/i18n/home.js",
                     "tools/business-flow/src/index.jsx"):

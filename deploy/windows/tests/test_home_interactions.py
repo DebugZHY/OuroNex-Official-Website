@@ -98,7 +98,7 @@ EXPECTED_HEADINGS = (
     ("h3", "Use SIDA directly"),
     ("h3", "Workflow automation"),
     ("h3", "Customized SaaS"),
-    ("h3", "All needs lands on the same platform - SIDA"),
+    ("h3", "All needs land on the same platform - SIDA"),
     ("h2", "An engineering-led AI company"),
     ("h3", "Mr. Haoyi ZHANG"),
     ("h3", "Dr. Jake CHAN"),
