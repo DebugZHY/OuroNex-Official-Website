@@ -53,7 +53,8 @@ class HeroDemoMarkupTests(unittest.TestCase):
         self.assertRegex(self.css, r"\.hero-demo__stage\{[^}]*position:relative")
         self.assertRegex(self.css, r"\.hero-demo__stage\{[^}]*border-radius:16px")
         self.assertRegex(self.css, r"\.hero-demo__slide\{[^}]*position:absolute")
-        self.assertRegex(self.css, r"\.hero-demo__slide img\{[^}]*object-fit:contain")
+        self.assertRegex(self.css, r"\.hero-demo__slide img\{[^}]*object-fit:cover",
+                          "the art fills the frame; no letterbox may show")
         self.assertRegex(self.css, r"\.hero-demo__slide\.is-active\{[^}]*opacity:1")
         self.assertRegex(self.css, r"\.hero-demo__controls\{[^}]*justify-content:center")
         self.assertRegex(self.css, r"\.hero-demo__control\{[^}]*border-radius:999px")
@@ -67,14 +68,24 @@ class HeroDemoMarkupTests(unittest.TestCase):
         self.assertIn("box-shadow:none", body)
         self.assertIn("backdrop-filter:none", body)
 
-    def test_images_exist_at_the_same_size(self) -> None:
-        for path in SLIDES:
-            with self.subTest(path=path.name):
-                self.assertTrue(path.exists(), path)
-                data = path.read_bytes()
+    def test_the_declared_size_matches_the_real_pixels(self) -> None:
+        by_name = {path.name: path for path in SLIDES}
+        declared = {}
+        for match in re.finditer(
+            r'<img[^>]*src="assets/illustrations/(home-[1-4]\.png)"[^>]*>', self.index
+        ):
+            tag = match.group(0)
+            declared[match.group(1)] = (
+                int(re.search(r'width="(\d+)"', tag).group(1)),
+                int(re.search(r'height="(\d+)"', tag).group(1)),
+            )
+        self.assertEqual(sorted(declared), sorted(by_name))
+        for name, size in declared.items():
+            with self.subTest(slide=name):
+                data = by_name[name].read_bytes()
                 self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
-                width, height = struct.unpack(">II", data[16:24])
-                self.assertEqual((width, height), (3200, 2200))
+                self.assertEqual(struct.unpack(">II", data[16:24]), size,
+                                 "the attributes describe the real pixels")
 
     def test_javascript_loops_after_the_last_slide(self) -> None:
         self.assertIn("DEMO_INTERVAL_MS = 10000", self.js)
@@ -94,6 +105,16 @@ class HeroDemoMarkupTests(unittest.TestCase):
         )
         self.assertEqual(json.loads(result.stdout), [1, 2, 0, 0, 1, 0])
 
+
+
+    def test_the_third_slide_is_centred_rather_than_left_anchored(self) -> None:
+        figure = re.search(r'<figure class="hero-demo__slide hero-demo__slide--center"[^>]*>'
+                           r'\s*<img[^>]*home-3\.png', self.index, re.S)
+        self.assertIsNotNone(figure, "the model sits centre-right, so the crop is centred")
+        rule = re.search(r"\.hero-demo__slide--center img\{([^}]*)\}", self.css)
+        self.assertIsNotNone(rule)
+        self.assertIn("object-position:center", rule.group(1).replace(" ", ""),
+                      "the middle of the wide artwork is what survives the crop")
 
 
 class HeroDemoFocusTests(unittest.TestCase):
