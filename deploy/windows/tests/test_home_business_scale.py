@@ -20,6 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 INDEX_HTML = REPO_ROOT / "index.html"
 HOME_I18N = REPO_ROOT / "assets" / "i18n" / "home.json"
+MANIFEST = REPO_ROOT / "package-manifest.json"
 COPY_KEYS = (
     "home.tendering-copy",
     "home.specific-copy",
@@ -232,24 +233,82 @@ class BusinessFlowDesktopTests(BusinessScaleFixtures):
         self.assert_decl(mark, "display", "block")
         self.assert_decl(mark, "object-fit", "contain")
 
-    def test_delivery_rows_run_as_plain_hairline_rows(self):
+    def test_delivery_rows_are_photographic_bands_without_dividers(self):
         rows = self.base_rule(".delivery-rows")
         self.assert_decl(rows, "display", "grid")
         self.assert_decl(rows, "align-content", "start")
         row = self.base_rule(".delivery-row")
-        self.assert_decl(row, "grid-template-columns", "minmax(0,1fr) minmax(0,.56fr)")
+        self.assert_decl(row, "grid-template-columns", "minmax(0,1fr) minmax(0,.7fr)")
         self.assert_decl(row, "padding-block", "clamp(12px,1.5vh,16px)")
-        self.assert_decl(row, "border-top", "1px solid rgba(120,150,200,.16)")
+        self.assertNotIn("border-top", row, "adjacent groups carry no divider")
         self.assertNotIn("background", row, "the rows carry no card fill")
         self.assertNotIn("border-radius", row, "the rows carry no card corners")
-        self.assert_decl(self.base_rule(".delivery-row__figure"), "height",
-                         "clamp(96px,11.5vh,124px)")
+        figure = self.base_rule(".delivery-row__figure")
+        self.assert_decl(figure, "height", "clamp(196px,24vh,286px)")
+        self.assertEqual(figure.get("margin"), "clamp(-52px,-5vh,-30px) 0",
+                         "the photo is taller than its row and bites into the neighbours")
+        self.assert_decl(figure, "overflow", "hidden")
+        photo = self.base_rule(".delivery-row__figure img")
+        self.assert_decl(photo, "width", "100%")
+        self.assert_decl(photo, "height", "100%")
+        self.assert_decl(photo, "object-fit", "cover")
         flipped = self.base_rule(".delivery-row--flip")
-        self.assert_decl(flipped, "grid-template-columns", "minmax(0,.56fr) minmax(0,1fr)")
+        self.assert_decl(flipped, "grid-template-columns", "minmax(0,.7fr) minmax(0,1fr)")
         self.assert_decl(
             self.base_rule(".delivery-row--flip .delivery-row__figure"), "grid-column", "1"
         )
         self.assert_decl(self.base_rule(".application-layout h2"), "font-size", "clamp(38px,3.2vw,70px)")
+
+
+class DeliveryPhotoTests(unittest.TestCase):
+    """The three supplied photographs are wired to their own rows."""
+
+    PHOTOS = (
+        ("Project Planning", "assets/illustrations/project-planning.jpg", (1400, 882)),
+        ("Design Optimization", "assets/illustrations/design-optimization.jpg", (1400, 1071)),
+        ("Tendering", "assets/illustrations/tendering-web.jpg", (1400, 574)),
+        ("BIM Modelling", "assets/illustrations/bim-modelling-web.jpg", (1400, 1045)),
+    )
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        index = INDEX_HTML.read_text(encoding="utf-8")
+        start = index.index('id="application"')
+        cls.application = index[start:start + index[start:].index("</section>")]
+
+    def test_each_row_carries_its_own_photo(self) -> None:
+        for title, source, _ in self.PHOTOS:
+            with self.subTest(photo=source):
+                self.assertIn('src="%s"' % source, self.application)
+                self.assertEqual(self.application.count(source), 1)
+                self.assertIn(title, self.application)
+
+    def test_photos_declare_their_intrinsic_size(self) -> None:
+        for _, source, (width, height) in self.PHOTOS:
+            with self.subTest(photo=source):
+                match = re.search(
+                    r'<img[^>]*src="%s"[^>]*>' % re.escape(source), self.application
+                )
+                self.assertIsNotNone(match, source)
+                tag = match.group(0)
+                self.assertIn('width="%d"' % width, tag)
+                self.assertIn('height="%d"' % height, tag)
+                self.assertIn('alt=""', tag, "the row copy already names the step")
+
+    def test_every_row_now_carries_a_photo(self) -> None:
+        self.assertEqual(self.application.count('class="delivery-row__figure">'), 4)
+        self.assertNotIn(
+            "delivery-row__figure--placeholder",
+            self.application,
+            "no dashed placeholder is left in the delivered set",
+        )
+
+    def test_photos_are_manifest_listed(self) -> None:
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        paths = {entry["path"] for entry in manifest["files"]}
+        for _, source, _ in self.PHOTOS:
+            with self.subTest(photo=source):
+                self.assertIn(source, paths)
 
 
 class BusinessFlowMarkupTests(unittest.TestCase):

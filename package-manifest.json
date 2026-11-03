@@ -153,9 +153,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 55658,
-      "sha256": "613fa376008fa6dcccb195bde8f70afe798b4b127e2e3dc02af4e085ff924bbf",
-      "size": 55658
+      "bytes": 56115,
+      "sha256": "cf229db447219f5d240eba6900b6767a06a4f8878fdf6cec80b50db94ff5f537",
+      "size": 56115
     },
     {
       "path": "assets/home.js",
@@ -308,6 +308,18 @@
       "size": 164
     },
     {
+      "path": "assets/illustrations/bim-modelling-web.jpg",
+      "bytes": 296828,
+      "sha256": "4dcc43bd782dd7122e04000c422bbf134b398e9503cc6001da40cb23a9527259",
+      "size": 296828
+    },
+    {
+      "path": "assets/illustrations/design-optimization.jpg",
+      "bytes": 420627,
+      "sha256": "12658b5a71fc4160e67f215064f614babaf34c0ae156c8b99b7f2b09594fb673",
+      "size": 420627
+    },
+    {
       "path": "assets/illustrations/haoyi-zhang.png",
       "bytes": 386427,
       "size": 386427,
@@ -350,6 +362,12 @@
       "size": 2123332
     },
     {
+      "path": "assets/illustrations/project-planning.jpg",
+      "bytes": 282934,
+      "sha256": "b15906534a206812bdfef4f9110e18a13d786bac12521501ab423e429a5329cb",
+      "size": 282934
+    },
+    {
       "path": "assets/illustrations/sida-logo.png",
       "bytes": 357417,
       "sha256": "2a09deb138b5a3143c4860e604aa6df68bf0ab0553a82e6489777f239826c4d0",
@@ -360,6 +378,12 @@
       "bytes": 116445,
       "size": 116445,
       "sha256": "734b5e101b150ef99cfbffe89ea2ea30825bc5a69670989a02a0023a6c82d311"
+    },
+    {
+      "path": "assets/illustrations/tendering-web.jpg",
+      "bytes": 160741,
+      "sha256": "e7792d78519549573d1f159803e9dd04112b470120a0d02a093f25b09fb79cbf",
+      "size": 160741
     },
     {
       "path": "assets/legal.css",
@@ -447,9 +471,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 29946,
-      "sha256": "5512bed3f8912ed5cab8141cdc7d21d9c7e28b8ca0809ac0df34a1bbb444cd47",
-      "size": 29946
+      "bytes": 30209,
+      "sha256": "4a1ea8bcae16577e87915359b2d2bd222fc68c6b816cb42929887ab28b64a916",
+      "size": 30209
     },
     {
       "path": "news/_template.html",
