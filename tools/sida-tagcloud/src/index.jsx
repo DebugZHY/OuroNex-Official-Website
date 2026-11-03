@@ -58,12 +58,12 @@ const TAGS = ROWS.map(([family, value, count, title]) => ({
   family,
 }));
 
-const MIN_SIZE = 13;
-const MAX_SIZE = 36;
+const MIN_SIZE = 15.6;
+const MAX_SIZE = 43.2;
 // Phones get a smaller ceiling: one long document name at 36px cannot wrap inside
 // a 350px panel, and breaking inside a code name reads as a typo.
-const MIN_SIZE_NARROW = 12;
-const MAX_SIZE_NARROW = 24;
+const MIN_SIZE_NARROW = 14.4;
+const MAX_SIZE_NARROW = 28.8;
 const NARROW_BREAKPOINT = 760;
 const RANDOM_SEED = 7;
 
