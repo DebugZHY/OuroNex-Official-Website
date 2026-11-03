@@ -16,9 +16,9 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "SIDA"
   },
   "home.hero-description": {
-    "en": "The AI agent tailor-made for engineers.",
-    "zh-CN": "为工程师量身打造的 AI 智能体。",
-    "zh-TW": "為工程師量身打造的 AI 智慧體。"
+    "en": "From planning to design, SIDA automates every engineering stages with built-in experts and customizable extensions, connects your project files, professional tools and turn the needs into deliverables.",
+    "zh-CN": "从规划到设计，SIDA 通过内置专家与可定制扩展自动化每一个工程环节，连接你的项目文件与专业工具，把需求转化为可交付成果。",
+    "zh-TW": "從規劃到設計，SIDA 透過內建專家與可自訂擴充自動化每一個工程環節，連接你的專案檔案與專業工具，把需求轉化為可交付成果。"
   },
   "home.explore-features": {
     "en": "Explore the Features",

@@ -219,9 +219,9 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 23078,
-      "sha256": "5807c9c2616bd5a3e4a705213ace224179155a73ffe3660a2983f48e5510211f",
-      "size": 23078
+      "bytes": 23500,
+      "sha256": "8195a2a62be65c3a85d9aad6787bdfd50f887ac2c4168e541754fde6ac2ef3ac",
+      "size": 23500
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -399,9 +399,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 32848,
-      "sha256": "d1949fe2c682b37ed2a372fd3b4fcdc39429557693ba7ddf294830cb5ee780c5",
-      "size": 32848
+      "bytes": 33010,
+      "sha256": "59bfe9eb6907f7a91eb0b75e37965c3d7f95d601bb8618ea7e098e53707eaa6d",
+      "size": 33010
     },
     {
       "path": "news/_template.html",

@@ -1203,7 +1203,7 @@ class HomepageRedesignTest(CssAssertions):
         self.assertIn('<span class="hero-title__accent">A</span>gent</span>', html)
         description = re.search(r'<p class="hero-description">(.*?)</p>', html, re.S)
         self.assertIsNotNone(description, "the hero subtitle is required")
-        self.assertIn("The AI agent tailor-made for engineers.", description.group(1))
+        self.assertIn("From planning to design, SIDA automates every engineering stages with built-in experts and customizable extensions, connects your project files, professional tools and turn the needs into deliverables.", description.group(1))
         lines = re.findall(r'<span class="hero-description-line"[^>]*>', description.group(1))
         self.assertEqual(len(lines), 1, "the subtitle is a single block line")
         self.assert_decl(

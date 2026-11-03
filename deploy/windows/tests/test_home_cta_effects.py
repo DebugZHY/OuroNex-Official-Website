@@ -39,7 +39,7 @@ class HomeCtaEffectTests(unittest.TestCase):
 
     def test_hero_description_is_one_line(self) -> None:
         self.assertEqual(self.index.count('class="hero-description-line"'), 1)
-        self.assertIn("The AI agent tailor-made for engineers.", self.index)
+        self.assertIn("From planning to design, SIDA automates every engineering stages with built-in experts and customizable extensions, connects your project files, professional tools and turn the needs into deliverables.", self.index)
         self.assertNotIn("home.hero-description-2", self.index)
         self.assertIn(".hero-description-line{display:block}", self.css)
 
