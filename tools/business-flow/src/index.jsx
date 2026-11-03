@@ -34,7 +34,7 @@ const FALLBACK = {
   'home.flow-lane-3-title': 'Customized SaaS',
   'home.flow-lane-3-copy':
     'Tools for your need, integrated into SIDA.',
-  'home.flow-final-title': 'All needs lands on the same platform - SIDA',
+  'home.flow-final-title': 'All needs land on the same platform - SIDA',
   'home.flow-hint': 'Drag to explore',
   'home.flow-reset': 'Fit to view',
   'home.flow-zoom-in': 'Zoom in',
@@ -159,7 +159,12 @@ function buildGraph(t, axis, viewportWidth = 1000) {
     type: 'card',
     position: positions[node.id],
     data: { ...node, axis },
-    style: { width: sizes[node.tone][0], height: sizes[node.tone][1] },
+    // The closing card hugs its own content; the other cards keep the fixed
+    // sizes the layout is built around.
+    style:
+      node.tone === 'delivery'
+        ? { width: sizes.delivery[0], height: 'auto' }
+        : { width: sizes[node.tone][0], height: sizes[node.tone][1] },
     draggable: true,
     selectable: false,
   }));
