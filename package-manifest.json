@@ -356,6 +356,12 @@
       "sha256": "90ade1f77fd63cc2efd6456696f6133087cbf0c103ac5f6c9be1a34de6f5dcf0"
     },
     {
+      "path": "assets/illustrations/multidisciplinary-experts.png",
+      "bytes": 149242,
+      "sha256": "c19572dcb408abb8fc3eaea73a328e06db82c51749bc993b73e53ba5944d581a",
+      "size": 149242
+    },
+    {
       "path": "assets/illustrations/professional-tools.jpg",
       "bytes": 2123332,
       "sha256": "263ce504dbcd2243547347c8900df30482db55066a95945cfcfed7f202222f20",
@@ -423,9 +429,9 @@
     },
     {
       "path": "assets/sida-panels.css",
-      "bytes": 3500,
-      "sha256": "5b387a17cf55822110873630ee75b7d7888ff855f6459712a871ac9ad7393218",
-      "size": 3500
+      "bytes": 2520,
+      "sha256": "381ad3f0b9d1cb84c16d4d5f226011efd54021e967a396d90b35ad73e028d022",
+      "size": 2520
     },
     {
       "path": "assets/sida-tagcloud.js",
@@ -471,9 +477,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 30209,
-      "sha256": "4a1ea8bcae16577e87915359b2d2bd222fc68c6b816cb42929887ab28b64a916",
-      "size": 30209
+      "bytes": 29871,
+      "sha256": "2e0ddff62a0431f2737ed6db9c80f15942f46e54a23465e0afa11e6937ad1758",
+      "size": 29871
     },
     {
       "path": "news/_template.html",

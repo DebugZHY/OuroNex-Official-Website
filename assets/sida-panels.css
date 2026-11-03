@@ -37,24 +37,7 @@
   background:linear-gradient(180deg,rgba(12,22,36,.9),rgba(7,13,22,.9))
 }
 .feature-shot img{width:100%;height:100%;object-fit:contain;display:block}
-
-/* -- Placeholder card ---------------------------------------------------- */
-
-.feature-placeholder{
-  height:100%;min-height:0;display:grid;place-content:center;justify-items:center;gap:17px;
-  padding:34px;text-align:center;border:1px dashed rgba(155,181,210,.28);border-radius:19px;
-  background:linear-gradient(180deg,rgba(14,26,43,.35),rgba(8,15,25,.25))
-}
-.feature-placeholder__badge{
-  display:inline-flex;align-items:center;justify-content:center;width:67px;height:67px;
-  border-radius:22px;border:1px solid rgba(155,181,210,.22);color:#84b8ff;background:rgba(16,30,48,.7)
-}
-.feature-placeholder__title{margin:0;font-family:var(--display);font-size:26px;font-weight:600;color:#e6eef8}
-.feature-placeholder__copy{margin:0;max-width:34ch;font-size:18px;line-height:1.6;color:#8ea2b8}
-.feature-placeholder__tag{
-  margin:0;padding:4px 12px;border-radius:999px;border:1px solid rgba(155,181,210,.2);
-  font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:#7d93ab
-}
+.feature-shot--experts{aspect-ratio:1659/1146}
 
 @media(max-width:1200px){
   .feature-panels{--stage-h:clamp(420px,calc(100svh - 232px),620px)}
@@ -68,7 +51,6 @@
   .sida-tagcloud{min-height:340px}
   .sida-flow{min-height:400px}
   .feature-shot{min-height:280px}
-  .feature-placeholder{min-height:300px}
 }
 
 /* Short viewports: the section drops its 72px top padding, so the stage can keep its size. */

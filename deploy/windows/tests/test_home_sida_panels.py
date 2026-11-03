@@ -3,7 +3,7 @@
 Every ``.feature-panel`` now owns a single ``.feature-stage`` that fills a shared
 fixed body height, so switching tabs never moves the download row below. The
 stage content differs per tab: a React TagCloud of code names, a React Flow
-project workflow, the professional-tool illustration, and a placeholder.
+project workflow, the professional-tool illustration, and the bot-manager screenshot.
 
 Self-contained stdlib checks (regex, div slicing, manifest hashing); no browser,
 no server. The visual result is verified separately in Chrome.
@@ -187,13 +187,23 @@ class FeaturePanelStageTests(unittest.TestCase):
         shot = declarations(self.base, ".feature-shot img")
         self.assertEqual(shot.get("object-fit"), "contain", "the icon grid is never cropped")
 
-    # -- Multidisciplinary Experts: the placeholder ------------------------
+    # -- Multidisciplinary Experts: the bot-manager screenshot -------------
 
-    def test_experts_tab_holds_a_placeholder_card(self) -> None:
+    def test_experts_tab_shows_the_bot_manager_screenshot(self) -> None:
         block = self.panel("feature-experts")
-        self.assertIn('class="feature-placeholder"', block)
-        self.assertNotIn("<table", block)
-        self.assertNotIn("<img", block)
+        self.assertNotIn('class="feature-placeholder"', block, "the placeholder card is retired")
+        self.assertIn('class="feature-stage feature-stage--media"', block)
+        self.assertIn('class="feature-shot feature-shot--experts"', block)
+        self.assertIn('src="assets/illustrations/multidisciplinary-experts.png"', block)
+        self.assertIn('width="1659"', block)
+        self.assertIn('height="1146"', block)
+        self.assertRegex(block, r'alt="[^"]{20,}',
+                         "the dense screenshot needs a description")
+
+    def test_the_experts_frame_keeps_the_screenshot_ratio(self) -> None:
+        rule = declarations(self.base, ".feature-shot--experts")
+        self.assertEqual(rule.get("aspect-ratio"), "1659/1146",
+                         "the UI screenshot is not cropped by the 16:9 default")
 
     # -- shipped assets ----------------------------------------------------
 
@@ -204,6 +214,7 @@ class FeaturePanelStageTests(unittest.TestCase):
             "assets/sida-workflow.js",
             "assets/sida-tagcloud.js",
             "assets/illustrations/professional-tools.jpg",
+            "assets/illustrations/multidisciplinary-experts.png",
         ):
             with self.subTest(path=relative):
                 self.assertIn(relative, entries)
