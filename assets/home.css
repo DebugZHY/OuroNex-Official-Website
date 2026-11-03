@@ -245,7 +245,7 @@ html[data-flow="loading"] .business-flow .bf-loading{position:absolute;inset:0;z
 /* About: company introduction — intro, three body paragraphs and the three principles beside the shared card row. */
 .about-section{height:auto;min-height:100svh;background:transparent}
 .about-layout{flex:1;display:grid;align-content:center;align-items:center;width:min(1080px,calc(100% - 64px))!important;min-height:calc(100svh - var(--header-height));padding:0}
-.about-intro h2{margin:0;font-size:clamp(38px,3.2vw,70px);line-height:1.12;letter-spacing:-.04em}
+.about-intro h2{margin:0;font-size:clamp(38px,3.2vw,70px);line-height:1.28;letter-spacing:-.04em;padding-block:.08em;margin-block:-.08em}
 .about-lede{margin:12px 0 0;max-width:64ch;color:#b0bfd2;font-size:22px;line-height:1.55}
 
 

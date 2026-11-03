@@ -1160,6 +1160,15 @@ class ExpandedSectionsTest(CssAssertions):
         self.assertTrue(matches, f"missing base rule: {selector}")
         return matches[0]
 
+    def test_about_heading_box_holds_its_descenders(self) -> None:
+        rule = self.base(".about-intro h2")
+        self.assertEqual(squash(rule.get("line-height", "")), "1.28",
+                         "the About headline keeps a line box taller than the glyphs")
+        self.assertEqual(squash(rule.get("padding-block", "")), ".08em",
+                         "the reveal animation clips to the border box, so the box needs headroom")
+        self.assertEqual(squash(rule.get("margin-block", "")), "-.08em",
+                         "the headroom must not push the lede away")
+
     def test_wide_desktop_containers_use_the_available_page(self) -> None:
         hero = squash(self.base(".hero-inner").get("width", ""))
         self.assertIn("1920px", hero, "the hero keeps the expanded wide container")
