@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 55066,
-      "sha256": "30d1db0e444b47dfd8e131291826b82bb9e9e7518b4ae9e30c91b0213df4e11e",
-      "size": 55066
+      "bytes": 55050,
+      "sha256": "d436e1506c3af820bd6a9621a0a095be60c4961bd1613de413db89c553689185",
+      "size": 55050
     },
     {
       "path": "assets/home.js",
@@ -376,7 +376,7 @@
     {
       "path": "assets/sida-panels.css",
       "bytes": 4988,
-      "sha256": "5a7008f865c0652d8cfe1655019988445cd85f9f072417957d7094141ccfcc3c",
+      "sha256": "ac17ae644bf213df7be68c94ddbd7cbd327a778b61fa290a07352517c85536f1",
       "size": 4988
     },
     {

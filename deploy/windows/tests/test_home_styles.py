@@ -1184,7 +1184,7 @@ class ExpandedSectionsTest(CssAssertions):
         self.assert_decl(self.base(".hero-demo__stage"), "aspect-ratio", "3200/2200", where=".hero-demo__stage")
 
     def test_sida_tabs_panel_and_downloads_are_larger(self) -> None:
-        self.assert_decl(self.base(".feature-tabs"), "grid-template-columns", "448px minmax(0,1fr)", where=".feature-tabs")
+        self.assert_decl(self.base(".feature-tabs"), "grid-template-columns", "max-content minmax(0,1fr)", where=".feature-tabs")
         self.assert_decl(self.base(".feature-tab-list button"), "font", "500 24px/1.2 var(--display)", where=".feature-tab-list button")
         self.assert_decl(self.base(".feature-detail-card p"), "font-size", "20px", where=".feature-detail-card p")
         self.assert_decl(self.base(".feature-detail-card h3"), "font", "500 41px/1.16 var(--display)", where=".feature-detail-card h3")
@@ -1236,7 +1236,7 @@ class HomepageRedesignTest(CssAssertions):
         tabs = find_rules(HOME_CSS, ".feature-tabs")[0]
         self.assertEqual(
             squash(tabs.get("grid-template-columns", "")),
-            "448pxminmax(0,1fr)",
+            "max-contentminmax(0,1fr)",
             "the tab list is a fixed rail and the copy takes the rest",
         )
         stage_css = (ASSETS / "sida-panels.css").read_text(encoding="utf-8")

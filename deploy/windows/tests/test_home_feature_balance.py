@@ -27,9 +27,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 
-BASE_RAIL = "448px"
-MEDIUM_RAIL = "clamp(340px,40%,424px)"
-NARROW_RAIL = "clamp(320px,40%,380px)"
+BASE_RAIL = "max-content"
+MEDIUM_RAIL = "max-content"
+NARROW_RAIL = "max-content"
 
 BASE_TITLE_SIZE = "41px"
 BASE_TITLE_LINE_HEIGHT = "1.16"
@@ -203,7 +203,7 @@ class RailTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.css = sheet()
 
-    def test_base_grid_is_a_448px_rail_plus_copy(self):
+    def test_base_grid_is_a_content_rail_plus_copy(self):
         tabs = base(self.css, TABS)
         self.assertEqual(normalise(tabs.get("grid-template-columns", "")),
                          f"{BASE_RAIL}minmax(0,1fr)")
@@ -217,13 +217,13 @@ class RailTests(unittest.TestCase):
         tracks = [decl.get("grid-template-columns", "") for selectors, decl in wide
                   if normalise(TABS) in selectors]
         self.assertTrue(any(normalise(t).startswith(normalise(MEDIUM_RAIL)) for t in tracks),
-                        f"<=1200 swaps the fixed rail for the 30 % clamp, found {tracks}")
+                        f"<=1200 keeps the content rail, found {tracks}")
 
         tablet = rules(block(self.css, W1000))
         tracks = [decl.get("grid-template-columns", "") for selectors, decl in tablet
                   if normalise(TABS) in selectors]
         self.assertTrue(any(normalise(t).startswith(normalise(NARROW_RAIL)) for t in tracks),
-                        f"the tablet rail narrows to 280px, found {tracks}")
+                        f"the tablet band keeps the content rail, found {tracks}")
 
         self.assertNotIn("min-width:1001px", self.css,
                          "the tablet band alone owns 1001-1200, so the fixed rail is never "
@@ -266,7 +266,7 @@ class DirectoryRowTests(unittest.TestCase):
         listing = base(self.css, LIST)
         self.assertEqual(normalise(listing.get("align-content", "")), "center")
         self.assertEqual(normalise(listing.get("height", "")), "auto")
-        self.assertEqual(px(listing.get("padding-right", "")), 48.0)
+        self.assertEqual(px(listing.get("padding-right", "")), 36.0)
         self.assertEqual(normalise(listing.get("gap", "")), "0")
         self.assertEqual(normalise(listing.get("border", "")), "0",
                          "the rail drops the inherited tablist underline")
@@ -300,7 +300,7 @@ class CopyColumnTests(unittest.TestCase):
 
     def test_column_carries_a_rule_with_a_blue_fade(self):
         panels = base(self.css, PANELS)
-        self.assertEqual(px(panels.get("padding-left", "")), 56.0)
+        self.assertEqual(px(panels.get("padding-left", "")), 44.0)
         self.assertEqual(normalise(panels.get("border-left", "")), HAIRLINE)
         fade = base(self.css, PANELS + "::before")
         self.assertEqual(px(fade.get("width", "")), 1.0)

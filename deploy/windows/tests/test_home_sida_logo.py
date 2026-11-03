@@ -37,9 +37,9 @@ COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
 
 # Desktop: the list keeps a quarter of the width, the cards reclaim the rest.
-DESKTOP_COLUMNS = "448px minmax(0,1fr)"
+DESKTOP_COLUMNS = "max-content minmax(0,1fr)"
 # Tablet widths keep the same narrow directory and expanded card area.
-TABLET_COLUMNS = "clamp(340px,40%,424px) minmax(0,1fr)"
+TABLET_COLUMNS = "max-content minmax(0,1fr)"
 SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 
 TABS = (
@@ -196,7 +196,8 @@ class FeatureTabShellTests(unittest.TestCase):
     def test_left_column_is_a_fixed_rail_and_the_cards_reclaim_the_rest(self):
         tabs = declarations(self.base, ".feature-tabs")
         tracks = normalise(tabs.get("grid-template-columns", ""))
-        self.assertTrue(tracks.startswith("448px"), "the tab list is a fixed 448px rail")
+        self.assertTrue(tracks.startswith("max-content"),
+                        "the tab list is only as wide as its labels")
         self.assertEqual(tracks.count("minmax("), 1,
                          "only the card column grows with the viewport")
 
