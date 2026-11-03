@@ -1168,7 +1168,7 @@ class ExpandedSectionsTest(CssAssertions):
         application = squash(self.base(".application-layout").get("width", ""))
         self.assertIn("1180px", application, "the application column keeps the 1180 block")
         feature = squash(self.base(".feature-layout").get("width", ""))
-        self.assertIn("1180px", feature, "the SIDA block keeps a narrower column than the hero")
+        self.assertIn("1332px", feature, "the SIDA block keeps a column of its own next to the hero")
         self.assertEqual(squash(self.base(".feature-layout").get("margin-inline", "")), "auto",
                          "the narrower SIDA block stays centred")
 

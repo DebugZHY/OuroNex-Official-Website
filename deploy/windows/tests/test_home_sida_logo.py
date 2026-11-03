@@ -235,7 +235,7 @@ class FeatureTabShellTests(unittest.TestCase):
 
     def test_sida_section_keeps_room_for_the_release_note(self):
         section = declarations(self.base, ".sida-section")
-        self.assertEqual(normalise(section.get("padding-bottom", "")), normalise("32px"),
+        self.assertEqual(normalise(section.get("padding-bottom", "")), normalise("8px"),
                          "the section keeps its own bottom padding outside the clipped note")
 
     def test_foundation_one_font_is_removed(self):

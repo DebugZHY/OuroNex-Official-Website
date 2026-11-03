@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 54547,
-      "sha256": "05b248a4882668856344a9aa9bfaceea2cbdda117a5a52595789246a146164ef",
-      "size": 54547
+      "bytes": 54545,
+      "sha256": "ed2d074f50cf9f3ffeab332ea0b20ee55daaf3aad8f5e04576b4a9977c70f972",
+      "size": 54545
     },
     {
       "path": "assets/home.js",
@@ -375,15 +375,15 @@
     },
     {
       "path": "assets/sida-panels.css",
-      "bytes": 3196,
-      "sha256": "4af61eabafc7e7ce21dac5e01fe08d1e01d3d319910bc30a0833714fe6d45306",
-      "size": 3196
+      "bytes": 3500,
+      "sha256": "5b387a17cf55822110873630ee75b7d7888ff855f6459712a871ac9ad7393218",
+      "size": 3500
     },
     {
       "path": "assets/sida-tagcloud.js",
-      "bytes": 55377,
-      "sha256": "934bb532918daa0f54f14654a9799b9b2953cd45a18bedc196abd31e29a1ee15",
-      "size": 55377
+      "bytes": 55388,
+      "sha256": "43c74fdbb9b77d7a419879bcdb5e36714c36556a5c31a81bd0ad14e934035c94",
+      "size": 55388
     },
     {
       "path": "assets/sida-workflow.js",

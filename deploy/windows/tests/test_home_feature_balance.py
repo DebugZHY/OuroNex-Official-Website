@@ -2,7 +2,7 @@
 
 Contract pinned here:
 
-* the section content is centred; ``.feature-layout`` is one 1180px column and
+* the section content is centred; ``.feature-layout`` is one 1332px column and
   ``.feature-tabs`` is a grid of a 448px rail plus the copy column, both
   vertically centred on one another;
 * the rail is a list of hairline rows: no card boxes, no radius, no fill, a 2px
@@ -176,7 +176,7 @@ class ShellTests(unittest.TestCase):
         self.assertEqual(normalise(section.get("background", "")), "transparent",
                          "the SIDA section paints no panel of its own")
         self.assertEqual(normalise(section.get("justify-content", "")), "center")
-        self.assertEqual(px(section.get("padding-bottom", "")), 32.0)
+        self.assertEqual(px(section.get("padding-bottom", "")), 8.0)
 
     def test_layout_centres_one_1180_column(self):
         layout = base(self.css, ".feature-layout")
@@ -184,13 +184,13 @@ class ShellTests(unittest.TestCase):
         self.assertEqual(normalise(layout.get("gap", "")), "0")
         self.assertEqual(normalise(layout.get("padding", "")), "0",
                          "the copy block leaves all spacing to the CTA row")
-        self.assertIn("min(1180px,calc(100%-120px))",
+        self.assertIn("min(1332px,calc(100%-64px))",
                       normalise(layout.get("width", "")),
-                      "the SIDA column is capped at 1180px")
+                      "the SIDA column is capped at 1332px")
 
     def test_cta_row_is_pushed_away_from_the_copy(self):
         row = base(self.css, ".sida-section .download-row")
-        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(34px,4.4vh,58px)",
+        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(14px,1.8vh,26px)",
                          "the download row keeps a clear break below the copy")
 
     def test_no_fixed_shared_height_survives(self):
@@ -300,7 +300,7 @@ class CopyColumnTests(unittest.TestCase):
 
     def test_column_carries_a_rule_with_a_blue_fade(self):
         panels = base(self.css, PANELS)
-        self.assertEqual(px(panels.get("padding-left", "")), 44.0)
+        self.assertEqual(px(panels.get("padding-left", "")), 53.0)
         self.assertEqual(normalise(panels.get("border-left", "")), HAIRLINE)
         fade = base(self.css, PANELS + "::before")
         self.assertEqual(px(fade.get("width", "")), 1.0)

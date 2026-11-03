@@ -1,6 +1,6 @@
 /* SIDA feature panels: one fixed stage per tab so the download row never moves. */
 
-.feature-panels{--stage-h:clamp(460px,62vh,584px);height:var(--stage-h);min-height:0}
+.feature-panels{--stage-h:clamp(460px,calc(100svh - 232px),700px);height:var(--stage-h);min-height:0}
 .feature-panel{height:100%;min-height:0}
 .feature-stage{height:100%;min-height:0;display:grid;place-content:stretch}
 .feature-stage--media{place-content:center}
@@ -9,31 +9,31 @@
 
 .sida-tagcloud{
   position:relative;height:100%;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;
-  gap:14px;align-items:center;overflow:hidden;padding:20px 24px;
-  border:1px solid rgba(155,181,210,.14);border-radius:16px;
+  gap:17px;align-items:center;overflow:hidden;padding:24px 29px;
+  border:1px solid rgba(155,181,210,.14);border-radius:19px;
   background:linear-gradient(180deg,rgba(16,29,47,.62),rgba(9,17,28,.42))
 }
 .sida-tagcloud__cloud{
   min-height:0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
 }
-.sida-tagcloud__fallback{margin:0;align-self:center;justify-self:center;color:#7d93ab;font-size:14px}
+.sida-tagcloud__fallback{margin:0;align-self:center;justify-self:center;color:#7d93ab;font-size:17px}
 
 /* -- Complex workflow (react-flow) --------------------------------------- */
 
 .sida-flow{
-  position:relative;height:100%;min-height:0;overflow:hidden;border-radius:16px;
+  position:relative;height:100%;min-height:0;overflow:hidden;border-radius:19px;
   border:1px solid rgba(155,181,210,.14);
   background:radial-gradient(120% 90% at 50% 0%,rgba(21,40,64,.55),rgba(8,15,25,.75))
 }
 .sida-flow__fallback{
-  position:absolute;inset:0;display:grid;place-items:center;margin:0;color:#7d93ab;font-size:14px
+  position:absolute;inset:0;display:grid;place-items:center;margin:0;color:#7d93ab;font-size:17px
 }
 
 /* -- Professional tools screenshot --------------------------------------- */
 
 .feature-shot{
   width:100%;height:auto;aspect-ratio:16/9;max-height:100%;margin:0;display:grid;place-items:center;
-  overflow:hidden;border-radius:16px;border:1px solid rgba(155,181,210,.14);
+  overflow:hidden;border-radius:19px;border:1px solid rgba(155,181,210,.14);
   background:linear-gradient(180deg,rgba(12,22,36,.9),rgba(7,13,22,.9))
 }
 .feature-shot img{width:100%;height:100%;object-fit:contain;display:block}
@@ -41,32 +41,38 @@
 /* -- Placeholder card ---------------------------------------------------- */
 
 .feature-placeholder{
-  height:100%;min-height:0;display:grid;place-content:center;justify-items:center;gap:14px;
-  padding:28px;text-align:center;border:1px dashed rgba(155,181,210,.28);border-radius:16px;
+  height:100%;min-height:0;display:grid;place-content:center;justify-items:center;gap:17px;
+  padding:34px;text-align:center;border:1px dashed rgba(155,181,210,.28);border-radius:19px;
   background:linear-gradient(180deg,rgba(14,26,43,.35),rgba(8,15,25,.25))
 }
 .feature-placeholder__badge{
-  display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;
-  border-radius:18px;border:1px solid rgba(155,181,210,.22);color:#84b8ff;background:rgba(16,30,48,.7)
+  display:inline-flex;align-items:center;justify-content:center;width:67px;height:67px;
+  border-radius:22px;border:1px solid rgba(155,181,210,.22);color:#84b8ff;background:rgba(16,30,48,.7)
 }
-.feature-placeholder__title{margin:0;font-family:var(--display);font-size:22px;font-weight:600;color:#e6eef8}
-.feature-placeholder__copy{margin:0;max-width:34ch;font-size:15px;line-height:1.6;color:#8ea2b8}
+.feature-placeholder__title{margin:0;font-family:var(--display);font-size:26px;font-weight:600;color:#e6eef8}
+.feature-placeholder__copy{margin:0;max-width:34ch;font-size:18px;line-height:1.6;color:#8ea2b8}
 .feature-placeholder__tag{
-  margin:0;padding:3px 10px;border-radius:999px;border:1px solid rgba(155,181,210,.2);
-  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#7d93ab
+  margin:0;padding:4px 12px;border-radius:999px;border:1px solid rgba(155,181,210,.2);
+  font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:#7d93ab
 }
 
 @media(max-width:1200px){
-  .feature-panels{--stage-h:clamp(400px,57vh,520px)}
-  .sida-tagcloud{padding:14px 16px;gap:10px}
+  .feature-panels{--stage-h:clamp(420px,calc(100svh - 232px),620px)}
+  .sida-tagcloud{padding:17px 19px;gap:12px}
 }
 
 @media(max-width:760px){
   .feature-panels{--stage-h:auto;height:auto}
   .feature-panel{height:auto}
-  .feature-stage{height:auto;min-height:320px}
-  .sida-tagcloud{min-height:300px}
-  .sida-flow{min-height:340px}
-  .feature-shot{min-height:240px}
-  .feature-placeholder{min-height:260px}
+  .feature-stage{height:auto;min-height:360px}
+  .sida-tagcloud{min-height:340px}
+  .sida-flow{min-height:400px}
+  .feature-shot{min-height:280px}
+  .feature-placeholder{min-height:300px}
+}
+
+/* Short viewports: the section drops its 72px top padding, so the stage can keep its size. */
+@media(max-height:800px) and (min-height:601px) and (min-width:761px){
+  .sida-section{padding-top:24px}
+  .feature-panels{--stage-h:clamp(360px,calc(100svh - 272px),540px)}
 }

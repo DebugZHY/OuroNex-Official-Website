@@ -103,8 +103,8 @@
 .hero-demo__stage:focus::before,.hero-demo__stage:focus-visible::before{opacity:1}
 .hero-demo.is-focused .hero-demo__control.is-active::after{animation-play-state:paused}
 /* SIDA: a quiet directory rail beside three detail rows. */
-.sida-section{background:transparent;padding-bottom:32px;justify-content:center}
-.feature-layout{flex:none;min-height:0;display:grid;align-content:center;gap:0;padding:0;margin-inline:auto;width:min(1180px,calc(100% - 120px))!important}
+.sida-section{background:transparent;padding-bottom:8px;justify-content:center}
+.feature-layout{flex:none;min-height:0;display:grid;align-content:center;gap:0;padding:0;margin-inline:auto;width:min(1332px,calc(100% - 64px))!important}
 .feature-tabs{display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:center;gap:0;min-height:0}
 .feature-tab-list{display:grid;grid-auto-rows:auto;align-content:center;height:auto;padding-right:36px;gap:0;border:0}
 .feature-tab-list button{position:relative;min-height:0;display:grid;grid-template-columns:64px minmax(0,1fr);align-items:center;column-gap:19px;padding:29px 9px 29px 27px;border:0;border-top:1px solid rgba(155,181,210,.13);border-radius:0;background:none;color:#9cb2c8;text-align:left;font:500 24px/1.2 var(--display);letter-spacing:-.012em;white-space:normal;overflow-wrap:break-word;cursor:pointer;transition:color .22s ease}
@@ -117,7 +117,7 @@
 .feature-tab-list button:hover .directory-icon{color:#c7d9ee;filter:drop-shadow(0 0 6px rgba(114,158,255,.4))}
 .feature-tab-list button[aria-selected=true]{color:#f4f9ff;background:none;border-color:rgba(155,181,210,.13);box-shadow:none}
 .feature-tab-list button[aria-selected=true] .directory-icon{color:#e6f1ff;filter:drop-shadow(0 0 6px rgba(114,158,255,.6)) drop-shadow(0 0 14px rgba(114,158,255,.24))}
-.feature-panels{position:relative;height:auto;min-height:0;padding-left:44px;border-left:1px solid rgba(155,181,210,.13)}
+.feature-panels{position:relative;height:auto;min-height:0;padding-left:53px;border-left:1px solid rgba(155,181,210,.13)}
 .feature-panels::before{content:"";position:absolute;left:-1px;top:0;width:1px;height:136px;background:linear-gradient(180deg,#729eff,rgba(114,158,255,0))}
 .feature-panel{height:auto;min-height:0;padding:0;border:0;background:transparent;overflow:visible}
 .feature-panel[hidden]{display:none}
@@ -132,7 +132,7 @@
 
 
 .download-row{display:flex;align-items:center;justify-content:space-between;gap:20px}
-.sida-section .download-row{margin-top:clamp(34px,4.4vh,58px)}
+.sida-section .download-row{margin-top:clamp(14px,1.8vh,26px)}
 /* Windows, Mac and Request early access share one row; the release note follows. */
 .sida-section .download-actions{display:grid;grid-template-columns:repeat(3,auto);align-items:center;justify-content:center;gap:24px 20px;width:min(100%,900px);margin-inline:auto}
 .sida-section .download-actions .button{width:auto;min-height:64px;padding:16px 24px;justify-content:flex-start;gap:12px;border-radius:999px;font-size:20px;font-weight:600;line-height:1.2;white-space:nowrap}
