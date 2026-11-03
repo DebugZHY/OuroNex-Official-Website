@@ -232,12 +232,13 @@ class BusinessFlowDesktopTests(BusinessScaleFixtures):
         self.assert_decl(mark, "display", "block")
         self.assert_decl(mark, "object-fit", "contain")
 
-    def test_delivery_cards_move_to_the_application_section(self):
-        self.assert_decl(self.base_rule(".delivery-grid"), "gap", "20px")
-        article = self.base_rule(".delivery-grid article")
-        self.assert_decl(article, "min-height", "186px")
-        self.assert_decl(article, "padding", "30px")
-        self.assert_decl(article, "justify-content", "center")
+    def test_delivery_rows_alternate_copy_and_picture(self):
+        self.assert_decl(self.base_rule(".delivery-rows"), "gap", "clamp(16px,2.2vh,26px)")
+        row = self.base_rule(".delivery-row")
+        self.assert_decl(row, "grid-template-columns", "minmax(0,1fr) minmax(0,1fr)")
+        self.assert_decl(row, "padding", "30px")
+        self.assert_decl(self.base_rule(".delivery-row__figure"), "order", "2")
+        self.assert_decl(self.base_rule(".delivery-row--flip .delivery-row__figure"), "order", "-1")
         self.assert_decl(self.base_rule(".application-layout h2"), "font-size", "clamp(38px,3.2vw,70px)")
 
 
@@ -305,11 +306,13 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
         self.assert_decl(self.media_rule(body, ".flow-card h3"), "font-size", "19px")
         self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "14px")
         self.assert_decl(self.media_rule(body, ".flow-final h3"), "font-size", "17px")
-        self.assert_decl(self.media_rule(body, ".delivery-grid article"), "min-height", "0")
+        self.assert_decl(
+            self.media_rule(body, ".delivery-row"), "grid-template-columns", "minmax(0,1fr)"
+        )
 
     def test_narrow_refinement_keeps_a_compact_scale(self):
         body, _offset = self.media_block(NARROW)
-        self.assert_decl(self.media_rule(body, ".delivery-grid article"), "padding", "12px")
+        self.assert_decl(self.media_rule(body, ".delivery-row"), "padding", "12px")
         self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "14px 16px 16px")
         self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "13px")
 
@@ -322,8 +325,8 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
             ".flow-card",
             ".flow-copy",
             ".flow-final",
-            ".delivery-grid",
-            ".delivery-grid article",
+            ".delivery-rows",
+            ".delivery-row",
         )
         late = [
             selector
@@ -336,9 +339,7 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
 
     def test_short_desktop_keeps_the_compact_cards(self):
         body, _offset = self.media_block(SHORT_DESKTOP, TABLET_MIN)
-        article = self.media_rule(body, ".delivery-grid article")
-        self.assert_decl(article, "min-height", "0")
-        self.assert_decl(article, "padding", "18px")
+        self.assert_decl(self.media_rule(body, ".delivery-row"), "padding", "18px")
         self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "18px 20px 20px")
         self.assert_decl(self.media_rule(body, ".flow-card h3"), "font-size", "20px")
 

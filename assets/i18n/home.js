@@ -441,9 +441,9 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "OuroNex 為結構工程打造 AI 工具，把設計意圖轉化為經得起專業實踐檢驗的分析、校核與文件。"
   },
   "home.about-founder-name": {
-    "en": "Haoyi ZHANG",
-    "zh-CN": "Haoyi ZHANG",
-    "zh-TW": "Haoyi ZHANG"
+    "en": "Mr. Haoyi ZHANG",
+    "zh-CN": "Mr. Haoyi ZHANG",
+    "zh-TW": "Mr. Haoyi ZHANG"
   },
   "home.about-founder-role": {
     "en": "Founder and Director",
@@ -589,5 +589,15 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "en": "Zoom out",
     "zh-CN": "缩小",
     "zh-TW": "縮小"
+  },
+  "home.about-director-name": {
+    "en": "Dr. Jake CHAN",
+    "zh-CN": "Dr. Jake CHAN",
+    "zh-TW": "Dr. Jake CHAN"
+  },
+  "home.about-director-role": {
+    "en": "Director",
+    "zh-CN": "董事",
+    "zh-TW": "董事"
   }
 });

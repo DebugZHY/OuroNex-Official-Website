@@ -150,11 +150,35 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div class="application-intro">
 <h2><span data-i18n="home.what-deliver">What we deliver</span></h2>
 </div>
-<div class="delivery-grid">
-<article><h3><span data-i18n="home.general-automation">Free Documentation</span></h3><p><span data-i18n="home.general-copy">An LLM wiki for fast professional answers, plus private knowledge bases at no extra cost.</span></p></article>
-<article><h3><span data-i18n="home.specific-automation">Project Planning</span></h3><p><span data-i18n="home.specific-copy">Checks codes and legal databases from site data and documents across disciplines.</span></p></article>
-<article><h3><span data-i18n="home.professional-saas">Design Optimization</span></h3><p><span data-i18n="home.saas-copy">Built-in structural analysis and design tools with multi-objective optimisation.</span></p></article>
-<article><h3><span data-i18n="home.training">BIM Modelling</span></h3><p><span data-i18n="home.training-copy">Direct BIM export from structural models and efficient model information sync.</span></p></article>
+<div class="delivery-rows">
+<article class="delivery-row">
+<div class="delivery-row__copy">
+<h3><span data-i18n="home.general-automation">Free Documentation</span></h3>
+<p><span data-i18n="home.general-copy">An LLM wiki for fast professional answers, plus private knowledge bases at no extra cost.</span></p>
+</div>
+<figure aria-hidden="true" class="delivery-row__figure"><span>Image</span></figure>
+</article>
+<article class="delivery-row delivery-row--flip">
+<div class="delivery-row__copy">
+<h3><span data-i18n="home.specific-automation">Project Planning</span></h3>
+<p><span data-i18n="home.specific-copy">Checks codes and legal databases from site data and documents across disciplines.</span></p>
+</div>
+<figure aria-hidden="true" class="delivery-row__figure"><span>Image</span></figure>
+</article>
+<article class="delivery-row">
+<div class="delivery-row__copy">
+<h3><span data-i18n="home.professional-saas">Design Optimization</span></h3>
+<p><span data-i18n="home.saas-copy">Built-in structural analysis and design tools with multi-objective optimisation.</span></p>
+</div>
+<figure aria-hidden="true" class="delivery-row__figure"><span>Image</span></figure>
+</article>
+<article class="delivery-row delivery-row--flip">
+<div class="delivery-row__copy">
+<h3><span data-i18n="home.training">BIM Modelling</span></h3>
+<p><span data-i18n="home.training-copy">Direct BIM export from structural models and efficient model information sync.</span></p>
+</div>
+<figure aria-hidden="true" class="delivery-row__figure"><span>Image</span></figure>
+</article>
 </div>
 </div>
 </section>
@@ -214,10 +238,6 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 </div>
 </div>
-<div class="business-cta">
-<a class="button" href="#price"><span data-i18n="home.see-plans">See the plans</span><span aria-hidden="true">→</span></a>
-<button class="button-outline early-access" data-coming-soon="" type="button"><span data-i18n="home.talk-pilot">Talk to us about a pilot</span></button>
-</div>
 </div>
 </section>
 <section class="home-section about-section" data-home-section="" id="about">
@@ -232,8 +252,15 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <figure class="about-founder__photo">
 <img alt="Haoyi ZHANG" height="1080" src="assets/illustrations/haoyi-zhang.png" width="840"/>
 </figure>
-<h3><span data-i18n="home.about-founder-name">Haoyi ZHANG</span></h3>
+<h3><span data-i18n="home.about-founder-name">Mr. Haoyi ZHANG</span></h3>
 <p class="about-founder__role"><span data-i18n="home.about-founder-role">Founder and Director</span></p>
+</aside>
+<aside class="about-founder__card">
+<figure class="about-founder__photo about-founder__photo--photo about-founder__photo--cover">
+<img alt="Jake CHAN" height="800" src="assets/illustrations/jake-chan.jpg" width="800"/>
+</figure>
+<h3><span data-i18n="home.about-director-name">Dr. Jake CHAN</span></h3>
+<p class="about-founder__role"><span data-i18n="home.about-director-role">Director</span></p>
 </aside>
 <aside class="about-founder__card">
 <figure class="about-founder__photo about-founder__photo--photo">

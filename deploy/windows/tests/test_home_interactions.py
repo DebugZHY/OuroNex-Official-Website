@@ -100,7 +100,8 @@ EXPECTED_HEADINGS = (
     ("h3", "Customized SaaS"),
     ("h3", "All needs lands on the saame platform - SIDA"),
     ("h2", "An engineering-led AI company"),
-    ("h3", "Haoyi ZHANG"),
+    ("h3", "Mr. Haoyi ZHANG"),
+    ("h3", "Dr. Jake CHAN"),
     ("h3", "Ir Prof. Siwei LIU"),
 )
 
@@ -297,7 +298,9 @@ class SectionBackgroundHostTests(HomeFixtures):
             'class="release-note"',
             'class="plan-strip"',
             'class="plan-table-scroll"',
-            'class="delivery-grid"',
+            'class="delivery-rows"',
+            'class="delivery-row delivery-row--flip"',
+            'class="delivery-row__figure"',
             'class="wrap application-layout"',
             'class="flow-stage flow-stage--entry"',
             'class="flow-fan flow-fan--in"',
