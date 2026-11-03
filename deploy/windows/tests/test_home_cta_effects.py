@@ -30,8 +30,8 @@ class HomeCtaEffectTests(unittest.TestCase):
             '<span class="hero-title__accent">A</span>gent</span>',
             self.index,
         )
-        self.assertIn("font-size:clamp(56px,8.7vw,120px)", self.css)
-        self.assertIn("font-size:clamp(19px,2.6vw,36px)", self.css)
+        self.assertIn("font-size:var(--sida-size)", self.css)
+        self.assertIn("font-size:calc(var(--sida-size) * var(--sida-rest))", self.css)
         self.assertIn("font-weight:800", self.css)
         self.assertIn(".hero-description{margin:0;max-width:42rem;color:#c1cfdf", self.css)
         self.assertNotIn(".hero-description::before", self.css)

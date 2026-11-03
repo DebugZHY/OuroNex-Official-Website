@@ -141,9 +141,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 54950,
-      "sha256": "370592eb00e09cd634601b3d30943e9bf4650b9d50b7c60004b2209146a41e56",
-      "size": 54950
+      "bytes": 55370,
+      "sha256": "4f4a1c94ed25eb84e2ce588ea01972b00cada23bfbaf3d79eed41c1643ae0bfd",
+      "size": 55370
     },
     {
       "path": "assets/home.js",
@@ -320,6 +320,12 @@
       "size": 551496
     },
     {
+      "path": "assets/illustrations/sida-logo.png",
+      "bytes": 357417,
+      "sha256": "2a09deb138b5a3143c4860e604aa6df68bf0ab0553a82e6489777f239826c4d0",
+      "size": 357417
+    },
+    {
       "path": "assets/illustrations/siwei-liu.jpg",
       "bytes": 116445,
       "size": 116445,
@@ -393,9 +399,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 32688,
-      "sha256": "40826aa787e6c468dbfcf5202adb794970f8dcc5b72acdda4c8104d67ab50a1b",
-      "size": 32688
+      "bytes": 32848,
+      "sha256": "d1949fe2c682b37ed2a372fd3b4fcdc39429557693ba7ddf294830cb5ee780c5",
+      "size": 32848
     },
     {
       "path": "news/_template.html",

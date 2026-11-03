@@ -152,7 +152,7 @@ class FeatureTabShellTests(unittest.TestCase):
         self.assertLess(self.list_pos, self.panels_pos, "tab list comes first")
 
     def test_brand_lockup_and_logo_markup_are_gone(self):
-        for marker in ("sida-brand-lockup", "sida-brand-mark", "sida-brand-name", "sida-logo.png"):
+        for marker in ("sida-brand-lockup", "sida-brand-mark", "sida-brand-name"):
             self.assertNotIn(marker, self.index, f"removed design remnant: {marker}")
             self.assertNotIn(marker, self.css, f"removed design remnant in CSS: {marker}")
         self.assertEqual(re.findall(r"\.sida-brand[\w-]*", self.css), [])
@@ -267,10 +267,24 @@ class FeatureTabShellTests(unittest.TestCase):
             self.assertEqual(entry["bytes"], len(payload), path)
             self.assertEqual(entry["sha256"], hashlib.sha256(payload).hexdigest(), path)
 
-    def test_retired_logo_asset_is_deleted(self):
-        self.assertFalse(LOGO.is_file(), "the retired PNG is deleted with the unused-asset cleanup")
-        self.assertNotIn("sida-logo.png", self.index)
-        self.assertNotIn("sida-logo.png", self.css)
+    def test_logo_returns_only_as_the_hero_lockup_mark(self):
+        """The tile is back, but only as the mark left of the hero wordmark."""
+        self.assertTrue(LOGO.is_file(), "the hero lockup ships assets/illustrations/sida-logo.png")
+        entries = {e["path"]: e for e in json.loads(MANIFEST.read_text(encoding="utf-8"))["files"]}
+        entry = entries.get("assets/illustrations/sida-logo.png")
+        self.assertIsNotNone(entry, "the tile must be manifest-listed or the server will not serve it")
+        payload = LOGO.read_bytes()
+        self.assertEqual(entry["bytes"], len(payload))
+        self.assertEqual(entry["sha256"], hashlib.sha256(payload).hexdigest())
+        lockup = re.search(r'<span class="hero-title__lockup">.*?</span></span>', self.index, re.S)
+        self.assertIsNotNone(lockup, "the hero wordmark opens with the logo lockup")
+        block = lockup.group(0)
+        self.assertIn('src="assets/illustrations/sida-logo.png"', block)
+        self.assertLess(block.index("hero-title__logo"), block.index("hero-title__name"),
+                        "the tile leads the wordmark")
+        self.assertEqual(self.index.count("sida-logo.png"), 1, "one reference, in the hero")
+        for retired in ("sida-brand-lockup", "sida-brand-mark", "sida-brand-name"):
+            self.assertNotIn(retired, self.index)
 
 
 if __name__ == "__main__":
