@@ -1,0 +1,282 @@
+/* SIDA complex-workflow diagram: node cards, stage accents, canvas and controls.
+   Everything is scoped to [data-sida-flow] so the panel only needs the attribute. */
+
+[data-sida-flow] {
+  position: relative;
+}
+
+.sif-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 150% at 50% 0%, rgba(24, 44, 74, 0.75) 0%, rgba(10, 18, 32, 0.9) 58%, rgba(8, 14, 23, 0.95) 100%),
+    radial-gradient(circle at 1px 1px, rgba(132, 166, 214, 0.32) 1.1px, transparent 1.7px) 0 0 / 24px 24px,
+    #080e17;
+}
+
+.sif-canvas::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(62% 72% at 50% 0%, rgba(114, 158, 255, 0.12), transparent 72%);
+}
+
+[data-sida-flow] .react-flow {
+  background: transparent;
+}
+
+[data-sida-flow] .react-flow__pane {
+  cursor: grab;
+}
+
+[data-sida-flow] .react-flow__pane:active {
+  cursor: grabbing;
+}
+
+[data-sida-flow] .react-flow__attribution {
+  display: none;
+}
+
+[data-sida-flow] .react-flow__handle {
+  width: 1px;
+  height: 1px;
+  min-width: 1px;
+  min-height: 1px;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Edges: hairline connectors with small closed arrow heads. */
+[data-sida-flow] .react-flow__edge-path {
+  stroke: rgba(146, 182, 238, 0.45);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  transition: stroke 0.12s linear, stroke-width 0.12s linear;
+}
+
+[data-sida-flow] .react-flow__edge.sif-edge--spine .react-flow__edge-path {
+  stroke: rgba(160, 196, 250, 0.68);
+  stroke-width: 1.5;
+}
+
+[data-sida-flow] .react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 4 7;
+  animation: sif-dash 1.4s linear infinite;
+}
+
+[data-sida-flow] .react-flow__edge.is-lit .react-flow__edge-path {
+  stroke: rgba(206, 230, 255, 0.95);
+  stroke-width: 2;
+}
+
+@keyframes sif-dash {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+/* Cards */
+.sif-card {
+  --sif-accent: #7ea8ff;
+  --sif-accent-soft: rgba(126, 168, 255, 0.14);
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  height: 100%;
+  padding: 10px 12px 10px 10px;
+  border: 1px solid rgba(140, 170, 210, 0.16);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #121d2f, #0c1523);
+  box-shadow: inset 0 1px 0 rgba(190, 215, 255, 0.05), 0 16px 30px -26px #000;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.sif-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--sif-accent), transparent);
+  opacity: 0.85;
+}
+
+.sif-card:hover {
+  border-color: rgba(126, 168, 255, 0.4);
+}
+
+[data-sida-flow] .react-flow__node.is-lit .sif-card {
+  border-color: rgba(150, 192, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(190, 215, 255, 0.1), 0 20px 34px -26px rgba(114, 158, 255, 0.6);
+}
+
+.sif-card__icon {
+  flex: 0 0 28px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--sif-accent-soft);
+  color: var(--sif-accent);
+}
+
+.sif-card__text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sif-card__stage {
+  color: var(--sif-accent);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.sif-card__label {
+  color: #f2f7ff;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* Stage colours: scheme, analysis, design, check, submission, delivery. */
+.sif-card--scheme {
+  --sif-accent: #7ea8ff;
+  --sif-accent-soft: rgba(126, 168, 255, 0.14);
+}
+
+.sif-card--analysis {
+  --sif-accent: #58c8e6;
+  --sif-accent-soft: rgba(88, 200, 230, 0.14);
+}
+
+.sif-card--design {
+  --sif-accent: #9d8cff;
+  --sif-accent-soft: rgba(157, 140, 255, 0.14);
+}
+
+.sif-card--check {
+  --sif-accent: #f0b429;
+  --sif-accent-soft: rgba(240, 180, 41, 0.14);
+}
+
+.sif-card--submission {
+  --sif-accent: #ff9f6e;
+  --sif-accent-soft: rgba(255, 159, 110, 0.14);
+}
+
+.sif-card--delivery {
+  --sif-accent: #57d6a3;
+  --sif-accent-soft: rgba(87, 214, 163, 0.14);
+}
+
+/* Controls and hint */
+.sif-controls {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: grid;
+  gap: 6px;
+  z-index: 5;
+}
+
+.sif-controls button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(150, 180, 220, 0.18);
+  border-radius: 8px;
+  background: rgba(12, 21, 35, 0.86);
+  color: #cfe0f6;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.sif-controls button:hover {
+  border-color: rgba(126, 168, 255, 0.55);
+  background: rgba(20, 33, 54, 0.95);
+  color: #f2f8ff;
+}
+
+.sif-controls__fit {
+  width: 10px;
+  height: 10px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 2px rgba(12, 21, 35, 0.9);
+}
+
+.sif-hint {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid rgba(150, 180, 220, 0.14);
+  border-radius: 999px;
+  background: rgba(10, 18, 30, 0.72);
+  color: #93a9c4;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.sif-hint__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #729eff;
+  box-shadow: 0 0 8px rgba(114, 158, 255, 0.8);
+}
+
+/* Narrow panels: controls and hint shrink, the graph stays pannable. */
+@media (max-width: 560px) {
+  .sif-controls {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .sif-hint {
+    left: 10px;
+    bottom: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-sida-flow] .react-flow__edge.animated .react-flow__edge-path {
+    animation: none;
+    stroke-dasharray: none;
+  }
+
+  .sif-card,
+  [data-sida-flow] .react-flow__edge-path,
+  .sif-controls button {
+    transition: none;
+  }
+}

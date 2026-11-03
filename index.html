@@ -20,6 +20,7 @@
 <link href="assets/ouronex-mark.svg" rel="icon" type="image/svg+xml"/>
 <link href="assets/site.css" rel="stylesheet"/>
 <link href="assets/home.css" rel="stylesheet"/>
+<link href="assets/sida-panels.css" rel="stylesheet"/>
 <link href="assets/business-flow.css" rel="stylesheet"/>
 <script>
 (function(){
@@ -40,6 +41,7 @@ root.removeAttribute("data-flow");
 <script defer="" src="/assets/i18n.js"></script>
 <script defer="" src="assets/site.js"></script>
 <script defer="" src="assets/home.js"></script>
+<script defer="" src="assets/sida-workflow.js"></script>
 <script>
 (function(){
 function start(){
@@ -129,34 +131,16 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <button aria-controls="feature-experts" aria-selected="false" id="tab-experts" role="tab" tabindex="-1" type="button"><svg aria-hidden="true" class="directory-icon" data-directory-icon="expert" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24"><circle cx="10" cy="7" r="3"></circle><path d="M4 21v-2a6 6 0 0 1 12 0v2M18 3l.9 1.8 2.1.9-2.1.9L18 8.4l-.9-1.8-2.1-.9 2.1-.9z"></path></svg><span data-i18n="home.feature-experts-title">Multidisciplinary Experts</span></button>
 </div>
 <div class="feature-panels">
-<article aria-labelledby="tab-engineering" class="feature-panel" id="feature-engineering" role="tabpanel">
-<div class="feature-card-stack">
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-engineering-card-1-title">Pain point</span></h3><p><span data-i18n="home.feature-engineering-copy">Engineers must review extensive documentation, codes, drawings and data.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-engineering-card-2-title">Comparison</span></h3><p><span data-i18n="home.feature-engineering-copy-2">Typical agents read documents one by one and can take 10+ minutes to respond. SIDA uses state-of-the-art embedding models to build an LLM knowledge base, returning answers in seconds — up to 100× faster.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-engineering-card-3-title">Confidentiality</span></h3><p><span data-i18n="home.feature-engineering-copy-3">All project data stays local. Nothing is uploaded, eliminating exposure risk.</span></p></div>
-</div>
-</article>
-<article aria-labelledby="tab-workflow" class="feature-panel" hidden="" id="feature-workflow" role="tabpanel">
-<div class="feature-card-stack">
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-workflow-card-1-title">Pain point</span></h3><p><span data-i18n="home.feature-workflow-copy">Engineering projects require long-term, multi-step teamwork across complex workflows that are difficult to manage.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-workflow-card-2-title">Traditional agents</span></h3><p><span data-i18n="home.feature-workflow-copy-2">Traditional agents follow linear steps, so they can only handle simple, small-scale projects.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-workflow-card-3-title">Visual flowcharts</span></h3><p><span data-i18n="home.feature-workflow-copy-3">SIDA uses a visual flowchart to manage project workflows, supports user customization and can manage complex projects.</span></p></div>
-</div>
-</article>
-<article aria-labelledby="tab-free" class="feature-panel" hidden="" id="feature-free" role="tabpanel">
-<div class="feature-card-stack">
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-free-card-1-title">Pain point</span></h3><p><span data-i18n="home.feature-free-copy">Traditional engineering software has a steep learning curve and takes a long time to master.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-free-card-2-title">Built-in tools</span></h3><p><span data-i18n="home.feature-free-copy-2">SIDA includes multiple built-in professional tools, called through MCP for fast execution and very low token usage.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-free-card-3-title">Computer use</span></h3><p><span data-i18n="home.feature-free-copy-3">SIDA also supports computer use, directly operating any engineering software on the user's computer, at the cost of more tokens and slower execution.</span></p></div>
-</div>
-</article>
-<article aria-labelledby="tab-experts" class="feature-panel" hidden="" id="feature-experts" role="tabpanel">
-<div class="feature-card-stack">
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-experts-card-1-title">Pain point</span></h3><p><span data-i18n="home.feature-experts-copy">Engineering projects span architecture, structural, municipal, water and environmental disciplines, making multi-team collaboration difficult.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-experts-card-2-title">Specialist bots</span></h3><p><span data-i18n="home.feature-experts-copy-2">SIDA provides a team of specialist bots. Each bot is assigned dedicated skills and a knowledge base to become an expert in its field.</span></p></div>
-<div class="feature-detail-card"><h3><span data-i18n="home.feature-experts-card-3-title">Hong Kong library</span></h3><p><span data-i18n="home.feature-experts-copy-3">SIDA includes an extensive Hong Kong library of Buildings Department regulations, PNAP practice notes and other codes and legislation, giving every specialist broad, accurate professional coverage.</span></p></div>
-</div>
-</article>
+<article aria-labelledby="tab-engineering" class="feature-panel" id="feature-engineering" role="tabpanel"><div class="feature-stage"><div class="keyword-matrix"><div class="keyword-matrix__head"><p class="keyword-matrix__kicker">Keyword matrix</p><p class="keyword-matrix__note">Hong Kong Buildings Department — codes, PNAPs and practice notes</p></div><table class="keyword-matrix__grid"><caption class="sr-only">Buildings Department keyword matrix</caption><thead><tr><th scope="col">Document</th><th scope="col">Loads</th><th scope="col">Design</th><th scope="col">Detailing</th></tr></thead><tbody>
+<tr><th scope="row"><span>COP 2011</span><small>Dead &amp; imposed loads</small></th><td><span class="kw">dead load</span><span class="kw kw--hit">imposed load</span></td><td><span class="kw">load combination</span></td><td class="keyword-matrix__none" aria-label="none">—</td></tr>
+<tr><th scope="row"><span>COP 2019</span><small>Wind effects</small></th><td><span class="kw kw--hit">basic wind speed</span><span class="kw">gust factor</span></td><td><span class="kw">pressure coefficient</span></td><td><span class="kw">cladding pressure</span></td></tr>
+<tr><th scope="row"><span>COP 2013</span><small>Concrete</small></th><td class="keyword-matrix__none" aria-label="none">—</td><td><span class="kw">concrete grade</span><span class="kw">shear wall</span></td><td><span class="kw">cover</span><span class="kw kw--hit">crack width</span></td></tr>
+<tr><th scope="row"><span>COP 2011</span><small>Steel</small></th><td class="keyword-matrix__none" aria-label="none">—</td><td><span class="kw">steel section</span><span class="kw">buckling</span></td><td><span class="kw">bolt grade</span><span class="kw">weld</span></td></tr>
+<tr><th scope="row"><span>PNAP</span><small>Practice notes</small></th><td><span class="kw">site formation</span></td><td><span class="kw">party wall</span></td><td><span class="kw kw--hit">submission</span></td></tr>
+</tbody></table></div></div></article>
+<article aria-labelledby="tab-workflow" class="feature-panel" hidden="" id="feature-workflow" role="tabpanel"><div class="feature-stage"><div class="sida-flow" data-sida-flow=""><p class="sida-flow__fallback">Loading project workflow…</p></div></div></article>
+<article aria-labelledby="tab-free" class="feature-panel" hidden="" id="feature-free" role="tabpanel"><div class="feature-stage feature-stage--media"><figure class="feature-shot"><img alt="The SIDA professional tool set" decoding="async" height="1536" src="assets/illustrations/professional-tools.jpg" width="2752"></figure></div></article>
+<article aria-labelledby="tab-experts" class="feature-panel" hidden="" id="feature-experts" role="tabpanel"><div class="feature-stage"><div class="feature-placeholder"><span class="feature-placeholder__badge"><svg aria-hidden="true" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 20v-1.6A5.5 5.5 0 0 1 9 13h1.6M16.5 3.5l.9 1.9 2.1.9-2.1.9-.9 1.9-.9-1.9-2.1-.9 2.1-.9z"></path></svg></span><p class="feature-placeholder__title">Multidisciplinary experts</p><p class="feature-placeholder__copy">Architecture, structural, geotechnical and drainage specialists will be introduced here.</p><p class="feature-placeholder__tag">Placeholder</p></div></div></article>
 </div>
 </div>
 </div>

@@ -61,6 +61,19 @@ def normalized_font_stack(value: str) -> str:
 # ---------------------------------------------------------------------------
 
 
+def _decls(css: str, selector: str) -> dict:
+    """Declarations of one rule inside a raw stylesheet body."""
+    match = re.search(re.escape(selector) + r"\s*\{([^{}]*)\}", css)
+    if not match:
+        raise AssertionError(f"missing rule {selector}")
+    body = {}
+    for item in match.group(1).split(";"):
+        if ":" in item:
+            key, value = item.split(":", 1)
+            body[key.strip()] = value.strip()
+    return body
+
+
 def _sheet(name: str) -> str:
     return (ASSETS / name).read_text(encoding="utf-8")
 
@@ -1226,36 +1239,29 @@ class HomepageRedesignTest(CssAssertions):
             "448pxminmax(0,1fr)",
             "the tab list is a fixed rail and the copy takes the rest",
         )
-        stack = find_rules(HOME_CSS, ".feature-card-stack")[0]
+        stage_css = (ASSETS / "sida-panels.css").read_text(encoding="utf-8")
+        panels_rule = _decls(stage_css, ".feature-panels")
         self.assertEqual(
-            squash(stack.get("grid-template-columns", "")),
-            "minmax(0,1fr)",
-            "the three detail rows share one column",
+            squash(panels_rule.get("height", "")),
+            "var(--stage-h)",
+            "every tab shares one fixed body height, so the download row cannot move",
         )
-        self.assertEqual(
-            squash(stack.get("grid-auto-rows", "")),
-            "auto",
-            "the three blocks stack as content-sized rows",
+        self.assertIn(
+            "--stage-h",
+            re.sub(r"\s+", "", stage_css.split(".feature-panel{")[0]),
+            "the shared height is a token on the tab body",
         )
+        stage = _decls(stage_css, ".feature-stage")
+        self.assertEqual(squash(stage.get("height", "")), "100%", "the stage fills the body")
         html = self.html()
-        stacks = re.findall(
-            r'<div class="feature-card-stack">(.*?)</div>\s*</article>', html, re.S
-        )
-        self.assertEqual(len(stacks), 4, "all four features own a card stack")
-        for stack_html in stacks:
-            with self.subTest():
-                self.assertEqual(stack_html.count('class="feature-detail-card"'), 3)
         panels = re.findall(
             r'<article[^>]*class="feature-panel"[^>]*>(.*?)</article>', html, re.S
         )
-        self.assertTrue(panels, "the SIDA panels are required")
+        self.assertEqual(len(panels), 4, "all four features own a stage")
         for panel in panels:
-            self.assertNotIn("<img", panel, "no central logo or photo in the SIDA panels")
-        self.assertNotIn(
-            ".feature-panel img",
-            _sheet(HOME_CSS),
-            "the retired panel image rule must stay gone",
-        )
+            self.assertEqual(panel.count('class="feature-stage'), 1, panel[:60])
+        self.assertNotIn('class="feature-card-stack"', html, "the three-card stacks are gone")
+        self.assertNotIn('class="feature-detail-card"', html, "the text cards are gone")
 
     def test_price_cards_use_layered_gradients_borders_and_hover(self) -> None:
         card = find_rules(HOME_CSS, ".plan-mini")[0]

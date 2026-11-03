@@ -81,18 +81,6 @@ SIDA_CARD_TITLES = (
 
 EXPECTED_HEADINGS = (
     ("h1", "SIDASuper-intelligent Design Agent"),
-    ("h3", "Pain point"),
-    ("h3", "Comparison"),
-    ("h3", "Confidentiality"),
-    ("h3", "Pain point"),
-    ("h3", "Traditional agents"),
-    ("h3", "Visual flowcharts"),
-    ("h3", "Pain point"),
-    ("h3", "Built-in tools"),
-    ("h3", "Computer use"),
-    ("h3", "Pain point"),
-    ("h3", "Specialist bots"),
-    ("h3", "Hong Kong library"),
     ("h2", "What we deliver"),
     ("h3", "Free Documentation"),
     ("h3", "Project Planning"),
