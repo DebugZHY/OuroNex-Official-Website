@@ -46,7 +46,7 @@ class FlowAssetWiringTests(unittest.TestCase):
 
     def test_the_canvas_host_wraps_the_static_fallback(self) -> None:
         start = self.html.index('<div class="business-flow" data-flow-root>')
-        end = self.html.index('class="business-cta"', start)
+        end = self.html.index("</section>", start)
         block = self.html[start:end]
         self.assertIn("data-flow-canvas", block)
         self.assertIn('class="flow" data-flow-fallback', block)
@@ -62,7 +62,7 @@ class FlowAssetWiringTests(unittest.TestCase):
 
     def test_the_panel_shows_a_skeleton_while_the_bundle_loads(self) -> None:
         start = self.html.index('<div class="business-flow" data-flow-root>')
-        end = self.html.index('class="business-cta"', start)
+        end = self.html.index("</section>", start)
         block = self.html[start:end]
         self.assertIn('class="bf-loading"', block, "a slow bundle used to expose the no-JS diagram")
         self.assertGreaterEqual(block.count("bf-loading__col"), 3)

@@ -305,7 +305,6 @@ class SectionBackgroundHostTests(HomeFixtures):
             'class="flow-stage flow-stage--lane"',
             'class="flow-final"',
             'class="flow-final__logo"',
-            'class="business-cta"',
             'class="wrap about-layout"',
             'class="site-footer"',
         ):

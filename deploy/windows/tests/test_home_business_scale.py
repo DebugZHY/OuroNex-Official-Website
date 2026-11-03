@@ -265,7 +265,6 @@ class BusinessFlowMarkupTests(unittest.TestCase):
             'class="flow-fan"',
             "flow-stage--lane",
             'class="flow-final"',
-            'class="business-cta"',
         )]
         self.assertEqual(order, sorted(order), "the flow must read top to bottom")
 
