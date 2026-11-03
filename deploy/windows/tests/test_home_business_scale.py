@@ -21,7 +21,7 @@ HOME_CSS = REPO_ROOT / "assets" / "home.css"
 INDEX_HTML = REPO_ROOT / "index.html"
 HOME_I18N = REPO_ROOT / "assets" / "i18n" / "home.json"
 COPY_KEYS = (
-    "home.general-copy",
+    "home.tendering-copy",
     "home.specific-copy",
     "home.saas-copy",
     "home.training-copy",
@@ -232,13 +232,23 @@ class BusinessFlowDesktopTests(BusinessScaleFixtures):
         self.assert_decl(mark, "display", "block")
         self.assert_decl(mark, "object-fit", "contain")
 
-    def test_delivery_rows_alternate_copy_and_picture(self):
-        self.assert_decl(self.base_rule(".delivery-rows"), "gap", "clamp(16px,2.2vh,26px)")
+    def test_delivery_rows_run_as_plain_hairline_rows(self):
+        rows = self.base_rule(".delivery-rows")
+        self.assert_decl(rows, "display", "grid")
+        self.assert_decl(rows, "align-content", "start")
         row = self.base_rule(".delivery-row")
-        self.assert_decl(row, "grid-template-columns", "minmax(0,1fr) minmax(0,1fr)")
-        self.assert_decl(row, "padding", "30px")
-        self.assert_decl(self.base_rule(".delivery-row__figure"), "order", "2")
-        self.assert_decl(self.base_rule(".delivery-row--flip .delivery-row__figure"), "order", "-1")
+        self.assert_decl(row, "grid-template-columns", "minmax(0,1fr) minmax(0,.56fr)")
+        self.assert_decl(row, "padding-block", "clamp(12px,1.5vh,16px)")
+        self.assert_decl(row, "border-top", "1px solid rgba(120,150,200,.16)")
+        self.assertNotIn("background", row, "the rows carry no card fill")
+        self.assertNotIn("border-radius", row, "the rows carry no card corners")
+        self.assert_decl(self.base_rule(".delivery-row__figure"), "height",
+                         "clamp(96px,11.5vh,124px)")
+        flipped = self.base_rule(".delivery-row--flip")
+        self.assert_decl(flipped, "grid-template-columns", "minmax(0,.56fr) minmax(0,1fr)")
+        self.assert_decl(
+            self.base_rule(".delivery-row--flip .delivery-row__figure"), "grid-column", "1"
+        )
         self.assert_decl(self.base_rule(".application-layout h2"), "font-size", "clamp(38px,3.2vw,70px)")
 
 
@@ -307,12 +317,14 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
         self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "14px")
         self.assert_decl(self.media_rule(body, ".flow-final h3"), "font-size", "17px")
         self.assert_decl(
-            self.media_rule(body, ".delivery-row"), "grid-template-columns", "minmax(0,1fr)"
+            self.media_rule(body, ".delivery-row"),
+            "grid-template-columns",
+            "minmax(0,1fr)",
         )
 
     def test_narrow_refinement_keeps_a_compact_scale(self):
         body, _offset = self.media_block(NARROW)
-        self.assert_decl(self.media_rule(body, ".delivery-row"), "padding", "12px")
+        self.assert_decl(self.media_rule(body, ".delivery-row"), "padding-block", "12px")
         self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "14px 16px 16px")
         self.assert_decl(self.media_rule(body, ".flow-copy"), "font-size", "13px")
 
@@ -339,7 +351,7 @@ class BusinessFlowSmallScreenTests(BusinessScaleFixtures):
 
     def test_short_desktop_keeps_the_compact_cards(self):
         body, _offset = self.media_block(SHORT_DESKTOP, TABLET_MIN)
-        self.assert_decl(self.media_rule(body, ".delivery-row"), "padding", "18px")
+        self.assert_decl(self.media_rule(body, ".delivery-row"), "padding-block", "18px")
         self.assert_decl(self.media_rule(body, ".flow-card"), "padding", "18px 20px 20px")
         self.assert_decl(self.media_rule(body, ".flow-card h3"), "font-size", "20px")
 

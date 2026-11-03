@@ -65,26 +65,26 @@ DOWNLOAD_LABELS = {
 # The twelve SIDA detail-card titles are requested content, so they are part of
 # the locked heading order before the Price section.
 SIDA_CARD_TITLES = (
-    "Pain point",
-    "Comparison",
+    "Pain Point",
+    "Fast Retrieval",
     "Confidentiality",
-    "Pain point",
-    "Traditional agents",
-    "Visual flowcharts",
-    "Pain point",
-    "Built-in tools",
-    "Computer use",
-    "Pain point",
-    "Specialist bots",
-    "Hong Kong library",
+    "Pain Point",
+    "Typical Agents",
+    "Visual Flowcharts",
+    "Pain Point",
+    "Built-in Tools",
+    "Computer Use",
+    "Pain Point",
+    "Specialist Bots",
+    "Hong Kong Library",
 )
 
 EXPECTED_HEADINGS = (
     ("h1", "SIDASuper-intelligent Design Agent"),
     ("h2", "What we deliver"),
-    ("h3", "Free Documentation"),
     ("h3", "Project Planning"),
     ("h3", "Design Optimization"),
+    ("h3", "Tendering"),
     ("h3", "BIM Modelling"),
     ("h2", "Pay as you go"),
     ("h2", "Lite"),
