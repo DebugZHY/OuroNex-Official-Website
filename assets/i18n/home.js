@@ -436,7 +436,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "以工程為本的 AI 公司"
   },
   "home.about-lede": {
-    "en": "OuroNex builds AI tools for structural engineering, turning design intent into analysis, checks and documentation that hold up in professional practice.",
+    "en": "OuroNex enables automation in engineering workflows with SIDA, turning design intent into project deliverables that hold up in professional practice.",
     "zh-CN": "OuroNex 为结构工程打造 AI 工具，把设计意图转化为经得起专业实践检验的分析、校核与文档。",
     "zh-TW": "OuroNex 為結構工程打造 AI 工具，把設計意圖轉化為經得起專業實踐檢驗的分析、校核與文件。"
   },
@@ -599,15 +599,5 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "en": "Director",
     "zh-CN": "董事",
     "zh-TW": "董事"
-  },
-  "home.tendering": {
-    "en": "Tendering",
-    "zh-CN": "投标",
-    "zh-TW": "投標"
-  },
-  "home.tendering-copy": {
-    "en": "Automates the whole tendering workflow, shortening preparation cycles and cutting costs.",
-    "zh-CN": "为整个投标工作流提供自动化，大幅缩短准备周期，降低成本。",
-    "zh-TW": "為整個投標工作流提供自動化，大幅縮短準備週期，降低成本。"
   }
 });
