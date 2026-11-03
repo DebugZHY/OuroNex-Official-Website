@@ -1154,6 +1154,39 @@ class AboutLayoutTest(CssAssertions):
         self.assert_decl(section, "height", "auto", where=".home-section")
 
 
+class ClosingCardTest(CssAssertions):
+    """The flow's last card puts the mark on the left and the words beside it."""
+
+    def test_canvas_card_lays_the_mark_beside_the_words(self) -> None:
+        css = (REPO_ROOT / "assets/business-flow.css").read_text(encoding="utf-8")
+        card = re.search(r"\.bf-card--delivery\{([^}]*)\}", css)
+        self.assertIsNotNone(card, "assets/business-flow.css: .bf-card--delivery must be styled")
+        self.assertIn(
+            "flex-direction:row",
+            card.group(1),
+            "the closing card must lay its mark and words out in a row",
+        )
+        self.assertIn(".bf-card__body{", css, "the words need their own column inside the row")
+        logo = re.search(r"\.bf-card__logo\{([^}]*)\}", css)
+        self.assertIsNotNone(logo)
+        self.assertIn("flex:none", logo.group(1))
+
+    def test_no_script_card_matches_the_canvas_card(self) -> None:
+        layout = find_rule(HOME_CSS, ".flow-final")
+        self.assert_decl(layout, "grid-template-columns", "auto minmax(0,1fr)", where=".flow-final")
+        self.assert_decl(find_rule(HOME_CSS, ".flow-final h3"), "grid-area", "1/2", where=".flow-final h3")
+        self.assert_decl(find_rule(HOME_CSS, ".flow-final__logo"), "grid-area", "1/1",
+                         where=".flow-final__logo")
+
+    def test_the_sentence_is_spelled_same(self) -> None:
+        for rel in ("index.html", "assets/i18n/home.json", "assets/i18n/home.js",
+                    "tools/business-flow/src/index.jsx"):
+            text = (REPO_ROOT / rel).read_text(encoding="utf-8")
+            with self.subTest(file=rel):
+                self.assertNotIn("saame", text)
+                self.assertIn("All needs lands on the same platform - SIDA", text)
+
+
 class ExpandedSectionsTest(CssAssertions):
     def base(self, selector: str) -> dict[str, str]:
         matches = find_rules(HOME_CSS, selector)

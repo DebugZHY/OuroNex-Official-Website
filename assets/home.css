@@ -241,10 +241,10 @@ html[data-flow="loading"] .business-flow .bf-loading{position:absolute;inset:0;z
 .flow-fan span:nth-child(2){left:calc((100% - 2*var(--flow-gap))/2 + var(--flow-gap))}
 .flow-fan span:nth-child(3){left:calc(100% - (100% - 2*var(--flow-gap))/6)}
 .flow-stage--lane{margin-top:0}
-.flow-final{position:relative;margin-top:20px;display:grid;gap:clamp(10px,1.5vh,16px);padding:clamp(16px,2.2vh,22px) 26px;border:1px solid rgba(114,158,255,.26);border-radius:8px;background:linear-gradient(120deg,rgba(18,32,53,.94),rgba(11,19,31,.94))}
+.flow-final{position:relative;margin-top:20px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:18px;row-gap:clamp(10px,1.5vh,16px);padding:clamp(16px,2.2vh,22px) 26px;border:1px solid rgba(114,158,255,.26);border-radius:8px;background:linear-gradient(120deg,rgba(18,32,53,.94),rgba(11,19,31,.94))}
 .flow-final::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(114,158,255,.62),transparent)}
-.flow-final h3{margin:0;color:#f4f9ff;font-size:21px;font-weight:600;line-height:1.3;letter-spacing:-.02em}
-.flow-final__logo{display:block;width:72px;height:72px;margin:14px 0 0;object-fit:contain}
+.flow-final h3{grid-area:1/2;margin:0;color:#f4f9ff;font-size:21px;font-weight:600;line-height:1.3;letter-spacing:-.02em}
+.flow-final__logo{grid-area:1/1;display:block;width:72px;height:72px;margin:0;object-fit:contain}
 .business-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px}
 /* About: company introduction — intro, three body paragraphs and the three principles beside the shared card row. */
 .about-section{height:auto;min-height:100svh;background:transparent}

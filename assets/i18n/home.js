@@ -556,7 +556,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "依需求客製的工具，整合進 SIDA。"
   },
   "home.flow-final-title": {
-    "en": "All needs lands on the saame platform - SIDA",
+    "en": "All needs lands on the same platform - SIDA",
     "zh-CN": "所有需求，都落到同一个平台 - SIDA",
     "zh-TW": "所有需求，都落到同一個平台 - SIDA"
   },

@@ -126,11 +126,19 @@
   letter-spacing: 0.12em;
 }
 
+.bf-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
 .bf-card__logo {
   display: block;
-  width: 72px;
-  height: 72px;
-  margin-top: 12px;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  margin: 0;
   object-fit: contain;
 }
 
@@ -172,6 +180,9 @@
 
 /* Delivery node: the destination, brightest surface in the canvas. */
 .bf-card--delivery {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
   border-color: rgba(126, 168, 255, 0.34);
   background: linear-gradient(150deg, rgba(22, 38, 62, 0.98), rgba(11, 19, 31, 0.98));
   box-shadow: inset 0 1px 0 rgba(198, 220, 255, 0.16), 0 24px 50px -30px rgba(114, 158, 255, 0.8);
@@ -257,19 +268,15 @@
   display: none;
 }
 
-/* Tablet: the mark rides beside the text so the card stays as short as its neighbours. */
+/* Tablet: the same row, one size down so the card stays as short as its neighbours. */
 .bf-canvas[data-axis='vertical'] .bf-card--delivery {
-  flex-direction: row;
-  align-items: center;
-  gap: 14px;
+  gap: 12px;
   padding-right: 16px;
 }
 
 .bf-canvas[data-axis='vertical'] .bf-card--delivery .bf-card__logo {
-  margin: 0 0 0 auto;
-  flex: none;
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
 }
 
 @media (prefers-reduced-motion: reduce) {

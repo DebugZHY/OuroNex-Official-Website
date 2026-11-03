@@ -63,15 +63,15 @@
     },
     {
       "path": "assets/business-flow.css",
-      "bytes": 20096,
-      "size": 20096,
-      "sha256": "090512ccf3a91ab10d6b1f9ecc54c59b2be2333535432793a6f9696e64eff97c"
+      "bytes": 20150,
+      "size": 20150,
+      "sha256": "e907152cb4f5026c7730ff2858d5fa4263034507dd9593586406c2970a6d0446"
     },
     {
       "path": "assets/business-flow.js",
-      "bytes": 212686,
-      "size": 212686,
-      "sha256": "279b90e0f6d89d0f41312213fdf938295ab061999d736d42e631cc9b087a8178"
+      "bytes": 212727,
+      "size": 212727,
+      "sha256": "6405b9e1e649f19d2ab7992f5663fb3fc25162841b65304f77fbef2295130bf7"
     },
     {
       "path": "assets/company.css",
@@ -153,9 +153,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 55089,
-      "sha256": "23fed37ac1cdeeb1f698021de3498ea6bf992de7910b183705eaadfe6d08362d",
-      "size": 55089
+      "bytes": 55190,
+      "sha256": "e1c9794b013bb1df13e171933686adc8aeb3dfb07990369eb7713ba14bb800fa",
+      "size": 55190
     },
     {
       "path": "assets/home.js",
@@ -231,15 +231,15 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 21764,
-      "sha256": "2325ce0c5d0355dfab0bc92a493a68465f9c1fb146b57ece6ea6a4e901f4e9cd",
-      "size": 21764
+      "bytes": 21763,
+      "sha256": "a8299ef42c2f05c5b43a9cc45157130e8e00ae2e3bf8eefc26b31caefd318f91",
+      "size": 21763
     },
     {
       "path": "assets/i18n/home.json",
-      "bytes": 21603,
-      "size": 21603,
-      "sha256": "55184a845005910515c4439c32e0ed5b052cb565138e25308df5cb6934e6d533"
+      "bytes": 21602,
+      "size": 21602,
+      "sha256": "7c8f46ca34ddad84285012ca01305ea6cfda940bed14bad60857e4057b1d2aac"
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -447,9 +447,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 29968,
-      "sha256": "be3be0e318b9961ac6e1b98ab0c90fbcadf9157edbfc0688966e3a6efb728c05",
-      "size": 29968
+      "bytes": 29967,
+      "sha256": "82d8ac0777c20e870cfa2b9ace158658e0625ad2b9d03beaa0d9a4f1c698f7c5",
+      "size": 29967
     },
     {
       "path": "news/_template.html",

@@ -34,7 +34,7 @@ const FALLBACK = {
   'home.flow-lane-3-title': 'Customized SaaS',
   'home.flow-lane-3-copy':
     'Tools for your need, integrated into SIDA.',
-  'home.flow-final-title': 'All needs lands on the saame platform - SIDA',
+  'home.flow-final-title': 'All needs lands on the same platform - SIDA',
   'home.flow-hint': 'Drag to explore',
   'home.flow-reset': 'Fit to view',
   'home.flow-zoom-in': 'Zoom in',
@@ -58,24 +58,31 @@ const HANDLES = { horizontal: ['Left', 'Right'], vertical: ['Top', 'Bottom'] };
 
 const FlowCard = memo(function FlowCard({ data }) {
   const [targetSide, sourceSide] = HANDLES[data.axis];
+  // The mark sits to the left of the words on the closing card, so the words get
+  // their own column; every other card keeps the same stack, just wrapped once.
+  const body = createElement(
+    'div',
+    { className: 'bf-card__body' },
+    createElement('span', { className: 'bf-card__kicker' }, data.kicker),
+    createElement('h3', { className: 'bf-card__title' }, data.title),
+    data.copy ? createElement('p', { className: 'bf-card__copy' }, data.copy) : null,
+  );
   return (
     createElement(
       'div',
       { className: `bf-card bf-card--${data.tone}` },
       data.index ? createElement('span', { className: 'bf-card__index' }, data.index) : null,
-      createElement('span', { className: 'bf-card__kicker' }, data.kicker),
-      createElement('h3', { className: 'bf-card__title' }, data.title),
-      data.copy ? createElement('p', { className: 'bf-card__copy' }, data.copy) : null,
       data.logo
         ? createElement('img', {
             alt: '',
             className: 'bf-card__logo',
             decoding: 'async',
-            height: 72,
+            height: 56,
             src: 'assets/illustrations/sida-logo.png',
-            width: 72,
+            width: 56,
           })
         : null,
+      body,
       createElement(Handle, {
         type: 'target',
         position: Position[targetSide],
