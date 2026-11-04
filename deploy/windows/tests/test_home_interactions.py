@@ -80,8 +80,8 @@ SIDA_CARD_TITLES = (
 )
 
 EXPECTED_HEADINGS = (
-    ("h1", "SIDASuper-intelligent Design Agent"),
-    ("h2", "What we deliver"),
+    ("h1", "SIDASuper-Intelligent Design Agent"),
+    ("h2", "Automative Engineering Work"),
     ("h3", "Project Planning"),
     ("h3", "Design Optimization"),
     ("h3", "Tendering"),
@@ -91,7 +91,7 @@ EXPECTED_HEADINGS = (
     ("h2", "Standard"),
     ("h2", "Professional"),
     ("h2", "Enterprise"),
-    ("h2", "How we work with you"),
+    ("h2", "How We Work with You"),
     ("h3", "On-site consultation"),
     ("h3", "Plan refinement"),
     ("h3", "Pilot first"),
@@ -99,9 +99,9 @@ EXPECTED_HEADINGS = (
     ("h3", "Workflow automation"),
     ("h3", "Customized SaaS"),
     ("h3", "All needs land on the same platform - SIDA"),
-    ("h2", "An engineering-led AI company"),
-    ("h3", "Mr. Haoyi ZHANG"),
+    ("h2", "An Engineering-Led AI Company"),
     ("h3", "Dr. Jake CHAN"),
+    ("h3", "Mr. Haoyi ZHANG"),
     ("h3", "Ir Prof. Siwei LIU"),
 )
 

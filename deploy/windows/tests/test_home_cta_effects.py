@@ -16,30 +16,71 @@ class HomeCtaEffectTests(unittest.TestCase):
         cls.site_css = (REPO_ROOT / "assets" / "site.css").read_text(encoding="utf-8")
         cls.js = (REPO_ROOT / "assets" / "home.js").read_text(encoding="utf-8")
 
+    def test_hero_dictionary_matches_the_two_line_headline(self) -> None:
+        import json
+
+        data = json.loads(
+            (REPO_ROOT / "assets" / "i18n" / "home.json").read_text(encoding="utf-8")
+        )
+        slogan = data["home.hero-slogan"]
+        self.assertEqual({locale: slogan[locale] for locale in slogan}, {
+            "en": "SIDA",
+            "zh-CN": "SIDA",
+            "zh-TW": "SIDA",
+        })
+        description = data["home.hero-description"]
+        self.assertEqual(
+            description["en"],
+            "From planning to design, SIDA automates every engineering stages with built-in "
+            "experts, connects your files and tools and turn the needs into deliverables.",
+        )
+        self.assertNotIn("home.hero-description-2", data)
+        self.assertNotIn("home.hero-slogan-rest", data)
+
+        self.assertEqual(self.index.count('class="hero-title__name"'), 1)
+        self.assertEqual(self.index.count('class="hero-title__rest"'), 1)
+        self.assertEqual(self.index.count('class="hero-title__accent"'), 4)
+
     def test_primary_navigation_uses_20px(self) -> None:
         self.assertIn(".home-page .nav-primary a{font-size:20px}", self.css)
 
     def test_hero_title_splits_into_a_brand_and_a_smaller_qualifier(self) -> None:
+        # The brand is now a lockup: the SIDA mark beside the wordmark, with the
+        # qualifier kept as a smaller second line (21.4% of the brand size).
         self.assertIn(
-            '<span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span>',
+            '<span class="hero-title__lockup"><img alt="" class="hero-title__logo" '
+            'decoding="async" height="456" src="assets/illustrations/sida-logo.png" '
+            'width="456"><span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span>'
+            '</span>',
             self.index,
         )
         self.assertIn(
             '<span class="hero-title__rest" data-user-input=""><span class="hero-title__accent">S</span>uper-'
-            '<span class="hero-title__accent">i</span>ntelligent <span class="hero-title__accent">D</span>esign '
+            '<span class="hero-title__accent">I</span>ntelligent <span class="hero-title__accent">D</span>esign '
             '<span class="hero-title__accent">A</span>gent</span>',
             self.index,
         )
+        self.assertIn("#hero-title{--sida-size:clamp(70px,11.4vw,150px);--sida-rest:.214}", self.css)
         self.assertIn("font-size:var(--sida-size)", self.css)
         self.assertIn("font-size:calc(var(--sida-size) * var(--sida-rest))", self.css)
-        self.assertIn("font-weight:800", self.css)
+        self.assertIn("font-weight:600", self.css)
+        self.assertIn(
+            ".hero-title__logo{flex:none;height:calc(var(--sida-size) * .86);width:auto;"
+            "border-radius:23%",
+            self.css,
+        )
         self.assertIn(".hero-description{margin:0;max-width:42rem;color:#c1cfdf", self.css)
         self.assertNotIn(".hero-description::before", self.css)
         self.assertIn(".hero-title__accent{color:#84b8ff;-webkit-text-fill-color:#84b8ff}", self.css)
 
     def test_hero_description_is_one_line(self) -> None:
         self.assertEqual(self.index.count('class="hero-description-line"'), 1)
-        self.assertIn("From planning to design, SIDA automates every engineering stages with built-in experts and customizable extensions, connects your project files, professional tools and turn the needs into deliverables.", self.index)
+        self.assertIn(
+            '<span class="hero-description-line" data-i18n="home.hero-description">'
+            "From planning to design, SIDA automates every engineering stages with built-in "
+            "experts, connects your files and tools and turn the needs into deliverables.</span>",
+            self.index,
+        )
         self.assertNotIn("home.hero-description-2", self.index)
         self.assertIn(".hero-description-line{display:block}", self.css)
 

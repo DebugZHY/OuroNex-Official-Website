@@ -3,15 +3,15 @@
 Contract pinned here:
 
 * the section content is centred; ``.feature-layout`` is one 1332px column and
-  ``.feature-tabs`` is a grid of a 448px rail plus the copy column, both
+  ``.feature-tabs`` is a grid of a content-sized rail plus the copy column, both
   vertically centred on one another;
 * the rail is a list of hairline rows: no card boxes, no radius, no fill, a 2px
   gradient accent bar on the selected row, 45px soft-glow line icons and a
   24px Manrope label;
 * the copy column is separated from the rail by a 1px rule that carries a
-  112px blue fade at the top, and its three rows are split by 1px hairlines
+  136px blue fade at the top, and its three rows are split by 1px hairlines
   with a closing rule under the last one;
-* row typography: Manrope 500 34px/1.16 title with a 16.5px/1.74 body capped
+* row typography: Manrope 500 41px/1.16 title with a 20px/1.74 body capped
   at 62ch; on ≤760 the block stacks, the rule disappears, the title is 26px
   and the body 16px; ≤420 tightens to 23/15.
 
@@ -176,7 +176,8 @@ class ShellTests(unittest.TestCase):
         self.assertEqual(normalise(section.get("background", "")), "transparent",
                          "the SIDA section paints no panel of its own")
         self.assertEqual(normalise(section.get("justify-content", "")), "center")
-        self.assertEqual(px(section.get("padding-bottom", "")), 8.0)
+        self.assertEqual(px(section.get("padding-bottom", "")), 8.0,
+                         "the section now trims its floor to 8px")
 
     def test_layout_centres_one_1180_column(self):
         layout = base(self.css, ".feature-layout")
@@ -184,14 +185,16 @@ class ShellTests(unittest.TestCase):
         self.assertEqual(normalise(layout.get("gap", "")), "0")
         self.assertEqual(normalise(layout.get("padding", "")), "0",
                          "the copy block leaves all spacing to the CTA row")
-        self.assertIn("min(1332px,calc(100%-64px))",
-                      normalise(layout.get("width", "")),
-                      "the SIDA column is capped at 1332px")
+        # The column cap moved out to 1332px with a 64px page gutter.
+        self.assertEqual(normalise(layout.get("width", "")),
+                         normalise("min(1332px,calc(100% - 64px))!important"),
+                         "the SIDA column is capped at 1332px")
 
     def test_cta_row_is_pushed_away_from_the_copy(self):
         row = base(self.css, ".sida-section .download-row")
-        self.assertEqual(normalise(row.get("margin-top", "")), "clamp(14px,1.8vh,26px)",
-                         "the download row keeps a clear break below the copy")
+        self.assertEqual(normalise(row.get("margin-top", "")),
+                         normalise("clamp(14px,1.8vh,26px)"),
+                         "the download row keeps a compact break below the copy")
 
     def test_no_fixed_shared_height_survives(self):
         self.assertNotIn("--feature-height", self.css,
@@ -266,7 +269,8 @@ class DirectoryRowTests(unittest.TestCase):
         listing = base(self.css, LIST)
         self.assertEqual(normalise(listing.get("align-content", "")), "center")
         self.assertEqual(normalise(listing.get("height", "")), "auto")
-        self.assertEqual(px(listing.get("padding-right", "")), 36.0)
+        self.assertEqual(px(listing.get("padding-right", "")), 36.0,
+                         "the rail gutter before the dividing rule is 36px")
         self.assertEqual(normalise(listing.get("gap", "")), "0")
         self.assertEqual(normalise(listing.get("border", "")), "0",
                          "the rail drops the inherited tablist underline")
@@ -300,7 +304,8 @@ class CopyColumnTests(unittest.TestCase):
 
     def test_column_carries_a_rule_with_a_blue_fade(self):
         panels = base(self.css, PANELS)
-        self.assertEqual(px(panels.get("padding-left", "")), 53.0)
+        self.assertEqual(px(panels.get("padding-left", "")), 53.0,
+                         "the copy column keeps a 53px inset after the rule")
         self.assertEqual(normalise(panels.get("border-left", "")), HAIRLINE)
         fade = base(self.css, PANELS + "::before")
         self.assertEqual(px(fade.get("width", "")), 1.0)

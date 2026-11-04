@@ -4,7 +4,9 @@ The centred ``.sida-brand-lockup`` / ``img.sida-brand-mark`` middle column was
 removed with the homepage redesign. This module now pins what replaced it:
 
 * ``.feature-tabs`` holds exactly two direct children - ``.feature-tab-list``
-  then ``.feature-panels`` - and no brand node or logo asset is referenced;
+  then ``.feature-panels`` - and no brand lockup node is referenced there;
+* the shared ``assets/illustrations/sida-logo.png`` is *not* retired: it ships
+  as the hero title mark and the business-flow closing card, never here;
 * the four tabs keep their order (Information Overload, Complex Workflow,
   Professional Tools, Multidisciplinary Experts), ids and ARIA wiring;
 * the desktop grid gives the tab list a fixed 396px rail and the card area
@@ -28,6 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 INDEX_HTML = REPO_ROOT / "index.html"
 HOME_CSS = REPO_ROOT / "assets" / "home.css"
 SITE_CSS = REPO_ROOT / "assets" / "site.css"
+SIDA_CSS = REPO_ROOT / "assets" / "sida-panels.css"
 LOGO = REPO_ROOT / "assets" / "illustrations" / "sida-logo.png"
 FONT = REPO_ROOT / "assets" / "fonts" / "michroma-400-sida.woff2"
 LICENSE = REPO_ROOT / "assets" / "fonts" / "michroma-OFL.txt"
@@ -36,9 +39,9 @@ MANIFEST = REPO_ROOT / "package-manifest.json"
 COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 RULE_RE = re.compile(r"([^{}]+)\{([^{}]*)\}")
 
-# Desktop: the list keeps a quarter of the width, the cards reclaim the rest.
+# Desktop: the list is only as wide as its widest label, the cards take the rest.
 DESKTOP_COLUMNS = "max-content minmax(0,1fr)"
-# Tablet widths keep the same narrow directory and expanded card area.
+# Tablet widths keep the same content-sized directory and expanded card area.
 TABLET_COLUMNS = "max-content minmax(0,1fr)"
 SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 
@@ -123,6 +126,7 @@ class FeatureTabShellTests(unittest.TestCase):
         cls.index = INDEX_HTML.read_text(encoding="utf-8")
         cls.css = COMMENT_RE.sub("", HOME_CSS.read_text(encoding="utf-8"))
         cls.site_css = SITE_CSS.read_text(encoding="utf-8")
+        cls.sida_css = SIDA_CSS.read_text(encoding="utf-8")
         cls.base, cls.medias = split_media(cls.css)
         cls.manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
 
@@ -152,10 +156,27 @@ class FeatureTabShellTests(unittest.TestCase):
         self.assertLess(self.list_pos, self.panels_pos, "tab list comes first")
 
     def test_brand_lockup_and_logo_markup_are_gone(self):
+        """The centre lockup left the feature shell; the shared PNG survives in the
+        hero title and the business-flow closing card, so pin where it may appear."""
         for marker in ("sida-brand-lockup", "sida-brand-mark", "sida-brand-name"):
             self.assertNotIn(marker, self.index, f"removed design remnant: {marker}")
-            self.assertNotIn(marker, self.css, f"removed design remnant in CSS: {marker}")
+            for name, css in (("home.css", self.css), ("site.css", self.site_css),
+                              ("sida-panels.css", self.sida_css)):
+                self.assertNotIn(marker, css, f"removed design remnant in {name}: {marker}")
         self.assertEqual(re.findall(r"\.sida-brand[\w-]*", self.css), [])
+        self.assertNotIn("sida-logo.png", self.tabs_inner,
+                         "the feature tab shell references no brand asset")
+        logos = re.findall(r'<img[^>]*src="assets/illustrations/sida-logo\.png"[^>]*>', self.index)
+        self.assertEqual(
+            [re.search(r'class="([^"]+)"', tag).group(1) for tag in logos],
+            ["hero-title__logo", "flow-final__logo"],
+            "the PNG ships in the hero title and the business-flow closing card only",
+        )
+        lockup = re.search(r'<span class="hero-title__lockup">.*?</span></span>', self.index, re.S)
+        self.assertIsNotNone(lockup, "the hero wordmark still opens with the logo lockup")
+        self.assertLess(lockup.group(0).index("hero-title__logo"),
+                        lockup.group(0).index("hero-title__name"),
+                        "the tile leads the wordmark")
 
     # -- tabs: order, ids, aria wiring ------------------------------------
 
@@ -234,9 +255,15 @@ class FeatureTabShellTests(unittest.TestCase):
     # -- retained asset integrity ----------------------------------------
 
     def test_sida_section_keeps_room_for_the_release_note(self):
+        """The section now keeps only its own 8px bottom padding - the stage is sized
+        by the sida-panels clamp - and the note still spans the download row."""
         section = declarations(self.base, ".sida-section")
-        self.assertEqual(normalise(section.get("padding-bottom", "")), normalise("8px"),
-                         "the section keeps its own bottom padding outside the clipped note")
+        self.assertEqual(normalise(section.get("padding-bottom", "")), "8px",
+                         "the section keeps its own 8px bottom padding below the note")
+        note = declarations(self.base, ".sida-section .download-actions .release-note")
+        self.assertEqual(normalise(note.get("grid-column", "")), "1/-1",
+                         "the release note spans the whole download row")
+        self.assertIn('class="release-note"', self.index)
 
     def test_foundation_one_font_is_removed(self):
         self.assertFalse(
@@ -268,24 +295,23 @@ class FeatureTabShellTests(unittest.TestCase):
             self.assertEqual(entry["bytes"], len(payload), path)
             self.assertEqual(entry["sha256"], hashlib.sha256(payload).hexdigest(), path)
 
-    def test_logo_returns_only_as_the_hero_lockup_mark(self):
-        """The tile is back, but only as the mark left of the hero wordmark."""
-        self.assertTrue(LOGO.is_file(), "the hero lockup ships assets/illustrations/sida-logo.png")
-        entries = {e["path"]: e for e in json.loads(MANIFEST.read_text(encoding="utf-8"))["files"]}
-        entry = entries.get("assets/illustrations/sida-logo.png")
-        self.assertIsNotNone(entry, "the tile must be manifest-listed or the server will not serve it")
+    def test_retired_logo_asset_is_deleted(self):
+        """Name kept from the unused-asset cleanup, which has since been rescinded:
+        the PNG ships again as the business-flow mark. Pin its bytes, its manifest
+        entry, and the fact that the feature shell is the one place it never lands."""
+        self.assertTrue(LOGO.is_file(), "the logo is still shipped, so nothing was deleted")
         payload = LOGO.read_bytes()
+        self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n",
+                         "assets/illustrations/sida-logo.png is a real PNG")
+        entries = {entry["path"]: entry for entry in self.manifest["files"]}
+        entry = entries.get("assets/illustrations/sida-logo.png")
+        self.assertIsNotNone(entry, "the retained logo stays manifest-listed")
         self.assertEqual(entry["bytes"], len(payload))
         self.assertEqual(entry["sha256"], hashlib.sha256(payload).hexdigest())
-        lockup = re.search(r'<span class="hero-title__lockup">.*?</span></span>', self.index, re.S)
-        self.assertIsNotNone(lockup, "the hero wordmark opens with the logo lockup")
-        block = lockup.group(0)
-        self.assertIn('src="assets/illustrations/sida-logo.png"', block)
-        self.assertLess(block.index("hero-title__logo"), block.index("hero-title__name"),
-                        "the tile leads the wordmark")
-        self.assertEqual(self.index.count("sida-logo.png"), 1, "one reference, in the hero")
-        for retired in ("sida-brand-lockup", "sida-brand-mark", "sida-brand-name"):
-            self.assertNotIn(retired, self.index)
+        self.assertNotIn("sida-logo.png", self.tabs_inner,
+                         "the feature tab shell never loads the logo")
+        self.assertNotIn("sida-logo.png", self.css)
+        self.assertNotIn("sida-logo.png", self.sida_css)
 
 
 if __name__ == "__main__":

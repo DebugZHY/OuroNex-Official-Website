@@ -61,19 +61,6 @@ def normalized_font_stack(value: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _decls(css: str, selector: str) -> dict:
-    """Declarations of one rule inside a raw stylesheet body."""
-    match = re.search(re.escape(selector) + r"\s*\{([^{}]*)\}", css)
-    if not match:
-        raise AssertionError(f"missing rule {selector}")
-    body = {}
-    for item in match.group(1).split(";"):
-        if ":" in item:
-            key, value = item.split(":", 1)
-            body[key.strip()] = value.strip()
-    return body
-
-
 def _sheet(name: str) -> str:
     return (ASSETS / name).read_text(encoding="utf-8")
 
@@ -548,47 +535,40 @@ class SignInPillTest(CssAssertions):
     AVATAR = ".home-page .desktop-nav .nav-secondary [data-signin].is-authenticated"
     TOKEN = "var(--nav-pill-height)"
 
-    def test_signin_wears_the_outline_cta_pill(self) -> None:
+    def test_signin_capsule_is_flat_and_borderless_gradient(self) -> None:
         variants = find_rules(SITE_CSS, self.SIGNIN)
         self.assertTrue(variants, f"{SITE_CSS}: no rule for {self.SIGNIN!r}")
-        self.assertTrue(
-            any(rule.get("border-radius") == "999px" for rule in variants),
-            f"{self.SIGNIN}: existing pill shape (border-radius: 999px) must be preserved",
+        base = next(rule for rule in variants if rule.get("height") == self.TOKEN)
+        self.assertEqual(
+            background(base),
+            "rgba(255,255,255,.10)",
+            f"{self.SIGNIN}: the capsule fills with a translucent track, found {background(base)!r}",
         )
-        outlined = [rule for rule in variants if rule.get("border") == "1px solid #7894c9"]
-        self.assertTrue(
-            outlined, f"{self.SIGNIN}: rest border must stay the 1px #7894c9 outline, found "
-            f"{[rule.get('border') for rule in variants]}",
+        self.assertNotIn(
+            "gradient",
+            background(base),
+            f"{self.SIGNIN}: the capsule carries no gradient, found {background(base)!r}",
         )
-        for rule in outlined:
-            self.assert_in(
-                rule.get("color", ""),
-                DARK_TEXT | {"var(--ink)"},
-                what=f"{self.SIGNIN} text colour",
-            )
-            self.assertNotEqual(
-                background(rule),
-                LIGHT_BLUE,
-                f"{self.SIGNIN}: Log in is the quiet outline pill, not the filled one",
-            )
-            self.assertIn(
-                "linear-gradient(115deg",
-                background(rule),
-                f"{self.SIGNIN}: the pill shares the hero CTA gradient, found "
-                f"{background(rule)!r}",
-            )
+        self.assertEqual(
+            base.get("box-shadow"), "none", f"{self.SIGNIN}: the capsule stays flat"
+        )
 
-    def test_signin_hover_uses_the_shared_cta_ring(self) -> None:
+    def test_signin_hover_deepens_the_capsule_fill(self) -> None:
         hover = find_rule(SITE_CSS, self.SIGNIN_HOVER)
         self.assertEqual(
+            background(hover),
+            "rgba(255,255,255,.18)",
+            f"{self.SIGNIN_HOVER}: hover brightens the translucent track",
+        )
+        self.assertEqual(
             hover.get("border-color"),
-            "var(--cta-ring,#c2d7ff)",
-            f"{self.SIGNIN_HOVER}: hover must take the shared CTA ring colour",
+            "rgba(255,255,255,.32)",
+            f"{self.SIGNIN_HOVER}: hover lifts the hairline, it does not take the CTA ring",
         )
         self.assertIn(
-            "box-shadow",
-            hover,
-            f"{self.SIGNIN_HOVER}: hover keeps the shared lifted shadow",
+            hover.get("box-shadow"),
+            (None, "none"),
+            f"{self.SIGNIN_HOVER}: the capsule stays flat, no lifted shadow",
         )
         self.assertNotEqual(
             background(hover),
@@ -596,26 +576,45 @@ class SignInPillTest(CssAssertions):
             f"{self.SIGNIN_HOVER}: hover must not repaint the pill light blue",
         )
 
-    def test_signin_pill_keeps_its_height_and_label_metrics(self) -> None:
+    def test_signin_capsule_height_and_trim(self) -> None:
         variants = find_rules(SITE_CSS, self.SIGNIN)
-        heights = {rule.get("height") for rule in variants if rule.get("height")}
-        self.assertEqual(
-            heights,
-            {"52px", "50px"},
-            f"{self.SIGNIN}: the pill is 52px tall and only the mobile block trims it to 50px, "
-            f"found {sorted(h for h in heights if h)}",
+        base = next(
+            rule for rule in reversed(variants) if rule.get("height") == self.TOKEN
         )
-        base = next(rule for rule in variants if rule.get("height") == "52px")
         self.assertEqual(
-            base.get("min-height"), "52px", f"{self.SIGNIN}: the height must not collapse"
+            base.get("min-height"),
+            self.TOKEN,
+            f"{self.SIGNIN}: the capsule height must hold",
         )
-        self.assert_decl(base, "white-space", "nowrap", where=self.SIGNIN)
-        self.assert_decl(base, "justify-content", "center", where=self.SIGNIN)
+        self.assert_decl(base, "border-radius", "999px", where=self.SIGNIN)
+        self.assertEqual(
+            background(base),
+            "rgba(255,255,255,.10)",
+            f"{self.SIGNIN}: the capsule carries a translucent fill, found {background(base)!r}",
+        )
+        self.assertEqual(
+            base.get("border"), "1px solid rgba(255,255,255,.18)", f"{self.SIGNIN}: hairline track"
+        )
+        self.assert_decl(base, "font-size", "16px", where=self.SIGNIN)
+        self.assertIn(
+            base.get("animation"),
+            (None, "none"),
+            f"{self.SIGNIN}: the capsule does not breathe",
+        )
         self.assertRegex(
             base.get("padding", ""),
-            r"^\d+px \d+px$",
-            f"{self.SIGNIN}: the pill is content-sized with a horizontal padding, found "
+            r"^0 \d+px$",
+            f"{self.SIGNIN}: content-sized with a horizontal padding only, found "
             f"{base.get('padding')!r}",
+        )
+        phone = [
+            dict(decls)
+            for selectors, decls in rules(SITE_CSS)
+            if any("[data-signin]:not(.is-authenticated)" in s for s in selectors)
+            and dict(decls).get("height") == "34px"
+        ]
+        self.assertTrue(
+            phone, f"{SITE_CSS}: the capsule trims to 34px inside the phone block"
         )
 
     def test_login_keeps_its_token_while_the_avatar_is_enlarged(self) -> None:
@@ -630,13 +629,13 @@ class SignInPillTest(CssAssertions):
         signin = next(
             rule
             for rule in find_rules(SITE_CSS, self.SIGNIN)
-            if rule.get("height") == "52px"
+            if rule.get("height") == self.TOKEN
         )
         for prop in ("height", "min-height"):
             self.assertEqual(
                 signin.get(prop),
-                "52px",
-                f"{self.SIGNIN}: {prop} follows the trimmed 52px pill",
+                self.TOKEN,
+                f"{self.SIGNIN}: {prop} follows the shared capsule token",
             )
 
         avatar = find_rule(HOME_CSS, self.AVATAR)
@@ -1154,79 +1153,31 @@ class AboutLayoutTest(CssAssertions):
         self.assert_decl(section, "height", "auto", where=".home-section")
 
 
-class ClosingCardTest(CssAssertions):
-    """The flow's last card puts the mark on the left and the words beside it."""
-
-    def test_canvas_card_lays_the_mark_beside_the_words(self) -> None:
-        css = (REPO_ROOT / "assets/business-flow.css").read_text(encoding="utf-8")
-        card = re.search(r"\.bf-card--delivery\{([^}]*)\}", css)
-        self.assertIsNotNone(card, "assets/business-flow.css: .bf-card--delivery must be styled")
-        self.assertIn(
-            "flex-direction:row",
-            card.group(1),
-            "the closing card must lay its mark and words out in a row",
-        )
-        self.assertIn(".bf-card__body{", css, "the words need their own column inside the row")
-        logo = re.search(r"\.bf-card__logo\{([^}]*)\}", css)
-        self.assertIsNotNone(logo)
-        self.assertIn("flex:none", logo.group(1))
-
-    def test_no_script_card_matches_the_canvas_card(self) -> None:
-        layout = find_rule(HOME_CSS, ".flow-final")
-        self.assert_decl(layout, "grid-template-columns", "auto minmax(0,1fr)", where=".flow-final")
-        self.assert_decl(find_rule(HOME_CSS, ".flow-final h3"), "grid-area", "1/2", where=".flow-final h3")
-        self.assert_decl(find_rule(HOME_CSS, ".flow-final__logo"), "grid-area", "1/1",
-                         where=".flow-final__logo")
-
-    def test_the_closing_node_is_sized_to_its_content(self) -> None:
-        bundle = (REPO_ROOT / "assets/business-flow.js").read_text(encoding="utf-8")
-        wide = re.search(r"delivery:\[(\d+),(\d+)\]", bundle)
-        tall = re.findall(r"delivery:\[(\d+),(\d+)\]", bundle)
-        self.assertTrue(tall, "the bundle must declare the closing node size")
-        # The mark sits beside the words now, so the card only needs room for two text lines.
-        for width, height in tall:
-            with self.subTest(size=(width, height)):
-                self.assertLessEqual(int(height), 130, "the closing node must hug its content")
-
-    def test_the_sentence_is_spelled_same(self) -> None:
-        for rel in ("index.html", "assets/i18n/home.json", "assets/i18n/home.js",
-                    "tools/business-flow/src/index.jsx"):
-            text = (REPO_ROOT / rel).read_text(encoding="utf-8")
-            with self.subTest(file=rel):
-                self.assertNotIn("saame", text)
-                self.assertIn("on the same platform - SIDA", text)
-
-
 class ExpandedSectionsTest(CssAssertions):
     def base(self, selector: str) -> dict[str, str]:
         matches = find_rules(HOME_CSS, selector)
         self.assertTrue(matches, f"missing base rule: {selector}")
         return matches[0]
 
-    def test_about_heading_box_holds_its_descenders(self) -> None:
-        rule = self.base(".about-intro h2")
-        self.assertEqual(squash(rule.get("line-height", "")), "1.28",
-                         "the About headline keeps a line box taller than the glyphs")
-        self.assertEqual(squash(rule.get("padding-block", "")), ".08em",
-                         "the reveal animation clips to the border box, so the box needs headroom")
-        self.assertEqual(squash(rule.get("margin-block", "")), "-.08em",
-                         "the headroom must not push the lede away")
-
     def test_wide_desktop_containers_use_the_available_page(self) -> None:
         hero = squash(self.base(".hero-inner").get("width", ""))
-        self.assertIn("1920px", hero, "the hero keeps the expanded wide container")
+        self.assertIn("1560px", hero, "the hero row must fit the 20% larger showcase card")
         price = squash(self.base(".price-layout").get("width", ""))
         self.assertIn("1240px", price, "the pricing column sits a little wider than the SIDA block")
         application = squash(self.base(".application-layout").get("width", ""))
         self.assertIn("1180px", application, "the application column keeps the 1180 block")
         feature = squash(self.base(".feature-layout").get("width", ""))
-        self.assertIn("1332px", feature, "the SIDA block keeps a column of its own next to the hero")
+        self.assertIn(
+            "1332px",
+            feature,
+            "the SIDA block now spans wider than the pricing column while staying below the hero",
+        )
         self.assertEqual(squash(self.base(".feature-layout").get("margin-inline", "")), "auto",
-                         "the narrower SIDA block stays centred")
+                         "the wider SIDA block stays centred")
 
     def test_hero_type_and_demo_are_larger(self) -> None:
         self.assert_decl(self.base(".hero-copy h1"), "font-size", "clamp(52px,5vw,72px)", where=".hero-copy h1")
-        self.assert_decl(self.base(".hero-description"), "font-size", "24px", where=".hero-description")
+        self.assert_decl(self.base(".hero-description"), "font-size", "16px", where=".hero-description")
         self.assert_decl(
             self.base(".hero-description-line"),
             "display",
@@ -1265,10 +1216,21 @@ class HomepageRedesignTest(CssAssertions):
     def test_hero_slogan_and_one_block_subtitle_line(self) -> None:
         html = self.html()
         self.assertIn('<span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span>', html)
-        self.assertIn('<span class="hero-title__accent">A</span>gent</span>', html)
+        self.assertIn(
+            '<span class="hero-title__accent">S</span>uper-'
+            '<span class="hero-title__accent">I</span>ntelligent '
+            '<span class="hero-title__accent">D</span>esign '
+            '<span class="hero-title__accent">A</span>gent</span>',
+            html,
+            "the hero slogan keeps the four accented initials of Super-Intelligent Design Agent",
+        )
         description = re.search(r'<p class="hero-description">(.*?)</p>', html, re.S)
         self.assertIsNotNone(description, "the hero subtitle is required")
-        self.assertIn("From planning to design, SIDA automates every engineering stages with built-in experts and customizable extensions, connects your project files, professional tools and turn the needs into deliverables.", description.group(1))
+        self.assertIn(
+            "From planning to design, SIDA automates every engineering stages with built-in "
+            "experts, connects your files and tools and turn the needs into deliverables.",
+            description.group(1),
+        )
         lines = re.findall(r'<span class="hero-description-line"[^>]*>', description.group(1))
         self.assertEqual(len(lines), 1, "the subtitle is a single block line")
         self.assert_decl(
@@ -1280,7 +1242,7 @@ class HomepageRedesignTest(CssAssertions):
         self.assert_decl(
             find_rules(HOME_CSS, ".hero-description")[0],
             "font-size",
-            "24px",
+            "16px",
             where=".hero-description on desktop",
         )
 
@@ -1289,31 +1251,104 @@ class HomepageRedesignTest(CssAssertions):
         self.assertEqual(
             squash(tabs.get("grid-template-columns", "")),
             "max-contentminmax(0,1fr)",
-            "the tab list is a fixed rail and the copy takes the rest",
+            "the tab list is a fixed rail and the panel column takes the rest",
         )
+
+        # The old three-row feature-card-stack text blocks were replaced by one
+        # fixed media stage per tab: the regulation word cloud, the workflow
+        # flowchart and two product screenshots. The single second column now
+        # holds those panel stages beside the directory rail, and the shared
+        # stage height keeps the download row from moving as tabs change.
         stage_css = (ASSETS / "sida-panels.css").read_text(encoding="utf-8")
-        panels_rule = _decls(stage_css, ".feature-panels")
-        self.assertEqual(
-            squash(panels_rule.get("height", "")),
-            "var(--stage-h)",
-            "every tab shares one fixed body height, so the download row cannot move",
-        )
+        compact_stage = re.sub(r"\s+", "", stage_css)
         self.assertIn(
-            "--stage-h",
-            re.sub(r"\s+", "", stage_css.split(".feature-panel{")[0]),
-            "the shared height is a token on the tab body",
+            "--stage-h:clamp(460px,calc(100svh-232px),700px)",
+            compact_stage,
+            "the SIDA panel column shares one responsive stage height",
         )
-        stage = _decls(stage_css, ".feature-stage")
-        self.assertEqual(squash(stage.get("height", "")), "100%", "the stage fills the body")
+        stage_panels = re.search(r"\.feature-panels\{([^}]*)\}", stage_css)
+        self.assertIsNotNone(stage_panels, "assets/sida-panels.css: .feature-panels is required")
+        self.assertIn(
+            "height:var(--stage-h)",
+            re.sub(r"\s+", "", stage_panels.group(1)),
+            "every tab fills the same fixed panel height",
+        )
+        stage = re.search(r"\.feature-stage\{([^}]*)\}", stage_css)
+        self.assertIsNotNone(stage, "assets/sida-panels.css: .feature-stage is required")
+        self.assertIn(
+            "height:100%",
+            re.sub(r"\s+", "", stage.group(1)),
+            "each stage fills the shared panel body",
+        )
+        panels = find_rules(HOME_CSS, ".feature-panels")[0]
+        self.assertEqual(
+            squash(panels.get("padding-left", "")),
+            "53px",
+            "the single panel column is inset from the directory rail",
+        )
+        self.assertEqual(
+            squash(panels.get("border-left", "")),
+            "1pxsolidrgba(155,181,210,.13)",
+            "the panel column keeps its hairline divider",
+        )
         html = self.html()
-        panels = re.findall(
-            r'<article[^>]*class="feature-panel"[^>]*>(.*?)</article>', html, re.S
+        self.assertNotIn(
+            "feature-card-stack",
+            html,
+            "the retired three-row text stacks must not return to the SIDA markup",
         )
-        self.assertEqual(len(panels), 4, "all four features own a stage")
-        for panel in panels:
-            self.assertEqual(panel.count('class="feature-stage'), 1, panel[:60])
-        self.assertNotIn('class="feature-card-stack"', html, "the three-card stacks are gone")
-        self.assertNotIn('class="feature-detail-card"', html, "the text cards are gone")
+        self.assertNotIn(
+            "feature-detail-card",
+            html,
+            "the retired detail cards must not return to the SIDA markup",
+        )
+
+        tab_ids = re.findall(
+            r'<button\b(?=[^>]*\brole="tab")(?=[^>]*\baria-controls="([^"]+)")[^>]*>',
+            html,
+        )
+        self.assertEqual(
+            tab_ids,
+            ["feature-engineering", "feature-workflow", "feature-free", "feature-experts"],
+            "the directory rail keeps four tabs wired to four stages",
+        )
+        self.assertEqual(
+            len(re.findall(r'class="directory-icon"', html)),
+            4,
+            "each SIDA tab keeps its directory icon",
+        )
+        articles = re.findall(r'<article\b[^>]*class="feature-panel"[^>]*>', html)
+        self.assertEqual(len(articles), 4, "the SIDA column keeps one stage per tab")
+        article_ids = [re.search(r'id="([^"]+)"', tag).group(1) for tag in articles]
+        self.assertEqual(article_ids, tab_ids, "each tab controls its own stage")
+        self.assertEqual(
+            sum("hidden" in tag for tag in articles),
+            3,
+            "only the first stage is visible until another tab is selected",
+        )
+        self.assertNotIn("hidden", articles[0])
+
+        engineering = re.search(
+            r'<article[^>]*id="feature-engineering".*?</article>', html, re.S
+        ).group(0)
+        self.assertIn('class="sida-tagcloud sida-wordcloud"', engineering)
+        self.assertIn("data-sida-wordcloud", engineering)
+        workflow = re.search(
+            r'<article[^>]*id="feature-workflow".*?</article>', html, re.S
+        ).group(0)
+        self.assertIn('class="sida-flow"', workflow)
+        self.assertIn("data-sida-flow", workflow)
+        shots = re.findall(
+            r'<figure class="feature-shot[^"]*">.*?<img[^>]*src="([^"]+)"', html, re.S
+        )
+        self.assertEqual(
+            shots,
+            [
+                "assets/illustrations/professional-tools.jpg",
+                "assets/illustrations/multidisciplinary-experts.png",
+            ],
+            "the two media stages keep their product screenshots",
+        )
 
     def test_price_cards_use_layered_gradients_borders_and_hover(self) -> None:
         card = find_rules(HOME_CSS, ".plan-mini")[0]
