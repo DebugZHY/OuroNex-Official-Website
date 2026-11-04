@@ -36,7 +36,7 @@ VOID_TAGS = {
 
 # tab id, data-directory-icon value, i18n key, visible label
 TABS = (
-    ("tab-engineering", "documents", "home.feature-engineering-title", "Information Overload"),
+    ("tab-engineering", "documents", "home.feature-engineering-title", "Information Management"),
     ("tab-workflow", "flow", "home.feature-workflow-title", "Complex Workflow"),
     ("tab-free", "wrench", "home.feature-free-title", "Professional Tools"),
     ("tab-experts", "expert", "home.feature-experts-title", "Multidisciplinary Experts"),

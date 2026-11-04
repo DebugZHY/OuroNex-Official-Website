@@ -5,6 +5,13 @@ import { buildIconModel } from './icon-model.js';
 const VIEW_DIRECTION = new THREE.Vector3(6.2, 3.2, 15.8);
 const PITCH_LIMIT = 0.62;
 
+// The camera sits off the +Z axis, so the mark only faces the viewer when the
+// default pose cancels that offset; double-click restores this pose.
+const VIEW = VIEW_DIRECTION.clone().normalize();
+const DEFAULT_YAW = Math.asin(VIEW.x);
+const DEFAULT_PITCH = -Math.asin(VIEW.y / Math.cos(DEFAULT_YAW));
+const REST_LABEL = 'SIDA 3D mark, drag to rotate, double-click to reset';
+
 function mount(host) {
   if (host.dataset.sida3dReady === '1') return null;
   host.dataset.sida3dReady = '1';
@@ -17,7 +24,7 @@ function mount(host) {
   renderer.setClearColor(0x0a1420, 0);
   const canvas = renderer.domElement;
   canvas.setAttribute('role', 'img');
-  canvas.setAttribute('aria-label', host.dataset.sida3dLabel || 'SIDA 3D mark, drag to rotate');
+  canvas.setAttribute('aria-label', host.dataset.sida3dLabel || REST_LABEL);
   host.appendChild(canvas);
 
   const scene = new THREE.Scene();
@@ -53,8 +60,8 @@ function mount(host) {
   model.root.position.sub(target);
   const radius = Math.max(size.x, size.y, size.z) * 0.68;
 
-  let yaw = -0.34;
-  let pitch = 0.16;
+  let yaw = DEFAULT_YAW;
+  let pitch = DEFAULT_PITCH;
   let frame = 0;
   let dragging = false;
   let pointerId = null;
@@ -114,6 +121,12 @@ function mount(host) {
   canvas.addEventListener('pointerup', release);
   canvas.addEventListener('pointercancel', release);
   canvas.addEventListener('lostpointercapture', release);
+
+  canvas.addEventListener('dblclick', () => {
+    yaw = DEFAULT_YAW;
+    pitch = DEFAULT_PITCH;
+    requestDraw();
+  });
 
   new ResizeObserver(() => {
     placeCamera();

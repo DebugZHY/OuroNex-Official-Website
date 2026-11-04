@@ -56,9 +56,9 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "SIDA 特點"
   },
   "home.feature-engineering-title": {
-    "en": "Information Overload",
-    "zh-CN": "信息过载",
-    "zh-TW": "資訊過載"
+    "en": "Information Management",
+    "zh-CN": "信息管理",
+    "zh-TW": "資訊管理"
   },
   "home.feature-free-title": {
     "en": "Professional Tools",

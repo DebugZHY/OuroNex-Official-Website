@@ -116,6 +116,23 @@ class EmbedBehaviourTests(unittest.TestCase):
         self.assertIn("pitch = THREE.MathUtils.clamp(pitch + dy * 0.006", self.embed)
         self.assertIn("yaw += dx * 0.008;", self.embed)
 
+    def test_the_resting_pose_looks_the_viewer_in_the_face(self) -> None:
+        self.assertIn("const VIEW = VIEW_DIRECTION.clone().normalize()", self.embed)
+        self.assertIn("const DEFAULT_YAW = Math.asin(VIEW.x)", self.embed)
+        self.assertIn("const DEFAULT_PITCH = -Math.asin(VIEW.y / Math.cos(DEFAULT_YAW))", self.embed,
+                      "the camera sits off the +Z axis; the pose has to cancel that offset")
+        self.assertIn("let yaw = DEFAULT_YAW;", self.embed)
+        self.assertIn("let pitch = DEFAULT_PITCH;", self.embed)
+
+    def test_double_click_restores_that_pose(self) -> None:
+        handler = re.search(r"canvas\.addEventListener\('dblclick',\s*\(\)\s*=>\s*\{(.*?)\}\);", self.embed, re.S)
+        self.assertIsNotNone(handler, "double-click must be wired on the canvas")
+        body = handler.group(1)
+        self.assertIn("yaw = DEFAULT_YAW", body)
+        self.assertIn("pitch = DEFAULT_PITCH", body)
+        self.assertIn("requestDraw()", body, "the reset has to repaint the canvas")
+        self.assertIn("double-click to reset", self.embed, "the canvas label has to advertise the gesture")
+
     def test_bundle_ships_and_is_allowlisted(self) -> None:
         self.assertTrue(BUNDLE.is_file(), "the built bundle must sit in assets/")
         paths = {entry["path"] for entry in json.loads(read(MANIFEST))["files"]}

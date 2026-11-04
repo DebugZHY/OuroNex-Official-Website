@@ -1,4 +1,4 @@
-/* Word cloud for the Information Overload panel.
+/* Word cloud for the Information Management panel.
 
    The vocabulary is the Buildings Department's “Codes, design manuals and
    guidelines” index together with the section headings and recurring terms of

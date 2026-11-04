@@ -1,4 +1,4 @@
-"""The Information Overload panel is a word cloud over the Buildings Department index.
+"""The Information Management panel is a word cloud over the Buildings Department index.
 
 The vocabulary is the Buildings Department's own list of codes, design manuals and
 guidelines, plus the section headings those documents carry. The layout follows the
@@ -69,7 +69,7 @@ class WordCloudMarkupTests(unittest.TestCase):
 
     def test_panel_hosts_the_cloud(self) -> None:
         host = re.search(r'<div[^>]*data-sida-wordcloud=""[^>]*>', self.index)
-        self.assertIsNotNone(host, "the Information Overload panel needs a cloud host")
+        self.assertIsNotNone(host, "the Information Management panel needs a cloud host")
         self.assertIn("sida-tagcloud", host.group(0), "the shared panel frame stays")
         self.assertIn('data-i18n-aria-label="home.code-index-label"', host.group(0))
 

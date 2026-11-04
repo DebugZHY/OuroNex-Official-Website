@@ -153,9 +153,9 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 60967,
-      "sha256": "524224528c6a3b8b571e3d310f0b6f5223b1cc7198bf6992d0687844d7cceed0",
-      "size": 60967
+      "bytes": 60969,
+      "sha256": "73144e5589b0533e1cb8ea02403db0a83b53118f8aec5afbb0dc85a6b4c08c43",
+      "size": 60969
     },
     {
       "path": "assets/home.js",
@@ -231,9 +231,9 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 22190,
-      "sha256": "f61461f988dcc1ced51c5aa5d444ecd6e04c6fac435a7fb7bc597345069f881b",
-      "size": 22190
+      "bytes": 22192,
+      "sha256": "57ea3478fd3d36c7f93c06e9de160446040c1b881359bcc5a014a44a76f62a16",
+      "size": 22192
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -423,9 +423,9 @@
     },
     {
       "path": "assets/sida-3d.js",
-      "bytes": 527973,
-      "sha256": "f1f208e330202f1257eb34889fa313d4f57130d002403930b51151fdbdc6ab33",
-      "size": 527973
+      "bytes": 528128,
+      "sha256": "7739cfb18ab5d4e1aac13126e01703bd276b82f72c12a481788b6eccb8220ba3",
+      "size": 528128
     },
     {
       "path": "assets/sida-panels.css",
@@ -435,9 +435,9 @@
     },
     {
       "path": "assets/sida-wordcloud.js",
-      "bytes": 20339,
-      "sha256": "542bd4913e7fbc4a8911a5cb5ab1db587689b277df438974c1994b8c1b0c061d",
-      "size": 20339
+      "bytes": 20341,
+      "sha256": "fbef9bdd8a9a03836c4a1e71af866066caebf5ef89aec1284d1b341286d0eb3a",
+      "size": 20341
     },
     {
       "path": "assets/sida-workflow.js",
@@ -477,9 +477,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 31029,
-      "sha256": "e572445f8ab16969df4ff84842bca9bd2974ab40c82977b7ec8f442d56e783ff",
-      "size": 31029
+      "bytes": 31054,
+      "sha256": "d54c3a058290895578fc6ea96b9daacd28ecab86796edfdc41fd3138a4a88910",
+      "size": 31054
     },
     {
       "path": "news/_template.html",

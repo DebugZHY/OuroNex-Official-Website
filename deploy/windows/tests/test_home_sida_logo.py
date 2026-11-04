@@ -7,7 +7,7 @@ removed with the homepage redesign. This module now pins what replaced it:
   then ``.feature-panels`` - and no brand lockup node is referenced there;
 * the shared ``assets/illustrations/sida-logo.png`` is *not* retired: it ships
   as the hero title mark and the business-flow closing card, never here;
-* the four tabs keep their order (Information Overload, Complex Workflow,
+* the four tabs keep their order (Information Management, Complex Workflow,
   Professional Tools, Multidisciplinary Experts), ids and ARIA wiring;
 * the desktop grid gives the tab list a fixed 396px rail and the card area
   every remaining pixel, with no shared height driving the columns;
@@ -46,7 +46,7 @@ TABLET_COLUMNS = "max-content minmax(0,1fr)"
 SHARED_HEIGHT = "clamp(448px,52.8vh,608px)"
 
 TABS = (
-    ("tab-engineering", "feature-engineering", "home.feature-engineering-title", "Information Overload"),
+    ("tab-engineering", "feature-engineering", "home.feature-engineering-title", "Information Management"),
     ("tab-workflow", "feature-workflow", "home.feature-workflow-title", "Complex Workflow"),
     ("tab-free", "feature-free", "home.feature-free-title", "Professional Tools"),
     ("tab-experts", "feature-experts", "home.feature-experts-title", "Multidisciplinary Experts"),
