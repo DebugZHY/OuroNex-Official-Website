@@ -183,3 +183,31 @@ class HeaderNavigationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class HeaderChromeAlwaysVisibleTests(unittest.TestCase):
+    """The navigation and the Log in capsule are part of the first paint.
+
+    They were briefly revealed on scroll; that is retired, so no rule may fade,
+    lift or hide the two clusters and the script must not write a reveal value.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.css = (REPO_ROOT / "assets" / "site.css").read_text(encoding="utf-8")
+        cls.js = (REPO_ROOT / "assets" / "site.js").read_text(encoding="utf-8")
+
+    def test_no_rule_conceals_the_header_clusters(self) -> None:
+        self.assertNotIn("--nav-reveal", self.css, "the reveal variable is retired")
+        self.assertNotIn("is-nav-concealed", self.css, "no concealed state may hide the chrome")
+        for selector in (".site-header .nav-primary", ".site-header .nav-secondary"):
+            self.assertNotIn(
+                f"{selector}{{opacity:0",
+                self.css.replace(" ", ""),
+                f"{selector} must not start transparent",
+            )
+
+    def test_script_leaves_the_header_alone(self) -> None:
+        self.assertNotIn("--nav-reveal", self.js, "site.js must not publish a reveal value")
+        self.assertNotIn("is-nav-concealed", self.js, "site.js must not hide the clusters")
+        self.assertNotIn("navReveal", self.js, "the per-page opt-out is gone with the reveal")

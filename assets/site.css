@@ -42,48 +42,27 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 .nav-secondary{display:flex;align-items:center;justify-content:flex-end;gap:20px;flex:0 0 auto}
 .desktop-nav a{position:relative;font-size:14px;color:var(--muted);font-weight:500;padding:14px 0;transition:color .2s,background-color .2s,border-color .2s;white-space:nowrap}
 .desktop-nav a:hover,.desktop-nav a[aria-current='page']{color:var(--ink)}
-.desktop-nav a:not(.nav-contact):not([data-signin]):not([data-register])::after{content:'';position:absolute;left:0;right:0;bottom:5px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
+.desktop-nav a:not(.nav-contact):not([data-signin])::after{content:'';position:absolute;left:0;right:0;bottom:5px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
 .desktop-nav a[aria-current='page']::after,.desktop-nav a:hover::after{transform:scaleX(1)}
 .desktop-nav .nav-contact{display:inline-flex;align-items:center;justify-content:center;color:var(--ink);border:1px solid #60718980;border-radius:4px;padding:10px 16px;min-height:44px}
 .desktop-nav .nav-contact:hover{border-color:var(--accent);background:#729eff0a}
 .nav-secondary{gap:12px}
-/* Header actions: Log in is the quiet secondary on the left, Register the filled
-   primary on the right — the order and the weight split measured on linear.app
-   and vercel.com (Log in left / ghost, Sign up right / solid, 7-12px apart).
-   Both wear the hero CTA vocabulary (60px pill, 600 weight, gradient fill, ring
-   on hover) so the header and the hero read as one system rather than two. */
+/* Header actions: the filled Register pill is gone from the header, so the account
+   cluster carries one quiet Log in capsule beside the language switcher — a hairline
+   track with a translucent fill, no gradient and no glow, which leaves the hero CTAs
+   as the only filled buttons on the page. */
 .desktop-nav .nav-secondary .nav-contact{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 24px;border-radius:999px;font-size:20px;font-weight:500;line-height:1.2;letter-spacing:-.01em;color:var(--ink);background:transparent;border:1px solid #8290a3}
 .desktop-nav .nav-secondary .nav-contact:hover{color:var(--ink);background:#729eff24;border-color:var(--accent)}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),
-.desktop-nav .nav-secondary [data-register]{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;height:52px;min-height:52px;padding:12px 22px;border-radius:999px;font-size:20px;font-weight:600;line-height:1.2;letter-spacing:normal;white-space:nowrap;overflow:hidden;background-size:190% 190%;box-shadow:0 12px 26px rgba(2,8,20,.34);transition:transform .25s var(--ease),box-shadow .25s ease,border-color .3s ease,color .2s ease}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated){border:1px solid #7894c9;--cta-ring:#c2d7ff;background:linear-gradient(115deg,rgba(14,26,43,.75) 0%,rgba(23,44,71,.75) 48%,rgba(16,31,52,.75) 100%);color:var(--ink);animation:onx-cta-outline-breathe 9s ease-in-out infinite}
-.desktop-nav .nav-secondary [data-register]{border:1px solid #b7ceff;--cta-ring:#ffffff;background:linear-gradient(115deg,rgba(169,197,255,.75) 0%,rgba(200,217,255,.75) 42%,rgba(148,182,250,.75) 100%);color:#0b1626;animation:onx-cta-primary-breathe 8s ease-in-out infinite}
-.desktop-nav .nav-secondary [data-signin]::after,
-.desktop-nav .nav-secondary [data-register]::after{content:"";position:absolute;inset:0;z-index:2;border:0 solid var(--cta-ring,#c2d7ff);border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s ease,border-width .25s ease}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated):hover,
-.desktop-nav .nav-secondary [data-register]:hover{border-color:var(--cta-ring,#c2d7ff);box-shadow:0 18px 32px rgba(2,8,20,.46)}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated):hover::after,
-.desktop-nav .nav-secondary [data-register]:hover::after{opacity:1;border-width:2px}
-/* The signed-in avatar stays a circle, unaffected by the pill metrics above. */
+.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated){position:relative;display:inline-flex;align-items:center;justify-content:center;height:var(--nav-pill-height);min-height:var(--nav-pill-height);padding:0 18px;border:1px solid rgba(255,255,255,.18);border-radius:999px;font-size:16px;font-weight:500;line-height:1.2;letter-spacing:normal;white-space:nowrap;color:#e8eefb;background:rgba(255,255,255,.10);box-shadow:none;transition:background-color .25s ease,border-color .25s ease,color .2s ease}
+.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated):hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);color:#fff}
+/* The signed-in avatar stays a circle, unaffected by the capsule metrics above. */
 .desktop-nav .nav-secondary [data-signin].is-authenticated{width:48px;height:48px;min-width:48px;min-height:48px;padding:0;border-radius:50%}
 /* Shared with the hero CTAs, which used to declare these keyframes themselves. */
 @keyframes onx-cta-primary-breathe{0%,100%{background-position:0% 50%;border-color:#a9c5ff}50%{background-position:100% 50%;border-color:#d1dfff}}
 @keyframes onx-cta-outline-breathe{0%,100%{background-position:0% 50%;border-color:#566f9c}50%{background-position:100% 50%;border-color:#7e95bd}}
-@media(max-width:760px){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),.desktop-nav .nav-secondary [data-register]{height:50px;min-height:50px;padding:11px 18px}}
-@media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),.desktop-nav .nav-secondary [data-register]{animation:none}}
-/* The header pills repeat the hero CTA hover: one soft light that follows the pointer
-   inside the pill and brightens on hover. --mx/--my are written by site.js. */
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated),
-.desktop-nav .nav-secondary [data-register]{--mx:50%;--my:50%}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)::before,
-.desktop-nav .nav-secondary [data-register]::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:radial-gradient(170px circle at var(--mx) var(--my),rgba(255,255,255,.48),rgba(255,255,255,.12) 38%,transparent 70%);opacity:0;transition:opacity .25s ease}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)::before{background:radial-gradient(180px circle at var(--mx) var(--my),rgba(140,181,255,.18),rgba(114,158,255,.05) 42%,transparent 72%)}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)>span,
-.desktop-nav .nav-secondary [data-register]>span{position:relative;z-index:1}
-.desktop-nav .nav-secondary [data-register]:hover::before{opacity:1}
-.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated):hover::before{opacity:.45}
-@media(hover:none){.desktop-nav .nav-secondary [data-signin]::before,.desktop-nav .nav-secondary [data-register]::before{display:none}}
-@media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary [data-signin]::before,.desktop-nav .nav-secondary [data-register]::before{display:none}}
+@media(max-width:760px){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated){height:34px;min-height:34px;padding:0 16px;font-size:15px}}
+@media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated){transition:none}}
+
 /* Public auth pages (login, register) reuse the home header: same logo lockup, nav
    rhythm and language slots. Values mirror home.css; test_account_header pins them. */
 .auth-page{--header-height:96px}
@@ -171,5 +150,4 @@ details>p,details>div{padding-bottom:24px;color:var(--muted);font-size:15px;max-
 .js .reveal-pending{opacity:0;translate:0 20px}
 .js .reveal-pending:focus-within{opacity:1;translate:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .reveal-pending{opacity:1;translate:none}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-
 

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1420">
+  <link rel="icon" type="image/png" href="./reference.png">
+  <title>建造者机器人 · 交互式 3D 图标</title>
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <svg class="svg-defs" aria-hidden="true">
+    <symbol id="icon-cube" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></symbol>
+    <symbol id="icon-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2 7M4 4v6h6"/></symbol>
+    <symbol id="icon-orbit" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-30 12 12)"/><circle cx="12" cy="12" r="2.5"/></symbol>
+    <symbol id="icon-mouse" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M12 6v4"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="立体图标工作室首页">
+        <span class="brand-mark"><svg><use href="#icon-cube"/></svg></span>
+        <span>立体图标工作室</span>
+      </a>
+      <div class="topbar-actions">
+        <span class="file-chip">GLB · 真实几何</span>
+        <button class="button button-primary" id="export-glb" type="button">
+          <svg><use href="#icon-download"/></svg>
+          <span>导出模型</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="viewer-panel" aria-label="三维模型预览">
+        <div id="stage"></div>
+        <div class="scene-heading">
+          <span class="status-pill"><span></span> 交互式 3D</span>
+          <h1>建造者机器人</h1>
+          <p>从平面图案到完整立体结构，每个角度都值得查看。</p>
+        </div>
+        <div class="stage-bottom">
+          <div class="gesture-hint"><svg><use href="#icon-mouse"/></svg><span>拖动旋转 · 滚轮缩放 · 右键平移</span></div>
+          <span id="mesh-stats" class="mesh-stats">正在构建模型…</span>
+        </div>
+        <div class="loading-mask" id="loading" role="status">
+          <span class="loader"></span>
+          <span>正在生成立体结构</span>
+        </div>
+        <div class="fallback" id="fallback" hidden>
+          <img src="./reference.png" alt="原始建造者机器人图标">
+          <p>当前浏览器无法启动 3D 预览，请使用支持 WebGL 的浏览器。</p>
+        </div>
+      </section>
+
+      <aside class="control-panel" aria-label="模型控制面板">
+        <figure class="reference-card">
+          <img src="./reference.png" alt="用户提供的原始图标">
+          <figcaption><span>原图参考</span><small>保留原始配色与轮廓</small></figcaption>
+        </figure>
+
+        <section class="control-section view-section">
+          <div class="section-title"><span>视角预设</span><small>VIEW</small></div>
+          <div class="view-grid" role="group" aria-label="切换模型视角">
+            <button class="view-button is-active" type="button" data-view="three" aria-pressed="true"><span class="view-glyph glyph-cube"></span>立体</button>
+            <button class="view-button" type="button" data-view="front" aria-pressed="false"><span class="view-glyph glyph-front"></span>正面</button>
+            <button class="view-button" type="button" data-view="side" aria-pressed="false"><span class="view-glyph glyph-side"></span>侧面</button>
+            <button class="view-button" type="button" data-view="back" aria-pressed="false"><span class="view-glyph glyph-back"></span>背面</button>
+          </div>
+        </section>
+
+        <section class="control-section display-section">
+          <div class="section-title"><span>展示设置</span><small>DISPLAY</small></div>
+          <button class="setting-row" id="rotate-toggle" type="button" role="switch" aria-checked="false">
+            <span class="setting-label"><svg><use href="#icon-orbit"/></svg><span>自动环绕</span></span>
+            <span class="switch-track"><span></span></span>
+          </button>
+          <button class="setting-row" id="plate-toggle" type="button" role="switch" aria-checked="true">
+            <span class="setting-label"><svg><use href="#icon-cube"/></svg><span>显示图标底板</span></span>
+            <span class="switch-track"><span></span></span>
+          </button>
+        </section>
+
+        <button class="button button-secondary reset-button" id="reset-view" type="button">
+          <svg><use href="#icon-reset"/></svg><span>重置视角与设置</span>
+        </button>
+        <p class="model-note">独立厚度、圆润倒角与完整背部结构，并非图片贴片。</p>
+      </aside>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./src/scene.js"></script>
+</body>
+</html>

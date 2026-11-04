@@ -34,6 +34,7 @@
 
   const homeScroll = document.querySelector('main#main.home-scroll');
   const progress = document.querySelector('.reading-progress');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let scrollFrame = 0;
   const updateScroll = () => {
     scrollFrame = 0;
@@ -55,7 +56,6 @@
   if ('ResizeObserver' in window) new ResizeObserver(queueScroll).observe(document.body);
   updateScroll();
 
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const hasMotionEngine = [...document.scripts].some(script => /(?:^|\/)motion\.js(?:[?#]|$)/.test(script.src));
   if ('IntersectionObserver' in window && !reducedMotion.matches && !hasMotionEngine) {
     const revealObserver = new IntersectionObserver(entries => {
@@ -253,8 +253,7 @@
   const setSignedIn = (link, user) => {
     const username = typeof user.username === 'string' ? user.username.trim() : '';
     if (!username) return;
-    /* A signed-in visitor sees an avatar instead of Log in / Register. */
-    document.querySelectorAll('[data-register]').forEach(node => node.remove());
+    /* A signed-in visitor sees an avatar in place of the Log in capsule. */
     const avatar = safeAvatarUrl(user.avatar);
     link.setAttribute('href', '/dashboard/');
     link.classList.add('is-authenticated');
@@ -305,9 +304,9 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadSignedInUser, { once: true });
   else loadSignedInUser();
 
-  /* The header Log in / Register pills carry a pointer-following light, the same
-     hover the hero CTAs use. site.css owns the look; this only writes --mx/--my. */
-  const glowPills = [...document.querySelectorAll('.nav-secondary [data-signin]:not(.is-authenticated), .nav-secondary [data-register], .plan-mini .plan-action')];
+  /* The plan pills carry a pointer-following light, the same hover the hero CTAs use.
+     site.css owns the look; this only writes --mx/--my. */
+  const glowPills = [...document.querySelectorAll('.plan-mini .plan-action')];
   glowPills.forEach(pill => {
     let frame = 0;
     const paint = event => {

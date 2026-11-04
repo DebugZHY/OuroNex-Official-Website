@@ -32,6 +32,15 @@ class HomePricingLayoutTests(unittest.TestCase):
                 self.assertIn("grid-template-columns:repeat(5,", rule)
                 self.assertNotIn("repeat(4,", rule, "the fifth card would be pushed to a second row")
 
+    def test_strip_scrolls_on_phones_only(self) -> None:
+        text = css()
+        base = strip_rules(text)[0]
+        self.assertIn("overflow:visible", base)
+        self.assertNotIn("overflow-x:auto", base, "a scroller paints a bar under the plans on desktop")
+        phone = [rule for rule in strip_rules(text) if "overflow-x:auto" in rule]
+        self.assertEqual(len(phone), 1, "only the phone breakpoint keeps the swipe scroller")
+        self.assertIn("minmax(160px,1fr)", phone[0])
+
     def test_card_floor_leaves_a_partial_card_on_mobile(self) -> None:
         text = css()
         self.assertGreaterEqual(text.count("repeat(5,minmax(160px,1fr))"), 2)

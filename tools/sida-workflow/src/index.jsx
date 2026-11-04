@@ -25,39 +25,38 @@ const STAGE_LABEL = {
   delivery: 'Delivery',
 };
 
-const NODE_W = 158;
-const NODE_H = 62;
-const COL_PITCH = 192;
+const NODE_W = 138;
+const NODE_H = 56;
+const COL_PITCH = 150;
+const ROW_PITCH = 84;
 
-// [column, y, id, label, stage, icon]
+// [column, row, id, label, stage, icon]
 const NODE_SPEC = [
+  // Spine: brief to global analysis.
   [0, 0, 'brief', 'Client Brief', 'scheme', 'document'],
-  [1, 0, 'concept', 'Concept Scheme', 'scheme', 'sketch'],
-  [2, 0, 'bim', 'BIM Model', 'scheme', 'cube'],
-  [3, 0, 'takedown', 'Load Takedown', 'analysis', 'loads'],
-  [4, 0, 'analysis', 'Global Analysis', 'analysis', 'wave'],
+  [0, 1, 'concept', 'Concept Scheme', 'scheme', 'sketch'],
+  [0, 2, 'bim', 'BIM Model', 'scheme', 'cube'],
+  [0, 3, 'takedown', 'Load Takedown', 'analysis', 'loads'],
+  [0, 4, 'analysis', 'Global Analysis', 'analysis', 'wave'],
 
   // Three parallel work streams, superstructure / lateral / substructure.
-  [5, -104, 'beam', 'Beam Design', 'design', 'beam'],
-  [5, 0, 'wind', 'Wind Analysis', 'analysis', 'wind'],
-  [5, 104, 'foundation', 'Foundation Design', 'design', 'pile'],
-  [6, -104, 'column', 'Column Design', 'design', 'column'],
-  [6, 0, 'lateral', 'Lateral Design', 'design', 'brace'],
-  [6, 104, 'pile', 'Pile Capacity', 'check', 'pilecheck'],
+  [1, 2, 'beam', 'Beam Design', 'design', 'beam'],
+  [1, 3, 'wind', 'Wind Analysis', 'analysis', 'wind'],
+  [1, 4, 'foundation', 'Foundation Design', 'design', 'pile'],
+
+  [2, 2, 'column', 'Column Design', 'design', 'column'],
+  [2, 3, 'lateral', 'Lateral Design', 'design', 'brace'],
+  [2, 4, 'pile', 'Pile Capacity', 'check', 'pilecheck'],
 
   // Streams merge into detailing, which fans out into the code checks.
-  [7, 0, 'detailing', 'Detailing', 'design', 'grid'],
-  [8, -249, 'concrete', 'Concrete Check', 'check', 'checkbox'],
-  [8, -83, 'steel', 'Steel Check', 'check', 'ibeam'],
-  [8, 83, 'fire', 'Fire Check', 'check', 'fire'],
-  [8, 249, 'windcheck', 'Wind Check', 'check', 'windcheck'],
-  [9, 0, 'compliance', 'Compliance', 'check', 'shield'],
+  [2, 0, 'detailing', 'Detailing', 'design', 'grid'],
 
-  [10, 0, 'drawings', 'Drawings', 'submission', 'sheet'],
-  [11, 0, 'submission', 'BD Submission', 'submission', 'stamp'],
-  [12, 0, 'approval', 'Review & Approval', 'submission', 'stampcheck'],
-  [13, 0, 'construction', 'Construction Support', 'delivery', 'crane'],
-  [14, 0, 'inspection', 'Site Inspection', 'delivery', 'clipboard'],
+  [3, 0, 'concrete', 'Concrete Check', 'check', 'checkbox'],
+  [3, 1, 'steel', 'Steel Check', 'check', 'ibeam'],
+  [3, 2, 'fire', 'Fire Check', 'check', 'fire'],
+  [3, 3, 'windcheck', 'Wind Check', 'check', 'windcheck'],
+  [3, 4, 'compliance', 'Compliance', 'check', 'shield'],
+  [3, 5, 'submission', 'BD Submission', 'submission', 'stamp'],
 ];
 
 // [source, target, onSpine] - the spine edges are the only ones that animate.
@@ -86,11 +85,7 @@ const EDGE_SPEC = [
   ['fire', 'compliance', false],
   ['windcheck', 'compliance', false],
 
-  ['compliance', 'drawings', true],
-  ['drawings', 'submission', true],
-  ['submission', 'approval', true],
-  ['approval', 'construction', true],
-  ['construction', 'inspection', true],
+  ['compliance', 'submission', true],
 ];
 
 const ARROW = {
@@ -101,27 +96,36 @@ const ARROW = {
 };
 
 function buildGraph(motion) {
-  const nodes = NODE_SPEC.map(([col, y, id, label, stage, icon]) => ({
+  const nodes = NODE_SPEC.map(([col, row, id, label, stage, icon]) => ({
     id,
     type: 'stage',
-    position: { x: col * COL_PITCH, y },
+    position: { x: col * COL_PITCH, y: row * ROW_PITCH },
     data: { label, stage, icon },
     style: { width: NODE_W, height: NODE_H },
     draggable: false,
     selectable: false,
   }));
 
-  const edges = EDGE_SPEC.map(([source, target, spine], index) => ({
+  const seat = new Map(nodes.map((node) => [node.id, node.position]));
+  const edges = EDGE_SPEC.map(([source, target, spine], index) => {
+    const from = seat.get(source);
+    const to = seat.get(target);
+    const vertical = Math.abs(to.x - from.x) < 1;
+    const down = to.y >= from.y;
+    return {
     id: `e-${source}-${target}`,
     source,
     target,
+    sourceHandle: vertical ? (down ? 's-bottom' : 's-top') : 's-right',
+    targetHandle: vertical ? (down ? 't-top' : 't-bottom') : 't-left',
     type: 'smoothstep',
     pathOptions: { borderRadius: 16, offset: 14 },
     animated: Boolean(motion && spine),
     markerEnd: ARROW,
     className: spine ? 'sif-edge sif-edge--spine' : 'sif-edge',
     zIndex: index % 2,
-  }));
+    };
+  });
 
   return { nodes, edges };
 }
@@ -140,8 +144,12 @@ const StageNode = memo(function StageNode({ data }) {
         <span className="sif-card__stage">{STAGE_LABEL[data.stage]}</span>
         <span className="sif-card__label">{data.label}</span>
       </span>
-      <Handle type="target" position={Position.Left} className="sif-handle" isConnectable={false} />
-      <Handle type="source" position={Position.Right} className="sif-handle" isConnectable={false} />
+      <Handle type="target" position={Position.Left} id="t-left" className="sif-handle" isConnectable={false} />
+      <Handle type="target" position={Position.Top} id="t-top" className="sif-handle" isConnectable={false} />
+      <Handle type="target" position={Position.Bottom} id="t-bottom" className="sif-handle" isConnectable={false} />
+      <Handle type="source" position={Position.Right} id="s-right" className="sif-handle" isConnectable={false} />
+      <Handle type="source" position={Position.Bottom} id="s-bottom" className="sif-handle" isConnectable={false} />
+      <Handle type="source" position={Position.Top} id="s-top" className="sif-handle" isConnectable={false} />
     </div>
   );
 });
@@ -194,29 +202,24 @@ function Canvas() {
   const graph = useMemo(() => buildGraph(!reduced), [reduced]);
 
   // React Flow measures the wrapper itself, so the opening viewport is set once
-  // the panel has a box: a readable zoom on the start of the flow rather than a
-  // fit that would shrink fifteen stages to unreadable type. "Fit to view" is
-  // the control for the whole diagram.
+  // the panel has a box. The tab body is display:none until it is opened, which
+  // is why this watches for the first real box instead of running on mount.
   useEffect(() => {
     if (placed) return undefined;
-    let frame = 0;
-    let tries = 0;
-    const place = () => {
-      const element = wrap.current;
-      if (element && element.clientHeight) {
-        flow.setViewport(
-          { x: 20, y: Math.round(element.clientHeight / 2), zoom: 0.72 },
-          { duration: 0 },
-        );
-        setPlaced(true);
-        return;
-      }
-      if (tries >= 90) return;
-      tries += 1;
-      frame = requestAnimationFrame(place);
+    const element = wrap.current;
+    if (!element) return undefined;
+    const fit = () => {
+      if (!element.clientHeight || !element.clientWidth) return false;
+      flow.fitView({ padding: 0.06, duration: 0 });
+      setPlaced(true);
+      return true;
     };
-    frame = requestAnimationFrame(place);
-    return () => cancelAnimationFrame(frame);
+    if (fit()) return undefined;
+    const observer = new ResizeObserver(() => {
+      if (fit()) observer.disconnect();
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
   }, [flow, placed]);
 
   useEffect(() => {

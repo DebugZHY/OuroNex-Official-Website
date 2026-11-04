@@ -15,9 +15,9 @@
     "zh-TW": "SIDA"
   },
   "home.hero-description": {
-    "en": "From planning to design, SIDA automates every engineering stages with built-in experts and customizable extensions, connects your project files, professional tools and turn the needs into deliverables.",
-    "zh-CN": "从规划到设计，SIDA 通过内置专家与可定制扩展自动化每一个工程环节，连接你的项目文件与专业工具，把需求转化为可交付成果。",
-    "zh-TW": "從規劃到設計，SIDA 透過內建專家與可自訂擴充自動化每一個工程環節，連接你的專案檔案與專業工具，把需求轉化為可交付成果。"
+    "en": "From planning to design, SIDA automates every engineering stages with built-in experts, connects your files and tools and turn the needs into deliverables.",
+    "zh-CN": "从规划到设计，SIDA 通过内置专家自动化每一个工程环节，连接你的文件与工具，把需求转化为可交付成果。",
+    "zh-TW": "從規劃到設計，SIDA 透過內建專家自動化每一個工程環節，連接你的檔案與工具，把需求轉化為可交付成果。"
   },
   "home.explore-features": {
     "en": "Explore the Features",
@@ -80,14 +80,14 @@
     "zh-TW": "工程師必須查閱大量文件、規範、圖紙與數據。"
   },
   "home.feature-engineering-copy-2": {
-    "en": "Typical agents read documents one by one and can take 10+ minutes to respond. SIDA uses state-of-the-art embedding models to build an LLM knowledge base, returning answers in seconds — up to 100× faster.",
-    "zh-CN": "常规智能体逐份读取文档，响应可能需要 10 分钟以上。SIDA 采用先进嵌入模型构建 LLM 知识库，数秒内返回答案——速度最高提升 100 倍。",
-    "zh-TW": "常規智能代理逐份讀取文件，回應可能需要 10 分鐘以上。SIDA 採用先進嵌入模型構建 LLM 知識庫，數秒內返回答案——速度最高提升 100 倍。"
+    "en": "Typical agents: read one by one (10+mins).\nSIDA: build LLM knowledge base — answer in seconds.",
+    "zh-CN": "典型智能体：逐份阅读（10 分钟以上）。\nSIDA：构建 LLM 知识库，数秒即得答案。",
+    "zh-TW": "典型智能代理：逐份閱讀（10 分鐘以上）。\nSIDA：構建 LLM 知識庫，數秒即得答案。"
   },
   "home.feature-engineering-copy-3": {
-    "en": "All project data stays local. Nothing is uploaded, eliminating exposure risk.",
-    "zh-CN": "所有项目数据保留在本地，不上传任何内容，杜绝外泄风险。",
-    "zh-TW": "所有項目數據保留在本地，不上載任何內容，杜絕外洩風險。"
+    "en": "All project data stays local. No uploading, no risk of exposure.",
+    "zh-CN": "所有项目数据保存在本地。无需上传，无泄露风险。",
+    "zh-TW": "所有專案資料保存在本地。無需上傳，無洩露風險。"
   },
   "home.feature-free-copy": {
     "en": "Traditional engineering software has a steep learning curve and takes a long time to master.",
@@ -105,14 +105,14 @@
     "zh-TW": "SIDA 亦支援電腦操作，可直接操作用戶電腦上的任何工程軟件，但會消耗更多 Token 且執行較慢。"
   },
   "home.feature-workflow-copy": {
-    "en": "Engineering projects require long-term, multi-step teamwork across complex workflows that are difficult to manage.",
-    "zh-CN": "工程项目需要长期、多步骤的团队协作，跨越复杂且难以管理的工作流。",
-    "zh-TW": "工程項目需要長期、多步驟的團隊協作，跨越複雜且難以管理工作流程。"
+    "en": "Engineering projects involve complex workflows that are difficult to manage.",
+    "zh-CN": "工程项目涉及的工作流程复杂，难以管理。",
+    "zh-TW": "工程專案涉及的工作流程複雜，難以管理。"
   },
   "home.feature-workflow-copy-2": {
-    "en": "Traditional agents follow linear steps, so they can only handle simple, small-scale projects.",
-    "zh-CN": "传统智能体按线性步骤执行，只能处理简单、小规模的项目。",
-    "zh-TW": "傳統智能代理按線性步驟執行，只能處理簡單、小規模的項目。"
+    "en": "No guidance or constraints for workflows, no guaranteed quality.",
+    "zh-CN": "对工作流缺乏引导与约束，质量无法保证。",
+    "zh-TW": "對工作流程缺乏引導與約束，品質無法保證。"
   },
   "home.feature-workflow-copy-3": {
     "en": "SIDA uses a visual flowchart to manage project workflows, supports user customization and can manage complex projects.",
@@ -280,9 +280,9 @@
     "zh-TW": "客製化整合"
   },
   "home.what-deliver": {
-    "en": "What we deliver",
-    "zh-CN": "我们提供什么",
-    "zh-TW": "我們提供甚麼"
+    "en": "Automative Engineering Work",
+    "zh-CN": "自动化工程作业",
+    "zh-TW": "自動化工程作業"
   },
   "home.application-lede": {
     "en": "Four capabilities ship with SIDA. Each one runs on your own documents, codes and models, inside the workspace your projects already live in.",
@@ -330,7 +330,7 @@
     "zh-TW": "結構模型可直接匯出 BIM，並高效同步模型資訊。"
   },
   "home.how-work": {
-    "en": "How we work with you",
+    "en": "How We Work with You",
     "zh-CN": "我们如何与您合作",
     "zh-TW": "我們如何與您合作"
   },
@@ -370,14 +370,14 @@
     "zh-TW": "專屬"
   },
   "home.feature-engineering-card-1-title": {
-    "en": "Pain point",
+    "en": "Pain Point",
     "zh-CN": "痛点",
     "zh-TW": "痛點"
   },
   "home.feature-engineering-card-2-title": {
-    "en": "Comparison",
-    "zh-CN": "对比",
-    "zh-TW": "對比"
+    "en": "Fast Retrieval",
+    "zh-CN": "快速检索",
+    "zh-TW": "快速檢索"
   },
   "home.feature-engineering-card-3-title": {
     "en": "Confidentiality",
@@ -385,57 +385,57 @@
     "zh-TW": "保密性"
   },
   "home.feature-workflow-card-1-title": {
-    "en": "Pain point",
+    "en": "Pain Point",
     "zh-CN": "痛点",
     "zh-TW": "痛點"
   },
   "home.feature-workflow-card-2-title": {
-    "en": "Traditional agents",
-    "zh-CN": "传统智能体",
-    "zh-TW": "傳統智能代理"
+    "en": "Typical Agents",
+    "zh-CN": "典型智能体",
+    "zh-TW": "典型智能代理"
   },
   "home.feature-workflow-card-3-title": {
-    "en": "Visual flowcharts",
+    "en": "Visual Flowcharts",
     "zh-CN": "可视化流程图",
     "zh-TW": "可視化流程圖"
   },
   "home.feature-free-card-1-title": {
-    "en": "Pain point",
+    "en": "Pain Point",
     "zh-CN": "痛点",
     "zh-TW": "痛點"
   },
   "home.feature-free-card-2-title": {
-    "en": "Built-in tools",
+    "en": "Built-in Tools",
     "zh-CN": "内置工具",
     "zh-TW": "內置工具"
   },
   "home.feature-free-card-3-title": {
-    "en": "Computer use",
+    "en": "Computer Use",
     "zh-CN": "电脑操作",
     "zh-TW": "電腦操作"
   },
   "home.feature-experts-card-1-title": {
-    "en": "Pain point",
+    "en": "Pain Point",
     "zh-CN": "痛点",
     "zh-TW": "痛點"
   },
   "home.feature-experts-card-2-title": {
-    "en": "Specialist bots",
+    "en": "Specialist Bots",
     "zh-CN": "专家 Bot",
     "zh-TW": "專家 Bot"
   },
   "home.feature-experts-card-3-title": {
-    "en": "Hong Kong library",
+    "en": "Hong Kong Library",
     "zh-CN": "香港资料库",
     "zh-TW": "香港資料庫"
   },
   "home.about-title": {
-    "en": "An engineering-led AI company",
+    "en": "An Engineering-Led AI Company",
     "zh-CN": "以工程为本的 AI 公司",
     "zh-TW": "以工程為本的 AI 公司"
   },
   "home.about-lede": {
-    "en": "OuroNex enables automation in engineering workflows with SIDA, turning design intent into project deliverables that hold up in professional practice.",
+    "en": "OuroNex builds AI tools for structural engineering, turning design intent into analysis, checks and documentation that hold up in professional practice.",
     "zh-CN": "OuroNex 为结构工程打造 AI 工具，把设计意图转化为经得起专业实践检验的分析、校核与文档。",
     "zh-TW": "OuroNex 為結構工程打造 AI 工具，把設計意圖轉化為經得起專業實踐檢驗的分析、校核與文件。"
   },
@@ -445,9 +445,9 @@
     "zh-TW": "Mr. Haoyi ZHANG"
   },
   "home.about-founder-role": {
-    "en": "Founder and Director",
-    "zh-CN": "创始人兼董事",
-    "zh-TW": "創辦人兼董事"
+    "en": "Director and CTO",
+    "zh-CN": "董事兼技术总监",
+    "zh-TW": "董事兼技術總監"
   },
   "home.flow-lede": {
     "en": "Three ways in, one platform out. Wherever you start, the conversation settles on the deliverables that fit your practice.",
@@ -565,9 +565,9 @@
     "zh-TW": "Ir Prof. Siwei LIU"
   },
   "home.about-advisor-role": {
-    "en": "Technical Advisor",
-    "zh-CN": "技术顾问",
-    "zh-TW": "技術顧問"
+    "en": "Volunteer Technical Advisor",
+    "zh-CN": "义务技术顾问",
+    "zh-TW": "義務技術顧問"
   },
   "home.flow-hint": {
     "en": "Drag to explore",
@@ -589,15 +589,30 @@
     "zh-CN": "缩小",
     "zh-TW": "縮小"
   },
+  "home.demo-pause": {
+    "en": "Pause the slideshow",
+    "zh-CN": "暂停自动播放",
+    "zh-TW": "暫停自動播放"
+  },
+  "home.demo-play": {
+    "en": "Play the slideshow",
+    "zh-CN": "继续自动播放",
+    "zh-TW": "繼續自動播放"
+  },
+  "home.code-index-label": {
+    "en": "Index of Hong Kong building codes, design manuals and guidelines",
+    "zh-CN": "香港建筑规范、设计手册与指引索引",
+    "zh-TW": "香港建築規範、設計手冊與指引索引"
+  },
   "home.about-director-name": {
     "en": "Dr. Jake CHAN",
     "zh-CN": "Dr. Jake CHAN",
     "zh-TW": "Dr. Jake CHAN"
   },
   "home.about-director-role": {
-    "en": "Director",
-    "zh-CN": "董事",
-    "zh-TW": "董事"
+    "en": "Director and CEO",
+    "zh-CN": "董事兼行政总裁",
+    "zh-TW": "董事兼行政總裁"
   },
   "home.tendering": {
     "en": "Tendering",

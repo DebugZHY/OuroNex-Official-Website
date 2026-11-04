@@ -280,3 +280,8 @@
     transition: none;
   }
 }
+
+/* The edges layer is a bare div; without an explicit box its inner svg measures
+   zero and every connector drops out of the paint. */
+.react-flow__edges{position:absolute;inset:0;width:100%;height:100%}
+.react-flow__edges svg{width:100%;height:100%}

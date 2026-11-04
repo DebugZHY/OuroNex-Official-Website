@@ -42,7 +42,8 @@ root.removeAttribute("data-flow");
 <script defer="" src="assets/site.js"></script>
 <script defer="" src="assets/home.js"></script>
 <script defer="" src="assets/sida-workflow.js"></script>
-<script defer="" src="assets/sida-tagcloud.js"></script>
+<script defer="" src="assets/sida-wordcloud.js"></script>
+<script defer="" src="assets/sida-3d.js"></script>
 <script>
 (function(){
 function start(){
@@ -86,7 +87,6 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div class="nav-secondary">
 <div aria-label="Language / 語言 / 语言" class="language-switcher" data-no-i18n="" role="group"><button aria-label="繁體中文" aria-pressed="false" data-lang="zh-TW" type="button">繁</button><button aria-label="简体中文" aria-pressed="false" data-lang="zh-CN" type="button">简</button><button aria-label="English" aria-pressed="true" data-lang="en" type="button">EN</button></div>
 <a data-signin="" href="/login/"><span data-i18n="shared.log-in.f7c400">Log in</span></a>
-<a data-register="" href="/register/"><span data-i18n="shared.register.d67299">Register</span></a>
 </div>
 </nav>
 </div>
@@ -97,8 +97,8 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap hero-inner">
 <div class="hero-copy">
-<h1 id="hero-title"><span class="hero-title__lockup"><img alt="" class="hero-title__logo" decoding="async" height="456" src="assets/illustrations/sida-logo.png" width="456"><span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span></span><span class="hero-title__rest" data-user-input=""><span class="hero-title__accent">S</span>uper-<span class="hero-title__accent">i</span>ntelligent <span class="hero-title__accent">D</span>esign <span class="hero-title__accent">A</span>gent</span></h1>
-<p class="hero-description"><span class="hero-description-line" data-i18n="home.hero-description">From planning to design, SIDA automates every engineering stages with built-in experts and customizable extensions, connects your project files, professional tools and turn the needs into deliverables.</span></p>
+<h1 id="hero-title"><span class="hero-title__lockup"><img alt="" class="hero-title__logo" decoding="async" height="456" src="assets/illustrations/sida-logo.png" width="456"><span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span></span><span class="hero-title__rest" data-user-input=""><span class="hero-title__accent">S</span>uper-<span class="hero-title__accent">I</span>ntelligent <span class="hero-title__accent">D</span>esign <span class="hero-title__accent">A</span>gent</span></h1>
+<p class="hero-description"><span class="hero-description-line" data-i18n="home.hero-description">From planning to design, SIDA automates every engineering stages with built-in experts, connects your files and tools and turn the needs into deliverables.</span></p>
 <div class="hero-actions">
 <a class="button" href="#sida"><span data-i18n="home.explore-features">Explore the Features</span><span aria-hidden="true">→</span></a>
 <a class="button-outline early-access" href="/early-access.html" rel="noopener" target="_blank"><span data-i18n="home.request-access">Request early access</span><span aria-hidden="true">→</span></a>
@@ -106,9 +106,9 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 <aside aria-label="SIDA product demonstration" class="hero-demo" data-i18n-aria-label="home.product-demo-label" data-demo-carousel data-demo-interval="10000">
 <div class="hero-demo__bar"><span data-i18n="home.product-demo">SIDA / Product demo</span><span data-i18n="home.preview">Preview</span></div>
-<div class="hero-demo__stage" role="group" aria-roledescription="carousel" aria-label="SIDA product demonstration" tabindex="0">
+<div class="hero-demo__stage" role="group" aria-roledescription="carousel" aria-label="SIDA product demonstration">
 <figure class="hero-demo__slide is-active" data-demo-slide aria-hidden="false"><img alt="SIDA product demonstration 1" decoding="async" fetchpriority="high" height="2200" src="assets/illustrations/home-1.png" width="3200"/></figure>
-<figure class="hero-demo__slide" data-demo-slide aria-hidden="true"><img alt="SIDA product demonstration 2" decoding="async" height="2200" loading="lazy" src="assets/illustrations/home-2.png" width="3200"/></figure>
+<figure class="hero-demo__slide" data-demo-slide aria-hidden="true"><img alt="SIDA product demonstration 2" decoding="async" height="1365" loading="lazy" src="assets/illustrations/home-2.png" width="1781"/></figure>
 <figure class="hero-demo__slide hero-demo__slide--center" data-demo-slide aria-hidden="true"><img alt="SIDA product demonstration 3" decoding="async" height="1628" loading="lazy" src="assets/illustrations/home-3.png" width="2912"/></figure>
 <figure class="hero-demo__slide" data-demo-slide aria-hidden="true"><img alt="SIDA product demonstration 4" decoding="async" height="2200" loading="lazy" src="assets/illustrations/home-4.png" width="3200"/></figure>
 </div>
@@ -116,7 +116,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <button aria-label="Show product demonstration 1" aria-pressed="true" class="hero-demo__control is-active" data-demo-target="0" type="button">01</button>
 <button aria-label="Show product demonstration 2" aria-pressed="false" class="hero-demo__control" data-demo-target="1" type="button">02</button>
 <button aria-label="Show product demonstration 3" aria-pressed="false" class="hero-demo__control" data-demo-target="2" type="button">03</button>
-<button aria-label="Show product demonstration 4" aria-pressed="false" class="hero-demo__control" data-demo-target="3" type="button">04</button>
+<button aria-label="Show product demonstration 4" aria-pressed="false" class="hero-demo__control" data-demo-target="3" type="button">04</button><button aria-labelledby="demo-pause-label" class="hero-demo__toggle" data-demo-toggle="" type="button"><svg aria-hidden="true" class="hero-demo__toggle-icon hero-demo__toggle-icon--pause" fill="currentColor" focusable="false" viewBox="0 0 10 10"><rect height="9" rx="1.1" width="3" x="1" y=".5"></rect><rect height="9" rx="1.1" width="3" x="6" y=".5"></rect></svg><svg aria-hidden="true" class="hero-demo__toggle-icon hero-demo__toggle-icon--play" fill="currentColor" focusable="false" viewBox="0 0 10 10"><path d="M2.2.9 8.6 5 2.2 9.1z"></path></svg><span class="sr-only" data-i18n="home.demo-pause" id="demo-pause-label">Pause the slideshow</span><span class="sr-only" data-i18n="home.demo-play" id="demo-play-label">Play the slideshow</span></button>
 </div>
 </aside>
 </div>
@@ -132,7 +132,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <button aria-controls="feature-experts" aria-selected="false" id="tab-experts" role="tab" tabindex="-1" type="button"><svg aria-hidden="true" class="directory-icon" data-directory-icon="expert" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24"><circle cx="10" cy="7" r="3"></circle><path d="M4 21v-2a6 6 0 0 1 12 0v2M18 3l.9 1.8 2.1.9-2.1.9L18 8.4l-.9-1.8-2.1-.9 2.1-.9z"></path></svg><span data-i18n="home.feature-experts-title">Multidisciplinary Experts</span></button>
 </div>
 <div class="feature-panels">
-<article aria-labelledby="tab-engineering" class="feature-panel" id="feature-engineering" role="tabpanel"><div class="feature-stage"><div class="sida-tagcloud" data-sida-tagcloud=""><p class="sida-tagcloud__fallback">Loading the code index…</p></div></div></article>
+<article aria-labelledby="tab-engineering" class="feature-panel" id="feature-engineering" role="tabpanel"><div class="feature-stage"><div aria-label="Index of Hong Kong building codes, design manuals and guidelines" class="sida-tagcloud sida-wordcloud" data-i18n-aria-label="home.code-index-label" data-sida-wordcloud=""><p class="sida-wordcloud__fallback">Loading the code index…</p></div></div></article>
 <article aria-labelledby="tab-workflow" class="feature-panel" hidden="" id="feature-workflow" role="tabpanel"><div class="feature-stage"><div class="sida-flow" data-sida-flow=""><p class="sida-flow__fallback">Loading project workflow…</p></div></div></article>
 <article aria-labelledby="tab-free" class="feature-panel" hidden="" id="feature-free" role="tabpanel"><div class="feature-stage feature-stage--media"><figure class="feature-shot"><img alt="The SIDA professional tool set" decoding="async" height="1536" src="assets/illustrations/professional-tools.jpg" width="2752"></figure></div></article>
 <article aria-labelledby="tab-experts" class="feature-panel" hidden="" id="feature-experts" role="tabpanel"><div class="feature-stage feature-stage--media"><figure class="feature-shot feature-shot--experts"><img alt="The SIDA bot manager with specialist agents assigned to preliminary design, modelling, structural analysis and review" decoding="async" height="1146" src="assets/illustrations/multidisciplinary-experts.png" width="1659"></figure></div></article>
@@ -140,7 +140,8 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 </div>
 <div class="download-row">
-<div class="download-actions"><button class="button" data-download="" type="button"><svg aria-hidden="true" class="download-icon" focusable="false" viewBox="0 0 18 17"><path d="M0 2.2 8.8 1v7.1H0zM9.8.8 18 0v8.2H9.8zM0 9.2h8.8v7.1L0 15.1zM9.8 9.2H18V17l-8.2-1.1z" fill="currentColor"/></svg><span data-i18n="home.windows">Download for Windows</span></button><button class="button" data-download="" type="button"><svg aria-hidden="true" class="download-icon" focusable="false" preserveAspectRatio="xMinYMid meet" viewBox="4.4 2.5 15.2 19"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.47-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z" fill="currentColor"/></svg><span data-i18n="home.mac">Download for Mac</span></button><span class="release-note"><span data-i18n="home.public-release">Public release coming later</span></span></div>
+<div class="sida-3d" data-sida-3d="" data-sida3d-label="SIDA 3D mark, drag to rotate"></div>
+<div class="download-actions"><button class="button" data-download="" type="button"><svg aria-hidden="true" class="download-icon" focusable="false" viewBox="0 0 18 17"><path d="M0 2.2 8.8 1v7.1H0zM9.8.8 18 0v8.2H9.8zM0 9.2h8.8v7.1L0 15.1zM9.8 9.2H18V17l-8.2-1.1z" fill="currentColor"/></svg><span data-i18n="home.windows">Download for Windows</span></button><button class="button" data-download="" type="button"><svg aria-hidden="true" class="download-icon" focusable="false" preserveAspectRatio="xMinYMid meet" viewBox="4.4 2.5 15.2 19"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.47-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z" fill="currentColor"/></svg><span data-i18n="home.mac">Download for Mac</span></button><a class="button early-access" href="/early-access.html" rel="noopener" target="_blank"><span data-i18n="home.request-access">Request early access</span></a><span class="release-note"><span data-i18n="home.public-release">Public release coming later</span></span></div>
 </div>
 </div>
 </section>
@@ -148,7 +149,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap application-layout">
 <div class="application-intro">
-<h2><span data-i18n="home.what-deliver">What we deliver</span></h2>
+<h2><span data-i18n="home.what-deliver">Automative Engineering Work</span></h2>
 </div>
 <div class="delivery-rows">
 <article class="delivery-row">
@@ -156,7 +157,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <h3><span data-i18n="home.specific-automation">Project Planning</span></h3>
 <p><span data-i18n="home.specific-copy">Checks codes and legal databases from site data and documents across disciplines.</span></p>
 </div>
-<figure class="delivery-row__figure"><img alt="" height="882" loading="lazy" src="assets/illustrations/project-planning.jpg" width="1400"/></figure>
+<figure class="delivery-row__figure"><img alt="" height="781" loading="lazy" src="assets/illustrations/project-planning-web.jpg" width="1400"/></figure>
 </article>
 <article class="delivery-row delivery-row--flip">
 <div class="delivery-row__copy">
@@ -170,7 +171,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <h3><span data-i18n="home.tendering">Tendering</span></h3>
 <p><span data-i18n="home.tendering-copy">Automates the whole tendering workflow, shortening preparation cycles and cutting costs.</span></p>
 </div>
-<figure class="delivery-row__figure"><img alt="" height="574" loading="lazy" src="assets/illustrations/tendering-web.jpg" width="1400"/></figure>
+<figure class="delivery-row__figure"><img alt="" height="1045" loading="lazy" src="assets/illustrations/tendering-web.jpg" width="1400"/></figure>
 </article>
 <article class="delivery-row delivery-row--flip">
 <div class="delivery-row__copy">
@@ -214,7 +215,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap business-layout">
 <div class="business-intro">
-<h2><span data-i18n="home.how-work">How we work with you</span></h2>
+<h2><span data-i18n="home.how-work">How We Work with You</span></h2>
 </div>
 <div class="business-flow" data-flow-root>
 <div class="flow-canvas bf-canvas" data-flow-canvas role="group"></div>
@@ -244,30 +245,30 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap about-layout">
 <div class="about-intro">
-<h2><span data-i18n="home.about-title">An engineering-led AI company</span></h2>
-<p class="about-lede"><span data-i18n="home.about-lede">OuroNex enables automation in engineering workflows with SIDA, turning design intent into project deliverables that hold up in professional practice.</span></p>
+<h2><span data-i18n="home.about-title">An Engineering-Led AI Company</span></h2>
+<p class="about-lede"><span data-i18n="home.about-lede">OuroNex builds AI tools for structural engineering, turning design intent into analysis, checks and documentation that hold up in professional practice.</span></p>
 </div>
 <div class="about-founder">
+<aside class="about-founder__card">
+<figure class="about-founder__photo about-founder__photo--photo about-founder__photo--cover about-founder__photo--director">
+<img alt="Jake CHAN" height="800" src="assets/illustrations/jake-chan.jpg" width="800"/>
+</figure>
+<h3><span data-i18n="home.about-director-name">Dr. Jake CHAN</span></h3>
+<p class="about-founder__role"><span data-i18n="home.about-director-role">Director and CEO</span></p>
+</aside>
 <aside class="about-founder__card">
 <figure class="about-founder__photo">
 <img alt="Haoyi ZHANG" height="1080" src="assets/illustrations/haoyi-zhang.png" width="840"/>
 </figure>
 <h3><span data-i18n="home.about-founder-name">Mr. Haoyi ZHANG</span></h3>
-<p class="about-founder__role"><span data-i18n="home.about-founder-role">Founder and Director</span></p>
+<p class="about-founder__role"><span data-i18n="home.about-founder-role">Director and CTO</span></p>
 </aside>
 <aside class="about-founder__card">
 <figure class="about-founder__photo about-founder__photo--photo about-founder__photo--cover">
-<img alt="Jake CHAN" height="800" src="assets/illustrations/jake-chan.jpg" width="800"/>
-</figure>
-<h3><span data-i18n="home.about-director-name">Dr. Jake CHAN</span></h3>
-<p class="about-founder__role"><span data-i18n="home.about-director-role">Director</span></p>
-</aside>
-<aside class="about-founder__card">
-<figure class="about-founder__photo about-founder__photo--photo">
 <img alt="Siwei LIU" height="1080" src="assets/illustrations/siwei-liu.jpg" width="840"/>
 </figure>
 <h3><span data-i18n="home.about-advisor-name">Ir Prof. Siwei LIU</span></h3>
-<p class="about-founder__role"><span data-i18n="home.about-advisor-role">Technical Advisor</span></p>
+<p class="about-founder__role"><span data-i18n="home.about-advisor-role">Volunteer Technical Advisor</span></p>
 </aside>
 </div>
 </div>

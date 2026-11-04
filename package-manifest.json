@@ -3,21 +3,21 @@
   "files": [
     {
       "path": "404.html",
-      "bytes": 7395,
-      "sha256": "65fb4a0eca1a0814686544dc4398dfa30b05f67d0aa07d5409f8699c789d4385",
-      "size": 7395
+      "bytes": 7296,
+      "sha256": "f2d6940d58d0855fd24cce5bdc2012dc31922b2fef6f43c050c0a5e37dffebb8",
+      "size": 7296
     },
     {
       "path": "arena.html",
-      "bytes": 9593,
-      "sha256": "6c0547a2273cf1c3c69841381626cb5662c90d9b3f1e06069c9ebaf437e5c98d",
-      "size": 9593
+      "bytes": 9494,
+      "sha256": "e1f94241c443678fcf27c6f17ce976ffa3137893e2f24faeff06ff4a001c3b59",
+      "size": 9494
     },
     {
       "path": "assets/account.css",
-      "bytes": 35476,
-      "sha256": "9f09e2e821f10d577637870779283077aa7ff9e39add881ffa7c267114b75297",
-      "size": 35476
+      "bytes": 37056,
+      "sha256": "8004df9c32a1a1b2ce9157c9dd412129c4f6e06f2c7aa13337b8b306c8806733",
+      "size": 37056
     },
     {
       "path": "assets/auth-bg.js",
@@ -135,9 +135,9 @@
     },
     {
       "path": "assets/fonts/manrope-OFL.txt",
-      "bytes": 4387,
-      "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b",
-      "size": 4387
+      "bytes": 4480,
+      "sha256": "4b8929f05a122b7abb9059501dc7dc4df86f8c97d5a1769d60d82cf2d2795dde",
+      "size": 4480
     },
     {
       "path": "assets/fonts/michroma-400-sida.woff2",
@@ -153,27 +153,27 @@
     },
     {
       "path": "assets/home.css",
-      "bytes": 57707,
-      "sha256": "6f93d2b5ea71f1445f30e5614a0228fe0260a962827943eba9d780b13c02efd6",
-      "size": 57707
+      "bytes": 60967,
+      "sha256": "524224528c6a3b8b571e3d310f0b6f5223b1cc7198bf6992d0687844d7cceed0",
+      "size": 60967
     },
     {
       "path": "assets/home.js",
-      "bytes": 38084,
-      "sha256": "e36e22662f76957308b9d065745de2e6a360260822909c4a8cc19c5ecaa10483",
-      "size": 38084
+      "bytes": 39709,
+      "sha256": "54e1120d1e9964e1a21f7f86e2fa9a9d865fa5b93d70ae56ee8e6cdd7e2936aa",
+      "size": 39709
     },
     {
       "path": "assets/i18n.css",
-      "bytes": 3505,
-      "sha256": "f7105856eab484c21cb8c4383d494dd66dc755c5967aa06535cee973948e947a",
-      "size": 3505
+      "bytes": 3625,
+      "sha256": "67a0118d0f280d03b3558887a5855fb8a91468eb4d8d33a5108b068ac6fd3ef2",
+      "size": 3625
     },
     {
       "path": "assets/i18n.js",
-      "bytes": 5360,
-      "sha256": "29a8cc053198bc0f750634ca6761e8533df01db497a5f2c5b35c9a6fcb2e91bd",
-      "size": 5360
+      "bytes": 5486,
+      "sha256": "66e8931a9e475cea037827d476873dc4d45e0043d952f23d232f9ab329e61e42",
+      "size": 5486
     },
     {
       "path": "assets/i18n/404.js",
@@ -231,15 +231,9 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 22189,
-      "sha256": "87d0b0c759a24aeab51c84db95efd290a68a42833e5406d6939db905ea79fbb1",
-      "size": 22189
-    },
-    {
-      "path": "assets/i18n/home.json",
-      "bytes": 22028,
-      "size": 22028,
-      "sha256": "e606958fae1715f3c94e30858c5441e83adece714fd253b2782d084fe6b18b16"
+      "bytes": 22190,
+      "sha256": "f61461f988dcc1ced51c5aa5d444ecd6e04c6fac435a7fb7bc597345069f881b",
+      "size": 22190
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -310,20 +304,14 @@
     {
       "path": "assets/illustrations/bim-modelling-web.jpg",
       "bytes": 296828,
-      "sha256": "4dcc43bd782dd7122e04000c422bbf134b398e9503cc6001da40cb23a9527259",
-      "size": 296828
+      "size": 296828,
+      "sha256": "4dcc43bd782dd7122e04000c422bbf134b398e9503cc6001da40cb23a9527259"
     },
     {
       "path": "assets/illustrations/design-optimization-web.jpg",
       "bytes": 167836,
       "sha256": "795b4f0b47202fb368c9868e0893f68d08fde42c07a3f50ca3d6f22c042852bc",
       "size": 167836
-    },
-    {
-      "path": "assets/illustrations/design-optimization.jpg",
-      "bytes": 420627,
-      "sha256": "12658b5a71fc4160e67f215064f614babaf34c0ae156c8b99b7f2b09594fb673",
-      "size": 420627
     },
     {
       "path": "assets/illustrations/haoyi-zhang.png",
@@ -339,9 +327,9 @@
     },
     {
       "path": "assets/illustrations/home-2.png",
-      "bytes": 325788,
-      "sha256": "51edee1f18b9acfd319ff7b13bb77b9280aa6a96763b71d662ca4d865b0c7dc0",
-      "size": 325788
+      "bytes": 257016,
+      "sha256": "0f315346b76e758e30dc04252935f1b274523d462b1b12fc972427eb23c7d7e4",
+      "size": 257016
     },
     {
       "path": "assets/illustrations/home-3.png",
@@ -374,10 +362,10 @@
       "size": 2123332
     },
     {
-      "path": "assets/illustrations/project-planning.jpg",
-      "bytes": 282934,
-      "sha256": "b15906534a206812bdfef4f9110e18a13d786bac12521501ab423e429a5329cb",
-      "size": 282934
+      "path": "assets/illustrations/project-planning-web.jpg",
+      "bytes": 214963,
+      "sha256": "0783d326400d216f2e7795842c261a2942a303e35643b4d18c440be54cff1d55",
+      "size": 214963
     },
     {
       "path": "assets/illustrations/sida-logo.png",
@@ -393,21 +381,21 @@
     },
     {
       "path": "assets/illustrations/tendering-web.jpg",
-      "bytes": 160741,
-      "sha256": "e7792d78519549573d1f159803e9dd04112b470120a0d02a093f25b09fb79cbf",
-      "size": 160741
+      "bytes": 278218,
+      "size": 278218,
+      "sha256": "fd0f0ca2ca6adeac9041b3bf16c67900e78a87d25357fbb0f333530591a5f569"
     },
     {
       "path": "assets/legal.css",
-      "bytes": 8734,
-      "sha256": "958a776c027e069b09450818f96a6da090bb56e0580312d05b255a5037f8f7bd",
-      "size": 8734
+      "bytes": 9267,
+      "sha256": "02f75f0ca4620b08c56679837aa68e707101f4b8c3a2ac05f47cf0f68e55d6a4",
+      "size": 9267
     },
     {
       "path": "assets/motion.css",
-      "bytes": 4062,
-      "sha256": "626800a7c34eb070761f8315eca8f028078ed3cc951c318155f01a5fc7838c39",
-      "size": 4062
+      "bytes": 4103,
+      "sha256": "1ee354de54668811f5756636ae18cfc73a54d13bf6cda6b27ef267ab949f9735",
+      "size": 4103
     },
     {
       "path": "assets/motion.js",
@@ -429,9 +417,15 @@
     },
     {
       "path": "assets/practice.css",
-      "bytes": 19216,
-      "sha256": "6f52291ac514620b348ae8da0f662d61410f5763eade9f753edcce6d9db30037",
-      "size": 19216
+      "bytes": 19464,
+      "sha256": "b51396f76d9ce0e4bb069bbf5629c1402f4acca44cdfd1319e60033ae77ec36f",
+      "size": 19464
+    },
+    {
+      "path": "assets/sida-3d.js",
+      "bytes": 527973,
+      "sha256": "f1f208e330202f1257eb34889fa313d4f57130d002403930b51151fdbdc6ab33",
+      "size": 527973
     },
     {
       "path": "assets/sida-panels.css",
@@ -440,10 +434,10 @@
       "size": 2520
     },
     {
-      "path": "assets/sida-tagcloud.js",
-      "bytes": 55388,
-      "sha256": "43c74fdbb9b77d7a419879bcdb5e36714c36556a5c31a81bd0ad14e934035c94",
-      "size": 55388
+      "path": "assets/sida-wordcloud.js",
+      "bytes": 20339,
+      "sha256": "542bd4913e7fbc4a8911a5cb5ab1db587689b277df438974c1994b8c1b0c061d",
+      "size": 20339
     },
     {
       "path": "assets/sida-workflow.js",
@@ -453,21 +447,21 @@
     },
     {
       "path": "assets/site.css",
-      "bytes": 24260,
-      "sha256": "7fd5d6213cf23d9856ef9430922c155a8daf95bde9624d75f44357d145c55a7c",
-      "size": 24260
+      "bytes": 21489,
+      "sha256": "126c8644d42900c98df9f88548538182274a3cf6d1f77de44e8f5215392c2ba1",
+      "size": 21489
     },
     {
       "path": "assets/site.js",
-      "bytes": 14221,
-      "sha256": "2af542697ef78a5ff7ed07e6b93e50d850cc8f9ebea6d57670fee9fc8679db28",
-      "size": 14221
+      "bytes": 14037,
+      "sha256": "27f51ed51468ffb115e86abc3cceda3a62c9942e7184b7958644d4ee60eed260",
+      "size": 14037
     },
     {
       "path": "assets/token-usage.css",
-      "bytes": 18037,
-      "sha256": "62acdd95fc8eb23632a27885c1b1e624de7ba4d19a7832ff4bc9b4313813d90d",
-      "size": 18037
+      "bytes": 18863,
+      "sha256": "2ab4d2c551fea4c40a147cb6aec7c0f251f427f8241026a0f0a5f31952083139",
+      "size": 18863
     },
     {
       "path": "assets/token-usage.js",
@@ -477,81 +471,81 @@
     },
     {
       "path": "early-access.html",
-      "bytes": 9780,
-      "sha256": "17c1d499fb43e6c53d00b67bdbbbff7efdefe84bcf697fa75d4d8375f3e1800b",
-      "size": 9780
+      "bytes": 9681,
+      "sha256": "6419fdf71e6867318c4d71e2eca295f43cdf1040c182d69e835d950c940e3055",
+      "size": 9681
     },
     {
       "path": "index.html",
-      "bytes": 29899,
-      "sha256": "bea5760b4e5b6afcad8814fb7d2194c253962967b81c31872404d37b911ef074",
-      "size": 29899
+      "bytes": 31029,
+      "sha256": "e572445f8ab16969df4ff84842bca9bd2974ab40c82977b7ec8f442d56e783ff",
+      "size": 31029
     },
     {
       "path": "news/_template.html",
-      "bytes": 9982,
-      "sha256": "3f688868b11d7c2f532d2422de9385e3437bb699f27220c48768754690bd1832",
-      "size": 9982
+      "bytes": 9883,
+      "sha256": "f19550b646e6e1d39a45e4823acbc5d4c7c535cf4c751f4884b73602a9524217",
+      "size": 9883
     },
     {
       "path": "news/sample-drawings-as-engineer.html",
-      "bytes": 13676,
-      "sha256": "3eef6c7320b474604e08f36c8365a465d129d4c8b572c9c3812af6737474b85a",
-      "size": 13676
+      "bytes": 13577,
+      "sha256": "1c001d1bb34fd05ac1a11c42c393dc77cd94451420123a0077e4a5db11dabde5",
+      "size": 13577
     },
     {
       "path": "news/sample-hong-kong-gba.html",
-      "bytes": 13375,
-      "sha256": "8257e17d1ac197524b338d050ecc67f3c19be1dee00f04a53047aad068b0ac14",
-      "size": 13375
+      "bytes": 13276,
+      "sha256": "ce91394ee1b8d85101db111ded12692a27f70174404cdb8a66e80acc26ff287c",
+      "size": 13276
     },
     {
       "path": "news/sample-llm-drawing-review.html",
-      "bytes": 13531,
-      "sha256": "fa6873286532c9906cc0884b15e42644e12c80af46cf097a9f3ad09c72e60c13",
-      "size": 13531
+      "bytes": 13432,
+      "sha256": "19de8d4dd32288c5b062dbf36427aa35eb39155bfa8a09e4d05b579ceb704e83",
+      "size": 13432
     },
     {
       "path": "news/sample-pilot-to-practice.html",
-      "bytes": 13319,
-      "sha256": "9eebc2945387291cb431a1ebb2aaf8aeacba7b8463ba65574cf5dfa684f2edb6",
-      "size": 13319
+      "bytes": 13220,
+      "sha256": "7232527044336bb0ae157c3f814e63ad73baf64c959402c93c3bda983755cd8e",
+      "size": 13220
     },
     {
       "path": "news/sample-review-as-product.html",
-      "bytes": 13511,
-      "sha256": "6cf6a48afb55efabd54805ede760c69511499c2cb02e76f3119eb5db88a34972",
-      "size": 13511
+      "bytes": 13412,
+      "sha256": "90030c01357d5e85ce23359b27ab23ed958862e75d48e34fd7210650f329918f",
+      "size": 13412
     },
     {
       "path": "news/sample-sida-2026.html",
-      "bytes": 13617,
-      "sha256": "12b312dbaa490a946db7a3c903a3f96aedffa5daa4751f34946839d8316fa959",
-      "size": 13617
+      "bytes": 13518,
+      "sha256": "705803c2a734bb41cdfaaff8d97dc8339f1f1ecf59f05817916981000e6581de",
+      "size": 13518
     },
     {
       "path": "news/sample-soda-assumptions.html",
-      "bytes": 13774,
-      "sha256": "e0e952d37161641e10cf91ead19a790698a9c2e17985ca4a518fa1f1604f25fa",
-      "size": 13774
+      "bytes": 13675,
+      "sha256": "991bcb2644c5c27dffe828703dd8c2d2a3b75ca06d60e3bebaade2af26f77e4e",
+      "size": 13675
     },
     {
       "path": "privacy.html",
-      "bytes": 43388,
-      "sha256": "faaf1fa482487a9a05ab4b5f3b828ac71cc4c95b0d3702245e9db351a4660c1e",
-      "size": 43388
+      "bytes": 43289,
+      "sha256": "11995250ff379f60db0ed540c36c1a4f12928f824e7795c8c2e7fdb3c2023e8d",
+      "size": 43289
     },
     {
       "path": "robots.txt",
-      "bytes": 64,
-      "sha256": "bb4a5f7530a2d0c103bb18eb9d12354ec30454fd419d672e0953d1404515df8c",
-      "size": 64
+      "bytes": 67,
+      "sha256": "b586ce2c8d6597f590b06c569286b36d0a010bfef5dd35affcc8d37179a8617c",
+      "size": 67
     },
     {
       "path": "site.webmanifest",
-      "bytes": 260,
-      "sha256": "fd2f384cbf7c44dfb158ab06f09351c2dff91ff9bd1743a5bb1795c7827f52e7",
-      "size": 260
+      "bytes": 273,
+      "sha256": "a3832dae9c2144d90ec7efe2f2082c7256720c9f1110f7506031a846a9614831",
+      "size": 273
     },
     {
       "path": "sitemap.xml",
@@ -561,9 +555,9 @@
     },
     {
       "path": "terms.html",
-      "bytes": 51743,
-      "sha256": "0d356f39304751ad6a4202b4ad7be51aa111b4f5d805276dd540db8542bc749c",
-      "size": 51743
+      "bytes": 51644,
+      "sha256": "69cd8868ea1b42a0533abe44b219123204b5e72d5b3ec1dcf1c1a4d2b33bccea",
+      "size": 51644
     }
   ]
 }

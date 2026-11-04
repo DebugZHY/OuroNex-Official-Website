@@ -264,9 +264,9 @@ class DeliveryPhotoTests(unittest.TestCase):
     """The three supplied photographs are wired to their own rows."""
 
     PHOTOS = (
-        ("Project Planning", "assets/illustrations/project-planning.jpg", (1400, 882)),
+        ("Project Planning", "assets/illustrations/project-planning-web.jpg", (1400, 781)),
         ("Design Optimization", "assets/illustrations/design-optimization-web.jpg", (1400, 781)),
-        ("Tendering", "assets/illustrations/tendering-web.jpg", (1400, 574)),
+        ("Tendering", "assets/illustrations/tendering-web.jpg", (1400, 1045)),
         ("BIM Modelling", "assets/illustrations/bim-modelling-web.jpg", (1400, 1045)),
     )
 

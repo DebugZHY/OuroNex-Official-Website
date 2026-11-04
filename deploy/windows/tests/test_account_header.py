@@ -173,14 +173,15 @@ class AuthHeaderMarkupTest(unittest.TestCase):
         )
         self.assertEqual(home_items, [(key, label) for _, key, label in items])
 
-    def test_pills_are_the_home_pills(self) -> None:
+    def test_header_carries_one_login_capsule(self) -> None:
         self.assertIn('<a data-signin="" href="/login/">', self.header)
         self.assertIn(
             '<span data-i18n="shared.log-in.f7c400">Log in</span>', self.header
         )
-        self.assertIn('<a data-register="" href="/register/">', self.header)
-        self.assertIn(
-            '<span data-i18n="shared.register.d67299">Register</span>', self.header
+        self.assertNotIn(
+            "data-register",
+            self.header,
+            "the filled Register pill is retired from the header",
         )
         home_secondary = re.search(
             r'<div class="nav-secondary">(.*?)</div>\s*</nav>', self.index_header, re.S
@@ -189,14 +190,17 @@ class AuthHeaderMarkupTest(unittest.TestCase):
         for fragment in (
             '<a data-signin="" href="/login/">',
             '<span data-i18n="shared.log-in.f7c400">Log in</span>',
-            '<a data-register="" href="/register/">',
-            '<span data-i18n="shared.register.d67299">Register</span>',
         ):
             self.assertIn(
                 fragment,
                 home_secondary.group(1),
-                "the auth header must repeat the Home pill markup byte for byte",
+                "the auth header must repeat the Home capsule markup byte for byte",
             )
+        self.assertNotIn(
+            "data-register",
+            home_secondary.group(1),
+            "the home header must not keep a Register pill",
+        )
 
 
 class AuthHeaderStyleTest(unittest.TestCase):
@@ -226,63 +230,31 @@ class AuthHeaderStyleTest(unittest.TestCase):
             "the auth header must reserve the same height as the Home header",
         )
 
-    def test_pills_carry_the_pointer_glow(self) -> None:
+    def test_login_capsule_is_flat(self) -> None:
         signin = ".desktop-nav .nav-secondary [data-signin]:not(.is-authenticated)"
-        register = ".desktop-nav .nav-secondary [data-register]"
-        base = rule_declarations(self.site, f"{signin},\n{register}")
-        self.assertTrue(
-            any(rule.get("--mx") == "50%" and rule.get("--my") == "50%" for rule in base),
-            "the glows need a centred default so a keyboard user sees no stale light",
+        base = rule_declarations(self.site, signin)
+        self.assertTrue(base, "site.css must style the Log in capsule")
+        capsule = next(
+            rule for rule in base if rule.get("height") == "var(--nav-pill-height)"
         )
-
-        glow = rule_declarations(self.site, f"{signin}::before,\n{register}::before")
-        self.assertTrue(glow, "site.css must paint the pill glow in ::before")
-        paint = glow[0]
-        self.assertEqual(paint.get("position"), "absolute")
-        self.assertEqual(paint.get("opacity"), "0")
-        self.assertIn(
-            "radial-gradient(170px circle at var(--mx) var(--my)",
-            paint.get("background", ""),
-            "Register reuses the Explore the Apps glow",
-        )
-
-        outline = rule_declarations(self.site, f"{signin}::before")
-        self.assertTrue(outline, "Log in needs its own dimmer outline glow")
-        self.assertIn(
-            "radial-gradient(180px circle at var(--mx) var(--my)",
-            outline[0].get("background", ""),
-            "Log in reuses the Customized Service glow",
-        )
-
-        labels = rule_declarations(self.site, f"{signin}>span,\n{register}>span")
-        self.assertTrue(labels, "the pill labels must sit above the glow")
-        self.assertEqual(labels[0].get("z-index"), "1")
-
+        self.assertEqual(capsule.get("border-radius"), "999px")
+        self.assertEqual(capsule.get("background"), "rgba(255,255,255,.10)")
+        self.assertEqual(capsule.get("border"), "1px solid rgba(255,255,255,.18)")
         self.assertEqual(
-            [rule.get("opacity") for rule in rule_declarations(self.site, f"{register}:hover::before")],
-            ["1"],
+            capsule.get("box-shadow"), "none", "the capsule carries no resting shadow"
         )
-        self.assertEqual(
-            [
-                rule.get("opacity")
-                for rule in rule_declarations(self.site, f"{signin}:hover::before")
-            ],
-            [".45"],
+        self.assertNotIn(
+            "::before",
+            self.site.split(signin, 1)[1][:400],
+            "the capsule does not paint a pointer glow",
         )
 
-    def test_glow_is_disabled_for_touch_and_reduced_motion(self) -> None:
-        self.assertIn(
-            "@media(hover:none){.desktop-nav .nav-secondary [data-signin]::before,"
-            ".desktop-nav .nav-secondary [data-register]::before{display:none}}",
-            self.site,
-            "a touch device must not paint a resting glow",
-        )
+    def test_capsule_drops_its_transition_under_reduced_motion(self) -> None:
         self.assertIn(
             "@media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary "
-            "[data-signin]::before,.desktop-nav .nav-secondary [data-register]"
-            "::before{display:none}}",
+            "[data-signin]:not(.is-authenticated){transition:none}}",
             self.site,
-            "reduced motion must drop the pill glow",
+            "reduced motion must not animate the capsule",
         )
 
 
@@ -291,11 +263,13 @@ class HeaderGlowScriptTest(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.js = read(SITE_JS)
 
-    def test_site_js_tracks_the_pointer_on_the_header_pills(self) -> None:
-        self.assertIn(
-            ".nav-secondary [data-signin]:not(.is-authenticated), .nav-secondary [data-register]",
+    def test_site_js_leaves_the_header_out_of_the_pointer_glow(self) -> None:
+        self.assertNotIn(
+            "[data-register]",
             self.js,
+            "the retired Register pill must not linger in the script",
         )
+        self.assertIn(".plan-mini .plan-action", self.js)
         self.assertIn("addEventListener('pointermove'", self.js)
         self.assertIn("setProperty('--mx'", self.js)
         self.assertIn("setProperty('--my'", self.js)

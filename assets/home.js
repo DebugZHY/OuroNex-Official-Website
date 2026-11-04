@@ -71,7 +71,6 @@
   var DEMO_INTERVAL_MS = 10000;
   var DEMO_SLIDE_SELECTOR = '.hero-demo__slide';
   var DEMO_CONTROL_SELECTOR = '.hero-demo__control';
-  var DEMO_STAGE_SELECTOR = '.hero-demo__stage';
 
   var booted = false;
 
@@ -600,11 +599,13 @@
       }
     }
 
+    var toggle = root.querySelector('[data-demo-toggle]');
     var configured = Number(root.getAttribute('data-demo-interval'));
     var interval = Number.isFinite(configured) && configured > 0 ? configured : DEMO_INTERVAL_MS;
     var timer = 0;
     var remaining = interval;
     var startedAt = 0;
+    var playing = true;
 
     function now() {
       return view.Date && view.Date.now ? view.Date.now() : new Date().getTime();
@@ -627,6 +628,7 @@
 
     function start() {
       stop();
+      if (!playing) return;
       if (doc.hidden === true) return;
       if (!(remaining > 0)) remaining = interval;
       startedAt = now();
@@ -663,25 +665,60 @@
       });
     });
 
-    /* Focusing the demo image hands the carousel to the viewer: the timed advance stops
-       until focus leaves, then the cycle restarts from the active slide. */
-    var stage = root.querySelector(DEMO_STAGE_SELECTOR);
-    if (stage) {
-      stage.addEventListener('focus', function () {
-        if (root.classList) root.classList.add('is-focused');
-        pause();
-      });
-      stage.addEventListener('blur', function () {
-        if (root.classList) root.classList.remove('is-focused');
+    /* The fill is a CSS animation, so lifting the pause attribute resumes it where it
+       stopped. A resume therefore restarts both clocks: the bar from zero and the timer
+       from a full interval. Trusting the frozen pair instead left a filled bar waiting
+       out a fresh countdown before the next slide appeared. */
+    function restartFill() {
+      var active = root.querySelector('.hero-demo__control.is-active');
+      if (!active || !active.classList) return;
+      // Both the class and the pressed state arm the fill, so both have to drop before
+      // the flush, or the running animation simply resumes instead of starting over.
+      active.classList.remove('is-active');
+      active.setAttribute('aria-pressed', 'false');
+      void active.offsetWidth;
+      active.classList.add('is-active');
+      active.setAttribute('aria-pressed', 'true');
+    }
+
+    /* The play/pause pill owns the countdown; the picture itself stays inert so a click
+       on the artwork neither parks the slideshow nor paints a frame around it. */
+    function setPlaying(next) {
+      playing = !!next;
+      root.setAttribute('data-demo-playing', playing ? 'true' : 'false');
+      if (toggle) {
+        // Both labels live in the markup, translated by the shared dictionary.
+        toggle.setAttribute('aria-labelledby', playing ? 'demo-pause-label' : 'demo-play-label');
+      }
+      if (playing) {
+        remaining = interval;
+        restartFill();
         start();
+      } else {
+        pause();
+      }
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', function (event) {
+        if (event && typeof event.preventDefault === 'function') event.preventDefault();
+        setPlaying(!playing);
       });
     }
 
     doc.addEventListener('visibilitychange', function () {
-      if (doc.hidden === true) stop();
-      else start();
+      if (doc.hidden === true) {
+        stop();
+        return;
+      }
+      if (!playing) return;
+      // The fill kept animating while the tab was hidden, so both clocks start over.
+      remaining = interval;
+      restartFill();
+      start();
     });
 
+    root.setAttribute('data-demo-playing', 'true');
     paint(current);
     start();
     return {
@@ -692,6 +729,9 @@
       },
       stop: stop,
       start: start,
+      pause: pause,
+      play: function () { setPlaying(true); },
+      playing: function () { return playing; },
       current: function () { return current; }
     };
   }

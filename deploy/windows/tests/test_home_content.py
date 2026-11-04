@@ -7,7 +7,7 @@ Scope (content unit only):
   ``.about-founder`` (a three-card grid) — the closing body paragraph row was
   removed, so the section ends on the person cards;
 * ``.about-founder`` holds exactly three ``aside.about-founder__card`` elements
-  (Mr. Haoyi ZHANG, Dr. Jake CHAN, Ir Prof. Siwei LIU); each card holds
+  (Dr. Jake CHAN, Mr. Haoyi ZHANG, Ir Prof. Siwei LIU); each card holds
   ``figure.about-founder__photo``, the name ``h3`` and ``p.about-founder__role``;
 * the only images inside ``#about`` are the three portraits
   (``assets/illustrations/haoyi-zhang.png`` 840x1080,
@@ -54,16 +54,16 @@ TRANSLATION_PREFIXES = ("home.",)
 EXPECTED_ABOUT_KEYS = (
     "home.about-title",
     "home.about-lede",
-    "home.about-founder-name",
-    "home.about-founder-role",
     "home.about-director-name",
     "home.about-director-role",
+    "home.about-founder-name",
+    "home.about-founder-role",
     "home.about-advisor-name",
     "home.about-advisor-role",
 )
 
-FOUNDER_KEYS = EXPECTED_ABOUT_KEYS[2:4]
-DIRECTOR_KEYS = EXPECTED_ABOUT_KEYS[4:6]
+DIRECTOR_KEYS = EXPECTED_ABOUT_KEYS[2:4]
+FOUNDER_KEYS = EXPECTED_ABOUT_KEYS[4:6]
 ADVISOR_KEYS = EXPECTED_ABOUT_KEYS[6:8]
 BODY_KEYS = ()  # the closing paragraph row was removed
 
@@ -91,22 +91,22 @@ ADVISOR_PHOTO_SIZE = (840, 1080)
 # The English each card must render, byte for byte.
 CARD_ENGLISH = {
     "home.about-founder-name": "Mr. Haoyi ZHANG",
-    "home.about-founder-role": "Founder and Director",
+    "home.about-founder-role": "Director and CTO",
     "home.about-director-name": "Dr. Jake CHAN",
-    "home.about-director-role": "Director",
+    "home.about-director-role": "Director and CEO",
     "home.about-advisor-name": "Ir Prof. Siwei LIU",
-    "home.about-advisor-role": "Technical Advisor",
+    "home.about-advisor-role": "Volunteer Technical Advisor",
 }
 
 # (card keys, portrait source, intrinsic size, name, role, image alt) per card.
 # The advisor's portrait alt is the plain name while the h3 carries the title.
 CARDS = (
-    (FOUNDER_KEYS, FOUNDER_PHOTO, FOUNDER_PHOTO_SIZE, "Mr. Haoyi ZHANG",
-     "Founder and Director", "Haoyi ZHANG"),
     (DIRECTOR_KEYS, DIRECTOR_PHOTO, DIRECTOR_PHOTO_SIZE, "Dr. Jake CHAN",
-     "Director", "Jake CHAN"),
+     "Director and CEO", "Jake CHAN"),
+    (FOUNDER_KEYS, FOUNDER_PHOTO, FOUNDER_PHOTO_SIZE, "Mr. Haoyi ZHANG",
+     "Director and CTO", "Haoyi ZHANG"),
     (ADVISOR_KEYS, ADVISOR_PHOTO, ADVISOR_PHOTO_SIZE, "Ir Prof. Siwei LIU",
-     "Technical Advisor", "Siwei LIU"),
+     "Volunteer Technical Advisor", "Siwei LIU"),
 )
 
 # The photo box: a 240px rounded square on desktop, 208px on mobile.
@@ -534,9 +534,9 @@ class AboutStructureTests(AboutFixtures):
 
     def test_cards_render_the_approved_names_and_roles(self):
         expected = [
-            ("Mr. Haoyi ZHANG", "Founder and Director"),
-            ("Dr. Jake CHAN", "Director"),
-            ("Ir Prof. Siwei LIU", "Technical Advisor"),
+            ("Dr. Jake CHAN", "Director and CEO"),
+            ("Mr. Haoyi ZHANG", "Director and CTO"),
+            ("Ir Prof. Siwei LIU", "Volunteer Technical Advisor"),
         ]
         self.assertEqual(len(self.cards), len(expected))
         for card, (name_text, role_text) in zip(self.cards, expected):
@@ -630,7 +630,7 @@ class AboutRetiredTeamTests(AboutFixtures):
             with self.subTest(key=key):
                 self.assertNotIn(key, self.index, f"{key} is still referenced")
 
-    def test_the_director_card_sits_between_the_founder_and_the_advisor(self):
+    def test_the_row_reads_director_then_founder_then_advisor(self):
         names = [
             normalised_text(node)
             for card in self.cards
@@ -638,8 +638,8 @@ class AboutRetiredTeamTests(AboutFixtures):
         ]
         self.assertEqual(
             names,
-            ["Mr. Haoyi ZHANG", "Dr. Jake CHAN", "Ir Prof. Siwei LIU"],
-            "the director card reads between the other two",
+            ["Dr. Jake CHAN", "Mr. Haoyi ZHANG", "Ir Prof. Siwei LIU"],
+            "the chief executive leads the row, the CTO follows, the advisor closes it",
         )
 
     def test_the_retired_third_person_does_not_appear(self):
@@ -665,7 +665,7 @@ class AboutRetiredTeamTests(AboutFixtures):
         )
         self.assertEqual(
             [node["attrs"].get("src") for node in content_images],
-            [FOUNDER_PHOTO, DIRECTOR_PHOTO, ADVISOR_PHOTO],
+            [DIRECTOR_PHOTO, FOUNDER_PHOTO, ADVISOR_PHOTO],
         )
         photo_figures = find_all(
             self.founder, lambda node: has_class(node, "about-founder__photo")
