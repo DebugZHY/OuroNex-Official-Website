@@ -1,8 +1,8 @@
 """The 3D SIDA mark in the download band, and the duplicated early-access pill.
 
 The Home page carries a small WebGL tile in the open space left of the download
-buttons. It is a static object: nothing may turn it on its own, only a pointer
-drag may rotate it, so the embed may not hold an idle animation loop.
+buttons. It rests in a near-frontal pose and swings slowly either side of it;
+a pointer drag takes over the pose and the swing resumes from where it was let go.
 
 The same band gains a third pill: ``Request early access`` copied from the hero
 CTA without its arrow, pointing at ``/early-access.html``.
@@ -99,38 +99,57 @@ class EmbedBehaviourTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.embed = read(EMBED)
 
-    def test_embed_never_turns_the_model_by_itself(self) -> None:
-        self.assertNotIn("autoRotate", self.embed, "the mark must stand still until it is dragged")
-        self.assertNotIn("setAnimationLoop", self.embed, "no always-on render loop")
-        self.assertNotIn("Clock(", self.embed, "no time-driven animation")
-        self.assertNotIn("Velocity", self.embed, "no inertia: the model freezes the moment the drag ends")
+    def test_the_default_pose_is_upright_with_a_small_turn(self) -> None:
+        yaw = re.search(r"const POSE_YAW = DEFAULT_YAW ([+-]) ([0-9.]+);", self.embed)
+        self.assertIsNotNone(yaw, "the default yaw hangs off the camera cancelling azimuth")
+        self.assertEqual(yaw.group(1), "+", "the resting pose turns toward the viewer's right")
+        self.assertLess(float(yaw.group(2)), 0.12, "a few degrees, not a three-quarter view")
+        self.assertIn("const POSE_PITCH = 0;", self.embed,
+                      "an off-axis camera leans any pitched mark off the screen vertical")
+        self.assertNotIn("DEFAULT_PITCH", self.embed, "the pitch has no camera-cancelling value")
+        self.assertIn("let baseYaw = POSE_YAW;", self.embed)
+        self.assertIn("let basePitch = POSE_PITCH;", self.embed)
 
-    def test_drag_handlers_drive_the_rotation(self) -> None:
+    def test_the_idle_sway_is_a_slow_symmetric_sine(self) -> None:
+        amplitude = re.search(r"const SWAY_AMPLITUDE = ([0-9.]+);", self.embed)
+        period = re.search(r"const SWAY_PERIOD_MS = ([0-9]+);", self.embed)
+        self.assertIsNotNone(amplitude, "the swing needs a bounded amplitude")
+        self.assertIsNotNone(period, "the swing needs a period")
+        self.assertLessEqual(float(amplitude.group(1)), 0.2, "a rock, not a spin")
+        self.assertGreaterEqual(int(period.group(1)), 6000, "slow: several seconds per pass")
+        self.assertIn("Math.sin(", self.embed, "the swing eases at both ends")
+        self.assertIn("Math.PI * 2", self.embed)
+        self.assertNotIn("autoRotate", self.embed, "no three.js auto-rotation")
+
+    def test_motion_pauses_where_it_should(self) -> None:
+        self.assertIn("prefers-reduced-motion: reduce", self.embed, "respect the OS setting")
+        self.assertIn("function animating() {", self.embed)
+        self.assertIn("reduceMotion.matches", self.embed)
+        self.assertIn("document.hidden", self.embed, "no frames in a background tab")
+        self.assertIn("new IntersectionObserver", self.embed, "no frames while scrolled away")
+        self.assertIn("cancelAnimationFrame(frame)", self.embed)
+        tick = re.search(r"function tick\(now\) \{(.*?)\n  \}", self.embed, re.S)
+        self.assertIsNotNone(tick)
+        self.assertIn("dragging", tick.group(1), "a drag owns the pose; the swing waits")
+
+    def test_drag_handlers_drive_the_base_pose(self) -> None:
         for event in ("pointerdown", "pointermove", "pointerup", "pointercancel"):
             self.assertIn(f"addEventListener('{event}'", self.embed, f"{event} must be handled")
-        self.assertIn("pivot.rotation.set(pitch, yaw, 0)", self.embed)
+        self.assertIn("baseYaw += dx * 0.008;", self.embed)
+        self.assertIn("basePitch = THREE.MathUtils.clamp(basePitch + dy * 0.006", self.embed)
 
-    def test_motion_is_driven_only_by_the_pointer(self) -> None:
-        self.assertEqual(self.embed.count("pivot.rotation.set(pitch, yaw, 0)"), 1,
-                         "angles are written in one place, from pointer deltas")
-        self.assertIn("pitch = THREE.MathUtils.clamp(pitch + dy * 0.006", self.embed)
-        self.assertIn("yaw += dx * 0.008;", self.embed)
+    def test_every_angle_write_goes_through_paint(self) -> None:
+        self.assertEqual(self.embed.count("pivot.rotation.set("), 1,
+                         "one write site, so the swing and the drag can never disagree")
+        self.assertIn("pivot.rotation.set(basePitch, baseYaw + swayOffset(now), 0)", self.embed)
 
-    def test_the_resting_pose_looks_the_viewer_in_the_face(self) -> None:
-        self.assertIn("const VIEW = VIEW_DIRECTION.clone().normalize()", self.embed)
-        self.assertIn("const DEFAULT_YAW = Math.asin(VIEW.x)", self.embed)
-        self.assertIn("const DEFAULT_PITCH = -Math.asin(VIEW.y / Math.cos(DEFAULT_YAW))", self.embed,
-                      "the camera sits off the +Z axis; the pose has to cancel that offset")
-        self.assertIn("let yaw = DEFAULT_YAW;", self.embed)
-        self.assertIn("let pitch = DEFAULT_PITCH;", self.embed)
-
-    def test_double_click_restores_that_pose(self) -> None:
+    def test_double_click_restores_the_resting_pose(self) -> None:
         handler = re.search(r"canvas\.addEventListener\('dblclick',\s*\(\)\s*=>\s*\{(.*?)\}\);", self.embed, re.S)
         self.assertIsNotNone(handler, "double-click must be wired on the canvas")
         body = handler.group(1)
-        self.assertIn("yaw = DEFAULT_YAW", body)
-        self.assertIn("pitch = DEFAULT_PITCH", body)
-        self.assertIn("requestDraw()", body, "the reset has to repaint the canvas")
+        self.assertIn("baseYaw = POSE_YAW", body)
+        self.assertIn("basePitch = POSE_PITCH", body)
+        self.assertIn("draw()", body, "the reset has to repaint the canvas")
         self.assertIn("double-click to reset", self.embed, "the canvas label has to advertise the gesture")
 
     def test_bundle_ships_and_is_allowlisted(self) -> None:

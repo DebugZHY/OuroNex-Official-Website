@@ -6,10 +6,20 @@ const VIEW_DIRECTION = new THREE.Vector3(6.2, 3.2, 15.8);
 const PITCH_LIMIT = 0.62;
 
 // The camera sits off the +Z axis, so the mark only faces the viewer when the
-// default pose cancels that offset; double-click restores this pose.
+// resting yaw cancels that azimuth; double-click restores this pose.
 const VIEW = VIEW_DIRECTION.clone().normalize();
 const DEFAULT_YAW = Math.asin(VIEW.x);
-const DEFAULT_PITCH = -Math.asin(VIEW.y / Math.cos(DEFAULT_YAW));
+
+// Resting pose: square to the viewer, turned about 3 degrees to their right.
+// The pitch stays at zero: the camera is off-axis in azimuth, so any pitch leans
+// the mark's vertical axis off the screen vertical instead of squaring it up.
+const POSE_YAW = DEFAULT_YAW + 0.055;
+const POSE_PITCH = 0;
+
+// Idle sway: a slow, even swing either side of the resting pose.
+const SWAY_AMPLITUDE = 0.145;
+const SWAY_PERIOD_MS = 7600;
+const FRAME_INTERVAL_MS = 1000 / 30;
 const REST_LABEL = 'SIDA 3D mark, drag to rotate, double-click to reset';
 
 function mount(host) {
@@ -60,13 +70,21 @@ function mount(host) {
   model.root.position.sub(target);
   const radius = Math.max(size.x, size.y, size.z) * 0.68;
 
-  let yaw = DEFAULT_YAW;
-  let pitch = DEFAULT_PITCH;
+  // baseYaw/basePitch hold the pose the swing hangs off; the swing itself is
+  // added on top at paint time so a drag never fights the animation.
+  let baseYaw = POSE_YAW;
+  let basePitch = POSE_PITCH;
   let frame = 0;
   let dragging = false;
   let pointerId = null;
   let lastX = 0;
   let lastY = 0;
+  let swayOrigin = performance.now();
+  let lastPaint = 0;
+  let onScreen = true;
+  const reduceMotion = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : null;
 
   function placeCamera() {
     const width = Math.max(1, host.clientWidth);
@@ -79,14 +97,39 @@ function mount(host) {
     camera.updateProjectionMatrix();
   }
 
-  function draw() {
-    frame = 0;
-    pivot.rotation.set(pitch, yaw, 0);
+  function animating() {
+    return !(reduceMotion && reduceMotion.matches);
+  }
+
+  function swayOffset(now) {
+    if (dragging || !animating()) return 0;
+    const phase = (((now - swayOrigin) % SWAY_PERIOD_MS) + SWAY_PERIOD_MS) % SWAY_PERIOD_MS;
+    return Math.sin((phase / SWAY_PERIOD_MS) * Math.PI * 2) * SWAY_AMPLITUDE;
+  }
+
+  function paint(now) {
+    lastPaint = now;
+    pivot.rotation.set(basePitch, baseYaw + swayOffset(now), 0);
     renderer.render(scene, camera);
   }
 
-  function requestDraw() {
-    if (!frame) frame = requestAnimationFrame(draw);
+  // One still frame, used on first paint and whenever the motion stops.
+  function draw() {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    paint(performance.now());
+  }
+
+  function tick(now) {
+    frame = 0;
+    if (!onScreen || document.hidden || dragging || !animating()) return;
+    if (now - lastPaint >= FRAME_INTERVAL_MS) paint(now);
+    frame = requestAnimationFrame(tick);
+  }
+
+  function resume() {
+    if (frame || !onScreen || document.hidden || dragging || !animating()) return;
+    frame = requestAnimationFrame(tick);
   }
 
   canvas.addEventListener('pointerdown', (event) => {
@@ -105,9 +148,9 @@ function mount(host) {
     const dy = event.clientY - lastY;
     lastX = event.clientX;
     lastY = event.clientY;
-    yaw += dx * 0.008;
-    pitch = THREE.MathUtils.clamp(pitch + dy * 0.006, -PITCH_LIMIT, PITCH_LIMIT);
-    requestDraw();
+    baseYaw += dx * 0.008;
+    basePitch = THREE.MathUtils.clamp(basePitch + dy * 0.006, -PITCH_LIMIT, PITCH_LIMIT);
+    draw();
   });
 
   function release(event) {
@@ -116,6 +159,9 @@ function mount(host) {
     canvas.classList.remove('is-dragging');
     if (canvas.hasPointerCapture(pointerId)) canvas.releasePointerCapture(pointerId);
     pointerId = null;
+    swayOrigin = performance.now();
+    draw();
+    resume();
   }
 
   canvas.addEventListener('pointerup', release);
@@ -123,18 +169,51 @@ function mount(host) {
   canvas.addEventListener('lostpointercapture', release);
 
   canvas.addEventListener('dblclick', () => {
-    yaw = DEFAULT_YAW;
-    pitch = DEFAULT_PITCH;
-    requestDraw();
+    baseYaw = POSE_YAW;
+    basePitch = POSE_PITCH;
+    swayOrigin = performance.now();
+    draw();
+    resume();
   });
 
   new ResizeObserver(() => {
     placeCamera();
-    requestDraw();
+    paint(performance.now());
   }).observe(host);
 
+  // The swing costs frames, so it only runs while the mark is on screen and
+  // the tab is in front; everything else falls back to a single still.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      onScreen = entries.some((entry) => entry.isIntersecting);
+      if (onScreen) {
+        resume();
+      } else {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    }).observe(host);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    } else {
+      resume();
+    }
+  });
+
+  if (reduceMotion && reduceMotion.addEventListener) {
+    reduceMotion.addEventListener('change', () => {
+      if (animating()) resume();
+      else draw();
+    });
+  }
+
   placeCamera();
-  requestDraw();
+  draw();
+  resume();
   return { canvas, renderer, scene, camera, pivot };
 }
 
