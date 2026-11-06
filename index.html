@@ -21,6 +21,7 @@
 <link href="assets/site.css" rel="stylesheet"/>
 <link href="assets/home.css" rel="stylesheet"/>
 <link href="assets/sida-panels.css" rel="stylesheet"/>
+<link href="workflow-stages/ui/embed.css" rel="stylesheet"/>
 <link href="assets/business-flow.css" rel="stylesheet"/>
 <script>
 (function(){
@@ -42,6 +43,7 @@ root.removeAttribute("data-flow");
 <script defer="" src="assets/site.js"></script>
 <script defer="" src="assets/home.js"></script>
 <script defer="" src="assets/sida-workflow.js"></script>
+<script defer="" src="workflow-stages/ui/embed.js"></script>
 <script defer="" src="assets/sida-wordcloud.js"></script>
 <script defer="" src="assets/sida-3d.js"></script>
 <script>
@@ -80,7 +82,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <a href="#home"><span data-i18n="shared.home.5c1d84">Home</span></a>
 <a href="#sida"><span data-i18n="shared.features">Features</span></a>
 <a href="#application"><span data-i18n="shared.application">Application</span></a>
-<a href="#price"><span data-i18n="shared.price.3e8248">Price</span></a>
+
 <a href="#business"><span data-i18n="shared.business.d6663d">Business</span></a>
 <a href="#about"><span data-i18n="shared.about.6b21fb">About</span></a>
 </div>
@@ -98,26 +100,15 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div class="wrap hero-inner">
 <div class="hero-copy">
 <h1 id="hero-title"><span class="hero-title__lockup"><img alt="" class="hero-title__logo" decoding="async" height="456" src="assets/illustrations/sida-logo.png" width="456"><span class="hero-title__name" data-i18n="home.hero-slogan">SIDA</span></span><span class="hero-title__rest" data-user-input=""><span class="hero-title__accent">S</span>uper-<span class="hero-title__accent">I</span>ntelligent <span class="hero-title__accent">D</span>esign <span class="hero-title__accent">A</span>gent</span></h1>
-<p class="hero-description"><span class="hero-description-line" data-i18n="home.hero-description">From planning to design, SIDA automates every engineering stages with built-in experts, connects your files and tools and turn the needs into deliverables.</span></p>
+<p class="hero-description"><span class="hero-description-line" data-i18n="home.hero-description">Built for engineering, with long task chains, complex decisions, and effortless execution.</span></p>
 <div class="hero-actions">
 <a class="button" href="#sida"><span data-i18n="home.explore-features">Explore the Features</span><span aria-hidden="true">→</span></a>
 <a class="button-outline early-access" href="/early-access.html" rel="noopener" target="_blank"><span data-i18n="home.request-access">Request early access</span><span aria-hidden="true">→</span></a>
 </div>
 </div>
-<aside aria-label="SIDA product demonstration" class="hero-demo" data-i18n-aria-label="home.product-demo-label" data-demo-carousel data-demo-interval="10000">
+<aside aria-label="SIDA product preview" class="hero-demo hero-demo--app" data-i18n-aria-label="home.product-demo-label">
 <div class="hero-demo__bar"><span data-i18n="home.product-demo">SIDA / Product demo</span><span data-i18n="home.preview">Preview</span></div>
-<div class="hero-demo__stage" role="group" aria-roledescription="carousel" aria-label="SIDA product demonstration">
-<figure class="hero-demo__slide is-active" data-demo-slide aria-hidden="false"><img alt="SIDA product demonstration 1" decoding="async" fetchpriority="high" height="2200" src="assets/illustrations/home-1.png" width="3200"/></figure>
-<figure class="hero-demo__slide" data-demo-slide aria-hidden="true"><img alt="SIDA product demonstration 2" decoding="async" height="1365" loading="lazy" src="assets/illustrations/home-2.png" width="1781"/></figure>
-<figure class="hero-demo__slide hero-demo__slide--center" data-demo-slide aria-hidden="true"><img alt="SIDA product demonstration 3" decoding="async" height="1628" loading="lazy" src="assets/illustrations/home-3.png" width="2912"/></figure>
-<figure class="hero-demo__slide" data-demo-slide aria-hidden="true"><img alt="SIDA product demonstration 4" decoding="async" height="2200" loading="lazy" src="assets/illustrations/home-4.png" width="3200"/></figure>
-</div>
-<div class="hero-demo__controls" role="group" aria-label="Choose a product demonstration image">
-<button aria-label="Show product demonstration 1" aria-pressed="true" class="hero-demo__control is-active" data-demo-target="0" type="button">01</button>
-<button aria-label="Show product demonstration 2" aria-pressed="false" class="hero-demo__control" data-demo-target="1" type="button">02</button>
-<button aria-label="Show product demonstration 3" aria-pressed="false" class="hero-demo__control" data-demo-target="2" type="button">03</button>
-<button aria-label="Show product demonstration 4" aria-pressed="false" class="hero-demo__control" data-demo-target="3" type="button">04</button><button aria-labelledby="demo-pause-label" class="hero-demo__toggle" data-demo-toggle="" type="button"><svg aria-hidden="true" class="hero-demo__toggle-icon hero-demo__toggle-icon--pause" fill="currentColor" focusable="false" viewBox="0 0 10 10"><rect height="9" rx="1.1" width="3" x="1" y=".5"></rect><rect height="9" rx="1.1" width="3" x="6" y=".5"></rect></svg><svg aria-hidden="true" class="hero-demo__toggle-icon hero-demo__toggle-icon--play" fill="currentColor" focusable="false" viewBox="0 0 10 10"><path d="M2.2.9 8.6 5 2.2 9.1z"></path></svg><span class="sr-only" data-i18n="home.demo-pause" id="demo-pause-label">Pause the slideshow</span><span class="sr-only" data-i18n="home.demo-play" id="demo-play-label">Play the slideshow</span></button>
-</div>
+<div aria-label="SIDA workspace welcome screen" class="hero-demo__app" data-sida-workflow=""></div>
 </aside>
 </div>
 </section>
@@ -132,10 +123,10 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <button aria-controls="feature-experts" aria-selected="false" id="tab-experts" role="tab" tabindex="-1" type="button"><svg aria-hidden="true" class="directory-icon" data-directory-icon="expert" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24"><circle cx="10" cy="7" r="3"></circle><path d="M4 21v-2a6 6 0 0 1 12 0v2M18 3l.9 1.8 2.1.9-2.1.9L18 8.4l-.9-1.8-2.1-.9 2.1-.9z"></path></svg><span data-i18n="home.feature-experts-title">Multidisciplinary Experts</span></button>
 </div>
 <div class="feature-panels">
-<article aria-labelledby="tab-engineering" class="feature-panel" id="feature-engineering" role="tabpanel"><div class="feature-stage"><div aria-label="Index of Hong Kong building codes, design manuals and guidelines" class="sida-tagcloud sida-wordcloud" data-i18n-aria-label="home.code-index-label" data-sida-wordcloud=""><p class="sida-wordcloud__fallback">Loading the code index…</p></div></div></article>
-<article aria-labelledby="tab-workflow" class="feature-panel" hidden="" id="feature-workflow" role="tabpanel"><div class="feature-stage"><div class="sida-flow" data-sida-flow=""><p class="sida-flow__fallback">Loading project workflow…</p></div></div></article>
-<article aria-labelledby="tab-free" class="feature-panel" hidden="" id="feature-free" role="tabpanel"><div class="feature-stage feature-stage--media"><figure class="feature-shot"><img alt="The SIDA professional tool set" decoding="async" height="1536" src="assets/illustrations/professional-tools.jpg" width="2752"></figure></div></article>
-<article aria-labelledby="tab-experts" class="feature-panel" hidden="" id="feature-experts" role="tabpanel"><div class="feature-stage feature-stage--media"><figure class="feature-shot feature-shot--experts"><img alt="The SIDA bot manager with specialist agents assigned to preliminary design, modelling, structural analysis and review" decoding="async" height="1146" src="assets/illustrations/multidisciplinary-experts.png" width="1659"></figure></div></article>
+<article aria-labelledby="tab-engineering" class="feature-panel" id="feature-engineering" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/information-management.html" title="CoP Hub HK — 879 building titles and 9,484 pages"></iframe></div></article>
+<article aria-labelledby="tab-workflow" class="feature-panel" hidden="" id="feature-workflow" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/complex-workflow.html?v=20261106-layout" title="SIDA project workflow — RIBA stages 0 to 7 with Hong Kong Buildings Department approval gates"></iframe></div></article>
+<article aria-labelledby="tab-free" class="feature-panel" hidden="" id="feature-free" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/professional-tools.html" title="SIDA Apps — engineering and office applications"></iframe></div></article>
+<article aria-labelledby="tab-experts" class="feature-panel" hidden="" id="feature-experts" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/multidisciplinary-experts.html" title="SIDA experts — specialists across the engineering lifecycle"></iframe></div></article>
 </div>
 </div>
 </div>
@@ -148,9 +139,52 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <section class="home-section application-section" data-home-section="" id="application">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap application-layout">
-<div class="application-intro">
-<h2><span data-i18n="home.what-deliver">Automative Engineering Work</span></h2>
+<div class="application-plans">
+<div class="plan-strip">
+<article class="plan-mini">
+<header class="application-panel__header">
+<h2 data-user-input="">Free</h2>
+<p class="plan-description" data-i18n="home.plan-free-description">Use directly</p>
+</header>
+<div class="plan-details">
+<div class="plan-group">
+<p class="plan-group-title" data-i18n="home.plan-features">Features</p>
+<ul class="plan-features">
+<li><span data-i18n="home.plan-computer-use">Computer use</span></li>
+<li><span data-i18n="home.plan-built-in-tools">Built-in tools</span></li>
+<li><span data-i18n="home.plan-free-documentation">Free documentation</span></li>
+<li><span data-i18n="home.plan-data-management">Data management</span></li>
+</ul>
 </div>
+</div>
+<a class="button plan-action" href="#sida"><span data-i18n="home.download">Download</span></a>
+</article>
+<article aria-describedby="enterprise-examples-title" class="plan-mini">
+<header class="application-panel__header">
+<h2 data-user-input="">Enterprise</h2>
+<p class="plan-description" data-i18n="home.plan-enterprise-description">Custom services for your workflow</p>
+</header>
+<div class="plan-details">
+<div class="plan-group">
+<p class="plan-group-title" data-i18n="home.plan-services">Features &amp; services</p>
+<ul class="plan-features">
+<li><span data-i18n="home.plan-advanced">Advanced features</span></li>
+<li><span data-i18n="home.plan-early-access">Early access</span></li>
+<li><span data-i18n="home.plan-consultancy">AI transformation consultancy</span></li>
+<li><span data-i18n="home.plan-custom-workflows">Custom workflows</span></li>
+<li><span data-i18n="home.plan-custom-saas">Custom SaaS development</span></li>
+</ul>
+</div>
+</div>
+<a class="button-outline plan-action" href="mailto:hello@ouronex.com"><span data-i18n="home.contact-sales">Contact Sales</span></a>
+</article>
+</div>
+</div>
+<aside aria-labelledby="enterprise-examples-title" class="enterprise-examples">
+<header class="application-panel__header">
+<h2 class="enterprise-examples__title" id="enterprise-examples-title" data-i18n="home.enterprise-examples">Application examples</h2>
+<p class="plan-description" data-i18n="home.enterprise-examples-description">Custom services in practice</p>
+</header>
 <div class="delivery-rows">
 <article class="delivery-row">
 <div class="delivery-row__copy">
@@ -159,7 +193,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 <figure class="delivery-row__figure"><img alt="" height="781" loading="lazy" src="assets/illustrations/project-planning-web.jpg" width="1400"/></figure>
 </article>
-<article class="delivery-row delivery-row--flip">
+<article class="delivery-row">
 <div class="delivery-row__copy">
 <h3><span data-i18n="home.professional-saas">Design Optimization</span></h3>
 <p><span data-i18n="home.saas-copy">Built-in structural analysis and design tools with multi-objective optimisation.</span></p>
@@ -173,7 +207,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 <figure class="delivery-row__figure"><img alt="" height="1045" loading="lazy" src="assets/illustrations/tendering-web.jpg" width="1400"/></figure>
 </article>
-<article class="delivery-row delivery-row--flip">
+<article class="delivery-row">
 <div class="delivery-row__copy">
 <h3><span data-i18n="home.training">BIM Modelling</span></h3>
 <p><span data-i18n="home.training-copy">Direct BIM export from structural models and efficient model information sync.</span></p>
@@ -181,34 +215,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <figure class="delivery-row__figure"><img alt="" height="1045" loading="lazy" src="assets/illustrations/bim-modelling-web.jpg" width="1400"/></figure>
 </article>
 </div>
-</div>
-</section>
-<section class="home-section price-section" data-home-section="" id="price">
-<div aria-hidden="true" class="hero-media" data-section-background></div>
-<div class="wrap price-layout">
-<div class="plan-strip">
-<article class="plan-mini"><h2 data-user-input="">Pay as you go</h2><p class="plan-description" data-user-input="">Buy tokens directly</p><div class="plan-price" data-user-input=""><span class="plan-currency">HK$</span><span class="plan-amount">0.2</span><span class="plan-interval">/1M token</span></div><button class="button plan-action" data-available-soon="" type="button"><span data-i18n="home.top-up">Top up</span></button></article>
-<article class="plan-mini"><h2 data-user-input="">Lite</h2><p class="plan-description" data-user-input="">Efficient trial</p><div class="plan-price" data-user-input=""><span class="plan-currency">HK$</span><span class="plan-amount">49</span><span class="plan-interval">/ month</span></div><button class="button plan-action" data-available-soon="" type="button"><span data-i18n="home.subscribe-now">Subscribe Now</span></button></article>
-<article class="plan-mini"><h2 data-user-input="">Standard</h2><p class="plan-description" data-user-input="">Standard choice</p><div class="plan-price" data-user-input=""><span class="plan-currency">HK$</span><span class="plan-amount">119</span><span class="plan-interval">/ month</span></div><button class="button plan-action" data-available-soon="" type="button"><span data-i18n="home.subscribe-now">Subscribe Now</span></button></article>
-<article class="plan-mini"><h2 data-user-input="">Professional</h2><p class="plan-description" data-user-input="">Premium mode</p><div class="plan-price" data-user-input=""><span class="plan-currency">HK$</span><span class="plan-amount">469</span><span class="plan-interval">/ month</span></div><button class="button plan-action" data-available-soon="" type="button"><span data-i18n="home.subscribe-now">Subscribe Now</span></button></article>
-<article class="plan-mini"><h2 data-user-input="">Enterprise</h2><p class="plan-description" data-user-input="">Empowerment as you wish</p><div class="plan-price plan-price--text"><span data-i18n="home.custom">Custom</span></div><button class="button-outline plan-action" data-available-soon="" type="button"><span data-i18n="home.contact-sales">Contact Sales</span></button></article>
-</div>
-<div aria-label="Plan feature comparison" class="plan-table-scroll" data-i18n-aria-label="home.plan-comparison" role="region" tabindex="0">
-<table class="plan-table">
-<thead><tr><th scope="col"><span class="sr-only" data-i18n="home.feature">Feature</span></th><th data-user-input="" scope="col">Pay as you go</th><th data-user-input="" scope="col">Lite</th><th data-user-input="" scope="col">Standard</th><th data-user-input="" scope="col">Professional</th><th data-user-input="" scope="col">Enterprise</th></tr></thead>
-<tbody>
-<tr><th scope="row"><span data-i18n="home.table-tokens">MONTHLY TOKENS</span></th><td data-user-input="">10M (The 1st month only)</td><td data-user-input="">300M</td><td data-user-input="">850M</td><td data-user-input="">4B</td><td><span data-i18n="home.custom">Custom</span></td></tr>
-<tr><th scope="row"><span data-i18n="home.table-basic-models">STANDARD MODELS</span></th><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-<tr><th scope="row"><span data-i18n="home.table-video-models">CUSTOM MODELS</span></th><td>—</td><td>—</td><td>—</td><td>—</td><td class="yes">✓</td></tr>
-<tr><th scope="row"><span data-i18n="home.table-free-documentation">FREE DOCUMENTATION</span></th><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-<tr><th scope="row"><span data-i18n="home.table-data-management">DATA MANAGEMENT</span></th><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-<tr><th scope="row"><span data-i18n="home.table-built-in-tools">BUILT-IN TOOLS</span></th><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-<tr><th scope="row"><span data-i18n="home.table-computer-use">COMPUTER USE</span></th><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-<tr><th scope="row"><span data-i18n="home.table-priority">PRIORITY SUPPORT</span></th><td>—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td><span data-i18n="home.dedicated">Dedicated</span></td></tr>
-<tr><th scope="row"><span data-i18n="home.table-integration">CUSTOM INTEGRATION</span></th><td>—</td><td>—</td><td>—</td><td>—</td><td class="yes">✓</td></tr>
-</tbody>
-</table>
-</div>
+</aside>
 </div>
 </section>
 <section class="home-section business-section" data-home-section="" id="business">
@@ -279,7 +286,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <a href="index.html#home"><span data-i18n="shared.home.5c1d84">Home</span></a>
 <a href="index.html#sida"><span data-i18n="shared.features">Features</span></a>
 <a href="index.html#application"><span data-i18n="shared.application">Application</span></a>
-<a href="index.html#price"><span data-i18n="shared.price.3e8248">Price</span></a>
+
 <a href="index.html#business"><span data-i18n="shared.business.d6663d">Business</span></a>
 <a href="index.html#about"><span data-i18n="shared.about.6b21fb">About</span></a>
 </nav>

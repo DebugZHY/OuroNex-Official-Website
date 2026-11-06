@@ -11,6 +11,7 @@ from urllib.parse import unquote
 
 from django.conf import settings
 from django.http import FileResponse, Http404, JsonResponse
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.http import require_safe
 
 MANIFEST_NAME = 'package-manifest.json'
@@ -78,6 +79,7 @@ def load_public_paths(manifest_path=None):
 
 
 @require_safe
+@xframe_options_sameorigin
 def public_file(request, path=''):
     requested = normalize_public_path(path or INDEX_PATH)
     if not requested or requested not in load_public_paths():

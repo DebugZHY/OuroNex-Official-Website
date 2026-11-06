@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en" data-theme-family="midnight" data-theme-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apps — SIDA</title>
+<!--
+  SIDA · Apps page (static showcase of the real page)
+
+  Structure, typography and tokens come from the product's Apps page:
+    hosts/shell/components/apps/AppsPage.tsx        page structure, card layout
+    hosts/shell/lib/rail-apps.ts                    the app list
+    hosts/shell/app/globals.css:5230-5283           midnight · dark tokens (the product default family)
+    hosts/shell/app/globals.css:967-990             the product's scrollbar skin
+
+  The card anatomy follows that page — icon, name, one-line description and an Open
+  affordance on every card — but the rows are tightened so the four groups and all twelve
+  apps land inside the embed's 666-700px stage without scrolling.
+  The card icons are the brand tiles in flow-assets/apps/, one per app, drawn at 34px.
+  No app card opens anything — this is a static surface, and no launch result is implied.
+-->
+<style>
+  :root {
+    color-scheme: dark;   /* every theme block in globals.css sets it; it also skins the native scrollbar */
+    /* bare shadcn token the capture paints the page surface with (globals.css:4867) */
+    --background: oklch(0.145 0 0);
+
+    /* midnight · dark — the product default family (globals.css:5230-5283, lib/theme.ts:90) */
+    --bg: oklch(0.2434 0.0387 252.47);
+    --card: oklch(0.3614 0.0234 258.37);
+    --bg-subtle: oklch(0.33 0.019 258.6);
+    --bg-hover: oklch(0.346 0.0199 257.27);
+    --border: oklch(0.3732 0.0211 259.4);
+    --text: oklch(0.9598 0.0091 258.34);
+    --text-muted: oklch(0.7764 0.0211 257.48);
+    --text-dim: oklch(0.6642 0.0246 260.7);
+    --accent: oklch(0.662 0.18 260.07);
+    --accent-contrast: oklch(0.1537 0.0288 258.22);
+    --ring: oklch(0.556 0 0);
+
+    /* measured radii (rounded-md / rounded-xl on this build) */
+    --r-md: 8px;
+    --r-xl: 14px;
+
+    --font-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Microsoft YaHei", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--background);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 16px;
+    line-height: 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- button reset (Tailwind preflight's job in the product) --------------------------------
+     The page ships no preflight here, so a bare <button> keeps the platform face: in Chrome a
+     default `appearance: auto` button paints its native grey plate even when a later rule gives it
+     a transparent background. Flatten every button first, then let the page's own card rules
+     below style it — that is the order the product's stylesheet has (preflight, then utilities). */
+  button {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ---- the page: AppsPage.tsx:50  (flex h-full min-h-0 flex-col gap-4 overflow-auto p-5) ---- */
+  .apps-page {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    padding: 14px 16px;
+  }
+
+  /* ---- header: AppsPage.tsx:51-82 ---- */
+  .apps-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .apps-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.4px;
+  }
+  .apps-sub {
+    margin: 0;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-muted);
+  }
+
+  /* ---- one category block: label over its apps ---- */
+  .apps-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .apps-group-title {
+    margin: 0;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ---- the grid: two columns, three once the panel is wide enough for the short descriptions ---- */
+  .apps-grid {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 560px) { .apps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 780px) { .apps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+  /* ---- the card: AppsPage.tsx:145-163  (rounded-xl border bg-card) ---- */
+  .apps-grid > li {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    background-color: var(--card);
+  }
+  .apps-grid > li > button {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    grid-template-areas: "icon label pill" "desc desc desc";
+    column-gap: 10px;
+    row-gap: 3px;
+    align-items: center;
+    flex: 1 1 0%;
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: var(--r-xl);
+    cursor: pointer;
+    outline: none;
+    transition: background-color .15s cubic-bezier(.4, 0, .2, 1);
+  }
+  .apps-grid > li > button:hover { background-color: color-mix(in oklab, var(--bg-subtle) 40%, transparent); }
+  .apps-grid > li > button:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+
+  /* the card: icon and name on the first line with Open at the right, description underneath */
+  .card-row { display: contents; }
+  .card-iconbox {
+    grid-area: icon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+  }
+  .card-iconbox img { display: block; width: 34px; height: 34px; }
+  .card-label {
+    grid-area: label;
+    align-self: end;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .card-desc {
+    grid-area: desc;
+    margin: 0;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-muted);
+  }
+  .card-foot {
+    grid-area: pill;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+  }
+  .card-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: var(--r-md);
+    background-color: var(--accent);
+    color: var(--accent-contrast);
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+  }
+
+  /* ---- the product's scrollbar skin (globals.css:967-990) ---- */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb, var(--text-dim) 45%, transparent);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--text-dim) 72%, transparent); }
+  ::-webkit-scrollbar-thumb:active { background-color: var(--text-dim); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .apps-grid > li > button { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="apps-page" data-apps-page="true">
+  <header class="apps-head">
+    <div>
+      <h2 class="apps-title">Apps</h2>
+      <p class="apps-sub">Built-in apps enabling efficient usage by AI, free to use by human.</p>
+    </div>
+  </header>
+
+  <section class="apps-group" aria-labelledby="apps-group-office">
+    <h3 class="apps-group-title" id="apps-group-office">Office</h3>
+    <ul class="apps-grid">
+      <li data-apps-card="doc">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/doc.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">Doc</span>
+          </div>
+          <p class="card-desc">Free viewer and editor for DOC files.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="spreadsheet">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/spreadsheet.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">Spreadsheet</span>
+          </div>
+          <p class="card-desc">Free viewer and editor for XLSX and CSV files.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="slide">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/slide.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">Slide</span>
+          </div>
+          <p class="card-desc">Free viewer and editor for PPT files.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="pdf-editor">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/pdf-editor.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">PDF Editor</span>
+          </div>
+          <p class="card-desc">Free viewer and editor for PDF files.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="calculator">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/calculator.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">Calculator</span>
+          </div>
+          <p class="card-desc">Quick calculator for everyday engineering numbers.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+    </ul>
+  </section>
+
+  <section class="apps-group" aria-labelledby="apps-group-modelling">
+    <h3 class="apps-group-title" id="apps-group-modelling">Modelling</h3>
+    <ul class="apps-grid">
+      <li data-apps-card="cad-editor">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/cad-editor.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">CAD Editor</span>
+          </div>
+          <p class="card-desc">Free viewer and editor for CAD and DXF files.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="bim-helper">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/bim-helper.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">BIM Helper</span>
+          </div>
+          <p class="card-desc">Free viewer and editor for BIM models.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+    </ul>
+  </section>
+
+  <section class="apps-group" aria-labelledby="apps-group-analysis">
+    <h3 class="apps-group-title" id="apps-group-analysis">Analysis &amp; Design</h3>
+    <ul class="apps-grid">
+      <li data-apps-card="soda">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/soda.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">SODA</span>
+          </div>
+          <p class="card-desc">Second-order analysis and design of structures.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="ccd-hk">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/ccd-hk.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">CCD-HK</span>
+          </div>
+          <p class="card-desc">Advanced cross-section designer under the Hong Kong codes.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="scd-hk">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/scd-hk.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">SCD-HK</span>
+          </div>
+          <p class="card-desc">Concrete structural design under the Hong Kong codes.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+    </ul>
+  </section>
+
+  <section class="apps-group" aria-labelledby="apps-group-planning">
+    <h3 class="apps-group-title" id="apps-group-planning">Planning &amp; Management</h3>
+    <ul class="apps-grid">
+      <li data-apps-card="cop-hub-hk">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/cop-hub-hk.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">CoP Hub HK</span>
+          </div>
+          <p class="card-desc">Efficient, comprehensive query tool for Hong Kong engineering compliance.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="sitescope">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/sitescope.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">SiteScope</span>
+          </div>
+          <p class="card-desc">Synthetic visualization and output for site context.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

@@ -43,15 +43,15 @@
 
 /* Edges: hairline bus with a slow travelling dot. */
 .bf-canvas .react-flow__edge-path {
-  stroke: rgba(146, 182, 238, 0.72);
-  stroke-width: 1.5;
+  stroke: rgba(150, 186, 255, 0.62);
+  stroke-width: 2;
   stroke-linecap: round;
   transition: stroke 0.09s linear, stroke-width 0.09s linear, opacity 0.09s linear;
 }
 
 .bf-canvas .react-flow__edge.is-lit .react-flow__edge-path {
-  stroke: rgba(196, 224, 255, 1);
-  stroke-width: 2.2;
+  stroke: rgba(226, 240, 255, 1);
+  stroke-width: 2.4;
 }
 
 
@@ -59,7 +59,7 @@
 /* Only the hovered card and its connectors carry the trace: dimming every other
    card made a sweep flash the whole board. */
 .bf-canvas .react-flow__node.is-lit .bf-card {
-  border-color: rgba(150, 192, 255, 0.7);
+  border-color: var(--bf-accent);
 }
 
 .bf-canvas .react-flow__node.dragging {
@@ -67,6 +67,10 @@
 }
 
 .bf-card {
+  --bf-bg: #123229;
+  --bf-line: #2f6a57;
+  --bf-accent: #93e8c6;
+  --bf-copy: #c2dad2;
   position: relative;
   box-sizing: border-box;
   width: 100%;
@@ -76,20 +80,28 @@
   justify-content: center;
   gap: 6px;
   padding: 14px 18px;
-  border: 1px solid rgba(140, 170, 210, 0.15);
-  border-radius: 12px;
-  background: linear-gradient(180deg, #121d2f, #0c1523);
-  box-shadow: inset 0 1px 0 rgba(190, 215, 255, 0.06), 0 16px 34px -26px #000;
-  transition: border-color 0.14s ease;
+  border: 1px solid var(--bf-line);
+  border-radius: 13px;
+  background: var(--bf-bg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 16px 34px -28px #000;
+  transition:
+    border-color 0.14s ease,
+    box-shadow 0.14s ease;
   cursor: default;
 }
 
 .bf-card:hover {
-  border-color: rgba(126, 168, 255, 0.45);
+  border-color: var(--bf-accent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 0 0 1px color-mix(in srgb, var(--bf-accent) 24%, transparent),
+    0 18px 40px -30px color-mix(in srgb, var(--bf-accent) 55%, transparent);
 }
 
 .bf-card__kicker {
-  color: #a6c6f2;
+  color: var(--bf-accent);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.09em;
@@ -110,7 +122,7 @@
 .bf-card__copy {
   text-wrap: pretty;
   margin: 2px 0 0;
-  color: #c3d3e5;
+  color: var(--bf-copy);
   font-size: 13.5px;
   line-height: 1.5;
 }
@@ -119,7 +131,7 @@
   position: absolute;
   top: 14px;
   right: 16px;
-  color: rgba(126, 168, 255, 0.6);
+  color: var(--bf-accent);
   font-family: var(--display, inherit);
   font-size: 11px;
   font-weight: 600;
@@ -142,24 +154,35 @@
   object-fit: contain;
 }
 
-/* Entry cards: quiet, they are only the starting point. */
+/* Stage colours run left to right: entry teal, gate violet, lane blue, delivery amber. */
+.bf-card--entry {
+  --bf-bg: #123229;
+  --bf-line: #2f6a57;
+  --bf-accent: #93e8c6;
+  --bf-copy: #c2dad2;
+}
+
 /* The gate: the one node that is a decision. */
 .bf-card--gate {
-  border-color: rgba(126, 168, 255, 0.42);
-  background: linear-gradient(180deg, #16263f, #0e1a2b);
-  box-shadow: inset 0 1px 0 rgba(190, 215, 255, 0.14), 0 20px 46px -30px rgba(114, 158, 255, 0.85);
+  --bf-bg: #241d3d;
+  --bf-line: #57478c;
+  --bf-accent: #c3b1ff;
+  --bf-copy: #cfc7e6;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 20px 46px -30px rgba(140, 110, 255, 0.75);
 }
 
 .bf-card--gate .bf-card__title {
   font-size: 19px;
 }
 
-.bf-card--gate .bf-card__copy {
-  color: #94aac6;
-}
-
 /* Service lanes: the commercial options, so they carry the accent rail. */
 .bf-card--lane {
+  --bf-bg: #16304b;
+  --bf-line: #4879b8;
+  --bf-accent: #b3d3ff;
+  --bf-copy: #c3d3e5;
   padding-left: 20px;
 }
 
@@ -171,7 +194,7 @@
   bottom: 14px;
   width: 2px;
   border-radius: 2px;
-  background: linear-gradient(180deg, rgba(126, 168, 255, 0.85), rgba(126, 168, 255, 0.18));
+  background: linear-gradient(180deg, var(--bf-accent), color-mix(in srgb, var(--bf-accent) 18%, transparent));
 }
 
 .bf-card--lane .bf-card__title {
@@ -180,13 +203,17 @@
 
 /* Delivery node: the destination, brightest surface in the canvas. */
 .bf-card--delivery {
+  --bf-bg: #382912;
+  --bf-line: #86642a;
+  --bf-accent: #ffcf87;
+  --bf-copy: #e3d3bb;
   flex-direction: row;
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-color: rgba(126, 168, 255, 0.34);
-  background: linear-gradient(150deg, rgba(22, 38, 62, 0.98), rgba(11, 19, 31, 0.98));
-  box-shadow: inset 0 1px 0 rgba(198, 220, 255, 0.16), 0 24px 50px -30px rgba(114, 158, 255, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 24px 50px -30px rgba(255, 195, 110, 0.6);
 }
 
 .bf-card--delivery .bf-card__title {

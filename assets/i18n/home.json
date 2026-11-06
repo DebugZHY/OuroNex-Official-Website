@@ -15,9 +15,9 @@
     "zh-TW": "SIDA"
   },
   "home.hero-description": {
-    "en": "From planning to design, SIDA automates every engineering stages with built-in experts, connects your files and tools and turn the needs into deliverables.",
-    "zh-CN": "从规划到设计，SIDA 通过内置专家自动化每一个工程环节，连接你的文件与工具，把需求转化为可交付成果。",
-    "zh-TW": "從規劃到設計，SIDA 透過內建專家自動化每一個工程環節，連接你的檔案與工具，把需求轉化為可交付成果。"
+    "en": "Built for engineering, with long task chains, complex decisions, and effortless execution.",
+    "zh-CN": "为工程而生，应对长任务链与复杂决策，执行举重若轻。",
+    "zh-TW": "為工程而生，應對長任務鏈與複雜決策，執行舉重若輕。"
   },
   "home.explore-features": {
     "en": "Explore the Features",
@@ -203,6 +203,96 @@
     "en": "Contact Sales",
     "zh-CN": "联系销售",
     "zh-TW": "聯絡銷售"
+  },
+  "home.download": {
+    "en": "Download",
+    "zh-CN": "下载",
+    "zh-TW": "下載"
+  },
+  "home.plan-models": {
+    "en": "Models",
+    "zh-CN": "模型",
+    "zh-TW": "模型"
+  },
+  "home.plan-features": {
+    "en": "Features",
+    "zh-CN": "功能",
+    "zh-TW": "功能"
+  },
+  "home.plan-flash-model": {
+    "en": "Official Flash model",
+    "zh-CN": "官方 Flash 模型",
+    "zh-TW": "官方 Flash 模型"
+  },
+  "home.plan-pro-model": {
+    "en": "Official Pro model",
+    "zh-CN": "官方 Pro 模型",
+    "zh-TW": "官方 Pro 模型"
+  },
+  "home.plan-own-key": {
+    "en": "Your own API key",
+    "zh-CN": "你自己的 API Key",
+    "zh-TW": "你自己的 API Key"
+  },
+  "home.plan-advanced": {
+    "en": "Advanced features",
+    "zh-CN": "进阶版功能",
+    "zh-TW": "進階版功能"
+  },
+  "home.plan-priority": {
+    "en": "Priority support",
+    "zh-CN": "优先支持",
+    "zh-TW": "優先支援"
+  },
+  "home.plan-dedicated-support": {
+    "en": "Dedicated support",
+    "zh-CN": "专属支持",
+    "zh-TW": "專屬支援"
+  },
+  "home.plan-custom-integration": {
+    "en": "Custom integration",
+    "zh-CN": "定制集成",
+    "zh-TW": "客製化整合"
+  },
+  "home.plan-computer-use": {
+    "en": "Computer use",
+    "zh-CN": "电脑操作",
+    "zh-TW": "電腦操作"
+  },
+  "home.plan-built-in-tools": {
+    "en": "Built-in tools",
+    "zh-CN": "内置工具",
+    "zh-TW": "內置工具"
+  },
+  "home.plan-free-documentation": {
+    "en": "Free documentation",
+    "zh-CN": "免费文档",
+    "zh-TW": "免費文件"
+  },
+  "home.plan-data-management": {
+    "en": "Data management",
+    "zh-CN": "数据管理",
+    "zh-TW": "數據管理"
+  },
+  "home.plan-not-included": {
+    "en": "Not included",
+    "zh-CN": "不包含",
+    "zh-TW": "不包含"
+  },
+  "home.plan-flash-billing": {
+    "en": "Pay as you go · no monthly fee",
+    "zh-CN": "按量使用，无月费",
+    "zh-TW": "按量使用，無月費"
+  },
+  "home.plan-pro-billing": {
+    "en": "2× the Flash rate · no monthly fee",
+    "zh-CN": "Flash 价格的 2 倍，无月费",
+    "zh-TW": "Flash 價格的 2 倍，無月費"
+  },
+  "home.plan-enterprise-billing": {
+    "en": "Quoted by scope",
+    "zh-CN": "按范围报价",
+    "zh-TW": "按範圍報價"
   },
   "home.plan-comparison": {
     "en": "Plan feature comparison",
@@ -623,5 +713,50 @@
     "en": "Automates the whole tendering workflow, shortening preparation cycles and cutting costs.",
     "zh-CN": "为整个投标工作流提供自动化，大幅缩短准备周期，降低成本。",
     "zh-TW": "為整個投標工作流提供自動化，大幅縮短準備週期，降低成本。"
+  },
+  "home.plan-free-description": {
+    "en": "Use directly",
+    "zh-CN": "直接使用",
+    "zh-TW": "直接使用"
+  },
+  "home.plan-enterprise-description": {
+    "en": "Custom services for your workflow",
+    "zh-CN": "围绕您的工作流定制服务",
+    "zh-TW": "圍繞您的工作流程訂製服務"
+  },
+  "home.plan-services": {
+    "en": "Features & services",
+    "zh-CN": "功能与服务",
+    "zh-TW": "功能與服務"
+  },
+  "home.plan-early-access": {
+    "en": "Early access",
+    "zh-CN": "提前试用",
+    "zh-TW": "優先試用"
+  },
+  "home.plan-consultancy": {
+    "en": "AI transformation consultancy",
+    "zh-CN": "AI 转型咨询",
+    "zh-TW": "AI 轉型顧問服務"
+  },
+  "home.plan-custom-workflows": {
+    "en": "Custom workflows",
+    "zh-CN": "自定义工作流",
+    "zh-TW": "自訂工作流程"
+  },
+  "home.plan-custom-saas": {
+    "en": "Custom SaaS development",
+    "zh-CN": "自定义 SaaS 开发",
+    "zh-TW": "自訂 SaaS 開發"
+  },
+  "home.enterprise-examples": {
+    "en": "Application examples",
+    "zh-CN": "应用案例",
+    "zh-TW": "應用案例"
+  },
+  "home.enterprise-examples-description": {
+    "en": "Custom services in practice",
+    "zh-CN": "定制服务的实际应用",
+    "zh-TW": "訂製服務的實際應用"
   }
 }

@@ -193,9 +193,10 @@ function buildGraph(t, axis, viewportWidth = 1000) {
     id,
     source,
     target,
-    type: 'default',
+    type: 'smoothstep',
+    pathOptions: { borderRadius: 18, offset: 26 },
     animated: false,
-    markerEnd: { type: MarkerType.ArrowClosed, width: 14, height: 14, color: 'rgba(150,186,255,.85)' },
+    markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10, color: 'rgba(150,186,255,.85)' },
   });
 
   const edges = [

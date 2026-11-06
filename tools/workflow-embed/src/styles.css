@@ -1,0 +1,308 @@
+/* Canvas: stage cards, edges and overlay controls. Everything is scoped to the shell so a host
+   page can run its own React Flow instance next to this one. */
+
+.we-graph {
+  position: absolute;
+  inset: 0;
+}
+
+.we-shell .react-flow {
+  --xy-background-color: transparent;
+  background: transparent;
+}
+
+.we-shell .react-flow__pane {
+  cursor: grab;
+}
+
+.we-shell .react-flow__pane:active {
+  cursor: grabbing;
+}
+
+/* Edges and nodes share the React Flow viewport, so a pan moves both together. */
+.we-shell .react-flow__edge-path {
+  stroke-linecap: round;
+}
+
+.we-shell .react-flow__attribution {
+  display: none;
+}
+
+.we-shell .react-flow__handle {
+  width: 1px;
+  height: 1px;
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- stage card ---------- */
+
+.we-stage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 11px 13px 10px;
+  border: 1px solid #414b58;
+  border-radius: 12px;
+  background: #363e4a;
+  box-shadow: 0 16px 34px -30px rgb(0 0 0 / .9);
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.we-stage:hover {
+  border-color: #56637a;
+}
+
+.we-stage.is-selected {
+  border-color: #7fa8ff;
+  box-shadow: 0 0 0 1px #7fa8ff, 0 18px 40px -26px rgb(0 0 0 / .95);
+}
+
+.we-stage-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 16px;
+  flex: none;
+}
+
+.we-stage-ord,
+.we-stage-id {
+  font-family: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
+  font-size: 10.5px;
+  letter-spacing: .09em;
+  color: #9aa8ba;
+  white-space: nowrap;
+}
+
+.we-stage-ord {
+  color: #7c8798;
+}
+
+.we-app {
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #2c343f;
+  color: #c3cfdd;
+  font-size: 10.5px;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+.we-stage h3 {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -.01em;
+  color: #eef3fa;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.we-stage p {
+  margin: 4px 0 0;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: #98a5b6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: none;
+}
+
+.we-stage-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  flex: none;
+}
+
+.we-deps {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: #7c8798;
+  white-space: nowrap;
+}
+
+.we-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.we-status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.we-status--done {
+  color: #6ee0aa;
+  background: rgb(87 211 155 / .12);
+  border-color: rgb(87 211 155 / .35);
+}
+
+.we-status--running {
+  color: #96bdff;
+  background: rgb(136 182 255 / .12);
+  border-color: rgb(136 182 255 / .35);
+}
+
+.we-status--decision {
+  color: #f3bd72;
+  background: rgb(240 180 95 / .12);
+  border-color: rgb(240 180 95 / .35);
+}
+
+.we-status--idle {
+  color: #a7b3c2;
+  background: rgb(150 162 178 / .12);
+  border-color: rgb(150 162 178 / .3);
+}
+
+/* ---------- canvas overlays ---------- */
+
+.we-canvas-title {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 7px 11px;
+  border-radius: 9px;
+  background: rgb(27 32 40 / .9);
+  border: 1px solid #2f3a48;
+  pointer-events: none;
+}
+
+.we-canvas-title b {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #dfe7f2;
+}
+
+.we-canvas-title span {
+  font-size: 10.5px;
+  color: #8493a6;
+}
+
+.we-zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 9px;
+  background: rgb(27 32 40 / .92);
+  border: 1px solid #2f3a48;
+}
+
+.we-zoom button {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #cfd9e6;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.we-zoom button:hover {
+  background: #303947;
+  color: #fff;
+}
+
+/* Compact cards on a one-column phone canvas: same design, tighter type. */
+.we-graph[data-compact] .we-stage {
+  padding: 9px 11px 8px;
+  border-radius: 10px;
+}
+
+.we-graph[data-compact] .we-stage h3 {
+  font-size: 12.5px;
+}
+
+.we-graph[data-compact] .we-stage p {
+  font-size: 10.5px;
+}
+
+.we-graph[data-compact] .we-stage-ord,
+.we-graph[data-compact] .we-stage-id,
+.we-graph[data-compact] .we-app,
+.we-graph[data-compact] .we-deps {
+  font-size: 9.5px;
+}
+
+.we-graph[data-compact] .we-status {
+  font-size: 9.5px;
+  padding: 0 6px;
+  line-height: 15px;
+}
+
+.we-graph[data-compact] .we-canvas-title {
+  padding: 5px 9px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-stage {
+    transition: none;
+  }
+}
+/* The canvas has its own header so graph controls never cover stage cards. */
+.we-flow-pane { position: absolute; inset: 0; display: flex; flex-direction: column; min-height: 0; background: radial-gradient(ellipse at 80% 0%, #2b628417, transparent 60%), #101d2c; }
+.we-flow-head { display: flex; align-items: center; flex: none; gap: 10px; min-height: 64px; padding: 12px 16px; border-bottom: 1px solid #587c9a26; background: linear-gradient(110deg,#1d334a99,#13223466); }
+.we-flow-symbol { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border: 1px solid #6c93c140; border-radius: 10px; background: #6c9cda0d; color: #b9bcfa; }
+.we-flow-heading { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 3px; }
+.we-flow-heading b { overflow: hidden; color: #e9f1fb; font-size: 14px; line-height: 18px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
+.we-flow-heading > span { color: #8da6bf; font-size: 11px; line-height: 15px; }
+.we-flow-ready { display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border: 1px solid #6ccdb72e; border-radius: 6px; color: #9bdecc; background: #6ccdb70a; font-size: 10px; line-height: 16px; white-space: nowrap; }
+.we-flow-pane .react-flow__edges > svg { max-width: none; overflow: visible; }
+.we-flow-canvas { position: relative; flex: 1; min-height: 0; }
+.we-flow-pane .we-stage { position: relative; background: linear-gradient(145deg,#26394b,#202e40); border-color: #496078; box-shadow: inset 0 1px #c6e5ff0a, 0 12px 30px -26px #000b; }
+.we-flow-pane .we-stage.is-selected { border-color: #80c7ea; box-shadow: 0 0 0 1px #80c7ea40, 0 10px 40px -24px #62b9ee80; }
+.we-flow-pane .we-stage:hover { border-color: #6c98bc; }
+.we-flow-pane .we-stage:focus-visible { outline: 2px solid #92d5ff; outline-offset: 3px; }
+.we-flow-pane .we-stage h3 { font-family: var(--we-ui); text-wrap: wrap; }
+.we-flow-pane .we-stage-ord { color: #b9d1e6; }
+.we-flow-pane .we-stage-id { letter-spacing: .025em; }
+.we-flow-pane .we-app { background: #0e1b2c80; color: #b6cbe0; }
+.we-status--ready { color: #9fddee; border-color: #6bc1e640; background: #5bb7db16; }
+.we-shell .we-zoom button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 28px; font-size: 11px; line-height: 16px; }
+.we-stage-detail { position: absolute; bottom: 58px; right: 12px; z-index: 4; width: min(340px, calc(100% - 24px)); padding: 16px; border: 1px solid #628bad80; border-radius: 12px; background: linear-gradient(145deg,#24394bf5,#162738f5); box-shadow: 0 18px 60px #0007; backdrop-filter: blur(12px); }
+.we-detail-kicker { display: block; padding-right: 20px; color: #93bad4; font-size: 10px; line-height: 16px; letter-spacing: .04em; }
+.we-stage-detail h3 { margin: 7px 18px 7px 0; color: #eaf4fe; font-family: var(--we-ui); font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: -.01em; text-wrap: wrap; }
+.we-stage-detail p { margin: 0 0 10px; color: #b3c5d7; font-size: 12px; line-height: 18px; }
+.we-shell .we-detail-close { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 6px; background: #ffffff09; color: #b3c5d7; }
+.we-detail-files { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.we-detail-files span { padding: 3px 6px; border: 1px solid #6684a52b; border-radius: 5px; color: #94afc7; font-size: 10px; line-height: 14px; }
+.we-shell[data-transition="entering"] .we-stage { animation: we-stage-arrive .32s ease both; animation-delay: calc(var(--we-order) * 28ms); }
+@keyframes we-stage-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .we-shell .we-stage { animation: none !important; } }
+

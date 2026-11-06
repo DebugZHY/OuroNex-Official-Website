@@ -1,0 +1,1621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Information Management — CoP Hub HK</title>
+<style>
+  :root{
+    color-scheme:dark;
+    /* Cool charcoal surfaces plus blue/cyan accents: grey rail, black stage,
+       and three lifted dialog tones (caption bar / index / results). */
+    --page:#05090f;
+    --bg:#05090f;
+    --bg-2:#0b1220;
+    --panel:#161d28;
+    --panel-sub:#232b37;
+    --rail:#242a34;
+    --dlg-head:#1d232c;
+    --dlg-left:#2f3742;
+    --dlg-right:#0a1018;
+    --text:#f1f5fb;
+    --txt:#f1f5fb;
+    --txt-2:#d7dfea;
+    --muted:#a4b0c2;
+    --faint:#808ea1;
+    --dim:#68758a;
+    --line:rgba(150,180,220,.16);
+    --line-soft:rgba(150,180,220,.09);
+    --edge:rgba(150,185,235,.28);
+    --accent:#6fa2f4;
+    --accent-2:#4aa7b3;
+    --accent-3:#8a7bf0;
+    --hover:#2b323d;
+    --sel:#33445f;
+    --sans:ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+    --mono:ui-monospace, "Cascadia Mono", "Consolas", "Roboto Mono", monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:15px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+  button:focus-visible,input:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{
+    outline:2px solid var(--accent);outline-offset:2px;
+  }
+  svg{display:block}
+
+  /* ---------------------------------------------------------------- shell */
+  /* No top bar at all: the shell starts at y=0 (no dead strip above the rail). */
+  .shell{display:flex;height:100vh;min-height:0;overflow:hidden}
+  .icon-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:32px;height:32px;border-radius:9px;color:var(--muted);
+    transition:background .12s ease,color .12s ease;
+  }
+  .icon-btn:hover{background:#2b323d;color:var(--text)}
+  .icon-btn:active{background:#38404c}
+
+  .workspace{flex:1 1 auto;display:flex;min-height:0;min-width:0}
+
+  /* ---------------------------------------------------------------- rail */
+  .rail{
+    flex:0 0 240px;width:240px;min-width:0;
+    display:flex;flex-direction:column;gap:4px;
+    padding:8px 8px 10px;
+    background:#242a34;
+    border-right:1px solid #333b47;
+    border-radius:0 10px 0 0;
+    overflow:hidden;
+  }
+  .rail-btn{
+    display:flex;align-items:center;gap:9px;
+    height:36px;width:100%;padding:0 11px;border-radius:999px;
+    font-size:14px;color:var(--txt-2);text-align:left;
+    transition:background .12s ease,border-color .12s ease,color .12s ease;
+  }
+  .rail-btn .ico{flex:0 0 auto;color:inherit;opacity:.85}
+  .rail-new{border:1px solid #3a4450;background:#2b323d;color:var(--txt)}
+  .rail-new:hover{background:#333b47;border-color:#465162}
+  .rail-new:active{background:#38404c}
+  .rail-lib{color:var(--muted)}
+  .rail-lib:hover{background:#2e3742;color:var(--txt)}
+  .rail-lib.is-active{background:#33445f;color:#f5f9ff;font-weight:500}
+  .rail-lib.is-active .ico{color:#a8c4ff;opacity:1}
+  .rail-sep{height:1px;background:var(--line-soft);margin:8px 4px 2px}
+  .rail-empty{margin:0;padding:6px 11px;font-size:11.5px;color:var(--faint)}
+
+  /* ---------------------------------------------------------------- stage */
+  /* Near-black stage lit by a slow blue/cyan/teal/violet aurora; the glow sits
+     behind the copy and stops moving under prefers-reduced-motion. */
+  .stage{
+    position:relative;isolation:isolate;
+    flex:1 1 auto;min-width:0;min-height:0;
+    display:flex;align-items:center;justify-content:center;
+    padding:16px 26px 22px;
+    overflow:hidden;
+    background:#05090f;
+  }
+  /* Two counter-drifting ribbon layers: teal/cyan under violet/indigo. Both sit
+     behind the copy and are fixed (not animated) under reduced motion. */
+  .stage::before,.stage::after{
+    content:"";position:absolute;z-index:-1;pointer-events:none;inset:-30%;
+  }
+  .stage::before{
+    background:
+      radial-gradient(46% 15% at 38% 42%, rgba(52,200,212,.40), rgba(52,200,212,0) 72%),
+      radial-gradient(24% 7% at 46% 40%, rgba(150,240,244,.26), rgba(150,240,244,0) 70%),
+      radial-gradient(52% 16% at 62% 62%, rgba(56,148,238,.30), rgba(56,148,238,0) 74%),
+      radial-gradient(40% 14% at 30% 74%, rgba(40,172,152,.26), rgba(40,172,152,0) 72%);
+    filter:blur(46px);opacity:.8;
+    animation:aurora-cyan 46s ease-in-out infinite alternate;
+  }
+  .stage::after{
+    background:
+      radial-gradient(44% 14% at 66% 34%, rgba(128,98,232,.30), rgba(128,98,232,0) 72%),
+      radial-gradient(50% 16% at 40% 70%, rgba(96,112,240,.24), rgba(96,112,240,0) 74%),
+      radial-gradient(34% 12% at 76% 76%, rgba(152,112,238,.20), rgba(152,112,238,0) 72%);
+    filter:blur(54px);opacity:.68;
+    animation:aurora-violet 62s ease-in-out infinite alternate;
+  }
+  @keyframes aurora-cyan{
+    0%{transform:rotate(-13deg) translate3d(-3%,2%,0) scale(1.02);opacity:.58}
+    50%{opacity:.80}
+    100%{transform:rotate(-9deg) translate3d(3%,-2.4%,0) scale(1.09);opacity:.70}
+  }
+  @keyframes aurora-violet{
+    0%{transform:rotate(11deg) translate3d(2%,-2%,0) scale(1.06);opacity:.46}
+    50%{opacity:.68}
+    100%{transform:rotate(15deg) translate3d(-2.4%,2%,0) scale(1);opacity:.58}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .stage::before,.stage::after{animation:none}
+    .stage::before{opacity:.72}
+    .stage::after{opacity:.6}
+  }
+  .stage-inner{
+    position:relative;z-index:1;
+    width:100%;max-width:600px;min-width:0;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .greet{
+    margin:0;font-size:clamp(26px,5.2vw,42px);line-height:1.06;font-weight:500;letter-spacing:-.02em;
+    color:#f1f5fb;text-align:center;
+  }
+  .lede{
+    margin:12px auto 0;max-width:470px;text-align:center;text-wrap:balance;
+    font-size:13.5px;line-height:1.6;color:#b6c4d8;
+  }
+
+  /* Composer: field on top, one toolbar row underneath; flat panel, flat border. */
+  .composer{
+    width:100%;margin-top:22px;
+    display:flex;flex-direction:column;gap:8px;
+    padding:10px;border:1px solid #333b47;border-radius:12px;
+    background:#121a26;
+    transition:border-color .12s ease;
+  }
+  .composer:focus-within{border-color:#4c6a99}
+  .composer textarea{
+    display:block;width:100%;min-height:34px;max-height:150px;resize:none;
+    background:transparent;border:0;padding:4px;margin:0;
+    color:var(--txt);font:inherit;font-size:13.5px;line-height:1.5;
+  }
+  .composer textarea::placeholder{color:#9fb2c9;opacity:1}
+  .composer textarea:focus{outline:none}
+  .composer-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .composer-left{display:flex;align-items:center;gap:4px;min-width:0}
+  .composer-right{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+  .tool{
+    display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 7px;
+    border-radius:7px;font-size:12.5px;color:#a9bad0;white-space:nowrap;
+    transition:background .12s ease,color .12s ease;
+  }
+  .tool:hover{background:#1d2632;color:#eef4ff}
+  .tool.is-dim{color:#6f7f95}
+  .tool.is-dim:hover{background:#1d2632;color:#9fb2c9}
+  .tool .ico{flex:0 0 auto}
+  .send{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:8px;
+    background:#3f6fd6;color:#fff;
+    border:1px solid #4f7fe0;
+    transition:background .12s ease,border-color .12s ease;
+  }
+  .send:hover{background:#4a7ce4;border-color:#5c8bea}
+  .send:active{background:#3560bd;border-color:#3f6fd6}
+
+  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px}
+  .chip{
+    height:26px;padding:0 11px;border-radius:999px;
+    border:1px solid #333b47;background:#161f2b;
+    font-size:11.5px;color:#b3c4dc;
+    transition:background .12s ease,color .12s ease,border-color .12s ease;
+  }
+  .chip:hover{background:#1e2836;color:#eef4ff;border-color:#3f4b5c}
+  .chip:active{background:#28364a}
+
+  .footnote{
+    margin:8px 0 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+    gap:3px 8px;font-size:11.5px;color:#8d9cb2;text-align:center;
+  }
+  .footnote .settings{
+    display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 5px;border-radius:6px;
+    font-size:11.5px;color:#8d9cb2;
+  }
+  .footnote .settings:hover{background:#232c38;color:#c9d8ec}
+
+  /* ---------------------------------------------------------------- dialog */
+  /* Flat surfaces: dark grey caption bar, lighter grey index, near-black list. */
+  .scrim{
+    position:fixed;inset:0;z-index:40;background:rgba(2,6,12,.72);
+    opacity:1;transition:opacity .16s ease;
+  }
+  .dialog{
+    position:fixed;z-index:50;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(1180px,94vw);height:min(88vh,900px);max-height:min(88vh,900px);
+    display:flex;flex-direction:column;overflow:hidden;
+    background:var(--dlg-right);border:1px solid #333b47;border-radius:12px;
+    box-shadow:0 18px 44px rgba(0,0,0,.55);
+  }
+  [hidden]{display:none !important}
+  .dlg-head{
+    flex:0 0 auto;padding:14px 16px 12px;border-bottom:1px solid #333b47;
+    background:var(--dlg-head);position:relative;
+  }
+  /* Header label: tracked small caps, flat colour, unlike the sentence-case rows. */
+  .dlg-title{
+    margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;
+    padding-right:34px;line-height:1.2;
+  }
+  .dlg-title .name{
+    font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:#dfe7f0;
+  }
+  .dlg-title .count{
+    font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:.01em;
+    color:#9fb4cc;font-variant-numeric:tabular-nums;
+    border-left:1px solid #3a4350;padding-left:10px;
+  }
+  .dlg-close{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:7px;color:var(--muted)}
+  .dlg-close:hover{background:#2b323d;color:#eaf2ff}
+  .search{position:relative;margin-top:9px}
+  .search .ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#7f8ea3;pointer-events:none}
+  .search input{
+    width:100%;height:30px;padding:0 10px 0 31px;border-radius:8px;
+    background:#0d141d;border:1px solid #333b47;color:var(--txt);
+    font:inherit;font-size:12.5px;
+  }
+  .search input::placeholder{color:#7f8ea3}
+  .search input:focus{outline:none;border-color:#4c6a99}
+
+  .dlg-body{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:246px minmax(0,1fr)}
+  .cats{
+    min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;
+    padding:10px 8px 12px;background:var(--dlg-left);border-right:1px solid #3a4350;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(150,175,205,.45) transparent;
+  }
+  .cats h4{
+    margin:0;padding:6px 8px 5px;font-size:10px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:#a3bbd4;
+  }
+  .cat-group{display:flex;flex-direction:column;gap:1px;padding-bottom:8px}
+  .cat{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    width:100%;padding:5px 8px;border:1px solid transparent;border-radius:7px;
+    font-size:12.5px;text-align:left;color:#c2cddb;
+    transition:background .12s ease,color .12s ease,border-color .12s ease;
+  }
+  .cat span:first-child{min-width:0;overflow-wrap:anywhere}
+  .cat .n{flex:0 0 auto;min-width:30px;text-align:right;font-size:11px;color:#93a2b6;font-variant-numeric:tabular-nums}
+  .cat:hover{background:#39424f;color:#f2f7ff}
+  .cat.is-sel{
+    background:#33445f;border-color:#44587a;color:#fff;font-weight:600;
+  }
+  .cat.is-sel .n{color:#dbeaff}
+  .cat.is-bar.is-sel{
+    background:#2b3d47;border-color:#3f5b66;
+  }
+  .cat.is-bar.is-sel .n{color:#cfeff2}
+  .cat.is-bar::before{
+    content:"";position:absolute;left:0;top:5px;bottom:5px;width:2px;border-radius:2px;
+    background:var(--accent-2);
+  }
+
+  .list{
+    min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;
+    padding:10px 12px 14px;background:#eef1f5;color:#18222e;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(66,86,110,.42) transparent;
+  }
+  /* Scrollbars: the category rail keeps the dark pane treatment, the light
+     results pane gets a dark-grey thumb with a transparent track. Standard
+     properties cover Chromium/Gecko, the ::-webkit-* rules older WebKit.
+     Arrow buttons are removed in both panes. */
+  .cats::-webkit-scrollbar{width:9px;height:9px}
+  .cats::-webkit-scrollbar-track{background:transparent}
+  .cats::-webkit-scrollbar-thumb{
+    background:rgba(150,175,205,.40);border-radius:999px;
+    border:3px solid transparent;background-clip:padding-box;
+  }
+  .cats::-webkit-scrollbar-thumb:hover{
+    background:rgba(150,195,240,.62);background-clip:padding-box;
+  }
+  .cats::-webkit-scrollbar-button{display:none;width:0;height:0}
+  .cats::-webkit-scrollbar-corner{background:transparent}
+
+  .list::-webkit-scrollbar{width:9px;height:9px}
+  .list::-webkit-scrollbar-track{background:transparent}
+  .list::-webkit-scrollbar-thumb{
+    background:rgba(66,86,110,.42);border-radius:999px;
+    border:3px solid transparent;background-clip:padding-box;
+  }
+  .list::-webkit-scrollbar-thumb:hover{
+    background:rgba(66,86,110,.62);background-clip:padding-box;
+  }
+  .list::-webkit-scrollbar-button{display:none;width:0;height:0}
+  .list::-webkit-scrollbar-corner{background:transparent}
+  /* Current-category summary: a section label + a count pill — never the row style. */
+  .list-head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:2px 6px 8px;margin-bottom:4px;border-bottom:1px solid #d5dce5;
+  }
+  .list-head h3{
+    margin:0;min-width:0;flex:1;font-size:9.5px;line-height:1.3;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:#5a6b7e;
+    overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+  }
+  .list-head .n{
+    flex:0 0 auto;padding:1px 6px;border:1px solid #cfd8e3;border-radius:999px;
+    background:#e2e8f0;
+    font-size:10px;font-weight:600;color:#31414f;font-variant-numeric:tabular-nums;
+  }
+  .rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+  .row{
+    display:flex;align-items:flex-start;gap:10px;width:100%;
+    padding:6px 8px;border:1px solid transparent;border-radius:7px;text-align:left;
+    transition:background .1s ease,border-color .1s ease;
+  }
+  .row:hover{background:#e3e9f2;border-color:#d3dce7}
+  .row:active{background:#d9e3ee;border-color:#c3d0e0}
+  .row .col{display:flex;min-width:0;flex:1;flex-direction:column;gap:1px}
+  .row .t{
+    font-size:13.5px;line-height:1.35;font-weight:500;color:#18222e;
+    overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  }
+  .row .c{font-family:var(--mono);font-size:10.5px;color:#4d5d70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .p{flex:0 0 auto;min-width:34px;text-align:right;font-size:10.5px;color:#4b5a6b;font-variant-numeric:tabular-nums}
+  .empty{margin:0;padding:30px 0;text-align:center;font-size:12px;color:#64748b}
+
+  /* ---------------------------------------------------------------- narrow */
+  @media (max-width:1000px){
+    .dlg-body{grid-template-columns:214px minmax(0,1fr)}
+    .stage{padding:14px 20px 20px}
+  }
+  @media (max-width:820px){
+    .rail{flex-basis:206px;width:206px}
+    .stage{padding:12px 16px 18px}
+    .dlg-body{grid-template-columns:196px minmax(0,1fr)}
+  }
+  @media (max-width:700px){
+    .dialog{width:calc(100vw - 16px);height:calc(100vh - 16px);max-height:none}
+    .dlg-body{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+    .cats{
+      display:flex;gap:6px;align-items:center;overflow-x:auto;overflow-y:hidden;
+      border-right:0;border-bottom:1px solid var(--line);padding:8px;
+    }
+    .cats h4{flex:0 0 auto;padding:0 2px}
+    .cat-group{flex:0 0 auto;flex-direction:row;gap:4px;padding-bottom:0}
+    .cat{width:auto;white-space:nowrap;padding:4px 8px}
+    .cat .n{width:auto;min-width:0}
+    .list{padding:8px 10px 12px}
+  }
+  @media (max-width:520px){
+    .rail{flex-basis:152px;width:152px;padding:6px}
+    .rail-btn{height:32px;gap:7px;padding:0 8px;font-size:12.5px}
+    .rail-empty{padding:4px 8px;font-size:10.5px}
+    .stage{padding:10px 12px 14px}
+    .lede{font-size:12.5px}
+    .dlg-head{padding:12px 12px 10px}
+    .dlg-title .count{border-left:0;padding-left:0}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="workspace">
+    <aside class="rail" aria-label="Conversations">
+      <button class="rail-btn rail-new" type="button" id="new-chat">
+        <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          <path d="M12 7v6M9 10h6"></path>
+        </svg>
+        <span>New chat</span>
+      </button>
+
+      <button class="rail-btn rail-lib is-active" type="button" id="open-library" aria-haspopup="dialog" aria-expanded="true">
+        <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 5v14M8 5v14M13 6l5 13"></path>
+        </svg>
+        <span>Library</span>
+      </button>
+
+      <div class="rail-sep" role="separator"></div>
+      <p class="rail-empty">No conversations yet</p>
+    </aside>
+
+    <main class="stage">
+      <div class="stage-inner">
+        <h1 class="greet">CoP Hub HK</h1>
+
+        <p class="lede">Your definitive compass for Hong Kong engineering compliance.</p>
+
+        <form class="composer" id="composer" autocomplete="off">
+          <textarea id="ask" rows="1" placeholder="Ask a question, or type a standard number..." aria-label="Ask a question, or type a standard number"></textarea>
+          <div class="composer-row">
+            <div class="composer-left">
+              <button class="tool" type="button" id="scope-all" title="All titles">
+                <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M14 3v5h5M9 13h6M9 17h4"></path>
+                </svg>
+                <span>All titles</span>
+              </button>
+              <button class="tool is-dim" type="button" id="web-toggle" aria-pressed="false" title="Web search is off">
+                <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"></path>
+                </svg>
+                <span>Web</span>
+              </button>
+            </div>
+            <div class="composer-right">
+              <button class="send" type="submit" id="send" aria-label="Send">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="chips">
+          <button class="chip" type="button" data-suggestion>podium height</button>
+          <button class="chip" type="button" data-suggestion>hoarding systems</button>
+          <button class="chip" type="button" data-suggestion>PNAP</button>
+          <button class="chip" type="button" data-suggestion>site supervision plan</button>
+        </div>
+
+        <p class="footnote">
+          <span>879 titles · 9,484 pages - Strictly sourced from retrieved clauses.</span>
+          <button class="settings" type="button" id="settings">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h10M18 18h2"></path>
+              <circle cx="16" cy="6" r="2"></circle>
+              <circle cx="10" cy="12" r="2"></circle>
+              <circle cx="16" cy="18" r="2"></circle>
+            </svg>
+            <span>Settings</span>
+          </button>
+        </p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------- library -->
+<div class="scrim" id="scrim"></div>
+
+<div class="dialog" id="library" role="dialog" aria-modal="true" aria-labelledby="library-title">
+  <div class="dlg-head">
+    <h2 class="dlg-title" id="library-title">
+      <span class="name">Library</span>
+      <span class="count">879 titles · 9,484 pages</span>
+    </h2>
+    <button class="icon-btn dlg-close" type="button" id="close-library" aria-label="Close library">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 6 6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="search">
+      <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-3.5-3.5"></path>
+      </svg>
+      <input type="text" id="filter" placeholder="Filter by code or title" aria-label="Filter by code or title">
+    </div>
+  </div>
+
+  <div class="dlg-body">
+    <nav class="cats" id="cats" aria-label="Topics"></nav>
+    <div class="list" id="list" tabindex="-1">
+      <div class="list-head">
+        <h3 id="cat-name">All titles</h3>
+        <span class="n" id="cat-count">879</span>
+      </div>
+      <ul class="rows" id="rows"></ul>
+      <p class="empty" id="empty" hidden>No matching titles</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* --------------------------------------------------------------------------
+   Static dataset — generated from SIDA's docs-standards site.json
+   (879 real standards: title / code / pages / layer / topic ids).
+   Nothing is fetched at runtime.
+   -------------------------------------------------------------------------- */
+var DATA = [
+["Buildings Ordinance (Cap. 123)","Cap. 123",0,"code",[]],
+["5th Amendment of the Code of Practice for Fire Safety in Buildings 2011 & Motion Sensor Lighting in Required Staircases and Protected Lobbies","CL 5thAFSCode2011_MSLe",1,"notice",[]],
+["Application for Approval of Building Plans – Proof of Realistic Prospect of Control of the Land forming the Site","CL AABP2017e",1,"notice",[]],
+["Application for Approval of Building Plans - Proof of Ownership of Land","CL AABPe",1,"notice",[]],
+["Application for Approval of General Building Plans Proof of Realistic Prospect of Control of the Land Forming a Site","CL AAGBPPRPCLFS_2021e",2,"notice",[]],
+["Alternative Arrangement for Witnessing Foundation Proof Load Test","CL AAWFPLT2023e",3,"notice",[]],
+["(1) Application for Approval of Building Plans - Proof of Ownership of Land (2) Validity Period of Modification / Exemption","CL ABPe",4,"notice",[]],
+["Amendments to Code of Practice for Foundations 2017","CL ACOPF2017_2022e",10,"notice",[]],
+["Amendments to Code of Practice for Precast Concrete Construction 2016","CL ACOPPCC2016_2020e",5,"notice",[]],
+["Amendments to Code of Practice for Site Supervision 2009","CL ACOPSS2020e",26,"notice",[]],
+["Amendments to Code of Practice for Structural Use of Concrete 2013","CL ACOPSUC2013_2017e",27,"notice",[]],
+["Amendments to Code of Practice for Structural Use of Glass 2018","CL ACOPSUG2018e",4,"notice",[]],
+["Amendments to Code of Practice for the Structural Use of Steel 2011","CL ACOPSUS2011_2021e",13,"notice",[]],
+["Amendments to Code of Practice for Structural Use of Concrete 2013 (2020 Edition)","CL ACOPSUS2013_2022e",11,"notice",[]],
+["Amendments to Code of Practice for Demolition of Buildings 2004","CL ACPDB2016e",22,"notice",[]],
+["Amendments to Code of Practice for Dead and Imposed Loads 2011","CL ACPDIL2011_2020e",7,"notice",[]],
+["Amendments to Code of Practice for Foundations 2017","CL ACPF2017_2021e",15,"notice",[]],
+["Amendments to Code of Practice for Structural Use of Concrete 2013","CL ACPSUC2013_2020e",22,"notice",[]],
+["Anti-mosquito","CL AM2014e",1,"notice",[]],
+["Anti-mosquito","CL AM2015e",1,"notice",[]],
+["Anti-mosquito Measures in Construction Sites","CL AMMCS2016e",1,"notice",[]],
+["Anti-mosquito Measures in Construction Sites","CL AMMCS2017e",1,"notice",[]],
+["Anti-mosquito Measures in Construction Sites","CL AMMCS2018e",1,"notice",[]],
+["Anti-mosquito Measures in Construction Sites","CL AMMCS2019e",1,"notice",[]],
+["Declaration on Annual Energy Use (Fillable PDF File)","APP151_annxbf",3,"notice",[]],
+["Appointment of Registered Geotechnical Engineers with effect from 31 December 2005","CL ApptRGEe",1,"notice",[]],
+["Assessment Criteria on Contractor’s Access to Resources under the Contractors Registration System","CL APRRGBCRSC2018e",1,"notice",[]],
+["Assessment Criteria on Minor Works Contractor's Access to Resources under the Minor Works Contractor Registration System","CL APRRMWC2018e",2,"notice",[]],
+["Adoption of Standardised Material Test Reports","CL ASMTR2025e",1,"notice",[]],
+["Arrangement of Submissions after Relocation of the Buildings Department Headquarters to North Tower, West Kowloon Government Offices","CL ASRBDHe",2,"notice",[]],
+["Amendments to the Technical Guidelines on Minor Works Control System","CL ATGMWCS_2021e",1,"notice",[]],
+["Amendments to the &quot;Technical Guidelines on Minor Works Control System (2024 Edition)&quot;","CL ATGMWCS2025e",3,"notice",[]],
+["Amendments to the &quot;Technical Guidelines on Minor Works Control System (2024 Edition)&quot;","CL ATGMWCSE2026e",13,"notice",[]],
+["Amendments to the &quot;Technical Guidelines on Minor Works Control System&quot; (Technical Guidelines)","CL ATGMWCSTG_2021e",11,"notice",[]],
+["Using the Logo of the Buildings Department for Soliciting Business or Other Commercial Purposes","CL BDLogo2015e",1,"notice",[]],
+["Buildings Department Launches Stage 1 of Electronic Submission Hub","CL BDLSESH2022e",1,"notice",[]],
+["Buildings Department Launches Stage 2 of Electronic Submission Hub","CL BDLSESH2023e",2,"notice",[]],
+["Buildings Department Launches Stage 3 of Electronic Submission Hub","CL BDLSESH2024e",3,"notice",[]],
+["Contractor's Access to Resources under the Contractors Registration System","CL CARCRS2023e",1,"notice",[]],
+["Contractor's Access to Resources under the Minor Works Contractor Registration System","CL CARMWCRS2023e",2,"notice",[]],
+["Compliance with the Buildings Ordinance Concerning Erection of Unauthorised Building Works (Industry Stakeholders)","CL CBOCEUBWA2023e",2,"notice",[]],
+["Compliance with the Buildings Ordinance Concerning Erection of Unauthorised Building Works (Property Management Companies)","CL CBOCEUBWPMC2023e",1,"notice",[]],
+["Compliance with the Buildings Ordinance Concerning Erection of Unauthorised Building Works","CL CBOCEUBWRBPRC2023e",2,"notice",[]],
+["Curtailed Checking of Drainage Plans and Regulation 29(3) of the Building (Administration) Regulations","CL CCDPRe",3,"notice",[]],
+["Repairs to Curtain Wall, Glass Wall and Cladding","CL CGWCR2019e",2,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2004","concrete_letter",3,"notice",[]],
+["Code of Practice for Foundations 2017","CL COP_Foundations2017e",3,"notice",[]],
+["Code of Practice for the Mandatory Building Inspection Scheme and the Mandatory Window Inspection Scheme 2012 Amendments","CL CoP_MBIS_Amend2014e",1,"notice",[]],
+["Code of Practice for the Mandatory Building Inspection Scheme and the Mandatory Window Inspection Scheme 2012 Amendments","CL CoP_MBIS_MWIS_amendment2017e",15,"notice",[]],
+["Draft Code of Practice for the Mandatory Building Inspection Scheme and the Mandatory Window Inspection Scheme","CL CoP_MBIS_MWISe",1,"notice",[]],
+["Code of Practice for Dead and Imposed Loads 2011 (2021 Edition)","CL COPDIL2021e",1,"notice",[]],
+["The Code of Practice of Dead and Imposed Loads 2011 Amendments","CL COPDILA2016e",4,"notice",[]],
+["Code of Practice on Design for Safety – External Maintenance","CL COPDSEM2019e",3,"notice",[]],
+["Code of Practice for the Mandatory Building Inspection Scheme and the Mandatory Window Inspection Scheme 2012 Amendments","CL COPMBI2018e",8,"notice",[]],
+["Code of Practice for the Mandatory Building Inspection Scheme and the Mandatory Window Inspection Scheme 2012 Amendments","CL COPMBISMWIS2012A2020e",6,"notice",[]],
+["Code of Practice for Building Works for Lifts and Escalators 2011 (2020 Edition)","CL COPNWLE2020e",2,"notice",[]],
+["Code of Practice for Site Supervision 2009 (2021 Edition)","CL COPS2009_2021e",2,"notice",[]],
+["Code of Practice for Site Supervision 2009 Corrigenda","CL COPSS2009C_2016e",3,"notice",[]],
+["Code of Practice for Site Supervision 2009 Corrigenda","CL COPSS2009Ce",16,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2013 (2020 Edition)","CL COPSUC2013_2020e",1,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2013 Construction Standard CS2:2012 – Steel Reinforcing Bars for the Reinforcement of Concrete","CL COPSUC2013CS_Ae",1,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2013 Construction Standard CS2:2012 – Steel Reinforcing Bars for the Reinforcement of Concrete","CL COPSUC2013CSe",1,"notice",[]],
+["Code of Practice for Structural Use of Glass 2018","CL COPSUG2018e",2,"notice",[]],
+["Code of Practice for the Structural Use of Steel 2011 (2021 Edition)","CL COPSUS2011_2021e",1,"notice",[]],
+["Explanatory Materials to Code of Practice for the Structural Use of Steel 2011","CL COPSUS2011e",1,"notice",[]],
+["Code of Practice on Wind Effects in Hong Kong 2019 Extension of Grace Period","CL COPWEHK2019EGP2020e",1,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal of Registration","CL CPD2015e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal or Restoration of Registration","CL CPD2018e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal of Registration","CL CPDC2016e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal / Restoration Registration","CL CPDC2017e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal or Restoration of Registration","CL CPDC2019e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal of Registration","CL CPDCe",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal or Restoration of Registration","CL CPDCRGBCRSC2021e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal or Restoration of Registration","CL CPDCRGBCRSC2023e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal or Restoration of Registration","CL CPDCRGBCRSCARRR2025e",5,"notice",[]],
+["Continuing Professional Development Course for Registered General Building Contractors and Registered Specialist Contractors Applying for Renewal of Registration","CL CPDe",5,"notice",[]],
+["Code of Practice for Precast Concrete Construction 2016","CL CPPCC2016e",2,"notice",[]],
+["Computer Programs for use in Structural and Geotechnical Design","CL CPSGD",1,"notice",[]],
+["Code of Practice for Site Supervision 2009 Amendments","CL CPSS2009A201905e",2,"notice",[]],
+["Construction Standard CS2:2012 – Steel Reinforcing Bars for the Reinforcement of Concrete","CL CS2014e",1,"notice",[]],
+["Construction Standard CS1:2010 - Testing Concrete","CL CSTCe",2,"notice",[]],
+["Construction Workers Registration Ordinance Implementation of \"Designated Workers for Designated Skills\" Requirement Registration of Skilled/Semi-skilled Workers","CL CWRO2016e",2,"notice",[]],
+["Construction Workers Registration Ordinance Application Deadline for Registration of Skilled/Semi-skilled Worker (Provisional)","CL CWROADRSWPe",1,"notice",[]],
+["Design of Excavation and Lateral Support Works by the Limit State Partial Factor Method - Extension of the Trial Period","CL DE2007",6,"notice",[]],
+["Deletion of PNAP 130 and PNRC 16 on Electrically Operated Gates, Glass Doors and Rolling Shutters","CL Del_pnap130_pnrc16",1,"notice",[]],
+["Deletion of PNAP 149 and PNRC 18 on The Safe Use of Cranes","CL Del_pnap149_pnrc18",1,"notice",[]],
+["Deletion of PNAP 184 and PNRC 28 on Code of Practice for Scaffolding Safety","CL Del_pnap184_pnrc28",1,"notice",[]],
+["Deletion of PNAP 25 on Transformer Rooms, Building (Planning) Regulation 15","CL Del_pnap25",1,"notice",[]],
+["Design of Excavation and Lateral Support Works by the Limit State Partial Factor Method","DELSW_letter",6,"notice",[]],
+["Publication of the Code of Practice for Demolition of Buildings","Demo_letter",2,"notice",[]],
+["Code of Practice for Dead and Imposed Loads 2011 Corrigendum","CL DIL2011CORe",2,"notice",[]],
+["Building (Construction) (Amendment) Regulation 2011 and Code of Practice for Dead and Imposed Loads 2011","CL DIL2011e",3,"notice",[]],
+["Dedicated Processing Units for High-yield Residential Projects and Transitional Housing Projects","CL DPUHRPTHP2023e",4,"notice",[]],
+["\"Diploma in Vocational Education (Construction) - Employment Option\" Training Course Leading to Grade T1 Technically Competent Persons","CL DVE2015e",2,"notice",[]],
+["Extension of Adopting Smart Site Safety System for Qualified Supervision of All Types of Building Works Involving Mobile Plants and Tower Cranes","CL EASSSSQSATBWIMPTC2025e",1,"notice",[]],
+["Electronic Certificates of Registration for Registered Building Professionals and Registered Contractors","CL ECRRBPRC2022e",1,"notice",[]],
+["Electronic Forms Submission System","CL EFSS2016e",1,"notice",[]],
+["Explanatory Materials to Code of Practice for the Structural Use of Steel 2005","CL EMSUS2005",2,"notice",[]],
+["Erection of Precautionary and Protective Measures for Demolition Works","CL EPPMDWe",1,"notice",[]],
+["Electronic Submission of Summary of Gross Floor Area (GFA) Concessions, Declaration on Annual Energy Use and General Building Plans Showing Greenery Areas in Common Parts","CL ESGFA2015e",1,"notice",[]],
+["Full Launch of Mobile Application – &quot;WIN SAFE&quot;","CL FLMAWS2022e",1,"notice",[]],
+["Prevention of Falling Objects from Construction Sites","CL FOe",1,"notice",[]],
+["Code of Practice for Foundations","FoundationsLetter",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FP2012e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FP2013e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FP2014e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FP2015e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FP2016e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FPe",1,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FPMCS2017e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FPMCS2018e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FPMCS2019e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FPMCS2020e",2,"notice",[]],
+["Flood Prevention Measures at Construction Sites","CL FPMCSe",1,"notice",[]],
+["GB 5725‑2025 &quot;Fall protection – Safety nets&quot;","CL FPSN2026e",1,"notice",[]],
+["Code of Practice for Fire Safety in Buildings 2011 Corrigenda & Addenda","CL FSCode2011_201309e",1,"notice",[]],
+["Code of Practice for Fire Safety in Buildings 2011 Provision of Temporary Refuge Space for Persons with a Disability","CL FSCode2011_2014Ae",1,"notice",[]],
+["Code of Practice for Fire Safety in Buildings 2011 Provision of Temporary Refuge Space for Persons with a Disability","CL FSCode2011_2014e",1,"notice",[]],
+["Code of Practice for Fire Safety in Buildings 2011 - Fire Properties of Doors with Smoke Seal","CL FSCode2011e",2,"notice",[]],
+["Further Streamlining Measures for Foundation Works","CL FSMFW2025e",8,"notice",[]],
+["Further Streamlining Measures for Structural Works","CL FSMSW2024e",2,"notice",[]],
+["Fire Safety Precautionary Measures to be Taken During Large Scale Building Repair Works","CL FSPMMBRW2026e",3,"notice",[]],
+["Guidelines for Designing Access and Safety Provisions for the Maintenance and Repair (M&R) of External Air Conditioners (ACs) at Height","CL GDASP2016e",3,"notice",[]],
+["Granting of Modification or Exemption under Section 42 of the Buildings Ordinance for Transitional Housing Initiatives","CL GMEBPTHIe",15,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNBMRPCMCDS2025e",4,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNBMRPCMCDS2026e",4,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNMRPCMCD2020e",4,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNMRPCMCD2021e",4,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNMRPCMCD2022e",4,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNMRPCMCD2023e",4,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNMRPCMCD2024e",4,"notice",[]],
+["Guidelines on Rodent-proofing Design in New Buildings and Mosquito/Rodent Prevention and Control Measures in Construction/Demolition Sites","CL GRDNMRPCMCDe",4,"notice",[]],
+["Guidelines on Prevention of Water Seepage in New Buildings","GWS",7,"notice",[]],
+["Practice Guidebook on Compliance with Building Safety Requirements for Adaptive Re-use of and Alteration and Addition Works to Heritage Buildings under the Buildings Ordinance (Interim Edition)","CL heritage",1,"notice",[]],
+["Practice Guidebook for Adaptive Re-use of and Alteration and Addition Works to Heritage Buildings 2012","CL heritage2012",1,"notice",[]],
+["Setting up of the Heritage Unit in Buildings Department","CL HUe",1,"notice",[]],
+["Minor Works Control System Installation of Air-Conditioning Units","CL IACUe",1,"notice",[]],
+["Integrity and Corruption Prevention Guide on Managing Relationship with Public Servants","CL ICPG2016e",2,"notice",[]],
+["Issue of Certification of Registration in the Form of a Card for Registered Inspectors (RI)","CL ICRI2015e",2,"notice",[]],
+["Inspection of Fire Dampers before Application for Occupation Permit","CL IFD2011e",1,"notice",[]],
+["Inspection of Fire Dampers before Application for Occupation Permit","CL IFDe",3,"notice",[]],
+["Issue of \"QP Card\" for Qualified Person (QP)","CL IQPC2016e",3,"notice",[]],
+["Issue of Registration Cards to Registered Minor Works Contractors (Individual) and Registered Inspectors and Issue of QP Cards to Qualified Persons","CL IRCRMWC2016e",5,"notice",[]],
+["Joining the Signboard Validation Scheme when Applying for Food Business Licence","CL JSVSAFBL2019e",1,"notice",[]],
+["List of Accepted Academic Qualifications (AAQ)","CL LAAQ2022e",1,"notice",[]],
+["Proper Operation and Maintenance of Man-made Water System for Prevention of Legionnaires' Disease","CL LDe",2,"notice",[]],
+["Code of Practice for the Mandatory Building Inspection Scheme (MBIS) and the Mandatory Window Inspection Scheme (MWIS) 2012","CL MBIS_MWIS_2012_e",1,"notice",[]],
+["Mandatory Building Inspection Scheme (MBIS) Inspection of Unauthorised Building Works (UBW)","CL MBISIUBW2023e",1,"notice",[]],
+["Mandatory Building Inspection Scheme (MBIS) Submission of Notification and Certificate","CL MBISSNC_2021e",2,"notice",[]],
+["Measures to Deter Misuse of Industrial Buildings for Residential Use","CL MDMIBRU2016e",2,"notice",[]],
+["Measures to Deter Misuse of Industrial Buildings for Residential Use","CL MDMIBRU2018e",1,"notice",[]],
+["New Part of the Code of Practice for Means of Access for Firefighting and Rescue - Part VI Provision of Emergency Vehicular Access","MOA_VI_letter",1,"notice",[]],
+["Mosquito Prevention and Control Measures in Construction and Demolition Sites","CL MPCMCDS2022e",1,"notice",[]],
+["Matters requiring Attention under the Minor Works Control System (MWCS)","CL MRAMWCS2017e",2,"notice",[]],
+["Minor Works Control System Notice of Commencement and Certificate of Completion of Minor Works (MW)","CL MWCSNCCCMW2024e",1,"notice",[]],
+["Minor Works E-Forms","CL MWEFe",1,"notice",[]],
+["Mandatory Window Inspection Scheme (MWIS) Submission of Notification and Certificate","CL MWISSNC2025e",3,"notice",[]],
+["New Measure for Minor Works Submissions","CL MWPBPPRC2015e",1,"notice",[]],
+["Minor Works Control System Notice of Commencement and Certificate of Completion for Minor Works","CL NCCCMW2015e",1,"notice",[]],
+["New Mobile Application – &quot;WIN SAFE&quot; for Qualified Person (QP) Registration","CL NMAWSQPR2022e",1,"notice",[]],
+["Notification on the Results for Approval and Consent Applications for Structural Works in Electronic Form","CL NRAPCASWEF2024e",2,"notice",[]],
+["Issue of Certification of Registration in the Form of a Card for Registered Minor Works Contractors (Individual) [RMWC(Ind)]","CL NRC2015e",1,"notice",[]],
+["Overloading of Dump Trucks from Private Construction Sites to Disposal Facilities","CL ODTe",3,"notice",[]],
+["Premature Certification on Undated Specified Forms","CL PCUSFe",1,"notice",[]],
+["\"Professional Diploma in Construction Site Supervision\" Training course leading to Grades T2 to T3 Technically Competent Persons","CL PDCSS2014e",1,"notice",[]],
+["Proper Erection of Scaffolds in Proximity to or over Streets for Ensuring Safety of Road Users","CL PESPSESRU_PMC2026e",2,"notice",[]],
+["Proper Erection of Scaffolds in Proximity to or over Streets for Ensuring Safety of Road Users","CL PESPSESRU_RPB_RC2026e",2,"notice",[]],
+["Electronic Certificates of Registration for Registered Building Professionals and Registered Contractors","CL PMCECRRBPRC2022e",4,"notice",[]],
+["Prevention Measures at Construction Sites during Rainy and Typhoon Seasons","CL PMCSRTS2021e",5,"notice",[]],
+["Prevention Measures at Construction Sites during Rainy and Typhoon Seasons","CL PMCSRTS2022e",5,"notice",[]],
+["Prevention Measures at Construction Sites during Rainy and Typhoon Seasons","CL PMCSRTS2023e",5,"notice",[]],
+["Prevention Measures at Construction Sites during Rainy and Typhoon Seasons","CL PMCSRTS2024e",5,"notice",[]],
+["Prevention Measures at Construction Sites during Rainy and Typhoon Seasons","CL PMCSRTS2025e",5,"notice",[]],
+["Prevention Measures at Construction Sites during Rainy and Typhoon Seasons","CL PMCSRTS2026e",5,"notice",[]],
+["Prevention Measures for Construction/Building Sites Safety during Severe Tropical Storm &quot;Ragasa&quot;","CL PMCSTR2025e",3,"notice",[]],
+["Precautionary Measures for Public and Building Safety during Rainy and Typhoon Season","CL PMPBSRTS_PMC2026e",2,"notice",[]],
+["Precautionary Measures for Public and Building Safety during Severe Tropical Storm &quot;Ragasa&quot;","CL PMPBSTR2025e",2,"notice",[]],
+["Precautionary Measures for Public and Building Safety during Typhoon Season","CL PMPBSTS2021e",1,"notice",[]],
+["Precautionary Measures for Public and Building Safety during Typhoon Season","CL PMPBSTS2022e",1,"notice",[]],
+["Precautionary Measures for Public and Building Safety during Typhoon Season","CL PMPBSTS2023e",1,"notice",[]],
+["Precautionary Measures for Public and Building Safety during Typhoon Season","CL PMPBSTS2024e",2,"notice",[]],
+["Precautionary Measures for Public and Building Safety during Typhoon Season","CL PMPBSTS2025e",2,"notice",[]],
+["Rectification Works of Completed Building / Building Works Following the Issue of Occupation Permit","CL POPWe",11,"notice",[]],
+["Plan Submissions after Relocation of the New Buildings Divisions to Cityplaza Three","CL PSRNBD2016e",1,"notice",[]],
+["Qualified Supervision of Building Works Involving Mobile Plants and Tower Cranes by Adopting Smart Site Safety System","CL QSBWIMPTCASSSS2024e",2,"notice",[]],
+["Qualified Supervision for Off-site Fabrication of Simple Structural Steel Elements","CL QSOFSSSE2023e",2,"notice",[]],
+["Qualified Supervision for Precast Concrete Construction, Modular Integrated Construction and Heat Soak Process of Tempered Glass","CL QSPCCMICHSPTG2020e",3,"notice",[]],
+["Quality Scheme for the Production and Supply of Concrete 2014","CL QSPSC2014e",1,"notice",[]],
+["Qualified Supervision and Quality Audit for Precast Concrete Construction, Modular Integrated Construction and Heat Soak Process of Tempered Glass","CL QSQAPCCMICHSPTG2022e",4,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2015e",1,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2019e",1,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2020e",1,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2021e",1,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2022e",1,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2023e",1,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2024e",1,"notice",[]],
+["Refrain from Bestowing Gifts or Advantages to Officers of Buildings Department","CL RBGAOBD2025e",1,"notice",[]],
+["Refresher Course for Registered Minor Works Contractors Applying for Renewal / Restoration of Registration","CL RCRMWC2017e",5,"notice",[]],
+["Refresher Course for Registered Minor Works Contractors Applying for Renewal or Restoration of Registration","CL RCRMWC2018e",7,"notice",[]],
+["Refresher Course for Registered Minor Works Contractors Applying for Renewal or Restoration of Registration","CL RCRMWC2019e",7,"notice",[]],
+["Refresher Course for Registered Minor Works Contractors Applying for Renewal or Restoration of Registration","CL RCRMWC2023e",7,"notice",[]],
+["Refresher Course for Registered Minor Works Contractors (&quot;RMWC&quot;) Applying for Renewal or Restoration of Registration","CL RCRMWCA2020e",5,"notice",[]],
+["Refresher Course for Registered Minor Works Contractors Applying for Renewal or Restoration of Registration","CL RCRMWCA2021e",7,"notice",[]],
+["Refresher Course for Registered Minor Works Contractors Applying for Renewal or Restoration of Registration","CL RCRMWCARRR2025e",8,"notice",[]],
+["Return on Construction Site Employment Statistics","CL RCSES",2,"notice",[]],
+["&quot;Repairs to Curtain Walls&quot;","CL RCW2018e",2,"notice",[]],
+["Rectifications after Extreme Conditions at Construction Sites","CL RECCS2023e",1,"notice",[]],
+["Roof Greening in Existing Buildings","CL RGEBe",2,"notice",[]],
+["Regular Inspection and Maintenance of Large Metal Gates","CL RIMLMG2022e",2,"notice",[]],
+["Registration and Minor Works Management System","CL RMWMS2026e",1,"notice",[]],
+["Repeal of PNAP APP-103 Structures On Grade on Newly Reclaimed Land","CL RPNAPSOGNRL2021e",1,"notice",[]],
+["Precautionary Measures for Repair Works of External Walls in Buildings","CL RWEW2023e",2,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance and Repair Works","CL SBSBMRW_PMC2026e",2,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance or Repair Works","CL SBSBMRW2020e",1,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance or Repair Works","CL SBSBMRW2021e",2,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance or Repair Works","CL SBSBMRW2022e",2,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance or Repair Works","CL SBSBMRW2023e",2,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance or Repair Works","CL SBSBMRW2024e",2,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance or Repair Works","CL SBSBMRW2025e",2,"notice",[]],
+["Safety of Bamboo Scaffolds for Building Maintenance or Repair Works","CL SBSBMRWe",2,"notice",[]],
+["Amendments to Code of Practice for the Structural Use of Steel 2011","CL SC2001Amend2016e",10,"notice",[]],
+["Scaffolding Collapse Incidents in the prevailing rainy and typhoon season","CL Scaffolde",1,"notice",[]],
+["Safety of Scaffolding Works in Construction Sites during Typhoon Season","CL Scaffolding07e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction Sites during Typhoon Season","CL Scaffolding08e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction Sites during Typhoon Season","CL Scaffolding10e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction / Building Sites during Typhoon Season","CL Scaffolding12e",1,"notice",[]],
+["Subscription to the Construction Industry Integrity Charter 2.0","CL SCIITC2025e",1,"notice",[]],
+["Submission of Electronic Test Reports in Standardised Test Report Formats","CL SETRSTRF2026e",2,"notice",[]],
+["Specified Forms under the Mandatory Window Inspection Scheme (MWIS)","CL SFMBISMWIS2018e",1,"notice",[]],
+["Anti-mosquito","CL SLAMe",1,"notice",[]],
+["Streamlining Measures for Structural Works","CL SMSW2023e",2,"notice",[]],
+["Building (Standards of Sanitary Fitments, Plumbing, Drainage Works and Latrines)(Amendment) Regulation 2015","CL SPDWL2015e",2,"notice",[]],
+["Streamlined Procedures for Carrying out Minor Works before Demolition of Buildings","CL SPMWDB2017e",2,"notice",[]],
+["Streamlined Procedures for Processing Applications for Registration as Registered General Building Contractors (RGBC) and Registered Specialist Contractors (RSC)","CL SPPAR2014e",1,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2013 Construction Standard CS2:2012 – Steel Reinforcing Bars for the Reinforcement of Concrete","CL SRBRC2016e",1,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2013 Construction Standard CS2:2012 – Steel Reinforcing Bars for the Reinforcement of Concrete","CL SRBRCe",2,"notice",[]],
+["Safety Requirements for Liftwell Inspection and Emergency Doors","CL SRLIED201510e",2,"notice",[]],
+["Integrated Site Supervision Plan System","CL SS2005e",2,"notice",[]],
+["Structural Safety and Integrity of Tower Cranes in Construction Sites","CL SSITCCS2022e",2,"notice",[]],
+["Stainless Steel Manhole Covers","CL SSMCe",1,"notice",[]],
+["Smart Site Safety System","CL SSSS2023e",2,"notice",[]],
+["Safety of Scaffolding and Tower Cranes in Construction Sites during Typhoon Season","CL SSTCCSTS2019e",3,"notice",[]],
+["Safety of Scaffolding and Tower Cranes in Construction Sites during Typhoon Season","CL SSTCCSTS2020e",3,"notice",[]],
+["Safety of Scaffolding Works in Construction/Building Sites during Typhoon Season","CL SSW2014e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction/Building Sites during Typhoon Season","CL SSW2015e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction/Building Sites during Typhoon Season","CL SSW2016e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction/Building Sites during Typhoon Season","CL SSW2017e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction/Building Sites during Typhoon Season","CL SSW2018e",1,"notice",[]],
+["Safety of Scaffolding Works in Contruction/Building Sites - Super Typhoon \"Mangkhut\"","CL SSWCBS2018e",1,"notice",[]],
+["Safety of Scaffolding Works in Construction Sites during Typhoon Season","CL SSWe",1,"notice",[]],
+["Safety of Scaffolding Works in Construction/Building Sites during Typhoon Season","CL SSWTSe",1,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2004","CL SUC2004e",12,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2013","CL SUC2013e",3,"notice",[]],
+["Code of Practice for the Structural Use of Steel 2011","CL SUOS2011e",2,"notice",[]],
+["Code of Practice for Structural Use of Steel 2005","CL SUOSe",2,"notice",[]],
+["Super Typhoon &quot;Mangkhut&quot;","CL SUPT2018e",1,"notice",[]],
+["Safe Use of Vehicles with Cranes during Transportation for Construction Sites","CL SUVCTCS2023e",1,"notice",[]],
+["Submission of Vertical Greening Plans","CL SVGPe",2,"notice",[]],
+["Training Courses leading to Equivalent Academic Qualifications for Technically Competent Persons (TCP) T1 to T3 and Authorized Signatory of Contractors for Registration under the Buildings Ordinance","CL TCEAQTCPASCRBO2024e",2,"notice",[]],
+["Top-up Courses for Level 2 Representatives under the Code of Practice for the Mandatory Building Inspection Scheme and the Mandatory Window Inspection Scheme 2012","CL TCLRCOP2017e",2,"notice",[]],
+["Training Course Leading to Technically Competent Person T1 (Minor Works)","CL TCLTCPT1e",2,"notice",[]],
+["Training Course leading to T1 grade Technically Competent Person","CL TCTGe",1,"notice",[]],
+["Technical Guidelines on Minor Works Control System Addendum (1/2014) on Construction, Alteration or Repair of any Window in Domestic Unit above Ground Floor","CL TGMWCA201401e",1,"notice",[]],
+["Technical Guidelines on Minor Works Control System Addendum (1/2015) on Section 3 Categorisation of Minor Works Quality control and supervision of Tempered Glass Repair of Structural Elements Supporting Structure for Ant","CL TGMWCA201501e",1,"notice",[]],
+["Technical Guidelines on Minor Works Control System (2024 Edition)","CL TGMWCS2024E2025e",2,"notice",[]],
+["Technical Guidelines on Minor Works Control System (TG) Addendum (1/2020) Minor Works involving Signboards","CL TGMWCSA2020e",7,"notice",[]],
+["Timely Submission of Notification and Certificate by Qualified Person","CL TSNCQP2026e",2,"notice",[]],
+["Use of Fire Retardant Protective Net/Screen/Tarpaulin/Plastic Sheeting on Facade of Buildings under Construction, Demolition, Alteration and Addition, Repair or Minor Works","CL UFRPNSTPSFBCDAARMWAPRSERGERI2025e",4,"notice",[]],
+["Use of Fire Retardant Protective Net/Screen/Tarpaulin/Plastic Sheeting on Facade of Buildings under Construction, Demolition, Alteration and Addition, Repair or Minor Works","CL UFRPNSTPSFBCDAARMWRC2025e",2,"notice",[]],
+["Use of Fire Retardant Protective Net/Screen/Tarpaulin/Plastic Sheeting on Façade of Building under Construction, Demolition, Repair or Minor Works","CL UFRPNSTPSFBCDRMW2023e",1,"notice",[]],
+["Use of Fire Retardant Protective Net/Screen/Tarpaulin/Plastic Sheeting on Facade of Buildings under Construction, Demolition, Repair or Minor Works","CL UFRPNSTPSFBCDRMW2025e",2,"notice",[]],
+["Use of Off-site Prefabricated Steel Reinforcing Bar Products","CL UOPSRBP2016e",2,"notice",[]],
+["Updating of Specified Forms under Minor Works Control System","CL USFMWCS2026e",2,"notice",[]],
+["Use of Tied-Back Wall Support System for Excavation Works","CL UTBWSSEW2026e",10,"notice",[]],
+["Validity Period of Modification or Exemption Granted under Section 42 of the Buildings Ordinance","CL VPe",4,"notice",[]],
+["Code of Practice on Wind Effects in Hong Kong 2019","CL WC2019e",3,"notice",[]],
+["Withdrawal and Resubmission","CL WDAR2015e",1,"notice",[]],
+["Code of Practice for Fire Resisting Construction 1996","FRC1996_e",39,"code",[]],
+["Explanatory Materials to Code of Practice for the Structural Use of Steel 2011","EMSUOS2011e",180,"code",[]],
+["Explanatory Notes to the Code of Practice on Wind Effects in Hong Kong 2019","ExplanatoryNotesWindEffects2019e",83,"code",[]],
+["Amendments (December 2023)","ExplanatoryNotesWindEffects2019e_Amend2023e",6,"code",[]],
+["Code of Practice in Times of Adverse Weather and &quot;Extreme Conditions&quot;","Rainstorm",38,"code",[]],
+["Code of Practice for Bamboo Scaffolding Safety (5th Edition, 2024)","CoP Bamboo Scaffolding 2024",60,"code",["scaffold-safety","bamboo-structure"]],
+["Code of Practice for Structural Use of Concrete 2013","CoP SUC 2013",212,"code",["concrete","construction"]],
+["Amendments (February 2022)","CoP_SUC2013e_amendment202202",9,"code",[]],
+["Amendments (June 2023)","CoP_SUC2013e_amendment202306",4,"code",[]],
+["Amendments (April 2024)","CoP_SUC2013e_amendment202404",15,"code",[]],
+["Code of Practice for Demolition of Buildings 2004","CoP DEM 2004",180,"code",["construction","scaffold-safety"]],
+["Amendments (October 2023)","Demolition_e2004_amendment_oct2023",18,"code",[]],
+["Amendments (September 2016)","Demolition_e2004_amendment_sep2016",20,"code",[]],
+["Code of Practice on Access for External Maintenance 2021 (2024 Edition)","cop_on_access_for_external_maintenance_2021",37,"code",[]],
+["Code of Practice for the Provision of Means of Escape in Case of Fire 1996","MOE1996_e",65,"code",[]],
+["Code of Practice for Fire Safety in Buildings 2011 (2024 Edition)","fs_code2011",246,"code",[]],
+["Code of Practice for the Provision of Means of Access for Firefighting and Rescue 2004","MOA2004e",45,"code",[]],
+["Code of Practice for Foundations 2017","CoP FDN 2017",111,"code",["foundation"]],
+["Amendments (September 2025)","FoundationCode2017_amendment202509",6,"code",[]],
+["Code of Practice for Structural Use of Glass 2018","CoP SUG 2018",76,"code",["glass"]],
+["Amendments (July 2020)","SUG2018e_Amend2020",3,"code",[]],
+["Amendments (February 2024)","SUG2018e_Amend2024",4,"code",[]],
+["Code of Practice for Building Works for Lifts and Escalators 2011 (2020 Edition)","BWLE2020e",19,"code",[]],
+["Code of Practice for Dead and Imposed Loads 2011","CoP DIL 2011",31,"code",["load-wind"]],
+["Code of Practice for the Mandatory Building Inspection Scheme (MBIS) and the Mandatory Window Inspection Scheme (MWIS) 2012 (2023 Edition)","CoP_MBIS_MWISe",121,"code",[]],
+["Code of Practice for Oil Storage Installations 1992","Osi_1992",22,"code",[]],
+["Code of Practice for Precast Concrete Construction 2016","CoP CPC 2016",85,"code",["concrete","precast","construction"]],
+["Amendments (November 2020)","cppcc2016e_amendment202011",4,"code",[]],
+["Amendments (June 2026)","cppcc2016e_amendment202606",7,"code",[]],
+["Code of Practice for Site Supervision 2009","CoP SS 2009",157,"code",["construction"]],
+["Code of Practice for the Structural Use of Steel 2011 (2023 Edition)","CoP SUOS 2011 (2023 Ed.)",98,"code",["steel"]],
+["Amendments (April 2026)","SUOS2011e_Amend202604",20,"code",[]],
+["Code of Practice for Overall Thermal Transfer Value in Buildings 1995","OTTV1995_e",84,"code",[]],
+["Code of Practice for Safe Use of Tower Cranes","crane",100,"code",[]],
+["Code of Practice on Wind Effects in Hong Kong 2019","CoP WE 2019",74,"code",["load-wind"]],
+["Amendments (December 2023)","WindEffects2019e_Amend2023e",5,"code",[]],
+["Design Manual - Barrier Free Access 2008 (2025 Edition)","BFA2008_e",179,"code",[]],
+["Design Manual on Universal Accessibility 2026","DMUA2026e",203,"code",[]],
+["Guidelines on the Design and Construction of Bamboo Scaffolds","GDCBS",25,"code",["scaffold-safety","bamboo-structure"]],
+["Building Maintenance Guidebook","BDG_ENG",329,"notice",[]],
+["M-Q","faq_a-e",15,"notice",[]],
+["Guide to Fire Safety Design for Caverns 1994","Fsdfc_1994",16,"code",[]],
+["Content","GGe_appI_V",18,"notice",[]],
+["General Guidelines on Minor Works Control System","MWGGe",65,"notice",[]],
+["Green and Innovative Buildings","Joint PN 1",18,"notice",[]],
+["Signed Copy","Joint PN 1 (attachment)",18,"notice",[]],
+["Second Package of Incentives to Promote Green and Innovative Buildings","Joint PN 2",13,"notice",[]],
+["Signed Copy","Joint PN 2 (attachment)",13,"notice",[]],
+["Landscape and Site Coverage of Greenery","Joint PN 3",7,"notice",[]],
+["Signed Copy","Joint PN 3 (attachment)",7,"notice",[]],
+["Development Control Parameters","Joint PN 4",10,"notice",[]],
+["Signed Copy","Joint PN 4 (attachment)",10,"notice",[]],
+["Development Control Parameters Building Height Restriction","Joint PN 5",7,"notice",[]],
+["Signed Copy","Joint PN 5 (attachment)",7,"notice",[]],
+["Sustainable Building Design Guidelines: Building Separation and Building Setback","Joint PN 6",3,"notice",[]],
+["Signed Copy","Joint PN 6 (attachment)",3,"notice",[]],
+["Development Control Parameters Site Coverage Restriction","Joint PN 7",4,"notice",[]],
+["Signed Copy","Joint PN 7 (attachment)",4,"notice",[]],
+["Incentive to Promote Green and Innovative Buildings Enhanced Facilitation Measures for Buildings Adopting Modular Integrated Construction","Joint PN 8",23,"notice",[]],
+["Signed Copy","Joint PN 8 (attachment)",23,"notice",[]],
+["Bonus Plot Ratio Pilot Scheme","Joint PN 9",14,"notice",[]],
+["Signed Copy","Joint PN 9 (attachment)",14,"notice",[]],
+["Guide on Erection & Maintenance of Advertising Signs","Ad_Signs_E",5,"notice",[]],
+["Guidelines on Maintenance and Repair of Drainage System and Sanitary Fitments","Drainage-System-Guideline-Eng",1,"notice",[]],
+["Guidelines for Identification of Abandoned or Dangerous Signboards","Guide_signboards_e",3,"notice",[]],
+["Guidelines on Design and Construction Requirements for Energy Efficiency of Residential Buildings 2014","Guidelines_DCREERB2014e",62,"notice",[]],
+["Guidelines on Prevention of Water Seepage in New Buildings","GWS",6,"notice",[]],
+["Practice Guidebook for Adaptive Re-use of and Alteration and Addition Works to Heritage Buildings 2012 (2021 Edition)","heritage_2021",206,"notice",[]],
+["Practice Notes in Force","PNAP ADM-1",14,"notice",["construction"]],
+["Signed Copy","PNAP ADM-1 (attachment)",14,"notice",[]],
+["Imaging Standards for Plans","PNAP ADM-10",4,"notice",["construction"]],
+["Signed Copy","PNAP ADM-10 (attachment)",4,"notice",[]],
+["Change of Address","PNAP ADM-11",1,"notice",[]],
+["Signed Copy","PNAP ADM-11 (attachment)",1,"notice",[]],
+["Monitoring for Site Safety and Quality","PNAP ADM-13",3,"notice",["construction"]],
+["Signed Copy","PNAP ADM-13 (attachment)",3,"notice",[]],
+["Minor Amendments to Plans and Specified Forms","PNAP ADM-14",3,"notice",[]],
+["Signed Copy","PNAP ADM-14 (attachment)",3,"notice",[]],
+["Submission of Site Formation Proposals","PNAP ADM-15",2,"notice",["foundation","construction"]],
+["Signed Copy","PNAP ADM-15 (attachment)",2,"notice",[]],
+["Ground Investigation Works in Scheduled Areas - Approval and Consent","PNAP ADM-16",1,"notice",["foundation"]],
+["Signed Copy","PNAP ADM-16 (attachment)",1,"notice",[]],
+["Submission of Plans and Documents in Electronic Format","PNAP ADM-17",10,"notice",["construction"]],
+["Signed Copy","PNAP ADM-17 (attachment)",10,"notice",[]],
+["Site Auditing for Building Works","PNAP ADM-18",7,"notice",["construction"]],
+["Signed Copy","PNAP ADM-18 (attachment)",7,"notice",[]],
+["Building Approval Process","PNAP ADM-19",35,"notice",["construction"]],
+["Signed Copy","PNAP ADM-19 (attachment)",35,"notice",[]],
+["Centralised Processing of Building Plans","PNAP ADM-2",40,"notice",["construction"]],
+["Signed Copy","PNAP ADM-2 (attachment)",40,"notice",[]],
+["Central Data Bank (CDB)","PNAP ADM-20",5,"notice",["construction"]],
+["Signed Copy","PNAP ADM-20 (attachment)",5,"notice",[]],
+["Site Parameters - Documentary Proof","PNAP ADM-21",3,"notice",["construction"]],
+["Signed Copy","PNAP ADM-21 (attachment)",3,"notice",[]],
+["Withdrawal and Resubmission","PNAP ADM-22",1,"notice",["construction"]],
+["Signed Copy","PNAP ADM-22 (attachment)",1,"notice",[]],
+["Self-certification System for Plan Submission of Simple Structural Works","PNAP ADM-23",25,"notice",["construction"]],
+["Signed Copy","PNAP ADM-23 (attachment)",25,"notice",[]],
+["Emergency Situations - Telephone Numbers for Use Outside Office Hours","PNAP ADM-3",2,"notice",["scaffold-safety","construction"]],
+["Signed Copy","PNAP ADM-3 (attachment)",2,"notice",[]],
+["Priority","PNAP ADM-4",2,"notice",["construction"]],
+["Signed Copy","PNAP ADM-4 (attachment)",2,"notice",[]],
+["Submissions to the Buildings Department","PNAP ADM-5",3,"notice",["construction"]],
+["Signed Copy","PNAP ADM-5 (attachment)",3,"notice",[]],
+["Computer Programs for Use in Structural and Geotechnical Design","PNAP ADM-6",9,"notice",["construction","foundation"]],
+["Signed Copy","PNAP ADM-6 (attachment)",9,"notice",[]],
+["Geotechnical Information Unit","PNAP ADM-7",2,"notice",["foundation"]],
+["Signed Copy","PNAP ADM-7 (attachment)",2,"notice",[]],
+["Structural Design Information","PNAP ADM-8",8,"notice",["construction","concrete","durability"]],
+["Signed Copy","PNAP ADM-8 (attachment)",8,"notice",[]],
+["Colouring of Plans","PNAP ADM-9",3,"notice",["construction"]],
+["Signed Copy","PNAP ADM-9 (attachment)",3,"notice",[]],
+["Asbestos","PNAP ADV-1",3,"notice",["construction"]],
+["Signed Copy","PNAP ADV-1 (attachment)",3,"notice",[]],
+["Lift Shaft Platforms","PNAP ADV-10",3,"notice",["scaffold-safety","construction"]],
+["Signed Copy","PNAP ADV-10 (attachment)",3,"notice",[]],
+["Suspended Working Platforms","PNAP ADV-11",3,"notice",["scaffold-safety","construction"]],
+["Signed Copy","PNAP ADV-11 (attachment)",3,"notice",[]],
+["Display of Site Information","PNAP ADV-12",1,"notice",["construction"]],
+["Signed Copy","PNAP ADV-12 (attachment)",1,"notice",[]],
+["Application for Excavation Permit for Works on Public Road - Circulation of Proposal to Utility Undertakers","PNAP ADV-13",2,"notice",["construction","foundation"]],
+["Signed Copy","PNAP ADV-13 (attachment)",2,"notice",[]],
+["Facilities for External Inspection and Maintenance of Buildings","PNAP ADV-14",3,"notice",["construction"]],
+["Signed Copy","PNAP ADV-14 (attachment)",3,"notice",[]],
+["Fixing of Reinforcement for Concrete Works","PNAP ADV-15",2,"notice",["concrete","durability","construction"]],
+["Signed Copy","PNAP ADV-15 (attachment)",2,"notice",[]],
+["Street Name and Building Number","PNAP ADV-16",2,"notice",["construction"]],
+["Signed Copy","PNAP ADV-16 (attachment)",2,"notice",[]],
+["Noise Annoyance Prevention - Design of Pump Room and Ventilation System","PNAP ADV-17",5,"notice",["construction"]],
+["Signed Copy","PNAP ADV-17 (attachment)",5,"notice",[]],
+["Corruption Prevention","PNAP ADV-18",2,"notice",["construction"]],
+["Signed Copy","PNAP ADV-18 (attachment)",2,"notice",[]],
+["Construction and Demolition Waste","PNAP ADV-19",8,"notice",["construction"]],
+["Signed Copy","PNAP ADV-19 (attachment)",8,"notice",[]],
+["Felling or Transplanting of Trees","PNAP ADV-2",12,"notice",["construction"]],
+["Signed Copy","PNAP ADV-2 (attachment)",12,"notice",[]],
+["Management Framework for Disposal of Dredged / Excavated Sediment","PNAP ADV-21",18,"notice",["foundation","construction"]],
+["Signed Copy","PNAP ADV-21 (attachment)",18,"notice",[]],
+["Improvement of Visual Appearance and Landscape Treatment for Man-made Slopes and Retaining Walls","PNAP ADV-23",5,"notice",["foundation"]],
+["Signed Copy","PNAP ADV-23 (attachment)",5,"notice",[]],
+["Floor Drains in Kitchens and Bathrooms","PNAP ADV-24",1,"notice",["construction"]],
+["Signed Copy","PNAP ADV-24 (attachment)",1,"notice",[]],
+["Extractor Fans in Bathrooms and Lavatories in Domestic Buildings","PNAP ADV-25",1,"notice",["construction"]],
+["Signed Copy","PNAP ADV-25 (attachment)",1,"notice",[]],
+["Ventilation of Common Corridors and Lift Lobbies in Buildings","PNAP ADV-26",1,"notice",["construction"]],
+["Signed Copy","PNAP ADV-26 (attachment)",1,"notice",[]],
+["Protection of Natural Streams / Rivers from Adverse Impacts arising from Construction Works","PNAP ADV-27",8,"notice",["construction"]],
+["Signed Copy","PNAP ADV-27 (attachment)",8,"notice",[]],
+["Provision of Sanitary Fitments in Offices, Shopping Arcades, Department Stores, Places of Public Entertainment, Cinemas and Other Public Places","PNAP ADV-28",13,"notice",["construction"]],
+["Signed Copy","PNAP ADV-28 (attachment)",13,"notice",[]],
+["Construction Site Safety - Pay for Safety Scheme","PNAP ADV-29",2,"notice",["construction"]],
+["Signed Copy","PNAP ADV-29 (attachment)",2,"notice",[]],
+["Standardization of Floor Numbering","PNAP ADV-3",5,"notice",["construction"]],
+["Signed Copy","PNAP ADV-3 (attachment)",5,"notice",[]],
+["Provision of Mechanical Ventilation under Building (Planning) Regulation 34","PNAP ADV-30",1,"notice",["construction"]],
+["Signed Copy","PNAP ADV-30 (attachment)",1,"notice",[]],
+["Building External Finishes - Wet-fixed Tiles","PNAP ADV-31",8,"notice",["construction","durability"]],
+["Signed Copy","PNAP ADV-31 (attachment)",8,"notice",[]],
+["Provision of Babycare Rooms and Lactation Rooms in Commercial Buildings","PNAP ADV-32",7,"notice",["construction"]],
+["Signed Copy","PNAP ADV-32 (attachment)",7,"notice",[]],
+["Essential Information in Plan Submissions","PNAP ADV-33",129,"notice",["construction"]],
+["Signed Copy","PNAP ADV-33 (attachment)",129,"notice",[]],
+["Building Information Modelling","PNAP ADV-34",4,"notice",["construction"]],
+["Signed Copy","PNAP ADV-34 (attachment)",4,"notice",[]],
+["Greening in Buildings","PNAP ADV-35",3,"notice",["construction"]],
+["Signed Copy","PNAP ADV-35 (attachment)",3,"notice",[]],
+["Modular Integrated Construction","PNAP ADV-36",35,"notice",["precast","construction"]],
+["Signed Copy","PNAP ADV-36 (attachment)",35,"notice",[]],
+["Conduct of Registered Building Professionals under the Buildings Ordinance","PNAP ADV-37",4,"notice",["construction"]],
+["Signed Copy","PNAP ADV-37 (attachment)",4,"notice",[]],
+["Innovative Building Materials and Technologies","PNAP ADV-38",16,"notice",["construction"]],
+["Signed Copy","PNAP ADV-38 (attachment)",16,"notice",[]],
+["Control of Environmental Nuisance from Construction Sites","PNAP ADV-4",9,"notice",["construction"]],
+["Signed Copy","PNAP ADV-4 (attachment)",9,"notice",[]],
+["Tropical Hardwood Timber","PNAP ADV-5",2,"notice",["timber-structure","construction"]],
+["Signed Copy","PNAP ADV-5 (attachment)",2,"notice",[]],
+["Lightning Protection for Buildings","PNAP ADV-6",1,"notice",["construction"]],
+["Signed Copy","PNAP ADV-6 (attachment)",1,"notice",[]],
+["Registration of Slopes and Retaining Walls","PNAP ADV-8",12,"notice",["foundation"]],
+["Signed Copy","PNAP ADV-8 (attachment)",12,"notice",[]],
+["Submission of Development Progress","PNAP ADV-9",3,"notice",["construction"]],
+["Signed Copy","PNAP ADV-9 (attachment)",3,"notice",[]],
+["Landlord and Tenant (Consolidation) Ordinance, Cap. 7, Demolished Buildings (Re-development of Sites) Ordinance, Cap. 337","PNAP APP-1",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-1 (attachment)",2,"notice",[]],
+["Oil Storage Installations - Building (Oil Storage Installations) Regulations","PNAP APP-10",10,"notice",["fire"]],
+["Signed Copy","PNAP APP-10 (attachment)",10,"notice",[]],
+["Structural Plans of Glass Reinforced Polyester (GRP) Water Tanks","PNAP APP-100",3,"notice",["glass","test-methods"]],
+["Signed Copy","PNAP APP-100 (attachment)",3,"notice",[]],
+["Podium Height Restriction under Building (Planning) Regulation 20(3)","PNAP APP-101",1,"notice",["construction"]],
+["Signed Copy","PNAP APP-101 (attachment)",1,"notice",[]],
+["Exclusion of Floor Areas for Recreational Use","PNAP APP-104",4,"notice",["construction"]],
+["Signed Copy","PNAP APP-104 (attachment)",4,"notice",[]],
+["Water Seepage","PNAP APP-105",23,"notice",["durability","construction"]],
+["Signed Copy","PNAP APP-105 (attachment)",23,"notice",[]],
+["Fire Resisting Construction - Kitchens in Restaurants","PNAP APP-106",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-106 (attachment)",1,"notice",[]],
+["Precautionary Measures for Construction Sites","PNAP APP-107",1,"notice",["construction"]],
+["Signed Copy","PNAP APP-107 (attachment)",1,"notice",[]],
+["Dedication of Land / Area for Use as Public Passage","PNAP APP-108",3,"notice",["construction"]],
+["Signed Copy","PNAP APP-108 (attachment)",3,"notice",[]],
+["Geotechnical Manual for Slopes - Guidance on Interpretation and Updating","PNAP APP-109",13,"notice",["foundation"]],
+["Signed Copy","PNAP APP-109 (attachment)",13,"notice",[]],
+["Street Improvement Schemes - Submission of Building Plans in respect of Lots affected thereby","PNAP APP-11",1,"notice",["construction"]],
+["Signed Copy","PNAP APP-11 (attachment)",1,"notice",[]],
+["Protective Barriers","PNAP APP-110",4,"notice",[]],
+["Signed Copy","PNAP APP-110 (attachment)",4,"notice",[]],
+["Design of Car Parks and Loading / Unloading Facilities","PNAP APP-111",6,"notice",["construction","load-wind"]],
+["Signed Copy","PNAP APP-111 (attachment)",6,"notice",[]],
+["Disposal of Condensation from Air-Conditioning Units","PNAP APP-112",1,"notice",[]],
+["Signed Copy","PNAP APP-112 (attachment)",1,"notice",[]],
+["Waste Minimization - Provision of Fitments and Fittings in New Buildings","PNAP APP-114",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-114 (attachment)",2,"notice",[]],
+["Performance Review - Item 6(g)(ii) in Column B, Section 17(1) of the Buildings Ordinance","PNAP APP-115",3,"notice",["foundation"]],
+["Signed Copy","PNAP APP-115 (attachment)",3,"notice",[]],
+["Aluminium Windows","PNAP APP-116",7,"notice",["durability","construction","load-wind"]],
+["Signed Copy","PNAP APP-116 (attachment)",7,"notice",[]],
+["Structural Requirements for Alteration and Addition Works in Existing Buildings","PNAP APP-117",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-117 (attachment)",2,"notice",[]],
+["Testing of Building Materials","PNAP APP-118",2,"notice",["test-methods"]],
+["Signed Copy","PNAP APP-118 (attachment)",2,"notice",[]],
+["Stair-well and Open Wells In School and Other Buildings Used by Youngsters","PNAP APP-119",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-119 (attachment)",1,"notice",[]],
+["Prestressed Ground Anchors in Building Works","PNAP APP-12",6,"notice",["foundation","connections"]],
+["Signed Copy","PNAP APP-12 (attachment)",6,"notice",[]],
+["Concrete Batching Plant","PNAP APP-120",7,"notice",["concrete","construction"]],
+["Signed Copy","PNAP APP-120 (attachment)",7,"notice",[]],
+["Amendment to Code of Practice for Provision of Means of Escape in Case of Fire 1996 (MOE Code)","PNAP APP-121",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-121 (attachment)",1,"notice",[]],
+["Provision of Sky Garden in Refuge Floor","PNAP APP-122",3,"notice",[]],
+["Signed Copy","PNAP APP-122 (attachment)",3,"notice",[]],
+["Alternative Designs - Paragraph 12.3 of the Code of Practice for Fire Resistance Construction 1996 (FRC Code)","PNAP APP-123",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-123 (attachment)",1,"notice",[]],
+["Streets for Site Classification","PNAP APP-124",3,"notice",["construction"]],
+["Signed Copy","PNAP APP-124 (attachment)",3,"notice",[]],
+["External Area and Floor Adjoining External Ground or Roof","PNAP APP-125",1,"notice",["durability","construction"]],
+["Signed Copy","PNAP APP-125 (attachment)",1,"notice",[]],
+["Erection of Signboards","PNAP APP-126",46,"notice",["construction"]],
+["Signed Copy","PNAP APP-126 (attachment)",46,"notice",[]],
+["Contractor's Sheds","PNAP APP-127",8,"notice",["construction"]],
+["Signed Copy","PNAP APP-127 (attachment)",8,"notice",[]],
+["Geotechnical Design Information","PNAP APP-128",5,"notice",["foundation"]],
+["Signed Copy","PNAP APP-128 (attachment)",5,"notice",[]],
+["Use of Recycled Aggregates in Concrete for Minor Structures and Non-structural Works","PNAP APP-129",9,"notice",["concrete"]],
+["Signed Copy","PNAP APP-129 (attachment)",9,"notice",[]],
+["Submission of Certificate of Completion of Building Works, Application for Occupation Permit and Submission of Record Plans and Information","PNAP APP-13",41,"notice",["construction"]],
+["Signed Copy","PNAP APP-13 (attachment)",41,"notice",[]],
+["Lighting and Ventilation Requirements - Performance-based Approach","PNAP APP-130",34,"notice",["construction"]],
+["Signed Copy","PNAP APP-130 (attachment)",34,"notice",[]],
+["Site Coverage and Open Space Provision","PNAP APP-132",6,"notice",["construction"]],
+["Signed Copy","PNAP APP-132 (attachment)",6,"notice",[]],
+["Cast Iron Pipes for Drainage Works","PNAP APP-133",1,"notice",["durability","construction"]],
+["Signed Copy","PNAP APP-133 (attachment)",1,"notice",[]],
+["Development in the Designated Area of Northshore Lantau","PNAP APP-134",4,"notice",["foundation"]],
+["Signed Copy","PNAP APP-134 (attachment)",4,"notice",[]],
+["Quality Supervision of Soil Nailing Works","PNAP APP-135",2,"notice",["foundation","construction"]],
+["Signed Copy","PNAP APP-135 (attachment)",2,"notice",[]],
+["Building (Planning) Regulation 41D - Emergency Vehicular Access","PNAP APP-136",5,"notice",["fire","construction"]],
+["Signed Copy","PNAP APP-136 (attachment)",5,"notice",[]],
+["Ground-borne Vibration and Ground Settlement arising from Pile Foundation and Excavation and Lateral Support Works","PNAP APP-137",8,"notice",["foundation","construction"]],
+["Signed Copy","PNAP APP-137 (attachment)",8,"notice",[]],
+["Appointment of Authorised Signatory to Act for Registered Contractor and Temporary absence of Authorised Signatories","PNAP APP-138",5,"notice",["construction"]],
+["Signed Copy","PNAP APP-138 (attachment)",5,"notice",[]],
+["Code of Practice on Wind Effects in Hong Kong","PNAP APP-139",17,"notice",["load-wind"]],
+["Signed Copy","PNAP APP-139 (attachment)",17,"notice",[]],
+["Cinemas and Other Places of Public Entertainment in Non-domestic Buildings or Composite Buildings","PNAP APP-14",7,"notice",["fire"]],
+["Signed Copy","PNAP APP-14 (attachment)",7,"notice",[]],
+["Registration of Authorized Persons and Registered Structural Engineers as Registered Geotechnical Engineers","PNAP APP-140",3,"notice",["foundation"]],
+["Signed Copy","PNAP APP-140 (attachment)",3,"notice",[]],
+["Division of Responsibilities between Authorized Person, Registered Structural Engineer and Registered Geotechnical Engineer","PNAP APP-141",17,"notice",["construction"]],
+["Signed Copy","PNAP APP-141 (attachment)",17,"notice",[]],
+["Code of Practice for Structural Use of Concrete 2013","PNAP APP-142",30,"notice",["concrete"]],
+["Signed Copy","PNAP APP-142 (attachment)",30,"notice",[]],
+["Quality Control and Supervision of Precast Concrete Construction","PNAP APP-143",13,"notice",["precast","concrete","construction"]],
+["Signed Copy","PNAP APP-143 (attachment)",13,"notice",[]],
+["Design and Construction of Run-in and Run-out on Public Road","PNAP APP-144",16,"notice",["construction"]],
+["Signed Copy","PNAP APP-144 (attachment)",16,"notice",[]],
+["Fire Safety (Buildings) Ordinance Cap. 572","PNAP APP-145",5,"notice",["fire"]],
+["Signed Copy","PNAP APP-145 (attachment)",5,"notice",[]],
+["Metal Gates","PNAP APP-146",7,"notice",["connections","construction"]],
+["Signed Copy","PNAP APP-146 (attachment)",7,"notice",[]],
+["Minor Works Control System","PNAP APP-147",17,"notice",["construction"]],
+["Signed Copy","PNAP APP-147 (attachment)",17,"notice",[]],
+["Minor Works Contractors Registration","PNAP APP-148",6,"notice",["construction"]],
+["Signed Copy","PNAP APP-148 (attachment)",6,"notice",[]],
+["Appointment of Authorized Signatory to Act for Prescribed Registered Contractor and Temporary Absence of Authorized Signatories in respect of Minor Works commenced under the Simplified Requirements","PNAP APP-149",5,"notice",[]],
+["Signed Copy","PNAP APP-149 (attachment)",5,"notice",[]],
+["Site Formation - Temporary or Permanent Filling Work","PNAP APP-15",4,"notice",["foundation","construction"]],
+["Signed Copy","PNAP APP-15 (attachment)",4,"notice",[]],
+["Wholesale Conversion of Industrial Buildings","PNAP APP-150",3,"notice",[]],
+["Signed Copy","PNAP APP-150 (attachment)",3,"notice",[]],
+["Building Design to Foster a Quality and Sustainable Built Environment","PNAP APP-151",59,"notice",["construction"]],
+["Signed Copy","PNAP APP-151 (attachment)",59,"notice",[]],
+["Sustainable Building Design Guidelines","PNAP APP-152",44,"notice",["construction"]],
+["Signed Copy","PNAP APP-152 (attachment)",44,"notice",[]],
+["Code of Practice for Fire Safety in Buildings 2011","PNAP APP-153",86,"notice",["fire"]],
+["Signed Copy","PNAP APP-153 (attachment)",86,"notice",[]],
+["Design Requirements for Columbarium Facilities","PNAP APP-154",3,"notice",["fire","construction"]],
+["Signed Copy","PNAP APP-154 (attachment)",3,"notice",[]],
+["Validation Scheme for Unauthorised Signboards","PNAP APP-155",24,"notice",["construction"]],
+["Signed Copy","PNAP APP-155 (attachment)",24,"notice",[]],
+["Design and Construction Requirements for Energy Efficiency of Residential Buildings","PNAP APP-156",7,"notice",["construction"]],
+["Signed Copy","PNAP APP-156 (attachment)",7,"notice",[]],
+["Code of Practice for Site Supervision 2009","PNAP APP-157",99,"notice",["construction"]],
+["Signed Copy","PNAP APP-157 (attachment)",99,"notice",[]],
+["Quality Supervision of Building Works","PNAP APP-158",13,"notice",["construction"]],
+["Signed Copy","PNAP APP-158 (attachment)",13,"notice",[]],
+["Measures to Deter Misuse of Industrial Buildings for Residential Use","PNAP APP-159",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-159 (attachment)",2,"notice",[]],
+["Cladding","PNAP APP-16",10,"notice",[]],
+["Signed Copy","PNAP APP-16 (attachment)",10,"notice",[]],
+["Conditions and Requirements Imposed under the Buildings Ordinance upon Granting Approval and/or Consent","PNAP APP-162",6,"notice",["construction","load-wind"]],
+["Signed Copy","PNAP APP-162 (attachment)",4,"notice",[]],
+["Code of Practice on Access for External Maintenance 2021","PNAP APP-163",8,"notice",["construction"]],
+["Signed Copy","PNAP APP-163 (attachment)",8,"notice",[]],
+["Enhanced Design Standards of Aboveground Drainage System","PNAP APP-164",11,"notice",["durability","construction"]],
+["Signed Copy","PNAP APP-164 (attachment)",11,"notice",[]],
+["Product Certification System","PNAP APP-165",2,"notice",["test-methods","construction"]],
+["Signed Copy","PNAP APP-165 (attachment)",2,"notice",[]],
+["Metal Grille and Louvre","PNAP APP-166",3,"notice",["construction","connections"]],
+["Signed Copy","PNAP APP-166 (attachment)",3,"notice",[]],
+["Quality of In-situ Reinforced Concrete Works at an Early Age","PNAP APP-167",5,"notice",["concrete","construction"]],
+["Signed Copy","PNAP APP-167 (attachment)",5,"notice",[]],
+["Code of Practice for the Structural Use of Steel 2011","PNAP APP-168",21,"notice",["steel"]],
+["Signed Copy","PNAP APP-168 (attachment)",21,"notice",[]],
+["Strength Tests for Structural Fixings in Concrete","PNAP APP-169",12,"notice",["test-methods","connections","concrete"]],
+["Signed Copy","PNAP APP-169 (attachment)",12,"notice",[]],
+["Rock Faces - Building (Planning) Regulations 27 and 47","PNAP APP-17",3,"notice",["foundation"]],
+["Signed Copy","PNAP APP-17 (attachment)",3,"notice",[]],
+["Code of Practice for Demolition of Buildings 2004","PNAP APP-170",41,"notice",["construction","scaffold-safety"]],
+["Signed Copy","PNAP APP-170 (attachment)",41,"notice",[]],
+["Code of Practice for the Structural Use of Glass 2018","PNAP APP-171",10,"notice",["glass"]],
+["Signed Copy","PNAP APP-171 (attachment)",10,"notice",[]],
+["Residential Care Homes for the Elderly and Residential Care Homes for Persons with Disabilities","PNAP APP-172",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-172 (attachment)",2,"notice",[]],
+["Hostels in the City Scheme","PNAP APP-173",5,"notice",["construction"]],
+["Signed Copy","PNAP APP-173 (attachment)",5,"notice",[]],
+["Code of Practice for Precast Concrete Construction 2016","PNAP APP-174",12,"notice",["precast","concrete"]],
+["Signed Copy","PNAP APP-174 (attachment)",12,"notice",[]],
+["Elderly-friendly Building Design Regulation 73 and Fourth Schedule of the Building (Planning) Regulations","PNAP APP-175",5,"notice",["construction"]],
+["Signed Copy","PNAP APP-175 (attachment)",5,"notice",[]],
+["Design Manual on Universal Accessibility","PNAP APP-176",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-176 (attachment)",2,"notice",[]],
+["Code of Practice for Foundations 2017","PNAP APP-18",18,"notice",["foundation"]],
+["Signed Copy","PNAP APP-18 (attachment)",18,"notice",[]],
+["Projections in relation to Site Coverage and Plot Ratio Building (Planning) Regulations 20 & 21","PNAP APP-19",9,"notice",["construction"]],
+["Signed Copy","PNAP APP-19 (attachment)",9,"notice",[]],
+["Calculation of Gross Floor Area and Non-accountable Gross Floor Area - Building (Planning) Regulation 23(3)(a) and (b)","PNAP APP-2",16,"notice",["construction"]],
+["Signed Copy","PNAP APP-2 (attachment)",16,"notice",[]],
+["Building Proposals affected by Street Widening - Building (Planning) Regulation 22(2)","PNAP APP-20",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-20 (attachment)",2,"notice",[]],
+["Demolition Works Measures for Public Safety","PNAP APP-21",13,"notice",["construction"]],
+["Signed Copy","PNAP APP-21 (attachment)",13,"notice",[]],
+["Dewatering in Foundation and Basement Excavation Works","PNAP APP-22",2,"notice",["foundation"]],
+["Signed Copy","PNAP APP-22 (attachment)",2,"notice",[]],
+["Hoardings, Covered Walkways and Gantries (including Temporary Access for Construction Vehicles) - Part IX of Building (Planning) Regulations","PNAP APP-23",45,"notice",["scaffold-safety","construction"]],
+["Signed Copy","PNAP APP-23 (attachment)",45,"notice",[]],
+["Railway Protection under Railways Ordinance, Mass Transit Railway (Land Resumption and Related Provisions) Ordinance and Area Number 3 of the Scheduled Areas in Schedule 5 to the Buildings Ordinance","PNAP APP-24",16,"notice",["foundation","construction"]],
+["Signed Copy","PNAP APP-24 (attachment)",16,"notice",[]],
+["Requirements for a Geotechnical Assessment at General Building Plan Stage - Building (Administration) Regulation 8(1)(ba)","PNAP APP-25",3,"notice",["foundation"]],
+["Signed Copy","PNAP APP-25 (attachment)",3,"notice",[]],
+["Pouring of Concrete against Walls of Adjoining Buildings","PNAP APP-26",1,"notice",["concrete"]],
+["Signed Copy","PNAP APP-26 (attachment)",1,"notice",[]],
+["Gas Water Heaters Regulation 35A of Building (Planning) Regulations","PNAP APP-27",5,"notice",["fire","construction"]],
+["Signed Copy","PNAP APP-27 (attachment)",5,"notice",[]],
+["Requirements for Qualified Supervision of Site Formation Works, Excavation Works, Foundation Works on Sloping Ground, and Ground Investigation Works in the Scheduled Areas - Buildings Ordinance section 17","PNAP APP-28",3,"notice",["foundation","construction"]],
+["Signed Copy","PNAP APP-28 (attachment)",3,"notice",[]],
+["Lift and Escalator Installations","PNAP APP-29",14,"notice",["construction"]],
+["Signed Copy","PNAP APP-29 (attachment)",14,"notice",[]],
+["Nomination of an Authorized Person, Registered Structural Engineer or Registered Geotechnical Engineer to act instead","PNAP APP-3",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-3 (attachment)",2,"notice",[]],
+["Geotechnical Control on Developments in Mid-levels Scheduled Area","PNAP APP-30",3,"notice",[]],
+["Signed Copy","PNAP APP-30 (attachment)",3,"notice",[]],
+["Permanent Water Supply to Fire Service Installations - Buildings Ordinance section 21(6)(d)","PNAP APP-31",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-31 (attachment)",1,"notice",[]],
+["Hong Kong Airport (Control of Obstructions) Ordinance (Cap. 301)","PNAP APP-32",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-32 (attachment)",2,"notice",[]],
+["Pulverised Fuel Ash in Concrete","PNAP APP-33",1,"notice",["concrete"]],
+["Signed Copy","PNAP APP-33 (attachment)",1,"notice",[]],
+["Structural Design of Bridges and Associated Highway Structures","PNAP APP-34",3,"notice",["construction"]],
+["Signed Copy","PNAP APP-34 (attachment)",3,"notice",[]],
+["Refuse Storage and Collection - Building (Refuse Storage and Material Recovery Chambers and Refuse Chutes) Regulations","PNAP APP-35",13,"notice",["construction"]],
+["Signed Copy","PNAP APP-35 (attachment)",13,"notice",[]],
+["Curtain Wall, Window and Window Wall","PNAP APP-37",20,"notice",["glass","connections","load-wind"]],
+["Signed Copy","PNAP APP-37 (attachment)",20,"notice",[]],
+["Bridges over Streets and Lanes - Buildings Ordinance section 31(1)","PNAP APP-38",4,"notice",["construction"]],
+["Signed Copy","PNAP APP-38 (attachment)",4,"notice",[]],
+["Inspection and Copying of Plans and Documents","PNAP APP-39",4,"notice",["construction"]],
+["Signed Copy","PNAP APP-39 (attachment)",4,"notice",[]],
+["Water Supply and Wells","PNAP APP-4",8,"notice",["foundation"]],
+["Signed Copy","PNAP APP-4 (attachment)",8,"notice",[]],
+["Hotel Development","PNAP APP-40",4,"notice",["construction"]],
+["Signed Copy","PNAP APP-40 (attachment)",4,"notice",[]],
+["Buildings to be Planned for Use by Persons with a Disability Regulation 72 of Building (Planning) Regulations Design Manual: Barrier Free Access 2008","PNAP APP-41",92,"notice",["construction"]],
+["Signed Copy","PNAP APP-41 (attachment)",92,"notice",[]],
+["Amenity Features","PNAP APP-42",10,"notice",["construction"]],
+["Signed Copy","PNAP APP-42 (attachment)",10,"notice",[]],
+["Licensing of Child Care Centres, Kindergartens and Restaurants","PNAP APP-43",4,"notice",["fire"]],
+["Signed Copy","PNAP APP-43 (attachment)",4,"notice",[]],
+["Streets in relation to Site Area - Building (Planning) Regulation 23(2)(a)","PNAP APP-44",1,"notice",["construction"]],
+["Signed Copy","PNAP APP-44 (attachment)",1,"notice",[]],
+["Testing of Reinforcement for Concrete","PNAP APP-45",3,"notice",["test-methods","steel","concrete"]],
+["Signed Copy","PNAP APP-45 (attachment)",3,"notice",[]],
+["Pollution from Industrial Buildings - Building (Standards of Sanitary Fitments, Plumbing, Drainage Works and Latrines) Regulation 90","PNAP APP-46",4,"notice",["construction"]],
+["Signed Copy","PNAP APP-46 (attachment)",4,"notice",[]],
+["Unauthorized Alterations and Additions - Buildings Ordinance section 14","PNAP APP-47",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-47 (attachment)",2,"notice",[]],
+["Requirements for Qualified Supervision of Structural Works, Foundation Works and Excavation Works - Buildings Ordinance section 17","PNAP APP-48",1,"notice",["foundation","construction"]],
+["Signed Copy","PNAP APP-48 (attachment)",1,"notice",[]],
+["Site Investigation and Ground Investigation","PNAP APP-49",3,"notice",["foundation","test-methods"]],
+["Signed Copy","PNAP APP-49 (attachment)",3,"notice",[]],
+["Height of Storeys Regulations 3(3) & 24 of Building (Planning) Regulations","PNAP APP-5",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-5 (attachment)",2,"notice",[]],
+["Temporary Buildings - Building (Planning) Regulations 50-52","PNAP APP-50",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-50 (attachment)",2,"notice",[]],
+["Monitoring and Maintenance of Horizontal Drains","PNAP APP-51",5,"notice",["foundation","durability"]],
+["Signed Copy","PNAP APP-51 (attachment)",5,"notice",[]],
+["Supply of Plans to Registered General Building Contractors, Registered Specialist Contractors and Registered Minor Works Contractors - Regulation 36 of the Building (Administration) Regulations and Section 55 of the Building (Minor Works) Regulation","PNAP APP-52",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-52 (attachment)",2,"notice",[]],
+["Building (Construction) Regulation","PNAP APP-53",12,"notice",["construction"]],
+["Signed Copy","PNAP APP-53 (attachment)",12,"notice",[]],
+["Retaining Wall","PNAP APP-54",4,"notice",["foundation"]],
+["Signed Copy","PNAP APP-54 (attachment)",4,"notice",[]],
+["Procedure for Payment of Fees on Submission of Plans Regulation 42 of the Building (Administration) Regulations","PNAP APP-55",4,"notice",["construction"]],
+["Signed Copy","PNAP APP-55 (attachment)",4,"notice",[]],
+["Exemption Criteria for Site Formation Works associated with Exempted Building Works in the New Territories","PNAP APP-56",4,"notice",["foundation"]],
+["Signed Copy","PNAP APP-56 (attachment)",4,"notice",[]],
+["Requirements for an Excavation and Lateral Support Plan - Building (Administration) Regulation 8(1)(bc)","PNAP APP-57",6,"notice",["foundation"]],
+["Signed Copy","PNAP APP-57 (attachment)",6,"notice",[]],
+["Testing of Drainage Works Regulation 73 of the Building (Standards of Sanitary Fitments, Plumbing, Drainage Works and Latrines) Regulations","PNAP APP-58",3,"notice",["test-methods"]],
+["Signed Copy","PNAP APP-58 (attachment)",3,"notice",[]],
+["BAN on Hand-dug Caissons","PNAP APP-59",2,"notice",["foundation"]],
+["Signed Copy","PNAP APP-59 (attachment)",2,"notice",[]],
+["Buildings Ordinance (Cap. 123) Specified Forms","PNAP APP-60",9,"notice",["construction"]],
+["Signed Copy","PNAP APP-60 (attachment)",9,"notice",[]],
+["Geotechnical Control on Developments in Area Numbers 2 and 4 of the Scheduled Areas","PNAP APP-61",7,"notice",[]],
+["Signed Copy","PNAP APP-61 (attachment)",7,"notice",[]],
+["Protection of Sewage and Drainage Tunnels","PNAP APP-62",6,"notice",["foundation"]],
+["Signed Copy","PNAP APP-62 (attachment)",6,"notice",[]],
+["Geoguide 1 Guide to Retaining Wall Design","PNAP APP-63",1,"notice",["foundation"]],
+["Signed Copy","PNAP APP-63 (attachment)",1,"notice",[]],
+["Methods for Testing Hong Kong Soils (GEOSPEC 3 - Model Specification for Soil Testing)","PNAP APP-64",8,"notice",["test-methods","foundation"]],
+["Signed Copy","PNAP APP-64 (attachment)",8,"notice",[]],
+["Natural Lighting to Staircases - Building (Planning) Regulation 40","PNAP APP-65",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-65 (attachment)",2,"notice",[]],
+["Metal Refuse Chutes at Construction Sites","PNAP APP-66",1,"notice",["construction"]],
+["Signed Copy","PNAP APP-66 (attachment)",1,"notice",[]],
+["Energy Efficiency of Buildings Building (Energy Efficiency) Regulation","PNAP APP-67",4,"notice",["construction"]],
+["Signed Copy","PNAP APP-67 (attachment)",4,"notice",[]],
+["Design and Construction of Cantilevered Reinforced Concrete Structures","PNAP APP-68",7,"notice",["concrete","durability"]],
+["Signed Copy","PNAP APP-68 (attachment)",7,"notice",[]],
+["Conservation of Historic Buildings","PNAP APP-69",7,"notice",["construction","durability"]],
+["Signed Copy","PNAP APP-69 (attachment)",7,"notice",[]],
+["Application for Registration as Authorized Persons, Registered Structural Engineers, Registered Geotechnical Engineers and Registered Inspectors","PNAP APP-7",5,"notice",["construction"]],
+["Signed Copy","PNAP APP-7 (attachment)",5,"notice",[]],
+["Use of Plastic Sheet to Cover Scaffolding Outside Buildings","PNAP APP-70",1,"notice",["scaffold-safety"]],
+["Signed Copy","PNAP APP-70 (attachment)",1,"notice",[]],
+["Underground Cavern Development","PNAP APP-71",1,"notice",["foundation"]],
+["Signed Copy","PNAP APP-71 (attachment)",1,"notice",[]],
+["Control of Blasting","PNAP APP-72",6,"notice",["foundation"]],
+["Signed Copy","PNAP APP-72 (attachment)",6,"notice",[]],
+["Service Lanes","PNAP APP-73",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-73 (attachment)",2,"notice",[]],
+["Alkali-Aggregate Reaction in Reinforced Concrete Structures","PNAP APP-74",4,"notice",["concrete","durability"]],
+["Signed Copy","PNAP APP-74 (attachment)",4,"notice",[]],
+["Building (Planning) Regulations 41A, 41B and 41C - Means of Access for Firefighting and Rescue in Buildings","PNAP APP-75",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-75 (attachment)",1,"notice",[]],
+["Keeping Buried Services out of Slopes","PNAP APP-76",2,"notice",["foundation","durability"]],
+["Signed Copy","PNAP APP-76 (attachment)",2,"notice",[]],
+["Occupation of New Buildings - Buildings Ordinance section 21","PNAP APP-78",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-78 (attachment)",2,"notice",[]],
+["GEOGUIDE 5 - Guide to Slope Maintenance","PNAP APP-79",2,"notice",["foundation","durability"]],
+["Signed Copy","PNAP APP-79 (attachment)",2,"notice",[]],
+["Chimneys and Flues","PNAP APP-8",2,"notice",["fire"]],
+["Signed Copy","PNAP APP-8 (attachment)",2,"notice",[]],
+["Code of Practice for Fire Resisting Construction 1996","PNAP APP-80",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-80 (attachment)",1,"notice",[]],
+["Places of Public Entertainment (Amendment) Regulation 1996 and Associated Legislative Amendments","PNAP APP-81",2,"notice",["fire"]],
+["Signed Copy","PNAP APP-81 (attachment)",2,"notice",[]],
+["Code of Practice for the Provision of Means of Escape in Case of Fire 1996","PNAP APP-82",2,"notice",["fire"]],
+["Signed Copy","PNAP APP-82 (attachment)",2,"notice",[]],
+["Amendments and clarification to Code of Practice for Fire Resisting Construction 1996","PNAP APP-83",3,"notice",["fire"]],
+["Signed Copy","PNAP APP-83 (attachment)",3,"notice",[]],
+["Access Facilities for Telecommunications and Broadcasting Services","PNAP APP-84",13,"notice",["construction"]],
+["Signed Copy","PNAP APP-84 (attachment)",13,"notice",[]],
+["Application of the Revised Fire Safety Codes","PNAP APP-85",2,"notice",["fire"]],
+["Signed Copy","PNAP APP-85 (attachment)",2,"notice",[]],
+["Non-loadbearing Partition Walls","PNAP APP-86",2,"notice",["construction","load-wind"]],
+["Signed Copy","PNAP APP-86 (attachment)",2,"notice",[]],
+["Guide to Fire Engineering Approach","PNAP APP-87",7,"notice",["fire"]],
+["Signed Copy","PNAP APP-87 (attachment)",7,"notice",[]],
+["Code of Practice on Inspection and Maintenance of Water Carrying Services Affecting Slopes","PNAP APP-88",1,"notice",["foundation","durability"]],
+["Signed Copy","PNAP APP-88 (attachment)",1,"notice",[]],
+["Provision of Better Lift Service","PNAP APP-89",6,"notice",["construction"]],
+["Signed Copy","PNAP APP-89 (attachment)",6,"notice",[]],
+["Country Parks Ordinance, Cap. 208 - Buildings Ordinance section 16(1)(d)","PNAP APP-9",1,"notice",["construction"]],
+["Signed Copy","PNAP APP-9 (attachment)",1,"notice",[]],
+["Buildings Ordinance section 18(6) - Authority to Enter Buildings","PNAP APP-90",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-90 (attachment)",2,"notice",[]],
+["Maintenance and Replacement Works of Lift Installations","PNAP APP-91",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-91 (attachment)",2,"notice",[]],
+["Amendments and Clarification to Code of Practice for the Provision of Means of Escape in Case of Fire 1996","PNAP APP-92",1,"notice",["fire"]],
+["Signed Copy","PNAP APP-92 (attachment)",1,"notice",[]],
+["Planning and Design of Drainage Works","PNAP APP-93",14,"notice",["construction"]],
+["Signed Copy","PNAP APP-93 (attachment)",14,"notice",[]],
+["Fire Safety (Commercial Premises) Ordinance, Cap 502","PNAP APP-94",8,"notice",["fire"]],
+["Signed Copy","PNAP APP-94 (attachment)",8,"notice",[]],
+["Sale Offices and Show Flats on Construction Sites","PNAP APP-95",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-95 (attachment)",2,"notice",[]],
+["Registration of General Building Contractors and Specialist Contractors","PNAP APP-96",10,"notice",["construction"]],
+["Signed Copy","PNAP APP-96 (attachment)",10,"notice",[]],
+["Consent Procedures for Building Works and Street Works","PNAP APP-97",7,"notice",["construction"]],
+["Signed Copy","PNAP APP-97 (attachment)",7,"notice",[]],
+["Lighting and Ventilation for Bathrooms and Lavatories in Domestic Buildings","PNAP APP-98",2,"notice",["construction"]],
+["Signed Copy","PNAP APP-98 (attachment)",2,"notice",[]],
+["Flushing Volume for Flushing Cisterns","PNAP APP-99",1,"notice",["construction"]],
+["Signed Copy","PNAP APP-99 (attachment)",1,"notice",[]],
+["Practice Notes for Mandatory Building and Window Inspection Schemes","PNBI 1",4,"notice",[]],
+["Signed Copy","PNBI 1 (attachment)",4,"notice",[]],
+["Code of Practice for the Mandatory Building Inspection Scheme and the Mandatory Window Inspection Scheme","PNBI 10",63,"notice",[]],
+["Signed Copy","PNBI 10 (attachment)",63,"notice",[]],
+["Best Practices on Tendering Procedures for Engagement of Registered Inspectors/Qualified Persons and Registered Contractors under the Mandatory Building Inspection Scheme (MBIS) and the Mandatory Window Inspection Scheme (MWIS)","PNBI 2",3,"notice",[]],
+["Signed Copy","PNBI 2 (attachment)",3,"notice",[]],
+["Specified Forms under Mandatory Building Inspection Scheme (MBIS) and Mandatory Window Inspection Scheme (MWIS)","PNBI 3",3,"notice",[]],
+["Signed Copy","PNBI 3 (attachment)",3,"notice",[]],
+["Replacement Appointment of Registered Inspector and Qualified Person","PNBI 4",1,"notice",[]],
+["Signed Copy","PNBI 4 (attachment)",1,"notice",[]],
+["Representative of Qualified Person","PNBI 5",1,"notice",[]],
+["Signed Copy","PNBI 5 (attachment)",1,"notice",[]],
+["Prescribed Inspection in respect of Projections of Buildings","PNBI 6",2,"notice",[]],
+["Signed Copy","PNBI 6 (attachment)",2,"notice",[]],
+["Building Inspection Report","PNBI 7",73,"notice",[]],
+["Signed Copy","PNBI 7 (attachment)",73,"notice",[]],
+["Building Completion Report","PNBI 8",36,"notice",[]],
+["Signed Copy","PNBI 8 (attachment)",36,"notice",[]],
+["Window Inspection Report","PNBI 9",6,"notice",[]],
+["Signed Copy","PNBI 9 (attachment)",6,"notice",[]],
+["Practice Notes in Force","PNRC 1",1,"notice",[]],
+["Testing of Drainage Works Regulation 73 of the Building (Standards of Sanitary Fitments, Plumbing, Drainage Works and Latrines) Regulations","PNRC 11",3,"notice",[]],
+["Overheight Vehicles - Road Traffic Ordinance, Cap 374","PNRC 12",1,"notice",[]],
+["Pulverized Fuel Ash in Concrete","PNRC 13",2,"notice",[]],
+["Railway Protection under Railways Ordinance, Mass Transit Railway (Land Resumption and Related Provisions) Ordinance and Area Number 3 of the Scheduled Areas in Schedule 5 to the Buildings Ordinance","PNRC 14",16,"notice",[]],
+["Asbestos","PNRC 15",3,"notice",[]],
+["Control of Environmental Nuisance from Construction Sites","PNRC 17",9,"notice",[]],
+["Change of Address","PNRC 19",1,"notice",[]],
+["Buildings Ordinance (Cap. 123) Specified Forms","PNRC 2",11,"notice",[]],
+["Tropical Hardwood Timber","PNRC 21",3,"notice",[]],
+["BAN on Hang-dug Caissons","PNRC 22",2,"notice",[]],
+["Certification of Plant Operators for Lifting Appliances & Lifting Gear","PNRC 23",7,"notice",[]],
+["Metal Refuse Chutes at Construction Sites","PNRC 24",1,"notice",[]],
+["Submission of Certificate of Completion of Building Works and Schedule of Building Materials and Products","PNRC 25",2,"notice",[]],
+["Use of Plastic Sheet to Cover Scaffolding Outside Buildings","PNRC 26",1,"notice",[]],
+["Design and Construction of Cantilevered Reinforced Concrete Structures","PNRC 27",7,"notice",[]],
+["Lift Shaft Platforms","PNRC 29",3,"notice",[]],
+["Cease Works Orders","PNRC 3",1,"notice",[]],
+["Suspended Working Platforms","PNRC 30",3,"notice",[]],
+["Monitoring for Site Safety and Quality","PNRC 31",3,"notice",[]],
+["Display of Site Information","PNRC 32",1,"notice",[]],
+["Testing of Reinforcement for Concrete","PNRC 33",3,"notice",[]],
+["Code of Practice on Inspection and Maintenance of Water Carrying Services Affecting Slopes","PNRC 34",1,"notice",[]],
+["Maintenance and Replacement Works of Lift Installations","PNRC 36",2,"notice",[]],
+["Sale Offices and Show Flats on Construction Sites","PNRC 37",2,"notice",[]],
+["Registration of General Building Contractors and Specialist Contractors View by chapter","PNRC 38",72,"notice",[]],
+["Hoardings, Covered Walkways and Gantries Part IX of Building (Planning) Regulations","PNRC 4",4,"notice",[]],
+["Fixing of Reinforcement for Concrete Works","PNRC 41",2,"notice",[]],
+["Submission of Plans and Documents in Electronic Format","PNRC 42",10,"notice",[]],
+["Corruption Prevention","PNRC 43",3,"notice",[]],
+["Site Investigation and Ground Investigation","PNRC 46",3,"notice",[]],
+["Aluminium Windows","PNRC 47",7,"notice",[]],
+["Testing of Building Materials","PNRC 48",2,"notice",[]],
+["Site Auditing for Building Works","PNRC 49",7,"notice",[]],
+["Pouring of Concrete Against Walls of Adjoining Buildings","PNRC 5",1,"notice",[]],
+["Minor Amendment Works","PNRC 52",7,"notice",[]],
+["Contractor's Sheds","PNRC 54",8,"notice",[]],
+["Appointment of Authorised Signatory to Act for Registered Contractor and Temporary absence of Authorised Signatories","PNRC 59",5,"notice",[]],
+["Demolition Works Measures for Public Safety","PNRC 6",5,"notice",[]],
+["Water seepage","PNRC 60",2,"notice",[]],
+["Protection of natural streams/rivers from adverse impacts arising from construction works","PNRC 61",8,"notice",[]],
+["Return on Construction Site Employment Statistics","PNRC 62",6,"notice",[]],
+["Quality Control and Supervision of Precast Concrete Construction","PNRC 63",13,"notice",[]],
+["Site Safety Enhancement","PNRC 64",3,"notice",[]],
+["Design and Construction of Run-in and Run-out on Public Road","PNRC 65",16,"notice",[]],
+["Building External Finishes – Wet-fixed Tiles","PNRC 67",8,"notice",[]],
+["Large Metal Gates","PNRC 68",6,"notice",[]],
+["Minor Works Contractors Registration View by chapter","PNRC 69",74,"notice",[]],
+["Hong Kong Airport (Control of Obstructions) Ordinance, Cap 301","PNRC 7",1,"notice",[]],
+["Identification of Registered Contractors","PNRC 70",1,"notice",[]],
+["Minor Works Control System","PNRC 71",19,"notice",[]],
+["Appointment of Authorized Signatory to Act for Prescribed Registered Contractor and Temporary Absence of Authorized Signatories in respect of Minor Works commenced under the Simplified Requirements","PNRC 72",5,"notice",[]],
+["Inspection and Copying of Plans and Documents","PNRC 73",4,"notice",[]],
+["Submissions to the Buildings Department","PNRC 74",2,"notice",[]],
+["Validation Scheme for Unauthorised Signboards","PNRC 75",24,"notice",[]],
+["Code of Practice for Site Supervision 2009 View by chapter","PNRC 76",99,"notice",[]],
+["Quality Supervision of Building Works","PNRC 77",12,"notice",[]],
+["Construction Site Safety Pay for Safety Scheme","PNRC 78",2,"notice",[]],
+["Conduct of Registered Contractors under the Buildings Ordinance","PNRC 79",4,"notice",[]],
+["Conditions and Requirements Imposed under the Buildings Ordinance upon Granting Approval and/or Consent","PNRC 80",6,"notice",[]],
+["Product Certification System","PNRC 81",2,"notice",[]],
+["Quality of In-situ Reinforced Concrete Works at an Early Age","PNRC 82",5,"notice",[]],
+["Code of Practice for Demolition of Buildings 2004","PNRC 83",41,"notice",[]],
+["Curtain Wall, Window and Window Wall","PNRC 84",17,"notice",[]],
+["Fire Retardant Performance of Protective Nets, Screens, Tarpaulins and Plastic Sheeting Installed on Scaffolding of External Walls","PNRC 85",11,"notice",[]],
+["Technical Memorandum for Supervision Plans 2009","TMSS2009_e",34,"code",[]]
+];
+
+/* Site topics, in site order, without the untranslated 法例与条例 row. */
+var TOPICS = [ [ "bamboo-structure", "Bamboo structures" ], [ "timber-structure", "Timber structures" ], [ "scaffold-safety", "Scaffolding and site safety" ], [ "test-methods", "Test methods" ], [ "concrete", "Concrete" ], [ "steel", "Steel structures" ], [ "glass", "Glass" ], [ "connections", "Connections and fasteners" ], [ "fire", "Fire" ], [ "load-wind", "Loads and wind" ], [ "foundation", "Foundations" ], [ "durability", "Durability" ], [ "construction", "Construction, inspection and supervision" ], [ "precast", "Precast elements" ]
+];
+
+var TOTAL_TITLES = 879;
+var TOTAL_PAGES = "9,484";
+var LAYERS = [
+  { id: "all", label: "All" },
+  { id: "code", label: "Codes" },
+  { id: "notice", label: "Notices" }
+];
+
+var state = { layer: "all", cat: null, q: "" };
+
+function inLayer() {
+  if (state.layer === "all") return DATA;
+  return DATA.filter(function (d) { return d[3] === state.layer; });
+}
+
+function topicCounts() {
+  var m = Object.create(null);
+  inLayer().forEach(function (d) {
+    d[4].forEach(function (t) { m[t] = (m[t] || 0) + 1; });
+  });
+  return m;
+}
+
+function currentRows() {
+  var list = inLayer();
+  if (state.cat) {
+    list = list.filter(function (d) { return d[4].indexOf(state.cat) >= 0; });
+  }
+  var needle = state.q.trim().toLowerCase();
+  if (needle) {
+    list = list.filter(function (d) {
+      return d[0].toLowerCase().indexOf(needle) >= 0 || d[1].toLowerCase().indexOf(needle) >= 0;
+    });
+  }
+  return list;
+}
+
+function catLabel() {
+  if (!state.cat) return "All titles";
+  for (var i = 0; i < TOPICS.length; i++) if (TOPICS[i][0] === state.cat) return TOPICS[i][1];
+  return "All titles";
+}
+
+/* ---------------------------------------------------------------- left column */
+function renderCats() {
+  var counts = topicCounts();
+  var all = inLayer().length;
+  var frag = document.createDocumentFragment();
+
+  var layerHead = document.createElement("h4");
+  layerHead.textContent = "Layer";
+  frag.appendChild(layerHead);
+
+  var layerGroup = document.createElement("div");
+  layerGroup.className = "cat-group";
+  LAYERS.forEach(function (l) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "cat" + (state.layer === l.id ? " is-sel" : "");
+    b.setAttribute("data-layer", l.id);
+    b.setAttribute("aria-pressed", state.layer === l.id ? "true" : "false");
+    var name = document.createElement("span");
+    name.textContent = l.label;
+    var n = document.createElement("span");
+    n.className = "n";
+    n.textContent = l.id === "all" ? String(TOTAL_TITLES) : String(l.id === "code" ? 42 : 837);
+    b.appendChild(name); b.appendChild(n);
+    b.addEventListener("click", function () { selectLayer(l.id); });
+    layerGroup.appendChild(b);
+  });
+  frag.appendChild(layerGroup);
+
+  var topicsHead = document.createElement("h4");
+  topicsHead.textContent = "Topics";
+  frag.appendChild(topicsHead);
+
+  var topicGroup = document.createElement("div");
+  topicGroup.className = "cat-group";
+  var rows = [{ id: null, label: "All titles", count: all }].concat(
+    TOPICS.map(function (t) { return { id: t[0], label: t[1], count: counts[t[0]] || 0 }; })
+  );
+  rows.forEach(function (r) {
+    var selected = (r.id === state.cat);
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "cat" + (selected ? " is-sel is-bar" : "");
+    b.setAttribute("data-topic", r.id === null ? "all" : r.id);
+    if (selected) b.setAttribute("aria-current", "true");
+    var name = document.createElement("span");
+    name.textContent = r.label;
+    name.title = r.label;
+    var n = document.createElement("span");
+    n.className = "n";
+    n.textContent = String(r.count);
+    b.appendChild(name); b.appendChild(n);
+    b.addEventListener("click", function () { selectCat(r.id); });
+    topicGroup.appendChild(b);
+  });
+  frag.appendChild(topicGroup);
+
+  var nav = document.getElementById("cats");
+  nav.textContent = "";
+  nav.appendChild(frag);
+}
+
+/* ---------------------------------------------------------------- right column */
+function renderRows() {
+  var list = currentRows();
+  document.getElementById("cat-name").textContent = catLabel();
+  document.getElementById("cat-count").textContent = String(list.length);
+
+  var ul = document.getElementById("rows");
+  var frag = document.createDocumentFragment();
+  list.forEach(function (d) {
+    var li = document.createElement("li");
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "row";
+    b.setAttribute("data-code", d[1]);
+
+    var col = document.createElement("span");
+    col.className = "col";
+    var t = document.createElement("span");
+    t.className = "t";
+    t.textContent = d[0];
+    t.title = d[0];
+    var c = document.createElement("span");
+    c.className = "c";
+    c.textContent = d[1];
+    c.title = d[1];
+    col.appendChild(t); col.appendChild(c);
+
+    var p = document.createElement("span");
+    p.className = "p";
+    p.textContent = String(d[2]);
+
+    b.appendChild(col); b.appendChild(p);
+    li.appendChild(b);
+    frag.appendChild(li);
+  });
+  ul.textContent = "";
+  ul.appendChild(frag);
+  document.getElementById("empty").hidden = list.length > 0;
+}
+
+function selectLayer(id) {
+  if (state.layer === id) return;
+  state.layer = id;
+  document.getElementById("list").scrollTop = 0;
+  renderCats();
+  renderRows();
+}
+
+function selectCat(id) {
+  state.cat = id;
+  document.getElementById("list").scrollTop = 0;
+  renderCats();
+  renderRows();
+}
+
+/* ---------------------------------------------------------------- dialog */
+var dialog = document.getElementById("library");
+var scrim = document.getElementById("scrim");
+var openBtn = document.getElementById("open-library");
+
+function openLibrary(focusFilter) {
+  dialog.hidden = false;
+  scrim.hidden = false;
+  openBtn.setAttribute("aria-expanded", "true");
+  openBtn.classList.add("is-active");
+  document.body.classList.add("library-open");
+  if (focusFilter) {
+    var f = document.getElementById("filter");
+    f.focus();
+    f.select();
+  }
+}
+
+function closeLibrary() {
+  dialog.hidden = true;
+  scrim.hidden = true;
+  openBtn.setAttribute("aria-expanded", "false");
+  openBtn.classList.add("is-active");
+  document.body.classList.remove("library-open");
+  openBtn.focus();
+}
+
+openBtn.addEventListener("click", function () { openLibrary(false); });
+document.getElementById("close-library").addEventListener("click", closeLibrary);
+scrim.addEventListener("click", closeLibrary);
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && !dialog.hidden) closeLibrary();
+});
+
+document.getElementById("filter").addEventListener("input", function (e) {
+  state.q = e.target.value;
+  renderRows();
+});
+
+/* ---------------------------------------------------------------- composer */
+var ask = document.getElementById("ask");
+Array.prototype.forEach.call(document.querySelectorAll("[data-suggestion]"), function (chip) {
+  chip.addEventListener("click", function () {
+    ask.value = chip.textContent;
+    ask.focus();
+  });
+});
+document.getElementById("composer").addEventListener("submit", function (e) {
+  e.preventDefault();
+  ask.focus();
+});
+
+/* ---------------------------------------------------------------- boot */
+renderCats();
+renderRows();
+openLibrary(false);
+</script>
+</body>
+</html>

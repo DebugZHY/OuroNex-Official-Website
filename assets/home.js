@@ -54,7 +54,6 @@
     '.download-actions > .button-outline',
     '.download-actions > .release-note',
     '.plan-strip > .plan-mini',
-    '.plan-table-scroll',
     '.delivery > h2',
     '.delivery-grid > article',
     '.process > h2',
@@ -114,7 +113,6 @@
     if (element.matches('.download-actions > .button-outline')) return 'pop';
     if (element.matches('.download-actions > .release-note')) return 'fade';
     if (element.matches('.plan-strip > .plan-mini')) return 'flip';
-    if (element.matches('.plan-table-scroll')) return 'mask';
     if (element.matches('.delivery > h2')) return 'slide';
     if (element.matches('.process > h2')) return 'slide';
     if (element.matches('.delivery-grid > article')) return 'depth';

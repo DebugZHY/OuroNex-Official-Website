@@ -1,0 +1,10 @@
+{
+  "name": "ouronex-feature-flow",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Isolated SIDA-style React Flow board for the construction-project showcase",
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}
