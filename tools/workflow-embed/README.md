@@ -1,34 +1,111 @@
 # SIDA workspace demo
 
-An interactive website workbench with two states: an empty Welcome screen and a prepared sample
-project. It renders Preact DOM, a lazy Three.js brand mark and a separately loaded React Flow canvas.
+An interactive website workbench with three stages: an empty Welcome screen, a sample workflow
+with preparation and playback, and a SODA 3D deliverable viewer. It renders
+Preact DOM, a lazy Three.js brand mark and a separately loaded React Flow canvas.
 It uses local example data; no desktop service, account, provider or database is required.
 
-The published host is `index.html#sida`. Its embed assets are served from
+The published host is `index.html#home`. Its embed assets are served from
 `workflow-stages/ui/`.
 
 ## Opening a project
 
-Welcome starts with `No Project`, zero to-dos and empty project files. Its navy, cyan and indigo
+Welcome starts with `No Project`, no task and empty project files. Its navy, cyan and indigo
 lighting follows the website's CoP Hub HK and Multidisciplinary Experts panels. New Project is the
-primary action. The product's 224 px brand box, 24 px heading, 14 px card radii and system UI type
-remain the geometry reference from SIDA e77c74a3.
+primary action and carries a looping highlight — a breathing rim, a sheen sweep and a pulsing icon —
+that is removed as soon as the sample project opens. The product's 224 px brand box, 24 px heading,
+14 px card radii and system UI type remain the geometry reference from SIDA e77c74a3.
 
-Click **New Project** to open `SIDA Project` in place:
+The Welcome GLB receives ambient and hemisphere lighting plus a locally generated 64-pixel
+room environment. This lights the clearcoat and metal surfaces on the backplate without an
+additional image request. The temporary environment scene and its render target are disposed.
+
+Click **New Project** to open `Steel Frame Design Optimization` in place:
 
 - Welcome leaves, a short HTML/CSS project-opening animation appears, then Flow enters.
-- The project rail contains six editable to-do checkboxes and five file roots. Selecting a to-do
-  or an expanded file entry focuses its workflow stage.
-- Flow contains nine prepared stages, nine dependencies, stage details, dragging, panning and zoom
-  controls. The initial desktop view fits all stages. On phone widths the first stage stays readable
-  and the graph can be panned or fitted with the controls.
-- Welcome and Flow can be switched without losing the current to-do or graph state. Console and
-  Apps remain inert. Chat/Project and the Supervisor toggle remain available.
+- The project rail starts with one task, `Complete the steel frame optimisation`, and one folder,
+  `project information`. Folders are inert and cannot expand. Sidebar and Router each control
+  their own panel; Project Router is a sibling card of the centre workspace in every stage.
+- Flow shows six stages of a steel frame optimisation — read the references, query the code, build
+  the model, analyse, optimise, hand over the optimised model — with one feedback loop from
+  optimisation back into analysis. Every stage starts as `Not started`; the first card carries the
+  amber start treatment. A floating **Accept and Start** action sits at the bottom of the canvas as
+  the control for playback within the second stage.
+- Welcome, Flow and an opened SODA tab can be switched without losing the current task, graph or
+  camera state. Returning to Welcome does not highlight New Project or reset the walkthrough.
+  The result adds a SODA tab after Apps. Console and Apps remain demonstration tabs.
 - The Recent Projects entry opens the same prepared project.
+- New Chat switches the left sidebar to Chat, revealing its drawer on narrow screens. Open Folder
+  remains an inert demonstration control. Neither action shows a notification label.
+
+## Workflow playback
+
+**Accept and Start** runs the local steel-frame demonstration once, completing in approximately six
+seconds. Task progress changes at stage boundaries. Project Router inserts complete short messages
+in bursts, without typing characters or continuously interpolating progress.
+The sequence reads references, looks up code requirements, builds the frame, analyses and optimises
+it, repeats analysis and optimisation with the revised sections, then delivers the optimised model.
+The feedback edge is highlighted during reanalysis. Every completed stage adds a short folder name
+to Files. Completed stages show checkmarks; the final strip contains only **Task completed** and
+**Check Result**. Files and the final Router message both contain `Frame-model-v2.dat`.
+
+Cards place their Expert portrait on the left and every assigned tool on the right of one resource
+row, above the final status line. The artwork and motion share their source with Multidisciplinary
+Experts. Idle portraits are translucent and still; running and completed portraits are opaque and animate.
+Reduced motion preserves their state while stopping decorative movement. Solutions uses the same
+Expert portraits within its four separate engineering workflows.
+
+The timing and output are scripted examples, not solver results. One cancellable playback clock
+drives the Task, graph and transcript. Repeated Start presses are ignored; Replay clears the prior
+run, and reset/destroy cancel pending callbacks. Dot buttons below and outside the application frame
+unlock progressively: only Welcome is visible initially, Flow unlocks after the New Project
+transition finishes, and SODA unlocks when a result link is opened after playback. Future dots are
+absent; keyboard navigation and the stage API stay within the unlocked range. Reached stages remain
+available for the mounted session, including after a project reset; reloading starts with one dot.
+The controls have accessible names but no visible labels or tooltips. The selected dot becomes a
+line. Selecting a stage restores that stage's initial state,
+including the camera and panel controls on the result stage. Only the first dot fully resets the
+project and restores the New Project highlight.
 
 Flow JS and CSS warm on intent and load once. Repeated opening clicks share one operation. A failed
 load returns to Welcome with an inline retry message. Reduced motion skips the timed transition and
 stage entrance animations. The brand mark pauses out of view and when the document is hidden.
+
+## Model deliverable
+
+The Files item, **Check Result**, and the Router attachment all open the same SODA tab after Apps.
+Only the centre page changes. Both side panels close and their controls become unchecked.
+
+The light viewport retains SODA's wordmark, a tall section list with actual section-type glyphs,
+aligned Nodes/Elements and filename information, right-hand controls and corner axis gizmo.
+A subtle light gradient supplies the backdrop. Views and Light Source are omitted. Drag to rotate
+in SODA's fixed Z-Axis mode, shift-drag or use Pan mode to translate, and use the wheel/buttons to zoom.
+Two-finger gestures combine pan and zoom. Orthographic and perspective buttons switch real cameras;
+Undo/Redo restores camera projection, quaternion, target, zoom and framing. Fit recentres a panned model.
+
+The source is `MGM Skylight Case5_v9.9_Support.dat`; the displayed deliverable name is `Frame-model-v2.dat`.
+Its 1,989 nodes, 5,191 members and 155 sections are baked using SODA's importer and extrusion geometry.
+The view contains Element geometry only: 5,151 extruded members, their section-coloured outlines, and
+40 members retained as centre lines where SODA cannot extrude the supplied section. It contains
+185,720 triangles and preserves original coordinates, beta angles, colours and circular surface normals.
+Node markers, supports, loads, labels and analysis results are absent. The geometry is the supplied
+example; the scripted workflow does not perform structural optimisation.
+
+Runtime loads a compact section/counts JSON and a losslessly compressed GLB only on entering SODA.
+The gzip payload is 4,958,164 bytes, versus 14,350,852 bytes for the uncompressed GLB. Native browser
+decompression avoids an additional decoder dependency; browsers without that API use the raw GLB.
+Decoded bytes are cached for repeat visits. Full conversion proof stays outside the published package.
+
+Rebuild the static model from the repository root:
+
+```sh
+node tools/workflow-embed/prepare-model.mjs "path/to/model.dat"
+```
+
+The converter uses the bundled SODA source at `D:/Development/SIDA/apps/soda-app/dist/source`;
+set `SODA_SOURCE_ROOT` to use another checkout. The website needs neither this source tree nor the DAT.
+The renderer loads on demand, fits the complete model at the current aspect ratio, and renders only
+when loaded, resized or dragged. Closing/resetting disposes its WebGL resources and ignores late loads.
 
 ## Responsive layout
 
@@ -37,12 +114,19 @@ The component uses container queries; the entire shell is never scaled with a tr
 | Host width | Layout |
 |---|---|
 | Above 1040 px | Project rail, centre workspace, optional Supervisor |
-| 721–1040 px | Project rail and centre; Supervisor opens as a drawer |
-| Up to 720 px | Centre and tabs; the Project icon opens the to-do/file drawer |
+| 800–1040 px | Compact independent columns whenever the Supervisor is open |
+| 721–799 px | Project rail and centre; Supervisor opens as a drawer |
+| Up to 720 px | Centre and tabs; the Sidebar control opens the chat/task/file drawer |
 
 The phone Supervisor button remains outside the scrollable tab list. Short Welcome frames scroll
 instead of reducing the original control and text sizes. Vendor Flow CSS is scoped to
 `.sida-demo-embed` so the website's Business diagram keeps its own styles.
+
+Workflow nodes retain fixed coordinates and the same viewport when a panel opens or the host resizes.
+The initial desktop fit reserves both side panels and the full feedback-label width; the actual
+canvas always fills the centre panel. Explicit Fit uses the currently available canvas space.
+Narrow screens can pan the graph. The SODA section list starts collapsed below 620 px and can be
+expanded without changing the model camera.
 
 ## Build
 
@@ -54,13 +138,18 @@ node sync-manifest.mjs
 ```
 
 The manifest sync includes the homepage CSS, entry bundles, lazy Flow bundles, brand renderer,
-fallback PNG and existing GLB. The local file service requires matching manifest hashes and sizes.
+fallback PNG, brand GLB, lazy SODA viewer and static model assets. The local file service requires matching manifest hashes and sizes.
 
 | Output | Purpose | Approximate uncompressed size |
 |---|---|---|
-| `ui/embed.js` and `ui/embed.css` | Shell, Welcome, project state and transition | 54 KB / 24 KB |
+| `ui/embed.js` and `ui/embed.css` | Shell, Welcome, project state, playback and transition | 70 KB / 38 KB |
 | `ui/welcome-robot.js` | Lazy Three.js renderer | 617 KB |
-| `ui/flow.js` and `ui/flow.css` | Lazy project workflow | 215 KB / 24 KB |
+| `ui/flow.js` and `ui/flow.css` | Lazy project workflow | 225 KB / 35 KB |
+| `ui/soda-viewer.js` and `ui/soda-viewer.css` | Lazy SODA 3D View | 659 KB / 7 KB |
+| `models/steel-frame.glb.gz` | Default lossless geometry transfer | 5.0 MB |
+| `models/steel-frame.glb` | Uncompressed fallback | 14.4 MB |
+| `models/steel-frame.meta.json` | Bounds, counts, provenance and section list | 12 KB |
+| `ui/soda-icons/` | Original SODA toolbar icons | Local image assets |
 | `ui/sida-mark-*.png` | First-frame and no-WebGL fallback | 79 KB |
 | `SIDA-Logo-3D/建造者机器人立体图标.glb` | Existing brand model | 5,781,844 bytes |
 
@@ -85,25 +174,38 @@ Await `ready` before calling instance methods.
 |---|---|
 | `ready` | Promise resolving after the initial render |
 | `openProject()` | Promise resolving after the prepared project and transition are ready |
-| `setTab('welcome' or 'flow')` | Switch view; Flow requires an open project |
+| `selectDemoStage(1..3)` | Reset and enter a reached stage; returns false for a stage not yet unlocked |
+| `setTab('welcome', 'flow' or 'soda')` | Switch view; Flow requires a project, SODA requires completed playback |
 | `selectStage(id)` | Focus a workflow stage in an open project |
-| `toggleSupervisor()` | Show or hide the Supervisor panel |
-| `getState()` | Current tab, panel, phase, transition, project, stages and to-dos |
+| `toggleSupervisor()` | Show or hide Project Router; the existing API name is retained |
+| `toggleRail()` | Show or hide the project rail |
+| `startPlayback()` | Start the prepared workflow once; returns false while opening or already started |
+| `replay()` | Restart a completed workflow with an empty transcript |
+| `openDeliverables()` | Open the completed model in the SODA tab; returns false until playback completes |
+| `closeDeliverables()` | Close the model and restore the completed workflow |
+| `getState()` | Current tab, panels, rail mode, project, stages, Task, playback and `maxUnlockedStage` snapshot |
 | `reset()` | Restore empty Welcome and clear the sample project's changes |
 | `destroy()` | Unmount and release observers, renderer and canvas |
 
-The host emits `sida:workflow-ready` and `sida:workflow-change`. The canvas additionally exposes
-`window.SIDAFlow.mount(el)` with `ready`, `selectStage`, `setStageStatus`, `setViewport`, `fit`,
-`getState`, `reset` and `destroy`.
+The host emits `sida:workflow-ready` and `sida:workflow-change`; the canvas emits `sida:accept-start`
+when **Accept and Start** is pressed, and `mount(el, { onAcceptStart })` receives the same signal. The
+canvas additionally exposes `window.SIDAFlow.mount(el)` with `ready`, `selectStage`, `setStageStatus`,
+`setViewport`, `fit`, `getState`, `reset` and `destroy`. Its `setPlayback(snapshot)` method applies
+bulk stage states, active edge, progress and execution state. The `onReplay` callback delegates
+restart to the workspace's clock.
 
 ## Source
 
 - `src/index.jsx`: lifecycle, project state and bundle orchestration.
-- `src/shell.jsx`, `shell.css`: tabs, project navigation, to-do list, files and Supervisor.
+- `src/shell.jsx`, `shell.css`: tabs, project navigation, task list, files, rail and Router toggles.
 - `src/welcome.jsx`, `welcome.css`: Welcome geometry, primary action and lighting.
 - `src/project.css`: project entrance and responsive project drawer.
 - `src/flow-loader.js`: shared lazy asset loading with retry.
+- `src/soda-loader.js`: lazy model viewer loading and static asset URLs.
+- `src/soda-viewer.jsx`, `soda-viewer.css`, `soda-renderer.js`: minimal SODA window and quaternion orbit renderer.
+- `prepare-model.mjs`: offline NIDA-to-GLB conversion using the bundled SODA reader and extrusion code.
 - `src/model.js`: project, tasks, stages, dependencies and layout.
+- `src/playback.js`: six-second execution script, complete message snapshots and cancellable clock.
 - `src/flow.jsx`, `styles.css`: canvas, stage cards, details and graph controls.
 - `src/builder-robot.jsx`, `robot-renderer.js`: lazy brand renderer and cleanup.
 

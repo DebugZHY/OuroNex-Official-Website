@@ -1,6 +1,12 @@
 /* Project opening animates within the workbench frame. */
 .we-screen, .we-flow-mount { position: absolute; inset: 0; min-width: 0; min-height: 0; }
+/* The mount follows the centre pane, including space returned by either closed side panel. */
+.we-screen-flow .we-flow-mount { width: 100%; height: 100%; margin: 0; }
 .we-screen[hidden] { display: none; }
+.we-deliverable-view, .we-soda-mount { position: relative; width: 100%; height: 100%; min-width: 0; min-height: 0; }
+.we-deliverable-fallback { position: absolute; inset: 0; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 12px; padding: 24px; background: var(--we-bg); color: var(--we-text); text-align: center; }
+.we-deliverable-fallback p { width: 100%; }
+.we-deliverable-fallback button { padding: 8px 12px; border: 1px solid var(--we-border); border-radius: 8px; background: var(--we-panel); color: var(--we-text); cursor: pointer; }
 .we-shell[data-transition="opening"] .we-screen-welcome { animation: we-welcome-leave .24s ease both; }
 .we-shell[data-transition="entering"] .we-screen-flow { animation: we-flow-arrive .48s cubic-bezier(.16,1,.3,1) both; }
 .we-project-transition { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; overflow: hidden; padding: 24px; background: radial-gradient(ellipse at 50% 44%, #163b52 0%, #101f32 44%, #0b1523 80%); text-align: center; animation: we-veil-arrive .2s ease both; }
@@ -36,13 +42,16 @@
 .we-file-children span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .we-shell[data-transition="entering"] .we-project { animation: we-row-arrive .4s ease both; }
 .we-shell[data-transition="entering"] .we-todo { animation: we-row-arrive .34s ease both; animation-delay: calc(var(--we-order) * 30ms); }
-.we-rail-shade, .we-shell .we-project-toggle { display: none; }
+.we-rail-shade { display: none; }
 @container (max-width: 720px) {
-  .we-shell .we-project-toggle { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 28px; height: 28px; padding: 0; border: 1px solid var(--we-border); border-radius: 8px; background: var(--we-panel); color: #b0c7de; }
-  .we-project-toggle[aria-pressed="true"] { border-color: #83c3e2; }
   .we-shell[data-project-drawer="open"] .we-rail { position: absolute; top: 8px; bottom: 8px; left: 8px; z-index: 31; display: flex; width: min(276px, calc(100% - 56px)); overflow: hidden; border: 1px solid #4d647d; border-radius: 12px; background: linear-gradient(160deg,#253241,#1e2937); box-shadow: 16px 0 55px #0008; animation: we-rail-arrive .24s cubic-bezier(.16,1,.3,1) both; }
-  .we-shell .we-rail-shade { position: absolute; inset: 8px; z-index: 30; display: block; padding: 0; border: 0; border-radius: 12px; background: #030a14a1; backdrop-filter: blur(2px); }
+  .we-shell .we-rail-shade { position: absolute; inset: calc(8px + var(--we-tabs-h)) 8px 8px; z-index: 30; display: block; padding: 0; border: 0; border-radius: 0 0 12px 12px; background: #030a14a1; backdrop-filter: blur(2px); }
 }
+/* Project Router keeps its own rounded surface during project transitions too. */
+.we-shell .we-sup,
+.we-shell[data-project="open"] .we-sup,
+.we-shell[data-transition="opening"] .we-sup,
+.we-shell[data-transition="entering"] .we-sup { border: 1px solid var(--we-border); border-radius: 14px; }
 @keyframes we-welcome-leave { to { opacity: 0; transform: translateY(-10px); filter: blur(3px); } }
 @keyframes we-flow-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes we-veil-arrive { from { opacity: 0; } to { opacity: 1; } }

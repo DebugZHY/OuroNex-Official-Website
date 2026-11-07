@@ -20,12 +20,15 @@
 <link href="assets/ouronex-mark.svg" rel="icon" type="image/svg+xml"/>
 <link href="assets/site.css" rel="stylesheet"/>
 <link href="assets/home.css" rel="stylesheet"/>
+<link href="assets/solutions.css" rel="stylesheet"/>
 <link href="assets/sida-panels.css" rel="stylesheet"/>
 <link href="workflow-stages/ui/embed.css" rel="stylesheet"/>
 <link href="assets/business-flow.css" rel="stylesheet"/>
 <script>
 (function(){
 var root=document.documentElement;
+root.setAttribute("data-home-boot","pending");
+setTimeout(function(){root.removeAttribute("data-home-boot");},3000);
 try{if(!window.matchMedia("(min-width:761px)").matches)return;}catch(e){return;}
 root.setAttribute("data-flow","loading");
 window.__ouroFlowTimer=setTimeout(function(){
@@ -36,11 +39,13 @@ root.removeAttribute("data-flow");
 })();
 </script>
 <link href="assets/motion.css" rel="stylesheet"/>
+<link href="assets/home-scenes.css" rel="stylesheet"/>
 <link href="/assets/i18n.css" rel="stylesheet"/>
 <script defer="" src="/assets/i18n/shared.js"></script>
 <script defer="" src="/assets/i18n/home.js"></script>
 <script defer="" src="/assets/i18n.js"></script>
 <script defer="" src="assets/site.js"></script>
+<script defer="" src="assets/home-scene-clock.js"></script>
 <script defer="" src="assets/home.js"></script>
 <script defer="" src="assets/sida-workflow.js"></script>
 <script defer="" src="workflow-stages/ui/embed.js"></script>
@@ -81,9 +86,9 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div class="nav-primary">
 <a href="#home"><span data-i18n="shared.home.5c1d84">Home</span></a>
 <a href="#sida"><span data-i18n="shared.features">Features</span></a>
-<a href="#application"><span data-i18n="shared.application">Application</span></a>
+<a href="#application"><span data-i18n="shared.application">Solutions</span></a>
 
-<a href="#business"><span data-i18n="shared.business.d6663d">Business</span></a>
+<a href="#business"><span data-i18n="shared.business.d6663d">Enterprise</span></a>
 <a href="#about"><span data-i18n="shared.about.6b21fb">About</span></a>
 </div>
 <div class="nav-secondary">
@@ -95,7 +100,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <div aria-hidden="true" class="reading-progress"></div>
 </header>
 <main class="home-scroll" id="main">
-<section aria-labelledby="hero-title" class="home-section hero-section" data-home-section="" id="home">
+<section aria-labelledby="hero-title" class="home-section hero-section" data-home-section="" data-scene-parts="1" data-scene-part="1" id="home">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap hero-inner">
 <div class="hero-copy">
@@ -112,7 +117,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </aside>
 </div>
 </section>
-<section class="home-section sida-section" data-home-section="" id="sida">
+<section class="home-section sida-section" data-home-section="" data-scene-parts="1" data-scene-part="1" id="sida">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap feature-layout">
 <div class="feature-tabs" data-tabs="">
@@ -126,7 +131,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <article aria-labelledby="tab-engineering" class="feature-panel" id="feature-engineering" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/information-management.html" title="CoP Hub HK — 879 building titles and 9,484 pages"></iframe></div></article>
 <article aria-labelledby="tab-workflow" class="feature-panel" hidden="" id="feature-workflow" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/complex-workflow.html?v=20261106-layout" title="SIDA project workflow — RIBA stages 0 to 7 with Hong Kong Buildings Department approval gates"></iframe></div></article>
 <article aria-labelledby="tab-free" class="feature-panel" hidden="" id="feature-free" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/professional-tools.html" title="SIDA Apps — engineering and office applications"></iframe></div></article>
-<article aria-labelledby="tab-experts" class="feature-panel" hidden="" id="feature-experts" role="tabpanel"><div class="feature-stage"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/multidisciplinary-experts.html" title="SIDA experts — specialists across the engineering lifecycle"></iframe></div></article>
+<article aria-labelledby="tab-experts" class="feature-panel" hidden="" id="feature-experts" role="tabpanel"><iframe class="feature-embed" loading="lazy" src="workflow-stages/features/multidisciplinary-experts.html" title="SIDA experts — specialists across the engineering lifecycle"></iframe></article>
 </div>
 </div>
 </div>
@@ -136,7 +141,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 </div>
 </section>
-<section class="home-section application-section" data-home-section="" id="application">
+<section class="home-section application-section" data-home-section="" data-scene-parts="1" data-scene-part="1" id="application">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap application-layout">
 <div class="application-plans">
@@ -144,81 +149,50 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <article class="plan-mini">
 <header class="application-panel__header">
 <h2 data-user-input="">Free</h2>
-<p class="plan-description" data-i18n="home.plan-free-description">Use directly</p>
+<p class="plan-description" data-i18n="home.plan-free-description">Core capabilities open to every users and your own LLM models</p>
 </header>
 <div class="plan-details">
 <div class="plan-group">
-<p class="plan-group-title" data-i18n="home.plan-features">Features</p>
 <ul class="plan-features">
-<li><span data-i18n="home.plan-computer-use">Computer use</span></li>
-<li><span data-i18n="home.plan-built-in-tools">Built-in tools</span></li>
-<li><span data-i18n="home.plan-free-documentation">Free documentation</span></li>
-<li><span data-i18n="home.plan-data-management">Data management</span></li>
+<li><div><h3 data-i18n="home.plan-workflows">Workflows</h3><p data-i18n="home.plan-free-workflows-copy">Build and refine your own workflows with AI or your hand</p></div></li>
+<li><div><h3 data-i18n="home.plan-built-in-tools">Built-in tools</h3><p data-i18n="home.plan-tools-copy">Engineering, office and data tools in one workspace.</p></div></li>
+<li><div><h3 data-i18n="home.plan-computer-use">Computer use</h3><p data-i18n="home.plan-computer-copy">Work across desktop and browser applications.</p></div></li>
+<li><div><h3 data-i18n="home.plan-engineering-database">Engineering database</h3><p data-i18n="home.plan-engineering-database-copy">Comprehensive answer for engineering compliance from AI experts.</p></div></li>
+<li><div><h3 data-i18n="home.plan-data-protection">Data protection</h3><p data-i18n="home.plan-data-protection-copy">All tools run locally, privacy and security fully guaranteed.</p></div></li>
 </ul>
 </div>
 </div>
-<a class="button plan-action" href="#sida"><span data-i18n="home.download">Download</span></a>
 </article>
 <article aria-describedby="enterprise-examples-title" class="plan-mini">
 <header class="application-panel__header">
 <h2 data-user-input="">Enterprise</h2>
-<p class="plan-description" data-i18n="home.plan-enterprise-description">Custom services for your workflow</p>
+<p class="plan-description" data-i18n="home.plan-enterprise-description">Additional services tailored for your practices.</p>
 </header>
 <div class="plan-details">
 <div class="plan-group">
-<p class="plan-group-title" data-i18n="home.plan-services">Features &amp; services</p>
 <ul class="plan-features">
-<li><span data-i18n="home.plan-advanced">Advanced features</span></li>
-<li><span data-i18n="home.plan-early-access">Early access</span></li>
-<li><span data-i18n="home.plan-consultancy">AI transformation consultancy</span></li>
-<li><span data-i18n="home.plan-custom-workflows">Custom workflows</span></li>
-<li><span data-i18n="home.plan-custom-saas">Custom SaaS development</span></li>
+<li><div><h3 data-i18n="home.plan-custom-workflows">Custom workflows</h3><p data-i18n="home.plan-workflows-copy">Pre-built by us and ready for your action.</p></div></li>
+<li><div><h3 data-i18n="home.plan-custom-saas">Custom SaaS</h3><p data-i18n="home.plan-saas-copy">Purpose-built engineering applications, full integration into SIDA.</p></div></li>
+<li><div><h3 data-i18n="home.plan-data-management">Data management</h3><p data-i18n="home.plan-data-copy">omniscient in-house AI expert for your siloed documents, 100% localized and secure</p></div></li>
 </ul>
 </div>
 </div>
-<a class="button-outline plan-action" href="mailto:hello@ouronex.com"><span data-i18n="home.contact-sales">Contact Sales</span></a>
 </article>
 </div>
 </div>
 <aside aria-labelledby="enterprise-examples-title" class="enterprise-examples">
 <header class="application-panel__header">
-<h2 class="enterprise-examples__title" id="enterprise-examples-title" data-i18n="home.enterprise-examples">Application examples</h2>
-<p class="plan-description" data-i18n="home.enterprise-examples-description">Custom services in practice</p>
+<h2 class="enterprise-examples__title" id="enterprise-examples-title" data-i18n="home.enterprise-examples">Scenarios</h2>
+<p class="plan-description" data-i18n="home.enterprise-examples-description">Enabling Automation in various engineering projects with SIDA</p>
 </header>
-<div class="delivery-rows">
-<article class="delivery-row">
-<div class="delivery-row__copy">
-<h3><span data-i18n="home.specific-automation">Project Planning</span></h3>
-<p><span data-i18n="home.specific-copy">Checks codes and legal databases from site data and documents across disciplines.</span></p>
-</div>
-<figure class="delivery-row__figure"><img alt="" height="781" loading="lazy" src="assets/illustrations/project-planning-web.jpg" width="1400"/></figure>
-</article>
-<article class="delivery-row">
-<div class="delivery-row__copy">
-<h3><span data-i18n="home.professional-saas">Design Optimization</span></h3>
-<p><span data-i18n="home.saas-copy">Built-in structural analysis and design tools with multi-objective optimisation.</span></p>
-</div>
-<figure class="delivery-row__figure"><img alt="" height="781" loading="lazy" src="assets/illustrations/design-optimization-web.jpg" width="1400"/></figure>
-</article>
-<article class="delivery-row">
-<div class="delivery-row__copy">
-<h3><span data-i18n="home.tendering">Tendering</span></h3>
-<p><span data-i18n="home.tendering-copy">Automates the whole tendering workflow, shortening preparation cycles and cutting costs.</span></p>
-</div>
-<figure class="delivery-row__figure"><img alt="" height="1045" loading="lazy" src="assets/illustrations/tendering-web.jpg" width="1400"/></figure>
-</article>
-<article class="delivery-row">
-<div class="delivery-row__copy">
-<h3><span data-i18n="home.training">BIM Modelling</span></h3>
-<p><span data-i18n="home.training-copy">Direct BIM export from structural models and efficient model information sync.</span></p>
-</div>
-<figure class="delivery-row__figure"><img alt="" height="1045" loading="lazy" src="assets/illustrations/bim-modelling-web.jpg" width="1400"/></figure>
-</article>
+<div class="application-workflow-stage">
+<iframe class="application-workflow" data-application-workflow loading="lazy" src="workflow-stages/features/application-workflows.html?v=20261107-scenarios" title="Engineering scenarios — Project Planning, Design Optimization, Tendering and BIM Modelling" data-i18n-title="home.application-workflow-title"></iframe>
+<noscript><p class="application-workflow-fallback" data-i18n="home.application-workflow-fallback">Project Planning · Design Optimization · Tendering · BIM Modelling</p></noscript>
 </div>
 </aside>
 </div>
 </section>
-<section class="home-section business-section" data-home-section="" id="business">
+<section class="home-section business-section" data-home-section="" data-scene-parts="1" data-scene-part="1" id="business">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap business-layout">
 <div class="business-intro">
@@ -238,7 +212,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 <div aria-hidden="true" class="flow-fan"><span></span><span></span><span></span></div>
 <div class="flow-stage flow-stage--lane">
-<article class="flow-card flow-card--lane"><span class="flow-num">01</span><p class="flow-kicker"><span data-i18n="home.flow-lane-1-kicker">Ready to run</span></p><h3><span data-i18n="home.flow-lane-1-title">Use SIDA directly</span></h3><p class="flow-copy"><span data-i18n="home.flow-lane-1-copy">pay as you go or subscribe.</span></p></article><article class="flow-card flow-card--lane"><span class="flow-num">02</span><p class="flow-kicker"><span data-i18n="home.flow-lane-2-kicker">Your process, not ours</span></p><h3><span data-i18n="home.flow-lane-2-title">Workflow automation</span></h3><p class="flow-copy"><span data-i18n="home.flow-lane-2-copy">Your process modelled as a SIDA flowchart, with your approvals.</span></p></article><article class="flow-card flow-card--lane"><span class="flow-num">03</span><p class="flow-kicker"><span data-i18n="home.flow-lane-3-kicker">Nothing off the shelf fits</span></p><h3><span data-i18n="home.flow-lane-3-title">Customized SaaS</span></h3><p class="flow-copy"><span data-i18n="home.flow-lane-3-copy">Tools for your need, integrated into SIDA.</span></p></article>
+<article class="flow-card flow-card--lane"><span class="flow-num">01</span><p class="flow-kicker"><span data-i18n="home.flow-lane-1-kicker">Ready to run</span></p><h3><span data-i18n="home.flow-lane-1-title">Use SIDA directly</span></h3><p class="flow-copy"><span data-i18n="home.flow-lane-1-copy">Use built-in tools for free, with your own AI models.</span></p></article><article class="flow-card flow-card--lane"><span class="flow-num">02</span><p class="flow-kicker"><span data-i18n="home.flow-lane-2-kicker">Your process, not ours</span></p><h3><span data-i18n="home.flow-lane-2-title">Workflow automation</span></h3><p class="flow-copy"><span data-i18n="home.flow-lane-2-copy">Your process modelled as a SIDA flowchart, with your approvals.</span></p></article><article class="flow-card flow-card--lane"><span class="flow-num">03</span><p class="flow-kicker"><span data-i18n="home.flow-lane-3-kicker">Nothing off the shelf fits</span></p><h3><span data-i18n="home.flow-lane-3-title">Customized SaaS</span></h3><p class="flow-copy"><span data-i18n="home.flow-lane-3-copy">Tools for your need, integrated into SIDA.</span></p></article>
 </div>
 <div class="flow-final">
 <h3><span data-i18n="home.flow-final-title">All needs land on the same platform - SIDA</span></h3>
@@ -248,7 +222,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 </div>
 </div>
 </section>
-<section class="home-section about-section" data-home-section="" id="about">
+<section class="home-section about-section" data-home-section="" data-scene-parts="1" data-scene-part="1" id="about">
 <div aria-hidden="true" class="hero-media" data-section-background></div>
 <div class="wrap about-layout">
 <div class="about-intro">
@@ -285,9 +259,9 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 <nav aria-label="Footer" class="footer-nav" data-i18n-aria-label="shared.footer.26c01e">
 <a href="index.html#home"><span data-i18n="shared.home.5c1d84">Home</span></a>
 <a href="index.html#sida"><span data-i18n="shared.features">Features</span></a>
-<a href="index.html#application"><span data-i18n="shared.application">Application</span></a>
+<a href="index.html#application"><span data-i18n="shared.application">Solutions</span></a>
 
-<a href="index.html#business"><span data-i18n="shared.business.d6663d">Business</span></a>
+<a href="index.html#business"><span data-i18n="shared.business.d6663d">Enterprise</span></a>
 <a href="index.html#about"><span data-i18n="shared.about.6b21fb">About</span></a>
 </nav>
 <div class="footer-socials">

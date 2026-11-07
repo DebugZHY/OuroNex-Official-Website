@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1024" height="1024" role="img" aria-label="FEJoint steel beam-to-column end-plate connection">
+  <title>FEJoint steel beam-to-column connection</title>
+  <rect width="512" height="512" rx="112" fill="#2B5687"/>
+  <polygon points="100.5,432.4 118.5,440.4 118.5,100.4 100.5,92.4" fill="#3475A5"/>
+  <polygon points="199.1,403.2 118.5,440.4 118.5,100.4 199.1,63.2" fill="#5897C2"/>
+  <polygon points="181.1,55.2 199.1,63.2 118.5,100.4 100.5,92.4" fill="#C1E5F6"/>
+  <polygon points="151.65,425.1 202.05,447.5 202.05,107.5 151.65,85.1" fill="#3E7DAA"/>
+  <polygon points="216.35,440.9 202.05,447.5 202.05,107.5 216.35,100.9" fill="#518CB7"/>
+  <polygon points="165.95,78.5 216.35,100.9 202.05,107.5 151.65,85.1" fill="#C1E5F6"/>
+  <polygon points="168.9,462.8 186.9,470.8 186.9,130.8 168.9,122.8" fill="#4F96C3"/>
+  <polygon points="267.5,433.6 186.9,470.8 186.9,130.8 267.5,93.6" fill="#8CC9E9"/>
+  <polygon points="249.5,85.6 267.5,93.6 186.9,130.8 168.9,122.8" fill="#D6EFFB"/>
+  <polygon points="184.95,355.7 200.25,362.5 200.25,202.5 184.95,195.7" fill="#BD793B"/>
+  <polygon points="284.75,323.5 200.25,362.5 200.25,202.5 284.75,163.5" fill="#F4B765"/>
+  <polygon points="269.45,156.7 284.75,163.5 200.25,202.5 184.95,195.7" fill="#FFD89A"/>
+  <ellipse cx="278.5" cy="286.2" rx="6.5" ry="9" fill="#734B2D"/>
+  <ellipse cx="278.5" cy="208.2" rx="6.5" ry="9" fill="#734B2D"/>
+  <ellipse cx="208.3" cy="318.6" rx="6.5" ry="9" fill="#734B2D"/>
+  <ellipse cx="208.3" cy="240.6" rx="6.5" ry="9" fill="#734B2D"/>
+  <polygon points="214.55,345.9 376.55,417.9 376.55,395.9 214.55,323.9" fill="#5697C4"/>
+  <polygon points="432.45,392.1 376.55,417.9 376.55,395.9 432.45,370.1" fill="#86BEDF"/>
+  <polygon points="270.45,298.1 432.45,370.1 376.55,395.9 214.55,323.9" fill="#CBE6F5"/>
+  <polygon points="236,314 398,386 398,290 236,218" fill="#86BEDF"/>
+  <polygon points="411,380 398,386 398,290 411,284" fill="#A5D4EB"/>
+  <polygon points="249,212 411,284 398,290 236,218" fill="#D8EDF8"/>
+  <polygon points="214.55,227.9 376.55,299.9 376.55,277.9 214.55,205.9" fill="#6AAAD3"/>
+  <polygon points="432.45,274.1 376.55,299.9 376.55,277.9 432.45,252.1" fill="#A9D7EF"/>
+  <polygon points="270.45,180.1 432.45,252.1 376.55,277.9 214.55,205.9" fill="#E5F4FC"/>
+</svg>

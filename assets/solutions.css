@@ -1,0 +1,229 @@
+/* Solutions content and layout only.
+   Load after home.css, before motion.css and home-scenes.css.
+   Keep the existing wrappers and scene-part hooks; the motion styles own the
+   moving surfaces and separator colours. */
+
+.application-section {
+  --solutions-column-gap: clamp(24px, 2vw, 32px);
+  --solutions-workflow-height: 720px;
+  --solutions-vertical-gap: clamp(24px, 2.5vw, 40px);
+  padding-top: calc(var(--header-height, 96px) + var(--solutions-vertical-gap));
+  padding-bottom: var(--solutions-vertical-gap);
+}
+
+/* Two service columns share the left side; Scenarios has the wider right side.
+   The important width overrides home.css's existing important wrapper width. */
+.application-section .application-layout {
+  width: min(1600px, calc(100% - 64px)) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2.35fr);
+  align-content: center;
+  align-items: stretch;
+  gap: var(--solutions-column-gap);
+  padding-bottom: 0;
+}
+
+.application-section .application-plans {
+  min-width: 0;
+  grid-column: span 2;
+}
+
+.application-section .plan-strip {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--solutions-column-gap);
+}
+
+.application-section .plan-mini,
+.application-section .enterprise-examples {
+  min-width: 0;
+}
+
+/* Inherit the fine borders, including their motion-controlled alpha. */
+.application-section .plan-mini + .plan-mini,
+.application-section .enterprise-examples {
+  padding-left: var(--solutions-column-gap);
+}
+
+/* The minimum aligns the desktop feature starts without capping long taglines. */
+.application-section .application-panel__header {
+  flex: 0 0 auto;
+  min-height: 10.5rem;
+  padding-bottom: 1.75rem;
+}
+
+.application-section .application-panel__header > h2 {
+  margin: 0;
+  color: #eef4fc;
+  font-family: var(--display);
+  font-size: clamp(1.875rem, 2.5vw, 2.375rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -.035em;
+}
+
+.application-section .application-panel__header > .plan-description {
+  max-width: 36ch;
+  margin: .75rem 0 0;
+  color: #bdccdd;
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+.application-section .enterprise-examples .plan-description {
+  max-width: none;
+}
+
+/* Each feature list follows its own natural content height. */
+.application-section .plan-mini > .plan-details {
+  padding: 0;
+  gap: 0;
+  align-content: start;
+}
+
+.application-section .plan-group {
+  min-width: 0;
+  gap: 0;
+}
+
+.application-section .plan-features {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.application-section .plan-features > li {
+  align-items: flex-start;
+  gap: .625rem;
+  padding: 1.25rem 0;
+}
+
+.application-section .plan-features > li:first-child {
+  padding-top: 0;
+}
+
+.application-section .plan-features > li:last-child {
+  padding-bottom: 0;
+}
+
+.application-section .plan-features > li::before {
+  flex: 0 0 .875rem;
+  font-size: .875rem;
+  line-height: 1.75;
+}
+
+.application-section .plan-features > li > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.application-section .plan-features h3 {
+  margin: 0;
+  color: #e2ecf9;
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -.012em;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.application-section .plan-features p {
+  max-width: 44ch;
+  margin: .5rem 0 0;
+  color: #aebfd3;
+  font-size: 1rem;
+  line-height: 1.65;
+  letter-spacing: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+/* Give all four workflow tabs a generous viewport. A minimum, rather than a
+   fixed section height, lets longer copy extend the measured scroll range. */
+.application-section .application-workflow-stage {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  min-width: 0;
+  min-height: var(--solutions-workflow-height);
+}
+
+.application-section .application-workflow-stage > .application-workflow {
+  flex: 1 0 auto;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: var(--solutions-workflow-height);
+}
+
+.application-section .application-workflow-fallback {
+  max-width: 56ch;
+  margin: 1.25rem 0 0;
+  color: #aebfd3;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* Use home.css's separator breakpoints so its border colours also remain
+   correct in ordinary document flow and with reduced motion enabled. */
+@media (max-width: 1200px) {
+  .application-section .application-layout {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 2rem;
+  }
+
+  .application-section .application-plans {
+    grid-column: 1 / -1;
+  }
+
+  .application-section .enterprise-examples {
+    padding: 2rem 0 0;
+  }
+
+  .application-section .application-panel__header {
+    min-height: 0;
+  }
+
+  .application-section .plan-features {
+    gap: 1.5rem;
+  }
+
+  .application-section .plan-features > li {
+    padding: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .application-section {
+    --solutions-workflow-height: 900px;
+  }
+
+  .application-section .application-layout {
+    width: calc(100% - 32px) !important;
+    gap: 2rem;
+  }
+
+  .application-section .plan-strip {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .application-section .plan-mini + .plan-mini {
+    padding: 2rem 0 0;
+  }
+
+  .application-section .application-panel__header {
+    padding-bottom: 1.5rem;
+  }
+}

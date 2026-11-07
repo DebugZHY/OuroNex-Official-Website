@@ -7,17 +7,16 @@
 <style>
   :root{
     color-scheme:dark;
-    /* Cool charcoal surfaces plus blue/cyan accents: grey rail, black stage,
-       and three lifted dialog tones (caption bar / index / results). */
+    /* Blue/cyan accents connect the dark workspace and the light reading pane. */
     --page:#05090f;
     --bg:#05090f;
     --bg-2:#0b1220;
     --panel:#161d28;
     --panel-sub:#232b37;
     --rail:#242a34;
-    --dlg-head:#1d232c;
-    --dlg-left:#2f3742;
-    --dlg-right:#0a1018;
+    --dlg-head:#142438;
+    --dlg-left:#213449;
+    --dlg-right:#dce8f2;
     --text:#f1f5fb;
     --txt:#f1f5fb;
     --txt-2:#d7dfea;
@@ -182,6 +181,38 @@
   .tool.is-dim{color:#6f7f95}
   .tool.is-dim:hover{background:#1d2632;color:#9fb2c9}
   .tool .ico{flex:0 0 auto}
+  #scope-all{max-width:clamp(100px,24vw,240px)}
+  #scope-label{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .scope-chevron{flex:0 0 auto;transition:transform .12s ease}
+  #scope-all[aria-expanded="true"]{background:#253247;color:#e5efff}
+  #scope-all[aria-expanded="true"] .scope-chevron{transform:rotate(180deg)}
+  .title-picker{
+    position:fixed;z-index:30;display:flex;flex-direction:column;
+    width:min(350px,calc(100vw - 24px));padding:6px;
+    border:1px solid #3b4a60;border-radius:12px;background:#182230;
+    box-shadow:0 12px 32px rgba(0,0,0,.45);overflow:hidden;
+  }
+  .title-picker label{padding:4px 7px 6px;color:#a9bdd7;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+  .title-picker input{
+    flex:0 0 auto;width:100%;height:30px;padding:0 9px;margin-bottom:5px;
+    border:1px solid #36465d;border-radius:7px;background:#101824;
+    color:var(--txt);font:inherit;font-size:12px;
+  }
+  .title-picker input::placeholder{color:#8c9fb9}
+  .title-options{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#536781 transparent}
+  .title-option{
+    display:flex;align-items:center;gap:9px;width:100%;padding:7px 8px;
+    border-radius:6px;text-align:left;color:#d4dfed;font-size:12px;line-height:1.4;
+  }
+  .title-option+.title-option{border-top:1px solid rgba(150,180,220,.08)}
+  .title-option:hover,.title-option:focus-visible{background:#26364c}
+  .title-option[aria-selected="true"]{background:#2b3d47;color:#edf7ff;box-shadow:inset 2px 0 var(--accent-2)}
+  .title-option .check{flex:0 0 12px;color:#7cc9d2;visibility:hidden}
+  .title-option[aria-selected="true"] .check{visibility:visible}
+  .title-option .col{min-width:0;flex:1;overflow-wrap:anywhere}
+  .title-option .n{flex:0 0 auto;min-width:24px;text-align:right;font-size:11px;color:#93a9c5;font-variant-numeric:tabular-nums}
+  .title-option[aria-selected="true"] .n{color:#cfeff2}
+  .title-picker .empty{padding:16px 8px;color:#a9bdd7}
   .send{
     display:inline-flex;align-items:center;justify-content:center;
     width:30px;height:30px;border-radius:8px;
@@ -213,7 +244,7 @@
   .footnote .settings:hover{background:#232c38;color:#c9d8ec}
 
   /* ---------------------------------------------------------------- dialog */
-  /* Flat surfaces: dark grey caption bar, lighter grey index, near-black list. */
+  /* A flat caption bar separates the catalogue from the workspace background. */
   .scrim{
     position:fixed;inset:0;z-index:40;background:rgba(2,6,12,.72);
     opacity:1;transition:opacity .16s ease;
@@ -222,50 +253,56 @@
     position:fixed;z-index:50;left:50%;top:50%;transform:translate(-50%,-50%);
     width:min(1180px,94vw);height:min(88vh,900px);max-height:min(88vh,900px);
     display:flex;flex-direction:column;overflow:hidden;
-    background:var(--dlg-right);border:1px solid #333b47;border-radius:12px;
-    box-shadow:0 18px 44px rgba(0,0,0,.55);
+    background:var(--dlg-right);border:1px solid rgba(105,132,157,.34);border-radius:12px;
+    background-clip:padding-box;
+    box-shadow:0 22px 56px rgba(0,0,0,.55);
   }
   [hidden]{display:none !important}
   .dlg-head{
-    flex:0 0 auto;padding:14px 16px 12px;border-bottom:1px solid #333b47;
-    background:var(--dlg-head);position:relative;
+    flex:0 0 auto;padding:14px 16px 12px;border-bottom:1px solid rgba(148,163,184,.2);
+    position:relative;background:var(--dlg-head);
   }
-  /* Header label: tracked small caps, flat colour, unlike the sentence-case rows. */
+  /* The small caption label stays separate from the sentence-case document titles. */
   .dlg-title{
     margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;
     padding-right:34px;line-height:1.2;
   }
   .dlg-title .name{
     font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.08em;
-    text-transform:uppercase;color:#dfe7f0;
+    text-transform:uppercase;color:#e1eff9;
   }
   .dlg-title .count{
     font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:.01em;
-    color:#9fb4cc;font-variant-numeric:tabular-nums;
-    border-left:1px solid #3a4350;padding-left:10px;
+    color:#a9c3d9;font-variant-numeric:tabular-nums;
+    border-left:1px solid rgba(126,184,215,.26);padding-left:10px;
   }
   .dlg-close{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:7px;color:var(--muted)}
-  .dlg-close:hover{background:#2b323d;color:#eaf2ff}
+  .dlg-close:hover{background:rgba(102,177,207,.16);color:#eaf8ff}
   .search{position:relative;margin-top:9px}
-  .search .ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#7f8ea3;pointer-events:none}
+  .search .ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#91afc6;pointer-events:none}
   .search input{
     width:100%;height:30px;padding:0 10px 0 31px;border-radius:8px;
-    background:#0d141d;border:1px solid #333b47;color:var(--txt);
+    background:rgba(8,20,33,.68);border:1px solid rgba(126,171,204,.28);color:var(--txt);
     font:inherit;font-size:12.5px;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.12);
+    transition:border-color .12s ease,box-shadow .12s ease,background .12s ease;
   }
-  .search input::placeholder{color:#7f8ea3}
-  .search input:focus{outline:none;border-color:#4c6a99}
+  .search input::placeholder{color:#91a9c0}
+  .search input:focus{outline:none;border-color:#69b2cf;background:#102539;box-shadow:0 0 0 2px rgba(90,181,208,.14),inset 0 1px 3px rgba(0,0,0,.1)}
 
   .dlg-body{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:246px minmax(0,1fr)}
   .cats{
     min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;
-    padding:10px 8px 12px;background:var(--dlg-left);border-right:1px solid #3a4350;
+    padding:10px 8px 12px;border-right:1px solid rgba(105,157,189,.24);
+    background:
+      radial-gradient(ellipse at 0% 0%,rgba(96,126,193,.15),transparent 55%),
+      linear-gradient(165deg,var(--dlg-left),#1c303f 62%,#192b38);
     scrollbar-width:thin;
     scrollbar-color:rgba(150,175,205,.45) transparent;
   }
   .cats h4{
     margin:0;padding:6px 8px 5px;font-size:10px;font-weight:600;letter-spacing:.14em;
-    text-transform:uppercase;color:#a3bbd4;
+    text-transform:uppercase;color:#9fc9df;
   }
   .cat-group{display:flex;flex-direction:column;gap:1px;padding-bottom:8px}
   .cat{
@@ -275,29 +312,36 @@
     transition:background .12s ease,color .12s ease,border-color .12s ease;
   }
   .cat span:first-child{min-width:0;overflow-wrap:anywhere}
-  .cat .n{flex:0 0 auto;min-width:30px;text-align:right;font-size:11px;color:#93a2b6;font-variant-numeric:tabular-nums}
-  .cat:hover{background:#39424f;color:#f2f7ff}
+  .cat .n{flex:0 0 auto;min-width:30px;text-align:right;font-size:11px;color:#9bb3cb;font-variant-numeric:tabular-nums}
+  .cat:hover{background:rgba(118,173,212,.12);color:#f2f7ff}
   .cat.is-sel{
-    background:#33445f;border-color:#44587a;color:#fff;font-weight:600;
+    background:linear-gradient(105deg,rgba(88,140,214,.3),rgba(74,122,183,.15));
+    border-color:rgba(119,174,226,.4);color:#fff;font-weight:600;
+    box-shadow:inset 0 1px rgba(191,219,255,.08);
   }
   .cat.is-sel .n{color:#dbeaff}
   .cat.is-bar.is-sel{
-    background:#2b3d47;border-color:#3f5b66;
+    background:linear-gradient(105deg,rgba(64,159,177,.27),rgba(56,115,139,.14));
+    border-color:rgba(99,184,197,.34);
   }
   .cat.is-bar.is-sel .n{color:#cfeff2}
   .cat.is-bar::before{
     content:"";position:absolute;left:0;top:5px;bottom:5px;width:2px;border-radius:2px;
-    background:var(--accent-2);
+    background:#74cbd3;box-shadow:0 0 9px rgba(93,202,212,.22);
   }
 
   .list{
     min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;
-    padding:10px 12px 14px;background:#eef1f5;color:#18222e;
+    padding:10px 12px 14px;color:#17324a;
+    background:
+      radial-gradient(ellipse at 100% 0%,rgba(92,173,184,.13),transparent 62%),
+      radial-gradient(ellipse at 0% 100%,rgba(120,137,180,.1),transparent 62%),
+      linear-gradient(135deg,#e1ebf3,#d5e4ee 56%,#dcebec);
     scrollbar-width:thin;
-    scrollbar-color:rgba(66,86,110,.42) transparent;
+    scrollbar-color:rgba(64,111,140,.42) transparent;
   }
   /* Scrollbars: the category rail keeps the dark pane treatment, the light
-     results pane gets a dark-grey thumb with a transparent track. Standard
+     results pane gets a blue-grey thumb with a transparent track. Standard
      properties cover Chromium/Gecko, the ::-webkit-* rules older WebKit.
      Arrow buttons are removed in both panes. */
   .cats::-webkit-scrollbar{width:9px;height:9px}
@@ -315,45 +359,55 @@
   .list::-webkit-scrollbar{width:9px;height:9px}
   .list::-webkit-scrollbar-track{background:transparent}
   .list::-webkit-scrollbar-thumb{
-    background:rgba(66,86,110,.42);border-radius:999px;
+    background:rgba(64,111,140,.42);border-radius:999px;
     border:3px solid transparent;background-clip:padding-box;
   }
   .list::-webkit-scrollbar-thumb:hover{
-    background:rgba(66,86,110,.62);background-clip:padding-box;
+    background:rgba(64,111,140,.62);background-clip:padding-box;
   }
   .list::-webkit-scrollbar-button{display:none;width:0;height:0}
   .list::-webkit-scrollbar-corner{background:transparent}
   /* Current-category summary: a section label + a count pill — never the row style. */
   .list-head{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:2px 6px 8px;margin-bottom:4px;border-bottom:1px solid #d5dce5;
+    padding:2px 6px 8px;margin-bottom:4px;border-bottom:1px solid rgba(89,136,166,.2);
   }
   .list-head h3{
     margin:0;min-width:0;flex:1;font-size:9.5px;line-height:1.3;font-weight:600;
-    letter-spacing:.16em;text-transform:uppercase;color:#5a6b7e;
+    letter-spacing:.16em;text-transform:uppercase;color:#405b70;
     overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
   }
   .list-head .n{
-    flex:0 0 auto;padding:1px 6px;border:1px solid #cfd8e3;border-radius:999px;
-    background:#e2e8f0;
-    font-size:10px;font-weight:600;color:#31414f;font-variant-numeric:tabular-nums;
+    flex:0 0 auto;padding:1px 6px;border:1px solid rgba(74,139,164,.24);border-radius:999px;
+    background:linear-gradient(120deg,#d9eaf6,#d6ecee);box-shadow:inset 0 1px rgba(255,255,255,.65);
+    font-size:10px;font-weight:600;color:#315b73;font-variant-numeric:tabular-nums;
   }
   .rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+  .rows>li+li{border-top:1px solid rgba(75,112,141,.14)}
   .row{
     display:flex;align-items:flex-start;gap:10px;width:100%;
     padding:6px 8px;border:1px solid transparent;border-radius:7px;text-align:left;
-    transition:background .1s ease,border-color .1s ease;
+    transition:background-color .12s ease,border-color .12s ease,box-shadow .12s ease;
   }
-  .row:hover{background:#e3e9f2;border-color:#d3dce7}
-  .row:active{background:#d9e3ee;border-color:#c3d0e0}
+  .row:hover{
+    background:linear-gradient(105deg,rgba(240,247,251,.7),rgba(205,233,240,.45));
+    border-color:rgba(89,151,183,.24);box-shadow:inset 2px 0 rgba(72,154,181,.65),0 2px 7px rgba(46,89,122,.04);
+  }
+  .row:active{background:#d7e9f1;border-color:#9dbfce;box-shadow:inset 2px 0 #4d9eb6}
+  .list .row:focus-visible{outline-color:#286a95}
   .row .col{display:flex;min-width:0;flex:1;flex-direction:column;gap:1px}
   .row .t{
-    font-size:13.5px;line-height:1.35;font-weight:500;color:#18222e;
+    font-size:13.5px;line-height:1.35;font-weight:500;color:#17324a;
     overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
   }
-  .row .c{font-family:var(--mono);font-size:10.5px;color:#4d5d70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .row .p{flex:0 0 auto;min-width:34px;text-align:right;font-size:10.5px;color:#4b5a6b;font-variant-numeric:tabular-nums}
+  .row .c{font-family:var(--mono);font-size:10.5px;color:#405b70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .p{flex:0 0 auto;min-width:34px;text-align:right;font-size:10.5px;color:#405b70;font-variant-numeric:tabular-nums}
   .empty{margin:0;padding:30px 0;text-align:center;font-size:12px;color:#64748b}
+  .list .empty{color:#405b70}
+
+  @media (prefers-reduced-motion: reduce){
+    .dialog .cat,.dialog .row,.dialog .search input{transition:none}
+  }
 
   /* ---------------------------------------------------------------- narrow */
   @media (max-width:1000px){
@@ -423,12 +477,13 @@
           <textarea id="ask" rows="1" placeholder="Ask a question, or type a standard number..." aria-label="Ask a question, or type a standard number"></textarea>
           <div class="composer-row">
             <div class="composer-left">
-              <button class="tool" type="button" id="scope-all" title="All titles">
+              <button class="tool" type="button" id="scope-all" title="All titles" aria-haspopup="listbox" aria-expanded="false" aria-controls="title-options">
                 <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
                   <path d="M14 3v5h5M9 13h6M9 17h4"></path>
                 </svg>
-                <span>All titles</span>
+                <span id="scope-label">All titles</span>
+                <svg class="scope-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
               </button>
               <button class="tool is-dim" type="button" id="web-toggle" aria-pressed="false" title="Web search is off">
                 <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -473,6 +528,12 @@
 </div>
 
 <!-- ------------------------------------------------------------- library -->
+<div class="title-picker" id="title-picker" hidden>
+  <label for="title-filter">Topics</label>
+  <input id="title-filter" type="search" placeholder="Search topics" autocomplete="off" aria-controls="title-options">
+  <div class="title-options" id="title-options" role="listbox" aria-label="Topics"></div>
+  <p class="empty" id="title-empty" hidden>No matching topics</p>
+</div>
 <div class="scrim" id="scrim"></div>
 
 <div class="dialog" id="library" role="dialog" aria-modal="true" aria-labelledby="library-title">
@@ -1423,6 +1484,13 @@ function topicCounts() {
   return m;
 }
 
+function topicRows() {
+  var counts = topicCounts();
+  return [{ id: null, label: "All titles", count: inLayer().length }].concat(
+    TOPICS.map(function (t) { return { id: t[0], label: t[1], count: counts[t[0]] || 0 }; })
+  );
+}
+
 function currentRows() {
   var list = inLayer();
   if (state.cat) {
@@ -1443,10 +1511,17 @@ function catLabel() {
   return "All titles";
 }
 
+function listLabel() {
+  var label = catLabel();
+  if (state.layer === "all") return label;
+  for (var i = 0; i < LAYERS.length; i++) {
+    if (LAYERS[i].id === state.layer) return label + " - " + LAYERS[i].label;
+  }
+  return label;
+}
+
 /* ---------------------------------------------------------------- left column */
 function renderCats() {
-  var counts = topicCounts();
-  var all = inLayer().length;
   var frag = document.createDocumentFragment();
 
   var layerHead = document.createElement("h4");
@@ -1478,10 +1553,7 @@ function renderCats() {
 
   var topicGroup = document.createElement("div");
   topicGroup.className = "cat-group";
-  var rows = [{ id: null, label: "All titles", count: all }].concat(
-    TOPICS.map(function (t) { return { id: t[0], label: t[1], count: counts[t[0]] || 0 }; })
-  );
-  rows.forEach(function (r) {
+  topicRows().forEach(function (r) {
     var selected = (r.id === state.cat);
     var b = document.createElement("button");
     b.type = "button";
@@ -1503,12 +1575,15 @@ function renderCats() {
   var nav = document.getElementById("cats");
   nav.textContent = "";
   nav.appendChild(frag);
+  syncTopicScope();
 }
 
 /* ---------------------------------------------------------------- right column */
 function renderRows() {
   var list = currentRows();
-  document.getElementById("cat-name").textContent = catLabel();
+  var heading = document.getElementById("cat-name");
+  heading.textContent = listLabel();
+  heading.title = listLabel();
   document.getElementById("cat-count").textContent = String(list.length);
 
   var ul = document.getElementById("rows");
@@ -1566,6 +1641,7 @@ var scrim = document.getElementById("scrim");
 var openBtn = document.getElementById("open-library");
 
 function openLibrary(focusFilter) {
+  closeTitlePicker(false);
   dialog.hidden = false;
   scrim.hidden = false;
   openBtn.setAttribute("aria-expanded", "true");
@@ -1600,6 +1676,118 @@ document.getElementById("filter").addEventListener("input", function (e) {
 });
 
 /* ---------------------------------------------------------------- composer */
+var scopeBtn = document.getElementById("scope-all");
+var titlePicker = document.getElementById("title-picker");
+var titleFilter = document.getElementById("title-filter");
+var titleOptions = document.getElementById("title-options");
+var titleButtons = [];
+
+function syncTopicScope() {
+  var label = catLabel();
+  document.getElementById("scope-label").textContent = label;
+  scopeBtn.title = label;
+  scopeBtn.setAttribute("data-scope-topic", state.cat || "all");
+  var rows = topicRows();
+  titleButtons.forEach(function (b, i) {
+    b.setAttribute("aria-selected", rows[i].id === state.cat ? "true" : "false");
+    b.querySelector(".n").textContent = String(rows[i].count);
+  });
+}
+
+function chooseTopic(id) {
+  selectCat(id);
+  closeTitlePicker(true);
+}
+
+function prepareTopics() {
+  var frag = document.createDocumentFragment();
+  topicRows().forEach(function (r) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "title-option";
+    b.setAttribute("role", "option");
+    b.setAttribute("aria-selected", r.id === state.cat ? "true" : "false");
+    b.tabIndex = -1;
+    b.dataset.search = r.label.toLowerCase();
+    b.dataset.scopeTopic = r.id || "all";
+    var check = document.createElement("span");
+    check.className = "check";
+    check.setAttribute("aria-hidden", "true");
+    check.textContent = "✓";
+    var col = document.createElement("span");
+    col.className = "col";
+    col.textContent = r.label;
+    var count = document.createElement("span");
+    count.className = "n";
+    count.textContent = String(r.count);
+    b.appendChild(check); b.appendChild(col); b.appendChild(count);
+    b.addEventListener("click", function () { chooseTopic(r.id); });
+    titleButtons.push(b);
+    frag.appendChild(b);
+  });
+  titleOptions.appendChild(frag);
+}
+
+function positionTitlePicker() {
+  if (titlePicker.hidden) return;
+  var r = scopeBtn.getBoundingClientRect();
+  var below = window.innerHeight - r.bottom - 12;
+  var above = r.top - 12;
+  var useBelow = below >= Math.min(300, above);
+  titlePicker.style.maxHeight = Math.max(80, Math.min(360, useBelow ? below : above)) + "px";
+  titlePicker.style.left = Math.max(12, Math.min(r.left, window.innerWidth - titlePicker.offsetWidth - 12)) + "px";
+  titlePicker.style.top = (useBelow ? r.bottom + 6 : r.top - titlePicker.offsetHeight - 6) + "px";
+}
+
+function closeTitlePicker(restoreFocus) {
+  if (!titlePicker) return;
+  titlePicker.hidden = true;
+  scopeBtn.setAttribute("aria-expanded", "false");
+  if (restoreFocus) scopeBtn.focus();
+}
+
+function filterTopics() {
+  var needle = titleFilter.value.trim().toLowerCase();
+  var count = 0;
+  titleButtons.forEach(function (b) {
+    b.hidden = b.dataset.search.indexOf(needle) < 0;
+    if (!b.hidden) count++;
+  });
+  document.getElementById("title-empty").hidden = count > 0;
+  titleOptions.scrollTop = 0;
+  positionTitlePicker();
+}
+
+scopeBtn.addEventListener("click", function () {
+  if (!titlePicker.hidden) { closeTitlePicker(false); return; }
+  titleFilter.value = "";
+  titlePicker.hidden = false;
+  scopeBtn.setAttribute("aria-expanded", "true");
+  filterTopics();
+  titleFilter.focus();
+  var selected = titleButtons.filter(function (b) { return b.getAttribute("aria-selected") === "true"; })[0];
+  titleOptions.scrollTop = selected.offsetTop - titleOptions.offsetTop;
+});
+titleFilter.addEventListener("input", filterTopics);
+titlePicker.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") { e.preventDefault(); closeTitlePicker(true); return; }
+  if (e.key === "Tab") { closeTitlePicker(true); return; }
+  if (["ArrowDown", "ArrowUp", "Home", "End"].indexOf(e.key) < 0) return;
+  if (e.target === titleFilter && (e.key === "Home" || e.key === "End")) return;
+  var visible = titleButtons.filter(function (b) { return !b.hidden; });
+  if (!visible.length) return;
+  e.preventDefault();
+  var at = visible.indexOf(document.activeElement);
+  var next = e.key === "Home" ? 0 : e.key === "End" ? visible.length - 1 :
+    at < 0 ? (e.key === "ArrowDown" ? 0 : visible.length - 1) :
+    (at + (e.key === "ArrowDown" ? 1 : -1) + visible.length) % visible.length;
+  visible[next].focus();
+});
+document.addEventListener("click", function (e) {
+  if (!titlePicker.contains(e.target) && !scopeBtn.contains(e.target)) closeTitlePicker(false);
+});
+window.addEventListener("resize", positionTitlePicker);
+
 var ask = document.getElementById("ask");
 Array.prototype.forEach.call(document.querySelectorAll("[data-suggestion]"), function (chip) {
   chip.addEventListener("click", function () {
@@ -1613,6 +1801,7 @@ document.getElementById("composer").addEventListener("submit", function (e) {
 });
 
 /* ---------------------------------------------------------------- boot */
+prepareTopics();
 renderCats();
 renderRows();
 openLibrary(false);

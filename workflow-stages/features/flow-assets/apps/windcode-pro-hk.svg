@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1024" height="1024" role="img" aria-label="Hong Kong wind load arrows approaching an office tower with horizontal glass bands">
+  <title>Hong Kong wind loads on an office tower</title>
+  <defs>
+    <linearGradient id="windTail" gradientUnits="userSpaceOnUse" x1="60" y1="0" x2="130" y2="0">
+      <stop offset="0" stop-color="#CFF2F7" stop-opacity="0"/>
+      <stop offset="1" stop-color="#CFF2F7" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="#186179"/>
+  <g id="office-tower">
+    <rect x="286" y="70" width="130" height="370" fill="#79BACE"/>
+    <rect x="352" y="70" width="64" height="370" fill="#5DA2BB"/>
+    <rect x="416" y="70" width="28" height="370" fill="#2A8199"/>
+    <rect x="286" y="70" width="130" height="16" fill="#D5EDF5"/>
+    <path d="M286 138h130M286 204h130M286 270h130M286 336h130M286 402h130" fill="none" stroke="#C4E5EE" stroke-width="12"/>
+  </g>
+  <g id="wind-load-arrows">
+    <g id="wind-arrow-top">
+      <rect x="60" y="135" width="142" height="30" fill="url(#windTail)"/>
+      <polygon points="202,120 246,150 202,180" fill="#CFF2F7"/>
+    </g>
+    <g id="wind-arrow-middle">
+      <rect x="60" y="240" width="110" height="30" fill="url(#windTail)"/>
+      <polygon points="170,225 214,255 170,285" fill="#CFF2F7"/>
+    </g>
+    <g id="wind-arrow-bottom">
+      <rect x="60" y="345" width="78" height="30" fill="url(#windTail)"/>
+      <polygon points="138,330 182,360 138,390" fill="#CFF2F7"/>
+    </g>
+  </g>
+</svg>

@@ -7,6 +7,7 @@
 <style>
   /* Neutral surfaces step from the caption bar through the index to the detail pane. */
   :root{
+    color-scheme:dark;
     --bg:#0b0d11;
     --rail:#14171c;
     --rail-deep:#101317;
@@ -19,14 +20,14 @@
     --muted:#a6aeb9;
     --dim:#838d9a;
     --accent:#e9eef5;
-    --tone:#4f6fbe;
+    --tone:#5d9bea;
     --radius:10px;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;overflow:hidden;
-    background:#060709;color:var(--text);
+    background:transparent;color:var(--text);
     font-family:"Segoe UI","Microsoft YaHei",ui-sans-serif,system-ui,-apple-system,sans-serif;
     font-size:14px;line-height:1.45;
     -webkit-font-smoothing:antialiased;
@@ -34,31 +35,14 @@
   button{font:inherit;color:inherit}
   [hidden]{display:none!important}
   svg{display:block}
-  .bot-defs{position:absolute;width:0;height:0;overflow:hidden}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-  .stage{
-    position:fixed;inset:0;display:grid;place-items:center;padding:10px;overflow:hidden;
-    background:
-      radial-gradient(820px 500px at 50% -14%,rgba(84,132,212,.12),transparent 62%),
-      radial-gradient(560px 380px at 88% 112%,rgba(120,92,180,.07),transparent 64%),
-      #060709;
-  }
-  .stage::before{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 1.2px);
-    background-size:26px 26px;
-    -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.45));
-    mask-image:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.45));
-  }
-
   .app{
-    position:relative;z-index:1;
-    width:min(845px,100%);height:min(668px,100%);
+    position:fixed;inset:0;z-index:1;
+    width:100%;height:100%;
     display:flex;flex-direction:column;min-width:0;min-height:0;
     overflow:hidden;background:var(--detail);
     border:1px solid var(--line-strong);border-radius:var(--radius);
-    box-shadow:0 26px 70px rgba(0,0,0,.62),0 2px 10px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.05);
     animation:app-in .16s ease-out both;
   }
   @keyframes app-in{from{opacity:0}to{opacity:1}}
@@ -108,7 +92,7 @@
 
   .expert{
     position:relative;
-    display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:8px;
+    display:grid;grid-template-columns:38px minmax(0,1fr);align-items:center;gap:9px;
     width:100%;min-width:0;padding:7px 8px;
     border:1px solid transparent;border-radius:7px;background:transparent;
     text-align:left;cursor:pointer;
@@ -116,32 +100,34 @@
   }
   .expert:hover{background:var(--raise)}
   .expert[aria-pressed="true"]{
-    background:var(--selected);border-color:var(--line-strong);
+    background:color-mix(in oklab,var(--tone) 18%,var(--selected));
+    border-color:color-mix(in oklab,var(--tone) 48%,var(--line-strong));
     box-shadow:inset 3px 0 0 var(--tone),0 1px 3px rgba(0,0,0,.22);
   }
   .expert[aria-pressed="true"]::before{
     content:"";position:absolute;inset:0;border-radius:inherit;background:var(--tone);
-    opacity:.14;pointer-events:none;
+    opacity:.1;pointer-events:none;
   }
-  .expert[aria-pressed="true"]:hover{background:#2a3039}
+  .expert[aria-pressed="true"]:hover{background:color-mix(in oklab,var(--tone) 25%,var(--selected))}
   .expert-copy{position:relative;display:flex;flex-direction:column;gap:1px;min-width:0}
+  /* Names wrap onto a second line rather than truncating, so no expert name is ever ellipsised. */
   .expert-name{
-    min-width:0;overflow:hidden;color:var(--text);font-size:13px;font-weight:500;
-    line-height:1.3;text-overflow:ellipsis;white-space:nowrap;
+    min-width:0;color:var(--text);font-size:12.5px;font-weight:500;
+    line-height:1.28;overflow-wrap:break-word;hyphens:none;
   }
   .expert[aria-pressed="true"] .expert-name{font-weight:600}
   .expert-meta{
-    min-width:0;overflow:hidden;color:var(--muted);font-size:12px;
-    line-height:1.35;text-overflow:ellipsis;white-space:nowrap;
+    min-width:0;color:var(--muted);font-size:11.5px;
+    line-height:1.3;overflow-wrap:break-word;
   }
 
 
   /* Right detail: a tinted working surface, one step lighter than the rail. */
   .detail{
-    --tone:#4f6fbe;
+    --tone:#5d9bea;
     position:relative;display:flex;flex:1 1 auto;min-width:0;min-height:0;
     overflow:hidden;outline:none;
-    background:linear-gradient(165deg,#222833 0%,#1c2128 52%,#171a20 100%);
+    background:linear-gradient(165deg,color-mix(in oklab,var(--tone) 9%,#222833) 0%,color-mix(in oklab,var(--tone) 5%,#1c2128) 52%,#171a20 100%);
     box-shadow:inset 0 2px 0 color-mix(in oklab,var(--tone) 62%,transparent),inset 0 3px 12px -6px rgba(0,0,0,.5);
   }
   /* The pane picks up the selected expert's colour as a soft wash, top-right and bottom-left. */
@@ -180,538 +166,776 @@
   .detail-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.4}
   .pill{
     padding:2px 8px;
-    border:1px solid color-mix(in oklab,var(--tone) 50%,rgba(255,255,255,.12));
+    border:1px solid color-mix(in oklab,var(--tone) 62%,rgba(255,255,255,.14));
     border-radius:999px;
-    background:color-mix(in oklab,var(--tone) 18%,transparent);
-    color:#eef2f7;font-size:12px;line-height:1.35;white-space:nowrap;
+    background:color-mix(in oklab,var(--tone) 24%,rgba(16,20,26,.55));
+    color:#f3f7fc;font-size:12px;line-height:1.35;white-space:nowrap;
   }
-  .summary{margin:0 0 16px;max-width:58ch;color:#d5dbe2;font-size:13.5px;line-height:1.55}
+  .summary{margin:0 0 18px;max-width:58ch;color:#d5dbe2;font-size:13px;line-height:1.55}
+  .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 7px}
+  .section-head .section-title{margin:0}
   .section-title{
-    margin:0 0 8px;color:#86909d;font-size:12px;font-weight:600;
+    margin:0 0 8px;color:color-mix(in oklab,var(--tone) 56%,#d8dfe8);font-size:12px;font-weight:600;
     letter-spacing:.08em;line-height:1.35;text-transform:uppercase;
   }
-  .tasks{display:grid;gap:6px;margin:0;padding:0;list-style:none}
-  .tasks li{position:relative;padding-left:14px;color:#d3d9e0;font-size:13px;line-height:1.45}
-  .tasks li::before{
-    content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;
-    border-radius:50%;background:color-mix(in oklab,var(--tone) 68%,#9aa4b1);
+  .list-actions{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 18px}
+  .list-actions:last-child{margin-bottom:0}
+  .action-button,.edit-button{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    min-height:28px;padding:4px 10px;border:1px solid var(--line-strong);border-radius:5px;
+    background:rgba(12,16,22,.24);color:#d5dce5;font-size:11.5px;line-height:1.4;cursor:pointer;
   }
-  .facts{margin:16px 0 0;border-top:1px solid var(--line)}
-  .fact{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
-  .fact dt{
-    margin:0;color:var(--dim);font-size:12px;font-weight:600;
-    letter-spacing:.05em;line-height:1.45;text-transform:uppercase;
+  .action-button:hover,.edit-button:hover{
+    background:color-mix(in oklab,var(--tone) 17%,#202730);
+    border-color:color-mix(in oklab,var(--tone) 55%,var(--line-strong));color:#fff;
   }
-  .fact dd{margin:0;color:#a9b2bd;font-size:12.5px;line-height:1.5;overflow-wrap:anywhere}
+  .action-button:active,.edit-button:active{background:color-mix(in oklab,var(--tone) 30%,#151b22)}
+  .action-button:focus-visible,.edit-button:focus-visible{outline:2px solid var(--tone);outline-offset:2px}
+  .edit-button{width:28px;padding:5px;border-color:transparent;background:transparent}
+  .edit-button svg{width:15px;height:15px}
 
   .avatar{
-    display:inline-grid;place-items:center;flex:none;width:32px;height:32px;
+    display:block;flex:none;width:38px;height:38px;
     position:relative;overflow:visible;
-    --disc:var(--bot-color,var(--tone,#4e75d2));
   }
-  .avatar svg{position:relative;display:block;width:100%;height:100%;overflow:visible}
+  .avatar img,.avatar svg{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+  .avatar svg{overflow:visible}
   .avatar-lg{
-    width:64px;height:64px;
+    width:80px;height:80px;
   }
-  .avatar-lg::before{
-    content:"";position:absolute;inset:-5px;border-radius:50%;
-    background:radial-gradient(circle,color-mix(in srgb,var(--disc) 22%,transparent),transparent 72%);
-    pointer-events:none;
-  }
-  [data-expert="feasibility"],[data-panel="feasibility"]{
-    --bot-color:#e5aa50;--sway-duration:6.8s;--sway-delay:-1.3s;--blink-duration:5.6s;--blink-delay:-1.1s;
-  }
-  [data-expert="geotechnical"],[data-panel="geotechnical"]{
-    --bot-color:#ba995f;--sway-duration:8.1s;--sway-delay:-4.2s;--blink-duration:6.7s;--blink-delay:-3.6s;
-  }
-  [data-expert="structural-design"],[data-panel="structural-design"]{
-    --bot-color:#638cef;--sway-duration:7.2s;--sway-delay:-2.4s;--blink-duration:5.1s;--blink-delay:-.7s;
-  }
-  [data-expert="bim"],[data-panel="bim"]{
-    --bot-color:#3bb6c3;--sway-duration:6.4s;--sway-delay:-4.8s;--blink-duration:6.1s;--blink-delay:-2.2s;
-  }
-  [data-expert="analysis"],[data-panel="analysis"]{
-    --bot-color:#a47ce4;--sway-duration:7.7s;--sway-delay:-1.8s;--blink-duration:5.8s;--blink-delay:-4.4s;
-  }
-  [data-expert="detailing"],[data-panel="detailing"]{
-    --bot-color:#51b89b;--sway-duration:8.6s;--sway-delay:-5.6s;--blink-duration:7.2s;--blink-delay:-1.9s;
-  }
-  [data-expert="site"],[data-panel="site"]{
-    --bot-color:#e28264;--sway-duration:7.4s;--sway-delay:-3.7s;--blink-duration:4.9s;--blink-delay:-3.1s;
-  }
-  [data-expert="code"],[data-panel="code"]{
-    --bot-color:#a5ba62;--sway-duration:8.3s;--sway-delay:-6.2s;--blink-duration:6.4s;--blink-delay:-.3s;
-  }
-  .bots-ready .avatar .bot-float{
-    transform-box:view-box;transform-origin:32px 38px;
-    animation:bot-sway var(--sway-duration,7s) ease-in-out var(--sway-delay,0s) infinite;
-  }
-  .bots-ready .avatar .bot-eyes{
-    transform-box:fill-box;transform-origin:center;
-    animation:bot-blink var(--blink-duration,6s) linear var(--blink-delay,0s) infinite;
-  }
-  @keyframes bot-sway{
-    0%,100%{transform:translateY(.8px) rotate(-3deg)}
-    50%{transform:translateY(-1.2px) rotate(3deg)}
-  }
-  @keyframes bot-blink{
-    0%,44%,48%,100%{transform:scaleY(1)}
-    46%{transform:scaleY(.06)}
-  }
-  .bots-paused .avatar .bot-float,.bots-paused .avatar .bot-eyes{animation-play-state:paused}
+  /* Pane colours remain local; artwork and motion live in the shared avatar runtime. */
+  [data-expert="site-planning"],[data-panel="site-planning"]{--tone:#e6a34b}
+  [data-expert="compliance"],[data-panel="compliance"]{--tone:#92b96d}
+  [data-expert="analysis"],[data-panel="analysis"]{--tone:#5d9bea}
+  [data-expert="sections"],[data-panel="sections"]{--tone:#8a91ed}
+  [data-expert="wind"],[data-panel="wind"]{--tone:#51c5d4}
+  [data-expert="connections"],[data-panel="connections"]{--tone:#df9563}
+  [data-expert="modelling"],[data-panel="modelling"]{--tone:#a785e6}
+  [data-expert="documentation"],[data-panel="documentation"]{--tone:#49bfa9}
+  [data-expert="reporting"],[data-panel="reporting"]{--tone:#ce87bf}
 
-  .expert:focus-visible,.detail-panel a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  /* Compact tool and reference-file lists share the same row treatment. */
+  .toolkit,.knowledge-list{
+    display:grid;gap:0;margin:0;padding:0;list-style:none;overflow:hidden;
+    border:1px solid var(--line);border-radius:6px;background:rgba(10,14,19,.22);
+  }
+  .tool,.knowledge-file{
+    display:grid;grid-template-columns:20px minmax(0,1fr);align-items:center;gap:9px;
+    min-width:0;padding:7px 10px;border-top:1px solid var(--line);
+  }
+  .tool:first-child,.knowledge-file:first-child{border-top:0}
+  .tool-icon{
+    display:grid;place-items:center;width:20px;height:20px;margin-top:1px;flex:none;
+  }
+  .tool-icon img{display:block;width:20px;height:20px;object-fit:contain}
+  .tool-body,.file-body{min-width:0}
+  .tool-name{display:block;color:#e8ecf2;font-size:12.5px;font-weight:600;line-height:1.3;overflow-wrap:break-word}
+  .tool-role{display:none}
+  .file-icon{color:color-mix(in oklab,var(--tone) 55%,#c8d1dc)}
+  .file-icon svg{width:18px;height:21px}
+  .file-name{display:block;color:#e8ecf2;font-size:12px;font-weight:500;line-height:1.4;overflow-wrap:anywhere}
+  .file-description{display:block;margin-top:2px;color:#a9b2bd;font-size:11px;line-height:1.35;overflow-wrap:anywhere}
 
   @media (max-width:600px){
-    .stage{padding:6px}
     .app{border-radius:8px}
     .app-head{flex:0 0 auto;min-height:50px;padding:7px 14px;gap:8px}
     .app-title{font-size:15px}
-    .app-caption{font-size:12px}
+    .app-caption{display:none}
 
     .app-body{flex-direction:column}
     .rail{
-      flex:0 0 auto;width:100%;max-width:none;max-height:44%;
+      flex:0 0 auto;width:100%;max-width:none;max-height:42%;
       border-right:0;border-bottom:1px solid var(--line-strong);
     }
-    .rail-head{padding:8px 12px 3px}
+    .rail-head{padding:8px 12px 2px}
     .expert-list{padding:0 6px 8px}
-    .expert{padding:7px;gap:8px;grid-template-columns:28px minmax(0,1fr)}
-    .avatar{width:28px;height:28px}
+    .expert{padding:6px 7px;gap:8px;grid-template-columns:38px minmax(0,1fr)}
+    .avatar{width:38px;height:38px}
+    .expert-name{font-size:12px}
+    .expert-meta{font-size:11px}
 
     .detail{flex:1 1 auto;min-height:0}
-    .detail-panel{padding:14px 14px 16px}
-    .detail-head{gap:10px;margin-bottom:10px}
-    .avatar-lg{width:52px;height:52px}
-    .detail-name{font-size:18px}
-    .detail-meta{font-size:12px;margin-top:4px}
+    .detail-panel{padding:13px 14px 16px}
+    .detail-head{gap:11px;margin-bottom:11px;align-items:flex-start}
+    .avatar-lg{width:80px;height:80px;flex:none}
+    .detail-name{font-size:17px;line-height:1.2}
+    .detail-meta{font-size:11.5px;margin-top:4px}
     .summary{margin-bottom:12px;font-size:13px;line-height:1.5}
-    .tasks li{font-size:13px}
-    .facts{margin-top:12px}
-    .fact{grid-template-columns:58px minmax(0,1fr);gap:8px;padding:7px 0}
+    .tool,.knowledge-file{grid-template-columns:20px minmax(0,1fr);gap:8px;padding:6px 9px}
+    .tool-name{font-size:12px}
+    .list-actions{margin-bottom:14px}
   }
-  @media (max-width:600px) and (max-height:500px){
+  /* Short viewport: tighten every vertical rhythm so the toolkit stays reachable. */
+  @media (max-height:460px){
+    .app-head{flex:0 0 auto;min-height:42px;padding:0 14px}
     .app-caption{display:none}
-    .app-head{min-height:44px}
+    .app-title{font-size:14px}
+    .rail-head{padding:6px 12px 1px;font-size:11px}
+    .group-label{margin:5px 6px 1px;font-size:11px}
+    .expert{padding:4px 7px;gap:7px;grid-template-columns:38px minmax(0,1fr)}
+    .expert-name{font-size:12px;line-height:1.2}
+    .expert-meta{font-size:10.5px;line-height:1.2}
+    .detail-panel{padding:11px 14px 13px}
+    .detail-head{gap:10px;margin-bottom:9px;align-items:flex-start}
+    .avatar-lg{width:80px;height:80px}
+    .detail-name{font-size:16px}
+    .summary{margin-bottom:9px;font-size:12.5px;line-height:1.45}
+    .section-title{margin-bottom:5px;font-size:11px}
+    .tool,.knowledge-file{padding:5px 8px;grid-template-columns:18px minmax(0,1fr);gap:7px}
+    .tool-icon{width:18px;height:18px}
+    .tool-icon img{width:18px;height:18px}
+    .tool-name{font-size:11.5px}
+    .list-actions{margin-bottom:13px}
+  }
+  @media (max-width:600px) and (max-height:460px){
+    .rail{max-height:40%}
+    .detail-panel{padding:10px 12px 12px}
+    .avatar-lg{width:64px;height:64px}
   }
   @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
-    .bots-ready .avatar .bot-float,.bots-ready .avatar .bot-eyes{animation:none!important}
+    *,*::before,*::after{animation:none!important;transition:none!important}
   }
 </style>
 </head>
 <body>
-<!-- Soft silhouettes and large capsule eyes share one engineering mascot family. -->
-<svg class="bot-defs" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+<svg aria-hidden="true" width="0" height="0" style="position:absolute">
   <defs>
-    <symbol id="eng-feasibility" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M10 42c0-17 8-29 22-29s22 12 22 29c0 9-8 15-22 15S10 51 10 42Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory" fill="#fff">
-          <path d="M21 19c0-8 5-12 11-12s11 4 11 12Z"/>
-          <rect x="16" y="18" width="33" height="3.6" rx="1.8"/>
-        </g>
-      </g>
+    <symbol id="pencil-icon" viewBox="0 0 24 24">
+      <path d="M16 3l5 5L8 21H3v-5L16 3zM13 6l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
-    <symbol id="eng-geotechnical" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M26 11c8-2 16 1 20 8 3 6 4 12 7 18 3 7-2 14-11 17-9 3-20 2-27-4-7-6-8-16-3-23 4-6 8-10 14-16Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory">
-          <path fill="#fff" d="M19 20c0-9 6-13 13-13s13 4 13 13Z"/>
-          <rect x="7" y="18.5" width="50" height="3.6" rx="1.8" fill="#fff"/>
-          <circle cx="32" cy="13" r="3" fill="var(--disc)" stroke="#fff" stroke-width="1.6"/>
-        </g>
-      </g>
-    </symbol>
-    <symbol id="eng-structural-design" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M12 20C12 10 19 6 32 6s20 4 20 14l2 22c1 8-9 14-22 14S8 50 9 42Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory">
-          <path fill="#fff" d="M12 21C13 10 21 5 32 5s19 5 20 16c-5-4-9-6-14-6-5 0-7 3-12 3-5 0-9-2-14 3Z"/>
-          <path d="M21 10c4 3 7 5 11 6" fill="none" stroke="var(--disc)" stroke-linecap="round" stroke-width="1.4" opacity=".35"/>
-        </g>
-      </g>
-    </symbol>
-    <symbol id="eng-bim" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M20 8C26 4 38 4 44 8l8 12c4 6 4 20 0 26l-8 10c-6 4-18 4-24 0L12 46c-4-6-4-20 0-26Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory" fill="none" stroke="#fff" stroke-linecap="round">
-          <rect x="12.5" y="19" width="39" height="21" rx="9" stroke-width="2.8"/>
-          <path d="M7.5 26h5M51.5 26h5" stroke-width="2.8"/>
-        </g>
-      </g>
-    </symbol>
-    <symbol id="eng-analysis" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M33 6C41 6 49 13 52 24C56 37 57 45 51 52C45 59 34 59 25 55C14 50 9 39 13 28C16 18 21 13 27 9C29 7 30 6 33 6Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory" fill="none" stroke="#fff" stroke-linecap="round">
-          <path d="M42 17c5-5 8-7 12-9" stroke-width="3"/>
-          <circle cx="55" cy="7.5" r="3" fill="#fff" stroke="none"/>
-        </g>
-      </g>
-    </symbol>
-    <symbol id="eng-detailing" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M22 9c6-3 14-3 20 0 4 8 9 19 12 30 3 10-7 17-22 17S7 49 10 39C13 28 18 17 22 9Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory" fill="none" stroke="#fff" stroke-linecap="round">
-          <rect x="13" y="20" width="18" height="20" rx="4.5" stroke-width="2.4"/>
-          <rect x="33" y="20" width="18" height="20" rx="4.5" stroke-width="2.4"/>
-          <path d="M31 29h2" stroke-width="2.4"/>
-          <rect x="6.5" y="26" width="4" height="8" rx="2" fill="#fff" stroke="none"/>
-          <rect x="53.5" y="26" width="4" height="8" rx="2" fill="#fff" stroke="none"/>
-        </g>
-      </g>
-    </symbol>
-    <symbol id="eng-site" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M17 12c5-5 25-5 30 0 5 5 8 17 8 28 0 11-10 17-23 17s-23-6-23-17c0-11 3-23 8-28Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory" fill="#fff">
-          <path d="M19 20c0-9 6-13 13-13s13 4 13 13Z"/>
-          <rect x="10" y="18" width="44" height="3.6" rx="1.8"/>
-          <circle cx="9" cy="31" r="4.6"/>
-          <circle cx="55" cy="31" r="4.6"/>
-        </g>
-      </g>
-    </symbol>
-    <symbol id="eng-code" viewBox="0 0 64 64">
-      <g class="bot-float">
-        <path fill="var(--disc)" d="M18 9c7-4 21-4 28 0 6 4 9 15 8 26-1 12-10 22-22 22S10 47 10 35c-1-11 2-22 8-26Z"/>
-        <g class="bot-eyes" fill="#fff">
-          <rect x="18" y="23" width="8" height="14" rx="4"/>
-          <rect x="38" y="23" width="8" height="14" rx="4"/>
-        </g>
-        <g class="bot-accessory" fill="none" stroke="#fff" stroke-linecap="round">
-          <circle cx="22" cy="30" r="8" stroke-width="2"/>
-          <circle cx="42" cy="30" r="8" stroke-width="2"/>
-          <path d="M30 30h4" stroke-width="2"/>
-          <path d="M14 29 6 27M50 29l8-2" stroke-width="2"/>
-        </g>
-      </g>
+    <symbol id="file-icon" viewBox="0 0 24 28">
+      <path d="M5 2h10l5 5v18H5zM15 2v6h5M9 14h7M9 18h7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
   </defs>
 </svg>
-
-<div class="stage">
   <main class="app" aria-labelledby="app-title">
     <header class="app-head">
       <div class="head-copy">
         <h1 class="app-title" id="app-title">Multidisciplinary experts</h1>
-        <p class="app-caption">Engineering expertise across the project lifecycle</p>
+        <p class="app-caption">Nine engineering experts mapped to the built-in apps they work with</p>
       </div>
-
     </header>
 
     <div class="app-body">
       <aside class="rail" aria-label="Experts by project stage">
-        <div class="rail-head"><span>Experts</span><span class="rail-count">8</span></div>
+        <div class="rail-head"><span>Experts</span><span class="rail-count">9</span></div>
 
         <div class="expert-list">
           <p class="group-label">Planning</p>
           <div class="group">
-            <button class="expert" type="button" data-expert="feasibility" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Feasibility &amp; Planning Expert" style="--tone:#b5813a">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-feasibility" width="32" height="32"/></svg>
-              </span>
+            <button class="expert" type="button" data-expert="site-planning" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Site &amp; Planning Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/site-planning.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
               <span class="expert-copy">
-                <span class="expert-name">Feasibility &amp; Planning Expert</span>
-                <span class="expert-meta">Planning · Feasibility</span>
+                <span class="expert-name">Site &amp; Planning Expert</span>
+                <span class="expert-meta">Planning · Site context</span>
               </span>
             </button>
-            <button class="expert" type="button" data-expert="geotechnical" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Geotechnical &amp; Foundations Expert" style="--tone:#8a6f4d">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-geotechnical" width="32" height="32"/></svg>
-              </span>
+            <button class="expert" type="button" data-expert="compliance" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Hong Kong Compliance Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/compliance.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
               <span class="expert-copy">
-                <span class="expert-name">Geotechnical &amp; Foundations Expert</span>
-                <span class="expert-meta">Ground · Foundations</span>
+                <span class="expert-name">Hong Kong Compliance Expert</span>
+                <span class="expert-meta">Planning · Statutory</span>
               </span>
             </button>
           </div>
 
-          <p class="group-label">Design</p>
+          <p class="group-label">Engineering</p>
           <div class="group">
-            <button class="expert" type="button" data-expert="structural-design" aria-pressed="true" aria-controls="expert-detail" tabindex="0" title="Structural Design Expert" style="--tone:#4f6fbe">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-structural-design" width="32" height="32"/></svg>
-              </span>
-              <span class="expert-copy">
-                <span class="expert-name">Structural Design Expert</span>
-                <span class="expert-meta">Design · Structural</span>
-              </span>
-            </button>
-            <button class="expert" type="button" data-expert="bim" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="BIM Coordination Expert" style="--tone:#1f8ea6">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-bim" width="32" height="32"/></svg>
-              </span>
-              <span class="expert-copy">
-                <span class="expert-name">BIM Coordination Expert</span>
-                <span class="expert-meta">Design · BIM coordination</span>
-              </span>
-            </button>
-            <button class="expert" type="button" data-expert="analysis" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Structural Analysis Expert" style="--tone:#8a5cb5">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-analysis" width="32" height="32"/></svg>
-              </span>
+            <button class="expert" type="button" data-expert="analysis" aria-pressed="true" aria-controls="expert-detail" tabindex="0" title="Structural Analysis Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/analysis.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
               <span class="expert-copy">
                 <span class="expert-name">Structural Analysis Expert</span>
-                <span class="expert-meta">Analysis · Structural</span>
+                <span class="expert-meta">Engineering · Analysis</span>
+              </span>
+            </button>
+            <button class="expert" type="button" data-expert="sections" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Section Design Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/sections.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
+              <span class="expert-copy">
+                <span class="expert-name">Section Design Expert</span>
+                <span class="expert-meta">Engineering · Sections</span>
+              </span>
+            </button>
+            <button class="expert" type="button" data-expert="wind" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Wind Engineering Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/wind.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
+              <span class="expert-copy">
+                <span class="expert-name">Wind Engineering Expert</span>
+                <span class="expert-meta">Engineering · Wind</span>
+              </span>
+            </button>
+            <button class="expert" type="button" data-expert="connections" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Steel Connections Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/connections.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
+              <span class="expert-copy">
+                <span class="expert-name">Steel Connections Expert</span>
+                <span class="expert-meta">Engineering · Connections</span>
+              </span>
+            </button>
+            <button class="expert" type="button" data-expert="modelling" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="CAD &amp; BIM Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/modelling.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
+              <span class="expert-copy">
+                <span class="expert-name">CAD &amp; BIM Expert</span>
+                <span class="expert-meta">Engineering · Models</span>
               </span>
             </button>
           </div>
 
           <p class="group-label">Delivery</p>
           <div class="group">
-            <button class="expert" type="button" data-expert="detailing" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Connections &amp; Detailing Expert" style="--tone:#2c8a70">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-detailing" width="32" height="32"/></svg>
-              </span>
+            <button class="expert" type="button" data-expert="documentation" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Technical Documentation Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/documentation.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
               <span class="expert-copy">
-                <span class="expert-name">Connections &amp; Detailing Expert</span>
-                <span class="expert-meta">Delivery · Detailing</span>
+                <span class="expert-name">Technical Documentation Expert</span>
+                <span class="expert-meta">Delivery · Documents</span>
               </span>
             </button>
-            <button class="expert" type="button" data-expert="site" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Site Supervision Expert" style="--tone:#bf5a41">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-site" width="32" height="32"/></svg>
-              </span>
+            <button class="expert" type="button" data-expert="reporting" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Engineering Reporting Expert">
+              <span class="avatar" aria-hidden="true"><img src="flow-assets/experts/reporting.svg" alt="" width="38" height="38" loading="lazy" decoding="async"></span>
               <span class="expert-copy">
-                <span class="expert-name">Site Supervision Expert</span>
-                <span class="expert-meta">Construction · Site review</span>
-              </span>
-            </button>
-            <button class="expert" type="button" data-expert="code" aria-pressed="false" aria-controls="expert-detail" tabindex="-1" title="Code &amp; Submission Expert" style="--tone:#7e8836">
-              <span class="avatar" aria-hidden="true">
-                <svg viewBox="0 0 32 32"><use href="#eng-code" width="32" height="32"/></svg>
-              </span>
-              <span class="expert-copy">
-                <span class="expert-name">Code &amp; Submission Expert</span>
-                <span class="expert-meta">Delivery · Statutory review</span>
+                <span class="expert-name">Engineering Reporting Expert</span>
+                <span class="expert-meta">Delivery · Reporting</span>
               </span>
             </button>
           </div>
         </div>
-
-
       </aside>
 
-      <section class="detail" id="expert-detail" role="region" aria-label="Structural Design Expert details" tabindex="0" style="--tone:#4f6fbe">
-        <article class="detail-panel" data-panel="feasibility" aria-labelledby="expert-feasibility" style="--tone:#b5813a" hidden>
+      <section class="detail" id="expert-detail" role="region" aria-label="Structural Analysis Expert details" tabindex="0">
+        <article class="detail-panel" data-panel="site-planning" aria-labelledby="expert-site-planning-title" hidden>
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-feasibility" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/site-planning.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-feasibility">Feasibility &amp; Planning Expert</h2>
-              <div class="detail-meta"><span class="pill">Planning</span><span>Feasibility &amp; project definition</span></div>
+              <h2 class="detail-name" id="expert-site-planning-title">Site &amp; Planning Expert</h2>
+              <div class="detail-meta"><span class="pill">Planning</span><span>Site context</span></div>
             </div>
           </header>
-          <p class="summary">Turns an early project brief into a clear structural approach, with the constraints and studies that should come next.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Review site, planning and programme constraints.</li>
-            <li>Outline structural options and early risks.</li>
-            <li>Set out the information needed for the next stage.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Site &amp; Planning Expert. Review site constraints and planning context, identify applicable Hong Kong requirements, and compare early options. State assumptions and cite source documents.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/sitescope.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">SiteScope</span>
+                <span class="tool-role">Synthetic visualization and output for site context.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/cop-hub-hk.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">CoP Hub HK</span>
+                <span class="tool-role">Efficient, comprehensive query tool for Hong Kong engineering compliance.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/calculator.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Calculator</span>
+                <span class="tool-role">Quick calculator for everyday engineering numbers.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Feasibility studies, option framing and early risk.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Site information, planning brief and project programme.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.pland.gov.hk/file/tech_doc/hkpsg/full/pdf/ch11_en.pdf" data-title="Hong Kong Planning Standards and Guidelines — Chapter 11: Urban Design Guidelines">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">ch11_en.pdf</span><span class="file-description">Urban design guidelines · Planning Department</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
 
-        <article class="detail-panel" data-panel="geotechnical" aria-labelledby="expert-geotechnical" style="--tone:#8a6f4d" hidden>
+        <article class="detail-panel" data-panel="compliance" aria-labelledby="expert-compliance-title" hidden>
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-geotechnical" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/compliance.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-geotechnical">Geotechnical &amp; Foundations Expert</h2>
-              <div class="detail-meta"><span class="pill">Ground</span><span>Geotechnical engineering</span></div>
+              <h2 class="detail-name" id="expert-compliance-title">Hong Kong Compliance Expert</h2>
+              <div class="detail-meta"><span class="pill">Planning</span><span>Statutory</span></div>
             </div>
           </header>
-          <p class="summary">Connects ground information to foundation options so early design decisions reflect the site, not assumptions.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Read ground investigation reports and site levels.</li>
-            <li>Compare foundation types and bearing assumptions.</li>
-            <li>Flag ground risks for the structural design team.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Hong Kong Compliance Expert. Identify relevant statutory requirements, review submitted documents, and cite the governing provisions. Flag gaps and distinguish requirements from interpretation.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/cop-hub-hk.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">CoP Hub HK</span>
+                <span class="tool-role">Efficient, comprehensive query tool for Hong Kong engineering compliance.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/pdf-editor.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">PDF Editor</span>
+                <span class="tool-role">Free viewer and editor for PDF files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/doc.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Doc</span>
+                <span class="tool-role">Free viewer and editor for DOC files.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Ground interpretation, foundation options and geotechnical risk.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Ground investigation data, site levels and foundation loads.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/SUOS2011.pdf" data-title="Code of Practice for the Structural Use of Steel 2011 (2023 Edition)">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">SUOS2011.pdf</span><span class="file-description">Structural steel code · Buildings Department</span></span>
+            </li>
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/CoP_SUC2013e.pdf" data-title="Code of Practice for Structural Use of Concrete 2013 (2020 Edition)">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">CoP_SUC2013e.pdf</span><span class="file-description">Structural concrete code · Buildings Department</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
 
-        <article class="detail-panel" data-panel="structural-design" aria-labelledby="expert-structural-design" style="--tone:#4f6fbe">
+        <article class="detail-panel" data-panel="analysis" aria-labelledby="expert-analysis-title">
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-structural-design" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/analysis.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-structural-design">Structural Design Expert</h2>
-              <div class="detail-meta"><span class="pill">Design</span><span>Structural engineering</span></div>
+              <h2 class="detail-name" id="expert-analysis-title">Structural Analysis Expert</h2>
+              <div class="detail-meta"><span class="pill">Engineering</span><span>Analysis</span></div>
             </div>
           </header>
-          <p class="summary">Develops the structural scheme and sizes primary members for a buildable, coordinated design.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Compare framing options and structural grids.</li>
-            <li>Size beams, columns and slabs against the design brief.</li>
-            <li>Resolve structural intent with coordination issues.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Structural Analysis Expert. Review structural models, load cases and second-order effects using SODA. Check assumptions and units, and explain results with traceable calculations.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/soda.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">SODA</span>
+                <span class="tool-role">Second-order analysis and design of structures.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/spreadsheet.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Spreadsheet</span>
+                <span class="tool-role">Free viewer and editor for XLSX and CSV files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/calculator.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Calculator</span>
+                <span class="tool-role">Quick calculator for everyday engineering numbers.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Scheme development, member sizing and design coordination.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Architectural layouts, design brief, load assumptions and coordination models.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/SUOS2011.pdf" data-title="Code of Practice for the Structural Use of Steel 2011 (2023 Edition)">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">SUOS2011.pdf</span><span class="file-description">Design methods and analysis · Section 6</span></span>
+            </li>
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/EMSUOS2011e.pdf" data-title="Explanatory Materials to Code of Practice for the Structural Use of Steel 2011">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">EMSUOS2011e.pdf</span><span class="file-description">Second-order direct analysis · Section E6.8</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
 
-        <article class="detail-panel" data-panel="bim" aria-labelledby="expert-bim" style="--tone:#1f8ea6" hidden>
+        <article class="detail-panel" data-panel="sections" aria-labelledby="expert-sections-title" hidden>
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-bim" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/sections.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-bim">BIM Coordination Expert</h2>
-              <div class="detail-meta"><span class="pill">Design</span><span>BIM coordination</span></div>
+              <h2 class="detail-name" id="expert-sections-title">Section Design Expert</h2>
+              <div class="detail-meta"><span class="pill">Engineering</span><span>Sections</span></div>
             </div>
           </header>
-          <p class="summary">Keeps the structural model coordinated with other disciplines through a shared, reviewable information flow.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Maintain model federation and clash review routines.</li>
-            <li>Track model issues and information exchanges.</li>
-            <li>Prepare coordinated views for design reviews.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Section Design Expert. Check cross-sections and concrete members against the specified Hong Kong codes using CCD-HK and SCD-HK. Record inputs, limits and governing checks.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/ccd-hk.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">CCD-HK</span>
+                <span class="tool-role">Advanced cross-section designer under the Hong Kong codes.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/scd-hk.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">SCD-HK</span>
+                <span class="tool-role">Concrete structural design under the Hong Kong codes.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/calculator.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Calculator</span>
+                <span class="tool-role">Quick calculator for everyday engineering numbers.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Model coordination, clash review and information exchange.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Discipline models, coordination matrix and exchange requirements.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/SUOS2011.pdf" data-title="Code of Practice for the Structural Use of Steel 2011 (2023 Edition)">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">SUOS2011.pdf</span><span class="file-description">Structural member design · Section 8</span></span>
+            </li>
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/CoP_SUC2013e.pdf" data-title="Code of Practice for Structural Use of Concrete 2013 (2020 Edition)">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">CoP_SUC2013e.pdf</span><span class="file-description">Concrete member design · Section 6</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
 
-        <article class="detail-panel" data-panel="analysis" aria-labelledby="expert-analysis" style="--tone:#8a5cb5" hidden>
+        <article class="detail-panel" data-panel="wind" aria-labelledby="expert-wind-title" hidden>
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-analysis" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/wind.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-analysis">Structural Analysis Expert</h2>
-              <div class="detail-meta"><span class="pill">Analysis</span><span>Structural engineering</span></div>
+              <h2 class="detail-name" id="expert-wind-title">Wind Engineering Expert</h2>
+              <div class="detail-meta"><span class="pill">Engineering</span><span>Wind</span></div>
             </div>
           </header>
-          <p class="summary">Builds analysis models and reviews results against the agreed load cases and design assumptions.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Set up load cases and combinations.</li>
-            <li>Run and check global analysis results.</li>
-            <li>Compare design forces with member checks.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Wind Engineering Expert. Assess Hong Kong wind actions with WindCode Pro HK using the stated geometry, terrain and sheltering context. Identify governing cases and document assumptions.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/windcode-pro-hk.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">WindCode Pro  HK</span>
+                <span class="tool-role">Automated Hong Kong wind code compliance, contextual wind load computation with sheltering effects.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/sitescope.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">SiteScope</span>
+                <span class="tool-role">Synthetic visualization and output for site context.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/spreadsheet.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Spreadsheet</span>
+                <span class="tool-role">Free viewer and editor for XLSX and CSV files.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Analysis modelling, load paths and result review.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Structural geometry, load assumptions and member properties.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/WindEffects2019e.pdf" data-title="Code of Practice on Wind Effects in Hong Kong 2019">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">WindEffects2019e.pdf</span><span class="file-description">Wind effects code · Buildings Department</span></span>
+            </li>
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/ExplanatoryNotesWindEffects2019e.pdf" data-title="Explanatory Notes to the Code of Practice on Wind Effects in Hong Kong 2019">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">ExplanatoryNotesWindEffects2019e.pdf</span><span class="file-description">Wind code explanatory notes · Buildings Department</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
 
-        <article class="detail-panel" data-panel="detailing" aria-labelledby="expert-detailing" style="--tone:#2c8a70" hidden>
+        <article class="detail-panel" data-panel="connections" aria-labelledby="expert-connections-title" hidden>
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-detailing" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/connections.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-detailing">Connections &amp; Detailing Expert</h2>
-              <div class="detail-meta"><span class="pill">Delivery</span><span>Structural detailing</span></div>
+              <h2 class="detail-name" id="expert-connections-title">Steel Connections Expert</h2>
+              <div class="detail-meta"><span class="pill">Engineering</span><span>Connections</span></div>
             </div>
           </header>
-          <p class="summary">Turns design forces into connection and reinforcement details that can be drawn, checked and built.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Select connection types and detail components.</li>
-            <li>Check force transfer and practical tolerances.</li>
-            <li>Prepare detailing information for documentation.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Steel Connections Expert. Assess steel-joint behaviour with FEJoint, interpret connection geometry, and check the relevant design provisions. Report governing actions, capacities and limitations.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/fejoint.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">FEJoint</span>
+                <span class="tool-role">Comprehensive analysis and design tool for steel connections.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/cad-editor.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">CAD Editor</span>
+                <span class="tool-role">Free viewer and editor for CAD and DXF files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/calculator.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Calculator</span>
+                <span class="tool-role">Quick calculator for everyday engineering numbers.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Connection design, reinforcement and buildability.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Design forces, member sizes and fabrication constraints.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/SUOS2011.pdf" data-title="Code of Practice for the Structural Use of Steel 2011 (2023 Edition)">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">SUOS2011.pdf</span><span class="file-description">Steel connection design · Section 9</span></span>
+            </li>
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/EMSUOS2011e.pdf" data-title="Explanatory Materials to Code of Practice for the Structural Use of Steel 2011">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">EMSUOS2011e.pdf</span><span class="file-description">Connection design commentary · Section E9</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
 
-        <article class="detail-panel" data-panel="site" aria-labelledby="expert-site" style="--tone:#bf5a41" hidden>
+        <article class="detail-panel" data-panel="modelling" aria-labelledby="expert-modelling-title" hidden>
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-site" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/modelling.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-site">Site Supervision Expert</h2>
-              <div class="detail-meta"><span class="pill">Construction</span><span>Site review</span></div>
+              <h2 class="detail-name" id="expert-modelling-title">CAD &amp; BIM Expert</h2>
+              <div class="detail-meta"><span class="pill">Engineering</span><span>Models</span></div>
             </div>
           </header>
-          <p class="summary">Supports construction-stage review by comparing site information with the issued design.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Review inspection and progress records.</li>
-            <li>Flag deviations from the design intent.</li>
-            <li>Summarise site issues for the design team.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the CAD &amp; BIM Expert. Review CAD, DXF and BIM information for geometry, coordination and document consistency. Preserve source data and flag missing or conflicting model information.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/cad-editor.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">CAD Editor</span>
+                <span class="tool-role">Free viewer and editor for CAD and DXF files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/bim-helper.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">BIM Helper</span>
+                <span class="tool-role">Free viewer and editor for BIM models.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/pdf-editor.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">PDF Editor</span>
+                <span class="tool-role">Free viewer and editor for PDF files.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Site observation, design-intent checks and issue tracking.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Site reports, inspection records and construction photographs.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/code-and-design-manuals/BIMSPS_e.pdf" data-title="Guidelines for using Building Information Modelling in Statutory Plan Submissions (other than General Building Plan)">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">BIMSPS_e.pdf</span><span class="file-description">BIM model and submission guidelines · Buildings Department</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
 
-        <article class="detail-panel" data-panel="code" aria-labelledby="expert-code" style="--tone:#7e8836" hidden>
+        <article class="detail-panel" data-panel="documentation" aria-labelledby="expert-documentation-title" hidden>
           <header class="detail-head">
-            <span class="avatar avatar-lg" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><use href="#eng-code" width="32" height="32"/></svg>
-            </span>
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/documentation.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
             <div>
-              <h2 class="detail-name" id="expert-code">Code &amp; Submission Expert</h2>
-              <div class="detail-meta"><span class="pill">Delivery</span><span>Statutory review</span></div>
+              <h2 class="detail-name" id="expert-documentation-title">Technical Documentation Expert</h2>
+              <div class="detail-meta"><span class="pill">Delivery</span><span>Documents</span></div>
             </div>
           </header>
-          <p class="summary">Organises code and submission checks so the design team can review compliance evidence in one place.</p>
-          <h3 class="section-title">Typical tasks</h3>
-          <ul class="tasks">
-            <li>Map applicable code clauses to the design.</li>
-            <li>Assemble submission checklists and open questions.</li>
-            <li>Record authority comments for the next review.</li>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Technical Documentation Expert. Prepare clear engineering documents from verified drawings, calculations and references. Keep revisions, units and source attribution consistent across deliverables.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/doc.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Doc</span>
+                <span class="tool-role">Free viewer and editor for DOC files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/pdf-editor.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">PDF Editor</span>
+                <span class="tool-role">Free viewer and editor for PDF files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/slide.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Slide</span>
+                <span class="tool-role">Free viewer and editor for PPT files.</span>
+              </span>
+            </li>
           </ul>
-          <dl class="facts">
-            <div class="fact"><dt>Focus</dt><dd>Code review, submission preparation and compliance tracking.</dd></div>
-            <div class="fact"><dt>Inputs</dt><dd>Design information, submission plans and authority comments.</dd></div>
-          </dl>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/practice-notes-and-circular-letters/pnap/ADM/ADM008.pdf" data-title="Structural Design Information">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">ADM008.pdf</span><span class="file-description">Structural design information · PNAP ADM-8</span></span>
+            </li>
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/practice-notes-and-circular-letters/pnap/ADM/ADM006.pdf" data-title="Computer Programs for Use in Structural and Geotechnical Design">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">ADM006.pdf</span><span class="file-description">Design-program documentation · PNAP ADM-6</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
         </article>
+
+        <article class="detail-panel" data-panel="reporting" aria-labelledby="expert-reporting-title" hidden>
+          <header class="detail-head">
+            <span class="avatar avatar-lg" aria-hidden="true"><img src="flow-assets/experts/reporting.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></span>
+            <div>
+              <h2 class="detail-name" id="expert-reporting-title">Engineering Reporting Expert</h2>
+              <div class="detail-meta"><span class="pill">Delivery</span><span>Reporting</span></div>
+            </div>
+          </header>
+          <div class="section-head">
+            <h3 class="section-title">IDENTITY</h3>
+            <button class="edit-button" type="button" data-demo-action="edit-identity" aria-label="Edit identity" title="Edit identity"><svg aria-hidden="true"><use href="#pencil-icon"/></svg></button>
+          </div>
+          <p class="summary">You are the Engineering Reporting Expert. Turn verified analysis results into tables, summaries and reports. Trace every reported value to its source and separate observations from engineering conclusions.</p>
+
+          <h3 class="section-title">TOOL USAGE</h3>
+          <ul class="toolkit">
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/spreadsheet.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Spreadsheet</span>
+                <span class="tool-role">Free viewer and editor for XLSX and CSV files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/slide.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Slide</span>
+                <span class="tool-role">Free viewer and editor for PPT files.</span>
+              </span>
+            </li>
+            <li class="tool">
+              <span class="tool-icon" aria-hidden="true"><img src="flow-assets/apps/doc.svg" alt="" width="14" height="14" loading="lazy" decoding="async"></span>
+              <span class="tool-body">
+                <span class="tool-name">Doc</span>
+                <span class="tool-role">Free viewer and editor for DOC files.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-tools">Add Tools</button>
+            <button class="action-button" type="button" data-demo-action="remove-tools">Remove Tools</button>
+          </div>
+          <h3 class="section-title">KNOWLEDGE</h3>
+          <ul class="knowledge-list">
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/practice-notes-and-circular-letters/pnap/ADM/ADM008.pdf" data-title="Structural Design Information">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">ADM008.pdf</span><span class="file-description">Structural calculation and result summaries · PNAP ADM-8</span></span>
+            </li>
+            <li class="knowledge-file" data-source="https://www.bd.gov.hk/doc/en/resources/codes-and-references/practice-notes-and-circular-letters/pnap/ADM/ADM006.pdf" data-title="Computer Programs for Use in Structural and Geotechnical Design">
+              <span class="file-icon" aria-hidden="true"><svg><use href="#file-icon"/></svg></span>
+              <span class="file-body"><span class="file-name">ADM006.pdf</span><span class="file-description">Calculation inputs, outputs and interpretation · PNAP ADM-6</span></span>
+            </li>
+          </ul>
+          <div class="list-actions">
+            <button class="action-button" type="button" data-demo-action="add-files">Add Files</button>
+            <button class="action-button" type="button" data-demo-action="remove-files">Remove Files</button>
+          </div>
+        </article>
+
       </section>
     </div>
 
     <p class="sr-only" id="selection-status" role="status" aria-live="polite"></p>
   </main>
-</div>
 
 <script>
   (function () {
@@ -720,27 +944,19 @@
     var detail = document.getElementById('expert-detail');
     var status = document.getElementById('selection-status');
 
-    // Each displayed mascot owns its eye and body animation independently.
-    document.querySelectorAll('.avatar use').forEach(function (use) {
-      var symbol = document.querySelector(use.getAttribute('href'));
-      if (!symbol) return;
-      var svg = use.ownerSVGElement;
-      svg.setAttribute('viewBox', symbol.getAttribute('viewBox'));
-      svg.setAttribute('aria-hidden', 'true');
-      svg.setAttribute('focusable', 'false');
-      var drawing = document.createDocumentFragment();
-      Array.prototype.forEach.call(symbol.children, function (part) {
-        drawing.appendChild(part.cloneNode(true));
+    // The same SVG assembly, gaze, blink and pause controller also serves Flow cards.
+    // Selection and keyboard navigation remain available if the optional animation load fails.
+    import('./expert-avatars.js').then(function (runtime) {
+      document.querySelectorAll('.avatar').forEach(function (host) {
+        var owner = host.closest('[data-expert],[data-panel]');
+        var id = owner && (owner.dataset.expert || owner.dataset.panel);
+        runtime.mountExpertAvatar(host, { id: id }).ready.catch(function (error) {
+          console.warn('Expert portrait animation unavailable; keeping the static image.', error);
+        });
       });
-      use.replaceWith(drawing);
+    }).catch(function (error) {
+      console.warn('Shared expert runtime unavailable; keeping the static portraits.', error);
     });
-    document.documentElement.classList.add('bots-ready');
-
-    function updateMotionVisibility() {
-      document.documentElement.classList.toggle('bots-paused', document.hidden);
-    }
-    document.addEventListener('visibilitychange', updateMotionVisibility);
-    updateMotionVisibility();
 
     function selectExpert(id, moveFocus) {
       var selectedButton = null;
@@ -762,6 +978,7 @@
         var name = selectedButton.querySelector('.expert-name').textContent;
         if (detail) detail.setAttribute('aria-label', name + ' details');
         if (status) status.textContent = name + ' selected';
+        // The tone lives on the per-expert [data-expert] rule; mirror it on the pane.
         if (detail) {
           var tone = getComputedStyle(selectedButton).getPropertyValue('--tone').trim();
           if (tone) detail.style.setProperty('--tone', tone);

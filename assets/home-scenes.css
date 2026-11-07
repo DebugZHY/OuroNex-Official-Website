@@ -1,0 +1,275 @@
+/* Load after home.css. JS part clocks own the eased entry and exit values;
+   native scroll positions select their targets and pan tall content. */
+
+/* Without JS the expanded mobile navigation occupies real document space. */
+html:not(.js) body.home-page {
+  height: auto;
+  overflow: visible;
+}
+html:not(.js) body.home-page main.home-scroll {
+  height: auto;
+  overflow: visible;
+}
+html:not(.js) body.home-page .site-header {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-home-boot="pending"] body.home-page:not([data-home-theatre]) #home :is(#hero-title, .hero-description, .hero-actions, .hero-demo) {
+    visibility: hidden;
+  }
+}
+
+body.home-page .home-scene-track,
+body.home-page .home-scene-stage {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  transition: none !important;
+}
+
+/* Leftover wrappers remain an ordinary, visible document before enhancement
+   and after disabling it. Override only the track height written inline by JS. */
+body.home-page:not([data-home-theatre=on]) .home-scene-track {
+  height: auto !important;
+  margin-bottom: 0;
+}
+body.home-page:not([data-home-theatre=on]) .home-scene-stage {
+  position: static;
+  top: auto;
+  translate: 0 0;
+  height: auto;
+  overflow: visible;
+  visibility: visible;
+  pointer-events: auto;
+}
+body.home-page:not([data-home-theatre=on]) .home-scene-stage > .home-section {
+  translate: 0 0;
+}
+body.home-page:not([data-home-theatre=on]) .home-scene-stage [data-motion-item],
+body.home-page[data-home-theatre=reduced] [data-motion-item] {
+  opacity: 1 !important;
+  translate: 0 0 !important;
+  scale: 1 !important;
+  transition: none !important;
+}
+
+/* All stages share one sticky grid area spanning the native scroll range.
+   The compositor pins it directly, including rapid jumps between sections. */
+body.home-page .home-scene-range {
+  display: none;
+}
+body.home-page[data-home-theatre=on] main.home-scroll {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+}
+body.home-page[data-home-theatre=on] .home-scene-range {
+  display: block;
+  grid-area: 1 / 1;
+  width: 1px;
+  pointer-events: none;
+  visibility: hidden;
+}
+body.home-page[data-home-theatre=on] .home-scene-track {
+  display: contents;
+}
+body.home-page[data-home-theatre=on] .home-scene-track > .home-scene-stage {
+  grid-area: 1 / 1;
+  align-self: start;
+  position: sticky;
+  top: 0;
+  width: var(--scene-width, 100%);
+  height: var(--scene-vh, 100svh);
+  overflow: clip;
+  clip-path: inset(var(--header-height, 82px) 0 0);
+}
+body.home-page[data-home-theatre=on] .home-scene-track[data-scene-active=false] > .home-scene-stage {
+  visibility: hidden;
+  pointer-events: none;
+}
+body.home-page[data-home-theatre=on] .home-scene-track[data-scene-active=true] > .home-scene-stage {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Keep section padding and inner .wrap widths from home.css. Only the stage
+   clips; section content can measure its natural height and pan through it.
+   Independent translate leaves local child transforms (including the 3D mark)
+   intact. JS supplies a non-positive --scene-pan-y in pixels. */
+body.home-page[data-home-theatre=on] .home-scene-track > .home-scene-stage > .home-section {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  min-height: var(--scene-vh, 100svh);
+  overflow: visible;
+  translate: 0 var(--scene-pan-y, 0px);
+}
+
+/* Specificity exceeds the old [data-section-motion][data-motion-state] rules.
+   Fully entered items have opacity 1, translate 0 0 and scale 1. No transform
+   or animation declaration replaces component positioning or CTA breathing. */
+body.home-page[data-home-theatre=on] .home-scene-track > .home-scene-stage [data-motion-item] {
+  --scene-from-x: 0px;
+  --scene-from-y: 64px;
+  --scene-to-x: 0px;
+  --scene-to-y: -56px;
+  --scene-from-scale: 1;
+  --scene-to-scale: 1;
+  --scene-local-transition: none;
+  opacity: calc(var(--scene-enter, 1) * (1 - var(--scene-exit, 0)));
+  translate:
+    calc(var(--scene-from-x) * (1 - var(--scene-enter, 1)) + var(--scene-to-x) * var(--scene-exit, 0))
+    calc(var(--scene-from-y) * (1 - var(--scene-enter, 1)) + var(--scene-to-y) * var(--scene-exit, 0));
+  scale: calc(1 + (var(--scene-from-scale) - 1) * (1 - var(--scene-enter, 1)) + (var(--scene-to-scale) - 1) * var(--scene-exit, 0));
+  transition: var(--scene-local-transition);
+}
+
+/* Titles lead vertically, supporting text follows, then controls and panels.
+   These are poses only: ordering and the background lead belong to the JS clock. */
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=headline] {
+  --scene-from-y: 88px;
+  --scene-to-y: -80px;
+}
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=copy],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=fade],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=drift] {
+  --scene-from-y: 56px;
+  --scene-to-y: -56px;
+}
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=actions],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=pop] {
+  --scene-from-y: 48px;
+  --scene-to-y: 48px;
+}
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=slide],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=rail] {
+  --scene-from-x: -96px;
+  --scene-from-y: 0px;
+  --scene-to-x: -96px;
+  --scene-to-y: 0px;
+}
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=perspective],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=mask],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=depth],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=panel],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=flip] {
+  --scene-from-x: 144px;
+  --scene-from-y: 0px;
+  --scene-to-x: 128px;
+  --scene-to-y: 0px;
+  --scene-from-scale: .985;
+  --scene-to-scale: .99;
+}
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=rise],
+body.home-page[data-home-theatre=on] .home-scene-stage [data-motion-item][data-motion-variant=float] {
+  --scene-from-y: 64px;
+  --scene-to-y: -56px;
+}
+
+/* Local feedback may use CSS transitions. Entry and exit progress follows
+   each part's complete clock sequence without adding another transition. */
+body.home-page[data-home-theatre=on] .home-scene-stage .hero-actions .button[data-motion-item],
+body.home-page[data-home-theatre=on] .home-scene-stage .hero-actions .early-access[data-motion-item],
+body.home-page[data-home-theatre=on] .home-scene-stage .download-actions .button[data-motion-item],
+body.home-page[data-home-theatre=on] .home-scene-stage .download-actions .early-access[data-motion-item] {
+  --scene-local-transition: transform .25s var(--ease, ease), box-shadow .25s ease, border-color .3s ease, color .2s ease;
+}
+body.home-page[data-home-theatre=on] .home-scene-stage .feature-tab-list > button[data-motion-item] {
+  --scene-local-transition: color .22s ease;
+}
+
+/* Resolve separator alpha on the section so descendants with their own item
+   progress inherit the scene clock's result. Border widths and layout stay put. */
+@media (prefers-reduced-motion: no-preference) {
+  body.home-page[data-home-theatre=on] .home-scene-stage > .home-section {
+    --scene-divider-alpha: calc(var(--scene-enter, 1) * (1 - var(--scene-exit, 0)));
+  }
+  body.home-page[data-home-theatre=on] .home-scene-stage .feature-panels {
+    border-color: rgb(155 181 210 / calc(.13 * var(--scene-divider-alpha, 1)));
+  }
+  body.home-page[data-home-theatre=on] .home-scene-stage .feature-panels::before {
+    opacity: var(--scene-divider-alpha, 1);
+  }
+  body.home-page[data-home-theatre=on] .home-scene-stage .plan-mini + .plan-mini,
+  body.home-page[data-home-theatre=on] .home-scene-stage .enterprise-examples {
+    border-color: rgb(155 181 210 / calc(.18 * var(--scene-divider-alpha, 1)));
+  }
+  /* The part clock gives the selected background time to settle first. */
+  body.home-page[data-home-theatre=on] .home-backgrounds > .hero-media {
+    transition-duration: 180ms;
+  }
+}
+
+/* Desktop Enterprise is a sequence of ReactFlow nodes, not one sliding bitmap.
+   Keep its coordinate system fixed. The canvas/chrome appears before the cards
+   and leaves after them; all timing below is a fraction of the inherited clock.
+   At <=760px the separate static cards remain exclusively under JS control. */
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  body.home-page[data-home-theatre=on] .home-scene-track > .home-scene-stage .business-flow[data-motion-item] {
+    --scene-graph-enter: clamp(0, calc(var(--scene-enter, 1) / .04), 1);
+    --scene-graph-exit: clamp(0, calc((var(--scene-exit, 0) - .96) / .04), 1);
+    opacity: calc(var(--scene-graph-enter) * (1 - var(--scene-graph-exit)));
+    translate: 0 0;
+    scale: 1;
+    transition: none;
+  }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node:is([data-id="entry-1"], [data-id="entry-2"], [data-id="entry-3"], [data-id="decision"], [data-id="lane-1"], [data-id="lane-2"], [data-id="lane-3"], [data-id="delivery"]) {
+    --scene-node-enter: clamp(0, calc((var(--scene-enter, 1) - var(--scene-node-in)) / .16), 1);
+    --scene-node-exit: clamp(0, calc((var(--scene-exit, 0) - var(--scene-node-out)) / .16), 1);
+    opacity: calc(var(--scene-node-enter) * (1 - var(--scene-node-exit)));
+    translate: 0 calc(56px * (1 - var(--scene-node-enter)) - 48px * var(--scene-node-exit));
+    transition: none;
+  }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="entry-1"] { --scene-node-in: .04; --scene-node-out: .80; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="entry-2"] { --scene-node-in: .08; --scene-node-out: .76; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="entry-3"] { --scene-node-in: .12; --scene-node-out: .72; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="decision"] { --scene-node-in: .32; --scene-node-out: .52; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="lane-1"] { --scene-node-in: .52; --scene-node-out: .32; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="lane-2"] { --scene-node-in: .56; --scene-node-out: .28; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="lane-3"] { --scene-node-in: .60; --scene-node-out: .24; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__node[data-id="delivery"] { --scene-node-in: .80; --scene-node-out: .04; }
+  body.home-page[data-home-theatre=on] .business-flow .react-flow__edges {
+    --scene-edges-enter: clamp(0, calc((var(--scene-enter, 1) - .20) / .56), 1);
+    --scene-edges-exit: clamp(0, calc(var(--scene-exit, 0) / .72), 1);
+    opacity: calc(var(--scene-edges-enter) * (1 - var(--scene-edges-exit)));
+    transition: none;
+  }
+}
+
+/* This CSS fallback works before the media-change handler removes inline
+   heights/active state. JS must also clear inert when restoring document flow. */
+@media (prefers-reduced-motion: reduce) {
+  body.home-page[data-home-theatre] main.home-scroll {
+    display: block;
+  }
+  body.home-page[data-home-theatre] .home-scene-range {
+    display: none;
+  }
+  body.home-page[data-home-theatre] .home-scene-track {
+    display: block;
+    height: auto !important;
+    margin-bottom: 0 !important;
+  }
+  body.home-page[data-home-theatre] .home-scene-track > .home-scene-stage {
+    position: static !important;
+    top: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip-path: none !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  body.home-page[data-home-theatre] .home-scene-stage > .home-section {
+    min-height: 100svh !important;
+    overflow: hidden !important;
+    translate: 0 0 !important;
+  }
+  body.home-page[data-home-theatre] [data-motion-item] {
+    opacity: 1 !important;
+    translate: 0 0 !important;
+    scale: 1 !important;
+    transition: none !important;
+  }
+}

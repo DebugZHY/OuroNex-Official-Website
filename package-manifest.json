@@ -4,13 +4,19 @@
     {
       "path": "404.html",
       "bytes": 7133,
-      "sha256": "47d583a3563f543797338c564efb497a06461b29f04e8ff160d73855a0b1665c",
+      "sha256": "801a0462fa5d20099aca8d10f5c5bb0543e5016175f8ac4db984eadce4cb0ca8",
       "size": 7133
+    },
+    {
+      "path": "SIDA-Logo-3D/建造者机器人立体图标.glb",
+      "bytes": 5781844,
+      "sha256": "b12e9f36ead5b0993fe60c6215fd617512cb30c15ae2029ee02d3e5a55fced72",
+      "size": 5781844
     },
     {
       "path": "arena.html",
       "bytes": 9331,
-      "sha256": "1f24de4df42e9b8110f10a024eb8cbe199bf17f014773fb1401cab46d3974193",
+      "sha256": "9ca473d87d05eb515d50c52053371ecd05da7ba777f0a944b0b11b96d4de0aee",
       "size": 9331
     },
     {
@@ -63,15 +69,15 @@
     },
     {
       "path": "assets/business-flow.css",
-      "bytes": 20604,
-      "size": 20604,
-      "sha256": "0192bebe813ac2b1ff3bd04dfc29ef329c7434554d59bcded7643440b0545777"
+      "bytes": 21258,
+      "size": 21258,
+      "sha256": "35a25c753b510b1e01f6b973e55fb4b5bd9adb5eab71aa13fd105841b2d5981d"
     },
     {
       "path": "assets/business-flow.js",
-      "bytes": 212825,
-      "size": 212825,
-      "sha256": "0ca3365c8888cedaeb0f562736e1cb56c717d79f39b970923897c6899a790db2"
+      "bytes": 213104,
+      "size": 213104,
+      "sha256": "6993034680fef6dd3811c3506ce40f17136839d835adfdd0927d6ca3e3a73eec"
     },
     {
       "path": "assets/company.css",
@@ -152,16 +158,28 @@
       "size": 4395
     },
     {
+      "path": "assets/home-scene-clock.js",
+      "bytes": 6020,
+      "sha256": "a0d43ec465fc8b50e7ec1e52f8a92353144c1118114c2b9498515b84c6c027c8",
+      "size": 6020
+    },
+    {
+      "path": "assets/home-scenes.css",
+      "bytes": 12492,
+      "sha256": "2b58ed99198df6144d6f1051997107c666512ce8ba6ea4a3a480a11bf6e858ec",
+      "size": 12492
+    },
+    {
       "path": "assets/home.css",
-      "bytes": 57118,
-      "sha256": "1ba699862bc5b2b81add29166ec3840ca80819bdba07dbf865a1cfd5c0d07a14",
-      "size": 57118
+      "bytes": 50570,
+      "sha256": "f8f6df2d95805d7ddd944a53c0e4ad9239a07a639a574082c6bd6d74d8b18048",
+      "size": 50570
     },
     {
       "path": "assets/home.js",
-      "bytes": 39621,
-      "sha256": "766e486c0df315f112c4749029dea1ffb795bc66daffdd0c120e32f63b3d8847",
-      "size": 39621
+      "bytes": 62137,
+      "sha256": "ab2d27effec98afb2ba4baa82a866fcf1ef50226cf183f6a7af5809aa50f2ddb",
+      "size": 62137
     },
     {
       "path": "assets/i18n.css",
@@ -231,9 +249,9 @@
     },
     {
       "path": "assets/i18n/home.js",
-      "bytes": 25560,
-      "sha256": "a77724cfa129e4735419e0a55e3ed378f6c46de9f5c4bda65cbfc96ecc5afc2e",
-      "size": 25560
+      "bytes": 28841,
+      "sha256": "66a520c79a69528fc804fd7ebce9217a8aa7de708574d6e1e64af4397b62bfcf",
+      "size": 28841
     },
     {
       "path": "assets/i18n/news-template.js",
@@ -291,9 +309,9 @@
     },
     {
       "path": "assets/i18n/shared.js",
-      "bytes": 3795,
-      "sha256": "b7a2745e63abaf71504d110ee0bfc5e98aa08f40f3adeea847c279081f38587b",
-      "size": 3795
+      "bytes": 3819,
+      "sha256": "f7399ce48ce066d9e1e9c8e3b95830f79e86403f04ce7ff06a10d410e53dde19",
+      "size": 3819
     },
     {
       "path": "assets/i18n/terms.js",
@@ -302,70 +320,16 @@
       "size": 164
     },
     {
-      "path": "assets/illustrations/bim-modelling-web.jpg",
-      "bytes": 296828,
-      "size": 296828,
-      "sha256": "4dcc43bd782dd7122e04000c422bbf134b398e9503cc6001da40cb23a9527259"
-    },
-    {
-      "path": "assets/illustrations/design-optimization-web.jpg",
-      "bytes": 167836,
-      "sha256": "795b4f0b47202fb368c9868e0893f68d08fde42c07a3f50ca3d6f22c042852bc",
-      "size": 167836
-    },
-    {
       "path": "assets/illustrations/haoyi-zhang.png",
       "bytes": 386427,
       "size": 386427,
       "sha256": "b1463f8fc2046268067aeb3fd9a3cb1629efbc68c03c2e562036758fecb60ac2"
     },
     {
-      "path": "assets/illustrations/home-1.png",
-      "bytes": 648540,
-      "sha256": "c44cba1b0254a094de21495a13012439cd253c809325d709cbb922d8153e53ae",
-      "size": 648540
-    },
-    {
-      "path": "assets/illustrations/home-2.png",
-      "bytes": 257016,
-      "sha256": "0f315346b76e758e30dc04252935f1b274523d462b1b12fc972427eb23c7d7e4",
-      "size": 257016
-    },
-    {
-      "path": "assets/illustrations/home-3.png",
-      "bytes": 1487503,
-      "sha256": "411af01e0c909226a3f5f8a18e0dfefb297bbbe7b64c7557d49a711f14b81048",
-      "size": 1487503
-    },
-    {
-      "path": "assets/illustrations/home-4.png",
-      "bytes": 632314,
-      "sha256": "9ec8c0743484712a9d3ca8e0cc2d94f15df3d8b3e2ec005c17ae852a45bbc208",
-      "size": 632314
-    },
-    {
       "path": "assets/illustrations/jake-chan.jpg",
       "bytes": 81271,
       "size": 81271,
       "sha256": "90ade1f77fd63cc2efd6456696f6133087cbf0c103ac5f6c9be1a34de6f5dcf0"
-    },
-    {
-      "path": "assets/illustrations/multidisciplinary-experts.png",
-      "bytes": 149242,
-      "sha256": "c19572dcb408abb8fc3eaea73a328e06db82c51749bc993b73e53ba5944d581a",
-      "size": 149242
-    },
-    {
-      "path": "assets/illustrations/professional-tools.jpg",
-      "bytes": 2123332,
-      "sha256": "263ce504dbcd2243547347c8900df30482db55066a95945cfcfed7f202222f20",
-      "size": 2123332
-    },
-    {
-      "path": "assets/illustrations/project-planning-web.jpg",
-      "bytes": 214965,
-      "sha256": "a3d879939b1628fded3494bff95b2b4de47ab857662bead7234977ec423ebec9",
-      "size": 214965
     },
     {
       "path": "assets/illustrations/sida-logo.png",
@@ -378,12 +342,6 @@
       "bytes": 116445,
       "size": 116445,
       "sha256": "734b5e101b150ef99cfbffe89ea2ea30825bc5a69670989a02a0023a6c82d311"
-    },
-    {
-      "path": "assets/illustrations/tendering-web.jpg",
-      "bytes": 278218,
-      "size": 278218,
-      "sha256": "fd0f0ca2ca6adeac9041b3bf16c67900e78a87d25357fbb0f333530591a5f569"
     },
     {
       "path": "assets/legal.css",
@@ -429,9 +387,9 @@
     },
     {
       "path": "assets/sida-panels.css",
-      "bytes": 2904,
-      "sha256": "b394903cc6ba2c03b7553326aae11ae00e78c3f17fad0aaa53c78817aa71ace3",
-      "size": 2904
+      "bytes": 2985,
+      "sha256": "3ff9b1425aa81e9ddb5833cfa7de2f403ac6a9709f73f043dea37c7028151db0",
+      "size": 2985
     },
     {
       "path": "assets/sida-wordcloud.js",
@@ -458,6 +416,12 @@
       "size": 14037
     },
     {
+      "path": "assets/solutions.css",
+      "bytes": 5468,
+      "sha256": "5d645961735ee99d1cd1f3b478292b5f28b1010a70b7bf0de33650063a77f5fa",
+      "size": 5468
+    },
+    {
       "path": "assets/token-usage.css",
       "bytes": 18037,
       "sha256": "62acdd95fc8eb23632a27885c1b1e624de7ba4d19a7832ff4bc9b4313813d90d",
@@ -472,67 +436,67 @@
     {
       "path": "early-access.html",
       "bytes": 9599,
-      "sha256": "18ac14e4d0ca651f2090d54352eb588e56ad8c08cd0b07437d5dbef09924c8e8",
+      "sha256": "9d2b3671a2b19c13cfd3368db1d38adf5a69f28f6c5ef0dd9c57012d90ff8f2d",
       "size": 9599
     },
     {
       "path": "index.html",
-      "bytes": 25615,
-      "sha256": "3743aca10cb5a994a0f342920bd618b807a31bf25cc40c28959eda7f297fe0ba",
-      "size": 25615
+      "bytes": 25361,
+      "sha256": "4e75b2dd8507af370862ba9c405466cf01846aec1dedc574f9675e4cf73711cf",
+      "size": 25361
     },
     {
       "path": "news/_template.html",
       "bytes": 9717,
-      "sha256": "6077aeba1f0c8f9bbcb2b42e1dc9f51a78ab1b4e0774921a34be53b1c7567231",
+      "sha256": "d3ce60ba2de8586fb2593a8fb4a47c8536d73fe7d8cc4325f291626f85ef79f1",
       "size": 9717
     },
     {
       "path": "news/sample-drawings-as-engineer.html",
       "bytes": 13411,
-      "sha256": "f045fa688b0111d45ebb4a45e2e638bfef91ed678c58e4ecbfb5ec1e12c987ab",
+      "sha256": "0d39a13d8ae6f86414d3d5c94620e154f3ef6178d9d4800df7e6988b550133ec",
       "size": 13411
     },
     {
       "path": "news/sample-hong-kong-gba.html",
       "bytes": 13110,
-      "sha256": "a5eb37fcbeb446e166464ac7549eecdcd35172200c2b610e970ee549d9ea4f4e",
+      "sha256": "94763da47cda29366c0d98b9f21a89c724078bee6bf92100e859a5de05a75c70",
       "size": 13110
     },
     {
       "path": "news/sample-llm-drawing-review.html",
       "bytes": 13266,
-      "sha256": "3d380c8f5d96cf7992a41d7e68fb66a1b954510fa728b9500304c39c9a1e6c25",
+      "sha256": "fa0d628e408f9407ff728c407b502fd1da670b32f004c32f600d4bb1dac2065d",
       "size": 13266
     },
     {
       "path": "news/sample-pilot-to-practice.html",
       "bytes": 13054,
-      "sha256": "78c003241c59e74898a246278af6fa66cbad9796787ebfd4dd1aff1ba3b67921",
+      "sha256": "0de3ba011647aae6e41e8f8db479b12d2d569b3a22c314bea5364a4c343f48be",
       "size": 13054
     },
     {
       "path": "news/sample-review-as-product.html",
       "bytes": 13246,
-      "sha256": "6bfd87f32cadf0d4b309552711e48edc55f4c8c21d09e0158e60d95f65c73663",
+      "sha256": "829fc6d81a9e983e780c1b647cb1c4222025818ffc78bc2332a4d15a72041f05",
       "size": 13246
     },
     {
       "path": "news/sample-sida-2026.html",
       "bytes": 13352,
-      "sha256": "e711030bce891a7809640e947413454b9b0c3269a531ddb92c3b2e56764a0f19",
+      "sha256": "d5520be037919f414b74139f1556c870d04ee805e53625c189f32b3642ccda34",
       "size": 13352
     },
     {
       "path": "news/sample-soda-assumptions.html",
       "bytes": 13509,
-      "sha256": "f6b8e60c21ec2e73521707823b14d64acaa44de858dd827d513ad690b27ec034",
+      "sha256": "11e268c078f4e239899d0c804fac1ac2bc25450bb479a26ec0be62c37a11cbfa",
       "size": 13509
     },
     {
       "path": "privacy.html",
       "bytes": 43126,
-      "sha256": "286731b05c6746f84968db9c800529bfe3b7102facd0c661a7196e296939f328",
+      "sha256": "3db92d7e59aef828b7b4c96ed27e6768e43090056733cabda41838ee8087bf0e",
       "size": 43126
     },
     {
@@ -556,20 +520,44 @@
     {
       "path": "terms.html",
       "bytes": 51481,
-      "sha256": "786ec8d9de0ca103e29780b843b113fdd3425a0d45a252b255993102808ec4b1",
+      "sha256": "9b8a206e218eaeb8d5701ffb4cc0f9ecd9f0e7b88d43b172037361695db1eb8e",
       "size": 51481
     },
     {
-      "path": "SIDA-Logo-3D/建造者机器人立体图标.glb",
-      "bytes": 5781844,
-      "sha256": "b12e9f36ead5b0993fe60c6215fd617512cb30c15ae2029ee02d3e5a55fced72",
-      "size": 5781844
+      "path": "workflow-stages/features/application-assets/app-flow.css",
+      "bytes": 29898,
+      "size": 29898,
+      "sha256": "448f2d5bd755d1e2aa03e8e37650f9b21a5a3220d0fe7531089d7731f70dba8c"
+    },
+    {
+      "path": "workflow-stages/features/application-assets/app-flow.js",
+      "bytes": 227018,
+      "size": 227018,
+      "sha256": "943657204822005f636c2e04498404c5957beee4aee55e345a72158429e494da"
+    },
+    {
+      "path": "workflow-stages/features/application-workflows.html",
+      "bytes": 959,
+      "size": 959,
+      "sha256": "75c43449738d4adef4dc308e0fbd6b466cbf00775fa4e8b32ea7b32a3f3684f5"
     },
     {
       "path": "workflow-stages/features/complex-workflow.html",
       "bytes": 3763,
       "sha256": "9bbf9dca41fa4e323cd66296f0138fa312fb81cdea04f6c6c582c868e4653864",
       "size": 3763
+    },
+    {
+      "path": "workflow-stages/features/expert-avatars.css",
+      "bytes": 5009,
+      "sha256": "3f8c2d4ad16444b7c0934074f95026a6fc30bdd8a5ee83a6402dafdbbf87e205",
+      "size": 5009
+    },
+    {
+      "path": "workflow-stages/features/expert-avatars.js",
+      "bytes": 7548,
+      "sha256": "2def5318ba2654f508d7c3a7ab2df849318f46ac8da7c81bb052ad7e5f936148",
+      "size": 7548
     },
     {
       "path": "workflow-stages/features/flow-assets/apps/bim-helper.svg",
@@ -608,6 +596,12 @@
       "size": 1079
     },
     {
+      "path": "workflow-stages/features/flow-assets/apps/fejoint.svg",
+      "bytes": 2325,
+      "sha256": "c85b7848a2bc2254e5628ef3252e26d973526ed5a9a689fd8cd4cf9a3c711784",
+      "size": 2325
+    },
+    {
       "path": "workflow-stages/features/flow-assets/apps/pdf-editor.svg",
       "bytes": 1726,
       "sha256": "32469dfd9fe581837fe252f693b131c1d0dcf0317a76172f40d2ec4e843b8a73",
@@ -644,10 +638,70 @@
       "size": 2347
     },
     {
+      "path": "workflow-stages/features/flow-assets/apps/windcode-pro-hk.svg",
+      "bytes": 1587,
+      "sha256": "aa7e31a556cfbb620fbd683ff2eece442236b22c52dca89aa904ad3d354e520b",
+      "size": 1587
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/analysis.svg",
+      "bytes": 798,
+      "sha256": "a77ba83d10ed41bcbeec1c97bcd81fb718196cad0d55692aa1d739fc4b1240bb",
+      "size": 798
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/compliance.svg",
+      "bytes": 647,
+      "sha256": "151f406472fe87ebe95e3e99bc13795d968033a0e4dcd893a60ecbb1f445bd93",
+      "size": 647
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/connections.svg",
+      "bytes": 707,
+      "sha256": "e2e5dc30cd746f25242cb42c9e7e003d5901e2e3fa209140a568033d00a1ca17",
+      "size": 707
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/documentation.svg",
+      "bytes": 812,
+      "sha256": "05a4854600fc64a9f77f10a5a174974068a5b92d5a06f8c2955db55e3a4f6e05",
+      "size": 812
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/modelling.svg",
+      "bytes": 678,
+      "sha256": "146b6c002a4d8b6f92a194358afd08bbe1183a9c8225fb3c2ab32b5b723d0ab2",
+      "size": 678
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/reporting.svg",
+      "bytes": 627,
+      "sha256": "0b15e9136dc4bc9609c76c0d65b95839d6e09666ee421b5b37da4d6e2655c203",
+      "size": 627
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/sections.svg",
+      "bytes": 940,
+      "sha256": "a0386f00a0efcb23043eb37ebae0ec64f34ff484ddd55e0316d1b953e4ad6aad",
+      "size": 940
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/site-planning.svg",
+      "bytes": 798,
+      "sha256": "9a172573e1dab5dd94860b4bb4ddaaaa9a35335f53ed711f43936a419871ef74",
+      "size": 798
+    },
+    {
+      "path": "workflow-stages/features/flow-assets/experts/wind.svg",
+      "bytes": 792,
+      "sha256": "22a67ec8037b43e5a95bb45332e95541aeaf903ab87ee51d11a12f6c01eec96d",
+      "size": 792
+    },
+    {
       "path": "workflow-stages/features/flow-assets/flow.css",
-      "bytes": 34394,
-      "sha256": "0d9a14504330cda1c21184269b6832353e94e2a5ed4f5298fdcffe5077c1f573",
-      "size": 34394
+      "bytes": 34407,
+      "sha256": "a9b74a63199e9dadf11b6e6fa9bcac77a841d17a0e965a2d1bba08b7e7e9e22c",
+      "size": 34407
     },
     {
       "path": "workflow-stages/features/flow-assets/flow.js",
@@ -657,34 +711,45 @@
     },
     {
       "path": "workflow-stages/features/information-management.html",
-      "bytes": 115129,
-      "sha256": "0ec63e75c9359a0bc1a1462c656aa2ef0e1fcc1ec8455f2b4099a26ed4bebb7c",
-      "size": 115129
+      "bytes": 123980,
+      "sha256": "a0dd895ff544e65c3ff865c673c16d229e1f0162d5bf1dc39016617a67a9b5f5",
+      "size": 123980
     },
     {
       "path": "workflow-stages/features/multidisciplinary-experts.html",
-      "bytes": 39078,
-      "sha256": "0eae79f820e64d502f61f97979f2291dcbefa93fa48d348d5739adb14c40bbcb",
-      "size": 39078
+      "bytes": 60885,
+      "sha256": "b8e4bd705fdf6dd303ed5672e80e39c1e4990fcf6e94c984c3d6ad93954fb092",
+      "size": 60885
     },
-
     {
       "path": "workflow-stages/features/professional-tools.html",
-      "bytes": 15154,
-      "sha256": "f9a6179a205b13c555be5b8a05e708241d9dbe294b2daac972ad1558637b24d3",
-      "size": 15154
+      "bytes": 17026,
+      "sha256": "557a43b02771157cc4583a662469daf318d967c1278b8c5778f8423bf130fa60",
+      "size": 17026
     },
     {
       "path": "workflow-stages/ui/embed.css",
-      "bytes": 23746,
-      "sha256": "11c5f636a112a12911560a1a58d531faacee3e38b311063ecd68437414e8d796",
-      "size": 23746
+      "bytes": 35375,
+      "sha256": "a6ff1971870f3d81062a9654a40d3ac23565fa79d87cbed1a5f57777198d82ea",
+      "size": 35375
     },
     {
       "path": "workflow-stages/ui/embed.js",
-      "bytes": 54215,
-      "sha256": "e9ff0c51f1f24cc435ff2e75fed54c7043371650a9b1962a274a40bc12d042dd",
-      "size": 54215
+      "bytes": 69243,
+      "sha256": "9e9af02fa1392b854c4838a2dc0bc33e490ee0dd49a4a55bdfe1697061437102",
+      "size": 69243
+    },
+    {
+      "path": "workflow-stages/ui/flow.css",
+      "bytes": 35757,
+      "sha256": "c5b639ebc5980ec93ee9bbdab941dc40835a577837d98b594b58b95a503db0ac",
+      "size": 35757
+    },
+    {
+      "path": "workflow-stages/ui/flow.js",
+      "bytes": 226188,
+      "sha256": "89fe0c111c27cb8d168f377f29339d382241e8ca5c3023d936880da65ac2ee57",
+      "size": 226188
     },
     {
       "path": "workflow-stages/ui/sida-mark-BZOX5RLO.png",
@@ -694,21 +759,99 @@
     },
     {
       "path": "workflow-stages/ui/welcome-robot.js",
-      "bytes": 617242,
-      "sha256": "8a6cc92d5df7598da3c3cc8a20b32c69f7c0bbf20553e0f5bf2050b0f0440b3d",
-      "size": 617242
+      "bytes": 621366,
+      "sha256": "80c756e57d90d3e31d232735f5cac203b00a4d2c54b7ecc8f518588e468e7239",
+      "size": 621366
     },
     {
-      "path": "workflow-stages/ui/flow.css",
-      "bytes": 24517,
-      "sha256": "afe5389d27b97dfcbed6ec57ad9b3a28e169b208c49ec19b57b1d2eaf23b8151",
-      "size": 24517
+      "path": "workflow-stages/ui/soda-viewer.css",
+      "bytes": 9990,
+      "sha256": "24b391ba9f348a8d5b8ca313eb818095b6561d67111cbf6cc982ac7bfa0bdccf",
+      "size": 9990
     },
     {
-      "path": "workflow-stages/ui/flow.js",
-      "bytes": 215565,
-      "sha256": "7f20f771ce42f8b501fc79f66c5370c78946c106d46318555ef4c954e347fa51",
-      "size": 215565
+      "path": "workflow-stages/ui/soda-viewer.js",
+      "bytes": 663627,
+      "sha256": "b5fdbeff5f4d5b3bc0564b8698aacabfefcd5e8ad5e8a5d66faa6a01d5152700",
+      "size": 663627
+    },
+    {
+      "path": "workflow-stages/models/steel-frame.glb",
+      "bytes": 14350852,
+      "sha256": "ace5da6da0ff8d0a1e9c49cac7c9ffe5d1809a42c17e2fbe36607e0b2c3d9e38",
+      "size": 14350852
+    },
+    {
+      "path": "workflow-stages/models/steel-frame.meta.json",
+      "bytes": 14586,
+      "sha256": "9c0d19a3c4813b801f5ba8ff94d5816e6cc0ef5399de6aacd9aa277b2d473476",
+      "size": 14586
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/cursor_hollow.png",
+      "bytes": 3080,
+      "sha256": "d5517161336c28dcc3400bc74dcdd8e7013380f32fcc72e796a3465d2274ec2d",
+      "size": 3080
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/fit_to_screen.png",
+      "bytes": 2491,
+      "sha256": "d9d821ae568d86a45d81ea0072c891e62bfb0379511750b931e1c2d4aa09d904",
+      "size": 2491
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/isometric_view.png",
+      "bytes": 6924,
+      "sha256": "ba7e4755df64ac5d5ba6044962b9de987039d900811362357e096310149116e7",
+      "size": 6924
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/pan.png",
+      "bytes": 555,
+      "sha256": "984efb4329293f0820816217af6bafd32abe7ac9410a285c2cca4e0c8590146f",
+      "size": 555
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/perspective_view.png",
+      "bytes": 8108,
+      "sha256": "436196a959a9f5c31791d31346f09dfbb9cc73b2bdcc8ba20175d1ba8da2622b",
+      "size": 8108
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/redo.svg",
+      "bytes": 394,
+      "sha256": "23d8712347edcfea6eceecb87b273a2f975c2fbb6a4fdd38e33543dd3367c0d9",
+      "size": 394
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/rotate.png",
+      "bytes": 1889,
+      "sha256": "9e0d6090398c316378b38bf716186a11bc731deb351599c1f7621c6aac920f1b",
+      "size": 1889
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/undo.svg",
+      "bytes": 389,
+      "sha256": "a0d3a120920d2d9b26606cc6f3392f7bc1d35a83559dad5e0346aad6fe6f3bf7",
+      "size": 389
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/zoom_in.png",
+      "bytes": 4942,
+      "sha256": "089c7872f1732f8789bd0fb6f55b527305ef32f7c39d58d57483ec767b4d8728",
+      "size": 4942
+    },
+    {
+      "path": "workflow-stages/ui/soda-icons/zoom_out.png",
+      "bytes": 4780,
+      "sha256": "056a2132a2ac0df36e7ac3fa8ce078a90f2d78836bb53ac15b2414ed95f626bc",
+      "size": 4780
+    },
+    {
+      "path": "workflow-stages/models/steel-frame.glb.gz",
+      "bytes": 4958164,
+      "sha256": "b90ee8b538e6762a4e828ed1b3386aa6a0943fdc85e454f0adb8a91c6f0086a5",
+      "size": 4958164
     }
   ]
 }

@@ -1,0 +1,90 @@
+/* Canonical four-layer motion, extracted from multidisciplinary-experts.html.
+   Both consumers load this URL at runtime; do not copy these keyframes into a bundle. */
+[data-sida-avatar] { display:block; flex:none; position:relative; overflow:visible; }
+[data-sida-avatar] > img, [data-sida-avatar] > svg {
+  display:block; width:100%; height:100%; object-fit:contain; object-position:center;
+}
+[data-sida-avatar] > svg { overflow:visible; }
+
+/* One timeline per portrait: all layers start front-facing and return there every cycle. */
+[data-sida-avatar] .bot-float,[data-sida-avatar] .bot-turn,[data-sida-avatar] .bot-face,[data-sida-avatar] .bot-eyes{
+  transform:translate(0px,0px) rotate(0deg) skewY(0deg) scale(1,1);
+  animation-duration:var(--sida-avatar-duration,12s);
+  animation-timing-function:ease-in-out;
+  animation-delay:var(--sida-avatar-delay,0s);
+  animation-iteration-count:infinite;
+  animation-fill-mode:both;
+}
+[data-sida-avatar] .bot-float{
+  transform-box:view-box;transform-origin:32px 42px;
+  animation-name:sida-expert-sway;
+}
+[data-sida-avatar] .bot-turn,[data-sida-avatar] .bot-face{
+  transform-box:view-box;transform-origin:32px 38px;
+}
+[data-sida-avatar] .bot-turn{animation-name:sida-expert-turn}
+[data-sida-avatar] .bot-face{animation-name:sida-expert-look}
+[data-sida-avatar] .bot-eyes{
+  transform-box:fill-box;transform-origin:center;
+  animation-name:sida-expert-blink;
+}
+[data-sida-avatar][data-avatar-paused] .bot-float,
+[data-sida-avatar][data-avatar-paused] .bot-turn,
+[data-sida-avatar][data-avatar-paused] .bot-face,
+[data-sida-avatar][data-avatar-paused] .bot-eyes,
+[data-avatars-paused] [data-sida-avatar] .bot-float,
+[data-avatars-paused] [data-sida-avatar] .bot-turn,
+[data-avatars-paused] [data-sida-avatar] .bot-face,
+[data-avatars-paused] [data-sida-avatar] .bot-eyes{animation-play-state:paused}
+@keyframes sida-expert-sway{
+  0%,6%,24%,30%,48%,54%,72%,78%,96%,100%{transform:translate(0px,0px) rotate(0deg) skewY(0deg) scale(1,1)}
+  12%,18%{transform:translate(-.5px,.2px) rotate(-1.8deg) skewY(0deg) scale(1,1)}
+  36%,42%{transform:translate(0px,-1px) rotate(0deg) skewY(0deg) scale(1,1)}
+  60%,66%{transform:translate(.5px,.2px) rotate(1.8deg) skewY(0deg) scale(1,1)}
+  84%,90%{transform:translate(0px,.8px) rotate(0deg) skewY(0deg) scale(1,1)}
+}
+@keyframes sida-expert-turn{
+  0%,6%,24%,30%,48%,54%,72%,78%,96%,100%{transform:translate(0px,0px) rotate(0deg) skewY(0deg) scale(1,1)}
+  12%,18%{transform:translate(-.8px,0px) rotate(0deg) skewY(-3.5deg) scale(.96,1)}
+  36%,42%{transform:translate(0px,-.6px) rotate(0deg) skewY(0deg) scale(1,.97)}
+  60%,66%{transform:translate(.8px,0px) rotate(0deg) skewY(3.5deg) scale(.96,1)}
+  84%,90%{transform:translate(0px,.6px) rotate(0deg) skewY(0deg) scale(1,.98)}
+}
+@keyframes sida-expert-look{
+  0%,6%,24%,30%,48%,54%,72%,78%,96%,100%{transform:translate(0px,0px) rotate(0deg) skewY(0deg) scale(1,1)}
+  12%,18%{transform:translate(-3px,0px) rotate(0deg) skewY(0deg) scale(1,1)}
+  36%,42%{transform:translate(0px,-2.7px) rotate(0deg) skewY(0deg) scale(1,1)}
+  60%,66%{transform:translate(3px,0px) rotate(0deg) skewY(0deg) scale(1,1)}
+  84%,90%{transform:translate(0px,2.7px) rotate(0deg) skewY(0deg) scale(1,1)}
+}
+/* Blink only the eyes during the middle front-facing holds; headgear never scales with them. */
+@keyframes sida-expert-blink{
+  0%,26%,28%,74%,76%,100%{transform:translate(0px,0px) rotate(0deg) skewY(0deg) scale(1,1)}
+  27%,75%{transform:translate(0px,0px) rotate(0deg) skewY(0deg) scale(1,.08)}
+}
+/* Roles vary in pace; each role's four layers share its non-negative starting delay. */
+[data-sida-avatar="site-planning"]{--sida-avatar-duration:11.6s;--sida-avatar-delay:0s}
+[data-sida-avatar="compliance"]{--sida-avatar-duration:12.4s;--sida-avatar-delay:.25s}
+[data-sida-avatar="analysis"]{--sida-avatar-duration:12s;--sida-avatar-delay:.5s}
+[data-sida-avatar="sections"]{--sida-avatar-duration:12.8s;--sida-avatar-delay:.75s}
+[data-sida-avatar="wind"]{--sida-avatar-duration:11.2s;--sida-avatar-delay:1s}
+[data-sida-avatar="connections"]{--sida-avatar-duration:12.2s;--sida-avatar-delay:1.25s}
+[data-sida-avatar="modelling"]{--sida-avatar-duration:13s;--sida-avatar-delay:1.5s}
+[data-sida-avatar="documentation"]{--sida-avatar-duration:11.8s;--sida-avatar-delay:1.75s}
+[data-sida-avatar="reporting"]{--sida-avatar-duration:12.6s;--sida-avatar-delay:2s}
+
+/* Idle resets to a still, front-facing pose. Running and done use the same active timeline. */
+[data-sida-avatar][data-avatar-state="idle"] .bot-float,
+[data-sida-avatar][data-avatar-state="idle"] .bot-turn,
+[data-sida-avatar][data-avatar-state="idle"] .bot-face,
+[data-sida-avatar][data-avatar-state="idle"] .bot-eyes {
+  animation:none;
+  transform:translate(0px,0px) rotate(0deg) skewY(0deg) scale(1,1);
+}
+
+@media (prefers-reduced-motion:reduce) {
+  [data-sida-avatar] .bot-float, [data-sida-avatar] .bot-turn,
+  [data-sida-avatar] .bot-face, [data-sida-avatar] .bot-eyes {
+    animation:none!important; transform:none!important;
+  }
+}

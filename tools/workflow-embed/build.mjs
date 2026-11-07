@@ -7,12 +7,15 @@ import postcss from 'postcss';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const outdir = path.resolve(here, '../../workflow-stages/ui');
+fs.mkdirSync(outdir, { recursive: true });
+fs.cpSync(path.join(here, 'assets/soda-icons'), path.join(outdir, 'soda-icons'), { recursive: true });
 
 await build({
   entryPoints: {
     embed: path.join(here, 'src/index.jsx'),
     'welcome-robot': path.join(here, 'src/robot-renderer.js'),
     flow: path.join(here, 'src/flow.jsx'),
+    'soda-viewer': path.join(here, 'src/soda-viewer.jsx'),
   },
   outdir,
   entryNames: '[name]',
@@ -48,7 +51,7 @@ css.walkAtRules('keyframes', (rule) => { if (rule.params === 'dashdraw') rule.pa
 css.walkDecls(/^animation/, (declaration) => { declaration.value = declaration.value.replace(/\bdashdraw\b/g, 'sida-demo-dashdraw'); });
 fs.writeFileSync(flowCss, css.toString());
 
-for (const name of ['embed.js', 'embed.css', 'welcome-robot.js', 'flow.js', 'flow.css']) {
+for (const name of ['embed.js', 'embed.css', 'welcome-robot.js', 'flow.js', 'flow.css', 'soda-viewer.js', 'soda-viewer.css']) {
   const file = path.join(outdir, name);
   if (!fs.existsSync(file)) continue;
   const bytes = fs.readFileSync(file);

@@ -31,9 +31,9 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "價格"
   },
   "shared.business.d6663d": {
-    "en": "Business",
-    "zh-CN": "业务",
-    "zh-TW": "業務"
+    "en": "Enterprise",
+    "zh-CN": "企业服务",
+    "zh-TW": "企業服務"
   },
   "shared.about.6b21fb": {
     "en": "About",
@@ -156,8 +156,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-TW": "功能"
   },
   "shared.application": {
-    "en": "Application",
-    "zh-CN": "应用",
-    "zh-TW": "應用"
+    "en": "Solutions",
+    "zh-CN": "解决方案",
+    "zh-TW": "解決方案"
   }
 });

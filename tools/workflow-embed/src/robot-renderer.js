@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 const modelUrl = new URL('../../SIDA-Logo-3D/建造者机器人立体图标.glb', document.currentScript.src).href;
 
@@ -8,11 +9,13 @@ function mount(canvas, size, onReady) {
   let frame = 0;
   let visible = true;
   let renderer;
+  let environmentMap;
   let root;
   let observer;
   let cleanup = () => {};
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const stop = () => { cancelAnimationFrame(frame); frame = 0; };
+  const disposeEnvironment = () => { environmentMap?.dispose(); environmentMap = null; };
   const disposeModel = () => root?.traverse((node) => {
     if (!node.isMesh) return;
     node.geometry?.dispose();
@@ -30,6 +33,16 @@ function mount(canvas, size, onReady) {
     renderer.toneMappingExposure = 1.05;
 
     const scene = new THREE.Scene();
+    const environment = new RoomEnvironment();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    try {
+      environmentMap = pmrem.fromScene(environment, 0.04, 0.1, 100, { size: 64 });
+      scene.environment = environmentMap.texture;
+      scene.environmentIntensity = 0.8;
+    } finally {
+      environment.dispose();
+      pmrem.dispose();
+    }
     const box = new THREE.Box3().setFromObject(root);
     const center = box.getCenter(new THREE.Vector3());
     const height = box.max.y - box.min.y;
@@ -46,7 +59,10 @@ function mount(canvas, size, onReady) {
     fill.position.set(-3, 1.2, -1.4);
     const rim = new THREE.DirectionalLight(0xffffff, 0.55);
     rim.position.set(0, -2, -3);
-    scene.add(key, fill, rim, new THREE.HemisphereLight(0xffffff, 0x2a2f3a, 1.15));
+    // Soft ambient and ground fill make the dark lower shell readable.
+    const ambient = new THREE.AmbientLight(0xffffff, 0.45);
+    const hemisphere = new THREE.HemisphereLight(0xffffff, 0x71839a, 1.6);
+    scene.add(key, fill, rim, ambient, hemisphere);
     const draw = () => renderer.render(scene, camera);
     draw();
     onReady();
@@ -90,9 +106,9 @@ function mount(canvas, size, onReady) {
       observer.disconnect();
     };
     resume();
-  }).catch(() => { disposeModel(); renderer?.dispose(); });
+  }).catch(() => { disposeModel(); disposeEnvironment(); renderer?.dispose(); });
 
-  return () => { disposed = true; stop(); cleanup(); disposeModel(); renderer?.dispose(); };
+  return () => { disposed = true; stop(); cleanup(); disposeModel(); disposeEnvironment(); renderer?.dispose(); };
 }
 
 window.SIDAWelcomeRobot = { mount };

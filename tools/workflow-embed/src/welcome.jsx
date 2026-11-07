@@ -15,8 +15,10 @@ export function WelcomeHome({
   projects = [],
   onOpenProject,
   onNewProject,
+  onNewChat,
   onPrepareProject,
   opening = false,
+  highlight = true,
 }) {
   const [toast, setToast] = useState('');
   const [showAll, setShowAll] = useState(false);
@@ -49,11 +51,14 @@ export function WelcomeHome({
   }
 
   function openDoor(door) {
+    if (opening) return;
+    clearTimeout(timer.current);
+    setToast('');
     if (door.primary) {
       startNewProject();
       return;
     }
-    say(`${door.label} opens the desktop app — this preview stays on the welcome screen.`);
+    if (door.id === 'new-chat') onNewChat?.();
   }
 
   return <div className="we-welcome" data-welcome="true">
@@ -65,7 +70,7 @@ export function WelcomeHome({
 
       <div className="we-welcome-actions" role="group" aria-label="Ways to start" data-welcome-actions="true">
         {DOORS.map((door) => <button key={door.id} type="button"
-          className={`we-door${door.primary ? ' is-primary' : ''}`} data-welcome-action={door.id}
+          className={`we-door${door.primary && highlight ? ' is-primary' : ''}`} data-welcome-action={door.id}
           disabled={door.primary && opening}
           aria-busy={door.primary && opening ? 'true' : undefined}
           onPointerEnter={door.primary ? prepareProject : undefined}

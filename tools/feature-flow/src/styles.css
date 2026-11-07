@@ -254,13 +254,14 @@
 
 .sida-feature-flow .sff-node__title {
   display: -webkit-box;
+  flex-shrink: 0;
   margin: 5px 0 0;
   overflow: hidden;
   color: #f5f9ff;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.012em;
-  line-height: 1.16;
+  line-height: 1.3;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }

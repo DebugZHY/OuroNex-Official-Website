@@ -1,0 +1,10 @@
+{
+  "name": "ouronex-application-flow",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Application examples: four compact SIDA-style engineering workflows",
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}

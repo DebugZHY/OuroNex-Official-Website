@@ -25,7 +25,7 @@ const FALLBACK = {
   'home.flow-band-note': 'Agreed in one conversation',
   'home.flow-lane-1-kicker': 'Ready to run',
   'home.flow-lane-1-title': 'Use SIDA directly',
-  'home.flow-lane-1-copy': 'pay as you go or subscribe.',
+  'home.flow-lane-1-copy': 'Use built-in tools for free, with your own AI models.',
   'home.flow-lane-2-kicker': 'Your process, not ours',
   'home.flow-lane-2-title': 'Workflow automation',
   'home.flow-lane-2-copy':
@@ -195,7 +195,7 @@ function buildGraph(t, axis, viewportWidth = 1000) {
     target,
     type: 'smoothstep',
     pathOptions: { borderRadius: 18, offset: 26 },
-    animated: false,
+    animated: true,
     markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10, color: 'rgba(150,186,255,.85)' },
   });
 
@@ -406,6 +406,18 @@ function mount(container) {
   return root;
 }
 
+function observeFlowMotion(root, container) {
+  if (!('IntersectionObserver' in window)) {
+    container.dataset.flowMotion = 'on';
+    return;
+  }
+  // Pause the edge dash while the section is offscreen; the graph stays mounted.
+  const observer = new IntersectionObserver((entries) => {
+    container.dataset.flowMotion = entries.some((entry) => entry.isIntersecting) ? 'on' : 'paused';
+  }, { rootMargin: '120px 0px' });
+  observer.observe(root);
+}
+
 function boot() {
   const container = document.querySelector('[data-flow-canvas]');
   if (!container) return;
@@ -423,6 +435,8 @@ function boot() {
     // React Flow measures its container on mount, so the canvas has to be laid out
     // first; the static stack stays visible until the frame after that.
     root.dataset.flowLive = 'true';
+    container.dataset.flowMotion = 'on';
+    observeFlowMotion(root, container);
     requestAnimationFrame(() => {
       try {
         mount(container);

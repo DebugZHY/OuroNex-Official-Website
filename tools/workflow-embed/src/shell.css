@@ -1,6 +1,8 @@
 /* The host controls the frame; the workbench keeps native control sizes. */
 .sida-demo-embed { container-type: inline-size; height: 100%; min-height: 0; color-scheme: dark; }
-.we-shell, .we-shell * { box-sizing: border-box; }
+.we-shell, .we-shell *, .we-demo, .we-demo-nav, .we-demo-nav * { box-sizing: border-box; }
+/* The transparent wrapper fits the window and external navigation into the host's fixed height. */
+.we-demo { display: grid; grid-template-rows: minmax(0, 1fr) 34px; gap: 8px; width: 100%; height: 100%; min-width: 0; min-height: 0; }
 .we-shell {
   --we-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Microsoft YaHei", sans-serif;
   --we-mono: "JetBrains Mono", "Fira Code", Consolas, ui-monospace, monospace;
@@ -28,6 +30,7 @@
   position: relative;
   display: grid;
   grid-template-columns: var(--we-nav-width) minmax(0, 1fr) var(--we-bot-width);
+  grid-template-rows: minmax(0, 1fr);
   gap: 8px;
   padding: 8px;
   width: 100%;
@@ -35,6 +38,10 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
+  isolation: isolate;
+  border: 1px solid #26313f;
+  border-radius: 16px;
+  box-shadow: 0 26px 80px rgb(4 10 20 / .55);
   background: var(--shell);
   color: var(--we-text);
   font-family: var(--we-ui);
@@ -53,7 +60,7 @@
 .we-switch button.is-on { border-bottom-color: var(--we-border); }
 .we-shell svg { display: block; flex-shrink: 0; }
 .we-shell button:focus-visible, .we-shell textarea:focus-visible { outline: 2px solid var(--we-accent); outline-offset: 2px; }
-.we-rail { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 0; }
+.we-rail { display: flex; flex-direction: column; grid-column: 1; grid-row: 1; min-width: 0; min-height: 0; padding: 0; }
 .we-rail-top { flex: none; margin: 8px 8px 0; padding-bottom: 4px; }
 .we-switch { display: flex; align-items: center; gap: 4px; width: 100%; padding: 4px; border-radius: 10px; background: oklch(0.3300 0.0190 258.60 / .5); }
 .we-switch button { display: inline-flex; align-items: center; justify-content: center; flex: 1; min-width: 0; gap: 4px; height: 24px; padding: 0 8px; border: 1px solid var(--we-border); border-radius: 0; background: transparent; color: var(--we-muted); font-size: 12px; line-height: 16px; font-weight: 500; white-space: nowrap; }
@@ -74,7 +81,7 @@
 .we-user-name { font-size: 14px; line-height: 20px; font-weight: 600; }
 .we-user-meta { font-size: 12px; line-height: 16px; color: var(--we-muted); }
 .we-user-dot { width: 6px; height: 6px; margin-left: auto; border-radius: 50%; background: #5cc8a4; flex: none; }
-.we-main { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; border-radius: 14px; background: var(--we-bg); box-shadow: 0 1px 2px rgb(0 0 0 / .05); }
+.we-main { position: relative; display: flex; flex-direction: column; grid-column: 2; grid-row: 1; min-width: 0; min-height: 0; overflow: hidden; border-radius: 14px; background: var(--we-bg); box-shadow: 0 1px 2px rgb(0 0 0 / .05); }
 .we-tabs { display: flex; align-items: center; flex: none; gap: 4px; height: 36px; padding: 0 6px; overflow-x: auto; overflow-y: hidden; background: #08090c; scrollbar-width: none; }
 .we-tab-list { display: flex; align-items: center; flex: 1; min-width: 0; height: 100%; gap: 4px; overflow-x: auto; scrollbar-width: none; }
 .we-tab-list::-webkit-scrollbar { display: none; }
@@ -87,12 +94,18 @@
 .we-tab-icon[data-icon="console"] { color: #2dd4bf; }
 .we-tab-icon[data-icon="flow"] { color: #a78bfa; }
 .we-tab-icon[data-icon="apps"] { color: #f472b6; }
-.we-tabs .we-sup-toggle { display: inline-flex; align-items: center; justify-content: center; flex: none; gap: 6px; height: 28px; margin-left: auto; padding: 0 9px; border: 1px solid var(--we-border); border-radius: 8px; background: var(--we-panel); color: var(--we-muted); font-size: 12px; line-height: 16px; font-weight: 500; white-space: nowrap; }
-.we-tabs .we-sup-toggle.is-on { background: var(--we-hover); color: var(--we-text); border-color: var(--we-muted); }
+.we-tabs .we-rail-toggle, .we-tabs .we-sup-toggle { display: inline-flex; align-items: center; justify-content: center; flex: none; gap: 6px; height: 28px; padding: 0 9px; border: 1px solid var(--we-border); border-radius: 8px; background: var(--we-panel); color: var(--we-muted); font-size: 12px; line-height: 16px; font-weight: 500; white-space: nowrap; }
+.we-tabs .we-rail-toggle { margin-left: auto; }
+.we-tabs .we-sup-toggle { margin-left: 0; }
+.we-tabs .we-rail-toggle[aria-pressed="true"], .we-tabs .we-sup-toggle[aria-pressed="true"] { background: var(--we-hover); color: var(--we-text); border-color: var(--we-muted); }
 .we-stage-area { position: relative; flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
+.we-main { isolation: isolate; contain: paint; z-index: 0; }
 .we-shell .we-new-chat { display: inline-flex; align-items: center; justify-content: center; flex: none; gap: 8px; height: 32px; margin: 0 8px; padding: 0 8px; border: 1px solid var(--we-border); border-radius: 8px; background: var(--we-card); font-size: 12px; line-height: 16px; }
 .we-chat-list { flex: 1; min-height: 0; }
-.we-sup { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; border: 0; border-radius: 14px; background: var(--we-panel); box-shadow: 0 1px 2px rgb(0 0 0 / .05); }
+/* Project Router is a sibling card. Paint containment in the centre also bounds fixed-position
+   descendants, while this card has its own stacking context above the centre. */
+.we-sup { position: relative; z-index: 1; display: flex; flex-direction: column; grid-column: 3; grid-row: 1; min-width: 0; min-height: 0; overflow: hidden; border: 1px solid var(--we-border); border-radius: 14px; background: var(--we-panel); box-shadow: 0 1px 2px rgb(0 0 0 / .05); isolation: isolate; }
+.we-sup > * { min-width: 0; }
 .we-sup-head { flex: none; padding: 10px 14px; }
 .we-sup-head h2 { margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--we-text); }
 .we-sup-meta { margin: 4px 0 0; font-size: 12px; line-height: 16px; color: var(--we-muted); }
@@ -110,18 +123,392 @@
 .we-chip--static { overflow: hidden; text-overflow: ellipsis; }
 .we-shell[data-sup="off"] { grid-template-columns: var(--we-nav-width) minmax(0, 1fr); }
 .we-shell[data-sup="off"] .we-sup { display: none; }
+.we-shell[data-rail="off"] { grid-template-columns: minmax(0, 1fr) var(--we-bot-width); }
+.we-shell[data-rail="off"] .we-rail { display: none; }
+.we-shell[data-rail="off"] .we-main { grid-column: 1; }
+.we-shell[data-rail="off"] .we-sup { grid-column: 2; }
+.we-shell[data-rail="off"][data-sup="off"] { grid-template-columns: minmax(0, 1fr); }
+
+/* Below the desktop width the Router can be a drawer, still a sibling of the centre card. */
 @container (max-width: 1040px) {
   .we-shell { grid-template-columns: var(--we-nav-width) minmax(0, 1fr); }
-  .we-sup { position: absolute; top: 44px; right: 8px; bottom: 8px; width: min(336px, calc(100% - 16px)); z-index: 6; box-shadow: -16px 0 40px rgb(0 0 0 / .35); }
+  .we-shell[data-rail="off"] { grid-template-columns: minmax(0, 1fr); }
+  .we-shell .we-sup, .we-shell[data-rail="off"] .we-sup {
+    position: absolute; top: 44px; right: 8px; bottom: 8px;
+    grid-column: 1 / -1; grid-row: 1;
+    width: min(336px, calc(100% - 16px)); z-index: 6;
+    box-shadow: -16px 0 40px rgb(0 0 0 / .35);
+  }
 }
+
+/* Keep the same three-card geometry during Welcome, preparation, running and result.
+   Explicit column placement also covers either panel being closed independently. */
+@container (min-width: 800px) and (max-width: 1040px) {
+  .we-shell { --we-nav-width: 190px; --we-bot-width: 230px; }
+  .we-shell[data-sup="on"] { grid-template-columns: var(--we-nav-width) minmax(0, 1fr) var(--we-bot-width); }
+  .we-shell[data-sup="on"][data-rail="off"] { grid-template-columns: minmax(0, 1fr) var(--we-bot-width); }
+  .we-shell[data-sup="on"] .we-sup {
+    position: relative; inset: auto; width: auto; height: auto;
+    grid-column: 3; grid-row: 1; z-index: 1;
+    box-shadow: 0 1px 2px rgb(0 0 0 / .05);
+  }
+  .we-shell[data-sup="on"][data-rail="off"] .we-sup { grid-column: 2; }
+  .we-shell[data-sup="on"] .we-rail { min-width: 0; overflow: hidden; }
+  .we-shell[data-sup="on"] .we-rail-top { margin-inline: 6px; }
+  .we-shell[data-sup="on"] .we-project { margin-inline: 6px; padding-inline: 6px; }
+  .we-shell[data-sup="on"] .we-sections { padding-inline: 6px; }
+  .we-shell[data-sup="on"] .we-user { margin-inline: 8px; padding-inline: 6px; }
+  .we-shell[data-sup="on"] .we-sup-head { padding: 10px 12px; }
+  .we-shell[data-sup="on"] .we-sup-body { padding: 10px; }
+  .we-shell[data-sup="on"] .we-composer { margin: 8px 10px 10px; padding: 10px; }
+  .we-shell .we-switch button { gap: 3px; padding-inline: 4px; }
+  .we-shell[data-sup="on"][data-rail="on"] .we-tabs :is(.we-rail-toggle, .we-sup-toggle) { width: 28px; padding: 0; }
+  .we-shell[data-sup="on"][data-rail="on"] :is(.we-rail-label, .we-sup-label) { display: none; }
+}
+
 @container (max-width: 560px) {
   .we-tab-list { gap: 2px; }
   .we-tabs .we-tab { gap: 4px; padding-inline: 6px; }
-  .we-tabs .we-sup-toggle { width: 28px; padding: 0; }
-  .we-sup-label { display: none; }
+  .we-tabs .we-sup-toggle, .we-tabs .we-rail-toggle { width: 28px; padding: 0; }
+  .we-sup-label, .we-rail-label { display: none; }
 }
+/* At phone width the rail becomes a drawer. The centre always occupies the sole grid column,
+   including when railOpen remains true but the parent reports the sidebar as hidden. */
 @container (max-width: 720px) {
-  .we-shell, .we-shell[data-sup="off"] { grid-template-columns: minmax(0, 1fr); }
+  .we-shell, .we-shell[data-sup="off"], .we-shell[data-rail="off"] { grid-template-columns: minmax(0, 1fr); }
+  .we-shell .we-main { grid-column: 1; }
   .we-rail { display: none; }
 }
 
+
+/* ---------------------------------------------------------------------------------------------
+   Stage 2: workflow playback and complete Router messages.
+   Everything here is scoped under .we-shell and sized so the 260px supervisor column and the
+   overall shell height stay exactly as they were.
+   -------------------------------------------------------------------------------------------- */
+
+.we-shell .we-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Spinner: a ring whose gap rotates. Sized by the `size` prop on the lucide glyph. */
+.we-spinner { color: currentColor; animation: we-spin 1s linear infinite; transform-origin: 50% 50%; }
+@keyframes we-spin { to { transform: rotate(360deg); } }
+
+/* ---------- task row: derived state, progress and animated running border ---------- */
+
+/* The task is the whole workflow: its mark carries the run state, the row only navigates. */
+.we-shell .we-task { position: relative; align-items: flex-start; gap: 8px; padding: 7px 8px 8px; overflow: hidden; }
+.we-shell .we-task-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+  border-radius: 4px;
+  color: var(--we-muted);
+}
+.we-shell .we-task-dot { width: 6px; height: 6px; border-radius: 50%; border: 1px solid currentColor; opacity: .8; }
+.we-shell .we-task.is-done .we-task-mark { color: #77e2b0; }
+.we-shell .we-task.is-running .we-task-mark { color: #8fc4ff; }
+
+.we-shell .we-task-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; min-width: 0; }
+.we-shell .we-task.is-running .we-task-state { color: #a9cdff; font-weight: 600; }
+.we-shell .we-task.is-done .we-task-state { color: #7bd3a8; }
+.we-shell .we-task-progress { color: #8fb4de; font-variant-numeric: tabular-nums; }
+
+/* Thin progress rail pinned to the row's bottom edge; width comes from --we-progress. */
+.we-shell .we-task-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #ffffff12;
+}
+.we-shell .we-task-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #4c8ad6, #9fd0ff);
+  /* Discrete progress: the bar jumps to its new width in one frame, no easing. */
+  transition: none;
+}
+
+/* Running rows get a soft pulsing rim plus a slow sheen that crosses the border. */
+.we-shell .we-task.is-running {
+  border-color: #6fa9e68c;
+  background: linear-gradient(180deg, #2f4a6d47, #22344b24);
+  animation: we-task-glow 2.4s ease-in-out infinite;
+}
+.we-shell .we-task.is-running::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(115deg, transparent 12%, #a8d4ffcc 42%, #d6ecff 50%, #a8d4ffcc 58%, transparent 88%) 0 0 / 260% 100% no-repeat;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: we-task-sheen 2.8s linear infinite;
+  pointer-events: none;
+}
+@keyframes we-task-glow {
+  0%, 100% { box-shadow: 0 0 0 0 #6fa9e600, inset 0 0 18px -14px #9fd0ff; }
+  50% { box-shadow: 0 0 0 1px #6fa9e62e, inset 0 0 22px -12px #9fd0ff; }
+}
+@keyframes we-task-sheen {
+  from { background-position: 130% 0; }
+  to { background-position: -130% 0; }
+}
+
+/* ---------- supervisor: status line, streamed messages, cursor, follow button ---------- */
+
+.we-shell .we-sup-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin: 6px 0 0;
+  color: #a9cdff;
+  font-size: 11px;
+  line-height: 15px;
+}
+.we-shell .we-sup-status > span:not(.we-sup-status-bar) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.we-shell .we-sup-status-bar { flex: 1; min-width: 32px; height: 3px; overflow: hidden; border-radius: 3px; background: #ffffff14; }
+.we-shell .we-sup-status-bar > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4c8ad6, #9fd0ff); transition: none; }
+
+/* The stream sits in a relatively positioned body so the follow control can float. */
+.we-shell .we-sup-body { position: relative; }
+
+.we-shell .we-msg--stream { padding: 9px 11px 10px; border-color: #3d5a7a; background: #202b38; }
+.we-shell .we-msg--stream[data-complete="false"] { border-color: #4f7fb3; background: #1e2a39; }
+.we-shell .we-msg--local { border-color: #3a4450; background: #262f3a; color: #dbe6f2; }
+
+.we-shell .we-msg-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 6px; min-width: 0; margin-bottom: 6px; }
+.we-shell .we-msg-kicker {
+  flex: none;
+  color: #8fb4de;
+  font-family: var(--we-mono);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: .04em;
+}
+.we-shell .we-msg-stage {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+  overflow: hidden;
+  color: #dbe8f6;
+  font-size: 11.5px;
+  line-height: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+.we-shell .we-msg-mark { grid-column: 2; grid-row: 1; display: inline-flex; align-items: center; margin-left: auto; color: #77e2b0; flex: none; }
+
+/* Newlines in streamed text are preserved; long tokens wrap instead of widening the column. */
+.we-shell .we-msg-text {
+  margin: 0;
+  color: #e7eef7;
+  font-size: 13px;
+  line-height: 19px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Messages arrive complete, so there is no typing caret and no caret keyframes. */
+
+.we-shell .we-sup-empty {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 8px 2px;
+  color: var(--we-muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+.we-shell .we-sup-empty[data-empty="running"] { color: #a9cdff; }
+
+/* Only offered once the reader has scrolled up; it never steals focus on its own. */
+.we-shell .we-follow {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: 4px;
+  flex: none;
+  height: 24px;
+  margin: 0 12px 6px;
+  padding: 0 10px;
+  border: 1px solid #4f7fb3;
+  border-radius: 999px;
+  background: #1e2a39;
+  color: #cfe3f8;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 500;
+  box-shadow: 0 6px 18px -10px #000;
+}
+.we-shell .we-follow:hover { background: #25344a; color: #eaf3ff; }
+
+/* Running states stay legible without motion: the rim keeps its colour, progress keeps its width. */
+@media (prefers-reduced-motion: reduce) {
+  .we-shell .we-spinner,
+  .we-shell .we-task.is-running,
+  .we-shell .we-task.is-running::after { animation: none !important; }
+  .we-shell .we-task.is-running { border-color: #7fb6f0; box-shadow: 0 0 0 1px #7fb6f02e; }
+  .we-shell .we-task.is-running::after { background: none; }
+  .we-shell .we-task-bar > span,
+  .we-shell .we-sup-status-bar > span { transition: none; }
+}
+
+/* Narrow supervisor drawers keep the stream readable by tightening padding, not type size. */
+@container (max-width: 560px) {
+  .we-shell .we-msg--stream { padding: 8px 10px 9px; }
+  .we-shell .we-msg-text { font-size: 12.5px; line-height: 18px; }
+}
+
+/* Three external stage indicators: no visible labels or tooltips. */
+.we-demo-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  height: 34px;
+  padding: 0 8px;
+  background: transparent;
+}
+.we-demo-nav .we-dot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  appearance: none;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  cursor: pointer;
+}
+.we-demo-nav .we-dot::before { content: ''; width: 6px; height: 6px; border-radius: 99px; background: #788da4; transition: background-color .2s ease; }
+.we-demo-nav .we-dot:hover::before { background: #bed6ec; }
+.we-demo-nav .we-dot.is-on { width: 36px; }
+.we-demo-nav .we-dot.is-on::before { width: 28px; background: #bedbf5; }
+.we-demo-nav .we-dot:focus-visible { outline: 2px solid #7aa4f6; outline-offset: 2px; }
+@container (max-width: 420px) {
+  .we-demo-nav { gap: 6px; padding: 0 4px; }
+}
+
+/* ---------- supervisor messages: short COMPLETE bursts, no typewriter ---------- */
+
+/* The bubble pops in whole. There is no streaming caret and no per-character reveal. */
+.we-shell .we-msg--burst { animation: we-bubble-pop .18s cubic-bezier(.16,1,.3,1) both; }
+@keyframes we-bubble-pop {
+  from { opacity: 0; transform: translateY(4px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Attachment row inside the final bubble; it opens the same deliverables view. */
+.we-shell .we-msg-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  margin-top: 7px;
+  padding: 4px 9px;
+  border: 1px solid #4f7fb3;
+  border-radius: 8px;
+  background: #1b2a3a;
+  color: #d6e8fb;
+  font-size: 11.5px;
+  line-height: 16px;
+  font-weight: 500;
+  text-align: left;
+}
+.we-shell .we-msg-file:hover { background: #223447; color: #eaf4ff; }
+.we-shell .we-msg-file > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- project files: initial skeleton, then completed folders only ---------- */
+
+/* Folders are inert: they are spans, carry no chevron, never expand and are never focusable. */
+.we-shell .we-file-row--static {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  padding: 5px 8px;
+  border-radius: 6px;
+  color: #a8bbce;
+  font-size: 11px;
+  line-height: 16px;
+}
+.we-shell .we-file-row--static > svg { color: #839caf; }
+.we-shell li[data-file-state="complete"] > .we-file-row--static { color: #d7e4f0; }
+.we-shell li[data-file-state="complete"] > .we-file-row--static > svg { color: #77d3b9; }
+.we-shell .we-file-children--output { padding-left: 16px; }
+.we-shell .we-file-output {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #cfe6d9;
+  text-align: left;
+  font-size: 11px;
+  line-height: 16px;
+}
+.we-shell .we-file-output:hover { background: #ffffff07; color: #e8f7ef; }
+.we-shell .we-file-output > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* The SODA tab icon is the existing local brand tile, drawn at the tab glyph size. */
+.we-shell .we-soda-icon { display: block; width: 14px; height: 14px; border-radius: 4px; }
+.we-shell .we-tab-icon[data-icon="soda"] { display: inline-flex; }
+
+/* ---------- discrete progress: driven by position, never animated ---------- */
+
+/* Progress is a discrete 0..100 jump. The width and status bars have NO transition and no
+   easing, so a new value lands in one frame; the running glow and spinner stay. */
+.we-shell .we-task-bar > span,
+.we-shell .we-sup-status-bar > span {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* ---------- reduced motion: static everything ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .we-demo-nav .we-dot::before { transition: none !important; }
+  .we-shell .we-msg--burst { animation: none !important; }
+  .we-shell .we-spinner,
+  .we-shell .we-task.is-running,
+  .we-shell .we-task.is-running::after { animation: none !important; }
+}

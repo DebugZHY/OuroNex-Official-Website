@@ -185,6 +185,23 @@
     inset 0 1px rgb(205 244 255 / .16),
     inset 0 0 0 1px rgb(121 181 255 / .07),
     0 16px 36px -24px rgb(57 150 235 / .80);
+  animation: we-door-breathe 3.2s ease-in-out infinite;
+}
+@keyframes we-door-breathe {
+  0%, 100% {
+    border-color: rgb(124 200 239 / .44);
+    box-shadow:
+      inset 0 1px rgb(205 244 255 / .16),
+      inset 0 0 0 1px rgb(121 181 255 / .07),
+      0 16px 36px -24px rgb(57 150 235 / .80);
+  }
+  50% {
+    border-color: rgb(165 228 255 / .72);
+    box-shadow:
+      inset 0 1px rgb(224 250 255 / .26),
+      inset 0 0 0 1px rgb(139 205 255 / .16),
+      0 20px 44px -22px rgb(90 189 255 / .95);
+  }
 }
 .we-welcome .we-door.is-primary::before {
   content: "";
@@ -197,6 +214,24 @@
   pointer-events: none;
   background: linear-gradient(90deg, transparent, rgb(167 231 255 / .78), transparent);
 }
+.we-welcome .we-door.is-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(112deg, transparent 34%, rgb(198 240 255 / .16) 48%, rgb(255 255 255 / .22) 51%, transparent 66%);
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  background-position: 130% 0;
+  animation: we-door-sheen 5.2s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+@keyframes we-door-sheen {
+  0% { background-position: 130% 0; }
+  38% { background-position: -30% 0; }
+  100% { background-position: -30% 0; }
+}
 .we-welcome .we-door.is-primary .we-door-icon {
   border-color: rgb(137 219 244 / .42);
   background: linear-gradient(145deg, rgb(72 186 207 / .24), rgb(100 115 235 / .20));
@@ -204,6 +239,20 @@
   box-shadow:
     inset 0 1px rgb(231 250 255 / .18),
     0 8px 22px -12px rgb(77 180 235 / .75);
+  animation: we-door-icon-breathe 3.2s ease-in-out infinite;
+}
+@keyframes we-door-icon-breathe {
+  0%, 100% {
+    box-shadow:
+      inset 0 1px rgb(231 250 255 / .18),
+      0 8px 22px -12px rgb(77 180 235 / .75);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px rgb(231 250 255 / .18),
+      0 0 0 4px rgb(125 214 245 / .10),
+      0 10px 26px -10px rgb(96 190 240 / .9);
+  }
 }
 .we-welcome .we-door.is-primary .we-door-title {
   color: #f2f9ff;
@@ -358,6 +407,9 @@
   .we-welcome .we-door,
   .we-welcome .we-door-icon,
   .we-welcome .we-toast { transition: none; }
+  .we-welcome .we-door.is-primary,
+  .we-welcome .we-door.is-primary::after,
+  .we-welcome .we-door.is-primary .we-door-icon { animation: none; }
   .we-welcome .we-door:hover,
   .we-welcome .we-door:active,
   .we-welcome .we-door.is-primary:hover { transform: none; }

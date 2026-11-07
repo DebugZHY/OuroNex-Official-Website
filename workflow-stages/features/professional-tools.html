@@ -4,33 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Apps — SIDA</title>
-<!--
-  SIDA · Apps page (static showcase of the real page)
-
-  Structure, typography and tokens come from the product's Apps page:
-    hosts/shell/components/apps/AppsPage.tsx        page structure, card layout
-    hosts/shell/lib/rail-apps.ts                    the app list
-    hosts/shell/app/globals.css:5230-5283           midnight · dark tokens (the product default family)
-    hosts/shell/app/globals.css:967-990             the product's scrollbar skin
-
-  The card anatomy follows that page — icon, name, one-line description and an Open
-  affordance on every card — but the rows are tightened so the four groups and all twelve
-  apps land inside the embed's 666-700px stage without scrolling.
-  The card icons are the brand tiles in flow-assets/apps/, one per app, drawn at 34px.
-  No app card opens anything — this is a static surface, and no launch result is implied.
--->
+<!-- Static showcase of fourteen built-in apps, grouped by engineering workflow. -->
 <style>
   :root {
     color-scheme: dark;   /* every theme block in globals.css sets it; it also skins the native scrollbar */
     /* bare shadcn token the capture paints the page surface with (globals.css:4867) */
-    --background: oklch(0.145 0 0);
+    --background: #0b0f16;
 
     /* midnight · dark — the product default family (globals.css:5230-5283, lib/theme.ts:90) */
     --bg: oklch(0.2434 0.0387 252.47);
-    --card: oklch(0.3614 0.0234 258.37);
+    --card: #191f29;
     --bg-subtle: oklch(0.33 0.019 258.6);
     --bg-hover: oklch(0.346 0.0199 257.27);
-    --border: oklch(0.3732 0.0211 259.4);
+    --border: rgba(169,190,219,.14);
     --text: oklch(0.9598 0.0091 258.34);
     --text-muted: oklch(0.7764 0.0211 257.48);
     --text-dim: oklch(0.6642 0.0246 260.7);
@@ -81,9 +67,13 @@
     height: 100%;
     min-height: 0;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     overflow: auto;
-    padding: 14px 16px;
+    padding: 12px 16px;
+    background: radial-gradient(ellipse at 95% 0,rgba(75,123,195,.12),transparent 50%),
+      radial-gradient(ellipse at 0 100%,rgba(53,101,130,.06),transparent 50%),var(--background);
+    scrollbar-width: thin;
+    scrollbar-color: #364252 transparent;
   }
 
   /* ---- header: AppsPage.tsx:51-82 ---- */
@@ -93,16 +83,19 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    flex: none;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
   }
   .apps-title {
     margin: 0;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     line-height: 24px;
     letter-spacing: -0.4px;
   }
   .apps-sub {
-    margin: 0;
+    margin: 5px 0 0;
     font-size: 12px;
     line-height: 16px;
     color: var(--text-muted);
@@ -113,7 +106,12 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    flex: none;
+    --group-tone: #8cb5ee;
   }
+  .apps-group[aria-labelledby="apps-group-modelling"] { --group-tone: #85c6ce; }
+  .apps-group[aria-labelledby="apps-group-analysis"] { --group-tone: #a4b6f4; }
+  .apps-group[aria-labelledby="apps-group-planning"] { --group-tone: #b1a6d3; }
   .apps-group-title {
     margin: 0;
     font-size: 11px;
@@ -121,20 +119,25 @@
     font-weight: 600;
     letter-spacing: .08em;
     text-transform: uppercase;
-    color: var(--text-dim);
+    color: #a8b7cb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+  .apps-group-title::before { content:""; width:5px; height:5px; border-radius:50%; background:var(--group-tone); }
+  .apps-group-title::after { content:""; height:1px; flex:1; background:linear-gradient(90deg,var(--border),transparent); }
 
   /* ---- the grid: two columns, three once the panel is wide enough for the short descriptions ---- */
   .apps-grid {
     display: grid;
-    gap: 6px;
+    gap: 8px;
     margin: 0;
     padding: 0;
     list-style: none;
     grid-template-columns: minmax(0, 1fr);
   }
-  @media (min-width: 560px) { .apps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 780px) { .apps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 460px) { .apps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 760px) { .apps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
   /* ---- the card: AppsPage.tsx:145-163  (rounded-xl border bg-card) ---- */
   .apps-grid > li {
@@ -142,18 +145,22 @@
     flex-direction: column;
     border: 1px solid var(--border);
     border-radius: var(--r-xl);
-    background-color: var(--card);
+    background: linear-gradient(145deg,rgba(255,255,255,.025),transparent 65%),var(--card);
+    box-shadow: inset 0 1px rgba(255,255,255,.025),0 3px 10px rgba(0,0,0,.1);
+    min-width: 0;
+    transition: border-color .15s ease,background-color .15s ease;
   }
+  .apps-grid > li:hover { border-color:color-mix(in srgb,var(--group-tone) 45%,transparent); background-color:#202937; }
   .apps-grid > li > button {
     display: grid;
     grid-template-columns: 34px minmax(0, 1fr) auto;
     grid-template-areas: "icon label pill" "desc desc desc";
     column-gap: 10px;
-    row-gap: 3px;
+    row-gap: 4px;
     align-items: center;
     flex: 1 1 0%;
     width: 100%;
-    padding: 10px 12px;
+    padding: 5px 10px;
     font: inherit;
     text-align: left;
     color: inherit;
@@ -182,19 +189,18 @@
   .card-iconbox img { display: block; width: 34px; height: 34px; }
   .card-label {
     grid-area: label;
-    align-self: end;
+    align-self: center;
     font-size: 14px;
     line-height: 20px;
-    font-weight: 500;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font-weight: 600;
+    min-width: 0;
+    overflow-wrap: break-word;
   }
   .card-desc {
     grid-area: desc;
     margin: 0;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 11px;
+    line-height: 15px;
     color: var(--text-muted);
   }
   .card-foot {
@@ -211,8 +217,9 @@
     height: 24px;
     padding: 0 8px;
     border-radius: var(--r-md);
-    background-color: var(--accent);
-    color: var(--accent-contrast);
+    background-color: rgba(108,156,224,.1);
+    color: #abcdfb;
+    border: 1px solid rgba(125,172,238,.22);
     font-size: 12px;
     line-height: 16px;
     font-weight: 500;
@@ -232,7 +239,14 @@
   ::-webkit-scrollbar-corner { background: transparent; }
 
   @media (prefers-reduced-motion: reduce) {
-    .apps-grid > li > button { transition: none; }
+    .apps-grid > li,.apps-grid > li > button { transition: none; }
+  }
+  @media (max-width: 759px) {
+    .apps-page { padding:14px;gap:12px; }
+    .apps-grid > li > button { column-gap:8px;padding:10px; }
+    .card-label { font-size:13px;line-height:18px; }
+    .card-desc { font-size:11px;line-height:16px; }
+    .card-pill { padding:0 6px;font-size:11px; }
   }
 </style>
 </head>
@@ -357,6 +371,26 @@
             <span class="card-label">SCD-HK</span>
           </div>
           <p class="card-desc">Concrete structural design under the Hong Kong codes.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="windcode-pro-hk">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/windcode-pro-hk.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">WindCode Pro  HK</span>
+          </div>
+          <p class="card-desc">Hong Kong wind loads with sheltering effects.</p>
+          <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
+        </button>
+      </li>
+      <li data-apps-card="fejoint">
+        <button type="button" data-apps-activate="open">
+          <div class="card-row">
+            <span class="card-iconbox" aria-hidden="true"><img src="flow-assets/apps/fejoint.svg" alt="" width="34" height="34"></span>
+            <span class="card-label">FEJoint</span>
+          </div>
+          <p class="card-desc">Comprehensive analysis and design tool for steel connections.</p>
           <div class="card-foot"><span class="card-pill" data-apps-affordance="open">Open</span></div>
         </button>
       </li>

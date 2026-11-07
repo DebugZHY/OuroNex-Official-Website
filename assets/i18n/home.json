@@ -610,9 +610,9 @@
     "zh-TW": "直接使用 SIDA"
   },
   "home.flow-lane-1-copy": {
-    "en": "pay as you go or subscribe.",
-    "zh-CN": "按量付费或订阅。",
-    "zh-TW": "按量付費或訂閱。"
+    "en": "Use built-in tools for free, with your own AI models.",
+    "zh-CN": "免费使用内置工具，搭配你自己的 AI 模型。",
+    "zh-TW": "免費使用內建工具，搭配你自己的 AI 模型。"
   },
   "home.flow-lane-2-kicker": {
     "en": "Your process, not ours",
@@ -715,19 +715,14 @@
     "zh-TW": "為整個投標工作流提供自動化，大幅縮短準備週期，降低成本。"
   },
   "home.plan-free-description": {
-    "en": "Use directly",
-    "zh-CN": "直接使用",
-    "zh-TW": "直接使用"
+    "en": "Core capabilities open to every users and your own LLM models",
+    "zh-CN": "核心能力向所有用户开放，支持接入你自己的大语言模型。",
+    "zh-TW": "核心能力向所有使用者開放，支援接入你自己的大型語言模型。"
   },
   "home.plan-enterprise-description": {
-    "en": "Custom services for your workflow",
-    "zh-CN": "围绕您的工作流定制服务",
-    "zh-TW": "圍繞您的工作流程訂製服務"
-  },
-  "home.plan-services": {
-    "en": "Features & services",
-    "zh-CN": "功能与服务",
-    "zh-TW": "功能與服務"
+    "en": "Additional services tailored for your practices.",
+    "zh-CN": "为你的业务量身定制的附加服务。",
+    "zh-TW": "為你的業務量身訂製的附加服務。"
   },
   "home.plan-early-access": {
     "en": "Early access",
@@ -741,22 +736,87 @@
   },
   "home.plan-custom-workflows": {
     "en": "Custom workflows",
-    "zh-CN": "自定义工作流",
-    "zh-TW": "自訂工作流程"
+    "zh-CN": "定制工作流",
+    "zh-TW": "訂製工作流程"
   },
   "home.plan-custom-saas": {
-    "en": "Custom SaaS development",
-    "zh-CN": "自定义 SaaS 开发",
-    "zh-TW": "自訂 SaaS 開發"
+    "en": "Custom SaaS",
+    "zh-CN": "定制 SaaS",
+    "zh-TW": "訂製 SaaS"
   },
   "home.enterprise-examples": {
-    "en": "Application examples",
-    "zh-CN": "应用案例",
-    "zh-TW": "應用案例"
+    "en": "Scenarios",
+    "zh-CN": "应用场景",
+    "zh-TW": "應用場景"
   },
   "home.enterprise-examples-description": {
-    "en": "Custom services in practice",
-    "zh-CN": "定制服务的实际应用",
-    "zh-TW": "訂製服務的實際應用"
+    "en": "Enabling Automation in various engineering projects with SIDA",
+    "zh-CN": "借助 SIDA，在各类工程项目中实现自动化。",
+    "zh-TW": "藉助 SIDA，在各類工程專案中實現自動化。"
+  },
+  "home.plan-tools-copy": {
+    "en": "Engineering, office and data tools in one workspace.",
+    "zh-CN": "工程、办公与数据工具，汇集于同一工作空间。",
+    "zh-TW": "工程、辦公與資料工具，匯集於同一工作空間。"
+  },
+  "home.plan-computer-copy": {
+    "en": "Work across desktop and browser applications.",
+    "zh-CN": "跨桌面和浏览器应用完成操作。",
+    "zh-TW": "跨桌面和瀏覽器應用程式完成操作。"
+  },
+  "home.plan-data-copy": {
+    "en": "omniscient in-house AI expert for your siloed documents, 100% localized and secure",
+    "zh-CN": "让内部 AI 专家全面掌握分散的文档，100% 本地化，安全可靠。",
+    "zh-TW": "讓內部 AI 專家全面掌握分散的文件，100% 本地化，安全可靠。"
+  },
+  "home.plan-saas-copy": {
+    "en": "Purpose-built engineering applications, full integration into SIDA.",
+    "zh-CN": "专为业务打造的工程应用，完整集成至 SIDA。",
+    "zh-TW": "專為業務打造的工程應用，完整整合至 SIDA。"
+  },
+  "home.plan-workflows-copy": {
+    "en": "Pre-built by us and ready for your action.",
+    "zh-CN": "由我们预先构建，随时投入使用。",
+    "zh-TW": "由我們預先建構，隨時投入使用。"
+  },
+  "home.plan-workflows": {
+    "en": "Workflows",
+    "zh-CN": "工作流",
+    "zh-TW": "工作流程"
+  },
+  "home.plan-free-workflows-copy": {
+    "en": "Build and refine your own workflows with AI or your hand",
+    "zh-CN": "借助 AI 或手动构建并完善你自己的工作流。",
+    "zh-TW": "藉助 AI 或手動建構並完善你自己的工作流程。"
+  },
+  "home.plan-engineering-database": {
+    "en": "Engineering database",
+    "zh-CN": "工程资料库",
+    "zh-TW": "工程資料庫"
+  },
+  "home.plan-engineering-database-copy": {
+    "en": "Comprehensive answer for engineering compliance from AI experts.",
+    "zh-CN": "由 AI 专家提供全面的工程合规解答。",
+    "zh-TW": "由 AI 專家提供全面的工程合規解答。"
+  },
+  "home.plan-data-protection": {
+    "en": "Data protection",
+    "zh-CN": "数据保护",
+    "zh-TW": "資料保護"
+  },
+  "home.plan-data-protection-copy": {
+    "en": "All tools run locally, privacy and security fully guaranteed.",
+    "zh-CN": "所有工具均在本地运行，全面保障隐私与安全。",
+    "zh-TW": "所有工具均在本地執行，全面保障隱私與安全。"
+  },
+  "home.application-workflow-title": {
+    "en": "Engineering scenarios — Project Planning, Design Optimization, Tendering and BIM Modelling",
+    "zh-CN": "工程应用场景：项目规划、设计优化、投标与 BIM 建模",
+    "zh-TW": "工程應用場景：專案規劃、設計優化、投標與 BIM 建模"
+  },
+  "home.application-workflow-fallback": {
+    "en": "Project Planning · Design Optimization · Tendering · BIM Modelling",
+    "zh-CN": "项目规划 · 设计优化 · 投标 · BIM 建模",
+    "zh-TW": "專案規劃 · 設計優化 · 投標 · BIM 建模"
   }
 }

@@ -2,7 +2,7 @@
    OuroNex Home interactions
    Native free scrolling for main#main.home-scroll, one randomized animated
    background per section behind a shared background layer, smooth anchor
-   scrolling, viewport-driven content motion, and the native "Available soon" /
+   scrolling, a reversible five-scene scroll theatre, and the native "Available soon" /
    "Coming soon" alerts. Pure helpers are exported for the throwaway Node
    harness; DOM wiring only runs in a browser.
    ========================================================================== */
@@ -50,23 +50,28 @@
     '.hero-demo',
     '.feature-tab-list > button',
     '.feature-panel',
+    '.sida-3d',
     '.download-actions > .button',
     '.download-actions > .button-outline',
     '.download-actions > .release-note',
-    '.plan-strip > .plan-mini',
-    '.delivery > h2',
-    '.delivery-grid > article',
-    '.process > h2',
-    '.process-list > article',
+    '.application-panel__header > h2',
+    '.application-panel__header > .plan-description',
+    '.plan-mini > .plan-details',
+    '.application-workflow-stage',
+    '.business-intro > h2',
+    '.business-flow',
+    '.business-flow > .flow > .flow-stage > .flow-card',
+    '.business-flow > .flow > .flow-band',
+    '.business-flow > .flow > .flow-final',
     '.about-intro > h2',
-    '.home-footer > .footer-brand-block',
-    '.home-footer > .footer-copyright',
-    '.home-footer > .footer-content'
+    '.about-intro > .about-lede',
+    '.about-founder > .about-founder__card',
+    '.site-footer .footer-brand',
+    '.site-footer .footer-nav',
+    '.site-footer .footer-socials',
+    '.site-footer .footer-copyright',
+    '.site-footer .footer-legal'
   ].join(', ');
-  var MOTION_ENTER_STEP = 70;
-  var MOTION_MAX_DELAY = 420;
-  var SMOOTH_LOCK = 720;
-  var INSTANT_LOCK = 130;
   var DEMO_INTERVAL_MS = 10000;
   var DEMO_SLIDE_SELECTOR = '.hero-demo__slide';
   var DEMO_CONTROL_SELECTOR = '.hero-demo__control';
@@ -97,22 +102,22 @@
     return (clampIndex(index, total) + 1) % total;
   }
 
-  /* Category keyframes are owned by the stylesheet; this only classifies. The
-     order is the priority contract: specific hero and download rules must stay
-     ahead of the generic copy rule, and anything unknown falls back to the
-     original onx-section rise animation. */
+  /* One classification for both the exported helper and every runtime target.
+     Headings and the feature rail take priority; legacy selectors remain for
+     callers outside the current homepage markup. */
   function motionVariantFor(element) {
     if (!element || typeof element.matches !== 'function') return 'rise';
+    if (element.matches('h1, h2')) return 'headline';
     if (element.matches('.hero-copy h1')) return 'headline';
     if (element.matches('.hero-copy .hero-actions')) return 'actions';
     if (element.matches('.hero-copy > *')) return 'copy';
     if (element.matches('.hero-demo')) return 'perspective';
-    if (element.matches('.feature-tab-list > button')) return 'slide';
+    if (element.matches('.feature-tab-list > button')) return 'rail';
     if (element.matches('.feature-panel')) return 'mask';
     if (element.matches('.download-actions > .button')) return 'pop';
     if (element.matches('.download-actions > .button-outline')) return 'pop';
     if (element.matches('.download-actions > .release-note')) return 'fade';
-    if (element.matches('.plan-strip > .plan-mini')) return 'flip';
+    if (element.matches('.plan-strip > .plan-mini')) return 'fade';
     if (element.matches('.delivery > h2')) return 'slide';
     if (element.matches('.process > h2')) return 'slide';
     if (element.matches('.delivery-grid > article')) return 'depth';
@@ -121,7 +126,130 @@
     if (element.matches('.home-footer > .footer-brand-block')) return 'fade';
     if (element.matches('.home-footer > .footer-copyright')) return 'fade';
     if (element.matches('.home-footer > .footer-content')) return 'drift';
+    if (element.matches('.application-panel__header > h2, .business-intro > h2')) return 'slide';
+    if (element.matches('.plan-description, .about-lede')) return 'copy';
+    if (element.matches('.plan-details, .footer-copyright, .footer-brand')) return 'fade';
+    if (element.matches('.footer-nav, .footer-socials, .footer-legal')) return 'actions';
+    if (element.matches('.application-workflow-stage, .business-flow, .about-founder__card, .sida-3d')) return 'depth';
+    if (element.matches('.flow-card, .flow-band, .flow-final')) return 'drift';
     return 'rise';
+  }
+
+  /* Stable content coordinates, with a wider retention zone than entry zone.
+     Direction describes the phase only; reversing never hides readable content. */
+  function motionWindowFor(metrics) {
+    var m = metrics || {};
+    var height = Math.max(1, Number(m.viewportHeight) || 1);
+    var viewportTop = Number(m.viewportTop) || 0;
+    var viewportBottom = viewportTop + height;
+    var top = Number(m.top) || 0;
+    var bottom = Math.max(top, Number(m.bottom) || top);
+    var lead = Math.min(160, Math.max(48, height * 0.18));
+    var retention = Math.min(360, Math.max(120, height * 0.4));
+    var visible = bottom >= viewportTop && top <= viewportBottom;
+    var near = bottom >= viewportTop - lead && top <= viewportBottom + lead;
+    var retained = bottom >= viewportTop - retention && top <= viewportBottom + retention;
+    var state = m.keepVisible || near || (m.previous === 'in' && retained) ? 'in' : 'out';
+    var approaching = Number(m.direction) < 0 ? bottom < viewportTop : top > viewportBottom;
+    return {
+      state: state,
+      phase: visible || m.keepVisible ? 'hold' : state === 'in' && approaching ? 'enter' : 'leave'
+    };
+  }
+
+  function motionLayerFor(item) {
+    if (item.matches('.release-note')) return 4;
+    if (item.matches('h1, h2, .footer-brand')) return 0;
+    if (item.matches('.hero-description, .plan-description, .about-lede, .footer-copyright')) return 1;
+    if (item.matches('.hero-actions, .feature-tab-list > button, .download-actions > .button, .download-actions > .button-outline, .footer-nav, .footer-socials, .footer-legal')) return 2;
+    return 3;
+  }
+
+  /* Computed transform excludes the theatre's independent translate/scale.
+     Preserve the 3D mark's original translateY(-50%) in its stable bounds. */
+  function transformTranslationY(transform) {
+    var match = /^matrix(3d)?\(([^)]+)\)$/.exec(transform || '');
+    if (!match) return 0;
+    var values = match[2].split(',').map(Number);
+    if (values.length !== (match[1] ? 16 : 6) || !values.every(Number.isFinite)) return 0;
+    return values[match[1] ? 13 : 5];
+  }
+
+  function sceneUnit(value) {
+    return Math.min(1, Math.max(0, Number.isFinite(value) ? value : 0));
+  }
+
+  function sceneEase(value) {
+    var t = sceneUnit(value);
+    return t * t * (3 - 2 * t);
+  }
+
+  /* Distances are CSS pixels. The two stationary hold screens flank the exact
+     overflow distance; panning is deliberately linear, one pixel per pixel. */
+  function sceneWindowFor(metrics) {
+    var m = metrics || {};
+    var vh = Number.isFinite(m.viewportHeight) ? Math.max(1, m.viewportHeight) : 1;
+    var overflow = Number.isFinite(m.overflow) ? Math.max(0, m.overflow) : 0;
+    var start = Number.isFinite(m.start) ? m.start : 0;
+    var position = (Number.isFinite(m.scrollTop) ? m.scrollTop : 0) - start;
+    var enterSpan = m.first ? 0 : 1.25 * vh;
+    var holdSpan = 2 * vh + overflow;
+    var exitSpan = m.last ? 0 : vh;
+    var duration = enterSpan + holdSpan + exitSpan;
+    var phase = position < 0 ? 'before' : position < enterSpan ? 'enter'
+      : position < enterSpan + holdSpan || m.last ? 'hold'
+        : position < duration ? 'leave' : 'after';
+    return {
+      phase: phase,
+      enter: position < 0 ? 0 : m.first ? 1 : sceneUnit((position / enterSpan - 0.12) / 0.88),
+      exit: m.last ? 0 : sceneUnit((position - enterSpan - holdSpan) / exitSpan),
+      pan: Math.max(0, Math.min(overflow, position - enterSpan - vh)),
+      duration: duration
+    };
+  }
+
+  /* Each ordered wave finishes within its allotted span, even with many items. */
+  function sceneStaggerFor(progress, index, count) {
+    var spread = count > 1 ? 0.3 : 0;
+    var offset = count > 1 ? clampIndex(index, count) / (count - 1) * spread : 0;
+    return sceneEase((progress - offset) / (1 - spread));
+  }
+
+  /* An item below the initial viewport waits for the pan to bring it onstage.
+     Upper items of long scenes exit while still above the header edge, not long
+     after disappearing. The final scene has no exit at all. */
+  function sceneItemProgressFor(metrics) {
+    var m = metrics || {};
+    var windowState = m.window || { enter: 1, exit: 0, pan: 0 };
+    var vh = Math.max(1, Number(m.viewportHeight) || 1);
+    var overflow = Math.max(0, Number(m.overflow) || 0);
+    var top = Number(m.top) || 0;
+    var bottom = Math.max(top + 1, Number(m.bottom) || top + 1);
+    var enter = sceneStaggerFor(windowState.enter, m.entryIndex || 0, m.entryCount || 1);
+    if (top >= vh && overflow > 0) {
+      var revealStart = Math.min(overflow, Math.max(0, top - vh));
+      var revealEnd = Math.min(overflow, revealStart + Math.min(vh * 0.3, bottom - top));
+      enter = revealEnd > revealStart ? sceneEase((windowState.pan - revealStart) / (revealEnd - revealStart))
+        : windowState.pan >= revealEnd ? 1 : 0;
+    }
+    var exit = m.last ? 0 : sceneStaggerFor(windowState.exit, m.exitIndex || 0, m.exitCount || 1);
+    if (!m.last && bottom <= overflow + (m.headerHeight || 0)) {
+      var leaveEnd = Math.max(1, bottom - (m.headerHeight || 0));
+      var leaveStart = Math.max(0, leaveEnd - Math.min(vh * 0.24, bottom - top));
+      exit = Math.max(exit, sceneEase((windowState.pan - leaveStart) / (leaveEnd - leaveStart)));
+    }
+    return { enter: enter, exit: exit };
+  }
+
+  /* Half-open track intervals share their boundary; there is never a spacer
+     viewport between scenes. The last scene also owns the maximum scroll. */
+  function sceneIndexFor(scrollTop, starts) {
+    var index = 0;
+    for (var i = 1; i < starts.length; i += 1) {
+      if (scrollTop < starts[i]) break;
+      index = i;
+    }
+    return index;
   }
 
   function backgroundPool() {
@@ -285,25 +413,11 @@
 
   function collectSections(doc) {
     var home = doc.querySelector('main#main.home-scroll');
-    if (home) {
-      var direct = Array.prototype.slice.call(home.children).filter(function (element) {
-        return element.nodeType === 1 && element.hasAttribute('data-home-section');
-      });
-      if (direct.length) return direct;
-    }
-    return Array.prototype.slice.call(doc.querySelectorAll('[data-home-section]'));
+    return Array.prototype.slice.call((home || doc).querySelectorAll('[data-home-section]'));
   }
 
   function sectionBackgroundHost(section) {
-    if (!section || !section.children) return null;
-    var fallback = null;
-    for (var index = 0; index < section.children.length; index += 1) {
-      var child = section.children[index];
-      if (!child || child.nodeType !== 1) continue;
-      if (child.hasAttribute('data-section-background')) return child;
-      if (!fallback && child.classList && child.classList.contains('hero-media')) fallback = child;
-    }
-    return fallback;
+    return section ? section.querySelector(BACKGROUND_HOST_SELECTOR) || section.querySelector('.hero-media') : null;
   }
 
   /* Pair every section with its background host, including hosts that already
@@ -423,156 +537,436 @@
     }
   }
 
-  /* Content enters in reading order and exits after leaving the scroll viewport.
-     Separate thresholds and short state dwell prevent animation-driven observer
-     feedback from restarting transitions. Items are observed individually so the
-     tall About section and footer animate when they come into view. */
-  function initSectionMotion(doc, view) {
-    if (!doc || !view) return;
+  /* Scrolling selects complete part animations; clocks own their playback.
+     The displayed stage stays mounted until its current part and exit finish. */
+  function initSectionMotion(doc, view, options) {
+    if (!doc || !view) return null;
     var home = doc.querySelector('main#main.home-scroll');
-    var body = doc.body;
-    if (!home || !body || typeof view.IntersectionObserver !== 'function') return;
+    if (!home || !doc.body) return null;
+    if (home.__ouroTheatre) return home.__ouroTheatre;
+    var sections = collectSections(doc);
+    if (!sections.length || !view.OuroSceneClock) return null;
+    var settings = options || {};
+    var header = doc.querySelector('.site-header');
+    var media = view.matchMedia ? view.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+    var supportsStage = !view.CSS || !view.CSS.supports || view.CSS.supports('position', 'sticky');
+    var raf = view.requestAnimationFrame ? view.requestAnimationFrame.bind(view) : function (fn) { return view.setTimeout(fn, 16); };
+    var caf = view.cancelAnimationFrame ? view.cancelAnimationFrame.bind(view) : view.clearTimeout.bind(view);
+    var now = function () { return view.performance ? view.performance.now() : Date.now(); };
+    var scenes = [];
+    var enabled = null;
+    var vh = 1;
+    var headerHeight = 0;
+    var frame = 0;
+    var dirty = true;
+    var ready = false;
+    var total = 0;
+    var activeIndex = -1;
+    var notifiedIndex = -1;
+    var bookmark = null;
+    var previousScroll = home.scrollTop;
+    var direction = 1;
+    var initialHash = decodeHash((view.location.hash || '').slice(1));
+    var initialIndex = sections.findIndex(function (section) { return section.id === initialHash; });
+    var initialScroll = home.scrollTop;
+    var scrollRange = doc.createElement('div');
+    scrollRange.className = 'home-scene-range';
+    scrollRange.setAttribute('aria-hidden', 'true');
 
-    var items = Array.prototype.slice.call(doc.querySelectorAll(MOTION_ITEM_SELECTOR));
-    if (!items.length) return;
-
-    var motionMedia = typeof view.matchMedia === 'function'
-      ? view.matchMedia('(prefers-reduced-motion: reduce)')
-      : { matches: false, addEventListener: function () {}, addListener: function () {} };
-
-    var groups = [];
-    var groupItems = [];
-    function motionGroupFor(item) {
-      if (typeof item.closest !== 'function') return item.parentElement;
-      return item.closest('.home-footer') || item.closest('.home-section') || item.parentElement;
+    function property(element, name, value) {
+      if (element.style.getPropertyValue(name) === value) return;
+      if (value === '') element.style.removeProperty(name);
+      else element.style.setProperty(name, value);
+    }
+    function attribute(element, name, value) {
+      if (value === null) element.removeAttribute(name);
+      else if (element.getAttribute(name) !== value) element.setAttribute(name, value);
+    }
+    function layoutTop(element) {
+      var top = 0;
+      for (var node = element; node; node = node.offsetParent) {
+        top += node.offsetTop || 0;
+        if (node.offsetParent) top += node.offsetParent.clientTop || 0;
+      }
+      return top;
+    }
+    function instantScroll(top) {
+      if (typeof home.scrollTo === 'function') {
+        try { home.scrollTo({ top: top, behavior: 'instant' }); return; } catch (error) { /* Older engines. */ }
+      }
+      home.scrollTop = top;
+    }
+    function firstEnter(scene) { return scene.first ? 0 : 1.25 * vh; }
+    function windowFor(scene, scrollTop) {
+      return sceneWindowFor({ scrollTop: scrollTop, start: scene.start, viewportHeight: vh,
+        overflow: scene.overflow, first: scene.first, last: scene.last });
+    }
+    function scrollIndex() {
+      return sceneIndexFor(home.scrollTop, scenes.map(function (scene) { return enabled ? scene.start : scene.plainTop; }));
+    }
+    function currentIndex() {
+      return enabled && activeIndex >= 0 ? activeIndex : scrollIndex();
+    }
+    function readingTop(scene, pan) {
+      if (!enabled) return scene.plainTop + Math.min(scene.overflow, Math.max(0, pan || 0));
+      if (scene.first && !pan) return scene.start;
+      return scene.start + firstEnter(scene) + (pan > 0 ? vh + Math.min(scene.overflow, pan) : vh * 0.5);
+    }
+    function capture() {
+      var scene = scenes[scrollIndex()];
+      var position = home.scrollTop - (enabled ? scene.start : scene.plainTop);
+      if (!enabled) return { index: scene.index, phase: 'reading', pan: Math.max(0, Math.min(scene.overflow, position)) };
+      var state = windowFor(scene, home.scrollTop);
+      var hold = position - firstEnter(scene);
+      var part = hold < vh ? 'top' : hold <= vh + scene.overflow ? 'pan' : 'bottom';
+      return { index: scene.index, phase: state.phase, pan: state.pan, part: part,
+        ratio: state.phase === 'enter' ? position / firstEnter(scene) : state.phase === 'leave' ? state.exit
+          : part === 'top' ? hold / vh : part === 'bottom' ? (hold - vh - scene.overflow) / vh : 0 };
+    }
+    function restore(point) {
+      var scene = scenes[clampIndex(point.index, scenes.length)];
+      if (!enabled) return scene.plainTop + Math.min(scene.overflow, point.pan);
+      if (point.phase === 'reading') return readingTop(scene, point.pan);
+      if (point.phase === 'enter') return scene.start + firstEnter(scene) * sceneUnit(point.ratio);
+      if (point.phase === 'leave' || point.phase === 'after') return scene.start + firstEnter(scene) + 2 * vh + scene.overflow + (scene.last ? 0 : sceneUnit(point.ratio) * vh);
+      return scene.start + firstEnter(scene) + (point.part === 'top' ? sceneUnit(point.ratio) * vh
+        : point.part === 'bottom' ? vh + scene.overflow + sceneUnit(point.ratio) * vh
+          : vh + Math.min(scene.overflow, point.pan));
     }
 
-    items.forEach(function (item) {
-      item.setAttribute('data-motion-item', '');
-      /* Classified in the same pass, so hidden tab panels are covered too. */
-      item.setAttribute('data-motion-variant', motionVariantFor(item));
-      var group = motionGroupFor(item);
-      var groupIndex = groups.indexOf(group);
-      if (groupIndex < 0) {
-        groups.push(group);
-        groupItems.push([]);
-        groupIndex = groups.length - 1;
-      }
-      groupItems[groupIndex].push(item);
-    });
-
-    groups.forEach(function (group, groupIndex) {
-      var visibleIndex = 0;
-      groupItems[groupIndex].forEach(function (item) {
-        var hidden = typeof item.closest === 'function' && item.closest('[hidden]');
-        var delay = hidden ? 0 : motionDelayFor(visibleIndex, MOTION_ENTER_STEP, MOTION_MAX_DELAY);
-        if (!hidden) visibleIndex += 1;
-        item.style.setProperty('--motion-delay', delay + 'ms');
+    sections.forEach(function (section, index) {
+      var track = doc.createElement('div');
+      var stage = doc.createElement('div');
+      track.className = 'home-scene-track';
+      stage.className = 'home-scene-stage';
+      track.setAttribute('data-scene-id', section.id);
+      section.parentNode.insertBefore(track, section);
+      track.appendChild(stage);
+      stage.appendChild(section);
+      var business = section.querySelector('.business-flow');
+      var fallback = business && business.querySelector(':scope > .flow');
+      var partCount = Math.max(1, Math.min(3, Number(section.getAttribute('data-scene-parts')) || 1));
+      var parts = Array.from({ length: partCount }, function (_, partIndex) {
+        return { index: partIndex, roots: [], top: 0, bottom: 0, desired: false };
+      });
+      scenes.push({ section: section, track: track, stage: stage, index: index,
+        first: index === 0, last: index === sections.length - 1, start: 0, plainTop: 0, overflow: 0, duration: 0,
+        business: business, fallback: fallback, parts: parts, pan: 0, reverseEntry: false,
+        clock: view.OuroSceneClock.create({ count: partCount, enterDuration: 920, exitDuration: 760, lead: 60 }),
+        records: Array.prototype.slice.call(section.querySelectorAll(MOTION_ITEM_SELECTOR)).map(function (item, order) {
+          var partRoot = item.closest('[data-scene-part]');
+          var partIndex = Math.max(0, Math.min(partCount - 1,
+            (Number(partRoot && partRoot.getAttribute('data-scene-part')) || 1) - 1));
+          return { item: item, order: order, layer: motionLayerFor(item),
+            variant: motionVariantFor(item), partIndex: partIndex, managed: false };
+        })
       });
     });
+    home.appendChild(scrollRange);
+    doc.body.removeAttribute('data-section-motion');
 
-    var observer = null;
-    var latestEntries = new WeakMap();
-    var stateLocks = new WeakMap();
-    var stateTimers = new WeakMap();
-
-    function motionNow() {
-      return view.performance && typeof view.performance.now === 'function'
-        ? view.performance.now()
-        : Date.now();
-    }
-
-    function setMotionState(target, state) {
-      if (target.getAttribute('data-motion-state') === state) return;
-      target.setAttribute('data-motion-state', state);
-      stateLocks.set(target, motionNow() + (state === 'in' ? 1000 : 600));
-    }
-
-    function updateMotionEntry(entry) {
-      if (!entry) return;
-      var target = entry.target;
-      latestEntries.set(target, entry);
-      var previous = target.getAttribute('data-motion-state');
-      var remaining = (stateLocks.get(target) || 0) - motionNow();
-      if (previous && remaining > 0) {
-        if (!stateTimers.get(target)) {
-          stateTimers.set(target, view.setTimeout(function () {
-            stateTimers.delete(target);
-            if (body.getAttribute('data-section-motion') === 'on') {
-              updateMotionEntry(latestEntries.get(target));
-            }
-          }, remaining));
+    function measure() {
+      var previousMode = enabled;
+      var previousVh = vh;
+      var previousTotal = total;
+      var oldDurations = scenes.map(function (scene) { return scene.duration; });
+      var point = ready ? bookmark : null;
+      enabled = supportsStage && !media.matches;
+      vh = Math.max(1, home.clientHeight);
+      headerHeight = Math.min(vh * 0.4, header ? header.offsetHeight : 0);
+      // Mode changes are one bounded write/read transaction. Ordinary scroll
+      // frames below never read animated geometry or change layout dimensions.
+      attribute(doc.body, 'data-home-theatre', enabled ? 'on' : 'reduced');
+      scenes.forEach(function (scene) {
+        property(scene.track, '--scene-vh', enabled ? vh + 'px' : '');
+        property(scene.track, '--scene-width', enabled ? home.clientWidth + 'px' : '');
+        if (!enabled) {
+          property(scene.track, 'height', '');
+          property(scene.track, 'margin-bottom', '');
+          property(scene.section, '--scene-pan-y', '0px');
         }
-        return;
-      }
-      if (stateTimers.get(target)) {
-        view.clearTimeout(stateTimers.get(target));
-        stateTimers.delete(target);
-      }
-      if (!entry.isIntersecting) {
-        setMotionState(target, 'out');
-        return;
-      }
-      if (previous === 'in') {
-        if (entry.intersectionRatio <= 0.02) setMotionState(target, 'out');
-        return;
-      }
-      if (entry.intersectionRatio >= 0.08) setMotionState(target, 'in');
-    }
-
-    function resetMotionTracking() {
-      items.forEach(function (item) {
-        if (stateTimers.get(item)) view.clearTimeout(stateTimers.get(item));
       });
-      latestEntries = new WeakMap();
-      stateLocks = new WeakMap();
-      stateTimers = new WeakMap();
-    }
-
-    function disconnectObserver() {
-      if (!observer) return;
-      observer.disconnect();
-      observer = null;
-    }
-
-    function observeItems() {
-      if (observer) observer.disconnect();
-      observer = new view.IntersectionObserver(function (entries) {
-        entries.forEach(updateMotionEntry);
-      }, {
-        root: home,
-        rootMargin: '0px 0px 32px 0px',
-        threshold: [0, 0.02, 0.08, 0.24, 0.5, 0.8]
+      var origin = layoutTop(home) + (home.clientTop || 0);
+      total = 0;
+      scenes.forEach(function (scene) {
+        var sectionTop = layoutTop(scene.section);
+        var splitBusiness = !!(scene.fallback && scene.fallback.offsetHeight > vh - headerHeight);
+        var bottom = scene.section.offsetHeight;
+        scene.records.forEach(function (record) {
+          var item = record.item;
+          record.enabled = item === scene.business ? !splitBusiness
+            : scene.fallback && scene.fallback.contains(item) ? splitBusiness : true;
+          record.rendered = !item.closest('[hidden]') && !!(item.offsetHeight || item.offsetWidth);
+          var localY = record.rendered && view.getComputedStyle
+            ? transformTranslationY(view.getComputedStyle(item).transform) : 0;
+          record.top = layoutTop(item) - sectionTop + localY;
+          record.bottom = record.top + item.offsetHeight;
+          if (record.enabled && record.rendered) bottom = Math.max(bottom, record.bottom);
+          record.entryIndex = record.exitIndex = 0;
+          record.entryCount = record.exitCount = 1;
+        });
+        scene.height = Math.max(vh, bottom);
+        scene.overflow = Math.max(0, scene.height - vh);
+        scene.plainTop = sectionTop - origin;
+        scene.start = total;
+        scene.duration = windowFor(scene, scene.start).duration;
+        total += scene.duration;
+        scene.parts.forEach(function (part) {
+          part.roots = scene.section.getAttribute('data-scene-part') === String(part.index + 1) ? [scene.section]
+            : Array.prototype.slice.call(scene.section.querySelectorAll('[data-scene-part="' + (part.index + 1) + '"]'));
+          var live = scene.records.filter(function (record) {
+            return record.partIndex === part.index && record.enabled && record.rendered;
+          });
+          part.top = live.length ? Math.min.apply(null, live.map(function (record) { return record.top; })) : 0;
+          part.bottom = live.length ? Math.max.apply(null, live.map(function (record) { return record.bottom; })) : 0;
+          var entry = live.slice().sort(function (a, b) { return a.layer - b.layer || a.order - b.order; });
+          var exit = live.slice().sort(function (a, b) { return b.layer - a.layer || b.order - a.order; });
+          entry.forEach(function (record, i) { record.entryIndex = i; record.entryCount = entry.length; });
+          exit.forEach(function (record, i) { record.exitIndex = i; record.exitCount = exit.length; });
+        });
       });
-      items.forEach(function (item) { observer.observe(item); });
+      var changed = previousMode !== enabled || previousVh !== vh || previousTotal !== total
+        || scenes.some(function (scene, i) { return scene.duration !== oldDurations[i]; });
+      property(scrollRange, 'height', enabled ? (total + vh) + 'px' : '');
+      scenes.forEach(function (scene) {
+        scene.records.forEach(function (record) {
+          if (record.enabled) {
+            attribute(record.item, 'data-motion-item', '');
+            attribute(record.item, 'data-motion-variant', record.variant);
+            attribute(record.item, 'data-motion-part', String(record.partIndex + 1));
+          } else if (record.managed) {
+            record.item.removeAttribute('data-motion-item');
+            record.item.removeAttribute('data-motion-variant');
+            record.item.removeAttribute('data-motion-part');
+            record.item.removeAttribute('inert');
+            property(record.item, '--scene-enter', '');
+            property(record.item, '--scene-exit', '');
+          }
+          record.item.removeAttribute('data-motion-state');
+          record.managed = record.enabled;
+        });
+      });
+      if (ready && changed && point) {
+        var maximum = enabled ? total : Math.max(0, scenes.at(-1).plainTop + scenes.at(-1).height - vh);
+        instantScroll(Math.max(0, Math.min(maximum, restore(point))));
+      } else if (!ready && initialIndex >= 0) {
+        instantScroll(readingTop(scenes[initialIndex], 0));
+      } else if (!ready && enabled && initialScroll > 0) {
+        instantScroll(Math.min(total, initialScroll));
+      }
+      if (previousMode !== enabled) {
+        activeIndex = scrollIndex();
+        scenes.forEach(function (scene) {
+          var visible = !enabled || (previousMode === false && scene.index === activeIndex);
+          scene.clock.settle(scene.parts.map(function () { return visible; }));
+        });
+      }
+      ready = true;
+      dirty = false;
+      if (changed) notifiedIndex = -1;
     }
 
-    function enableMotion() {
-      resetMotionTracking();
-      body.setAttribute('data-section-motion', 'on');
-      items.forEach(function (item) { item.removeAttribute('data-motion-state'); });
-      observeItems();
+    function releaseFocus(scene) {
+      var focused = doc.activeElement;
+      if (!focused || !scene.stage.contains(focused)) return;
+      if (typeof focused.blur === 'function') focused.blur();
+      var tabIndex = home.getAttribute('tabindex');
+      home.setAttribute('tabindex', '-1');
+      home.focus({ preventScroll: true });
+      if (tabIndex === null) home.removeAttribute('tabindex');
+      else home.setAttribute('tabindex', tabIndex);
     }
-
-    function disableMotion() {
-      disconnectObserver();
-      resetMotionTracking();
-      body.setAttribute('data-section-motion', 'reduced');
+    function targetsFor(scene, state) {
+      var count = scene.parts.length;
+      var position = home.scrollTop - scene.start;
+      var enterSpan = firstEnter(scene);
+      var exitStart = enterSpan + 2 * vh + scene.overflow;
+      var slack = Math.min(24, vh * 0.025);
+      if (state.phase !== 'leave') scene.reverseEntry = false;
+      return scene.parts.map(function (part, index) {
+        var entryAt = scene.first ? index * vh * 0.55 : index * enterSpan / count;
+        var exitAt = exitStart + (count - 1 - index) * vh / count;
+        var visible = position >= entryAt - (part.desired ? slack : 0);
+        if (!scene.last && position >= exitAt + (part.desired ? slack : 0)) visible = false;
+        if (scene.reverseEntry && state.phase === 'leave') {
+          visible = state.duration - position >= (count - 1 - index) * vh / count;
+        }
+        part.desired = visible;
+        return visible;
+      });
     }
-
-    function syncMotionPreference() {
-      if (motionMedia.matches) disableMotion();
-      else enableMotion();
+    function allHidden(snapshot) {
+      return !snapshot.running && snapshot.parts.every(function (part) { return part.phase === 'hidden'; });
     }
-
-    if (motionMedia.matches) disableMotion();
-    else enableMotion();
-
-    if (typeof motionMedia.addEventListener === 'function') {
-      motionMedia.addEventListener('change', syncMotionPreference);
-    } else if (typeof motionMedia.addListener === 'function') {
-      motionMedia.addListener(syncMotionPreference);
+    function paint() {
+      var scrollTop = enabled ? Math.max(0, Math.min(total, home.scrollTop)) : home.scrollTop;
+      var time = now();
+      var requestedIndex = scrollIndex();
+      if (Math.abs(home.scrollTop - previousScroll) > 1) direction = home.scrollTop > previousScroll ? 1 : -1;
+      previousScroll = home.scrollTop;
+      var running = false;
+      if (!enabled) activeIndex = requestedIndex;
+      if (enabled) {
+        var displayed = scenes[activeIndex];
+        var target = activeIndex === requestedIndex ? targetsFor(displayed, windowFor(displayed, scrollTop)) :
+          displayed.parts.map(function (part) { part.desired = false; return false; });
+        displayed.clock.setTarget(target);
+        var snapshot = displayed.clock.tick(time);
+        if (activeIndex !== requestedIndex && allHidden(snapshot)) {
+          activeIndex = requestedIndex;
+          displayed = scenes[activeIndex];
+          displayed.reverseEntry = direction < 0;
+          displayed.clock.settle(displayed.parts.map(function () { return false; }));
+          displayed.clock.setTarget(targetsFor(displayed, windowFor(displayed, scrollTop)));
+          snapshot = displayed.clock.tick(time);
+        }
+        running = snapshot.running;
+      }
+      scenes.forEach(function (scene) {
+        var active = !enabled || scene.index === activeIndex;
+        if (!active && !scene.stage.hasAttribute('inert')) releaseFocus(scene);
+        attribute(scene.track, 'data-scene-active', active ? 'true' : 'false');
+        attribute(scene.stage, 'inert', active ? null : '');
+        attribute(scene.stage, 'aria-hidden', active ? null : 'true');
+        var state = windowFor(scene, scrollTop);
+        var poses = scene.clock.snapshot();
+        var exiting = poses.parts.some(function (part) { return part.phase === 'exiting'; });
+        if (active && scene.index === requestedIndex && !exiting) scene.pan = state.pan;
+        property(scene.section, '--scene-pan-y', enabled ? -scene.pan + 'px' : '0px');
+        var presence = Math.max.apply(null, poses.parts.map(function (part) { return part.enter * (1 - part.exit); }));
+        property(scene.section, '--scene-enter', enabled ? String(presence) : '1');
+        property(scene.section, '--scene-exit', '0');
+        var phase = poses.running && poses.activePart >= 0 ? poses.parts[poses.activePart].phase : state.phase;
+        if (phase === 'entering') phase = 'enter';
+        if (phase === 'exiting') phase = 'leave';
+        attribute(scene.track, 'data-scene-phase', enabled ? phase : 'hold');
+        attribute(scene.track, 'data-scene-part-active', String(poses.activePart + 1));
+        scene.parts.forEach(function (part, partIndex) {
+          var pose = poses.parts[partIndex];
+          part.roots.forEach(function (root) {
+            attribute(root, 'data-scene-part-state', enabled ? pose.phase : 'visible');
+            property(root, '--scene-divider-alpha', enabled ? String(pose.enter * (1 - pose.exit)) : '1');
+          });
+        });
+        scene.records.forEach(function (record) {
+          if (!record.managed) return;
+          var part = poses.parts[record.partIndex];
+          var enter = enabled ? sceneStaggerFor(part.enter, record.entryIndex, record.entryCount) : 1;
+          var exit = enabled ? sceneStaggerFor(part.exit, record.exitIndex, record.exitCount) : 0;
+          property(record.item, '--scene-enter', String(enter));
+          property(record.item, '--scene-exit', String(exit));
+          var hidden = enabled && (part.phase === 'hidden' || !record.rendered);
+          attribute(record.item, 'inert', hidden ? '' : null);
+          attribute(record.item, 'data-motion-state', hidden ? 'hidden' :
+            enabled && (part.phase === 'entering' || part.phase === 'exiting') ? 'moving' : 'visible');
+        });
+      });
+      bookmark = capture();
+      if (notifiedIndex !== activeIndex) {
+        notifiedIndex = activeIndex;
+        if (typeof settings.onChange === 'function') settings.onChange(activeIndex);
+      }
+      attribute(home, 'data-scene-clock-running', enabled && running ? 'true' : 'false');
+      if (running) schedule();
     }
+    function flush() {
+      frame = 0;
+      if (doc.hidden) return;
+      // CSS can collapse the tracks and emit scroll before the MQL change
+      // callback. Reconcile modes before paint/capture can overwrite the last
+      // reading bookmark with a scroll position from the other coordinate space.
+      if (enabled !== (supportsStage && !media.matches)) dirty = true;
+      if (dirty) measure();
+      paint();
+    }
+    function schedule() { if (!frame && !doc.hidden) frame = raf(flush); }
+    function refresh() { dirty = true; schedule(); }
+    function navigate(index, behavior) {
+      if (dirty || enabled !== (supportsStage && !media.matches)) measure();
+      var top = readingTop(scenes[clampIndex(index, scenes.length)], 0);
+      if (behavior === 'smooth' && enabled && typeof home.scrollTo === 'function') {
+        home.scrollTo({ top: top, behavior: 'smooth' });
+        schedule();
+      } else {
+        instantScroll(top);
+        paint();
+      }
+      return true;
+    }
+    var adapter = {
+      enabled: function () { return enabled; },
+      sectionTop: function (section) { return readingTop(scenes[sections.indexOf(section)], 0); },
+      currentIndex: currentIndex,
+      navigate: navigate,
+      refresh: refresh,
+      getState: function () { return { enabled: enabled, active: sections[currentIndex()].id,
+        requested: sections[scrollIndex()].id, direction: direction, scenes: scenes.map(function (scene) {
+          return { id: scene.section.id, start: scene.start, duration: scene.duration, overflow: scene.overflow,
+            pan: scene.pan, clock: scene.clock.snapshot(), parts: scene.parts.map(function (part) {
+              return { top: part.top, bottom: part.bottom, desired: part.desired };
+            }) };
+        }) }; }
+    };
+    home.__ouroTheatre = adapter;
+    home.addEventListener('scroll', schedule, { passive: true });
+    home.addEventListener('focusin', function (event) {
+      if (enabled !== (supportsStage && !media.matches)) { refresh(); return; }
+      if (!enabled) return;
+      var scene = scenes.find(function (entry) { return entry.section.contains(event.target); });
+      if (!scene) return;
+      if (scene.index !== activeIndex) { releaseFocus(scene); return; }
+      var state = windowFor(scene, home.scrollTop);
+      var record = scene.records.find(function (entry) { return entry.managed && entry.item.contains(event.target); });
+      if (state.phase !== 'hold' || record && (record.bottom - state.pan <= headerHeight || record.top - state.pan >= vh)) {
+        var pan = record ? Math.max(0, Math.min(scene.overflow, record.top - headerHeight - 24)) : state.pan;
+        instantScroll(readingTop(scene, pan));
+      }
+      schedule();
+    });
+    view.addEventListener('resize', refresh, { passive: true });
+    view.addEventListener('pageshow', refresh);
+    doc.addEventListener('ouronex:languagechange', refresh);
+    doc.addEventListener('load', refresh, true);
+    doc.addEventListener('visibilitychange', function () {
+      var time = now();
+      if (doc.hidden) {
+        scenes.forEach(function (scene) { scene.clock.pause(time); });
+        if (frame) caf(frame);
+        frame = 0;
+      } else {
+        scenes.forEach(function (scene) { scene.clock.resume(time); });
+        refresh();
+      }
+    });
+    if (typeof view.ResizeObserver === 'function') {
+      var resizeObserver = new view.ResizeObserver(refresh);
+      resizeObserver.observe(home);
+      if (header) resizeObserver.observe(header);
+      // Never observe a track or stage whose dimensions this owner sets.
+      scenes.forEach(function (scene) {
+        resizeObserver.observe(scene.section);
+        scene.records.forEach(function (record) { resizeObserver.observe(record.item); });
+      });
+    }
+    if (typeof view.MutationObserver === 'function') {
+      var mutationObserver = new view.MutationObserver(refresh);
+      scenes.forEach(function (scene) {
+        scene.records.forEach(function (record) {
+          if (record.item.matches('.feature-panel')) mutationObserver.observe(record.item, { attributes: true, attributeFilter: ['hidden'] });
+        });
+        if (scene.business) mutationObserver.observe(scene.business, { attributes: true, attributeFilter: ['data-flow-live'] });
+      });
+      mutationObserver.observe(doc.documentElement, { attributes: true, attributeFilter: ['lang', 'data-flow'] });
+    }
+    if (doc.fonts) {
+      if (doc.fonts.ready && typeof doc.fonts.ready.then === 'function') doc.fonts.ready.then(refresh).catch(function () {});
+      if (doc.fonts.addEventListener) doc.fonts.addEventListener('loadingdone', refresh);
+    }
+    if (media.addEventListener) media.addEventListener('change', refresh);
+    else if (media.addListener) media.addListener(refresh);
+    measure();
+    paint();
+    return adapter;
   }
 
   function loadSectionBackgrounds() {
@@ -753,6 +1147,7 @@
     var sections = collectSections(doc);
     var unifiedBackgrounds = initUnifiedBackgrounds(doc);
     var backgroundEntries = unifiedBackgrounds ? unifiedBackgrounds.entries : [];
+    var theatre = null;
 
     var reduced = view.matchMedia
       ? view.matchMedia('(prefers-reduced-motion: reduce)')
@@ -830,6 +1225,7 @@
     }
 
     function sectionTop(section) {
+      if (theatre) return theatre.sectionTop(section);
       var homeRect = home.getBoundingClientRect();
       var rect = section.getBoundingClientRect();
       return home.scrollTop + rect.top - (homeRect.top + (home.clientTop || 0));
@@ -842,12 +1238,12 @@
     }
 
     function currentIndex() {
-      return sectionIndexFor(home.scrollTop, tops);
+      return theatre ? theatre.currentIndex() : sectionIndexFor(home.scrollTop, tops);
     }
 
-    function updateActive(index) {
+    function updateActive() {
       if (!sections.length) return;
-      var active = typeof index === 'number' ? clampIndex(index, sections.length) : currentIndex();
+      var active = currentIndex();
       var section = sections[active];
       var activeId = section && section.id ? section.id : '';
       if (header) header.classList.toggle('is-scrolled', active > 0);
@@ -862,64 +1258,24 @@
       });
     }
 
-    var animating = false;
-    var pendingIndex = null;
-    var animationTimer = 0;
-
-    function finishAnimation() {
-      if (animationTimer) {
-        view.clearTimeout(animationTimer);
-        animationTimer = 0;
-      }
-      if (!animating && pendingIndex === null) return;
-      animating = false;
-      pendingIndex = null;
-      updateActive();
-    }
-
     function navigate(index, options) {
       var settings = options || {};
       if (!sections.length) return false;
       var target = clampIndex(index, sections.length);
       if (!settings.force && target === currentIndex()) return false;
       var behavior = settings.behavior || (reduced.matches ? 'auto' : 'smooth');
+      if (theatre) return theatre.navigate(target, behavior);
       var top = sectionTop(sections[target]);
-
-      pendingIndex = target;
-      animating = true;
-      updateActive(target);
-      if (animationTimer) view.clearTimeout(animationTimer);
-      animationTimer = view.setTimeout(finishAnimation, behavior === 'auto' ? INSTANT_LOCK : SMOOTH_LOCK);
-
       if (typeof home.scrollTo === 'function') {
-        try {
-          home.scrollTo({ top: top, behavior: behavior });
-        } catch (error) {
-          home.scrollTop = top;
-        }
-      } else {
-        home.scrollTop = top;
-      }
+        try { home.scrollTo({ top: top, behavior: behavior }); }
+        catch (error) { home.scrollTop = top; }
+      } else home.scrollTop = top;
+      updateActive();
       return true;
     }
 
-    var scrollFrame = 0;
-    function onScroll() {
-      if (scrollFrame) return;
-      scrollFrame = raf(function () {
-        scrollFrame = 0;
-        if (animating && pendingIndex !== null) updateActive(pendingIndex);
-        else updateActive();
-      });
-    }
-
-    home.addEventListener('scroll', onScroll, { passive: true });
-
-    if ('onscrollend' in home) {
-      home.addEventListener('scrollend', finishAnimation);
-    }
-
-    navLinks.forEach(function (link) {
+    var sectionLinks = navLinks.concat(Array.prototype.slice.call(doc.querySelectorAll('.brand[href], .hero-actions a[href]')));
+    sectionLinks.forEach(function (link) {
       link.addEventListener('click', function (event) {
         if (event.defaultPrevented) return;
         if (event.button !== undefined && event.button !== 0) return;
@@ -955,25 +1311,15 @@
     });
 
     function refresh() {
+      if (theatre) { theatre.refresh(); return; }
       measure();
-      updateActive(animating && pendingIndex !== null ? pendingIndex : undefined);
+      updateActive();
     }
 
-    view.addEventListener('resize', refresh, { passive: true });
-    view.addEventListener('pageshow', function () {
+    view.addEventListener('pageshow', function (event) {
       refresh();
-      if (view.location.hash) scrollToHash('auto');
+      if (!event.persisted && view.location.hash) scrollToHash('auto');
     });
-
-    if (typeof view.ResizeObserver === 'function') {
-      var observer = new view.ResizeObserver(refresh);
-      observer.observe(home);
-      sections.forEach(function (section) { observer.observe(section); });
-    }
-
-    if (doc.fonts && doc.fonts.ready && typeof doc.fonts.ready.then === 'function') {
-      doc.fonts.ready.then(refresh).catch(function () {});
-    }
 
     /* ---- Pointer-tracked CTA light ----------------------------------- */
 
@@ -1011,10 +1357,10 @@
       });
     }
 
+    theatre = initSectionMotion(doc, view, { onChange: updateActive });
     measure();
     updateActive();
     initSectionBackgrounds(doc, view);
-    initSectionMotion(doc, view);
     initHeroDemo(doc, view);
     initPointerGlow();
     initAvailableSoon();
@@ -1038,6 +1384,11 @@
     motionDelayFor: motionDelayFor,
     nextDemoIndex: nextDemoIndex,
     motionVariantFor: motionVariantFor,
+    motionWindowFor: motionWindowFor,
+    sceneWindowFor: sceneWindowFor,
+    sceneItemProgressFor: sceneItemProgressFor,
+    sceneIndexFor: sceneIndexFor,
+    transformTranslationY: transformTranslationY,
     selectBackgroundSource: selectBackgroundSource,
     selectHeroSource: selectHeroSource,
     planSectionBackgrounds: planSectionBackgrounds,
