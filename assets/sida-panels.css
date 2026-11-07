@@ -1,6 +1,6 @@
 /* SIDA feature panels: one fixed stage per tab so the download row never moves. */
 
-.feature-panels{--stage-h:clamp(460px,calc(100svh - 232px),700px);height:var(--stage-h);min-height:0}
+.feature-panels{--stage-h:clamp(460px,calc(100svh - 248px),700px);height:var(--stage-h);min-height:0}
 .feature-panel{height:100%;min-height:0}
 .feature-stage{height:100%;min-height:0;display:grid;place-content:stretch}
 .feature-stage--media{place-content:center}
@@ -53,7 +53,7 @@
 .feature-shot--experts{aspect-ratio:1659/1146}
 
 @media(max-width:1200px){
-  .feature-panels{--stage-h:clamp(420px,calc(100svh - 232px),620px)}
+  .feature-panels{--stage-h:clamp(420px,calc(100svh - 248px),620px)}
   .sida-tagcloud{padding:17px 19px;gap:12px}
 }
 

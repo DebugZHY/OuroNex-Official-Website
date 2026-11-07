@@ -19,6 +19,9 @@ that is removed as soon as the sample project opens. The product's 224 px brand 
 The Welcome GLB receives ambient and hemisphere lighting plus a locally generated 64-pixel
 room environment. This lights the clearcoat and metal surfaces on the backplate without an
 additional image request. The temporary environment scene and its render target are disposed.
+Hovering the mark pauses its idle sway at the current pose. Pointer dragging rotates it directly;
+leaving the mark resumes the gentle sway without resetting the chosen orientation. Dragging remains
+available with reduced motion, while automatic movement stays disabled.
 
 Click **New Project** to open `Steel Frame Design Optimization` in place:
 
@@ -76,23 +79,41 @@ stage entrance animations. The brand mark pauses out of view and when the docume
 The Files item, **Check Result**, and the Router attachment all open the same SODA tab after Apps.
 Only the centre page changes. Both side panels close and their controls become unchecked.
 
-The light viewport retains SODA's wordmark, a tall section list with actual section-type glyphs,
-aligned Nodes/Elements and filename information, right-hand controls and corner axis gizmo.
-A subtle light gradient supplies the backdrop. Views and Light Source are omitted. Drag to rotate
+The light viewport has a compact dark toolbar with projection, Pan, Rotate, zoom and Fit
+controls, with the filename at the far right. Its buttons use pressed states without slider tracks;
+Selection and Undo/Redo buttons are omitted. The matching dark Model Explorer on the left contains Material,
+Section, Node, Element and Area.
+Only Material and Section expand. Their selectable children highlight matching model members;
+selecting the same child again or clicking blank canvas clears the highlight. Clicking an actual
+member, dragging, cancelled gestures and two-finger input preserve selection. The material icons
+are an S and a C inside square frames. Section contains only the 146 sections in use,
+with their actual section-type glyphs. Node (1989) and Element (5191) report the model counts.
+The axis gizmo sits at the bottom right, with no wordmark or bottom information bar.
+A softly lit backdrop surrounds a world-space floor with a fading major/minor grid and soft cast
+shadows below the model. The environment follows the same orbit, pan and projection as the structure;
+it fades away below the floor and becomes quieter during highlighting. Grid and shadow helpers remain
+outside member picking, so clicking them still clears selection. Their resources are disposed with
+the viewer, and the static environment adds no continuous animation. Views and Light Source are omitted. Drag to rotate
 in SODA's fixed Z-Axis mode, shift-drag or use Pan mode to translate, and use the wheel/buttons to zoom.
 Two-finger gestures combine pan and zoom. Orthographic and perspective buttons switch real cameras;
-Undo/Redo restores camera projection, quaternion, target, zoom and framing. Fit recentres a panned model.
+Fit recentres a panned model. Internal camera history remains available to the existing keyboard handlers.
 
 The source is `MGM Skylight Case5_v9.9_Support.dat`; the displayed deliverable name is `Frame-model-v2.dat`.
-Its 1,989 nodes, 5,191 members and 155 sections are baked using SODA's importer and extrusion geometry.
-The view contains Element geometry only: 5,151 extruded members, their section-coloured outlines, and
+Its 1,989 nodes and 5,191 members use 146 of the source's 155 section definitions, baked using SODA's
+importer and extrusion geometry. The nine unused definitions are omitted from Model Explorer.
+The structural model contains Element geometry only: 5,151 extruded members, their section-coloured outlines, and
 40 members retained as centre lines where SODA cannot extrude the supplied section. It contains
 185,720 triangles and preserves original coordinates, beta angles, colours and circular surface normals.
 Node markers, supports, loads, labels and analysis results are absent. The geometry is the supplied
 example; the scripted workflow does not perform structural optimisation.
 
+Material presents the requested S355 and C40 selection groups. C40 highlights its six original
+members; S355 highlights all 5,185 remaining members, including the imported copy and Rigid records.
+Original material IDs and member assignments remain intact in the model metadata. Selecting a
+material or section changes the model highlight without changing the camera.
+
 Runtime loads a compact section/counts JSON and a losslessly compressed GLB only on entering SODA.
-The gzip payload is 4,958,164 bytes, versus 14,350,852 bytes for the uncompressed GLB. Native browser
+The gzip payload is 4,983,592 bytes, versus 14,482,316 bytes for the uncompressed GLB. Native browser
 decompression avoids an additional decoder dependency; browsers without that API use the raw GLB.
 Decoded bytes are cached for repeat visits. Full conversion proof stays outside the published package.
 
@@ -125,8 +146,9 @@ instead of reducing the original control and text sizes. Vendor Flow CSS is scop
 Workflow nodes retain fixed coordinates and the same viewport when a panel opens or the host resizes.
 The initial desktop fit reserves both side panels and the full feedback-label width; the actual
 canvas always fills the centre panel. Explicit Fit uses the currently available canvas space.
-Narrow screens can pan the graph. The SODA section list starts collapsed below 620 px and can be
-expanded without changing the model camera.
+Narrow screens can pan the graph. Model Explorer can collapse on narrow SODA viewports and reopen
+from its title control. The toolbar buttons remain in one horizontally scrollable row beside the
+filename. The tree scrolls independently of the model viewport.
 
 ## Build
 

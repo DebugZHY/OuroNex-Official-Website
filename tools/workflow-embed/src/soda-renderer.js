@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createSodaEnvironment } from './soda-environment.js';
 
 /* SODA 3D view renderer.
  *
@@ -15,6 +16,9 @@ const FIT_PADDING = 1.18;
 const MIN_ZOOM = 0.15;
 const MAX_ZOOM = 12;
 const MIN_HALF_HEIGHT = 0.001;
+const TAP_MOVE_PIXELS = 5;
+const TAP_MAX_MS = 750;
+const LINE_PICK_PIXELS = 3;
 
 /* Phong surfaces and three-light illumination match SODA's active view
  * engine. The UI owns the canvas background; WebGL leaves it transparent. */
@@ -54,6 +58,15 @@ export function normaliseMetadata(raw) {
     memberCount: finiteNumber(section?.memberCount),
     sectionType: Number.isInteger(section?.sectionType) ? section.sectionType : null,
   }));
+  const materials = (Array.isArray(metadata.materials) ? metadata.materials : []).map((material, index) => ({
+    id: material?.id ?? index + 1,
+    name: String(material?.name ?? `Material ${index + 1}`),
+    memberCount: finiteNumber(material?.memberCount),
+    sourceMaterialIds: (Array.isArray(material?.sourceMaterialIds)
+      ? material.sourceMaterialIds : []).filter((id) => selectionKey(id) !== null),
+  }));
+  const sourceMaterials = Array.isArray(metadata.sourceMaterials)
+    ? JSON.parse(JSON.stringify(metadata.sourceMaterials)) : [];
   return {
     sourceFile: String(metadata.sourceFile || ''),
     sourceSha256: metadata.sourceSha256 ? String(metadata.sourceSha256) : null,
@@ -63,6 +76,8 @@ export function normaliseMetadata(raw) {
     sectionCount: finiteNumber(metadata.sectionCount ?? metadata.sections),
     triangleCount: finiteNumber(metadata.triangleCount ?? metadata.triangles),
     sections,
+    materials,
+    sourceMaterials,
     bounds: { min, max },
     center,
     upAxis,
@@ -106,20 +121,33 @@ function loadAssets(modelUrl, metadataUrl, compressedModelUrl) {
   return assetCache.get(key);
 }
 
-function disposeMaterial(material) {
+function disposeMaterial(material, textures = new Set()) {
   if (!material) return;
   for (const value of Object.values(material)) {
-    if (value && value.isTexture) value.dispose();
+    if (value && value.isTexture && !textures.has(value)) {
+      textures.add(value);
+      value.dispose();
+    }
   }
   if (typeof material.dispose === 'function') material.dispose();
 }
 
 function disposeTree(object) {
   if (!object) return;
+  const geometries = new Set();
+  const materials = new Set();
+  const textures = new Set();
   object.traverse((node) => {
-    if (node.geometry && typeof node.geometry.dispose === 'function') node.geometry.dispose();
-    if (Array.isArray(node.material)) node.material.forEach(disposeMaterial);
-    else disposeMaterial(node.material);
+    if (node.geometry && !geometries.has(node.geometry)) {
+      geometries.add(node.geometry);
+      node.geometry.dispose?.();
+    }
+    const list = Array.isArray(node.material) ? node.material : [node.material];
+    for (const material of list) {
+      if (!material || materials.has(material)) continue;
+      materials.add(material);
+      disposeMaterial(material, textures);
+    }
   });
 }
 
@@ -131,6 +159,94 @@ function safeError(error) {
  * leave the camera scale skewed after long drags. */
 function normalisedQuaternion(quaternion) {
   return quaternion.clone().normalize();
+}
+
+function selectionKey(id) {
+  if (typeof id === 'number' && Number.isFinite(id)) return String(id);
+  return typeof id === 'string' && id.trim() ? id : null;
+}
+
+function compareIds(a, b) {
+  if (typeof a === 'number' && typeof b === 'number') return a - b;
+  const left = String(a), right = String(b);
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
+/* GLTFLoader keeps node/mesh extras in Object3D.userData. A mesh with several
+ * primitives becomes a Group, so its drawable children inherit membership
+ * from that group. Never consult a section's default material or the Three
+ * material (which represents display colour, not the member's real material).
+ */
+function groupMembership(node, root) {
+  let sectionId = null, materialId = null, memberIds = null;
+  for (let owner = node; owner; owner = owner.parent) {
+    const data = owner.userData || {};
+    if (sectionId === null && selectionKey(data.sectionId) !== null) sectionId = data.sectionId;
+    if (materialId === null && selectionKey(data.materialId) !== null) materialId = data.materialId;
+    if (memberIds === null && Array.isArray(data.memberIds)) memberIds = data.memberIds;
+    if (owner === root) break;
+  }
+  const members = new Map();
+  for (const id of memberIds || []) {
+    const key = selectionKey(id);
+    if (key !== null) members.set(key, id);
+  }
+  return { sectionId, materialId, members };
+}
+
+/* Lines have no surface to intersect. Test their actual indexed segments in
+ * clip/screen space instead of a world-space Raycaster threshold: a constant
+ * CSS-pixel tolerance stays small at every depth, zoom, projection and DPR.
+ * Clip against all six camera planes before perspective division. */
+function hitScreenGeometry(node, viewProjection, point, viewport) {
+  const geometry = node.geometry;
+  const position = geometry?.attributes.position;
+  if (!position) return false;
+  const index = geometry.index;
+  const count = index ? index.count : position.count;
+  const matrix = new THREE.Matrix4().multiplyMatrices(viewProjection, node.matrixWorld);
+  const a = new THREE.Vector4(), b = new THREE.Vector4();
+  const vertex = (i) => index ? index.getX(i) : i;
+  const segmentHit = (i, j) => {
+    a.set(position.getX(i), position.getY(i), position.getZ(i), 1).applyMatrix4(matrix);
+    b.set(position.getX(j), position.getY(j), position.getZ(j), 1).applyMatrix4(matrix);
+    let from = 0, to = 1;
+    for (let axis = 0; axis < 3; axis += 1) {
+      for (let sign = -1; sign <= 1; sign += 2) {
+        const start = a.w + sign * a.getComponent(axis);
+        const end = b.w + sign * b.getComponent(axis);
+        if (start < 0 && end < 0) return false;
+        if (start < 0) from = Math.max(from, start / (start - end));
+        else if (end < 0) to = Math.min(to, start / (start - end));
+        if (from > to) return false;
+      }
+    }
+    const aw = a.w + (b.w - a.w) * from, bw = a.w + (b.w - a.w) * to;
+    if (aw <= 0 || bw <= 0) return false;
+    const ax = ((a.x + (b.x - a.x) * from) / aw + 1) * viewport.width / 2;
+    const ay = (1 - (a.y + (b.y - a.y) * from) / aw) * viewport.height / 2;
+    const bx = ((a.x + (b.x - a.x) * to) / bw + 1) * viewport.width / 2;
+    const by = (1 - (a.y + (b.y - a.y) * to) / bw) * viewport.height / 2;
+    const dx = bx - ax, dy = by - ay;
+    const lengthSq = dx * dx + dy * dy;
+    const t = lengthSq ? Math.max(0, Math.min(1, ((point.x - ax) * dx + (point.y - ay) * dy) / lengthSq)) : 0;
+    return (point.x - ax - t * dx) ** 2 + (point.y - ay - t * dy) ** 2 <= LINE_PICK_PIXELS ** 2;
+  };
+  const ranges = Array.isArray(node.material)
+    ? geometry.groups.filter(group => node.material[group.materialIndex]?.visible)
+    : [{ start: 0, count }];
+  for (const range of ranges) {
+    const start = Math.max(0, geometry.drawRange.start, range.start);
+    const end = Math.min(count, geometry.drawRange.start + geometry.drawRange.count, range.start + range.count);
+    if (node.isPoints) {
+      for (let i = start; i < end; i += 1) if (segmentHit(vertex(i), vertex(i))) return true;
+    } else {
+      const step = node.isLineSegments ? 2 : 1;
+      for (let i = start; i + 1 < end; i += step) if (segmentHit(vertex(i), vertex(i + 1))) return true;
+      if (node.isLineLoop && end > start && segmentHit(vertex(end - 1), vertex(start))) return true;
+    }
+  }
+  return false;
 }
 
 export function createSodaViewer(canvas, options = {}) {
@@ -148,6 +264,7 @@ export function createSodaViewer(canvas, options = {}) {
   let camera = null;
   let content = null;
   let frame = null;
+  let environment = null;
   let resizeObserver = null;
   let frames = 0;
   let raf = 0;
@@ -166,6 +283,10 @@ export function createSodaViewer(canvas, options = {}) {
   let target = new THREE.Vector3();
   let activePointer = null;
   let gesture = null;
+  let selection = null;
+  const selectionIndex = { material: new Map(), section: new Map() };
+  const selectionDrawables = [];
+  const selectionMaterials = new Map();
 
   let readyResolve;
   let readyReject;
@@ -199,7 +320,11 @@ export function createSodaViewer(canvas, options = {}) {
       sourceFile: metadata ? metadata.sourceFile : null,
       displayName: metadata ? metadata.displayName : null,
       sourceSha256: metadata ? metadata.sourceSha256 : null,
+      environment: environment ? environment.getState() : null,
       sections: metadata ? metadata.sections.map((section) => ({ ...section })) : [],
+      materials: materialSnapshot(),
+      sourceMaterials: sourceMaterialsSnapshot(),
+      selection: selectionSnapshot(),
       bounds: bounds ? { min: bounds.min.slice(), max: bounds.max.slice() } : null,
       center: [center.x, center.y, center.z],
       /* Axis basis for the gizmo: view rotation (inverse of the actual camera
@@ -258,6 +383,7 @@ export function createSodaViewer(canvas, options = {}) {
   function draw() {
     if (destroyed || !renderer || !scene || !camera) return;
     try {
+      environment?.update(camera, Boolean(selection));
       renderer.render(scene, camera);
       frames += 1;
       notify();
@@ -399,6 +525,7 @@ export function createSodaViewer(canvas, options = {}) {
   }
 
   function resetView() {
+    invalidateTaps();
     /* SODA's positive XYZ isometric, mapped from the Z-up source to Y-up. */
     const direction = new THREE.Vector3(1, 1, 1).applyQuaternion(SOURCE_TO_DISPLAY);
     const up = new THREE.Vector3(0, 0, 1).applyQuaternion(SOURCE_TO_DISPLAY);
@@ -411,6 +538,7 @@ export function createSodaViewer(canvas, options = {}) {
   }
 
   function fitView() {
+    invalidateTaps();
     zoom = 1;
     target.set(0, 0, 0);
     fitFrustum();
@@ -419,6 +547,7 @@ export function createSodaViewer(canvas, options = {}) {
   }
 
   function zoomBy(factor) {
+    invalidateTaps();
     zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom * factor));
     fitZoom = zoom;
     applyFrustum();
@@ -426,6 +555,7 @@ export function createSodaViewer(canvas, options = {}) {
   }
 
   function resize() {
+    invalidateTaps();
     if (!renderer || !camera || !canvas) return;
     const width = Math.max(canvas.clientWidth, 1);
     const height = Math.max(canvas.clientHeight, 1);
@@ -441,6 +571,78 @@ export function createSodaViewer(canvas, options = {}) {
    * Two pointers pinch-zoom and pan by their midpoint. Pointer up, cancel and
    * lost capture all funnel through endGesture so nothing is left behind.
    */
+  function invalidateTaps() {
+    for (const pointer of pointers.values()) pointer.tap = false;
+  }
+
+  function modified(event) {
+    return event.shiftKey || event.ctrlKey || event.altKey || event.metaKey;
+  }
+
+  function trackTap(pointer, event) {
+    const samples = event.getCoalescedEvents?.() || [];
+    const track = (sample) => {
+      pointer.travel += Math.hypot(sample.clientX - pointer.lastX, sample.clientY - pointer.lastY);
+      pointer.lastX = sample.clientX;
+      pointer.lastY = sample.clientY;
+      if (pointer.travel > TAP_MOVE_PIXELS || modified(sample) || sample.isPrimary === false ||
+          (Number.isFinite(sample.timeStamp) && sample.timeStamp < pointer.downTime)) pointer.tap = false;
+    };
+    for (const sample of samples) track(sample);
+    track(event);
+    if (modified(event) || (event.type === 'pointermove' && event.buttons !== 1)) pointer.tap = false;
+  }
+
+  function releasePointer(id) {
+    try { if (canvas.hasPointerCapture(id)) canvas.releasePointerCapture(id); } catch (_) { /* already released */ }
+  }
+
+  function abortPointers() {
+    const ids = [...pointers.keys()];
+    /* Clear first: releasePointerCapture may deliver lostpointercapture. */
+    pointers.clear();
+    activePointer = null;
+    gesture = null;
+    canvas?.classList?.remove?.('is-dragging', 'is-panning', 'is-pinching');
+    for (const id of ids) releasePointer(id);
+  }
+
+  function hitsModel(event) {
+    const viewport = canvas.getBoundingClientRect();
+    if (!(viewport.width > 0 && viewport.height > 0) ||
+        event.clientX < viewport.left || event.clientX >= viewport.right ||
+        event.clientY < viewport.top || event.clientY >= viewport.bottom) return null;
+    /* Capture retargets pointerup even when the pointer is outside or over UI. */
+    if (document.elementFromPoint && document.elementFromPoint(event.clientX, event.clientY) !== canvas) return null;
+    const point = new THREE.Vector2(event.clientX - viewport.left, event.clientY - viewport.top);
+    const ndc = new THREE.Vector2(point.x / viewport.width * 2 - 1, 1 - point.y / viewport.height * 2);
+    // A pending demand frame must not leave picking at the previous pan/orbit.
+    scene.updateMatrixWorld(true);
+    camera.updateMatrixWorld();
+    const viewProjection = new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    const raycaster = new THREE.Raycaster();
+    raycaster.layers.mask = camera.layers.mask;
+    raycaster.setFromCamera(ndc, camera);
+    const intersections = [];
+    for (const { node } of selectionDrawables) {
+      let visible = true;
+      for (let owner = node; owner; owner = owner.parent) if (!owner.visible) { visible = false; break; }
+      if (!visible || !camera.layers.test(node.layers)) continue;
+      const materials = Array.isArray(node.material) ? node.material : [node.material];
+      if (!materials.some(material => material?.visible)) continue;
+      if (node.isMesh) {
+        intersections.length = 0;
+        raycaster.intersectObject(node, false, intersections);
+        for (const hit of intersections) {
+          const material = Array.isArray(node.material) ? node.material[hit.face?.materialIndex] : node.material;
+          const clip = hit.point.clone().project(camera);
+          if (material?.visible && clip.z >= -1 && clip.z <= 1) return true;
+        }
+      } else if ((node.isLine || node.isPoints) && hitScreenGeometry(node, viewProjection, point, viewport)) return true;
+    }
+    return false;
+  }
+
   function pointersList() {
     return [...pointers.values()];
   }
@@ -463,12 +665,12 @@ export function createSodaViewer(canvas, options = {}) {
     const pointer = list[0];
     if (!pointer) { gesture = null; return; }
     gesture = {
-      mode: pointer.pan ? 'pan' : 'orbit',
+      mode: pointer.select ? 'select' : pointer.pan ? 'pan' : 'orbit',
       x: pointer.x,
       y: pointer.y,
       target: target.clone(),
     };
-    canvas.classList?.add?.(pointer.pan ? 'is-panning' : 'is-dragging');
+    if (!pointer.select) canvas.classList?.add?.(pointer.pan ? 'is-panning' : 'is-dragging');
     canvas.classList?.remove?.('is-pinching');
   }
 
@@ -482,14 +684,23 @@ export function createSodaViewer(canvas, options = {}) {
   }
 
   function onPointerDown(event) {
-    if (destroyed || !camera) return;
+    if (destroyed || !camera || document.hidden) return;
+    const alone = pointers.size === 0;
+    // Once another pointer appears, no remaining finger can turn into a tap.
+    invalidateTaps();
     if (event.pointerType === 'mouse' && event.button !== 0 && event.button !== 1 && event.button !== 2) return;
-    /* Mode decides the left-drag gesture; middle/right/shift always pan, and
-     * Select mode leaves left-drag free (no selection UI is drawn here). */
+    /* Select still tracks the lifecycle for taps, but its left-drag is inert. */
     const forcedPan = event.button === 1 || event.button === 2 || event.shiftKey;
-    if (!forcedPan && interactionMode === 'select') return;
     const pan = forcedPan || interactionMode === 'pan';
-    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY, pan });
+    pointers.set(event.pointerId, {
+      x: event.clientX, y: event.clientY, pan,
+      select: !forcedPan && interactionMode === 'select',
+      lastX: event.clientX, lastY: event.clientY, travel: 0,
+      startedAt: performance.now(), downTime: Number.isFinite(event.timeStamp) ? event.timeStamp : 0,
+      selectionAtDown: selection,
+      tap: alone && (event.pointerType === 'mouse' || event.pointerType === 'touch') &&
+        event.isPrimary !== false && event.button === 0 && event.buttons === 1 && !modified(event),
+    });
     activePointer = event.pointerId;
     if (event.preventDefault) event.preventDefault();
     try { canvas.setPointerCapture(event.pointerId); } catch (_) { /* capture is best effort */ }
@@ -500,6 +711,8 @@ export function createSodaViewer(canvas, options = {}) {
     if (destroyed || !gesture) return;
     const pointer = pointers.get(event.pointerId);
     if (!pointer) return;
+    trackTap(pointer, event);
+    if (event.pointerType === 'mouse' && event.buttons === 0) { endGesture(event); return; }
     if (event.preventDefault) event.preventDefault();
     pointer.x = event.clientX;
     pointer.y = event.clientY;
@@ -521,6 +734,7 @@ export function createSodaViewer(canvas, options = {}) {
       return;
     }
 
+    if (gesture.mode === 'select') return;
     const dx = pointer.x - gesture.x;
     const dy = pointer.y - gesture.y;
     gesture.x = pointer.x;
@@ -548,18 +762,27 @@ export function createSodaViewer(canvas, options = {}) {
   }
 
   function endGesture(event) {
-    if (event && event.pointerId !== undefined) pointers.delete(event.pointerId);
-    if (event && event.preventDefault) event.preventDefault();
-    if (canvas && event && event.pointerId !== undefined) {
-      try { if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId); } catch (_) { /* already released */ }
-    }
+    if (destroyed) return;
+    const pointer = pointers.get(event.pointerId);
+    if (!pointer) return;
+    trackTap(pointer, event);
+    const elapsed = Math.max(performance.now() - pointer.startedAt,
+      Number.isFinite(event.timeStamp) ? event.timeStamp - pointer.downTime : 0);
+    const tap = event.type === 'pointerup' && pointer.tap && pointers.size === 1 &&
+      event.button === 0 && event.buttons === 0 && event.isPrimary !== false &&
+      elapsed >= 0 && elapsed <= TAP_MAX_MS && !document.hidden;
+    pointers.delete(event.pointerId);
+    if (event.preventDefault) event.preventDefault();
+    releasePointer(event.pointerId);
     if (pointers.size > 0) {
+      activePointer = pointers.keys().next().value;
       beginGesture();
       return;
     }
     activePointer = null;
     gesture = null;
     canvas.classList?.remove?.('is-dragging', 'is-panning', 'is-pinching');
+    if (tap && selection && selection === pointer.selectionAtDown && hitsModel(event) === false) clearSelection();
     invalidate();
   }
 
@@ -573,12 +796,14 @@ export function createSodaViewer(canvas, options = {}) {
   }
 
   function onContextMenu(event) {
+    invalidateTaps();
     /* Right-drag is a pan gesture; suppress the menu so it does not interrupt. */
     event.preventDefault();
   }
 
   function onVisibilityChange() {
     if (document.hidden) {
+      abortPointers();
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
       /* The cancelled frame will never run, so the pending flag must be cleared
@@ -588,6 +813,149 @@ export function createSodaViewer(canvas, options = {}) {
       return;
     }
     invalidate();
+  }
+
+  function materialSnapshot() {
+    return metadata ? metadata.materials.map((material) => ({
+      ...material, sourceMaterialIds: material.sourceMaterialIds.slice(),
+    })) : [];
+  }
+
+  function sourceMaterialsSnapshot() {
+    return metadata ? JSON.parse(JSON.stringify(metadata.sourceMaterials)) : [];
+  }
+
+  function selectionSnapshot() {
+    return selection ? {
+      ...selection,
+      memberIds: selection.memberIds.slice(),
+      sectionIds: selection.sectionIds.slice(),
+    } : null;
+  }
+
+  function indexSelection(kind, id, membership, node) {
+    const key = selectionKey(id);
+    if (key === null || !membership.members.size) return;
+    let entry = selectionIndex[kind].get(key);
+    if (!entry) {
+      entry = { id, members: new Map(), sections: new Map(), nodes: new Set() };
+      selectionIndex[kind].set(key, entry);
+    }
+    for (const [memberKey, memberId] of membership.members) entry.members.set(memberKey, memberId);
+    const sectionKey = selectionKey(membership.sectionId);
+    if (sectionKey !== null) entry.sections.set(sectionKey, membership.sectionId);
+    entry.nodes.add(node);
+  }
+
+  function indexGeometry(root) {
+    /* UI groups may combine several real source materials (S355, its copy and
+     * Rigid). Membership stays on the GLB's actual materialId; metadata only
+     * declares which source IDs a UI choice covers, never its selected count. */
+    const materialGroups = new Map();
+    for (const material of metadata.materials) {
+      for (const id of material.sourceMaterialIds) {
+        const key = selectionKey(id);
+        if (!materialGroups.has(key)) materialGroups.set(key, []);
+        materialGroups.get(key).push(material.id);
+      }
+    }
+    root.traverse((node) => {
+      if (!(node.isMesh || node.isLine || node.isPoints) || !node.material) return;
+      selectionDrawables.push({ node, material: node.material, renderOrder: node.renderOrder });
+      const membership = groupMembership(node, root);
+      for (const id of materialGroups.get(selectionKey(membership.materialId)) || []) {
+        indexSelection('material', id, membership, node);
+      }
+      indexSelection('section', membership.sectionId, membership, node);
+    });
+    for (const index of Object.values(selectionIndex)) {
+      for (const entry of index.values()) {
+        /* Surface, outline and line-only roles may repeat the same IDs. Count
+         * their union once, and retain the actual source IDs in the public API. */
+        entry.memberIds = [...entry.members.values()].sort(compareIds);
+        entry.sectionIds = [...entry.sections.values()].sort(compareIds);
+        delete entry.members;
+        delete entry.sections;
+      }
+    }
+  }
+
+  function selectionMaterial(original, selected) {
+    let variants = selectionMaterials.get(original);
+    if (!variants) {
+      variants = new Map();
+      selectionMaterials.set(original, variants);
+    }
+    if (!variants.has(selected)) {
+      const material = original.clone();
+      material.color?.set(selected ? 0xff990f : 0x718396);
+      material.emissive?.set(selected ? 0x542000 : 0x000000);
+      material.specular?.set(selected ? 0x5b2c05 : 0x000000);
+      if ('emissiveIntensity' in material) material.emissiveIntensity = 1;
+      material.vertexColors = false;
+      if ('map' in material) material.map = null;
+      if ('emissiveMap' in material) material.emissiveMap = null;
+      if ('alphaMap' in material) material.alphaMap = null;
+      material.opacity = selected ? 1 : Math.min(original.opacity, original.isLineBasicMaterial ? 0.28 : 0.16);
+      /* Put both styles in the transparent pass. Context does not write depth;
+       * selected faces then selected edges draw last, remaining clear even
+       * behind the ghosted structure while retaining their own depth tests. */
+      material.transparent = true;
+      material.depthWrite = selected;
+      material.needsUpdate = true;
+      variants.set(selected, material);
+    }
+    return variants.get(selected);
+  }
+
+  function restoreSelectionMaterials() {
+    for (const { node, material, renderOrder } of selectionDrawables) {
+      node.material = material;
+      node.renderOrder = renderOrder;
+    }
+  }
+
+  function selectGeometry(kind, id) {
+    if (destroyed || status !== 'ready') return selectionSnapshot();
+    const entry = selectionIndex[kind].get(selectionKey(id));
+    if (!entry) return selectionSnapshot();
+    if (selection?.kind === kind && selectionKey(selection.id) === selectionKey(entry.id)) return selectionSnapshot();
+    selection = {
+      kind, id: entry.id, memberCount: entry.memberIds.length,
+      memberIds: entry.memberIds, sectionIds: entry.sectionIds,
+    };
+    for (const { node, material } of selectionDrawables) {
+      const selected = entry.nodes.has(node);
+      const style = (original) => selectionMaterial(original, selected);
+      node.material = Array.isArray(material) ? material.map(style) : style(material);
+      node.renderOrder = selected ? (node.isLine ? 2 : 1) : 0;
+    }
+    publish();
+    invalidate();
+    return selectionSnapshot();
+  }
+
+  function clearSelection() {
+    if (destroyed || !selection) return selectionSnapshot();
+    restoreSelectionMaterials();
+    selection = null;
+    publish();
+    invalidate();
+    return null;
+  }
+
+  function releaseSelection() {
+    restoreSelectionMaterials();
+    /* Clones borrow textures from the originals. Dispose their GPU material
+     * state only; disposeTree owns the originals and their shared textures. */
+    for (const variants of selectionMaterials.values()) {
+      for (const material of variants.values()) material.dispose();
+    }
+    selectionMaterials.clear();
+    selectionDrawables.length = 0;
+    selectionIndex.material.clear();
+    selectionIndex.section.clear();
+    selection = null;
   }
 
   function buildScene(gltf) {
@@ -619,6 +987,8 @@ export function createSodaViewer(canvas, options = {}) {
     const sectionMaterials = new Map();
     modelRoot.traverse((node) => {
       if (!node.isMesh) return;
+      node.castShadow = true;
+      node.receiveShadow = false;
       const swap = (material) => {
         if (!sectionMaterials.has(material)) {
           sectionMaterials.set(material, new THREE.MeshPhongMaterial({
@@ -641,6 +1011,7 @@ export function createSodaViewer(canvas, options = {}) {
     frame.add(modelRoot);
     content.add(frame);
     scene.add(content);
+    indexGeometry(modelRoot);
 
     /* The key and opposite fill retain their source-space direction as the
      * camera orbits; panning translates the lights with the geometry. */
@@ -652,6 +1023,15 @@ export function createSodaViewer(canvas, options = {}) {
     fill.position.copy(key.position).multiplyScalar(-1);
     content.add(ambient, key, key.target, fill, fill.target);
 
+    environment = createSodaEnvironment({
+      bounds, upAxis: metadata.upAxis, maxShadowSize: renderer.capabilities.maxTextureSize,
+    });
+    frame.add(environment.group);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.shadowMap.autoUpdate = false;
+    renderer.shadowMap.needsUpdate = true;
+
     resize();
     resetView();
     draw();
@@ -661,6 +1041,7 @@ export function createSodaViewer(canvas, options = {}) {
   /* Interaction mode: 'select' leaves left-drag inert, 'pan' pans, 'rotate'
    * orbits. The cursor class follows the active mode for feedback. */
   function setInteractionMode(mode) {
+    invalidateTaps();
     interactionMode = mode === 'pan' ? 'pan' : mode === 'select' ? 'select' : 'rotate';
     if (canvas) {
       /* dataset/classList are optional so a non-DOM canvas stand-in still works. */
@@ -675,6 +1056,7 @@ export function createSodaViewer(canvas, options = {}) {
   /* Real projection change: swap the active camera and refit, preserving the
    * apparent size so the model does not jump. */
   function setProjection(type) {
+    invalidateTaps();
     const next = type === 'perspective' ? 'perspective' : 'orthographic';
     if (!orthoCamera || !perspCamera) { cameraType = next; return cameraType; }
     cameraType = next;
@@ -722,6 +1104,7 @@ export function createSodaViewer(canvas, options = {}) {
     canvas.addEventListener('wheel', onWheel, { passive: false });
     canvas.addEventListener('contextmenu', onContextMenu);
     document.addEventListener('visibilitychange', onVisibilityChange);
+    window.addEventListener('blur', abortPointers);
     if (typeof ResizeObserver === 'function') {
       resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(canvas);
@@ -741,6 +1124,12 @@ export function createSodaViewer(canvas, options = {}) {
     get frames() { return frames; },
     get counts() { return { ...counts }; },
     get sections() { return metadata ? metadata.sections.map((section) => ({ ...section })) : []; },
+    get materials() { return materialSnapshot(); },
+    get sourceMaterials() { return sourceMaterialsSnapshot(); },
+    get selection() { return selectionSnapshot(); },
+    selectMaterial: (id) => selectGeometry('material', id),
+    selectSection: (id) => selectGeometry('section', id),
+    clearSelection,
     get projection() { return cameraType; },
     get interactionMode() { return interactionMode; },
     get rotationMode() { return ROTATION_MODE; },
@@ -767,6 +1156,7 @@ export function createSodaViewer(canvas, options = {}) {
       if (!Array.isArray(values) || values.length !== 4 || !values.every((v) => Number.isFinite(v))) {
         throw new Error('setQuaternion expects four finite numbers.');
       }
+      invalidateTaps();
       rotation = normalisedQuaternion(new THREE.Quaternion(values[0], values[1], values[2], values[3]));
       applyCamera();
       return rotation.toArray();
@@ -775,6 +1165,7 @@ export function createSodaViewer(canvas, options = {}) {
       if (!Array.isArray(values) || values.length !== 3 || !values.every((v) => Number.isFinite(v))) {
         throw new Error('setTarget expects three finite numbers.');
       }
+      invalidateTaps();
       target.set(values[0], values[1], values[2]);
       applyCamera();
       return target.toArray();
@@ -808,12 +1199,15 @@ export function createSodaViewer(canvas, options = {}) {
         canvas.removeEventListener('contextmenu', onContextMenu);
         canvas.classList?.remove?.('is-dragging', 'is-panning', 'is-pinching');
       }
-      pointers.clear();
+      abortPointers();
       listeners.clear();
-      gesture = null;
       document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('blur', abortPointers);
       resizeObserver?.disconnect();
       window.removeEventListener('resize', resize);
+      releaseSelection();
+      environment?.dispose();
+      environment = null;
       if (scene) disposeTree(scene);
       scene?.clear();
       if (renderer) {

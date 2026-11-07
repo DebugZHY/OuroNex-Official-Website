@@ -193,7 +193,11 @@
     var start = Number.isFinite(m.start) ? m.start : 0;
     var position = (Number.isFinite(m.scrollTop) ? m.scrollTop : 0) - start;
     var enterSpan = m.first ? 0 : 1.25 * vh;
-    var holdSpan = 2 * vh + overflow;
+    var holdStageCount = Number.isFinite(m.holdStageCount) ? Math.max(1, Math.floor(m.holdStageCount)) : 1;
+    var holdStageSpan = 2 * vh + overflow;
+    var holdSpan = holdStageCount * holdStageSpan;
+    var holdStageIndex = clampIndex(Math.floor(Math.max(0, position - enterSpan) / holdStageSpan), holdStageCount);
+    var holdStagePosition = Math.max(0, Math.min(holdStageSpan, position - enterSpan - holdStageIndex * holdStageSpan));
     var exitSpan = m.last ? 0 : vh;
     var duration = enterSpan + holdSpan + exitSpan;
     var phase = position < 0 ? 'before' : position < enterSpan ? 'enter'
@@ -203,8 +207,12 @@
       phase: phase,
       enter: position < 0 ? 0 : m.first ? 1 : sceneUnit((position / enterSpan - 0.12) / 0.88),
       exit: m.last ? 0 : sceneUnit((position - enterSpan - holdSpan) / exitSpan),
-      pan: Math.max(0, Math.min(overflow, position - enterSpan - vh)),
-      duration: duration
+      pan: Math.max(0, Math.min(overflow, holdStagePosition - vh)),
+      duration: duration,
+      holdStageCount: holdStageCount,
+      holdStageIndex: holdStageIndex,
+      holdStageSpan: holdStageSpan,
+      holdStagePosition: holdStagePosition
     };
   }
 
@@ -597,9 +605,10 @@
       home.scrollTop = top;
     }
     function firstEnter(scene) { return scene.first ? 0 : 1.25 * vh; }
+    function holdStageSpan(scene) { return 2 * vh + scene.overflow; }
     function windowFor(scene, scrollTop) {
       return sceneWindowFor({ scrollTop: scrollTop, start: scene.start, viewportHeight: vh,
-        overflow: scene.overflow, first: scene.first, last: scene.last });
+        overflow: scene.overflow, first: scene.first, last: scene.last, holdStageCount: scene.holdStageCount });
     }
     function scrollIndex() {
       return sceneIndexFor(home.scrollTop, scenes.map(function (scene) { return enabled ? scene.start : scene.plainTop; }));
@@ -607,31 +616,105 @@
     function currentIndex() {
       return enabled && activeIndex >= 0 ? activeIndex : scrollIndex();
     }
-    function readingTop(scene, pan) {
+    function readingTop(scene, pan, holdStageIndex) {
       if (!enabled) return scene.plainTop + Math.min(scene.overflow, Math.max(0, pan || 0));
-      if (scene.first && !pan) return scene.start;
-      return scene.start + firstEnter(scene) + (pan > 0 ? vh + Math.min(scene.overflow, pan) : vh * 0.5);
+      var stageIndex = clampIndex(holdStageIndex, scene.holdStageCount);
+      if (scene.first && !pan && !stageIndex) return scene.start;
+      return scene.start + firstEnter(scene) + stageIndex * holdStageSpan(scene)
+        + (pan > 0 ? vh + Math.min(scene.overflow, pan) : vh * 0.5);
     }
     function capture() {
       var scene = scenes[scrollIndex()];
       var position = home.scrollTop - (enabled ? scene.start : scene.plainTop);
-      if (!enabled) return { index: scene.index, phase: 'reading', pan: Math.max(0, Math.min(scene.overflow, position)) };
+      if (!enabled) {
+        var selected = scene.tabs ? scene.tabs.currentIndex() : 0;
+        var saved = scene.reducedReading;
+        // Ordinary flow cannot encode the stationary top/bottom hold distance.
+        // Keep that precise bookmark until the reader actually scrolls or picks
+        // another tab; a preference round trip then loses neither stage nor place.
+        if (saved && saved.holdStageIndex === selected
+          && Math.abs(position - Math.min(scene.overflow, saved.pan)) < 1) return Object.assign({}, saved);
+        scene.reducedReading = null;
+        return { index: scene.index, phase: 'reading', holdStageIndex: selected,
+          pan: Math.max(0, Math.min(scene.overflow, position)) };
+      }
       var state = windowFor(scene, home.scrollTop);
-      var hold = position - firstEnter(scene);
+      var hold = state.holdStagePosition;
       var part = hold < vh ? 'top' : hold <= vh + scene.overflow ? 'pan' : 'bottom';
-      return { index: scene.index, phase: state.phase, pan: state.pan, part: part,
+      return { index: scene.index, phase: state.phase, holdStageIndex: state.holdStageIndex,
+        pan: state.pan, part: part,
         ratio: state.phase === 'enter' ? position / firstEnter(scene) : state.phase === 'leave' ? state.exit
           : part === 'top' ? hold / vh : part === 'bottom' ? (hold - vh - scene.overflow) / vh : 0 };
     }
     function restore(point) {
       var scene = scenes[clampIndex(point.index, scenes.length)];
       if (!enabled) return scene.plainTop + Math.min(scene.overflow, point.pan);
-      if (point.phase === 'reading') return readingTop(scene, point.pan);
+      var stageIndex = clampIndex(point.holdStageIndex, scene.holdStageCount);
+      if (point.phase === 'reading') return readingTop(scene, point.pan, stageIndex);
       if (point.phase === 'enter') return scene.start + firstEnter(scene) * sceneUnit(point.ratio);
-      if (point.phase === 'leave' || point.phase === 'after') return scene.start + firstEnter(scene) + 2 * vh + scene.overflow + (scene.last ? 0 : sceneUnit(point.ratio) * vh);
-      return scene.start + firstEnter(scene) + (point.part === 'top' ? sceneUnit(point.ratio) * vh
-        : point.part === 'bottom' ? vh + scene.overflow + sceneUnit(point.ratio) * vh
-          : vh + Math.min(scene.overflow, point.pan));
+      if (point.phase === 'leave' || point.phase === 'after') return scene.start + firstEnter(scene)
+        + scene.holdStageCount * holdStageSpan(scene) + (scene.last ? 0 : sceneUnit(point.ratio) * vh);
+      return scene.start + firstEnter(scene) + stageIndex * holdStageSpan(scene)
+        + (point.part === 'top' ? sceneUnit(point.ratio) * vh
+          : point.part === 'bottom' ? vh + scene.overflow + sceneUnit(point.ratio) * vh
+            : vh + Math.min(scene.overflow, point.pan));
+    }
+
+    /* Same-origin iframe adapter. Its declared count exists before lazy load;
+       the iframe never owns section geometry, scroll ranges or scene clocks. */
+    function applicationTabs(iframe, count) {
+      var selected = 0;
+      var child = null;
+      var unsubscribe = null;
+      var reduced = !!media.matches;
+      var changed = null;
+      function disconnect(api) {
+        if (api && child !== api) return;
+        if (unsubscribe) unsubscribe();
+        unsubscribe = null;
+        child = null;
+      }
+      function connect(source, api) {
+        try {
+          if (source !== iframe.contentWindow || source.location.origin !== view.location.origin
+            || !api || api.version !== 1 || api.count !== count || typeof api.select !== 'function'
+            || typeof api.subscribe !== 'function' || typeof api.setReduced !== 'function') return false;
+          if (child === api) return true;
+          disconnect();
+          child = api;
+          child.setReduced(reduced);
+          child.select(selected, { source: 'scroll' });
+          unsubscribe = child.subscribe(function (event) {
+            if (child !== api || !event || event.source === 'scroll' || !Number.isInteger(event.index)
+              || event.index < 0 || event.index >= count) return;
+            selected = event.index;
+            if (changed) changed(event);
+          });
+          return true;
+        } catch (_) { disconnect(); return false; }
+      }
+      function attach() {
+        try { if (!connect(iframe.contentWindow, iframe.contentWindow.OuroApplicationStages)) disconnect(); } catch (_) { disconnect(); }
+      }
+      var host = { connect: connect, disconnect: disconnect };
+      iframe.__ouroApplicationHost = host;
+      iframe.addEventListener('load', attach);
+      var tabs = {
+        count: count,
+        currentIndex: function () { return selected; },
+        select: function (index) {
+          selected = clampIndex(index, count);
+          if (child) child.select(selected, { source: 'scroll' });
+        },
+        setReduced: function (value) {
+          reduced = !!value;
+          if (child) child.setReduced(reduced);
+        },
+        bind: function (listener) { changed = listener; attach(); },
+        snapshot: function () { return { ready: !!child, selectedIndex: selected,
+          transition: child && typeof child.getState === 'function' ? child.getState() : null }; }
+      };
+      return tabs;
     }
 
     sections.forEach(function (section, index) {
@@ -645,6 +728,13 @@
       stage.appendChild(section);
       var business = section.querySelector('.business-flow');
       var fallback = business && business.querySelector(':scope > .flow');
+      var tabGroup = section.querySelector('[data-tabs]');
+      var tabs = tabGroup && tabGroup.__ouroTabs;
+      var declaredStages = Math.max(1, Math.floor(Number(section.getAttribute('data-scene-hold-stages')) || 1));
+      var applicationFrame = section.id === 'application' && section.querySelector('iframe[data-application-workflow]');
+      var bridge = applicationFrame && declaredStages > 1 ? applicationTabs(applicationFrame, declaredStages) : null;
+      if (bridge) tabs = bridge;
+      var holdStageCount = tabs ? Math.max(1, Math.min(tabs.count, declaredStages)) : 1;
       var partCount = Math.max(1, Math.min(3, Number(section.getAttribute('data-scene-parts')) || 1));
       var parts = Array.from({ length: partCount }, function (_, partIndex) {
         return { index: partIndex, roots: [], top: 0, bottom: 0, desired: false };
@@ -652,6 +742,7 @@
       scenes.push({ section: section, track: track, stage: stage, index: index,
         first: index === 0, last: index === sections.length - 1, start: 0, plainTop: 0, overflow: 0, duration: 0,
         business: business, fallback: fallback, parts: parts, pan: 0, reverseEntry: false,
+        tabs: holdStageCount > 1 ? tabs : null, tabGroup: tabGroup, bridge: bridge, holdStageCount: holdStageCount, reducedReading: null,
         clock: view.OuroSceneClock.create({ count: partCount, enterDuration: 920, exitDuration: 760, lead: 60 }),
         records: Array.prototype.slice.call(section.querySelectorAll(MOTION_ITEM_SELECTOR)).map(function (item, order) {
           var partRoot = item.closest('[data-scene-part]');
@@ -672,12 +763,15 @@
       var oldDurations = scenes.map(function (scene) { return scene.duration; });
       var point = ready ? bookmark : null;
       enabled = supportsStage && !media.matches;
+      if (previousMode === true && !enabled && point && point.phase === 'hold'
+        && scenes[point.index].tabs) scenes[point.index].reducedReading = Object.assign({}, point);
       vh = Math.max(1, home.clientHeight);
       headerHeight = Math.min(vh * 0.4, header ? header.offsetHeight : 0);
       // Mode changes are one bounded write/read transaction. Ordinary scroll
       // frames below never read animated geometry or change layout dimensions.
       attribute(doc.body, 'data-home-theatre', enabled ? 'on' : 'reduced');
       scenes.forEach(function (scene) {
+        if (scene.bridge) scene.bridge.setReduced(!enabled);
         property(scene.track, '--scene-vh', enabled ? vh + 'px' : '');
         property(scene.track, '--scene-width', enabled ? home.clientWidth + 'px' : '');
         if (!enabled) {
@@ -780,7 +874,7 @@
       var count = scene.parts.length;
       var position = home.scrollTop - scene.start;
       var enterSpan = firstEnter(scene);
-      var exitStart = enterSpan + 2 * vh + scene.overflow;
+      var exitStart = enterSpan + scene.holdStageCount * holdStageSpan(scene);
       var slack = Math.min(24, vh * 0.025);
       if (state.phase !== 'leave') scene.reverseEntry = false;
       return scene.parts.map(function (part, index) {
@@ -807,6 +901,8 @@
       var running = false;
       if (!enabled) activeIndex = requestedIndex;
       if (enabled) {
+        var readingScene = scenes[requestedIndex];
+        if (readingScene.tabs) readingScene.tabs.select(windowFor(readingScene, scrollTop).holdStageIndex, { source: 'scroll' });
         var displayed = scenes[activeIndex];
         var target = activeIndex === requestedIndex ? targetsFor(displayed, windowFor(displayed, scrollTop)) :
           displayed.parts.map(function (part) { part.desired = false; return false; });
@@ -841,6 +937,7 @@
         if (phase === 'exiting') phase = 'leave';
         attribute(scene.track, 'data-scene-phase', enabled ? phase : 'hold');
         attribute(scene.track, 'data-scene-part-active', String(poses.activePart + 1));
+        if (scene.tabs) attribute(scene.track, 'data-scene-hold-stage', String(scene.tabs.currentIndex() + 1));
         scene.parts.forEach(function (part, partIndex) {
           var pose = poses.parts[partIndex];
           part.roots.forEach(function (root) {
@@ -901,13 +998,50 @@
       refresh: refresh,
       getState: function () { return { enabled: enabled, active: sections[currentIndex()].id,
         requested: sections[scrollIndex()].id, direction: direction, scenes: scenes.map(function (scene) {
+          var state = windowFor(scene, home.scrollTop);
           return { id: scene.section.id, start: scene.start, duration: scene.duration, overflow: scene.overflow,
+            holdStageCount: scene.holdStageCount, holdStageIndex: enabled ? state.holdStageIndex : scene.tabs ? scene.tabs.currentIndex() : 0,
+            holdStageSpan: holdStageSpan(scene), holdStagePosition: enabled ? state.holdStagePosition : null,
+            holdStart: scene.start + firstEnter(scene), selectedTabIndex: scene.tabs ? scene.tabs.currentIndex() : null,
+            stageBridge: scene.bridge ? scene.bridge.snapshot() : null,
             pan: scene.pan, clock: scene.clock.snapshot(), parts: scene.parts.map(function (part) {
               return { top: part.top, bottom: part.bottom, desired: part.desired };
             }) };
         }) }; }
     };
     home.__ouroTheatre = adapter;
+    scenes.forEach(function (scene) {
+      if (!scene.tabs) return;
+      function stageChanged(detail) {
+        // Keep the freshly shown panel interactive in this same paint. Geometry
+        // and staggering are remeasured once; the section clock is never reset.
+        scene.records.forEach(function (record) {
+          if (record.item.matches('.feature-panel')) record.rendered = !record.item.hidden;
+        });
+        if (detail.source === 'scroll') { refresh(); return; }
+        if (enabled !== (supportsStage && !media.matches)) measure();
+        bookmark = capture();
+        if (!enabled) { refresh(); return; }
+        // A manual tab change owns the destination before a mutation/resize
+        // callback can reconcile scroll with the previously selected tab.
+        measure();
+        var state = windowFor(scene, home.scrollTop);
+        var index = clampIndex(detail.index, scene.holdStageCount);
+        if (scrollIndex() !== scene.index || state.phase !== 'hold' || state.holdStageIndex !== index) {
+          // The mobile case tabs sit below the service descriptions. A manual
+          // iframe choice changes the stage, not the reader's top/pan/bottom
+          // position. Features deliberately keeps its original top-hold policy.
+          var sameReading = scene.bridge && bookmark && bookmark.index === scene.index && bookmark.phase === 'hold';
+          instantScroll(sameReading ? restore(Object.assign({}, bookmark, { holdStageIndex: index }))
+            : readingTop(scene, 0, index));
+        }
+        paint();
+      }
+      if (scene.bridge) scene.bridge.bind(stageChanged);
+      else scene.tabGroup.addEventListener('ouronex:tabchange', function (event) {
+        if (event.target === scene.tabGroup) stageChanged(event.detail);
+      });
+    });
     home.addEventListener('scroll', schedule, { passive: true });
     home.addEventListener('focusin', function (event) {
       if (enabled !== (supportsStage && !media.matches)) { refresh(); return; }
@@ -919,7 +1053,7 @@
       var record = scene.records.find(function (entry) { return entry.managed && entry.item.contains(event.target); });
       if (state.phase !== 'hold' || record && (record.bottom - state.pan <= headerHeight || record.top - state.pan >= vh)) {
         var pan = record ? Math.max(0, Math.min(scene.overflow, record.top - headerHeight - 24)) : state.pan;
-        instantScroll(readingTop(scene, pan));
+        instantScroll(readingTop(scene, pan, state.holdStageIndex));
       }
       schedule();
     });

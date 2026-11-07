@@ -3,7 +3,9 @@
  * Bake a NIDA model using SODA's Element display and extrusion rules.
  *
  * Read-only inputs: the source .dat and the bundled SODA parser/extrusion code.
- * Outputs: workflow-stages/models/steel-frame.glb and steel-frame.meta.json.
+ * Outputs: workflow-stages/models/steel-frame.glb, .glb.gz and .meta.json.
+ * Set SODA_OUTPUT_DIR for isolated reproducibility checks and SODA_PROOF_DIR
+ * for full conversion evidence outside the published model directory.
  *
  * Usage:
  *   node tools/workflow-embed/prepare-model.mjs "D:/path/to/model.dat"
@@ -22,7 +24,7 @@ import * as THREE from 'three';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '..', '..');
-const outDir = path.join(repo, 'workflow-stages', 'models');
+const outDir = process.env.SODA_OUTPUT_DIR || path.join(repo, 'workflow-stages', 'models');
 const outGlb = path.join(outDir, 'steel-frame.glb');
 const outMeta = path.join(outDir, 'steel-frame.meta.json');
 const sodaRoot = process.env.SODA_SOURCE_ROOT || 'D:/Development/SIDA/apps/soda-app/dist/source';
@@ -82,14 +84,58 @@ if (!geometryApi || typeof geometryApi.buildMemberTriangles !== 'function') {
 
 const nodeById = new Map((model.NODE || []).map(row => [row[0], row]));
 const sectionById = new Map((model.SECTION || []).map(section => [section.id, section]));
+// MATERIAL is positional [id, name, ...]. Keep the original spelling in proof;
+// remove only NIDA's display delimiters, including the source's literal '<copy'.
+const materialById = new Map();
+for (const row of model.MATERIAL || []) {
+  if (!Array.isArray(row) || !Number.isInteger(row[0]) || typeof row[1] !== 'string' || !row[1].trim()) {
+    throw new Error('Invalid imported MATERIAL row; cannot establish material identity.');
+  }
+  if (materialById.has(row[0])) throw new Error(`Duplicate imported material ID ${row[0]}`);
+  materialById.set(row[0], { id: row[0], name: row[1].replace(/^<|>$/g, ''), sourceName: row[1], memberCount: 0 });
+}
 
 const elements = [...(model.ELEMENT || [])].sort((a, b) => a.id - b.id);
+const memberIds = new Set();
+for (const element of elements) {
+  if (!Number.isInteger(element.id) || memberIds.has(element.id)) throw new Error(`Invalid or duplicate imported member ID ${element.id}`);
+  memberIds.add(element.id);
+  const material = materialById.get(element.material);
+  if (!material) throw new Error(`Member ${element.id} references unknown imported material ${element.material}`);
+  material.memberCount += 1;
+}
+const sourceMaterials = [...materialById.values()].sort((a, b) => a.id - b.id);
+const usedSourceMaterials = sourceMaterials.filter(material => material.memberCount > 0);
+// This approved display grouping belongs to this exact example DAT only. It is
+// not an inference about copy/Rigid, and never changes ELEMENT.material or GLB IDs.
+const exampleSourceSha256 = 'a21271f786377d372a89ce1e7959d2690a99f2fb29ad31b9df5656a92f9d60fb';
+const displayGroupDefinitions = sourceSha256 === exampleSourceSha256 ? [
+  { id: 1, name: 'S355', sourceMaterialIds: [1, 3, 5] },
+  { id: 4, name: 'C40', sourceMaterialIds: [4] },
+] : usedSourceMaterials.map(material => ({ id: material.id, name: material.name, sourceMaterialIds: [material.id] }));
+const displayedSourceIds = new Set();
+const displayMaterials = displayGroupDefinitions.map(definition => {
+  if (materialById.get(definition.id)?.name !== definition.name) throw new Error(`Display group ${definition.id} does not match the imported material name`);
+  let memberCount = 0;
+  for (const id of definition.sourceMaterialIds) {
+    const material = materialById.get(id);
+    if (!material || displayedSourceIds.has(id)) throw new Error(`Invalid or overlapping display material assignment ${id}`);
+    displayedSourceIds.add(id);
+    memberCount += material.memberCount;
+  }
+  return { ...definition, memberCount };
+}).filter(material => material.memberCount > 0);
+if (usedSourceMaterials.some(material => !displayedSourceIds.has(material.id)) ||
+    displayMaterials.reduce((sum, material) => sum + material.memberCount, 0) !== elements.length) {
+  throw new Error('Display material groups do not partition the imported members.');
+}
 
 const unsupported = [];
 const skippedMembers = [];
 const nodeRefs = [];
 
 const bySection = new Map();
+const bySectionMaterial = new Map();
 const allPositions = [];
 let triangleCount = 0;
 let vertexCount = 0;
@@ -173,14 +219,15 @@ for (const element of elements) {
     unsupported.push({ id: element.id, section: section.name, reason: 'missing section colour' });
     continue;
   }
-  let group = bySection.get(section.id);
-  if (!group) {
+  let sectionGroup = bySection.get(section.id);
+  if (!sectionGroup) {
     const stats = {
       id: section.id,
       name: section.name,
       sectionType: geometry.sectionType,
       dimensions: geometry.dimensions.map(Number),
-      materialId: section.material ?? null,
+      materialIds: [],
+      memberIds: [],
       area: section.area ?? null,
       Iyy: section.Iyy ?? null,
       Izz: section.Izz ?? null,
@@ -195,9 +242,16 @@ for (const element of elements) {
       triangleCount: 0,
       vertexCount: 0,
     };
-    group = { section, stats, mode: lineFallback ? 1 : 4, positions: [], normals: [], edges: [], materialId: section.material ?? null };
-    bySection.set(section.id, group);
-
+    sectionGroup = { section, stats };
+    bySection.set(section.id, sectionGroup);
+  }
+  const groupKey = JSON.stringify([section.id, element.material]);
+  let group = bySectionMaterial.get(groupKey);
+  if (!group) {
+    group = { section, stats: { colorHex, nidaColorInt: sectionGroup.stats.nidaColorInt, memberCount: 0, triangleCount: 0, vertexCount: 0 },
+      mode: lineFallback ? 1 : 4, positions: [], normals: [], edges: [],
+      materialId: element.material, memberIds: [], edgeMemberIds: [] };
+    bySectionMaterial.set(groupKey, group);
   }
   const positions = triangles.positions;
   if (lineFallback) {
@@ -212,11 +266,19 @@ for (const element of elements) {
       triangles.normals?.subarray(offset, offset + 9));
   }
   group.stats.memberCount += 1;
+  group.memberIds.push(element.id);
+  sectionGroup.stats.memberCount += 1;
+  sectionGroup.stats.memberIds.push(element.id);
+  if (!sectionGroup.stats.materialIds.includes(element.material)) sectionGroup.stats.materialIds.push(element.material);
+  let edgeSegmentCount = 0;
   if (!lineFallback) {
     const edges = geometryApi.buildMemberEdges(geometry,
       { x: start[1], y: start[2], z: start[3] },
       { x: end[1], y: end[2], z: end[3] }, element.beta);
     if (edges?.positions?.length) {
+      if (edges.positions.length % 6) throw new Error(`Incomplete extrusion edge in element ${element.id}`);
+      group.edgeMemberIds.push(element.id);
+      edgeSegmentCount = edges.positions.length / 6;
       for (const value of edges.positions) {
         if (!Number.isFinite(value)) throw new Error(`Invalid extrusion edge in element ${element.id}`);
         group.edges.push(value);
@@ -226,6 +288,8 @@ for (const element of elements) {
   }
   group.stats.triangleCount += triangles.triangleCount;
   group.stats.vertexCount += lineFallback ? 2 : triangles.triangleCount * 3;
+  sectionGroup.stats.triangleCount += triangles.triangleCount;
+  sectionGroup.stats.vertexCount += lineFallback ? 2 : triangles.triangleCount * 3;
   triangleCount += triangles.triangleCount;
   vertexCount += lineFallback ? 2 : triangles.triangleCount * 3;
   memberMeta.push({
@@ -237,6 +301,8 @@ for (const element of elements) {
     sectionType: geometry.sectionType,
     dimensions: geometry.dimensions.map(Number),
     materialId: element.material,
+    materialName: materialById.get(element.material).name,
+    edgeSegmentCount,
     betaRadians: element.beta,
     betaDegrees: element.beta * 180 / Math.PI,
     triangleCount: triangles.triangleCount,
@@ -253,6 +319,16 @@ if (skippedMembers.length || unsupported.length || memberMeta.length !== element
 }
 
 const sections = [...bySection.values()].sort((a, b) => a.section.id - b.section.id);
+for (const section of sections) section.stats.materialIds.sort((a, b) => a - b);
+const groups = [...bySectionMaterial.values()].sort((a, b) => a.section.id - b.section.id || a.materialId - b.materialId);
+const groupedMemberIds = groups.flatMap(group => group.memberIds);
+if (groupedMemberIds.length !== elements.length || new Set(groupedMemberIds).size !== elements.length ||
+    groupedMemberIds.some(id => !memberIds.has(id))) {
+  throw new Error('Section/material groups lost or duplicated imported member IDs.');
+}
+function ownership(group, ids = group.memberIds) {
+  return { sectionId: group.section.id, materialId: group.materialId, memberCount: ids.length, memberIds: [...ids] };
+}
 
 if (!allPositions.length) {
   console.error('No triangle positions were produced.');
@@ -275,7 +351,7 @@ const sourceNodeBounds = {
   max: [Math.max(...sourceNodes.map(node => node.x)), Math.max(...sourceNodes.map(node => node.y)), Math.max(...sourceNodes.map(node => node.z))],
 };
 
-/* GLB: one mesh per section, flat-shaded triangles, no texture/camera/light/animation. */
+/* GLB: one mesh per actual section/material pair; geometry and visual colours stay unchanged. */
 const binChunks = [];
 const bufferViews = [];
 const accessors = [];
@@ -303,7 +379,7 @@ function addAccessor(values, min, max) {
   return accessors.length - 1;
 }
 
-for (const group of sections) {
+for (const group of groups) {
   const unique = new Map(), positionIndices = new Map(), packedPositions = [], packedNormals = [], indices = [], edgeIndices = [];
   for (let i = 0; i < group.positions.length; i += 3) {
     const position = group.positions.slice(i, i + 3).map(Math.fround);
@@ -347,25 +423,27 @@ for (const group of sections) {
     doubleSided: true,
     extras: {
       sectionId: group.section.id,
+      materialId: group.materialId,
       nidaColorInt: group.stats.nidaColorInt,
       colorHex: group.stats.colorHex,
     },
   });
-  const primitives = [{ attributes, indices: indexAccessor, material: materials.length - 1, mode: group.mode }];
+  const primitives = [{ attributes, indices: indexAccessor, material: materials.length - 1, mode: group.mode, extras: ownership(group) }];
   if (edgeIndices.length) {
     const values = shortIndices ? new Uint16Array(edgeIndices) : new Uint32Array(edgeIndices);
     accessors.push({ bufferView: pushBufferView(values, 34963), componentType: shortIndices ? 5123 : 5125,
       count: values.length, type: 'SCALAR', min: [edgeIndices.reduce((a, b) => Math.min(a, b), Infinity)],
       max: [edgeIndices.reduce((a, b) => Math.max(a, b), -Infinity)] });
     primitives.push({ attributes: { POSITION: positionAccessor }, indices: accessors.length - 1,
-      material: materials.length - 1, mode: 1, extras: { role: 'extrusionEdges' } });
+      material: materials.length - 1, mode: 1, extras: { role: 'extrusionEdges', ...ownership(group, group.edgeMemberIds) } });
   }
   meshes.push({
     name: group.section.name,
     primitives,
-    extras: { sectionId: group.section.id, memberCount: group.stats.memberCount, triangleCount: group.stats.triangleCount },
+    extras: { ...ownership(group), triangleCount: group.stats.triangleCount },
   });
-  glbNodes.push({ name: group.section.name, mesh: meshes.length - 1, extras: { sectionId: group.section.id, type: group.mode === 4 ? 'ElementExtrude' : 'ElementLine' } });
+  glbNodes.push({ name: group.section.name, mesh: meshes.length - 1,
+    extras: { ...ownership(group), type: group.mode === 4 ? 'ElementExtrude' : 'ElementLine' } });
 }
 
 const glbJson = {
@@ -409,7 +487,16 @@ const meta = {
   bounds,
   nodeCount: sourceNodes.length,
   memberCount: memberMeta.length,
-  sectionCount: model.SECTION.length,
+  sectionCount: sections.length,
+  sourceSectionCount: model.SECTION.length,
+  sourceMaterialCount: sourceMaterials.length,
+  materials: displayMaterials,
+  sourceMaterials,
+  sourceMaterialRows: model.MATERIAL,
+  materialMembership: 'ELEMENT[].material is the source of every member/group material ID; MATERIAL [id, name, ...] supplies names. The two approved display groups apply only to the identified example SHA; no imported material assignment is changed.',
+  groups: groups.map(group => ({ ...ownership(group), edgeMemberIds: group.edgeMemberIds,
+    triangleCount: group.stats.triangleCount, edgeSegmentCount: group.edges.length / 6,
+    representation: group.mode === 4 ? 'ElementExtrude' : 'ElementLine' })),
   triangleCount,
   vertexCount,
   sourceSha256,
@@ -454,6 +541,10 @@ const meta = {
     unsupported,
     allMemberNodeRefsFound: nodeRefs.every(item => item.startFound && item.endFound),
     allMemberSectionsAssigned: memberMeta.every(item => item.sectionId != null),
+    allMemberMaterialsAssigned: memberMeta.every(item => materialById.has(item.materialId)),
+    groupedMemberIdsUniqueAndComplete: groupedMemberIds.length === memberIds.size && new Set(groupedMemberIds).size === memberIds.size,
+    displayMaterialMemberCount: displayMaterials.reduce((sum, material) => sum + material.memberCount, 0),
+    mixedMaterialSectionIds: sections.filter(section => section.stats.materialIds.length > 1).map(section => section.section.id),
     allVerticesFinite: allPositions.every(point => point.every(Number.isFinite)),
     triangleCountMatchesSections: sections.reduce((sum, group) => sum + group.stats.triangleCount, 0) === triangleCount,
     memberCountMatchesElements: memberMeta.length === elements.length,
@@ -482,16 +573,16 @@ fs.writeFileSync(path.join(proofDir, 'conversion-detail.json'), JSON.stringify(m
 const compactMeta = {
   formatVersion: 1, upAxis: meta.upAxis, units: meta.units, center, bounds,
   nodeCount: meta.nodeCount, memberCount: meta.memberCount, sectionCount: meta.sectionCount,
+  sourceSectionCount: meta.sourceSectionCount, sourceMaterialCount: meta.sourceMaterialCount,
   triangleCount, extrudedMemberCount: meta.extrudedMemberCount, lineFallbackCount: lineFallbackMembers.length,
-  edgeSegmentCount: sections.reduce((sum, group) => sum + group.edges.length / 6, 0),
+  edgeSegmentCount: groups.reduce((sum, group) => sum + group.edges.length / 6, 0),
   sourceFile, sourceSha256, displayName: meta.displayName,
-  sections: model.SECTION.map(section => ({ id: section.id, name: section.name,
-    color: sectionColorHex(section.sectionGeometry?.extrudeColor) || '#808080',
-    memberCount: bySection.get(section.id)?.stats.memberCount || 0,
-    // The original SODA section-visuals.js glyph vocabulary reads this stored
-    // type (I/H = 2, General Basic = 0), never the section's display name.
-    sectionType: Number.isInteger(section.sectionGeometry?.sectionType)
-      ? section.sectionGeometry.sectionType : null })),
+  materials: displayMaterials,
+  sourceMaterials: usedSourceMaterials,
+  sections: sections.map(({ stats }) => ({ id: stats.id, name: stats.name,
+    color: stats.colorHex, memberCount: stats.memberCount,
+    // SODA's section-visuals.js reads the imported type, never a name heuristic.
+    sectionType: stats.sectionType })),
 };
 fs.writeFileSync(outGlb, glb);
 fs.writeFileSync(`${outGlb}.gz`, gzipSync(glb, { level: 9 }));

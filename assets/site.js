@@ -82,21 +82,130 @@
     });
   }
 
+  // Features keeps its iframe nodes in place. The tab API still commits hidden/selection
+  // synchronously; this owner only paints inert outgoing panels during the local blend.
+  function featureTransitionFor(group, panels) {
+    if (!group.matches('#sida .feature-tabs[data-tabs]')) return null;
+    const stage = group.querySelector('.feature-panels');
+    const section = group.closest('#sida');
+    if (!stage || panels.some(panel => panel.parentElement !== stage)) return null;
+    panels.forEach(panel => panel.setAttribute('data-feature-managed', ''));
+    const saved = new Map();
+    const geometry = ['--feature-paint-left', '--feature-paint-top', '--feature-paint-width', '--feature-paint-height'];
+    let weights = panels.map(() => 0), target = -1, frame = 0, epoch = 0, running = false, pageHidden = false;
+    const allowed = () => !pageHidden && !document.hidden && !reducedMotion.matches
+      && root.dataset.motionState !== 'reduced' && !group.closest('[inert]')
+      && (!section.hasAttribute('data-scene-part-state') || section.dataset.scenePartState === 'visible');
+    const restoreAttribute = (panel, name, value) => value === null ? panel.removeAttribute(name) : panel.setAttribute(name, value);
+    const clearPanel = (panel, index) => {
+      panel.classList.remove('is-feature-blending', 'is-feature-outgoing');
+      panel.style.removeProperty('--feature-alpha');
+      panel.style.removeProperty('--feature-order');
+      const original = saved.get(panel);
+      if (original) {
+        restoreAttribute(panel, 'aria-hidden', original.ariaHidden);
+        // The chosen panel must remain interactive after visibility/page-cache recovery.
+        // Scene-level inert still applies, and home.js may continue updating its own items.
+        restoreAttribute(panel, 'inert', index === target ? null : original.inert);
+        saved.delete(panel);
+      }
+    };
+    const settle = () => {
+      epoch++;
+      cancelAnimationFrame(frame); frame = 0; running = false;
+      panels.forEach(clearPanel);
+      stage.classList.remove('is-feature-transitioning');
+      geometry.forEach(name => stage.style.removeProperty(name));
+      weights = panels.map((_, index) => index === target ? 1 : 0);
+    };
+    const paint = () => {
+      // Blend every live layer, including transparent iframe corners. Weights total one
+      // even after rapid reversals; there is no intermediate frame with all panels absent.
+      panels.forEach((panel, index) => {
+        if (weights[index] <= 0 && index !== target) { clearPanel(panel, index); return; }
+        if (!saved.has(panel)) saved.set(panel, { ariaHidden: panel.getAttribute('aria-hidden'), inert: panel.getAttribute('inert') });
+        panel.classList.add('is-feature-blending');
+        panel.classList.toggle('is-feature-outgoing', index !== target);
+        panel.style.setProperty('--feature-alpha', String(weights[index]));
+        panel.style.setProperty('--feature-order', String(index + 1));
+        if (index !== target) {
+          panel.setAttribute('inert', '');
+          panel.setAttribute('aria-hidden', 'true');
+        } else {
+          restoreAttribute(panel, 'aria-hidden', saved.get(panel).ariaHidden);
+          panel.removeAttribute('inert');
+        }
+      });
+    };
+    const start = (previous, next) => {
+      target = next;
+      if (previous < 0 || !allowed() || !panels[previous].offsetWidth || !panels[previous].offsetHeight) { settle(); return; }
+      const anchor = panels[previous];
+      // offset* is untransformed layout geometry, including the stage's left padding.
+      const box = [anchor.offsetLeft, anchor.offsetTop, anchor.offsetWidth, anchor.offsetHeight];
+      if (!running) weights = panels.map((_, index) => index === previous ? 1 : 0);
+      const from = weights.slice(), token = ++epoch, started = window.performance.now();
+      cancelAnimationFrame(frame);
+      running = true;
+      geometry.forEach((name, index) => stage.style.setProperty(name, `${box[index]}px`));
+      stage.classList.add('is-feature-transitioning');
+      paint();
+      const paintFeatureBlend = now => {
+        if (token !== epoch) return;
+        frame = 0;
+        if (!allowed()) { settle(); return; }
+        const progress = Math.min(1, Math.max(0, (now - started) / 500));
+        if (progress === 1) { settle(); return; }
+        const eased = (1 - Math.cos(Math.PI * progress)) / 2;
+        weights = from.map((weight, index) => weight * (1 - eased) + (index === target ? eased : 0));
+        paint();
+        frame = requestAnimationFrame(paintFeatureBlend);
+      };
+      frame = requestAnimationFrame(paintFeatureBlend);
+    };
+    reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) settle(); });
+    document.addEventListener('ouronex:motion-state', () => { if (root.dataset.motionState === 'reduced') settle(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); });
+    window.addEventListener('pagehide', () => { pageHidden = true; settle(); });
+    window.addEventListener('pageshow', () => { pageHidden = false; });
+    window.addEventListener('resize', settle, { passive: true });
+    if ('MutationObserver' in window) {
+      const observer = new MutationObserver(() => { if (!allowed()) settle(); });
+      observer.observe(section, { attributes: true, attributeFilter: ['data-scene-part-state'] });
+      observer.observe(root, { attributes: true, attributeFilter: ['data-motion-state'] });
+    }
+    return { start };
+  }
+
   document.querySelectorAll('[data-tabs]').forEach(group => {
     const tabs = [...group.querySelectorAll('[role="tab"]')];
     const panels = tabs.map(tab => document.getElementById(tab.getAttribute('aria-controls')));
     if (!tabs.length || panels.some(panel => !panel)) return;
-    const select = (index, moveFocus = false) => {
+    let selected = -1;
+    const featureTransition = featureTransitionFor(group, panels);
+    // One owner for tab/panel state. Scroll clients use source: 'scroll' and
+    // never move focus; user changes are announced before keyboard focus moves.
+    const select = (index, { moveFocus = false, source = 'api' } = {}) => {
+      if (!Number.isInteger(index) || index < 0 || index >= tabs.length) return false;
+      const previous = selected;
+      const changed = selected !== index;
+      selected = index;
+      if (changed) featureTransition?.start(previous, index);
       tabs.forEach((tab, current) => {
         const active = current === index;
-        tab.setAttribute('aria-selected', String(active));
+        if (tab.getAttribute('aria-selected') !== String(active)) tab.setAttribute('aria-selected', String(active));
         tab.tabIndex = active ? 0 : -1;
-        panels[current].hidden = !active;
+        if (panels[current].hidden === active) panels[current].hidden = !active;
       });
-      if (moveFocus) tabs[index].focus();
+      if (changed || source === 'user' || source === 'hash') {
+        group.dispatchEvent(new CustomEvent('ouronex:tabchange', { bubbles: true, detail: { index, source } }));
+      }
+      if (moveFocus) tabs[index].focus({ preventScroll: true });
+      return changed;
     };
+    group.__ouroTabs = Object.freeze({ select, currentIndex: () => selected, count: tabs.length });
     tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => select(index));
+      tab.addEventListener('click', () => select(index, { source: 'user' }));
       tab.addEventListener('keydown', event => {
         let next;
         if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
@@ -105,18 +214,18 @@
         if (event.key === 'End') next = tabs.length - 1;
         if (next !== undefined) {
           event.preventDefault();
-          select(next, true);
+          select(next, { moveFocus: true, source: 'user' });
         }
       });
     });
-    select(Math.max(0, tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true')));
+    select(Math.max(0, tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true')), { source: 'init' });
     group.classList.add('tabs-ready');
     const revealLinkedPanel = () => {
       if (!location.hash) return;
       let target;
       try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch { return; }
       const index = panels.findIndex(panel => panel === target || panel.contains(target));
-      if (index >= 0) select(index);
+      if (index >= 0) select(index, { source: 'hash' });
     };
     window.addEventListener('hashchange', revealLinkedPanel);
     revealLinkedPanel();

@@ -86,6 +86,7 @@
   box-shadow: inset 0 1px #cfe7ff12;
 }
 .apf-tabs button:focus-visible { outline: 2px solid var(--apf-accent); outline-offset: 1px; }
+.apf-tabs button { transition: color .5s ease, background-color .5s ease, border-color .5s ease; }
 
 .apf-canvas {
   position: relative;
@@ -98,6 +99,15 @@
     radial-gradient(760px 460px at 90% 105%, rgba(40, 76, 120, .12), transparent 68%),
     var(--apf-surface);
 }
+
+/* Live case layers share one fixed canvas box. Opacity has one owner in
+   stage-bridge.js; a new graph stays hidden until its first fit is committed. */
+.apf-case { position: absolute; inset: 0; opacity: 0; visibility: hidden; pointer-events: none; isolation: isolate; }
+.apf-case.is-present { visibility: visible; }
+.apf-case.is-active { z-index: 2; }
+.apf-case.is-outgoing { z-index: 1; }
+.apf-case.is-active:not([inert]) { pointer-events: auto; }
+.apf-case.is-incoming, .apf-case.is-outgoing { will-change: opacity; }
 
 .apf-graph { position: absolute; inset: 0; }
 

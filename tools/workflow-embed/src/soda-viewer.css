@@ -1,31 +1,25 @@
-/* SODA tab, rendered inside the workspace shell. Every selector is scoped to
- * .soda-view so the host page and the shell keep their own styles. The tab
- * supplies no window chrome: no titlebar, no close button, no border. */
-
+/* The toolbar, explorer and canvas share the embed's available space. */
 .soda-view,
 .soda-view * { box-sizing: border-box; }
 
 .soda-view {
   --soda-ink: #263443;
   --soda-ink-soft: #667689;
-  --soda-hud-bg: rgba(250, 252, 254, .94);
-  --soda-hud-border: rgba(86, 110, 137, .16);
   --soda-accent: #2c6fb5;
-  --soda-inset: 12px;
-  --soda-section-width: 248px;
-  --soda-status-height: 32px;
-  --soda-gizmo-size: 100px;
-  --soda-controls-top: 106px;
+  --soda-explorer-width: clamp(188px, 24cqw, 248px);
+  --soda-gizmo-size: 88px;
   --soda-button-size: 28px;
   --soda-control-gap: 4px;
   container: soda-viewport / size;
   color-scheme: light;
-  overflow: hidden;
-  /* The shell mounts this view into a sized box, not a positioned one. */
   position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   width: 100%;
   height: 100%;
+  min-width: 0;
   min-height: 0;
+  overflow: hidden;
   background:
     radial-gradient(ellipse at 53% 29%, rgba(255, 255, 255, .96), rgba(255, 255, 255, 0) 65%),
     radial-gradient(ellipse at 86% 74%, rgba(212, 226, 244, .56), rgba(212, 226, 244, 0) 70%),
@@ -36,99 +30,137 @@
   line-height: 1.35;
 }
 
-.soda-view .soda-stage {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.soda-view .soda-scene {
-  position: absolute;
-  inset: 0 0 var(--soda-status-height);
-  overflow: hidden;
-}
-
-@container soda-viewport (min-width: 641px) {
-  .soda-view[data-sections="open"] .soda-scene {
-    left: calc(var(--soda-inset) + var(--soda-section-width) + 12px);
-    right: calc(var(--soda-inset) + var(--soda-button-size) + 12px);
-  }
-}
-
-.soda-view .soda-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  cursor: grab;
-  touch-action: none;
-  outline: none;
-}
-.soda-view .soda-canvas:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
-/* Cursor follows the active interaction mode, then the live gesture. */
-.soda-view .soda-canvas[data-soda-mode="select"] { cursor: default; }
-.soda-view .soda-canvas[data-soda-mode="pan"] { cursor: move; }
-.soda-view .soda-canvas[data-soda-mode="rotate"] { cursor: grab; }
-.soda-view .soda-canvas.is-dragging { cursor: grabbing; }
-.soda-view .soda-canvas.is-panning { cursor: move; }
-.soda-view .soda-canvas.is-pinching { cursor: zoom-in; }
-
-/* Top-left: the SODA wordmark is the product logo, not a window title. */
-.soda-view .soda-brand {
-  position: absolute;
-  left: var(--soda-inset);
-  top: var(--soda-inset);
-  z-index: 5;
+/* Workspace colours apply to the controls and explorer, leaving the CAD pane light. */
+.soda-view .soda-toolbar,
+.soda-view .soda-explorer {
+  --soda-ink: var(--we-text, oklch(0.9598 0.0091 258.34));
+  --soda-ink-soft: var(--we-muted, oklch(0.7764 0.0211 257.48));
+  --soda-hud-bg: var(--we-panel, #1b2028);
+  --soda-hud-border: var(--we-border, oklch(0.3732 0.0211 259.40));
+  --soda-accent: var(--we-accent, oklch(0.6620 0.1800 260.07));
+  --soda-hover: var(--we-hover, oklch(0.3460 0.0199 257.27));
+  --soda-selected: color-mix(in srgb, var(--soda-accent) 16%, var(--soda-hud-bg));
+  --soda-selected-border: color-mix(in srgb, var(--soda-accent) 40%, var(--soda-hud-border));
+  color-scheme: dark;
   color: var(--soda-ink);
-  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: .18em;
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
+  font-family: var(--we-ui, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Microsoft YaHei", sans-serif);
 }
 
-/* Full-height legend band between the wordmark and the shared status strip. */
-.soda-view .soda-left {
-  position: absolute;
-  left: var(--soda-inset);
-  top: 48px;
-  bottom: calc(var(--soda-status-height) + 8px);
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  width: min(var(--soda-section-width), calc(100% - 96px));
-  pointer-events: none;
-}
-
-.soda-view .soda-sections {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  width: 100%;
-  min-height: 0;
-  max-height: 100%;
-  overflow: hidden;
-  border: 1px solid var(--soda-hud-border);
-  border-radius: 6px;
+.soda-view .soda-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 3px 8px;
+  border-bottom: 1px solid var(--soda-hud-border);
   background: var(--soda-hud-bg);
-  box-shadow: 0 2px 8px rgba(40, 61, 86, .035);
-  pointer-events: auto;
 }
-.soda-view .soda-sections[data-open="false"] { flex: 0 0 auto; }
 
-.soda-view .soda-sections-head {
+/* Only the tools scroll horizontally; the filename keeps its own column. */
+.soda-view .soda-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--soda-control-gap);
+  min-width: 0;
+  height: calc(var(--soda-button-size) + 4px);
+  padding: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior: contain;
+  touch-action: pan-x;
+  scrollbar-width: none;
+  border: 0;
+}
+.soda-view .soda-buttons::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.soda-view .soda-buttons > * { flex: none; }
+.soda-view .soda-buttons:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
+
+.soda-view .soda-file {
+  min-width: 0;
+  max-width: 45cqw;
+  padding-inline-start: 10px;
+  overflow: hidden;
+  border-inline-start: 1px solid var(--soda-hud-border);
+  color: var(--soda-ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.soda-view .soda-switcher {
+  display: flex;
+  align-items: center;
+  gap: var(--soda-control-gap);
+  margin-inline-end: 4px;
+}
+.soda-view .soda-btn {
   display: flex;
   flex: none;
   align-items: center;
-  gap: 7px;
-  width: 100%;
-  min-height: 34px;
+  justify-content: center;
+  width: var(--soda-button-size);
+  height: var(--soda-button-size);
   margin: 0;
-  padding: 0 10px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--soda-ink);
+  cursor: pointer;
+  transition: background-color .16s ease, border-color .16s ease;
+}
+.soda-view .soda-btn img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  filter: grayscale(1) invert(.88);
+  opacity: 1;
+}
+.soda-view .soda-btn:hover:not(:disabled) { background: var(--soda-hover); }
+.soda-view .soda-btn[aria-pressed="true"] {
+  border-color: var(--soda-selected-border);
+  background: var(--soda-selected);
+}
+.soda-view .soda-btn:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
+.soda-view .soda-btn:disabled { cursor: default; }
+.soda-view .soda-btn:disabled img { opacity: .28; }
+
+/* Collapsing the explorer releases its column to the canvas. */
+.soda-view .soda-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, var(--soda-explorer-width)) minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.soda-view[data-explorer="closed"] .soda-stage {
+  grid-template-columns: 36px minmax(0, 1fr);
+}
+.soda-view .soda-explorer {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-inline-end: 1px solid var(--soda-hud-border);
+  background: var(--soda-hud-bg);
+}
+.soda-view .soda-explorer-toggle {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 38px;
+  margin: 0;
+  padding: 8px 10px;
   border: 0;
+  border-bottom: 1px solid var(--soda-hud-border);
   background: transparent;
   color: var(--soda-ink);
   font: inherit;
@@ -137,8 +169,17 @@
   text-align: left;
   cursor: pointer;
 }
-.soda-view .soda-sections-head:hover { background: rgba(82, 113, 151, .055); }
-.soda-view .soda-sections-head:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
+.soda-view .soda-explorer-title { white-space: nowrap; }
+.soda-view .soda-explorer-toggle:hover { background: var(--soda-hover); }
+.soda-view .soda-explorer-toggle:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
+.soda-view[data-explorer="closed"] .soda-explorer-toggle {
+  flex-direction: column;
+  min-height: 148px;
+  gap: 10px;
+  padding: 12px 6px;
+  border-bottom: 0;
+}
+.soda-view[data-explorer="closed"] .soda-explorer-title { writing-mode: vertical-rl; }
 
 .soda-view .soda-caret {
   flex: none;
@@ -150,203 +191,134 @@
   transition: transform .12s ease;
 }
 .soda-view .soda-caret[data-open="true"] { transform: rotate(90deg); }
+.soda-view .soda-caret-space { flex: none; width: 4px; height: 7px; }
 
-.soda-view .soda-sections-count {
-  margin-left: auto;
-  color: var(--soda-ink-soft);
-  font-size: 11px;
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-}
-
-.soda-view .soda-section-list {
+.soda-view .soda-tree {
   flex: 1 1 auto;
   min-height: 0;
   margin: 0;
-  padding: 4px 0;
+  padding: 4px 0 8px;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   touch-action: pan-y;
   scrollbar-gutter: stable;
   list-style: none;
-  border-top: 1px solid var(--soda-hud-border);
 }
-.soda-view .soda-section-list:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
-.soda-view .soda-section-list,
-.soda-view .soda-buttons {
-  scrollbar-width: thin;
-  scrollbar-color: #c6d1dd transparent;
-}
-.soda-view .soda-section-list::-webkit-scrollbar,
-.soda-view .soda-buttons::-webkit-scrollbar { width: 6px; height: 6px; }
-.soda-view .soda-section-list::-webkit-scrollbar-track,
-.soda-view .soda-buttons::-webkit-scrollbar-track { background: transparent; }
-.soda-view .soda-section-list::-webkit-scrollbar-thumb,
-.soda-view .soda-buttons::-webkit-scrollbar-thumb {
+.soda-view .soda-tree[hidden] { display: none; }
+.soda-view .soda-tree-group { margin: 0; padding: 0; list-style: none; }
+.soda-view .soda-tree-item { min-width: 0; margin: 0; padding: 0; outline: none; }
+.soda-view .soda-tree-row {
+  min-width: 0;
+  min-height: 30px;
   border: 1px solid transparent;
-  border-radius: 8px;
-  background: #c6d1dd;
-  background-clip: padding-box;
 }
-.soda-view .soda-section-list li {
+.soda-view .soda-tree-root-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.soda-view .soda-tree-root[aria-expanded] > .soda-tree-row,
+.soda-view .soda-tree-leaf > .soda-tree-row { cursor: pointer; }
+.soda-view .soda-tree-root[aria-expanded] > .soda-tree-row:hover,
+.soda-view .soda-tree-leaf > .soda-tree-row:hover { background: var(--soda-hover); }
+.soda-view .soda-tree-item:focus-visible > .soda-tree-row {
+  outline: 2px solid var(--soda-accent);
+  outline-offset: -2px;
+}
+.soda-view .soda-tree-leaf[aria-selected="true"] > .soda-tree-row {
+  border-color: var(--soda-selected-border);
+  background: var(--soda-selected);
+  color: var(--soda-ink);
+}
+.soda-view .soda-tree-leaf-row {
   display: grid;
   grid-template-columns: 20px minmax(0, 1fr) max-content;
   align-items: center;
-  column-gap: 7px;
-  min-width: 0;
-  min-height: 26px;
-  padding: 3px 9px 3px 10px;
+  column-gap: 6px;
+  padding: 3px 8px 3px 22px;
   font-size: 11.5px;
   line-height: 20px;
 }
-.soda-view .soda-section-list li:hover { background: rgba(82, 113, 151, .055); }
-
-.soda-view .soda-section-glyph,
-.soda-view .soda-section-glyph svg { display: block; width: 20px; height: 20px; }
-.soda-view .soda-section-glyph { line-height: 0; }
-.soda-view .soda-section-name {
+.soda-view .soda-tree-name {
   min-width: 0;
   overflow: hidden;
-  color: var(--soda-ink);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.soda-view .soda-section-list li[data-used="false"] .soda-section-name { color: #778595; }
-.soda-view .soda-section-count {
+.soda-view .soda-member-count {
   min-width: 2ch;
   color: var(--soda-ink-soft);
   font-size: 10.5px;
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
-
-.soda-view .soda-counts {
-  display: flex;
-  flex: none;
-  gap: 14px;
-  margin: 0;
-  padding: 0;
-  color: var(--soda-ink-soft);
-}
-.soda-view .soda-counts > div { display: flex; align-items: baseline; gap: 5px; }
-.soda-view .soda-counts dt { margin: 0; font-weight: 400; }
-.soda-view .soda-counts dd {
-  margin: 0;
-  color: var(--soda-ink);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-/* The tool rail has its own safe band below the gizmo and above the footer.
- * Short embeds scroll the real controls rather than overlap either neighbour. */
-.soda-view .soda-controls {
-  position: absolute;
-  right: var(--soda-inset);
-  top: var(--soda-controls-top);
-  bottom: calc(var(--soda-status-height) + 8px);
-  z-index: 6;
-  display: flex;
-  align-items: center;
-  width: 46px;
-  min-height: 0;
-  pointer-events: none;
-}
-.soda-view .soda-buttons {
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--soda-control-gap);
-  width: 100%;
-  max-height: 100%;
-  min-height: 0;
-  padding: 3px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  touch-action: pan-y;
-  border: 0;
-  border-radius: 6px;
-  background: rgba(249, 251, 253, .76);
-  pointer-events: auto;
-}
-.soda-view .soda-buttons > * { flex: none; }
-
-.soda-view .soda-switcher {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--soda-control-gap);
-  padding-right: 6px;
-}
-
-.soda-view .soda-switcher-pill {
-  position: absolute;
-  top: calc((var(--soda-button-size) - 4px) / 2);
-  right: 0;
-  bottom: calc((var(--soda-button-size) - 4px) / 2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: 4px;
-  border-radius: 2px;
-  background: rgba(16, 16, 16, .10);
-}
-.soda-view .soda-switcher-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #5a5a5a;
-  transition: transform .14s ease;
-}
-.soda-view .soda-switcher-dot[data-ortho="false"] { transform: translateY(0); }
-.soda-view .soda-switcher-dot[data-ortho="true"] { transform: translateY(calc(var(--soda-button-size) + var(--soda-control-gap))); }
-
-/* Three-way interaction-mode rail: select / pan / rotate. */
-.soda-view .soda-switcher--modes { margin-bottom: 2px; }
-.soda-view .soda-switcher-dot--modes { transition: transform .14s ease; }
-.soda-view .soda-switcher-dot--modes[data-index="0"] { transform: translateY(0); }
-.soda-view .soda-switcher-dot--modes[data-index="1"] { transform: translateY(calc(var(--soda-button-size) + var(--soda-control-gap))); }
-.soda-view .soda-switcher-dot--modes[data-index="2"] {
-  transform: translateY(calc(var(--soda-button-size) + var(--soda-control-gap) + var(--soda-button-size) + var(--soda-control-gap)));
-}
-
-.soda-view .soda-btn {
-  display: flex;
+.soda-view .soda-section-glyph,
+.soda-view .soda-section-glyph svg { display: block; width: 20px; height: 20px; }
+.soda-view .soda-section-glyph { line-height: 0; }
+.soda-view .soda-material-icon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--soda-button-size);
-  height: var(--soda-button-size);
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  border: 1px solid currentColor;
+  border-radius: 0;
   background: transparent;
-  cursor: pointer;
-  transition: background-color .16s ease;
+  color: var(--soda-ink-soft);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
 }
-.soda-view .soda-btn img {
-  display: block;
-  width: 24px;
-  height: 24px;
-  filter: none;
-  opacity: 1;
-}
-.soda-view .soda-btn:hover:not(:disabled) { background: rgba(16, 16, 16, .10); }
-.soda-view .soda-btn:hover:not(:disabled) img { opacity: 1; }
-.soda-view .soda-btn[aria-pressed="true"] { background: rgba(16, 16, 16, .10); }
-.soda-view .soda-btn:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
-.soda-view .soda-btn:disabled { cursor: default; }
-.soda-view .soda-btn:disabled img { opacity: .28; }
 
-/* Top-right: corner axis gizmo, aligned with the model orientation. */
+.soda-view .soda-tree { scrollbar-width: thin; scrollbar-color: var(--soda-hud-border) transparent; }
+.soda-view .soda-tree::-webkit-scrollbar { width: 6px; }
+.soda-view .soda-tree::-webkit-scrollbar-track { background: transparent; }
+.soda-view .soda-tree::-webkit-scrollbar-thumb {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--soda-hud-border);
+  background-clip: padding-box;
+}
+
+/* Static studio light and perimeter shading sit behind the canvas. */
+.soda-view .soda-scene {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(67, 88, 108, 0) 46%, rgba(67, 88, 108, .10) 100%),
+    radial-gradient(ellipse 85% 70% at 48% -6%, rgba(255, 255, 255, .92) 0%, rgba(250, 252, 254, .52) 42%, rgba(250, 252, 254, 0) 80%),
+    linear-gradient(180deg, #eaf0f5 0%, #e2eaf1 48%, #d9e3ec 100%);
+}
+.soda-view .soda-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+.soda-view .soda-canvas:focus-visible { outline: 2px solid var(--soda-accent); outline-offset: -2px; }
+.soda-view .soda-canvas[data-soda-mode="select"] { cursor: default; }
+.soda-view .soda-canvas[data-soda-mode="pan"] { cursor: move; }
+.soda-view .soda-canvas[data-soda-mode="rotate"] { cursor: grab; }
+.soda-view .soda-canvas.is-dragging { cursor: grabbing; }
+.soda-view .soda-canvas.is-panning { cursor: move; }
+.soda-view .soda-canvas.is-pinching { cursor: zoom-in; }
+
 .soda-view .soda-gizmo {
   position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 5;
+  right: 6px;
+  bottom: 6px;
+  z-index: 1;
   width: var(--soda-gizmo-size);
   height: var(--soda-gizmo-size);
   overflow: visible;
@@ -354,47 +326,17 @@
   user-select: none;
 }
 
-/* One quiet baseline for counts and the model's display filename. */
-.soda-view .soda-statusbar {
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  z-index: 6;
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  height: var(--soda-status-height);
-  padding: 8px var(--soda-inset) 7px;
-  border-top: 1px solid var(--soda-hud-border);
-  background: rgba(248, 250, 253, .93);
-  color: var(--soda-ink-soft);
-  font-size: 11px;
-  line-height: 16px;
-  pointer-events: none;
-  user-select: none;
-}
-.soda-view .soda-file {
-  min-width: 0;
-  margin-left: auto;
-  overflow: hidden;
-  color: inherit;
-  font: inherit;
-  text-align: right;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Loading / error overlays sit above the canvas but below the HUD. */
+/* Load feedback is confined to the canvas pane. */
 .soda-view .soda-status {
   position: absolute;
   inset: 0;
-  z-index: 7;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 24px;
+  padding: 16px;
   background: rgba(237, 240, 242, .86);
   color: var(--soda-ink);
   text-align: center;
@@ -402,16 +344,16 @@
 }
 .soda-view .soda-status--error { pointer-events: auto; }
 .soda-view .soda-status small {
-  max-width: 44ch;
+  max-width: min(44ch, 100%);
+  overflow-wrap: anywhere;
   color: var(--soda-ink-soft);
   font-size: 10px;
   line-height: 1.5;
 }
-
 .soda-view .soda-retry {
   min-width: 80px;
-  height: 24px;
-  padding: 0 12px;
+  min-height: 28px;
+  padding: 2px 12px;
   border: 1px solid #1883d7;
   border-radius: 3px;
   background: #007acc;
@@ -422,25 +364,27 @@
 .soda-view .soda-retry:hover { background: #1883d7; }
 .soda-view .soda-retry:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
 
-/* The local container follows the actual SODA tab even in a split workspace. */
 @container soda-viewport (max-width: 620px) {
-  .soda-view .soda-stage { --soda-inset: 10px; --soda-gizmo-size: 84px; --soda-controls-top: 90px; }
-  .soda-view .soda-left { top: 44px; width: min(224px, calc(100% - 88px)); }
-  .soda-view .soda-brand { font-size: 18px; }
-  .soda-view .soda-statusbar { gap: 10px; }
-  .soda-view .soda-counts { gap: 10px; }
+  .soda-view .soda-stage { --soda-explorer-width: min(224px, 52cqw); --soda-gizmo-size: 64px; }
+  .soda-view .soda-toolbar {
+    --soda-button-size: 26px;
+    --soda-control-gap: 1px;
+    gap: 3px;
+    padding-inline: 3px;
+  }
+  .soda-view .soda-switcher { margin-inline-end: 0; }
+  .soda-view .soda-file { max-width: none; padding-inline-start: 4px; font-size: 10px; }
+  .soda-view .soda-tree-row { min-height: 34px; }
+  .soda-view .soda-tree-leaf-row { padding-inline-start: 16px; column-gap: 4px; }
 }
 
-@container soda-viewport (max-height: 480px) {
-  .soda-view .soda-stage { --soda-gizmo-size: 82px; --soda-controls-top: 88px; --soda-button-size: 26px; --soda-control-gap: 3px; }
-  .soda-view .soda-btn img { width: 22px; height: 22px; }
+@container soda-viewport (max-height: 360px) {
+  .soda-view .soda-stage { --soda-gizmo-size: 56px; }
+  .soda-view .soda-explorer-toggle { min-height: 32px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .soda-view *,
   .soda-view *::before,
-  .soda-view *::after {
-    animation: none !important;
-    transition: none !important;
-  }
+  .soda-view *::after { animation: none !important; transition: none !important; }
 }

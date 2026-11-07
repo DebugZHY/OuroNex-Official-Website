@@ -38,4 +38,35 @@ html[data-motion-state="reduced"] [data-magnetic]{translate:none!important}
  [data-magnetic]{translate:none!important}
  .motion-word-inner,[data-motion],[data-reveal],[data-motion-line]{transition:none!important}
 }
+/* Features alone blends its live panels. hidden remains the semantic state; only the inert
+   outgoing paint layer overrides display. The new panel stays in normal flow, preserving
+   the stage/rail/footer geometry. Pixel bounds include the existing left padding. */
+#sida .feature-panels > .feature-panel[data-feature-managed]{animation:none!important}
+#sida .feature-panels > .feature-panel.is-feature-blending{
+ position:relative;z-index:var(--feature-order);opacity:var(--feature-alpha)!important;
+ translate:none!important;scale:1!important;transform:none!important;transition:none!important;
+ will-change:opacity;
+}
+#sida .feature-panels > .feature-panel.is-feature-outgoing[hidden]{
+ display:block!important;position:absolute;box-sizing:border-box;margin:0;
+ left:var(--feature-paint-left);top:var(--feature-paint-top);
+ width:var(--feature-paint-width);height:var(--feature-paint-height);
+}
+#sida .feature-panels > .feature-panel.is-feature-outgoing,
+#sida .feature-panels > .feature-panel.is-feature-outgoing *{pointer-events:none!important}
+/* Only local colour/marker feedback changes; the scene clock retains rail opacity/translate. */
+#sida .feature-tab-list > button{--scene-local-transition:color 500ms cubic-bezier(.4,0,.2,1);transition:color 500ms cubic-bezier(.4,0,.2,1)}
+#sida .feature-tab-list > button::before{transition:opacity 500ms cubic-bezier(.4,0,.2,1),transform 500ms cubic-bezier(.4,0,.2,1)}
+#sida .feature-tab-list .directory-icon{transition:color 500ms cubic-bezier(.4,0,.2,1),filter 500ms cubic-bezier(.4,0,.2,1)}
+html[data-motion-state="reduced"] #sida .feature-panels > .feature-panel.is-feature-outgoing[hidden]{display:none!important}
+html[data-motion-state="reduced"] #sida .feature-panels > .feature-panel.is-feature-blending:not([hidden]){opacity:1!important}
+html[data-motion-state="reduced"] #sida .feature-tab-list > button,
+html[data-motion-state="reduced"] #sida .feature-tab-list > button::before,
+html[data-motion-state="reduced"] #sida .feature-tab-list .directory-icon{transition:none!important}
+@media(prefers-reduced-motion:reduce){
+ #sida .feature-panels > .feature-panel.is-feature-outgoing[hidden]{display:none!important}
+ #sida .feature-panels > .feature-panel.is-feature-blending:not([hidden]){opacity:1!important}
+ #sida .feature-tab-list > button,#sida .feature-tab-list > button::before,#sida .feature-tab-list .directory-icon{transition:none!important}
+}
+
 @media print{.motion-field{display:none!important}.motion-pending{opacity:1!important;translate:none!important}.motion-word-inner{transform:none!important}}

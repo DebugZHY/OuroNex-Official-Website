@@ -4,102 +4,167 @@ import { createSodaViewer } from './soda-renderer.js';
 import { getSectionGlyphSvg, getSectionTypeLabel } from './section-glyphs.js';
 import './soda-viewer.css';
 
-/* Icons come from the bundled SODA source, copied next to the published viewer
- * asset. Resolving against the entry script keeps the paths valid wherever the
- * embed is deployed; the map is built once per module. */
+/* Resolve icons beside the published viewer script. */
 const ICON_BASE = new URL('soda-icons/', document.currentScript?.src || document.baseURI);
 const sodaIcon = (file) => new URL(file, ICON_BASE).href;
+const MATERIAL_NAMES = ['S355', 'C40'];
 
-/* The original SODA glyph vocabulary uses the stored section type. Usage
- * chooses solid/outline; section colour only tints that real geometry icon. */
-function SectionList({ sections, sectionCount, open, onToggle }) {
-  const listId = useId();
-  const rows = useMemo(() => sections.map((section) => ({
+function MaterialIcon({ name }) {
+  return <span class="soda-material-icon" aria-hidden="true">{name === 'S355' ? 'S' : 'C'}</span>;
+}
+
+function ModelExplorer({ materials, sections, counts, selection, ready, open, onToggle, onSelect }) {
+  const treeId = useId();
+  const [expanded, setExpanded] = useState({ material: true, section: false });
+  const [focused, setFocused] = useState('material');
+  const materialRows = useMemo(() => MATERIAL_NAMES.map((name) =>
+    materials.find((material) => material.name === name)).filter(Boolean), [materials]);
+  const sectionRows = useMemo(() => sections.filter((section) => section.memberCount > 0).map((section) => ({
     ...section,
-    glyph: getSectionGlyphSvg(section.sectionType, section.memberCount > 0),
+    glyph: getSectionGlyphSvg(section.sectionType, true),
     typeLabel: getSectionTypeLabel(section.sectionType),
   })), [sections]);
-  if (!rows.length) return null;
+  const roots = [
+    { id: 'material', label: 'Material', count: materialRows.length, children: materialRows },
+    { id: 'section', label: 'Section', count: sectionRows.length, children: sectionRows },
+    { id: 'node', label: 'Node', count: counts.nodeCount ?? 0 },
+    { id: 'element', label: 'Element', count: counts.memberCount ?? 0 },
+    { id: 'area', label: 'Area' },
+  ];
+  const visibleKeys = roots.flatMap((root) => [root.id, ...(expanded[root.id]
+    ? (root.children || []).map((entry) => `${root.id}:${entry.id}`) : [])]);
+  const focusKey = visibleKeys.includes(focused) ? focused : 'material';
+  const trackFocus = (key) => (event) => {
+    if (event.target === event.currentTarget) setFocused(key);
+  };
+  const activate = (event, action) => {
+    if (event.target.closest('[role="treeitem"]') !== event.currentTarget) return;
+    event.currentTarget.focus({ preventScroll: true });
+    action?.();
+  };
+  const focusItem = (item) => {
+    item?.focus({ preventScroll: true });
+    item?.firstElementChild?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  };
+  const navigateTree = (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    const item = event.target.closest('[role="treeitem"]');
+    if (!item) return;
+    const items = Array.from(event.currentTarget.querySelectorAll('[role="treeitem"]'));
+    const index = items.indexOf(item);
+    const isOpen = item.getAttribute('aria-expanded');
+    switch (event.key) {
+      case 'ArrowDown': focusItem(items[Math.min(index + 1, items.length - 1)]); break;
+      case 'ArrowUp': focusItem(items[Math.max(index - 1, 0)]); break;
+      case 'Home': focusItem(items[0]); break;
+      case 'End': focusItem(items[items.length - 1]); break;
+      case 'ArrowRight':
+        if (isOpen === 'false') item.click();
+        else if (isOpen === 'true') focusItem(item.querySelector('[role="treeitem"]'));
+        break;
+      case 'ArrowLeft':
+        if (isOpen === 'true') item.click();
+        else focusItem(item.parentElement.closest('[role="treeitem"]'));
+        break;
+      case 'Enter':
+      case ' ': item.click(); break;
+      default: return;
+    }
+    event.preventDefault();
+  };
+
   return (
-    <div class="soda-sections" data-soda-sections={rows.length} data-open={open ? 'true' : 'false'}>
-      <button type="button" class="soda-sections-head" aria-expanded={open} aria-controls={listId} onClick={onToggle}>
+    <aside class="soda-explorer" aria-label="Model Explorer">
+      <button type="button" class="soda-explorer-toggle" aria-expanded={open} aria-controls={treeId}
+        aria-label={`${open ? 'Collapse' : 'Expand'} Model Explorer`}
+        title={`${open ? 'Collapse' : 'Expand'} Model Explorer`} onClick={onToggle}>
         <span class="soda-caret" aria-hidden="true" data-open={open ? 'true' : 'false'} />
-        <span>Section List</span>
-        <span class="soda-sections-count">{sectionCount || rows.length}</span>
+        <span class="soda-explorer-title">Model Explorer</span>
       </button>
-      {open && (
-        <ul id={listId} class="soda-section-list" aria-label="Sections and element counts" tabIndex={0}>
-          {rows.map((section) => (
-            <li key={section.id} data-section-id={section.id} data-section-type={section.sectionType}
-              data-used={section.memberCount > 0 ? 'true' : 'false'}
-              title={`${section.name} · ${section.typeLabel} · ${section.memberCount} elements`}>
-              <span class="soda-section-glyph" style={{ color: section.color }} aria-hidden="true"
-                dangerouslySetInnerHTML={{ __html: section.glyph }} />
-              <span class="soda-section-name">{section.name}</span>
-              <span class="soda-section-count" aria-label={`${section.memberCount} elements`}>{section.memberCount}</span>
+      <ul id={treeId} class="soda-tree" role="tree" aria-label="Model Explorer" hidden={!open}
+        aria-busy={!ready} onKeyDown={navigateTree}>
+        {roots.map((root) => {
+          const expandable = Boolean(root.children);
+          const label = `${root.label}${root.count === undefined ? '' : ` (${ready ? root.count : '—'})`}`;
+          return (
+            <li key={root.id} class="soda-tree-item soda-tree-root" role="treeitem" aria-label={label}
+              data-soda-root={root.id} aria-expanded={expandable ? expanded[root.id] : undefined}
+              tabIndex={focusKey === root.id ? 0 : -1} onFocus={trackFocus(root.id)}
+              onClick={(event) => activate(event, expandable
+                ? () => setExpanded((current) => ({ ...current, [root.id]: !current[root.id] })) : undefined)}>
+              <div class="soda-tree-row soda-tree-root-row">
+                <span class={expandable ? 'soda-caret' : 'soda-caret-space'} aria-hidden="true"
+                  data-open={expanded[root.id] ? 'true' : 'false'} />
+                <span>{label}</span>
+              </div>
+              {expandable && expanded[root.id] && (
+                <ul role="group" class="soda-tree-group">
+                  {root.children.map((entry) => {
+                    const key = `${root.id}:${entry.id}`;
+                    const selected = selection?.kind === root.id && selection.id === entry.id;
+                    const description = `${entry.name}${entry.typeLabel ? ` · ${entry.typeLabel}` : ''} · ${entry.memberCount} elements`;
+                    return (
+                      <li key={entry.id} class="soda-tree-item soda-tree-leaf" role="treeitem"
+                        data-soda-kind={root.id} data-soda-id={entry.id}
+                        data-section-type={root.id === 'section' ? entry.sectionType : undefined}
+                        aria-label={description} aria-selected={selected} title={description}
+                        tabIndex={focusKey === key ? 0 : -1} onFocus={trackFocus(key)}
+                        onClick={(event) => activate(event, () => onSelect(root.id, entry.id))}>
+                        <div class="soda-tree-row soda-tree-leaf-row">
+                          {root.id === 'section'
+                            ? <span class="soda-section-glyph" style={{ color: entry.color }} aria-hidden="true"
+                                dangerouslySetInnerHTML={{ __html: entry.glyph }} />
+                            : <MaterialIcon name={entry.name} />}
+                          <span class="soda-tree-name">{entry.name}</span>
+                          <span class="soda-member-count" aria-hidden="true">{entry.memberCount}</span>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </li>
-          ))}
-        </ul>
-      )}
-    </div>
+          );
+        })}
+      </ul>
+    </aside>
   );
 }
 
-/* Button group mirrors SODA's own right column minus Views and Light Source:
- * projection switcher, perspective, isometric, undo, redo, zoom, fit. */
-/* Interaction modes from the source (Init.js:531-535): Select, Pan, Rotate.
- * Each is a real left-drag behaviour, not a state-only toggle. */
 const INTERACTION_MODES = [
-  { id: 'select', icon: 'cursor_hollow.png', label: 'Select mode' },
   { id: 'pan', icon: 'pan.png', label: 'Pan mode' },
   { id: 'rotate', icon: 'rotate.png', label: 'Rotate mode' },
 ];
 
-function RightButtons({ onProjection, onUndo, onRedo, canUndo, canRedo, onZoomIn, onZoomOut, onFit,
-  ortho, mode, onMode }) {
+function ViewButtons({ onProjection, onZoomIn, onZoomOut, onFit, disabled, ortho, mode, onMode }) {
   return (
-    <div class="soda-buttons" role="toolbar" aria-label="View controls" aria-orientation="vertical">
+    <div class="soda-buttons" role="group" aria-label="Camera and interaction controls" tabIndex={0}>
       <div class="soda-switcher" role="group" aria-label="Camera projection">
-        <button type="button" class="soda-btn" aria-label="Perspective view" aria-pressed={!ortho}
-          data-soda-action="perspective" onClick={() => onProjection(false)}>
+        <button type="button" class="soda-btn" aria-label="Perspective view" title="Perspective view" aria-pressed={!ortho}
+          data-soda-action="perspective" disabled={disabled} onClick={() => onProjection(false)}>
           <img src={sodaIcon("perspective_view.png")} alt="" draggable={false} />
         </button>
-        <span class="soda-switcher-pill" aria-hidden="true">
-          <span class="soda-switcher-dot" data-ortho={ortho ? 'true' : 'false'} />
-        </span>
-        <button type="button" class="soda-btn" aria-label="Isometric view" aria-pressed={ortho}
-          data-soda-action="isometric" onClick={() => onProjection(true)}>
+        <button type="button" class="soda-btn" aria-label="Isometric view" title="Isometric view" aria-pressed={ortho}
+          data-soda-action="isometric" disabled={disabled} onClick={() => onProjection(true)}>
           <img src={sodaIcon("isometric_view.png")} alt="" draggable={false} />
         </button>
       </div>
-      <button type="button" class="soda-btn" aria-label="Undo view change" title="Undo (Ctrl/Cmd+Z)"
-        data-soda-action="undo" disabled={!canUndo} onClick={onUndo}>
-        <img src={sodaIcon("undo.svg")} alt="" draggable={false} />
-      </button>
-      <button type="button" class="soda-btn" aria-label="Redo view change" title="Redo (Ctrl/Cmd+Y)"
-        data-soda-action="redo" disabled={!canRedo} onClick={onRedo}>
-        <img src={sodaIcon("redo.svg")} alt="" draggable={false} />
-      </button>
-      <div class="soda-switcher soda-switcher--modes" role="group" aria-label="Interaction mode">
+      <div class="soda-switcher" role="group" aria-label="Interaction mode">
         {INTERACTION_MODES.map((entry) => (
           <button key={entry.id} type="button" class="soda-btn" aria-label={entry.label}
             title={entry.label} aria-pressed={mode === entry.id} data-soda-mode={entry.id}
-            onClick={() => onMode(entry.id)}>
+            disabled={disabled} onClick={() => onMode(entry.id)}>
             <img src={sodaIcon(entry.icon)} alt="" draggable={false} />
           </button>
         ))}
-        <span class="soda-switcher-pill soda-switcher-pill--modes" aria-hidden="true">
-          <span class="soda-switcher-dot soda-switcher-dot--modes"
-            data-index={Math.max(0, INTERACTION_MODES.findIndex((entry) => entry.id === mode))} />
-        </span>
       </div>
-      <button type="button" class="soda-btn" aria-label="Zoom in" title="Zoom In" data-soda-action="zoom-in" onClick={onZoomIn}>
+      <button type="button" class="soda-btn" aria-label="Zoom in" title="Zoom In" data-soda-action="zoom-in" disabled={disabled} onClick={onZoomIn}>
         <img src={sodaIcon("zoom_in.png")} alt="" draggable={false} />
       </button>
-      <button type="button" class="soda-btn" aria-label="Zoom out" title="Zoom Out" data-soda-action="zoom-out" onClick={onZoomOut}>
+      <button type="button" class="soda-btn" aria-label="Zoom out" title="Zoom Out" data-soda-action="zoom-out" disabled={disabled} onClick={onZoomOut}>
         <img src={sodaIcon("zoom_out.png")} alt="" draggable={false} />
       </button>
-      <button type="button" class="soda-btn" aria-label="Fit to screen" title="Fit to Screen" data-soda-action="fit" onClick={onFit}>
+      <button type="button" class="soda-btn" aria-label="Fit to screen" title="Fit to Screen" data-soda-action="fit" disabled={disabled} onClick={onFit}>
         <img src={sodaIcon("fit_to_screen.png")} alt="" draggable={false} />
       </button>
     </div>
@@ -155,31 +220,60 @@ function AxisGizmo({ basis }) {
   );
 }
 
+function initialViewerState() {
+  return {
+    materials: [], sections: [], counts: {}, selection: null, displayName: '', sourceFile: '',
+    quaternion: [0, 0, 0, 1], axisBasis: [0, 0, 0, 1], ortho: true, mode: 'rotate',
+  };
+}
+
+/* Keep catalog references stable while camera-only snapshots arrive. */
+function mergeViewerState(current, snapshot) {
+  const next = {
+    materials: snapshot.materials ?? current.materials,
+    sections: snapshot.sections ?? current.sections,
+    counts: snapshot.counts ?? current.counts,
+    selection: 'selection' in snapshot ? snapshot.selection : current.selection,
+    displayName: snapshot.displayName ?? current.displayName,
+    sourceFile: snapshot.sourceFile ?? current.sourceFile,
+    quaternion: snapshot.quaternion ?? current.quaternion,
+    axisBasis: snapshot.axisBasis ?? current.axisBasis,
+    ortho: snapshot.projection ? snapshot.projection !== 'perspective' : current.ortho,
+    mode: snapshot.interactionMode ?? current.mode,
+  };
+  for (const key of ['materials', 'sections']) {
+    if (next[key].length === current[key].length && next[key].every((entry, index) =>
+      ['id', 'name', 'color', 'memberCount', 'sectionType'].every((field) => entry[field] === current[key][index][field]))) {
+      next[key] = current[key];
+    }
+  }
+  if (Object.keys(next.counts).length === Object.keys(current.counts).length
+    && Object.keys(next.counts).every((key) => next.counts[key] === current.counts[key])) next.counts = current.counts;
+  for (const key of ['quaternion', 'axisBasis']) {
+    if (next[key].every((value, index) => Math.abs(value - current[key][index]) < 1e-6)) next[key] = current[key];
+  }
+  if (next.selection && current.selection
+    && ['kind', 'id', 'memberCount'].every((key) => next.selection[key] === current.selection[key])) {
+    next.selection = current.selection;
+  }
+  return Object.keys(next).every((key) => next[key] === current[key]) ? current : next;
+}
+
 function SodaView({ modelUrl, metadataUrl, compressedModelUrl, bridge }) {
   const canvasRef = useRef(null);
   const viewerRef = useRef(null);
+  const explorerChoice = useRef(null);
   const [status, setStatus] = useState('loading');
   const [message, setMessage] = useState('');
   const [attempt, setAttempt] = useState(0);
-  const [state, setState] = useState({
-    sections: [], counts: {}, displayName: '', sourceFile: '',
-    quaternion: [0, 0, 0, 1], axisBasis: [0, 0, 0, 1], ortho: true, mode: 'rotate',
-  });
-  const [sectionsOpen, setSectionsOpen] = useState(false);
-  /* Defaults follow this embedded viewport, not the browser window. Crossing
-   * into phone width collapses the list; explicit toggles survive other resizes. */
+  const [state, setState] = useState(initialViewerState);
+  const [explorerOpen, setExplorerOpen] = useState(true);
+  /* Default to a rail in compact embeds; a manual choice survives resizes. */
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const viewport = canvas?.closest('.soda-view');
-    let previousCompact;
+    const viewport = canvasRef.current?.closest('.soda-view');
     const syncDefault = () => {
       const width = viewport?.clientWidth || 0;
-      if (!width) return;
-      const compact = width < 620;
-      if (compact !== previousCompact) {
-        previousCompact = compact;
-        setSectionsOpen(!compact);
-      }
+      if (width && explorerChoice.current === null) setExplorerOpen(width > 620);
     };
     syncDefault();
     if (typeof ResizeObserver === 'function') {
@@ -190,12 +284,9 @@ function SodaView({ modelUrl, metadataUrl, compressedModelUrl, bridge }) {
     window.addEventListener('resize', syncDefault);
     return () => window.removeEventListener('resize', syncDefault);
   }, []);
-  /* Every view change that the user can see is recorded, so Undo / Redo walk
-   * real states instead of re-running a hard-coded action. */
-  const [history, setHistory] = useState({ stack: [], index: -1 });
+  /* Only camera changes enter the undo/redo history. */
+  const [, setHistory] = useState({ stack: [], index: -1 });
 
-  /* Section colours are rendered inside inline styles; the CSP-friendly
-   * version uses the metadata hex directly. */
   const snapshotView = useCallback(() => {
     const viewer = viewerRef.current;
     if (!viewer) return null;
@@ -238,48 +329,27 @@ function SodaView({ modelUrl, metadataUrl, compressedModelUrl, bridge }) {
     let active = true;
     let initialViewRecorded = false;
     setHistory({ stack: [], index: -1 });
+    setState(initialViewerState());
+    const receiveState = (snapshot) => {
+      if (!active) return;
+      setStatus(snapshot.status);
+      setMessage(snapshot.error || '');
+      setState((current) => mergeViewerState(current, snapshot));
+      if (snapshot.status === 'ready' && !initialViewRecorded && viewerRef.current) {
+        initialViewRecorded = true;
+        recordView();
+      }
+    };
     const viewer = createSodaViewer(canvasRef.current, {
-      modelUrl,
-      metadataUrl,
-      compressedModelUrl,
-      onState(next) {
-        if (!active) return;
-        setStatus(next.status);
-        setMessage(next.error || '');
-        if (next.status === 'ready') {
-          setState((current) => ({
-            ...current,
-            sections: next.sections,
-            counts: next.counts,
-            displayName: next.displayName,
-            sourceFile: next.sourceFile,
-            quaternion: next.quaternion,
-            axisBasis: next.axisBasis,
-            ortho: next.projection !== 'perspective',
-          }));
-          if (!initialViewRecorded) {
-            initialViewRecorded = true;
-            recordView();
-          }
-        }
-      },
+      modelUrl, metadataUrl, compressedModelUrl, onState: receiveState,
     });
     viewerRef.current = viewer;
     bridge.current = viewer;
 
-    /* The renderer notifies on each committed frame, so the gizmo follows the
-     * camera without a polling loop of our own. */
+    /* Selection, catalog and camera UI all consume renderer snapshots. */
     let wheelTimer = 0;
-    const unsubscribe = viewer.subscribe?.((snapshot) => {
-      if (!active) return;
-      setState((current) => {
-        const same = current.quaternion.every((value, index) => Math.abs(value - snapshot.quaternion[index]) < 1e-6)
-          && current.axisBasis.every((value, index) => Math.abs(value - snapshot.axisBasis[index]) < 1e-6)
-          && current.ortho === (snapshot.projection !== 'perspective');
-        if (same) return current;
-        return { ...current, quaternion: snapshot.quaternion, axisBasis: snapshot.axisBasis, ortho: snapshot.projection !== 'perspective' };
-      });
-    });
+    const unsubscribe = viewer.subscribe(receiveState);
+    receiveState(viewer.getState());
     const canvas = canvasRef.current;
     const scheduleRecord = () => {
       clearTimeout(wheelTimer);
@@ -312,84 +382,70 @@ function SodaView({ modelUrl, metadataUrl, compressedModelUrl, bridge }) {
     setAttempt((value) => value + 1);
   }, []);
 
+  const selectLeaf = useCallback((kind, id) => {
+    const viewer = viewerRef.current;
+    if (!viewer) return;
+    const snapshot = viewer.getState();
+    if (snapshot.status !== 'ready') return;
+    if (snapshot.selection?.kind === kind && snapshot.selection.id === id) viewer.clearSelection();
+    else if (kind === 'material') viewer.selectMaterial(id);
+    else if (kind === 'section') viewer.selectSection(id);
+  }, []);
+
   const withViewer = useCallback((action) => () => {
     const viewer = viewerRef.current;
     if (viewer) action(viewer);
   }, []);
 
   return (
-    <div class="soda-view" data-soda-view="true" data-soda-status={status} data-sections={sectionsOpen ? 'open' : 'closed'} onKeyDown={(event) => {
-      if (!(event.ctrlKey || event.metaKey)) return;
-      const key = event.key.toLowerCase();
-      if (key === 'z' || key === 'y') {
-        event.preventDefault();
-        applyHistory(key === 'y' || event.shiftKey ? 1 : -1);
-      }
-    }}>
-      <div class="soda-stage">
-        <div class="soda-scene">
-        <canvas class="soda-canvas" ref={canvasRef}
-          aria-label="SODA model view. Drag to orbit, shift-drag to pan, scroll to zoom."
-          tabIndex={0} />
-        </div>
-
-        <div class="soda-brand" role="img" aria-label="SODA">SODA</div>
-
-        <div class="soda-left">
-          <SectionList sections={state.sections} sectionCount={state.counts.sectionCount || 0}
-            open={sectionsOpen} onToggle={() => setSectionsOpen((value) => !value)} />
-        </div>
-
-        <div class="soda-controls">
-        <RightButtons
+    <div class="soda-view" data-soda-view="true" data-soda-status={status}
+      data-explorer={explorerOpen ? 'open' : 'closed'} onKeyDown={(event) => {
+        if (!(event.ctrlKey || event.metaKey)) return;
+        const key = event.key.toLowerCase();
+        if (key === 'z' || key === 'y') {
+          event.preventDefault();
+          applyHistory(key === 'y' || event.shiftKey ? 1 : -1);
+        }
+      }}>
+      <div class="soda-toolbar" role="toolbar" aria-label="View controls" aria-orientation="horizontal">
+        <ViewButtons
+          disabled={status !== 'ready'}
           ortho={state.ortho}
           mode={state.mode}
-          onMode={(mode) => {
-            /* The mode changes the real left-drag gesture in the renderer. */
-            viewerRef.current?.setInteractionMode(mode);
-            setState((current) => ({ ...current, mode }));
-          }}
+          onMode={(mode) => viewerRef.current?.setInteractionMode(mode)}
           onProjection={(nextOrtho) => {
-            /* Swap the actual camera (orthographic <-> perspective) and refit;
-             * the source does the same through setCameraState(cameraType). */
-            const viewer = viewerRef.current;
-            const applied = viewer?.setProjection(nextOrtho ? 'orthographic' : 'perspective');
-            setState((current) => ({
-              ...current,
-              ortho: applied ? applied !== 'perspective' : nextOrtho,
-            }));
+            viewerRef.current?.setProjection(nextOrtho ? 'orthographic' : 'perspective');
             recordView();
           }}
-          canUndo={history.index > 0}
-          canRedo={history.index < history.stack.length - 1}
-          onUndo={() => applyHistory(-1)}
-          onRedo={() => applyHistory(1)}
           onZoomIn={withViewer((viewer) => { viewer.zoomBy(1.25); recordView(); })}
           onZoomOut={withViewer((viewer) => { viewer.zoomBy(0.8); recordView(); })}
           onFit={withViewer((viewer) => { viewer.fit(); recordView(); })}
         />
+        <span class="soda-file" title={state.displayName || 'Frame-model-v2.dat'}>
+          {state.displayName || 'Frame-model-v2.dat'}
+        </span>
+      </div>
+      <div class="soda-stage">
+        <ModelExplorer materials={state.materials} sections={state.sections} counts={state.counts}
+          selection={state.selection} ready={status === 'ready'} open={explorerOpen}
+          onToggle={() => setExplorerOpen((current) => {
+            explorerChoice.current = !current;
+            return !current;
+          })} onSelect={selectLeaf} />
+        <div class="soda-scene">
+          <canvas class="soda-canvas" ref={canvasRef}
+            aria-label="SODA model view. Use the toolbar to select a drag mode, scroll to zoom."
+            tabIndex={0} />
+          <AxisGizmo basis={state.axisBasis} />
+          {status === 'loading' && <div class="soda-status" role="status">Loading model…</div>}
+          {status === 'error' && (
+            <div class="soda-status soda-status--error" role="alert">
+              <span>Unable to load the 3D model.</span>
+              {message ? <small>{message}</small> : null}
+              <button type="button" class="soda-retry" onClick={retry}>Retry</button>
+            </div>
+          )}
         </div>
-
-        <AxisGizmo basis={state.axisBasis} />
-
-        <div class="soda-statusbar" role="group" aria-label="Model information">
-          <dl class="soda-counts">
-            <div><dt>Nodes</dt><dd>{status === 'ready' ? state.counts.nodeCount ?? 0 : '—'}</dd></div>
-            <div><dt>Elements</dt><dd>{status === 'ready' ? state.counts.memberCount ?? 0 : '—'}</dd></div>
-          </dl>
-          <span class="soda-file" title={state.displayName || 'Frame-model-v2.dat'}>
-            {state.displayName || 'Frame-model-v2.dat'}
-          </span>
-        </div>
-
-        {status === 'loading' && <div class="soda-status" role="status">Loading model…</div>}
-        {status === 'error' && (
-          <div class="soda-status soda-status--error" role="alert">
-            <span>Unable to load the 3D model.</span>
-            {message ? <small>{message}</small> : null}
-            <button type="button" class="soda-retry" onClick={retry}>Retry</button>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -397,9 +453,7 @@ function SodaView({ modelUrl, metadataUrl, compressedModelUrl, bridge }) {
 
 const instances = new WeakMap();
 
-/* mount(host, { modelUrl, metadataUrl, onClose }) -> { ready, getState, destroy }.
- * Metadata and the GLB are fetched once per mount; the public API proxies the
- * renderer so tests can read quaternion, target, zoom, frame and counts. */
+/* Each host owns one renderer; public controls forward to that instance. */
 export function mount(target, options = {}) {
   const host = typeof target === 'string' ? document.querySelector(target) : target;
   if (!host || !host.nodeType) throw new Error('A SODA view host is required.');
@@ -424,7 +478,12 @@ export function mount(target, options = {}) {
     get zoom() { return bridge.current?.zoom ?? null; },
     get frames() { return bridge.current?.frames ?? 0; },
     get counts() { return bridge.current?.counts ?? { nodeCount: 0, memberCount: 0, sectionCount: 0, triangleCount: 0 }; },
-    get sections() { return bridge.current?.sections ?? []; },
+    get materials() { return bridge.current?.getState().materials ?? []; },
+    get sections() { return bridge.current?.getState().sections ?? []; },
+    get selection() { return bridge.current?.getState().selection ?? null; },
+    selectMaterial(id) { return bridge.current?.selectMaterial(id); },
+    selectSection(id) { return bridge.current?.selectSection(id); },
+    clearSelection() { return bridge.current?.clearSelection(); },
     get projection() { return bridge.current?.projection ?? 'orthographic'; },
     get interactionMode() { return bridge.current?.interactionMode ?? 'rotate'; },
     setInteractionMode(mode) { return bridge.current?.setInteractionMode(mode); },

@@ -371,6 +371,8 @@
   }
 
   function animatePanel(panel) {
+    // Features has one local blend owner; home.js still owns its section-clock pose.
+    if (panel.hasAttribute('data-feature-managed') && panel.closest('#sida')) return;
     if (!enabled() || panel.hidden || !panel.animate) return;
     const animation = panel.animate([{ opacity: .2, transform: 'translateY(15px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 520, easing: 'cubic-bezier(.16,1,.3,1)' });
     animations.add(animation);

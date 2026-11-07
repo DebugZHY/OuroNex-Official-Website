@@ -525,9 +525,9 @@
     "zh-TW": "以工程為本的 AI 公司"
   },
   "home.about-lede": {
-    "en": "OuroNex builds AI tools for structural engineering, turning design intent into analysis, checks and documentation that hold up in professional practice.",
-    "zh-CN": "OuroNex 为结构工程打造 AI 工具，把设计意图转化为经得起专业实践检验的分析、校核与文档。",
-    "zh-TW": "OuroNex 為結構工程打造 AI 工具，把設計意圖轉化為經得起專業實踐檢驗的分析、校核與文件。"
+    "en": "OuroNex’s aims at revolutionizing productivity in engineering fields. Through SIDA, we deliver tailored SaaS solutions and workflows that make AI transformation accessible to clients at every career stage, whatever their needs.",
+    "zh-CN": "OuroNex 致力于革新工程领域的生产力。我们依托 SIDA，提供定制化 SaaS 解决方案与工作流，让客户在职业生涯的每个阶段，都能轻松实现满足自身需求的 AI 转型。",
+    "zh-TW": "OuroNex 致力於革新工程領域的生產力。我們依託 SIDA，提供定製化 SaaS 解決方案與工作流，讓客戶在職業生涯的每個階段，都能輕鬆實現滿足自身需求的 AI 轉型。"
   },
   "home.about-founder-name": {
     "en": "Mr. Haoyi ZHANG",
@@ -745,9 +745,9 @@
     "zh-TW": "訂製 SaaS"
   },
   "home.enterprise-examples": {
-    "en": "Scenarios",
-    "zh-CN": "应用场景",
-    "zh-TW": "應用場景"
+    "en": "Potential Applications",
+    "zh-CN": "潜在应用",
+    "zh-TW": "潛在應用"
   },
   "home.enterprise-examples-description": {
     "en": "Enabling Automation in various engineering projects with SIDA",

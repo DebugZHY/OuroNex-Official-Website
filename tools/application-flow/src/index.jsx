@@ -1,12 +1,13 @@
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Background, BackgroundVariant, BaseEdge, Handle, MarkerType, Position, ReactFlow, ReactFlowProvider, getSmoothStepPath, useReactFlow } from '@xyflow/react';
+import { Background, BackgroundVariant, BaseEdge, Handle, MarkerType, Position, ReactFlow, ReactFlowProvider, getSmoothStepPath, useNodesInitialized, useReactFlow } from '@xyflow/react';
 import { CheckCircle2, Circle, LoaderCircle, Maximize2, RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react';
 import '@xyflow/react/dist/style.css';
 import './styles.css';
-import { APPS, EXPERTS, SERVICES, SERVICE_BY_ID, STATUS, dependenciesFor, fixedStatuses, handlesFor } from './data.js';
+import { APPS, EXPERTS, SERVICES, STATUS, dependenciesFor, fixedStatuses, handlesFor } from './data.js';
 import { layoutFor } from './layout.js';
 import { layoutBounds, roundedPath } from './geometry.js';
+import { createStageController } from './stage-bridge.js';
 
 const STATUS_ICONS = { start: Circle, running: LoaderCircle, done: CheckCircle2 };
 
@@ -109,9 +110,11 @@ function edgesFor(service, nodes, statuses, routes) {
   }).filter(Boolean);
 }
 
-function Graph({ service, statuses, selectedId, onSelect, onResetSelection }) {
+function Graph({ service, statuses, selectedId, onSelect, onResetSelection, onFitted }) {
   const { setViewport, zoomIn, zoomOut } = useReactFlow();
+  const nodesInitialized = useNodesInitialized();
   const frame = useRef(null);
+  const measured = useRef({ width: 0, height: 0 });
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
   const [ready, setReady] = useState(false);
@@ -122,43 +125,55 @@ function Graph({ service, statuses, selectedId, onSelect, onResetSelection }) {
     position: layout.positions[stage.id],
     selected: stage.id === selectedId,
     style: layout.nodeSize,
+    // Controlled nodes do not write ResizeObserver measurements back into the
+    // user node without onNodesChange. Supply the existing fixed dimensions so
+    // useNodesInitialized can wait for handles instead of waiting forever.
+    width: layout.nodeSize.width,
+    height: layout.nodeSize.height,
     data: { ...stage, status: statuses[stage.id], deps: dependenciesFor(service, stage.id), onSelect },
   })), [service, layout, selectedId, statuses, onSelect]);
   const edges = useMemo(() => edgesFor(service, nodes, statuses, layout.routes), [service, nodes, statuses, layout]);
-  const fit = useCallback(() => {
+  const fit = useCallback(async () => {
     const host = frame.current;
-    if (!host || !host.clientWidth || !host.clientHeight) return;
+    if (!host || !host.clientWidth || !host.clientHeight) return false;
     const bounds = layoutBounds(layoutFor(service, host.clientWidth));
     const availableHeight = host.clientHeight - 52;
     const scale = Math.min(1, (host.clientWidth - 28) / bounds.width, (availableHeight - 28) / bounds.height);
-    setViewport({ x: (host.clientWidth - bounds.width * scale) / 2 - bounds.x * scale, y: (availableHeight - bounds.height * scale) / 2 - bounds.y * scale, zoom: scale });
+    const applied = setViewport({ x: (host.clientWidth - bounds.width * scale) / 2 - bounds.x * scale, y: (availableHeight - bounds.height * scale) / 2 - bounds.y * scale, zoom: scale }, { duration: 0 });
     setZoom(scale);
+    return applied;
   }, [setViewport, service]);
 
   useLayoutEffect(() => {
-    let pending;
     const measure = () => {
       const { clientWidth: width, clientHeight: height } = frame.current;
-      if (width > 0 && height > 0) setSize({ width, height });
-      cancelAnimationFrame(pending);
-      pending = requestAnimationFrame(fit);
+      if (width <= 0 || height <= 0 || width === measured.current.width && height === measured.current.height) return;
+      measured.current = { width, height };
+      onFitted(false);
+      setSize({ width, height });
     };
     const observer = new ResizeObserver(measure);
     observer.observe(frame.current);
     window.addEventListener('resize', measure);
     measure();
-    return () => { observer.disconnect(); window.removeEventListener('resize', measure); cancelAnimationFrame(pending); };
-  }, [fit]);
+    return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
+  }, [onFitted]);
 
-  useEffect(() => {
-    if (!ready || !size.width || !nodes.length) return;
-    let cancelled = false;
-    const id = requestAnimationFrame(() => { if (!cancelled) fit(); });
-    return () => { cancelled = true; cancelAnimationFrame(id); };
-  }, [ready, size.width, size.height, service.id, fit, nodes.length]);
+  useLayoutEffect(() => {
+    if (!ready || !nodesInitialized || !size.width || !nodes.length) return;
+    let cancelled = false, pending = 0;
+    onFitted(false);
+    // Do not expose the initial 100% viewport. Wait for measured nodes, the
+    // actual setViewport promise and its committed DOM before the crossfade.
+    fit().then(applied => {
+      if (cancelled || applied === false) return;
+      pending = requestAnimationFrame(() => { if (!cancelled) onFitted(true); });
+    });
+    return () => { cancelled = true; cancelAnimationFrame(pending); };
+  }, [ready, nodesInitialized, size.width, size.height, service.id, fit, nodes.length, onFitted]);
 
   return <div className="apf-graph" ref={frame}>
-    <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} onInit={() => setReady(true)} colorMode="dark"
+    <ReactFlow id={`apf-flow-${service.id}`} nodes={nodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} onInit={() => setReady(true)} colorMode="dark"
       onNodeClick={(_, node) => onSelect(node.id)} onMove={(_, viewport) => setZoom(viewport.zoom)}
       nodesDraggable={false} nodesConnectable={false} elementsSelectable
       minZoom={.35} maxZoom={1.5} deleteKeyCode={null} zoomOnDoubleClick={false} zoomOnScroll={false} panOnScroll={false} preventScrolling={false}
@@ -201,25 +216,49 @@ function ServiceTabs({ activeId, onChange }) {
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % SERVICES.length;
     if (event.key === 'Home') next = 0;
     if (event.key === 'End') next = SERVICES.length - 1;
-    onChange(SERVICES[next].id);
-    refs.current[next]?.focus();
+    onChange(SERVICES[next].id, 'keyboard');
+    refs.current[next]?.focus({ preventScroll: true });
   }
   return <div className="apf-tabs" role="tablist" aria-label="Engineering services">
     {SERVICES.map((service, index) => <button key={service.id} ref={node => { refs.current[index] = node; }} type="button" role="tab"
       id={`apf-tab-${service.id}`} aria-selected={service.id === activeId} aria-controls="apf-panel" tabIndex={service.id === activeId ? 0 : -1}
-      onClick={() => onChange(service.id)} onKeyDown={event => onKeyDown(event, index)}>{service.label}</button>)}
+      onClick={() => onChange(service.id, 'manual')} onKeyDown={event => onKeyDown(event, index)}>{service.label}</button>)}
   </div>;
 }
 
-function App() {
-  const [activeId, setActiveId] = useState(SERVICES[0].id);
-  const [selectedByService, setSelectedByService] = useState({});
-  const service = SERVICE_BY_ID[activeId];
+function CaseLayer({ index, controller, selectedId, onSelect }) {
+  const element = useRef(null);
+  const service = SERVICES[index];
   const statuses = useMemo(() => fixedStatuses(service), [service]);
+  const selected = service.nodes.find(stage => stage.id === selectedId) || null;
+  const select = useCallback(id => onSelect(service.id, id), [onSelect, service.id]);
+  const reset = useCallback(() => onSelect(service.id, null), [onSelect, service.id]);
+  const fitted = useCallback(value => controller.fitted(index, value), [controller, index]);
+  useLayoutEffect(() => {
+    controller.mount(index, element.current);
+    return () => controller.mount(index, null);
+  }, [controller, index]);
+  return <section className="apf-case" ref={element} data-case-id={service.id} data-case-index={index}
+    aria-label={service.label}>
+    <ReactFlowProvider>
+      <Graph service={service} statuses={statuses} selectedId={selected?.id || null} onSelect={select}
+        onResetSelection={reset} onFitted={fitted} />
+    </ReactFlowProvider>
+    {selected ? <NodeDetail service={service} stage={{ ...selected, status: statuses[selected.id] }} onClose={reset} /> : null}
+  </section>;
+}
+
+function App() {
+  const [reading, setReading] = useState({ selectedIndex: 0, mountedIndices: [0], phase: 'preparing', revision: 0 });
+  const controller = useMemo(() => createStageController(window, SERVICES, setReading), []);
+  const activeId = SERVICES[reading.selectedIndex].id;
+  const [selectedByService, setSelectedByService] = useState({});
   const [visible, setVisible] = useState(true);
   const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [hostPaused, setHostPaused] = useState(false);
   const root = useRef(null);
+  useLayoutEffect(() => { controller.connect(); return () => controller.destroy(); }, [controller]);
+  useLayoutEffect(() => { controller.setReduced(reduced || hostPaused || !visible); }, [controller, reduced, hostPaused, visible]);
 
   useEffect(() => {
     let inView = true;
@@ -249,22 +288,18 @@ function App() {
     };
   }, []);
 
-  const selected = service.nodes.find(stage => stage.id === selectedByService[activeId]) || null;
+  const selectStage = useCallback((serviceId, id) => {
+    setSelectedByService(current => ({ ...current, [serviceId]: id }));
+  }, []);
 
-  function selectStage(id) {
-    setSelectedByService(current => ({ ...current, [activeId]: id }));
-  }
-
-  return <div className="apf-shell" ref={root} data-motion-paused={!visible || reduced || hostPaused ? 'true' : 'false'}>
+  return <div className="apf-shell" ref={root} data-motion-paused={!visible || reduced || hostPaused ? 'true' : 'false'}
+    data-case-id={activeId} data-case-index={reading.selectedIndex} data-case-transition={reading.phase} data-case-revision={reading.revision}>
     <header className="apf-head">
-      <ServiceTabs activeId={activeId} onChange={setActiveId} />
+      <ServiceTabs activeId={activeId} onChange={(id, source) => controller.api.select(SERVICES.findIndex(service => service.id === id), { source })} />
     </header>
-    <main className="apf-canvas" id="apf-panel" role="tabpanel" aria-labelledby={`apf-tab-${activeId}`}>
-      <ReactFlowProvider key={service.id}>
-        <Graph service={service} statuses={statuses} selectedId={selected?.id || null} onSelect={selectStage}
-          onResetSelection={() => setSelectedByService(current => ({ ...current, [activeId]: null }))} />
-      </ReactFlowProvider>
-      {selected ? <NodeDetail service={service} stage={{ ...selected, status: statuses[selected.id] }} onClose={() => setSelectedByService(current => ({ ...current, [activeId]: null }))} /> : null}
+    <main className="apf-canvas" id="apf-panel" role="tabpanel" aria-labelledby={`apf-tab-${activeId}`} aria-busy={reading.phase === 'preparing'}>
+      {reading.mountedIndices.map(index => <CaseLayer key={SERVICES[index].id} index={index} controller={controller}
+        selectedId={selectedByService[SERVICES[index].id]} onSelect={selectStage} />)}
     </main>
   </div>;
 }

@@ -51,6 +51,11 @@
   padding-bottom: 1.75rem;
 }
 
+.application-section .enterprise-examples > .application-panel__header {
+  min-height: 0;
+  padding-bottom: 1.5rem;
+}
+
 .application-section .application-panel__header > h2 {
   margin: 0;
   color: #eef4fc;
@@ -192,6 +197,10 @@
 
   .application-section .application-panel__header {
     min-height: 0;
+  }
+
+  .application-section .enterprise-examples > .application-panel__header {
+    padding-bottom: 1rem;
   }
 
   .application-section .plan-features {
