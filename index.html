@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="gate-locked" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -44,6 +44,7 @@ root.removeAttribute("data-flow");
 <script defer="" src="/assets/i18n/shared.js"></script>
 <script defer="" src="/assets/i18n/home.js"></script>
 <script defer="" src="/assets/i18n.js"></script>
+<script defer="" src="assets/gate.js"></script>
 <script defer="" src="assets/site.js"></script>
 <script defer="" src="assets/home-scene-clock.js"></script>
 <script defer="" src="assets/home.js"></script>
@@ -73,8 +74,10 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
 })();
 </script>
 <script defer="" src="assets/motion.js"></script>
+<link href="assets/gate.css" rel="stylesheet"/>
 </head>
-<body class="home-page" data-i18n-page="home" data-page="home">
+<body class="home-page gate-locked" data-i18n-page="home" data-page="home">
+<div aria-label="Restricted access" aria-modal="true" id="site-gate" role="dialog" tabindex="-1"></div>
 <a class="skip-link" href="#main"><span data-i18n="shared.skip-to-content.0a4470">Skip to content</span></a>
 <header class="site-header">
 <div class="nav-shell">

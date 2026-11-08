@@ -1,0 +1,26 @@
+html.gate-locked,
+html.gate-locked body {
+  overflow: hidden !important;
+  background: #ffffff;
+}
+
+body.gate-locked {
+  overflow: hidden !important;
+}
+
+body.gate-locked > :not(#site-gate) {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+#site-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: #ffffff;
+  cursor: default;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}

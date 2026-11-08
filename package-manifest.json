@@ -429,9 +429,9 @@
     },
     {
       "path": "index.html",
-      "bytes": 25390,
-      "sha256": "998c237415a71f1653328b41ac77404a064864adb1bfa2e9071fe98ea1fe9e95",
-      "size": 25390
+      "bytes": 25622,
+      "sha256": "f3cba45c5535ef8ba10f0275da8b99680818aa371c4c1039e7078fc31f18d3c8",
+      "size": 25622
     },
     {
       "path": "news/_template.html",
@@ -822,6 +822,18 @@
       "bytes": 3739,
       "sha256": "60ec2f2c9ef98f4538896c2ae23a18fad47d5b0661c64c03797980175edf094c",
       "size": 3739
+    },
+    {
+      "path": "assets/gate.css",
+      "bytes": 483,
+      "sha256": "4534a5a93b3c633565f410491cf9a30f3ca3e53e82d787c7226a902c36de1809",
+      "size": 483
+    },
+    {
+      "path": "assets/gate.js",
+      "bytes": 2093,
+      "sha256": "2477e77feabefc0a2d0b8990bc7a6676ec89d03bdb048a394f61517a180bc4fb",
+      "size": 2093
     }
   ]
 }

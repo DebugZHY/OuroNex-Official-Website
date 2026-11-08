@@ -35,6 +35,8 @@ const entries = new Map();
 const resources = names.map((name) => `workflow-stages/ui/${name}`);
 resources.push(
   'SIDA-Logo-3D/建造者机器人立体图标.glb',
+  'assets/gate.css',
+  'assets/gate.js',
   'assets/home.css',
   'assets/home.js',
   'assets/home-scenes.css',
