@@ -5,9 +5,9 @@ import { createSodaEnvironment } from './soda-environment.js';
 /* SODA 3D view renderer.
  *
  * One camera (orthographic or perspective, switched by the projection control)
- * uses SODA's Z-Axis turntable quaternion: source-Z yaw and camera-local-X
- * pitch. A view-plane pan offset keeps the model's projected centre stable
- * while orbiting, including after a pan.
+ * uses SODA's fixed-axis turntable quaternion: source vertical-axis yaw and
+ * camera-local-X pitch. A view-plane pan offset keeps the model's projected
+ * centre stable while orbiting, including after a pan.
  * Everything is drawn on demand: a change marks the frame dirty and schedules
  * one requestAnimationFrame; there is no continuous loop.
  */
@@ -428,6 +428,8 @@ export function createSodaViewer(canvas, options = {}) {
    * becomes display +Y, the yaw axis for Z-Axis mode. Initialise after metadata
    * loads so an explicitly Y-up asset uses the identity mapping. */
   const SOURCE_TO_DISPLAY = new THREE.Quaternion();
+  /* Source-space vertical axis: Z for NIDA-style models, Y for SODA JSON. */
+  const sourceUp = new THREE.Vector3(0, 0, 1);
 
   /* Display-space centre of the model. The metadata centre is a SOURCE-space
    * point, so it must be rotated before it is used to offset the display frame;
@@ -526,9 +528,9 @@ export function createSodaViewer(canvas, options = {}) {
 
   function resetView() {
     invalidateTaps();
-    /* SODA's positive XYZ isometric, mapped from the Z-up source to Y-up. */
+    /* SODA's positive XYZ isometric, mapped from the source frame to Y-up. */
     const direction = new THREE.Vector3(1, 1, 1).applyQuaternion(SOURCE_TO_DISPLAY);
-    const up = new THREE.Vector3(0, 0, 1).applyQuaternion(SOURCE_TO_DISPLAY);
+    const up = sourceUp.clone().applyQuaternion(SOURCE_TO_DISPLAY);
     rotation = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(direction, new THREE.Vector3(), up)).normalize();
     target.set(0, 0, 0);
     zoom = 1;
@@ -754,7 +756,7 @@ export function createSodaViewer(canvas, options = {}) {
     const height = Math.max(canvas.clientHeight, 1);
     const yaw = (-dx / height) * Math.PI * 2;
     const pitch = (-dy / height) * Math.PI * 2;
-    const orbitUp = new THREE.Vector3(0, 0, 1).applyQuaternion(SOURCE_TO_DISPLAY);
+    const orbitUp = sourceUp.clone().applyQuaternion(SOURCE_TO_DISPLAY);
     const yawQ = new THREE.Quaternion().setFromAxisAngle(orbitUp, yaw);
     const pitchQ = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), pitch);
     rotation = normalisedQuaternion(yawQ.multiply(rotation).multiply(pitchQ));
@@ -1073,6 +1075,7 @@ export function createSodaViewer(canvas, options = {}) {
       if (destroyed) return;
       metadata = assets[0];
       SOURCE_TO_DISPLAY.setFromAxisAngle(new THREE.Vector3(1, 0, 0), metadata.upAxis === 'Y' ? 0 : -Math.PI / 2);
+      sourceUp.set(0, metadata.upAxis === 'Y' ? 1 : 0, metadata.upAxis === 'Y' ? 0 : 1);
       bounds = { min: metadata.bounds.min.slice(), max: metadata.bounds.max.slice() };
       center = new THREE.Vector3(...metadata.center);
       counts = {

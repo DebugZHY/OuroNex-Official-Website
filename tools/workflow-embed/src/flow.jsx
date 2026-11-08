@@ -153,14 +153,14 @@ function edgesFor(activeEdgeId, links) {
       markerEnd: { type: MarkerType.ArrowClosed, color, width: active ? 14 : 12, height: active ? 14 : 12 },
     };
     if (loop) {
-      edge.label = 'iteration';
+      edge.label = 'loop';
       edge.labelStyle = { fill: active ? '#ffe0ae' : '#f3bd72', fontSize: 10, fontFamily: 'ui-monospace, monospace' };
       edge.labelBgStyle = { fill: '#0b1622', fillOpacity: .92, stroke: active ? '#c79a4a' : '#86642a', strokeWidth: 1 };
       edge.labelBgPadding = [5, 2];
       edge.labelBgBorderRadius = 5;
     }
     if (active) {
-      edge.ariaLabel = `${loop ? 'Feedback iteration' : 'Workflow'} connection in progress`;
+      edge.ariaLabel = `${loop ? 'Feedback loop' : 'Workflow'} connection in progress`;
       edge.animated = false;
     }
     return edge;

@@ -106,6 +106,7 @@
    descendants, while this card has its own stacking context above the centre. */
 .we-sup { position: relative; z-index: 1; display: flex; flex-direction: column; grid-column: 3; grid-row: 1; min-width: 0; min-height: 0; overflow: hidden; border: 1px solid var(--we-border); border-radius: 14px; background: var(--we-panel); box-shadow: 0 1px 2px rgb(0 0 0 / .05); isolation: isolate; }
 .we-sup > * { min-width: 0; }
+.we-sup-inner { display: flex; flex-direction: column; flex: 1 1 auto; width: 100%; min-width: 0; min-height: 0; }
 .we-sup-head { flex: none; padding: 10px 14px; }
 .we-sup-head h2 { margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--we-text); }
 .we-sup-meta { margin: 4px 0 0; font-size: 12px; line-height: 16px; color: var(--we-muted); }
@@ -164,6 +165,35 @@
   .we-shell .we-switch button { gap: 3px; padding-inline: 4px; }
   .we-shell[data-sup="on"][data-rail="on"] .we-tabs :is(.we-rail-toggle, .we-sup-toggle) { width: 28px; padding: 0; }
   .we-shell[data-sup="on"][data-rail="on"] :is(.we-rail-label, .we-sup-label) { display: none; }
+}
+
+/* The centre and Router change together: the Router track grows while the centre track gives up
+   the same width, and the outer padding returns, so the 8px gutter stays put throughout. */
+@container (min-width: 800px) {
+  .we-shell[data-rail="on"] {
+    grid-template-columns: var(--we-nav-width) minmax(0, 1fr) 0px;
+    padding-right: 0;
+    transition: grid-template-columns .48s cubic-bezier(.22,.61,.36,1), padding-right .48s cubic-bezier(.22,.61,.36,1);
+  }
+  .we-shell[data-rail="on"][data-sup="on"] {
+    grid-template-columns: var(--we-nav-width) minmax(0, 1fr) var(--we-bot-width);
+    padding-right: 8px;
+  }
+  .we-shell[data-rail="on"] .we-sup {
+    position: relative; inset: auto; display: flex; width: auto; height: auto;
+    grid-column: 3; grid-row: 1; z-index: 1;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    box-shadow: 0 1px 2px rgb(0 0 0 / .05);
+    transition: opacity .48s cubic-bezier(.22,.61,.36,1), visibility 0s linear .48s;
+  }
+  .we-shell[data-rail="on"][data-sup="on"] .we-sup {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity .48s cubic-bezier(.22,.61,.36,1), visibility 0s;
+  }
+  .we-shell[data-rail="on"] .we-sup-inner {
+    flex: none; width: calc(var(--we-bot-width) - 2px); min-width: calc(var(--we-bot-width) - 2px);
+    height: 100%;
+  }
 }
 
 @container (max-width: 560px) {

@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 /*
- * Bake a NIDA model using SODA's Element display and extrusion rules.
+ * Bake a SODA model using its Element display and extrusion rules.
  *
- * Read-only inputs: the source .dat and the bundled SODA parser/extrusion code.
- * Outputs: workflow-stages/models/steel-frame.glb, .glb.gz and .meta.json.
+ * Read-only inputs: the source .dat/.json and the bundled SODA parser/extrusion code.
+ * Outputs: workflow-stages/models/<name>.glb, .glb.gz and .meta.json.
  * Set SODA_OUTPUT_DIR for isolated reproducibility checks and SODA_PROOF_DIR
  * for full conversion evidence outside the published model directory.
  *
  * Usage:
  *   node tools/workflow-embed/prepare-model.mjs "D:/path/to/model.dat"
+ *   node tools/workflow-embed/prepare-model.mjs "D:/path/to/model.json"
  *
- * The source keeps NIDA's Z-up coordinates. No solver, loads, supports, node markers,
+ * Coordinates are kept in the source frame. No solver, loads, supports, node markers,
  * grid, camera, lights, textures or animation are written.
  */
 import fs from 'node:fs';
@@ -25,21 +26,23 @@ import * as THREE from 'three';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '..', '..');
 const outDir = process.env.SODA_OUTPUT_DIR || path.join(repo, 'workflow-stages', 'models');
-const outGlb = path.join(outDir, 'steel-frame.glb');
-const outMeta = path.join(outDir, 'steel-frame.meta.json');
 const sodaRoot = process.env.SODA_SOURCE_ROOT || 'D:/Development/SIDA/apps/soda-app/dist/source';
 const sourcePath = process.argv[2];
+const isSodaJson = /\.json$/i.test(String(sourcePath || ''));
+const outputBase = isSodaJson ? 'transmission-tower' : 'steel-frame';
+const outGlb = path.join(outDir, `${outputBase}.glb`);
+const outMeta = path.join(outDir, `${outputBase}.meta.json`);
 const proofDir = process.env.SODA_PROOF_DIR || path.join(outDir, '..', '..', '_scratch', 'model-proof');
 
 if (!sourcePath) {
-  console.error('Usage: node tools/workflow-embed/prepare-model.mjs <NIDA-model.dat>');
+  console.error('Usage: node tools/workflow-embed/prepare-model.mjs <NIDA-model.dat|SODA-model.json>');
   process.exit(2);
 }
 if (!fs.existsSync(sourcePath)) {
   console.error(`Source model not found: ${sourcePath}`);
   process.exit(2);
 }
-if (!fs.existsSync(path.join(sodaRoot, 'core', 'interchange', 'input', 'nida', 'NidaImporter.js'))) {
+if (!isSodaJson && !fs.existsSync(path.join(sodaRoot, 'core', 'interchange', 'input', 'nida', 'NidaImporter.js'))) {
   console.error(`SODA source root not found or incomplete: ${sodaRoot}`);
   process.exit(2);
 }
@@ -47,24 +50,46 @@ if (!fs.existsSync(path.join(sodaRoot, 'core', 'interchange', 'input', 'nida', '
 const sourceBytes = fs.readFileSync(sourcePath);
 const sourceSha256 = crypto.createHash('sha256').update(sourceBytes).digest('hex');
 const sourceFile = path.basename(sourcePath);
-const requireSoda = createRequire(path.join(sodaRoot, 'core', 'package.json'));
-const importer = requireSoda(path.join(sodaRoot, 'core', 'interchange', 'input', 'nida', 'NidaImporter.js'));
 
-const imported = await importer.importText(sourceBytes.toString('utf8'), { fileName: sourceFile });
-const model = imported.modelData;
-if (!model) {
-  console.error('NIDA import produced no model data.');
-  console.error(JSON.stringify(imported.diagnostics || [], null, 2));
-  process.exit(1);
+let model, importedSummary, sourceUnits, upAxis, displayName, parserName, sourceVersion;
+if (isSodaJson) {
+  const json = JSON.parse(sourceBytes.toString('utf8'));
+  const normalized = normalizeSodaJsonModel(json);
+  model = normalized.model;
+  importedSummary = normalized.summary;
+  upAxis = normalized.upAxis;
+  sourceUnits = { length: 'm', force: 'kN' };
+  displayName = 'Frame-model-v2.dat';
+  parserName = `SODA JSON ${json.VERSION || ''}`.trim();
+  sourceVersion = json.VERSION ?? null;
+} else {
+  const requireSoda = createRequire(path.join(sodaRoot, 'core', 'package.json'));
+  const importer = requireSoda(path.join(sodaRoot, 'core', 'interchange', 'input', 'nida', 'NidaImporter.js'));
+  const imported = await importer.importText(sourceBytes.toString('utf8'), { fileName: sourceFile });
+  model = imported.modelData;
+  if (!model) {
+    console.error('NIDA import produced no model data.');
+    console.error(JSON.stringify(imported.diagnostics || [], null, 2));
+    process.exit(1);
+  }
+  const importErrors = (imported.diagnostics || []).filter(item => item.severity === 'error');
+  if (importErrors.length) {
+    console.error(`NIDA import reported ${importErrors.length} error(s); refusing to emit a partial model.`);
+    process.exit(1);
+  }
+  importedSummary = imported.summary;
+  sourceUnits = model.NIDA_SOURCE?.units || {};
+  upAxis = 'Z';
+  displayName = 'Frame-model-v2.dat';
+  parserName = 'SODA NidaImporter (bundled source)';
+  sourceVersion = model.NIDA_SOURCE?.version ?? null;
 }
-const importErrors = (imported.diagnostics || []).filter(item => item.severity === 'error');
-if (importErrors.length) {
-  console.error(`NIDA import reported ${importErrors.length} error(s); refusing to emit a partial model.`);
-  process.exit(1);
-}
-const sourceUnits = model.NIDA_SOURCE?.units || {};
 if (sourceUnits.length !== 'm') {
   console.error(`Expected source length unit 'm', found ${JSON.stringify(sourceUnits.length)}. Nothing written.`);
+  process.exit(1);
+}
+if (upAxis !== 'Z' && upAxis !== 'Y') {
+  console.error(`Expected a Z-up or Y-up source model, found ${JSON.stringify(upAxis)}. Nothing written.`);
   process.exit(1);
 }
 
@@ -80,6 +105,98 @@ const geometryApi = sandbox.window.ViewBridgeExtrusionLayout;
 if (!geometryApi || typeof geometryApi.buildMemberTriangles !== 'function') {
   console.error('SODA ViewBridgeExtrusionLayout.buildMemberTriangles is unavailable.');
   process.exit(1);
+}
+
+/* SODA JSON stores section geometry in parallel SECTIONGEOMETRY rows. Apply the
+ * same field order as core/model/geometry/Elements.js: array rows carry a fixed
+ * dimension block followed by 0-255 RGB colour channels. */
+function rgb255ToHex(r, g, b) {
+  const values = [r, g, b].map(Number);
+  if (!values.every(Number.isFinite)) return null;
+  const channel = value => Math.max(0, Math.min(255, Math.round(value))).toString(16).padStart(2, '0');
+  return `#${values.map(channel).join('')}`;
+}
+
+function normalizeSodaJsonModel(json) {
+  if (!json || typeof json !== 'object') throw new Error('SODA JSON model must be an object.');
+  const nodeRows = Array.isArray(json.NODE) ? json.NODE : null;
+  const elementRows = Array.isArray(json.ELEMENT) ? json.ELEMENT : null;
+  const sectionRows = Array.isArray(json.SECTION) ? json.SECTION : null;
+  const materialRows = Array.isArray(json.MATERIAL) ? json.MATERIAL : null;
+  if (!nodeRows?.length || !elementRows?.length || !sectionRows?.length || !materialRows?.length) {
+    throw new Error('SODA JSON model is missing NODE, ELEMENT, SECTION or MATERIAL rows.');
+  }
+  const nodes = nodeRows.map(row => {
+    if (!Array.isArray(row) || row.length < 4 || !row.slice(0, 4).every(value => Number.isFinite(Number(value)))) {
+      throw new Error('SODA JSON NODE rows must be [id, x, y, z] with finite coordinates.');
+    }
+    return [Number(row[0]), Number(row[1]), Number(row[2]), Number(row[3])];
+  });
+  const elements = elementRows.map(element => {
+    if (!element || !Number.isInteger(Number(element.id)) || !Number.isFinite(Number(element.beta))) {
+      throw new Error('SODA JSON ELEMENT rows must carry a numeric id, nodes, section, material and beta.');
+    }
+    return { ...element, id: Number(element.id), startNode: Number(element.startNode), endNode: Number(element.endNode),
+      section: Number(element.section), material: Number(element.material), beta: Number(element.beta) };
+  });
+  const geometryById = new Map();
+  for (const row of json.SECTIONGEOMETRY || []) {
+    if (!Array.isArray(row) || row.length < 2) continue;
+    const id = Number(row[0]);
+    const sectionType = Math.round(Number(row[1]));
+    let dimensions = [];
+    let colorOffset = -1;
+    if (sectionType === 15) {
+      dimensions = [row[2], row[3], row[5], row[7], row[4]];
+      colorOffset = 8;
+    } else if (sectionType === 16) {
+      dimensions = [row[2], row[3], row[4], row[5], row[6]];
+      colorOffset = 8;
+    } else if (sectionType === 11 || sectionType === 12) {
+      dimensions = row.slice(2, 8);
+      colorOffset = 8;
+    } else if ([2, 4, 5, 6, 7, 8, 9, 10, 14].includes(sectionType)) {
+      dimensions = [row[2], row[3], row[4], row[5]];
+      colorOffset = 6;
+    } else {
+      continue;
+    }
+    if (!dimensions.every(value => Number.isFinite(Number(value)))) {
+      throw new Error(`SECTIONGEOMETRY row ${id} has non-numeric dimensions.`);
+    }
+    const extrudeColor = colorOffset >= 0 ? rgb255ToHex(row[colorOffset], row[colorOffset + 1], row[colorOffset + 2]) : null;
+    geometryById.set(id, { sectionType, dimensions: dimensions.map(Number), ...(extrudeColor ? { extrudeColor } : {}) });
+  }
+  const sections = sectionRows.map(section => {
+    if (!section || !Number.isInteger(Number(section.id)) || typeof section.name !== 'string' || !section.name.trim()) {
+      throw new Error('SODA JSON SECTION rows must carry an integer id and a name.');
+    }
+    const id = Number(section.id);
+    return { ...section, id, sectionGeometry: geometryById.get(id) };
+  });
+  const usedSections = new Set(elements.map(element => element.section));
+  const missingGeometry = [...usedSections].filter(id => !geometryById.has(id));
+  if (missingGeometry.length) {
+    throw new Error(`Sections ${missingGeometry.join(', ')} have no SODA SECTIONGEOMETRY row.`);
+  }
+  const upAxis = String(json.VIEW_SETTINGS?.upAxis || 'Y').toUpperCase();
+  const summary = {
+    nodes: nodes.length,
+    elements: elements.length,
+    sections: sections.length,
+    materials: materialRows.length,
+    boundaries: (json.BOUNDARY || []).length,
+    importedAreas: (json.AREA || []).length,
+    importedAreaLoads: (json.AREALOAD || []).length,
+    importedUniformLoads: (json.UNIFORMLOAD || []).length,
+    importedPointLoads: (json.MEMBERPOINTLOAD || []).length,
+    importedJointLoads: (json.JOINTLOAD || []).length,
+  };
+  return {
+    upAxis,
+    summary,
+    model: { NODE: nodes, ELEMENT: elements, SECTION: sections, MATERIAL: materialRows, AREA: json.AREA || [] },
+  };
 }
 
 const nodeById = new Map((model.NODE || []).map(row => [row[0], row]));
@@ -449,11 +566,11 @@ for (const group of groups) {
 const glbJson = {
   asset: {
     version: '2.0',
-    generator: 'OuroNex SIDA NIDA Element(Extrude) converter',
-    extras: { upAxis: 'Z', units: 'm', sourceSha256, memberCount: elements.length, triangleCount },
+    generator: `OuroNex SIDA ${isSodaJson ? 'SODA JSON' : 'NIDA'} Element(Extrude) converter`,
+    extras: { upAxis, units: 'm', sourceSha256, memberCount: elements.length, triangleCount },
   },
   scene: 0,
-  scenes: [{ name: 'SIDA steel frame — Element(Extrude)', nodes: glbNodes.map((_, index) => index), extras: { upAxis: 'Z', units: 'm' } }],
+  scenes: [{ name: `SIDA ${isSodaJson ? 'transmission tower' : 'steel frame'} — Element(Extrude)`, nodes: glbNodes.map((_, index) => index), extras: { upAxis, units: 'm' } }],
   nodes: glbNodes,
   meshes,
   materials,
@@ -481,7 +598,7 @@ const glb = Buffer.concat([header, jsonHeader, jsonChunk, binHeader, binChunk]);
 
 const meta = {
   formatVersion: 1,
-  upAxis: 'Z',
+  upAxis,
   units: 'm',
   center,
   bounds,
@@ -493,7 +610,9 @@ const meta = {
   materials: displayMaterials,
   sourceMaterials,
   sourceMaterialRows: model.MATERIAL,
-  materialMembership: 'ELEMENT[].material is the source of every member/group material ID; MATERIAL [id, name, ...] supplies names. The two approved display groups apply only to the identified example SHA; no imported material assignment is changed.',
+  materialMembership: isSodaJson
+    ? 'ELEMENT[].material is the source of every member/group material ID; MATERIAL [id, name, ...] supplies names. No imported material assignment is changed.'
+    : 'ELEMENT[].material is the source of every member/group material ID; MATERIAL [id, name, ...] supplies names. The two approved display groups apply only to the identified example SHA; no imported material assignment is changed.',
   groups: groups.map(group => ({ ...ownership(group), edgeMemberIds: group.edgeMemberIds,
     triangleCount: group.stats.triangleCount, edgeSegmentCount: group.edges.length / 6,
     representation: group.mode === 4 ? 'ElementExtrude' : 'ElementLine' })),
@@ -501,33 +620,39 @@ const meta = {
   vertexCount,
   sourceSha256,
   sourceFile,
-  displayName: 'Frame-model-v2.dat',
+  displayName,
   sourceUnits,
-  sourceNidaVersion: model.NIDA_SOURCE?.version ?? null,
-  coordinateSystem: 'NIDA source coordinates retained: Z-up, metres. No rotation, translation or scale applied.',
-  sectionColors: 'Follows the bundled SODA reader/display convention, with no channel swap: ReadFromNida.colorToHex(section.color) writes the NIDA decimal -color as #rrggbb into sectionGeometry.extrudeColor (ReadFromNida.js:597-603, 4818); SectionExtrusions.js normalizes that exact extrudeColor for display.',
-  memberOrientation: 'NIDA *MemberOrientation MembAngle values become element.beta in radians; SODA calculateElementBasis applies them to the section local axes.',
+  sourceFormat: isSodaJson ? 'SODA JSON' : 'NIDA DAT',
+  sourceVersion,
+  sourceNidaVersion: isSodaJson ? null : sourceVersion,
+  coordinateSystem: `Source coordinates retained: ${upAxis}-up, metres. No rotation, translation or scale applied.`,
+  sectionColors: isSodaJson
+    ? 'SODA JSON SECTIONGEOMETRY stores colour as 0-255 RGB integers; each row becomes #rrggbb with SectionColor.rgb255ToHex and no channel swap.'
+    : 'Follows the bundled SODA reader/display convention, with no channel swap: ReadFromNida.colorToHex(section.color) writes the NIDA decimal -color as #rrggbb into sectionGeometry.extrudeColor (ReadFromNida.js:597-603, 4818); SectionExtrusions.js normalizes that exact extrudeColor for display.',
+  memberOrientation: isSodaJson
+    ? 'ELEMENT.beta is stored in radians in the SODA JSON model and is passed unchanged to SODA calculateElementBasis.'
+    : 'NIDA *MemberOrientation MembAngle values become element.beta in radians; SODA calculateElementBasis applies them to the section local axes.',
   memberOffsets: 'Element endpoints follow the imported node coordinates. This static view uses SODA undeformed member extrusion.',
   sectionOffsets: 'Section shape-loop coordinates (including SODA shape/centroid offsets) are baked by ViewBridgeExtrusionLayout.buildMemberTriangles.',
   conversion: {
     script: 'tools/workflow-embed/prepare-model.mjs',
-    parser: 'SODA NidaImporter (bundled source)',
+    parser: parserName,
     geometry: 'SODA ViewBridgeExtrusionLayout.buildMemberTriangles + calculateElementBasis',
     sourceRoot: 'configured by SODA_SOURCE_ROOT at conversion time (not part of this metadata)',
   },
   sourceSummary: {
-    nodes: imported.summary.nodes,
-    elements: imported.summary.elements,
-    sections: imported.summary.sections,
-    materials: imported.summary.materials,
-    boundaries: imported.summary.boundaries,
-    areas: imported.summary.importedAreas,
-    areaLoads: imported.summary.importedAreaLoads,
+    nodes: importedSummary.nodes,
+    elements: importedSummary.elements,
+    sections: importedSummary.sections,
+    materials: importedSummary.materials,
+    boundaries: importedSummary.boundaries,
+    areas: importedSummary.importedAreas,
+    areaLoads: importedSummary.importedAreaLoads,
   },
   excluded: {
-    areas: imported.summary.importedAreas,
-    boundaries: imported.summary.boundaries,
-    loads: (imported.summary.importedAreaLoads || 0) + (imported.summary.importedUniformLoads || 0) + (imported.summary.importedPointLoads || 0) + (imported.summary.importedJointLoads || 0),
+    areas: importedSummary.importedAreas,
+    boundaries: importedSummary.boundaries,
+    loads: (importedSummary.importedAreaLoads || 0) + (importedSummary.importedUniformLoads || 0) + (importedSummary.importedPointLoads || 0) + (importedSummary.importedJointLoads || 0),
     reason: 'The deliverable is a static Element(Extrude) geometry display only.',
   },
   sourceNodeBounds,

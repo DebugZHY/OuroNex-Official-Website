@@ -2,9 +2,9 @@ const assetBase = new URL('.', document.currentScript?.src || document.baseURI);
 let pending;
 
 export const deliverableUrls = Object.freeze({
-  modelUrl: new URL('../models/steel-frame.glb', assetBase).href,
-  compressedModelUrl: new URL('../models/steel-frame.glb.gz', assetBase).href,
-  metadataUrl: new URL('../models/steel-frame.meta.json', assetBase).href,
+  modelUrl: new URL('../models/transmission-tower.glb', assetBase).href,
+  compressedModelUrl: new URL('../models/transmission-tower.glb.gz', assetBase).href,
+  metadataUrl: new URL('../models/transmission-tower.meta.json', assetBase).href,
 });
 
 export function prepareModelView() {

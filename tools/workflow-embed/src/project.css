@@ -8,7 +8,7 @@
 .we-deliverable-fallback p { width: 100%; }
 .we-deliverable-fallback button { padding: 8px 12px; border: 1px solid var(--we-border); border-radius: 8px; background: var(--we-panel); color: var(--we-text); cursor: pointer; }
 .we-shell[data-transition="opening"] .we-screen-welcome { animation: we-welcome-leave .24s ease both; }
-.we-shell[data-transition="entering"] .we-screen-flow { animation: we-flow-arrive .48s cubic-bezier(.16,1,.3,1) both; }
+.we-shell[data-transition="entering"] .we-screen-flow { animation: we-flow-arrive .48s cubic-bezier(.22,.61,.36,1) both; }
 .we-project-transition { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; overflow: hidden; padding: 24px; background: radial-gradient(ellipse at 50% 44%, #163b52 0%, #101f32 44%, #0b1523 80%); text-align: center; animation: we-veil-arrive .2s ease both; }
 .we-project-transition::before { content: ""; position: absolute; left: 50%; top: 46%; width: 340px; height: 340px; border: 1px solid #609bd82e; border-radius: 50%; background: radial-gradient(circle, #5fc9ed14, transparent 65%); transform: translate(-50%,-50%); animation: we-project-orbit .8s cubic-bezier(.16,1,.3,1) both; pointer-events: none; }
 .we-project-transition b { z-index: 1; color: #eef7ff; font-size: 18px; line-height: 26px; font-weight: 600; }
@@ -62,5 +62,6 @@
 @keyframes we-rail-arrive { from { transform: translateX(-16px); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   .we-shell .we-screen, .we-shell .we-project-transition, .we-shell .we-project-transition::before, .we-shell .we-project-portal, .we-shell .we-project, .we-shell .we-todo, .we-shell .we-rail { animation: none !important; }
+  .we-shell[data-rail="on"], .we-shell[data-rail="on"] .we-sup { transition: none !important; }
   .we-project-transition[data-transition="entering"] { opacity: 0; }
 }

@@ -29,6 +29,9 @@ Click **New Project** to open `Steel Frame Design Optimization` in place:
 - The project rail starts with one task, `Complete the steel frame optimisation`, and one folder,
   `project information`. Folders are inert and cannot expand. Sidebar and Router each control
   their own panel; Project Router is a sibling card of the centre workspace in every stage.
+  When the prepared Flow enters on a canvas wide enough for that sibling card, Router opens in
+  the same 480ms layout transition: its track grows while the centre track gives up the width,
+  so the 8px gutter stays fixed; below that width it stays closed.
 - Flow shows six stages of a steel frame optimisation — read the references, query the code, build
   the model, analyse, optimise, hand over the optimised model — with one feedback loop from
   optimisation back into analysis. Every stage starts as `Not started`; the first card carries the
@@ -43,7 +46,7 @@ Click **New Project** to open `Steel Frame Design Optimization` in place:
 
 ## Workflow playback
 
-**Accept and Start** runs the local steel-frame demonstration once, completing in approximately six
+**Accept and Start** runs the local demonstration model once, completing in approximately six
 seconds. Task progress changes at stage boundaries. Project Router inserts complete short messages
 in bursts, without typing characters or continuously interpolating progress.
 The sequence reads references, looks up code requirements, builds the frame, analyses and optimises
@@ -85,9 +88,10 @@ Selection and Undo/Redo buttons are omitted. The matching dark Model Explorer on
 Section, Node, Element and Area.
 Only Material and Section expand. Their selectable children highlight matching model members;
 selecting the same child again or clicking blank canvas clears the highlight. Clicking an actual
-member, dragging, cancelled gestures and two-finger input preserve selection. The material icons
-are an S and a C inside square frames. Section contains only the 146 sections in use,
-with their actual section-type glyphs. Node (1989) and Element (5191) report the model counts.
+member, dragging, cancelled gestures and two-finger input preserve selection. Each material row
+shows an S inside a square frame. Section contains only the 33 sections in use; rows show the
+section designation only (for example L40x3 or 2L180x14), without the source grade prefix or
+copied-section suffix, with their actual section-type glyphs. Node (945) and Element (1423) report the model counts.
 The axis gizmo sits at the bottom right, with no wordmark or bottom information bar.
 A softly lit backdrop surrounds a world-space floor with a fading major/minor grid and soft cast
 shadows below the model. The environment follows the same orbit, pan and projection as the structure;
@@ -98,29 +102,28 @@ in SODA's fixed Z-Axis mode, shift-drag or use Pan mode to translate, and use th
 Two-finger gestures combine pan and zoom. Orthographic and perspective buttons switch real cameras;
 Fit recentres a panned model. Internal camera history remains available to the existing keyboard handlers.
 
-The source is `MGM Skylight Case5_v9.9_Support.dat`; the displayed deliverable name is `Frame-model-v2.dat`.
-Its 1,989 nodes and 5,191 members use 146 of the source's 155 section definitions, baked using SODA's
-importer and extrusion geometry. The nine unused definitions are omitted from Model Explorer.
-The structural model contains Element geometry only: 5,151 extruded members, their section-coloured outlines, and
-40 members retained as centre lines where SODA cannot extrude the supplied section. It contains
-185,720 triangles and preserves original coordinates, beta angles, colours and circular surface normals.
+The source is `Transmission Tower.json`; the displayed deliverable name is `Frame-model-v2.dat`.
+Its 945 nodes and 1,423 members use all 33 source section definitions, baked using SODA's
+JSON section-geometry data and extrusion geometry. Every member is extruded, so no centre-line
+fallback remains. The structural model contains Element geometry only: 34,212 triangles with
+section-coloured outlines. It preserves original coordinates, beta angles and colours.
 Node markers, supports, loads, labels and analysis results are absent. The geometry is the supplied
 example; the scripted workflow does not perform structural optimisation.
 
-Material presents the requested S355 and C40 selection groups. C40 highlights its six original
-members; S355 highlights all 5,185 remaining members, including the imported copy and Rigid records.
+Material presents the source Q235, Q345 and Q420 groups. Q235 highlights its 100 original
+members, Q345 highlights 952 members and Q420 highlights 371 members.
 Original material IDs and member assignments remain intact in the model metadata. Selecting a
 material or section changes the model highlight without changing the camera.
 
 Runtime loads a compact section/counts JSON and a losslessly compressed GLB only on entering SODA.
-The gzip payload is 4,983,592 bytes, versus 14,482,316 bytes for the uncompressed GLB. Native browser
+The gzip payload is 687,642 bytes, versus 2,499,324 bytes for the uncompressed GLB. Native browser
 decompression avoids an additional decoder dependency; browsers without that API use the raw GLB.
 Decoded bytes are cached for repeat visits. Full conversion proof stays outside the published package.
 
 Rebuild the static model from the repository root:
 
 ```sh
-node tools/workflow-embed/prepare-model.mjs "path/to/model.dat"
+node tools/workflow-embed/prepare-model.mjs "path/to/model.json"
 ```
 
 The converter uses the bundled SODA source at `D:/Development/SIDA/apps/soda-app/dist/source`;
@@ -168,9 +171,9 @@ fallback PNG, brand GLB, lazy SODA viewer and static model assets. The local fil
 | `ui/welcome-robot.js` | Lazy Three.js renderer | 617 KB |
 | `ui/flow.js` and `ui/flow.css` | Lazy project workflow | 225 KB / 35 KB |
 | `ui/soda-viewer.js` and `ui/soda-viewer.css` | Lazy SODA 3D View | 659 KB / 7 KB |
-| `models/steel-frame.glb.gz` | Default lossless geometry transfer | 5.0 MB |
-| `models/steel-frame.glb` | Uncompressed fallback | 14.4 MB |
-| `models/steel-frame.meta.json` | Bounds, counts, provenance and section list | 12 KB |
+| `models/transmission-tower.glb.gz` | Default lossless geometry transfer | 0.69 MB |
+| `models/transmission-tower.glb` | Uncompressed fallback | 2.5 MB |
+| `models/transmission-tower.meta.json` | Bounds, counts, provenance and section list | 4 KB |
 | `ui/soda-icons/` | Original SODA toolbar icons | Local image assets |
 | `ui/sida-mark-*.png` | First-frame and no-WebGL fallback | 79 KB |
 | `SIDA-Logo-3D/建造者机器人立体图标.glb` | Existing brand model | 5,781,844 bytes |

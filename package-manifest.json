@@ -165,21 +165,21 @@
     },
     {
       "path": "assets/home-scenes.css",
-      "bytes": 12492,
-      "sha256": "2b58ed99198df6144d6f1051997107c666512ce8ba6ea4a3a480a11bf6e858ec",
-      "size": 12492
+      "bytes": 12898,
+      "sha256": "750ef00ed07539af07d753fe6378c93c96e8f5f45b79a53eac1506edb3ea74e4",
+      "size": 12898
     },
     {
       "path": "assets/home.css",
-      "bytes": 50570,
-      "sha256": "f6f5b194668dc9b64aa7071dc82ff7fff859824527870c39d33d39fd53c45388",
-      "size": 50570
+      "bytes": 51414,
+      "sha256": "d86cefb968c713ad2058a022667a2b9bce3c146918c774263f9c4471e0b46988",
+      "size": 51414
     },
     {
       "path": "assets/home.js",
-      "bytes": 69810,
-      "sha256": "4d5abf487cd18558c9961dbbaf08b310c2d099da1ef84c652e27a9a41aca90a4",
-      "size": 69810
+      "bytes": 70313,
+      "sha256": "fc4135d1549c09afffce5d6691eace0ca5b20a353e4a9a9e18571dd808a7d742",
+      "size": 70313
     },
     {
       "path": "assets/i18n.css",
@@ -345,9 +345,9 @@
     },
     {
       "path": "assets/legal.css",
-      "bytes": 8734,
-      "sha256": "958a776c027e069b09450818f96a6da090bb56e0580312d05b255a5037f8f7bd",
-      "size": 8734
+      "bytes": 9093,
+      "sha256": "4d8f8b411e233d8cf3e623165aa3802914ec731059e4e5e58f29dde1833162a8",
+      "size": 9093
     },
     {
       "path": "assets/motion.css",
@@ -405,15 +405,15 @@
     },
     {
       "path": "assets/site.css",
-      "bytes": 21489,
-      "sha256": "126c8644d42900c98df9f88548538182274a3cf6d1f77de44e8f5215392c2ba1",
-      "size": 21489
+      "bytes": 21963,
+      "sha256": "9b82dac9a15ad45f183ed58dd618f50cb2658789347b274614a1e06d02ddc64e",
+      "size": 21963
     },
     {
       "path": "assets/site.js",
-      "bytes": 20599,
-      "sha256": "f5a24f0394ce84e254b851ec25f832a29482765537c2e235efe8e0424ebb4225",
-      "size": 20599
+      "bytes": 20817,
+      "sha256": "15a364cafe2ac3ff41c92970e50c29f6c52b1f3fb2c5f919389c5faa017a830c",
+      "size": 20817
     },
     {
       "path": "assets/solutions.css",
@@ -711,9 +711,9 @@
     },
     {
       "path": "workflow-stages/features/information-management.html",
-      "bytes": 123980,
-      "sha256": "a0dd895ff544e65c3ff865c673c16d229e1f0162d5bf1dc39016617a67a9b5f5",
-      "size": 123980
+      "bytes": 123983,
+      "sha256": "b64156b24899c7a92386cd4922dca5557a72559894fd060b8bc18705d8a23b58",
+      "size": 123983
     },
     {
       "path": "workflow-stages/features/multidisciplinary-experts.html",
@@ -729,15 +729,15 @@
     },
     {
       "path": "workflow-stages/ui/embed.css",
-      "bytes": 35618,
-      "sha256": "49e97f72ba77adb55a4f5fa9da23c6310821b9f48a914b15d2509285abc1d3b5",
-      "size": 35618
+      "bytes": 36766,
+      "sha256": "85c195c079de0df81fe70f736a0b07ff7528aeb58d9bc64f0fb9961269dd1c01",
+      "size": 36766
     },
     {
       "path": "workflow-stages/ui/embed.js",
-      "bytes": 69341,
-      "sha256": "ebd71c032a75bdd2c7e1b38dfbc25a9e95b161bbb5fe738b120ea60d95cfe22c",
-      "size": 69341
+      "bytes": 69565,
+      "sha256": "5a6f1f24800ef5a1eb9f9a1dac2659c761ac817dcb8604056b38089ed7ed7034",
+      "size": 69565
     },
     {
       "path": "workflow-stages/ui/flow.css",
@@ -747,9 +747,9 @@
     },
     {
       "path": "workflow-stages/ui/flow.js",
-      "bytes": 226188,
-      "sha256": "89fe0c111c27cb8d168f377f29339d382241e8ca5c3023d936880da65ac2ee57",
-      "size": 226188
+      "bytes": 226178,
+      "sha256": "3861f6ff740d9e59d4efcb0d19a9a106faa7a0c7c12f4d289a5633c56c875754",
+      "size": 226178
     },
     {
       "path": "workflow-stages/ui/sida-mark-BZOX5RLO.png",
@@ -771,27 +771,9 @@
     },
     {
       "path": "workflow-stages/ui/soda-viewer.js",
-      "bytes": 680698,
-      "sha256": "50a2859d16a3b2ee69a59dff4dd2c4e0b38b8e6c1ad3f1c1addd8aac6fc28201",
-      "size": 680698
-    },
-    {
-      "path": "workflow-stages/models/steel-frame.glb",
-      "bytes": 14482316,
-      "sha256": "8ca7ee2bcc03083961f59a8d21b964e6a023627d9fcb8052a76f41a7fee6a140",
-      "size": 14482316
-    },
-    {
-      "path": "workflow-stages/models/steel-frame.meta.json",
-      "bytes": 14217,
-      "sha256": "36ea13f55b698b1a15344cbb716174be61de2cbd6d4fbf6d0f978302ddad2f7d",
-      "size": 14217
-    },
-    {
-      "path": "workflow-stages/ui/soda-icons/cursor_hollow.png",
-      "bytes": 3080,
-      "sha256": "d5517161336c28dcc3400bc74dcdd8e7013380f32fcc72e796a3465d2274ec2d",
-      "size": 3080
+      "bytes": 680834,
+      "sha256": "449c0fd976d6c83cb2ffab90579bf0e21dad196497c30c4071aa71d221e1497b",
+      "size": 680834
     },
     {
       "path": "workflow-stages/ui/soda-icons/fit_to_screen.png",
@@ -818,22 +800,10 @@
       "size": 8108
     },
     {
-      "path": "workflow-stages/ui/soda-icons/redo.svg",
-      "bytes": 394,
-      "sha256": "23d8712347edcfea6eceecb87b273a2f975c2fbb6a4fdd38e33543dd3367c0d9",
-      "size": 394
-    },
-    {
       "path": "workflow-stages/ui/soda-icons/rotate.png",
       "bytes": 1889,
       "sha256": "9e0d6090398c316378b38bf716186a11bc731deb351599c1f7621c6aac920f1b",
       "size": 1889
-    },
-    {
-      "path": "workflow-stages/ui/soda-icons/undo.svg",
-      "bytes": 389,
-      "sha256": "a0d3a120920d2d9b26606cc6f3392f7bc1d35a83559dad5e0346aad6fe6f3bf7",
-      "size": 389
     },
     {
       "path": "workflow-stages/ui/soda-icons/zoom_in.png",
@@ -848,10 +818,22 @@
       "size": 4780
     },
     {
-      "path": "workflow-stages/models/steel-frame.glb.gz",
-      "bytes": 4983592,
-      "sha256": "def8d27b8a6f1eba781b1ebd1a031957ded8d16a2a02f69220ca3693d4befadd",
-      "size": 4983592
+      "path": "workflow-stages/models/transmission-tower.glb",
+      "bytes": 2499324,
+      "sha256": "4e767d666c3d1d4937a329b4a365b92d30ac5c6a21f08e9c5a8c6f0889b9d091",
+      "size": 2499324
+    },
+    {
+      "path": "workflow-stages/models/transmission-tower.glb.gz",
+      "bytes": 687642,
+      "sha256": "eaa5f36ef94bd5f8a947ce03df5aad9a4bb9ce36a52b9aeed680019b55f06f91",
+      "size": 687642
+    },
+    {
+      "path": "workflow-stages/models/transmission-tower.meta.json",
+      "bytes": 3739,
+      "sha256": "60ec2f2c9ef98f4538896c2ae23a18fad47d5b0661c64c03797980175edf094c",
+      "size": 3739
     }
   ]
 }

@@ -62,6 +62,10 @@ p{text-wrap:pretty}p+p{margin-top:18px}strong{font-weight:600;color:var(--ink)}e
 @keyframes onx-cta-outline-breathe{0%,100%{background-position:0% 50%;border-color:#566f9c}50%{background-position:100% 50%;border-color:#7e95bd}}
 @media(max-width:760px){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated){height:34px;min-height:34px;padding:0 16px;font-size:15px}}
 @media(prefers-reduced-motion:reduce){.desktop-nav .nav-secondary [data-signin]:not(.is-authenticated){transition:none}}
+/* Account entry is temporarily hidden on the Home and legal pages. On desktop
+   it keeps its space so the main navigation does not shift sideways. */
+.home-page .desktop-nav .nav-secondary [data-signin],.legal-page .desktop-nav .nav-secondary [data-signin]{visibility:hidden!important;pointer-events:none!important}
+@media(max-width:760px){.home-page .desktop-nav .nav-secondary [data-signin],.legal-page .desktop-nav .nav-secondary [data-signin]{display:none!important}}
 
 /* Public auth pages (login, register) reuse the home header: same logo lockup, nav
    rhythm and language slots. Values mirror home.css; test_account_header pins them. */

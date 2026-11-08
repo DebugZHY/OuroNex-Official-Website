@@ -105,7 +105,7 @@ function Test-ForbiddenRelativePath {
     $name = $segments[$segments.Count - 1].ToLowerInvariant()
     if ($forbiddenNames -contains $name) { return "file name '$name'" }
     # The public model viewer loads this metadata alongside the GLB asset.
-    if ($RelativePath -eq 'workflow-stages/models/steel-frame.meta.json') { return $null }
+    if ($RelativePath -eq 'workflow-stages/models/transmission-tower.meta.json') { return $null }
     $ext = [System.IO.Path]::GetExtension($name)
     if ($ext -and ($forbiddenExtensions -contains $ext)) { return "extension '$ext'" }
     return $null

@@ -57,6 +57,17 @@ body.home-page[data-home-theatre=reduced] [data-motion-item] {
 
 /* All stages share one sticky grid area spanning the native scroll range.
    The compositor pins it directly, including rapid jumps between sections. */
+/* The header spans the full viewport above the scroll container, so its empty
+   band would swallow the scrollbar while the page sits at the top. Only the
+   navigation shell takes pointer input; the rest of the band passes clicks
+   through to the scroll container underneath. */
+body.home-page .site-header {
+  pointer-events: none;
+}
+body.home-page .site-header .nav-shell {
+  pointer-events: auto;
+}
+
 body.home-page .home-scene-range {
   display: none;
 }

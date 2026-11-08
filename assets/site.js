@@ -32,6 +32,12 @@
     mobile.addEventListener('change', () => setMenu(false));
   }
 
+  /* Footer legal links open in a new tab; the current document stays put. */
+  document.querySelectorAll('.site-footer .footer-legal a').forEach(link => {
+    link.target = '_blank';
+    link.rel = 'noopener';
+  });
+
   const homeScroll = document.querySelector('main#main.home-scroll');
   const progress = document.querySelector('.reading-progress');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

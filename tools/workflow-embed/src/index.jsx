@@ -11,6 +11,8 @@ import './shell.css';
 import './project.css';
 
 const PANEL_BREAKPOINT = 1040;
+/* Above this host width the Router is a sibling column; below it the panel overlays the canvas. */
+const ROUTER_BESIDE_BREAKPOINT = 800;
 const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
 function FlowView({ onReady, onChange, onError, onAcceptStart, onReplay, onOpenDeliverables }) {
@@ -184,12 +186,18 @@ function App({ host, bridge }) {
     if (host.getBoundingClientRect().width <= 720) { setSupOpen(false); setProjectOpen(true); }
   }
 
+  /* The opening transition runs full width; open the Router as Flow enters so both surfaces arrive together. */
+  function openRouterBesideCanvas() {
+    if (host.getBoundingClientRect().width >= ROUTER_BESIDE_BREAKPOINT) setSupOpen(true);
+  }
+
   function openProject({ instant = false } = {}) {
     if (operation.current) return operation.current;
-    if (project) { changeTab('flow'); setRailMode('project'); setProjectOpen(false); return Promise.resolve(true); }
+    if (project) { changeTab('flow'); setRailMode('project'); setProjectOpen(false); openRouterBesideCanvas(); return Promise.resolve(true); }
     const token = ++epoch.current;
     const reduced = instant || matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setError(''); setTransition('opening'); setSupOpen(false); setProjectOpen(false); setRailMode('project');
+    setError(''); setTransition('opening'); setProjectOpen(false); setRailMode('project');
+    if (host.getBoundingClientRect().width < ROUTER_BESIDE_BREAKPOINT) setSupOpen(false);
     const run = (async () => {
       try {
         await Promise.all([prepareFlow(), pause(reduced ? 0 : 240)]);
@@ -199,6 +207,7 @@ function App({ host, bridge }) {
         const api = await ready;
         if (!api || !alive.current || token !== epoch.current) return false;
         setTransition('entering');
+        openRouterBesideCanvas();
         await pause(reduced ? 0 : 560);
         if (!alive.current || token !== epoch.current) return false;
         setTransition('idle');
@@ -239,11 +248,13 @@ function App({ host, bridge }) {
     player.current?.reset();
     setViewerOpen(false); setViewerStatus('closed'); panelBeforeViewer.current = null;
     setTab('flow'); setRailMode('project'); setRailOpen(true); setProjectOpen(false);
-    setSupOpen(false); setResetToken(value => value + 1); setError('');
+    if (host.getBoundingClientRect().width < ROUTER_BESIDE_BREAKPOINT) setSupOpen(false);
+    setResetToken(value => value + 1); setError('');
     const ready = operation.current ? await operation.current : flowApi.current ? true : await openProject({ instant: true });
     if (!ready || !alive.current || request !== stageRequest.current) return false;
     flowApi.current.reset();
     setDemoStage(number);
+    if (number === 2) openRouterBesideCanvas();
     if (number === 3) {
       player.current.finish();
       return openViewerAction.current?.() || false;

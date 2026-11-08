@@ -406,6 +406,7 @@ export function WorkspaceShell({
       </main>
 
       <aside className="we-sup" aria-label="Project Router" data-playback={state.status}>
+        <div className="we-sup-inner">
         <header className="we-sup-head">
           <h2>Project Router</h2>
           <p className="we-sup-meta">{project ? `${project.name} · ${completed ? 'Completed' : running ? 'Running' : `${STAGES.length} stages prepared`}` : 'No project open'}</p>
@@ -451,6 +452,7 @@ export function WorkspaceShell({
             <span className="we-chip we-chip--static">Default · off</span>
           </div>
         </form>
+        </div>
       </aside>
     </div>
 

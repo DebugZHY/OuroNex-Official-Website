@@ -21,6 +21,11 @@
   min-height: 96px;
 }
 
+/* The footer shares the header shell so the brand marks line up. */
+.legal-page .site-footer > .wrap {
+  width: min(1520px, calc(100% - 64px));
+}
+
 .legal-page .brand {
   gap: 14px;
 }
@@ -214,11 +219,11 @@
   letter-spacing: -.055em;
 }
 
-.legal-meta {
+.legal-head .legal-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 18px;
-  margin: 22px 0 0;
+  margin: 28px 0 0;
   color: var(--muted);
   font: 400 12px/1.6 var(--mono);
   letter-spacing: .04em;
@@ -419,6 +424,10 @@
     min-height: 88px;
   }
 
+  .legal-page .site-footer > .wrap {
+    width: calc(100% - 72px);
+  }
+
   .legal-page .brand img {
     width: 72px;
     height: 44px;
@@ -464,6 +473,10 @@
     min-height: 82px;
   }
 
+  .legal-page .site-footer > .wrap {
+    width: calc(100% - 32px);
+  }
+
   .legal-page .brand {
     gap: 10px;
   }
@@ -497,6 +510,10 @@
 
   .legal-meta {
     font-size: 11px;
+  }
+
+  .legal-head .legal-meta {
+    margin-top: 20px;
   }
 
   .legal-meta span + span::before {

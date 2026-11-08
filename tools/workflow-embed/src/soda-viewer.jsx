@@ -7,20 +7,28 @@ import './soda-viewer.css';
 /* Resolve icons beside the published viewer script. */
 const ICON_BASE = new URL('soda-icons/', document.currentScript?.src || document.baseURI);
 const sodaIcon = (file) => new URL(file, ICON_BASE).href;
-const MATERIAL_NAMES = ['S355', 'C40'];
 
-function MaterialIcon({ name }) {
-  return <span class="soda-material-icon" aria-hidden="true">{name === 'S355' ? 'S' : 'C'}</span>;
+function MaterialIcon() {
+  return <span class="soda-material-icon" aria-hidden="true">S</span>;
+}
+
+/* Section rows show the section designation only: drop the leading grade and
+ * the copied-section suffix while keeping the source spelling of the profile. */
+function sectionLabel(name) {
+  return String(name ?? '')
+    .replace(/^(?:Q\d{3}|S\d{3}|C\d{2})\s*/i, '')
+    .replace(/(?:\+?_copy|\+)+$/i, '')
+    .trim();
 }
 
 function ModelExplorer({ materials, sections, counts, selection, ready, open, onToggle, onSelect }) {
   const treeId = useId();
   const [expanded, setExpanded] = useState({ material: true, section: false });
   const [focused, setFocused] = useState('material');
-  const materialRows = useMemo(() => MATERIAL_NAMES.map((name) =>
-    materials.find((material) => material.name === name)).filter(Boolean), [materials]);
+  const materialRows = useMemo(() => [...materials].sort((a, b) => a.id - b.id), [materials]);
   const sectionRows = useMemo(() => sections.filter((section) => section.memberCount > 0).map((section) => ({
     ...section,
+    label: sectionLabel(section.name),
     glyph: getSectionGlyphSvg(section.sectionType, true),
     typeLabel: getSectionTypeLabel(section.sectionType),
   })), [sections]);
@@ -102,7 +110,7 @@ function ModelExplorer({ materials, sections, counts, selection, ready, open, on
                   {root.children.map((entry) => {
                     const key = `${root.id}:${entry.id}`;
                     const selected = selection?.kind === root.id && selection.id === entry.id;
-                    const description = `${entry.name}${entry.typeLabel ? ` · ${entry.typeLabel}` : ''} · ${entry.memberCount} elements`;
+                    const description = `${entry.label ?? entry.name}${entry.typeLabel ? ` · ${entry.typeLabel}` : ''} · ${entry.memberCount} elements`;
                     return (
                       <li key={entry.id} class="soda-tree-item soda-tree-leaf" role="treeitem"
                         data-soda-kind={root.id} data-soda-id={entry.id}
@@ -114,8 +122,8 @@ function ModelExplorer({ materials, sections, counts, selection, ready, open, on
                           {root.id === 'section'
                             ? <span class="soda-section-glyph" style={{ color: entry.color }} aria-hidden="true"
                                 dangerouslySetInnerHTML={{ __html: entry.glyph }} />
-                            : <MaterialIcon name={entry.name} />}
-                          <span class="soda-tree-name">{entry.name}</span>
+                            : <MaterialIcon />}
+                          <span class="soda-tree-name">{entry.label ?? entry.name}</span>
                           <span class="soda-member-count" aria-hidden="true">{entry.memberCount}</span>
                         </div>
                       </li>

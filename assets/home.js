@@ -184,21 +184,30 @@
     return t * t * (3 - 2 * t);
   }
 
+  /* One scroll distance unit, as a fraction of the viewport. Halved so a
+     couple of wheel gestures reach the next beat; the hold stages and the
+     entry/exit spans shrink together while content panning stays 1:1. */
+  var SCENE_STEP = 0.5;
+  function sceneStep(viewport) {
+    return Math.max(1, viewport || 1) * SCENE_STEP;
+  }
+
   /* Distances are CSS pixels. The two stationary hold screens flank the exact
      overflow distance; panning is deliberately linear, one pixel per pixel. */
   function sceneWindowFor(metrics) {
     var m = metrics || {};
     var vh = Number.isFinite(m.viewportHeight) ? Math.max(1, m.viewportHeight) : 1;
+    var step = sceneStep(vh);
     var overflow = Number.isFinite(m.overflow) ? Math.max(0, m.overflow) : 0;
     var start = Number.isFinite(m.start) ? m.start : 0;
     var position = (Number.isFinite(m.scrollTop) ? m.scrollTop : 0) - start;
-    var enterSpan = m.first ? 0 : 1.25 * vh;
+    var enterSpan = m.first ? 0 : 1.25 * step;
     var holdStageCount = Number.isFinite(m.holdStageCount) ? Math.max(1, Math.floor(m.holdStageCount)) : 1;
-    var holdStageSpan = 2 * vh + overflow;
+    var holdStageSpan = 2 * step + overflow;
     var holdSpan = holdStageCount * holdStageSpan;
     var holdStageIndex = clampIndex(Math.floor(Math.max(0, position - enterSpan) / holdStageSpan), holdStageCount);
     var holdStagePosition = Math.max(0, Math.min(holdStageSpan, position - enterSpan - holdStageIndex * holdStageSpan));
-    var exitSpan = m.last ? 0 : vh;
+    var exitSpan = m.last ? 0 : step;
     var duration = enterSpan + holdSpan + exitSpan;
     var phase = position < 0 ? 'before' : position < enterSpan ? 'enter'
       : position < enterSpan + holdSpan || m.last ? 'hold'
@@ -207,7 +216,7 @@
       phase: phase,
       enter: position < 0 ? 0 : m.first ? 1 : sceneUnit((position / enterSpan - 0.12) / 0.88),
       exit: m.last ? 0 : sceneUnit((position - enterSpan - holdSpan) / exitSpan),
-      pan: Math.max(0, Math.min(overflow, holdStagePosition - vh)),
+      pan: Math.max(0, Math.min(overflow, holdStagePosition - step)),
       duration: duration,
       holdStageCount: holdStageCount,
       holdStageIndex: holdStageIndex,
@@ -604,8 +613,8 @@
       }
       home.scrollTop = top;
     }
-    function firstEnter(scene) { return scene.first ? 0 : 1.25 * vh; }
-    function holdStageSpan(scene) { return 2 * vh + scene.overflow; }
+    function firstEnter(scene) { return scene.first ? 0 : 1.25 * sceneStep(vh); }
+    function holdStageSpan(scene) { return 2 * sceneStep(vh) + scene.overflow; }
     function windowFor(scene, scrollTop) {
       return sceneWindowFor({ scrollTop: scrollTop, start: scene.start, viewportHeight: vh,
         overflow: scene.overflow, first: scene.first, last: scene.last, holdStageCount: scene.holdStageCount });
@@ -621,7 +630,7 @@
       var stageIndex = clampIndex(holdStageIndex, scene.holdStageCount);
       if (scene.first && !pan && !stageIndex) return scene.start;
       return scene.start + firstEnter(scene) + stageIndex * holdStageSpan(scene)
-        + (pan > 0 ? vh + Math.min(scene.overflow, pan) : vh * 0.5);
+        + (pan > 0 ? sceneStep(vh) + Math.min(scene.overflow, pan) : sceneStep(vh) * 0.5);
     }
     function capture() {
       var scene = scenes[scrollIndex()];
@@ -640,11 +649,12 @@
       }
       var state = windowFor(scene, home.scrollTop);
       var hold = state.holdStagePosition;
-      var part = hold < vh ? 'top' : hold <= vh + scene.overflow ? 'pan' : 'bottom';
+      var step = sceneStep(vh);
+      var part = hold < step ? 'top' : hold <= step + scene.overflow ? 'pan' : 'bottom';
       return { index: scene.index, phase: state.phase, holdStageIndex: state.holdStageIndex,
         pan: state.pan, part: part,
         ratio: state.phase === 'enter' ? position / firstEnter(scene) : state.phase === 'leave' ? state.exit
-          : part === 'top' ? hold / vh : part === 'bottom' ? (hold - vh - scene.overflow) / vh : 0 };
+          : part === 'top' ? hold / step : part === 'bottom' ? (hold - step - scene.overflow) / step : 0 };
     }
     function restore(point) {
       var scene = scenes[clampIndex(point.index, scenes.length)];
@@ -652,12 +662,13 @@
       var stageIndex = clampIndex(point.holdStageIndex, scene.holdStageCount);
       if (point.phase === 'reading') return readingTop(scene, point.pan, stageIndex);
       if (point.phase === 'enter') return scene.start + firstEnter(scene) * sceneUnit(point.ratio);
+      var step = sceneStep(vh);
       if (point.phase === 'leave' || point.phase === 'after') return scene.start + firstEnter(scene)
-        + scene.holdStageCount * holdStageSpan(scene) + (scene.last ? 0 : sceneUnit(point.ratio) * vh);
+        + scene.holdStageCount * holdStageSpan(scene) + (scene.last ? 0 : sceneUnit(point.ratio) * step);
       return scene.start + firstEnter(scene) + stageIndex * holdStageSpan(scene)
-        + (point.part === 'top' ? sceneUnit(point.ratio) * vh
-          : point.part === 'bottom' ? vh + scene.overflow + sceneUnit(point.ratio) * vh
-            : vh + Math.min(scene.overflow, point.pan));
+        + (point.part === 'top' ? sceneUnit(point.ratio) * step
+          : point.part === 'bottom' ? step + scene.overflow + sceneUnit(point.ratio) * step
+            : step + Math.min(scene.overflow, point.pan));
     }
 
     /* Same-origin iframe adapter. Its declared count exists before lazy load;
