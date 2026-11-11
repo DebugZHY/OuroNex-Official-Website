@@ -1,2 +1,278 @@
 // Generated from assets/i18n/early-access.json. Edit the JSON, then run python scripts/i18n_compile.py.
-window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {});
+window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
+  "early-access.intro.kicker": {
+    "en": "Early access",
+    "zh-CN": "抢先体验",
+    "zh-TW": "優先體驗"
+  },
+  "early-access.intro.title": {
+    "en": "Request early access",
+    "zh-CN": "申请抢先体验",
+    "zh-TW": "申請優先體驗"
+  },
+  "early-access.intro.lede": {
+    "en": "SIDA is opening to a small number of practices before public release. Tell us who you are and how you work, and we will open a pilot for your team.",
+    "zh-CN": "SIDA 将在公开发布前向少数事务所开放。请告诉我们您的身份和工作方式，我们将为您的团队开启试点。",
+    "zh-TW": "SIDA 將在公開發布前向少數事務所開放。請告訴我們您的身份和工作方式，我們將為您的團隊開啟試點。"
+  },
+  "early-access.steps.01.title": {
+    "en": "You tell us about the practice",
+    "zh-CN": "您介绍事务所的情况",
+    "zh-TW": "您介紹事務所的情況"
+  },
+  "early-access.steps.01.body": {
+    "en": "The drawings, codes and reports your team reviews most often, and the person who would own the pilot.",
+    "zh-CN": "团队最常审查的图纸、规范和报告，以及试点负责人。",
+    "zh-TW": "團隊最常審查的圖紙、規範和報告，以及試點負責人。"
+  },
+  "early-access.steps.02.title": {
+    "en": "We reply within two working days",
+    "zh-CN": "我们会在两个工作日内回复",
+    "zh-TW": "我們會在兩個工作天內回覆"
+  },
+  "early-access.steps.02.body": {
+    "en": "A short call to confirm fit, then a Windows build and a workspace on your own machines.",
+    "zh-CN": "先进行一次简短通话确认是否合适，然后在您自己的电脑上部署 Windows 版本和工作空间。",
+    "zh-TW": "先進行一次簡短通話確認是否合適，然後在您自己的電腦上部署 Windows 版本和工作空間。"
+  },
+  "early-access.steps.03.title": {
+    "en": "You run it on live work",
+    "zh-CN": "您在实际项目中运行",
+    "zh-TW": "您在實際項目中運行"
+  },
+  "early-access.steps.03.body": {
+    "en": "One project, reviewed side by side with your current process. Nothing leaves your machines unless you choose to share it.",
+    "zh-CN": "一个项目，与现有流程并行审查。除非您选择共享，否则任何内容都不会离开您的电脑。",
+    "zh-TW": "一個項目，與現有流程並行審查。除非您選擇共享，否則任何內容都不會離開您的電腦。"
+  },
+  "early-access.intro.questions": {
+    "en": "Questions before you send the form? Write to ",
+    "zh-CN": "提交表单前有疑问？请写信至 ",
+    "zh-TW": "提交表單前有疑問？請寫信至 "
+  },
+  "early-access.form.heading": {
+    "en": "Your details",
+    "zh-CN": "您的资料",
+    "zh-TW": "您的資料"
+  },
+  "early-access.form.intro": {
+    "en": "Name, organisation and email are required; everything else is optional.",
+    "zh-CN": "姓名、机构和邮箱为必填项，其他内容均为选填。",
+    "zh-TW": "姓名、機構和電郵為必填項，其他內容均為選填。"
+  },
+  "early-access.form.name.label": {
+    "en": "Full name",
+    "zh-CN": "姓名",
+    "zh-TW": "姓名"
+  },
+  "early-access.form.organisation.label": {
+    "en": "Organisation",
+    "zh-CN": "机构",
+    "zh-TW": "機構"
+  },
+  "early-access.form.email.label": {
+    "en": "Work email",
+    "zh-CN": "工作邮箱",
+    "zh-TW": "工作電郵"
+  },
+  "early-access.form.phone.label": {
+    "en": "Telephone",
+    "zh-CN": "电话",
+    "zh-TW": "電話"
+  },
+  "early-access.form.optional": {
+    "en": "Optional",
+    "zh-CN": "选填",
+    "zh-TW": "選填"
+  },
+  "early-access.form.role.label": {
+    "en": "Role",
+    "zh-CN": "职位",
+    "zh-TW": "職位"
+  },
+  "early-access.form.team.label": {
+    "en": "Team size",
+    "zh-CN": "团队规模",
+    "zh-TW": "團隊規模"
+  },
+  "early-access.form.notes.label": {
+    "en": "What would you like to try first?",
+    "zh-CN": "您最想先试用什么？",
+    "zh-TW": "您最想先試用什麼？"
+  },
+  "early-access.form.name.placeholder": {
+    "en": "First and last name",
+    "zh-CN": "请输入姓名",
+    "zh-TW": "請輸入姓名"
+  },
+  "early-access.form.organisation.placeholder": {
+    "en": "Practice or firm name",
+    "zh-CN": "事务所或公司名称",
+    "zh-TW": "事務所或公司名稱"
+  },
+  "early-access.form.email.placeholder": {
+    "en": "you@firm.com",
+    "zh-CN": "you@firm.com",
+    "zh-TW": "you@firm.com"
+  },
+  "early-access.form.phone.placeholder": {
+    "en": "+852 0000 0000",
+    "zh-CN": "+852 0000 0000",
+    "zh-TW": "+852 0000 0000"
+  },
+  "early-access.form.notes.placeholder": {
+    "en": "Drawings to review, a code set, a pilot workflow — whatever is most useful.",
+    "zh-CN": "想审查的图纸、一套规范、试点工作流——任何最有用的内容。",
+    "zh-TW": "想審查的圖紙、一套規範、試點工作流程——任何最有用的內容。"
+  },
+  "early-access.form.role.placeholder": {
+    "en": "Select a role",
+    "zh-CN": "选择职位",
+    "zh-TW": "選擇職位"
+  },
+  "early-access.form.role.option-structural-engineer": {
+    "en": "Structural engineer",
+    "zh-CN": "结构工程师",
+    "zh-TW": "結構工程師"
+  },
+  "early-access.form.role.option-design-project-manager": {
+    "en": "Design or project manager",
+    "zh-CN": "设计或项目经理",
+    "zh-TW": "設計或項目經理"
+  },
+  "early-access.form.role.option-bim-digital-delivery": {
+    "en": "BIM / digital delivery",
+    "zh-CN": "BIM / 数字化交付",
+    "zh-TW": "BIM / 數碼交付"
+  },
+  "early-access.form.role.option-principal-director": {
+    "en": "Principal or director",
+    "zh-CN": "负责人或董事",
+    "zh-TW": "負責人或董事"
+  },
+  "early-access.form.role.option-software-it": {
+    "en": "Software or IT",
+    "zh-CN": "软件或 IT",
+    "zh-TW": "軟件或 IT"
+  },
+  "early-access.form.role.option-student-researcher": {
+    "en": "Student or researcher",
+    "zh-CN": "学生或研究人员",
+    "zh-TW": "學生或研究人員"
+  },
+  "early-access.form.role.option-other": {
+    "en": "Other",
+    "zh-CN": "其他",
+    "zh-TW": "其他"
+  },
+  "early-access.form.team.placeholder": {
+    "en": "Select a size",
+    "zh-CN": "选择规模",
+    "zh-TW": "選擇規模"
+  },
+  "early-access.form.team.option-1-10": {
+    "en": "1–10 people",
+    "zh-CN": "1–10 人",
+    "zh-TW": "1–10 人"
+  },
+  "early-access.form.team.option-11-50": {
+    "en": "11–50 people",
+    "zh-CN": "11–50 人",
+    "zh-TW": "11–50 人"
+  },
+  "early-access.form.team.option-51-200": {
+    "en": "51–200 people",
+    "zh-CN": "51–200 人",
+    "zh-TW": "51–200 人"
+  },
+  "early-access.form.team.option-201-1000": {
+    "en": "201–1,000 people",
+    "zh-CN": "201–1,000 人",
+    "zh-TW": "201–1,000 人"
+  },
+  "early-access.form.team.option-more-than-1000": {
+    "en": "More than 1,000",
+    "zh-CN": "1,000 人以上",
+    "zh-TW": "超過 1,000 人"
+  },
+  "early-access.form.phone.hint": {
+    "en": "Only if you would rather we call.",
+    "zh-CN": "仅在您希望我们电话联系时填写。",
+    "zh-TW": "僅在您希望我們電話聯絡時填寫。"
+  },
+  "early-access.form.notes.hint": {
+    "en": "A sentence is enough; we will ask for the detail when we reply.",
+    "zh-CN": "一句话即可；我们回复时会再询问详情。",
+    "zh-TW": "一句話即可；我們回覆時會再詢問詳情。"
+  },
+  "early-access.form.consent": {
+    "en": "By requesting access you agree that we may contact you about the pilot. Your details are handled as described in our ",
+    "zh-CN": "提交申请即表示您同意我们就试点事宜与您联系。您的资料将按照我们的 ",
+    "zh-TW": "提交申請即表示您同意我們就試點事宜與您聯絡。您的資料將按照我們的 "
+  },
+  "early-access.form.submit": {
+    "en": "Request early access",
+    "zh-CN": "申请抢先体验",
+    "zh-TW": "申請優先體驗"
+  },
+  "early-access.success.title": {
+    "en": "Request received",
+    "zh-CN": "申请已收到",
+    "zh-TW": "申請已收到"
+  },
+  "early-access.success.again": {
+    "en": "Send another request",
+    "zh-CN": "再提交一份申请",
+    "zh-TW": "再提交一份申請"
+  },
+  "early-access.footer.copyright": {
+    "en": "Copyright © 2026 OuroNex Technology Company Limited. All Rights Reserved.",
+    "zh-CN": "版权所有 © 2026 OuroNex 科技有限公司。保留所有权利。",
+    "zh-TW": "版權所有 © 2026 OuroNex 科技有限公司。保留所有權利。"
+  },
+  "early-access.validation.name-required": {
+    "en": "Tell us your name.",
+    "zh-CN": "请告诉我们您的姓名。",
+    "zh-TW": "請告訴我們您的姓名。"
+  },
+  "early-access.validation.organisation-required": {
+    "en": "Tell us which practice you are with.",
+    "zh-CN": "请告诉我们您所在的机构。",
+    "zh-TW": "請告訴我們您所屬的機構。"
+  },
+  "early-access.validation.email-required": {
+    "en": "We need an email to reply to.",
+    "zh-CN": "我们需要一个邮箱地址才能回复您。",
+    "zh-TW": "我們需要一個電郵地址才能回覆您。"
+  },
+  "early-access.validation.min-two-characters": {
+    "en": "Please write at least two characters.",
+    "zh-CN": "请至少填写两个字符。",
+    "zh-TW": "請至少填寫兩個字元。"
+  },
+  "early-access.validation.email-invalid": {
+    "en": "That email address looks incomplete.",
+    "zh-CN": "这个邮箱地址似乎不完整。",
+    "zh-TW": "這個電郵地址似乎不完整。"
+  },
+  "early-access.validation.phone-invalid": {
+    "en": "Use digits, spaces, brackets or a leading +.",
+    "zh-CN": "请使用数字、空格、括号或开头的 +。",
+    "zh-TW": "請使用數字、空格、括號或開頭的 +。"
+  },
+  "early-access.validation.check-fields": {
+    "en": "Please check the highlighted fields.",
+    "zh-CN": "请检查标红的字段。",
+    "zh-TW": "請檢查標紅的欄位。"
+  },
+  "early-access.form.sending": {
+    "en": "Sending…",
+    "zh-CN": "正在发送…",
+    "zh-TW": "正在傳送…"
+  },
+  "early-access.success.confirmation": {
+    "en": "Thanks, {name}. We have your details and will write to {email} within two working days.",
+    "zh-CN": "谢谢您，{name}。我们已收到您的资料，并会在两个工作日内发送邮件至 {email}。",
+    "zh-TW": "謝謝您，{name}。我們已收到您的資料，並會在兩個工作天內發送電郵至 {email}。"
+  }
+});

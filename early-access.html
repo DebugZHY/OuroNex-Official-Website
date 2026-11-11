@@ -53,79 +53,79 @@
 <main class="access-main" id="main">
 <div class="wrap access-layout">
 <section class="access-intro">
-<p class="access-kicker">Early access</p>
-<h1>Request early access</h1>
-<p class="access-lede">SIDA is opening to a small number of practices before public release. Tell us who you are and how you work, and we will open a pilot for your team.</p>
+<p class="access-kicker" data-i18n="early-access.intro.kicker">Early access</p>
+<h1 data-i18n="early-access.intro.title">Request early access</h1>
+<p class="access-lede" data-i18n="early-access.intro.lede">SIDA is opening to a small number of practices before public release. Tell us who you are and how you work, and we will open a pilot for your team.</p>
 <ol class="access-steps">
-<li><span class="access-step__index">01</span><div><h3>You tell us about the practice</h3><p>The drawings, codes and reports your team reviews most often, and the person who would own the pilot.</p></div></li>
-<li><span class="access-step__index">02</span><div><h3>We reply within two working days</h3><p>A short call to confirm fit, then a Windows build and a workspace on your own machines.</p></div></li>
-<li><span class="access-step__index">03</span><div><h3>You run it on live work</h3><p>One project, reviewed side by side with your current process. Nothing leaves your machines unless you choose to share it.</p></div></li>
+<li><span class="access-step__index">01</span><div><h3 data-i18n="early-access.steps.01.title">You tell us about the practice</h3><p data-i18n="early-access.steps.01.body">The drawings, codes and reports your team reviews most often, and the person who would own the pilot.</p></div></li>
+<li><span class="access-step__index">02</span><div><h3 data-i18n="early-access.steps.02.title">We reply within two working days</h3><p data-i18n="early-access.steps.02.body">A short call to confirm fit, then a Windows build and a workspace on your own machines.</p></div></li>
+<li><span class="access-step__index">03</span><div><h3 data-i18n="early-access.steps.03.title">You run it on live work</h3><p data-i18n="early-access.steps.03.body">One project, reviewed side by side with your current process. Nothing leaves your machines unless you choose to share it.</p></div></li>
 </ol>
-<p class="access-aside">Questions before you send the form? Write to <a href="mailto:hello@ouronex.com">hello@ouronex.com</a>.</p>
+<p class="access-aside"><span data-i18n="early-access.intro.questions">Questions before you send the form? Write to </span><a href="mailto:hello@ouronex.com">hello@ouronex.com</a>.</p>
 </section>
 <section aria-labelledby="access-form-title" class="access-panel">
 <div class="access-panel__head">
-<h2 id="access-form-title">Your details</h2>
-<p>Name, organisation and email are required; everything else is optional.</p>
+<h2 data-i18n="early-access.form.heading" id="access-form-title">Your details</h2>
+<p data-i18n="early-access.form.intro">Name, organisation and email are required; everything else is optional.</p>
 </div>
 <form class="access-form" data-access-form="" id="early-access-form" novalidate="">
 <div class="field">
-<label for="access-name"><span>Full name<span aria-hidden="true" class="field__req">*</span></span></label>
-<input aria-describedby="access-name-error" aria-required="true" autocomplete="name" id="access-name" name="name" placeholder="First and last name" required="" type="text"/>
+<label for="access-name"><span><span data-i18n="early-access.form.name.label">Full name</span><span aria-hidden="true" class="field__req">*</span></span></label>
+<input aria-describedby="access-name-error" aria-required="true" autocomplete="name" data-i18n-placeholder="early-access.form.name.placeholder" id="access-name" name="name" placeholder="First and last name" required="" type="text"/>
 <p class="field__error" hidden="" id="access-name-error"></p>
 </div>
 <div class="field">
-<label for="access-organisation"><span>Organisation<span aria-hidden="true" class="field__req">*</span></span></label>
-<input aria-describedby="access-organisation-error" aria-required="true" autocomplete="organization" id="access-organisation" name="organisation" placeholder="Practice or firm name" required="" type="text"/>
+<label for="access-organisation"><span><span data-i18n="early-access.form.organisation.label">Organisation</span><span aria-hidden="true" class="field__req">*</span></span></label>
+<input aria-describedby="access-organisation-error" aria-required="true" autocomplete="organization" data-i18n-placeholder="early-access.form.organisation.placeholder" id="access-organisation" name="organisation" placeholder="Practice or firm name" required="" type="text"/>
 <p class="field__error" hidden="" id="access-organisation-error"></p>
 </div>
 <div class="field">
-<label for="access-email"><span>Work email<span aria-hidden="true" class="field__req">*</span></span></label>
-<input aria-describedby="access-email-error" aria-required="true" autocomplete="email" id="access-email" inputmode="email" name="email" placeholder="you@firm.com" required="" spellcheck="false" type="email"/>
+<label for="access-email"><span><span data-i18n="early-access.form.email.label">Work email</span><span aria-hidden="true" class="field__req">*</span></span></label>
+<input aria-describedby="access-email-error" aria-required="true" autocomplete="email" data-i18n-placeholder="early-access.form.email.placeholder" id="access-email" inputmode="email" name="email" placeholder="you@firm.com" required="" spellcheck="false" type="email"/>
 <p class="field__error" hidden="" id="access-email-error"></p>
 </div>
 <div class="field">
-<label for="access-phone"><span>Telephone</span><span class="field__opt">Optional</span></label>
-<input aria-describedby="access-phone-hint access-phone-error" autocomplete="tel" id="access-phone" inputmode="tel" name="phone" placeholder="+852 0000 0000" type="tel"/>
-<p class="field__hint" id="access-phone-hint">Only if you would rather we call.</p>
+<label for="access-phone"><span data-i18n="early-access.form.phone.label">Telephone</span><span class="field__opt" data-i18n="early-access.form.optional">Optional</span></label>
+<input aria-describedby="access-phone-hint access-phone-error" autocomplete="tel" data-i18n-placeholder="early-access.form.phone.placeholder" id="access-phone" inputmode="tel" name="phone" placeholder="+852 0000 0000" type="tel"/>
+<p class="field__hint" data-i18n="early-access.form.phone.hint" id="access-phone-hint">Only if you would rather we call.</p>
 <p class="field__error" hidden="" id="access-phone-error"></p>
 </div>
 <div class="field">
-<label for="access-role"><span>Role</span><span class="field__opt">Optional</span></label>
+<label for="access-role"><span data-i18n="early-access.form.role.label">Role</span><span class="field__opt" data-i18n="early-access.form.optional">Optional</span></label>
 <div class="field__select">
 <select id="access-role" name="role">
-<option value="">Select a role</option>
-<option>Structural engineer</option>
-<option>Design or project manager</option>
-<option>BIM / digital delivery</option>
-<option>Principal or director</option>
-<option>Software or IT</option>
-<option>Student or researcher</option>
-<option>Other</option>
+<option data-i18n="early-access.form.role.placeholder" value="">Select a role</option>
+<option data-i18n="early-access.form.role.option-structural-engineer">Structural engineer</option>
+<option data-i18n="early-access.form.role.option-design-project-manager">Design or project manager</option>
+<option data-i18n="early-access.form.role.option-bim-digital-delivery">BIM / digital delivery</option>
+<option data-i18n="early-access.form.role.option-principal-director">Principal or director</option>
+<option data-i18n="early-access.form.role.option-software-it">Software or IT</option>
+<option data-i18n="early-access.form.role.option-student-researcher">Student or researcher</option>
+<option data-i18n="early-access.form.role.option-other">Other</option>
 </select>
 </div>
 </div>
 <div class="field">
-<label for="access-team"><span>Team size</span><span class="field__opt">Optional</span></label>
+<label for="access-team"><span data-i18n="early-access.form.team.label">Team size</span><span class="field__opt" data-i18n="early-access.form.optional">Optional</span></label>
 <div class="field__select">
 <select id="access-team" name="team">
-<option value="">Select a size</option>
-<option>1–10 people</option>
-<option>11–50 people</option>
-<option>51–200 people</option>
-<option>201–1,000 people</option>
-<option>More than 1,000</option>
+<option data-i18n="early-access.form.team.placeholder" value="">Select a size</option>
+<option data-i18n="early-access.form.team.option-1-10">1–10 people</option>
+<option data-i18n="early-access.form.team.option-11-50">11–50 people</option>
+<option data-i18n="early-access.form.team.option-51-200">51–200 people</option>
+<option data-i18n="early-access.form.team.option-201-1000">201–1,000 people</option>
+<option data-i18n="early-access.form.team.option-more-than-1000">More than 1,000</option>
 </select>
 </div>
 </div>
 <div class="field field--wide">
-<label for="access-notes"><span>What would you like to try first?</span><span class="field__opt">Optional</span></label>
-<textarea aria-describedby="access-notes-hint" id="access-notes" name="notes" placeholder="Drawings to review, a code set, a pilot workflow — whatever is most useful." rows="4"></textarea>
-<p class="field__hint" id="access-notes-hint">A sentence is enough; we will ask for the detail when we reply.</p>
+<label for="access-notes"><span data-i18n="early-access.form.notes.label">What would you like to try first?</span><span class="field__opt" data-i18n="early-access.form.optional">Optional</span></label>
+<textarea aria-describedby="access-notes-hint" data-i18n-placeholder="early-access.form.notes.placeholder" id="access-notes" name="notes" placeholder="Drawings to review, a code set, a pilot workflow — whatever is most useful." rows="4"></textarea>
+<p class="field__hint" data-i18n="early-access.form.notes.hint" id="access-notes-hint">A sentence is enough; we will ask for the detail when we reply.</p>
 </div>
-<p class="access-consent">By requesting access you agree that we may contact you about the pilot. Your details are handled as described in our <a href="privacy.html">Privacy Policy</a>.</p>
+<p class="access-consent"><span data-i18n="early-access.form.consent">By requesting access you agree that we may contact you about the pilot. Your details are handled as described in our </span><a data-i18n="shared.privacy-policy.6b2d4e" href="privacy.html">Privacy Policy</a>.</p>
 <div class="access-submit">
-<button class="access-button" type="submit"><span data-access-label="">Request early access</span><span aria-hidden="true" class="access-button__arrow">→</span></button>
+<button class="access-button" type="submit"><span data-access-label="" data-i18n="early-access.form.submit">Request early access</span><span aria-hidden="true" class="access-button__arrow">→</span></button>
 <p aria-live="polite" class="access-status" data-access-status="" role="status"></p>
 </div>
 </form>
@@ -133,16 +133,16 @@
 <div class="access-done__mark" aria-hidden="true">
 <svg fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
 </div>
-<h2>Request received</h2>
+<h2 data-i18n="early-access.success.title">Request received</h2>
 <p class="access-done__copy" data-access-done-copy="">Thanks — we have your details. A member of the OuroNex team will write to you within two working days.</p>
-<button class="access-link" data-access-again="" type="button">Send another request</button>
+<button class="access-link" data-access-again="" data-i18n="early-access.success.again" type="button">Send another request</button>
 </div>
 </section>
 </div>
 </main>
 <footer class="site-footer">
 <div class="wrap footer-bottom">
-<p class="footer-copyright">Copyright © 2026 OuroNex Technology Company Limited. All Rights Reserved.</p>
+<p class="footer-copyright" data-i18n="early-access.footer.copyright">Copyright © 2026 OuroNex Technology Company Limited. All Rights Reserved.</p>
 <nav aria-label="Legal" class="footer-legal">
 <a href="terms.html"><span data-i18n="shared.terms-of-service.3f9c1a">Terms of Service</span></a>
 <a href="privacy.html"><span data-i18n="shared.privacy-policy.6b2d4e">Privacy Policy</span></a>

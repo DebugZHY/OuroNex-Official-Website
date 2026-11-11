@@ -2,7 +2,7 @@
 window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "account-dashboard.dashboard-ouronex.d85a0e": {
     "en": "Dashboard — OuroNex",
-    "zh-CN": "控制台 — OuroNex",
+    "zh-CN": "仪表板 — OuroNex",
     "zh-TW": "儀表板 — OuroNex"
   },
   "account-dashboard.ouronex.3343a9": {
@@ -12,7 +12,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-dashboard.dashboard.d87f47": {
     "en": "Dashboard",
-    "zh-CN": "控制台",
+    "zh-CN": "仪表板",
     "zh-TW": "儀表板"
   },
   "account-dashboard.profile.ff4fc0": {
@@ -37,8 +37,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-dashboard.usage.0bb186": {
     "en": "Usage",
-    "zh-CN": "使用情况",
-    "zh-TW": "使用情況"
+    "zh-CN": "用量",
+    "zh-TW": "用量"
   },
   "account-dashboard.account.85dfa3": {
     "en": "Account",
@@ -107,8 +107,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-dashboard.monthly-tokens.f6f748": {
     "en": "Monthly tokens",
-    "zh-CN": "每月 Token 额度",
-    "zh-TW": "每月 Token 額度"
+    "zh-CN": "每月 Token",
+    "zh-TW": "每月 Token"
   },
   "account-dashboard.subscription-status.aa5794": {
     "en": "Subscription Status",
@@ -117,8 +117,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-dashboard.next-renewal.1db7c2": {
     "en": "Next Renewal",
-    "zh-CN": "下次续订日期",
-    "zh-TW": "下次續訂日期"
+    "zh-CN": "下次续订",
+    "zh-TW": "下次續訂"
   },
   "account-dashboard.quick-actions.c40810": {
     "en": "Quick Actions",
@@ -142,8 +142,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-dashboard.active-over.616386": {
     "en": "Active over",
-    "zh-CN": "活跃于",
-    "zh-TW": "活躍於"
+    "zh-CN": "活跃时长",
+    "zh-TW": "活躍時長"
   },
   "account-dashboard.all.6a7208": {
     "en": "All",
@@ -207,8 +207,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-dashboard.daily-token-consumption-across-your-models-and-sessions.cfbe0f": {
     "en": "Daily token consumption across your models and sessions",
-    "zh-CN": "查看各模型和会话的每日 Token 消耗",
-    "zh-TW": "查看各模型與工作階段的每日 Token 消耗"
+    "zh-CN": "各模型和会话的每日 Token 消耗",
+    "zh-TW": "各模型與工作階段的每日 Token 消耗"
   },
   "account-dashboard.daily-token-usage-chart.d04c97": {
     "en": "Daily token usage chart",
@@ -283,7 +283,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "account-dashboard.network-or-service-error-use-refresh-to-try-again.6529bb": {
     "en": "Network or service error. Use Refresh to try again.",
     "zh-CN": "网络或服务异常。请点击“刷新”重试。",
-    "zh-TW": "網路或服務異常。請點擊「重新整理」重試。"
+    "zh-TW": "網絡或服務異常。請點擊「重新整理」重試。"
   },
   "account-dashboard.no-usage-data-for-the-current-filters.779fd9": {
     "en": "No usage data for the current filters",
@@ -317,8 +317,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-dashboard.the-usage-service-is-temporarily-unavailable-try-refresh-again.9aa7d6": {
     "en": "The usage service is temporarily unavailable. Try Refresh again.",
-    "zh-CN": "用量服务暂时不可用。请稍后点击“刷新”重试。",
-    "zh-TW": "用量服務暫時不可用。請稍後點擊「重新整理」重試。"
+    "zh-CN": "用量服务暂时不可用。请点击“刷新”重试。",
+    "zh-TW": "用量服務暫時不可用。請點擊「重新整理」重試。"
   },
   "account-dashboard.time-range.22cd3c": {
     "en": "Time range",

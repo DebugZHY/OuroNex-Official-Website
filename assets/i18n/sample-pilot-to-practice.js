@@ -37,13 +37,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "sample-pilot-to-practice.scoped-is-one-of-those-words-that-soun.5c11ee": {
     "en": "“Scoped” is one of those words that sounds precise and says very little. In our work it means something deliberately small: one workflow, in one team, with the assumptions written down before anything is built.",
-    "zh-CN": "“范围限定”这类词听起来精确，实际却可能语焉不详。在我们的工作中，它意味着刻意把范围缩小：一个团队中的一个工作流，并在构建任何内容之前记录假设。",
-    "zh-TW": "「範圍限定」這類詞聽起來精確，實際卻可能語焉不詳。在我們的工作中，它意味著刻意將範圍縮小：一個團隊中的一個工作流程，並在建構任何內容之前記錄假設。"
+    "zh-CN": "“范围限定”这类词听起来很精确，其实说不了什么。在我们的工作里，它的意思很小，而且是故意的：一个团队、一个工作流，动工之前先把假设写下来。",
+    "zh-TW": "「範圍限定」這類詞聽起來很精確，其實說不了什麼。在我們的工作裡，它的意思很小，而且是故意的：一個團隊、一個工作流程，動工之前先把假設寫下來。"
   },
   "sample-pilot-to-practice.a-scoped-pilot-starts-from-a-process-t.00dac1": {
     "en": "A scoped pilot starts from a process the firm already runs. We map the steps, the handoffs and the existing checks, then agree which parts AI can assist and which stay with the engineer. The output of scoping is not a plan for a platform. It is a short agreement: what will be tried, how the team itself will judge it, and who reviews each stage.",
-    "zh-CN": "范围限定的试点从企业现有的流程开始。我们梳理各个步骤、交接环节和现有检查，再约定哪些部分可由 AI 辅助、哪些仍由工程师负责。范围界定的成果不是一份平台建设计划，而是一份简短协议：试点要验证什么、团队如何自行评判，以及每个阶段由谁审查。",
-    "zh-TW": "範圍限定的試點從企業現有的流程開始。我們梳理各個步驟、交接環節與現有檢查，再約定哪些部分可由 AI 輔助、哪些仍由工程師負責。範圍界定的成果不是一份平台建設計畫，而是一份簡短協議：試點要驗證什麼、團隊如何自行評判，以及每個階段由誰審查。"
+    "zh-CN": "范围限定的试点，从企业已经在跑的流程开始。我们梳理步骤、交接和现有检查，再一起定下哪些环节可以让 AI 帮忙、哪些仍归工程师。界定范围的结果不是一份平台计划，而是一份短协议：试什么、团队自己怎么判断、每个阶段谁来审。",
+    "zh-TW": "範圍限定的試點，從企業已經在跑的流程開始。我們梳理步驟、交接與現有檢查，再一起定下哪些環節可以讓 AI 幫忙、哪些仍歸工程師。界定範圍的結果不是一份平台計畫，而是一份短協議：試什麼、團隊自己怎麼判斷、每個階段誰來審。"
   },
   "sample-pilot-to-practice.what-the-review-gates-commit-to.d49eb1": {
     "en": "What the review gates commit to",
@@ -52,23 +52,23 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "sample-pilot-to-practice.each-stage-carries-its-own-review-gate.d87819": {
     "en": "Each stage carries its own review gate. The first gate confirms the workflow and the assumptions. The second checks a small, real piece of work against the existing standards. Only then does the pilot move into regular use, and only while review remains active. A gate is not a formality: if the work does not pass, the pilot stops or returns to scope.",
-    "zh-CN": "每个阶段都有各自的审查关口。第一道关口确认工作流和假设，第二道关口依据现行标准检查一项规模较小但真实的工作。只有通过这些关口，试点才会进入常规使用，而且审查必须持续进行。关口不是形式：如果工作未通过，试点就会停止，或重新回到范围界定阶段。",
-    "zh-TW": "每個階段都有各自的審查關口。第一道關口確認工作流程與假設，第二道關口依據現行標準檢查一項規模較小但真實的工作。只有通過這些關口，試點才會進入常規使用，而且審查必須持續進行。關口不是形式：如果工作未通過，試點就會停止，或重新回到範圍界定階段。"
+    "zh-CN": "每个阶段都有自己的审查关口。第一道关口确认工作流和假设；第二道关口拿一小块真实工作，对照现行标准检查。只有过了这两道，试点才进入常规使用，而且审查必须一直开着。关口不是走过场：工作通不过，试点就停下，或者退回去重新界定范围。",
+    "zh-TW": "每個階段都有自己的審查關口。第一道關口確認工作流程與假設；第二道關口拿一小塊真實工作，對照現行標準檢查。只有過了這兩道，試點才進入常規使用，而且審查必須一直開著。關口不是走過場：工作通不過，試點就停下，或者退回去重新界定範圍。"
   },
   "sample-pilot-to-practice.a-pilot-tests-whether-one-workflow-can.61fdba": {
     "en": "A pilot tests whether one workflow can be trusted on real work. It does not commit the firm to a rollout, and it does not promise that any task will be automated.",
-    "zh-CN": "试点检验的是一个工作流能否在真实工作中获得信任；它不意味着企业必须全面推广，也不承诺任何任务将实现自动化。",
-    "zh-TW": "試點檢驗的是一個工作流程能否在真實工作中獲得信任；它不意味著企業必須全面導入，也不承諾任何任務將實現自動化。"
+    "zh-CN": "试点要检验的，是一个工作流能不能在真实工作中站得住；它不要求企业就此全面推广，也不承诺把哪项任务自动化。",
+    "zh-TW": "試點要檢驗的，是一個工作流程能不能在真實工作中站得住；它不要求企業就此全面導入，也不承諾把哪項任務自動化。"
   },
   "sample-pilot-to-practice.it-is-worth-saying-what-a-pilot-is-not.747df4": {
     "en": "It is worth saying what a pilot is not. It is not a platform rollout, and it is not a promise of automation. Some steps may not be suitable for assistance at all, and saying so early is a useful result rather than a failure. The engineer keeps responsibility for every professional decision, whether or not a model was involved.",
-    "zh-CN": "也有必要说明试点不是什么。它不是平台全面部署，也不是自动化承诺。有些步骤可能根本不适合引入辅助，及早明确这一点是有价值的成果，而非失败。无论是否使用了模型，工程师都始终对每项专业决策负责。",
-    "zh-TW": "也有必要說明試點不是什麼。它不是平台全面部署，也不是自動化承諾。有些步驟可能根本不適合引入輔助，及早明確這一點是有價值的成果，而非失敗。無論是否使用模型，工程師都始終對每項專業決策負責。"
+    "zh-CN": "也有必要说明试点不是什么。它不是平台全面上线，也不是对自动化的承诺。有些步骤可能根本不适合引入辅助，及早说清楚是有价值的成果，不是失败。不管有没有用到模型，每一项专业决策都由工程师负责。",
+    "zh-TW": "也有必要說明試點不是什麼。它不是平台全面上線，也不是對自動化的承諾。有些步驟可能根本不適合引入輔助，及早說清楚是有價值的成果，不是失敗。不管有沒有用到模型，每一項專業決策都由工程師負責。"
   },
   "sample-pilot-to-practice.practice-begins-when-the-workflow-has-.1248d8": {
     "en": "Practice begins when the workflow has survived that scrutiny and the team can run it without us. Then the same pattern can be scoped again for a second workflow — again with named assumptions, again with staged acceptance. The unit is always the workflow, not the tool.",
-    "zh-CN": "当工作流经受住这些审查，并且团队可以脱离我们独立运行时，实践阶段才开始。随后，可以按同样模式为第二个工作流限定范围——同样明确列出假设，同样分阶段验收。基本单位始终是工作流，而不是工具。",
-    "zh-TW": "當工作流程經受住這些審查，且團隊能在我們不參與的情況下運行該流程時，實務階段才真正開始。隨後，可依同樣模式為第二個工作流程限定範圍——同樣明確列出假設，同樣分階段驗收。基本單位始終是工作流程，而不是工具。"
+    "zh-CN": "工作流经得住这些审查、团队不用我们也能自己跑起来，才算进入实践。之后可以用同样的办法界定第二个工作流——照样把假设列明，照样分阶段验收。基本单位始终是工作流，而不是工具。",
+    "zh-TW": "工作流程經得住這些審查、團隊不用我們也能自己跑起來，才算進入實務。之後可以用同樣的辦法界定第二個工作流程——照樣把假設列明，照樣分階段驗收。基本單位始終是工作流程，而不是工具。"
   },
   "sample-pilot-to-practice.back-to-all-articles.0cc0a1": {
     "en": "Back to all articles",
@@ -77,8 +77,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "sample-pilot-to-practice.how-we-scope-a-pilot-around-one-real-w.f046c1": {
     "en": "How we scope a pilot around one real workflow, what each review gate commits to, and where the boundary of a first engagement sits.",
-    "zh-CN": "我们如何围绕一个真实工作流限定试点范围，每道审查关口须承诺什么，以及首次合作的边界在哪里。",
-    "zh-TW": "我們如何圍繞一個真實工作流程限定試點範圍、每道審查關口須承諾什麼，以及首次合作的界線在哪裡。"
+    "zh-CN": "我们如何围绕一个真实工作流界定试点范围，每道审查关口须承诺什么，以及首次合作的边界在哪里。",
+    "zh-TW": "我們如何圍繞一個真實工作流程界定試點範圍、每道審查關口須承諾什麼，以及首次合作的界線在哪裡。"
   },
   "sample-pilot-to-practice.breadcrumb.c766e6": {
     "en": "Breadcrumb",

@@ -2,8 +2,8 @@
 window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "dynamic.message.username-password-required": {
     "en": "Username and password are required.",
-    "zh-CN": "用户名和密码为必填项。",
-    "zh-TW": "用戶名和密碼為必填項。"
+    "zh-CN": "请输入用户名和密码。",
+    "zh-TW": "請輸入用戶名和密碼。"
   },
   "dynamic.message.passwords-do-not-match": {
     "en": "Passwords do not match.",
@@ -57,8 +57,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "dynamic.message.password-length": {
     "en": "Password must be at least 6 characters.",
-    "zh-CN": "密码至少需要 6 个字符。",
-    "zh-TW": "密碼至少需要 6 個字元。"
+    "zh-CN": "密码长度至少为 6 个字符。",
+    "zh-TW": "密碼長度至少為 6 個字元。"
   },
   "dynamic.message.password-changed": {
     "en": "Password changed successfully.",

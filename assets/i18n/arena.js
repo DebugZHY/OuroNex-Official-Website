@@ -17,8 +17,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "arena.a-growing-set-of-online-ai-tools-from-.068841": {
     "en": "A growing set of online AI tools from our engineering practice. New tools are added here as they are verified and ready.",
-    "zh-CN": "源自我们工程实践的在线 AI 工具持续扩充。新工具通过验证并准备就绪后，将陆续在此发布。",
-    "zh-TW": "源自我們工程實務的網上 AI 工具持續擴充。新工具通過驗證並準備就緒後，會陸續在此推出。"
+    "zh-CN": "源自我们工程实践的在线 AI 工具持续扩充。新工具通过验证并准备就绪后，会陆续在此发布。",
+    "zh-TW": "源自我們工程實務的線上 AI 工具持續擴充。新工具通過驗證並準備就緒後，會陸續在此推出。"
   },
   "arena.01-in-preparation.96b56b": {
     "en": "01 / In preparation",
@@ -27,8 +27,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "arena.the-first-tools-are-in-verification-ch.7b6b47": {
     "en": "The first tools are in verification. Check back soon — or tell us what would help your work.",
-    "zh-CN": "首批工具正在验证中。请稍后再来查看，或告诉我们哪些工具能为您的工作提供帮助。",
-    "zh-TW": "首批工具正在驗證中。請稍後再瀏覽，或告訴我們哪些工具能有助您的工作。"
+    "zh-CN": "首批工具正在验证中。请稍后再来看看，或告诉我们哪些工具对您的工作有帮助。",
+    "zh-TW": "首批工具正在驗證中。請稍後再來看看，或告訴我們哪些工具對您的工作有幫助。"
   },
   "arena.tell-us-what-you-need.9ef53e": {
     "en": "Tell us what you need",
@@ -37,7 +37,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "arena.arena-is-a-growing-set-of-online-ai-to.fa8be4": {
     "en": "Arena is a growing set of online AI tools from OuroNex's engineering practice. New tools are added here as they are verified and ready.",
-    "zh-CN": "竞技场汇聚源自 OuroNex 工程实践且持续扩充的在线 AI 工具。新工具通过验证并准备就绪后，将陆续在此发布。",
-    "zh-TW": "競技場匯聚源自 OuroNex 工程實務並持續擴充的網上 AI 工具。新工具通過驗證並準備就緒後，會陸續在此推出。"
+    "zh-CN": "竞技场汇聚源自 OuroNex 工程实践并持续扩充的在线 AI 工具。新工具通过验证并准备就绪后，会陆续在此发布。",
+    "zh-TW": "競技場匯聚源自 OuroNex 工程實務並持續擴充的線上 AI 工具。新工具通過驗證並準備就緒後，會陸續在此推出。"
   }
 });

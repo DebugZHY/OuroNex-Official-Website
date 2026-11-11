@@ -11,13 +11,13 @@
   },
   "account-login.access-your-ouronex-dashboard.1ec8a4": {
     "en": "Access your OuroNex dashboard",
-    "zh-CN": "登录您的 OuroNex 控制台",
+    "zh-CN": "登录您的 OuroNex 仪表板",
     "zh-TW": "登入您的 OuroNex 儀表板"
   },
   "account-login.username.84c290": {
     "en": "Username",
     "zh-CN": "用户名",
-    "zh-TW": "使用者名稱"
+    "zh-TW": "用戶名"
   },
   "account-login.password.8be3c9": {
     "en": "Password",
@@ -31,7 +31,7 @@
   },
   "account-login.create-one.7dbf3d": {
     "en": "Create one",
-    "zh-CN": "立即注册",
-    "zh-TW": "立即註冊"
+    "zh-CN": "创建一个",
+    "zh-TW": "建立一個"
   }
 }

@@ -37,13 +37,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "sample-llm-drawing-review.drawing-review-is-a-reading-task-befor.03c7d9": {
     "en": "Drawing review is a reading task before it is a checking task. Sheets carry callouts, cross-references, notes and revision clouds, and a reviewer moves between them constantly. We have been testing where language models help with that reading work — in scoped engagements, on drawing sets the reviewing engineer already owns.",
-    "zh-CN": "图纸审查首先是一项阅读工作，然后才是检查工作。图纸中包含详图索引、交叉引用、注释和修订云线，审查人员需要不断在它们之间切换。我们一直在范围限定的合作中，针对审查工程师已负责的图纸，测试语言模型能在哪些阅读环节提供帮助。",
-    "zh-TW": "圖紙審查首先是一項閱讀工作，然後才是檢查工作。圖紙中包含詳圖索引、交叉引用、註記與修訂雲線，審查人員需要不斷在它們之間切換。我們一直在範圍限定的合作中，針對審查工程師已負責的圖紙，測試語言模型能在哪些閱讀環節提供協助。"
+    "zh-CN": "图纸审查首先是阅读，其次才是检查。一套图纸里有详图索引、交叉引用、注释和修订云线，审查人员要在它们之间不停来回。我们一直在范围限定的合作中，拿审查工程师自己负责的图纸，试语言模型能在这份阅读工作上帮到哪一步。",
+    "zh-TW": "圖紙審查首先是閱讀，其次才是檢查。一套圖紙裡有詳圖索引、交叉引用、註記與修訂雲線，審查人員要在它們之間不停來回。我們一直在範圍限定的合作中，拿審查工程師自己負責的圖紙，試語言模型能在這份閱讀工作上幫到哪一步。"
   },
   "sample-llm-drawing-review.the-pattern-we-see-is-fairly-stable-re.e03722": {
     "en": "The pattern we see is fairly stable. Reading a callout and locating the detail it points to is the kind of task a language model can assist with. The same applies to cross-references between a general note and the sheets it governs, and to flagging where a revision cloud and a description no longer agree. These are text and relationship tasks, and a suggestion can carry the reference it came from.",
-    "zh-CN": "我们观察到的模式相当稳定。读取详图索引并找到其指向的详图，是语言模型可以协助的一类任务。将总说明与其适用的图纸相互对照，以及标出修订云线与说明不再一致的位置，也同样如此。这些属于文本与关系处理任务，建议还可以附上所依据的来源引用。",
-    "zh-TW": "我們觀察到的模式相當穩定。讀取詳圖索引並找到其指向的詳圖，是語言模型可協助的一類任務。將總說明與其適用的圖紙相互對照，以及標出修訂雲線與說明不再一致的位置，也同樣如此。這些屬於文字與關係處理任務，建議還可附上所依據的來源引用。"
+    "zh-CN": "我们看到的规律相当稳定。读到一条详图索引、再找到它指向的详图，这类任务语言模型可以帮忙。总说明与它管着的那些图纸之间的交叉引用，以及标出修订云线和说明已经对不上的地方，也一样。这些都属于文字和关系的任务，而且每条建议都能带上它出自哪里。",
+    "zh-TW": "我們看到的規律相當穩定。讀到一條詳圖索引、再找到它指向的詳圖，這類任務語言模型可以幫忙。總說明與它管著的那些圖紙之間的交叉引用，以及標出修訂雲線和說明已經對不上的地方，也一樣。這些都屬於文字與關係的任務，而且每條建議都能帶上它出自哪裡。"
   },
   "sample-llm-drawing-review.text-is-not-geometry.fed7f9": {
     "en": "Text is not geometry",
@@ -52,8 +52,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "sample-llm-drawing-review.geometric-intent-is-a-different-proble.d14fdd": {
     "en": "Geometric intent is a different problem. A model can observe that a detail looks crowded or that a note is repeated, but it cannot be trusted to decide whether a connection is buildable or whether a dimension chain closes. Those judgements depend on structural reasoning, construction knowledge and the responsibilities that come with a design. We treat any geometric output as a prompt for the reviewer, never as a finding.",
-    "zh-CN": "几何意图则是另一类问题。模型可以察觉某个详图显得拥挤，或某条注释重复出现，但不能信赖它来判定连接节点是否可施工，或尺寸链是否闭合。这些判断依赖结构推理、施工知识以及设计所附带的责任。我们把任何几何输出都视为给审查人员的提示，绝不视为审查结论。",
-    "zh-TW": "幾何意圖則是另一類問題。模型可察覺某個詳圖顯得擁擠，或某條註記重複出現，但不能信賴它判定連接節點是否可施工，或尺寸鏈是否閉合。這些判斷依賴結構推理、施工知識以及設計所附帶的責任。我們將任何幾何輸出都視為給審查人員的提示，絕不視為審查結論。"
+    "zh-CN": "几何意图是另一类问题。模型能看出某个详图显得拥挤，或某条注释重复出现，但不能指望它判定连接是否可施工、尺寸链是否闭合。这些判断依赖结构推理、施工知识，以及设计所附带的责任。我们把一切几何输出都当作给审查人员的提示，从不当作审查结论。",
+    "zh-TW": "幾何意圖則是另一類問題。模型能看出某個詳圖顯得擁擠，或某條註記重複出現，但不能指望它判定連接是否可施工、尺寸鏈是否閉合。這些判斷依賴結構推理、施工知識，以及設計所附帶的責任。我們把一切幾何輸出都當作給審查人員的提示，從不當作審查結論。"
   },
   "sample-llm-drawing-review.the-drawing-set-remains-authoritative-.8c32f6": {
     "en": "The drawing set remains authoritative. A model output is a reading aid; the reviewer stays the decision point.",
@@ -62,13 +62,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "sample-llm-drawing-review.that-is-why-the-workflow-is-designed-t.c13708": {
     "en": "That is why the workflow is designed to keep the sheet in front of the reviewer and to make each suggestion traceable to the text or reference behind it. Where a suggestion cannot cite its source, it is not surfaced as a finding. Geometric reasoning also remains under research, and we do not present it as a solved part of drawing review.",
-    "zh-CN": "因此，工作流的设计始终让图纸呈现在审查人员面前，并使每条建议都可追溯到其背后的文字或引用。无法注明来源的建议，不会作为审查发现呈现。几何推理同样仍在研究中，我们不会把它描述为图纸审查中已经解决的问题。",
-    "zh-TW": "因此，工作流程的設計始終讓圖紙呈現在審查人員面前，並使每項建議都可追溯至背後的文字或引用。無法註明來源的建議，不會作為審查發現呈現。幾何推理同樣仍在研究中，我們不會將其描述為圖紙審查中已解決的問題。"
+    "zh-CN": "所以工作流的设计，是让图纸始终摆在审查人员面前，并让每条建议都能追溯到它背后的文字或引用。说不出来源的建议，不会作为审查发现呈现。几何推理同样还在研究，我们不会说图纸审查的这一问题已经解决。",
+    "zh-TW": "所以工作流程的設計，是讓圖紙始終擺在審查人員面前，並讓每條建議都能追溯到它背後的文字或引用。說不出來源的建議，不會作為審查發現呈現。幾何推理同樣還在研究，我們不會說圖紙審查的這一問題已經解決。"
   },
   "sample-llm-drawing-review.what-we-are-learning-is-modest-and-use.f5822e": {
     "en": "What we are learning is modest and useful: keep the scope small, keep the sources visible, and keep the engineer in charge. Language models help at the edges of drawing review — the reading, the retrieval, the cross-check. The decision itself remains a professional one, and responsibility for it stays with the engineer.",
-    "zh-CN": "我们获得的经验有限却实用：限定小范围、公开来源，并始终由工程师主导。语言模型可在图纸审查的辅助环节发挥作用——阅读、检索和交叉核对；决策本身仍属于专业判断，责任仍由工程师承担。",
-    "zh-TW": "我們獲得的經驗有限卻實用：限定小範圍、公開來源，並始終由工程師主導。語言模型可在圖紙審查的輔助環節發揮作用——閱讀、檢索與交叉核對；決策本身仍屬於專業判斷，責任仍由工程師承擔。"
+    "zh-CN": "我们学到的东西不多，但有用：范围小一点，来源摆出来，决定权留在工程师手里。语言模型能帮上忙的是图纸审查的边缘环节——阅读、检索、交叉核对；决策本身仍是专业判断，责任仍在工程师身上。",
+    "zh-TW": "我們學到的東西不多，但有用：範圍小一點，來源擺出來，決定權留在工程師手裡。語言模型能幫上忙的是圖紙審查的邊緣環節——閱讀、檢索、交叉核對；決策本身仍是專業判斷，責任仍在工程師身上。"
   },
   "sample-llm-drawing-review.back-to-all-articles.0cc0a1": {
     "en": "Back to all articles",
@@ -77,8 +77,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "sample-llm-drawing-review.working-notes-from-adapting-language-m.6d9175": {
     "en": "Working notes from adapting language models to drawing checks: where they help a reviewer, and where the sheet still has the final say.",
-    "zh-CN": "将语言模型用于图纸检查的工作笔记：它们能在哪些环节协助审查人员，以及哪些环节仍以图纸为最终依据。",
-    "zh-TW": "將語言模型用於圖紙檢查的工作札記：它們能在哪些環節協助審查人員，以及哪些環節仍以圖紙為最終依據。"
+    "zh-CN": "把语言模型用到图纸检查上的工作笔记：它在哪些环节能帮审查人员，哪些环节仍由图纸说了算。",
+    "zh-TW": "把語言模型用到圖紙檢查上的工作札記：它在哪些環節能幫審查人員，哪些環節仍由圖紙說了算。"
   },
   "sample-llm-drawing-review.breadcrumb.c766e6": {
     "en": "Breadcrumb",

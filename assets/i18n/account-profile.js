@@ -12,7 +12,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-profile.dashboard.d87f47": {
     "en": "Dashboard",
-    "zh-CN": "控制台",
+    "zh-CN": "仪表板",
     "zh-TW": "儀表板"
   },
   "account-profile.profile.ff4fc0": {
@@ -37,8 +37,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "account-profile.usage.0bb186": {
     "en": "Usage",
-    "zh-CN": "使用情况",
-    "zh-TW": "使用情況"
+    "zh-CN": "用量",
+    "zh-TW": "用量"
   },
   "account-profile.account.85dfa3": {
     "en": "Account",
@@ -63,7 +63,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "account-profile.username.84c290": {
     "en": "Username",
     "zh-CN": "用户名",
-    "zh-TW": "使用者名稱"
+    "zh-TW": "用戶名"
   },
   "account-profile.email.84add5": {
     "en": "Email",

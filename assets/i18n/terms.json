@@ -1,1 +1,1047 @@
-{}
+{
+  "terms.head.eyebrow-legal": {
+    "en": "Legal",
+    "zh-CN": "法律",
+    "zh-TW": "法律"
+  },
+  "terms.head.eyebrow-terms": {
+    "en": "Terms",
+    "zh-CN": "条款",
+    "zh-TW": "條款"
+  },
+  "terms.head.title": {
+    "en": "Terms of Service",
+    "zh-CN": "服务条款",
+    "zh-TW": "服務條款"
+  },
+  "terms.privacy-policy": {
+    "en": "Privacy Policy",
+    "zh-CN": "隐私政策",
+    "zh-TW": "私隱政策"
+  },
+  "terms.head.meta-company": {
+    "en": "OuroNex Technology Company Limited",
+    "zh-CN": "OuroNex 科技有限公司",
+    "zh-TW": "OuroNex 科技有限公司"
+  },
+  "terms.head.meta-updated": {
+    "en": "Last updated ",
+    "zh-CN": "最后更新 ",
+    "zh-TW": "最後更新 "
+  },
+  "terms.head.date": {
+    "en": "2 November 2026",
+    "zh-CN": "2026 年 11 月 2 日",
+    "zh-TW": "2026 年 11 月 2 日"
+  },
+  "terms.head.intro": {
+    "en": "These Terms of Service govern your access to and use of the OuroNex website, our software, and related services. They apply alongside any order form, quotation, statement of work, or product documentation for what you use. Please read them before creating an account, downloading software, starting an evaluation, or otherwise using the Services.",
+    "zh-CN": "本服务条款规范您对 OuroNex 网站、本公司的软件及相关服务的访问和使用。本条款与您所使用产品相关的任何订单、报价单、工作说明书或产品文档一并适用。在创建账户、下载软件、开始评估或以其他方式使用本服务之前，请先阅读本条款。",
+    "zh-TW": "本服務條款規範您對 OuroNex 網站、本公司的軟件及相關服務的訪問和使用。本條款與您所使用產品相關的任何訂單、報價單、工作說明書或產品文件一併適用。在創建帳戶、下載軟件、開始評估或以其他方式使用本服務之前，請先閱讀本條款。"
+  },
+  "terms.translation-notice": {
+    "en": "This page is also available in Chinese. The Chinese text is provided for convenience; if there is any inconsistency, the English version prevails.",
+    "zh-CN": "本页为中文译本，译文仅为方便阅读而提供；如与英文版本有歧义，以英文版本为准。",
+    "zh-TW": "本頁為中文譯本，譯文僅為方便閱讀而提供；如與英文版本有歧義，以英文版本為準。"
+  },
+  "terms.toc.kicker": {
+    "en": "Legal / Terms",
+    "zh-CN": "法律 / 条款",
+    "zh-TW": "法律 / 條款"
+  },
+  "terms.toc.title": {
+    "en": "On this page",
+    "zh-CN": "本页内容",
+    "zh-TW": "本頁內容"
+  },
+  "terms.toc.contents": {
+    "en": "Contents",
+    "zh-CN": "目录",
+    "zh-TW": "目錄"
+  },
+  "terms.aria.toc": {
+    "en": "On this page",
+    "zh-CN": "本页内容",
+    "zh-TW": "本頁內容"
+  },
+  "terms.aria.sections": {
+    "en": "Sections",
+    "zh-CN": "章节",
+    "zh-TW": "章節"
+  },
+  "terms.footer-copyright": {
+    "en": "Copyright © 2026 OuroNex Technology Company Limited. All Rights Reserved.",
+    "zh-CN": "版权所有 © 2026 OuroNex 科技有限公司。保留所有权利。",
+    "zh-TW": "版權所有 © 2026 OuroNex 科技有限公司。保留所有權利。"
+  },
+  "terms.aria.legal": {
+    "en": "Legal",
+    "zh-CN": "法律",
+    "zh-TW": "法律"
+  },
+  "terms.toc.who-we-are-and-what-these-terms-cover": {
+    "en": "Who we are",
+    "zh-CN": "公司简介",
+    "zh-TW": "公司簡介"
+  },
+  "terms.toc.who-we-are-and-what-these-terms-cover.title": {
+    "en": "Who We Are and What These Terms Cover",
+    "zh-CN": "本公司简介及本条款涵盖的范围",
+    "zh-TW": "本公司簡介及本條款涵蓋的範圍"
+  },
+  "terms.toc.acceptance-of-these-terms-and-changes-to-them": {
+    "en": "Acceptance and changes",
+    "zh-CN": "接受与变更",
+    "zh-TW": "接受與變更"
+  },
+  "terms.toc.acceptance-of-these-terms-and-changes-to-them.title": {
+    "en": "Acceptance of These Terms and Changes to Them",
+    "zh-CN": "接受本条款及条款变更",
+    "zh-TW": "接受本條款及條款變更"
+  },
+  "terms.toc.eligibility-and-authority-to-bind-an-organisation": {
+    "en": "Eligibility",
+    "zh-CN": "资格",
+    "zh-TW": "資格"
+  },
+  "terms.toc.eligibility-and-authority-to-bind-an-organisation.title": {
+    "en": "Eligibility and Authority to Bind an Organisation",
+    "zh-CN": "资格及代表组织行事的权限",
+    "zh-TW": "資格及代表組織行事的權限"
+  },
+  "terms.toc.accounts-credentials-security-and-accurate-information": {
+    "en": "Accounts and security",
+    "zh-CN": "账户与安全",
+    "zh-TW": "帳戶與安全"
+  },
+  "terms.toc.accounts-credentials-security-and-accurate-information.title": {
+    "en": "Accounts, Credentials, Security, and Accurate Information",
+    "zh-CN": "账户、凭证、安全与准确信息",
+    "zh-TW": "帳戶、憑證、安全與準確資料"
+  },
+  "terms.toc.licence-and-permitted-use-of-the-website-and-software": {
+    "en": "Licence and permitted use",
+    "zh-CN": "许可与允许用途",
+    "zh-TW": "授權與允許用途"
+  },
+  "terms.toc.licence-and-permitted-use-of-the-website-and-software.title": {
+    "en": "Licence and Permitted Use of the Website and Software",
+    "zh-CN": "网站与软件的许可及允许用途",
+    "zh-TW": "網站與軟件的授權及允許用途"
+  },
+  "terms.toc.subscriptions-fees-taxes-renewal-cancellation-and-changes": {
+    "en": "Fees and subscriptions",
+    "zh-CN": "费用与订阅",
+    "zh-TW": "費用與訂閱"
+  },
+  "terms.toc.subscriptions-fees-taxes-renewal-cancellation-and-changes.title": {
+    "en": "Subscriptions, Fees, Taxes, Renewal, Cancellation, and Changes",
+    "zh-CN": "订阅、费用、税费、续订、取消与变更",
+    "zh-TW": "訂閱、費用、稅費、續訂、取消與變更"
+  },
+  "terms.toc.free-access-trials-betas-early-access-and-evaluation-use": {
+    "en": "Trials and early access",
+    "zh-CN": "试用与抢先体验",
+    "zh-TW": "試用與搶先體驗"
+  },
+  "terms.toc.free-access-trials-betas-early-access-and-evaluation-use.title": {
+    "en": "Free Access, Trials, Betas, Early Access, and Evaluation Use",
+    "zh-CN": "免费访问、试用、测试版、抢先体验与评估使用",
+    "zh-TW": "免費訪問、試用、測試版、搶先體驗與評估使用"
+  },
+  "terms.toc.acceptable-use-and-prohibited-conduct": {
+    "en": "Acceptable use",
+    "zh-CN": "可接受使用",
+    "zh-TW": "可接受使用"
+  },
+  "terms.toc.acceptable-use-and-prohibited-conduct.title": {
+    "en": "Acceptable Use and Prohibited Conduct",
+    "zh-CN": "可接受使用与禁止行为",
+    "zh-TW": "可接受使用與禁止行為"
+  },
+  "terms.toc.user-content-project-data-and-responsibilities": {
+    "en": "User content",
+    "zh-CN": "用户内容",
+    "zh-TW": "用戶內容"
+  },
+  "terms.toc.user-content-project-data-and-responsibilities.title": {
+    "en": "User Content, Project Data, and Responsibilities",
+    "zh-CN": "用户内容、项目数据与责任",
+    "zh-TW": "用戶內容、項目資料與責任"
+  },
+  "terms.toc.ai-assisted-outputs-limitations-and-professional-engineering-responsibility": {
+    "en": "AI outputs and responsibility",
+    "zh-CN": "AI 输出与责任",
+    "zh-TW": "AI 輸出與責任"
+  },
+  "terms.toc.ai-assisted-outputs-limitations-and-professional-engineering-responsibility.title": {
+    "en": "AI-Assisted Outputs, Limitations, and Professional Engineering Responsibility",
+    "zh-CN": "AI 辅助输出、限制与专业工程责任",
+    "zh-TW": "AI 輔助輸出、限制與專業工程責任"
+  },
+  "terms.toc.intellectual-property-feedback-and-reservations-of-rights": {
+    "en": "Intellectual property",
+    "zh-CN": "知识产权",
+    "zh-TW": "知識產權"
+  },
+  "terms.toc.intellectual-property-feedback-and-reservations-of-rights.title": {
+    "en": "Intellectual Property, Feedback, and Reservations of Rights",
+    "zh-CN": "知识产权、反馈与权利保留",
+    "zh-TW": "知識產權、反饋與權利保留"
+  },
+  "terms.toc.confidentiality": {
+    "en": "Confidentiality",
+    "zh-CN": "保密",
+    "zh-TW": "保密"
+  },
+  "terms.toc.confidentiality.title": {
+    "en": "Confidentiality",
+    "zh-CN": "保密",
+    "zh-TW": "保密"
+  },
+  "terms.toc.third-party-services-links-and-dependencies": {
+    "en": "Third-party services",
+    "zh-CN": "第三方服务",
+    "zh-TW": "第三方服務"
+  },
+  "terms.toc.third-party-services-links-and-dependencies.title": {
+    "en": "Third-Party Services, Links, and Dependencies",
+    "zh-CN": "第三方服务、链接与依赖",
+    "zh-TW": "第三方服務、連結與依賴"
+  },
+  "terms.toc.availability-maintenance-changes-and-discontinuation": {
+    "en": "Availability and changes",
+    "zh-CN": "可用性与变更",
+    "zh-TW": "可用性與變更"
+  },
+  "terms.toc.availability-maintenance-changes-and-discontinuation.title": {
+    "en": "Availability, Maintenance, Changes, and Discontinuation",
+    "zh-CN": "可用性、维护、变更与停止提供",
+    "zh-TW": "可用性、維護、變更與停止提供"
+  },
+  "terms.toc.disclaimers-and-no-professional-advice": {
+    "en": "Disclaimers",
+    "zh-CN": "免责声明",
+    "zh-TW": "免責聲明"
+  },
+  "terms.toc.disclaimers-and-no-professional-advice.title": {
+    "en": "Disclaimers and No Professional Advice",
+    "zh-CN": "免责声明与不提供专业建议",
+    "zh-TW": "免責聲明與不提供專業建議"
+  },
+  "terms.toc.limitation-of-liability": {
+    "en": "Liability",
+    "zh-CN": "责任",
+    "zh-TW": "法律責任"
+  },
+  "terms.toc.limitation-of-liability.title": {
+    "en": "Limitation of Liability",
+    "zh-CN": "责任限制",
+    "zh-TW": "法律責任限制"
+  },
+  "terms.toc.indemnity": {
+    "en": "Indemnity",
+    "zh-CN": "赔偿",
+    "zh-TW": "彌償"
+  },
+  "terms.toc.indemnity.title": {
+    "en": "Indemnity",
+    "zh-CN": "赔偿",
+    "zh-TW": "彌償"
+  },
+  "terms.toc.term-suspension-and-termination": {
+    "en": "Suspension and termination",
+    "zh-CN": "暂停与终止",
+    "zh-TW": "暫停與終止"
+  },
+  "terms.toc.term-suspension-and-termination.title": {
+    "en": "Term, Suspension, and Termination",
+    "zh-CN": "期限、暂停与终止",
+    "zh-TW": "期限、暫停與終止"
+  },
+  "terms.toc.governing-law-and-dispute-resolution": {
+    "en": "Governing law",
+    "zh-CN": "适用法律",
+    "zh-TW": "管轄法律"
+  },
+  "terms.toc.governing-law-and-dispute-resolution.title": {
+    "en": "Governing Law and Dispute Resolution",
+    "zh-CN": "适用法律与争议解决",
+    "zh-TW": "管轄法律與爭議解決"
+  },
+  "terms.toc.general-provisions": {
+    "en": "General provisions",
+    "zh-CN": "一般规定",
+    "zh-TW": "一般規定"
+  },
+  "terms.toc.general-provisions.title": {
+    "en": "General Provisions",
+    "zh-CN": "一般规定",
+    "zh-TW": "一般規定"
+  },
+  "terms.toc.how-to-contact-us": {
+    "en": "Contact",
+    "zh-CN": "联系",
+    "zh-TW": "聯繫"
+  },
+  "terms.toc.how-to-contact-us.title": {
+    "en": "How to Contact Us",
+    "zh-CN": "如何联系本公司",
+    "zh-TW": "如何聯繫本公司"
+  },
+  "terms.body.section-1.01": {
+    "en": "1. Who We Are and What These Terms Cover",
+    "zh-CN": "1. 本公司简介及本条款涵盖的范围",
+    "zh-TW": "1. 本公司簡介及本條款涵蓋的範圍"
+  },
+  "terms.body.section-1.02": {
+    "en": "1.1 Who we are",
+    "zh-CN": "1.1 本公司简介",
+    "zh-TW": "1.1 本公司簡介"
+  },
+  "terms.body.section-1.03": {
+    "en": "The Services are provided by OuroNex Technology Company Limited, a company established in Hong Kong and operating in the Greater Bay Area (“OuroNex”, “we”, “us”, “our”). Our website is published at ouronex.com. “You” means the individual or organisation accessing or using the Services.",
+    "zh-CN": "本服务由 OuroNex 科技有限公司提供。该公司在香港设立，并在粤港澳大湾区运营（以下称“OuroNex”“本公司”）。本公司的网站发布于 ouronex.com。“您”指访问或使用本服务的个人或组织。",
+    "zh-TW": "本服務由 OuroNex 科技有限公司提供。該公司在香港設立，並在粵港澳大灣區營運（以下稱「OuroNex」「本公司」）。本公司的網站發佈於 ouronex.com。「您」指訪問或使用本服務的個人或組織。"
+  },
+  "terms.body.section-1.04": {
+    "en": "1.2 Scope",
+    "zh-CN": "1.2 范围",
+    "zh-TW": "1.2 範圍"
+  },
+  "terms.body.section-1.05": {
+    "en": "These Terms cover the OuroNex website and its content, forms, and downloadable materials; SIDA (Super-Intelligent Design & Analysis), an AI-assisted software direction for structural engineering workflows; related desktop tools, pilots, early-access programmes, professional services, and any account, subscription, evaluation, or other access we offer, unless a separate written agreement expressly replaces them.",
+    "zh-CN": "本条款涵盖 OuroNex 网站及其内容、表单和可下载材料；SIDA（Super-Intelligent Design & Analysis，面向结构工程工作流的 AI 辅助软件方向）；相关桌面工具、试点项目、抢先体验计划、专业服务，以及本公司提供的任何账户、订阅、评估或其他访问方式，除非另有书面协议明确取代本条款。",
+    "zh-TW": "本條款涵蓋 OuroNex 網站及其內容、表單和可下載材料；SIDA（Super-Intelligent Design & Analysis，面向結構工程工作流程的 AI 輔助軟件方向）；相關桌面工具、試點項目、搶先體驗計劃、專業服務，以及本公司提供的任何帳戶、訂閱、評估或其他訪問方式，除非另有書面協議明確取代本條款。"
+  },
+  "terms.body.section-1.06": {
+    "en": "1.3 Orders, documentation, and policies",
+    "zh-CN": "1.3 订单、文档与政策",
+    "zh-TW": "1.3 訂單、文件與政策"
+  },
+  "terms.body.section-1.07": {
+    "en": "An order, quotation, or statement of work sets out the commercial details, including products, quantities, term, and fees. If it conflicts with these Terms, the signed document prevails for its subject matter. If these Terms conflict with product documentation, these Terms prevail unless the documentation states otherwise.",
+    "zh-CN": "订单、报价单或工作说明书列明商业细节，包括产品、数量、期限和费用。若其与本条款冲突，就相关内容以已签署文件为准。若本条款与产品文档冲突，除文档另有说明外，以本条款为准。",
+    "zh-TW": "訂單、報價單或工作說明書列明商業細節，包括產品、數量、期限和費用。若其與本條款衝突，就相關內容以已簽署文件為準。若本條款與產品文件衝突，除文件另有說明外，以本條款為準。"
+  },
+  "terms.body.section-2.01": {
+    "en": "2. Acceptance of These Terms and Changes to Them",
+    "zh-CN": "2. 接受本条款及条款变更",
+    "zh-TW": "2. 接受本條款及條款變更"
+  },
+  "terms.body.section-2.02": {
+    "en": "2.1 How you accept",
+    "zh-CN": "2.1 如何表示接受",
+    "zh-TW": "2.1 如何表示接受"
+  },
+  "terms.body.section-2.03": {
+    "en": "You accept these Terms by accessing or using the Services, creating an account, downloading or installing software, clicking a button indicating acceptance, or continuing to use the Services after notice of an update. If you do not accept them, you must not use the Services. If you accept for an organisation, you confirm that you have authority to bind it, and “you” includes that organisation.",
+    "zh-CN": "您通过访问或使用本服务、创建账户、下载或安装软件、点击表示接受的按钮，或在收到更新通知后继续使用本服务，即表示接受本条款。若您不接受，则不得使用本服务。若您代表组织接受本条款，即确认您有权使该组织受其约束，且“您”包括该组织。",
+    "zh-TW": "您透過訪問或使用本服務、創建帳戶、下載或安裝軟件、點擊表示接受的按鈕，或在收到更新通知後繼續使用本服務，即表示接受本條款。若您不接受，則不得使用本服務。若您代表組織接受本條款，即確認您有權使該組織受其約束，且「您」包括該組織。"
+  },
+  "terms.body.section-2.04": {
+    "en": "2.2 Changes",
+    "zh-CN": "2.2 变更",
+    "zh-TW": "2.2 變更"
+  },
+  "terms.body.section-2.05": {
+    "en": "We may update these Terms to reflect changes in the Services, law, regulatory expectations, or our practices. The updated version is published on the website with a revised “Last updated” date, and we will take reasonable steps to bring material changes to your attention. Material changes take effect on the date stated in the notice or, if none is stated, thirty (30) days after publication. If you do not agree to a material change, you may stop using the Services before it takes effect, without affecting any termination rights you have.",
+    "zh-CN": "本公司可能更新本条款，以反映本服务、法律、监管要求或本公司做法的变化。更新后的版本将在网站上发布，并注明修订后的“最后更新”日期；本公司会采取合理步骤，使重大变更引起您的注意。重大变更自通知所述日期起生效；如未注明日期，则于发布后三十（30）天生效。如您不同意某项重大变更，可在其生效前停止使用本服务，且不影响您享有的任何终止权利。",
+    "zh-TW": "本公司可能更新本條款，以反映本服務、法律、監管要求或本公司做法的變化。更新後的版本將在網站上發佈，並註明修訂後的「最後更新」日期；本公司會採取合理步驟，使重大變更引起您的注意。重大變更自通知所述日期起生效；如未註明日期，則於發佈後三十（30）天生效。如您不同意某項重大變更，可在其生效前停止使用本服務，且不影響您享有的任何終止權利。"
+  },
+  "terms.body.section-3.01": {
+    "en": "3. Eligibility and Authority to Bind an Organisation",
+    "zh-CN": "3. 资格及代表组织行事的权限",
+    "zh-TW": "3. 資格及代表組織行事的權限"
+  },
+  "terms.body.section-3.02": {
+    "en": "3.1 Age and capacity",
+    "zh-CN": "3.1 年龄与行为能力",
+    "zh-TW": "3.1 年齡與行為能力"
+  },
+  "terms.body.section-3.03": {
+    "en": "The Services are intended for professional and business use by persons who have reached the age of majority in their jurisdiction and have legal capacity to enter a binding contract. If you are below that age or lack that capacity, you must not use the Services.",
+    "zh-CN": "本服务面向已达到其司法管辖区法定成年年龄、并具有订立有约束力合同的法律行为能力的专业人士及企业使用。如您未达到该年龄或不具备该能力，不得使用本服务。",
+    "zh-TW": "本服務面向已達到其司法管轄區法定成年年齡、並具有訂立有約束力合約的法律行為能力的專業人士及企業使用。如您未達到該年齡或不具備該能力，不得使用本服務。"
+  },
+  "terms.body.section-3.04": {
+    "en": "3.2 Organisational use and named users",
+    "zh-CN": "3.2 组织使用与具名用户",
+    "zh-TW": "3.2 組織使用與具名用戶"
+  },
+  "terms.body.section-3.05": {
+    "en": "If you use the Services for an organisation, you confirm that you are authorised to act for it in relation to orders, payments, configuration, and acceptance of these Terms, and you are responsible for ensuring that everyone who accesses the Services through the organisation complies with these Terms. Where access is provided for a specified number of named users, seats, or devices, you must not exceed that number, must not share credentials to circumvent it, and must keep an accurate record of the individuals you authorise.",
+    "zh-CN": "如您为某组织使用本服务，即确认您获授权就该组织的订单、付款、配置及接受本条款行事，并负责确保通过该组织访问本服务的所有人员遵守本条款。如访问权限按具名用户、席位或设备的特定数量提供，您不得超过该数量，不得共享凭证以规避限制，并必须准确记录您授权的个人。",
+    "zh-TW": "如您為某組織使用本服務，即確認您獲授權就該組織的訂單、付款、配置及接受本條款行事，並負責確保透過該組織訪問本服務的所有人員遵守本條款。如訪問權限按具名用戶、席位或設備的特定數量提供，您不得超過該數量，不得共享憑證以規避限制，並必須準確記錄您授權的個人。"
+  },
+  "terms.body.section-3.06": {
+    "en": "3.3 Sanctions and export controls",
+    "zh-CN": "3.3 制裁与出口管制",
+    "zh-TW": "3.3 制裁與出口管制"
+  },
+  "terms.body.section-3.07": {
+    "en": "You confirm that you are not subject to trade or economic sanctions that would prohibit the provision of the Services to you, and that you will comply with applicable export control and sanctions laws.",
+    "zh-CN": "您确认，您不受会禁止向您提供本服务的贸易或经济制裁约束，并将遵守适用的出口管制及制裁法律。",
+    "zh-TW": "您確認，您不受會禁止向您提供本服務的貿易或經濟制裁約束，並將遵守適用的出口管制及制裁法律。"
+  },
+  "terms.body.section-4.01": {
+    "en": "4. Accounts, Credentials, Security, and Accurate Information",
+    "zh-CN": "4. 账户、凭证、安全与准确信息",
+    "zh-TW": "4. 帳戶、憑證、安全與準確資料"
+  },
+  "terms.body.section-4.02": {
+    "en": "4.1 Account information",
+    "zh-CN": "4.1 账户信息",
+    "zh-TW": "4.1 帳戶資料"
+  },
+  "terms.body.section-4.03": {
+    "en": "Some parts of the Services require an account. You must provide information that is accurate, complete, and current, and keep it up to date while your account is active. You must not use false details, create accounts in bulk, or register accounts for anyone other than the named user or organisation.",
+    "zh-CN": "本服务的部分功能需要账户。您必须提供准确、完整且最新的信息，并在账户有效期间保持更新。您不得使用虚假资料、批量创建账户，或为具名用户或组织以外的任何人注册账户。",
+    "zh-TW": "本服務的部分功能需要帳戶。您必須提供準確、完整且最新的資料，並在帳戶有效期間保持更新。您不得使用虛假資料、批量創建帳戶，或為具名用戶或組織以外的任何人注冊帳戶。"
+  },
+  "terms.body.section-4.04": {
+    "en": "4.2 Credentials and security",
+    "zh-CN": "4.2 凭证与安全",
+    "zh-TW": "4.2 憑證與安全"
+  },
+  "terms.body.section-4.05": {
+    "en": "Your credentials are personal to you and, where applicable, to the organisation on whose behalf your account is issued. Keep passwords, access keys, and other authentication information confidential; do not disclose them or allow anyone else to use your account; and do not sell, transfer, lend, or lease access. You are responsible for the security of your account, the devices on which the software is installed, and the environment from which you access the Services.",
+    "zh-CN": "您的凭证仅属于您个人，并在适用情况下属于为您开立账户的组织。请对密码、访问密钥及其他身份验证信息保密；不得披露这些信息，也不得允许他人使用您的账户；不得出售、转让、出借或出租访问权限。您应对账户安全、安装软件的设备以及访问本服务的环境负责。",
+    "zh-TW": "您的憑證僅屬於您個人，並在適用情況下屬於為您開立帳戶的組織。請對密碼、訪問密鑰及其他身份驗證資料保密；不得披露這些資料，也不得允許他人使用您的帳戶；不得出售、轉讓、出借或出租訪問權限。您應對帳戶安全、安裝軟件的設備以及訪問本服務的環境負責。"
+  },
+  "terms.body.section-4.06": {
+    "en": "4.3 Security incidents and suspension",
+    "zh-CN": "4.3 安全事件与暂停",
+    "zh-TW": "4.3 安全事件與暫停"
+  },
+  "terms.body.section-4.07": {
+    "en": "Notify us without delay through the contact channel made available on our website if you become aware of unauthorised access, loss of credentials, or another security incident that may affect the Services. If we have reasonable grounds to believe that an account or credential is compromised, or that your use presents an immediate risk to the Services or other customers, we may suspend the affected access while we investigate.",
+    "zh-CN": "如您发现未经授权的访问、凭证丢失或其他可能影响本服务的安全事件，请立即通过本公司网站上提供的联系渠道通知本公司。如本公司有合理理由认为账户或凭证已泄露，或您的使用对本服务或其他客户构成即时风险，本公司可在调查期间暂停相关访问。",
+    "zh-TW": "如您發現未經授權的訪問、憑證丟失或其他可能影響本服務的安全事件，請立即透過本公司網站上提供的聯繫渠道通知本公司。如本公司有合理理由認為帳戶或憑證已洩漏，或您的使用對本服務或其他客戶構成即時風險，本公司可在調查期間暫停相關訪問。"
+  },
+  "terms.body.section-5.01": {
+    "en": "5. Licence and Permitted Use of the Website and Software",
+    "zh-CN": "5. 网站与软件的许可及允许用途",
+    "zh-TW": "5. 網站與軟件的授權及允許用途"
+  },
+  "terms.body.section-5.02": {
+    "en": "5.1 Licence granted",
+    "zh-CN": "5.1 授予的许可",
+    "zh-TW": "5.1 授予的授權"
+  },
+  "terms.body.section-5.03": {
+    "en": "Subject to your compliance with these Terms and payment of applicable fees, we grant you a limited, non-exclusive, non-transferable, non-sublicensable, revocable licence to access the website, install and use the software within the scope described in your order or documentation, and use the related materials for your internal business purposes during the applicable term. The licence covers only the products and scope identified in your order, quotation, or evaluation arrangement.",
+    "zh-CN": "在您遵守本条款并支付适用费用的前提下，本公司授予您一项有限、非独占、不可转让、不可再许可且可撤销的许可，允许您在订单或文档所述范围内访问网站、安装和使用软件，并在适用期限内为内部业务目的使用相关材料。该许可仅涵盖您的订单、报价单或评估安排所确定的产品和范围。",
+    "zh-TW": "在您遵守本條款並支付適用費用的前提下，本公司授予您一項有限、非獨佔、不可轉讓、不可再授權且可撤銷的授權，允許您在訂單或文件所述範圍內訪問網站、安裝和使用軟件，並在適用期限內為內部業務目的使用相關材料。該授權僅涵蓋您的訂單、報價單或評估安排所確定的產品和範圍。"
+  },
+  "terms.body.section-5.04": {
+    "en": "5.2 Permitted use and restrictions",
+    "zh-CN": "5.2 允许用途与限制",
+    "zh-TW": "5.2 允許用途與限制"
+  },
+  "terms.body.section-5.05": {
+    "en": "You may use the Services only for purposes permitted by law, these Terms, the documentation, and any technical or licence limits that apply. You may use outputs in your own engineering workflows, subject to Section 10, and may make a reasonable number of copies of materials for internal backup and training where the documentation permits. Except where the law expressly allows it and the restriction cannot lawfully be excluded, you must not:",
+    "zh-CN": "您仅可为法律、本条款、文档及任何适用技术或许可限制所允许的目的使用本服务。在遵守第 10 条的前提下，您可在自己的工程工作流中使用输出，并可在文档允许的范围内，为内部备份和培训制作合理数量的材料副本。除法律明确允许且该限制无法合法排除外，您不得：",
+    "zh-TW": "您僅可為法律、本條款、文件及任何適用技術或授權限制所允許的目的使用本服務。在遵守第 10 條的前提下，您可在自己的工程工作流程中使用輸出，並可在文件允許的範圍內，為內部備份和培訓製作合理數量的材料副本。除法律明確允許且該限制無法合法排除外，您不得："
+  },
+  "terms.body.section-5.06": {
+    "en": "copy, modify, adapt, translate, or create derivative works of the software or documentation;",
+    "zh-CN": "复制、修改、改编、翻译软件或文档，或创建其衍生作品；",
+    "zh-TW": "復制、修改、改編、翻譯軟件或文件，或創建其衍生作品；"
+  },
+  "terms.body.section-5.07": {
+    "en": "reverse engineer, decompile, disassemble, or attempt to derive source code, structure, or algorithms;",
+    "zh-CN": "对软件进行反向工程、反编译、反汇编，或试图推导源代码、结构或算法；",
+    "zh-TW": "對軟件進行反向工程、反編譯、反匯編，或試圖推導源代碼、結構或算法；"
+  },
+  "terms.body.section-5.08": {
+    "en": "rent, lease, sublicense, distribute, resell, or make the Services available as a service bureau or managed service;",
+    "zh-CN": "出租、租赁、再许可、分发、转售本服务，或将本服务作为服务代理机构或托管服务提供；",
+    "zh-TW": "出租、租賃、再授權、分發、轉售本服務，或將本服務作為服務代理機構或託管服務提供；"
+  },
+  "terms.body.section-5.09": {
+    "en": "remove proprietary notices, or circumvent licence controls, usage limits, or security measures;",
+    "zh-CN": "移除所有权声明，或规避许可控制、使用限制或安全措施；",
+    "zh-TW": "移除所有權聲明，或規避授權控制、使用限制或安全措施；"
+  },
+  "terms.body.section-5.10": {
+    "en": "use the Services to develop a competing product, or in a way that damages, disables, overburdens, or impairs them.",
+    "zh-CN": "使用本服务开发竞争产品，或以损害、禁用、过度加重或妨碍本服务的方式使用本服务。",
+    "zh-TW": "使用本服務開發競爭產品，或以損害、禁用、過度加重或妨礙本服務的方式使用本服務。"
+  },
+  "terms.body.section-5.11": {
+    "en": "5.3 Third-party components, updates, and reservation of rights",
+    "zh-CN": "5.3 第三方组件、更新与权利保留",
+    "zh-TW": "5.3 第三方組件、更新與權利保留"
+  },
+  "terms.body.section-5.12": {
+    "en": "The Services may include open-source or third-party components governed by their own licences. Where those licences grant broader rights, they apply to the relevant component, and you must comply with their obligations when you use or redistribute it. Nothing in these Terms limits rights you receive directly under an applicable open-source licence. We may provide updates, patches, or new releases as part of the Services. All rights not expressly granted in these Terms are reserved by OuroNex and its licensors, and no ownership of the software or its underlying technology passes to you.",
+    "zh-CN": "本服务可能包含受其自身许可约束的开源或第三方组件。如这些许可授予更广泛的权利，则适用于相关组件；您在使用或再分发该组件时，必须遵守其义务。本条款不限制您根据适用开源许可直接获得的权利。本公司可能作为本服务的一部分提供更新、补丁或新版本。本条款未明确授予的所有权利均由 OuroNex 及其许可方保留，软件或其底层技术的所有权不会转移给您。",
+    "zh-TW": "本服務可能包含受其自身授權約束的開源或第三方組件。如這些授權授予更廣泛的權利，則適用於相關組件；您在使用或再分發該組件時，必須遵守其義務。本條款不限制您根據適用開源授權直接獲得的權利。本公司可能作為本服務的一部分提供更新、補丁或新版本。本條款未明確授予的所有權利均由 OuroNex 及其授權方保留，軟件或其底層技術的所有權不會轉移給您。"
+  },
+  "terms.body.section-6.01": {
+    "en": "6. Subscriptions, Fees, Taxes, Renewal, Cancellation, and Changes",
+    "zh-CN": "6. 订阅、费用、税费、续订、取消与变更",
+    "zh-TW": "6. 訂閱、費用、稅費、續訂、取消與變更"
+  },
+  "terms.body.section-6.02": {
+    "en": "6.1 Plans and orders",
+    "zh-CN": "6.1 方案与订单",
+    "zh-TW": "6.1 方案與訂單"
+  },
+  "terms.body.section-6.03": {
+    "en": "We offer plans described on the website, which may include Lite, Standard, Professional, and Enterprise. Enterprise arrangements are customised and agreed through the contact channel made available on our website. The features, limits, and term of your plan are those described in the order or product documentation at the time of purchase.",
+    "zh-CN": "本公司提供网站上所述的方案，可能包括轻量版、标准版、专业版和企业版。企业版安排通过本公司网站上提供的联系渠道定制并商定。您方案的功能、限制和期限以购买时订单或产品文档所述为准。",
+    "zh-TW": "本公司提供網站上所述的方案，可能包括輕量版、標準版、專業版和企業版。企業版安排透過本公司網站上提供的聯繫渠道訂製並商定。您方案的功能、限制和期限以購買時訂單或產品文件所述為準。"
+  },
+  "terms.body.section-6.04": {
+    "en": "6.2 Fees and taxes",
+    "zh-CN": "6.2 费用与税费",
+    "zh-TW": "6.2 費用與稅費"
+  },
+  "terms.body.section-6.05": {
+    "en": "You must pay the fees stated in your order or at the point of purchase, in the currency shown, exclusive of taxes unless the order states otherwise, and you must pay applicable sales, value-added, withholding, or similar taxes other than taxes on our net income. If payment is not received when due, we may suspend access after notice and a reasonable opportunity to pay.",
+    "zh-CN": "您必须按订单或购买时所述，以所示货币支付费用；除订单另有说明外，费用不含税费。您必须支付适用的销售税、增值税、预扣税或类似税费，但不包括对本公司净收入征收的税费。如到期未收到付款，本公司可在通知并给予合理付款机会后暂停访问。",
+    "zh-TW": "您必須按訂單或購買時所述，以所示貨幣支付費用；除訂單另有說明外，費用不含稅費。您必須支付適用的銷售稅、增值稅、預扣稅或類似稅費，但不包括對本公司淨收入徵收的稅費。如到期未收到付款，本公司可在通知並給予合理付款機會後暫停訪問。"
+  },
+  "terms.body.section-6.06": {
+    "en": "6.3 Renewal and cancellation",
+    "zh-CN": "6.3 续订与取消",
+    "zh-TW": "6.3 續訂與取消"
+  },
+  "terms.body.section-6.07": {
+    "en": "Unless your order states otherwise, a paid subscription renews automatically at the end of each billing period for a further period of the same length at the fees stated for renewal. Where required by law, we will give advance notice of renewal and of price changes before the renewal is charged. You may stop a renewal by cancelling before the renewal date through the account settings or the contact channel on our website. Cancellation takes effect at the end of the current billing period unless the law requires otherwise.",
+    "zh-CN": "除订单另有说明外，付费订阅在每个计费周期结束时自动续订一个相同时长的周期，费用按续订时所述费率计算。如法律要求，本公司将在续订扣费前提前通知续订及价格变更。您可在续订日期前通过账户设置或本公司网站上的联系渠道取消，以停止续订。除法律另有要求外，取消在当前计费周期结束时生效。",
+    "zh-TW": "除訂單另有說明外，付費訂閱在每個計費周期結束時自動續訂一個相同時長的周期，費用按續訂時所述費率計算。如法律要求，本公司將在續訂扣費前提前通知續訂及價格變更。您可在續訂日期前透過帳戶設定或本公司網站上的聯繫渠道取消，以停止續訂。除法律另有要求外，取消在當前計費周期結束時生效。"
+  },
+  "terms.body.section-6.08": {
+    "en": "6.4 Price and plan changes",
+    "zh-CN": "6.4 价格与方案变更",
+    "zh-TW": "6.4 價格與方案變更"
+  },
+  "terms.body.section-6.09": {
+    "en": "We may change fees from time to time. Changes do not affect a paid period that has already begun, and we will give reasonable advance notice of changes that apply to a renewal. If you do not accept a price change, you may cancel before it takes effect. Plan changes are described in your order or the account interface. If you downgrade, features or limits may be reduced at the end of the current billing period, and you must ensure that the reduced plan meets your requirements before the change takes effect.",
+    "zh-CN": "本公司可能不时变更费用。变更不影响已经开始的付费周期；对于适用于续订的变更，本公司会给予合理提前通知。如您不接受价格变更，可在其生效前取消。方案变更以您的订单或账户界面所述为准。如您降级，功能或限制可能在当前计费周期结束时减少；您必须确保降级后的方案在变更生效前满足您的需求。",
+    "zh-TW": "本公司可能不時變更費用。變更不影響已經開始的付費周期；對於適用於續訂的變更，本公司會給予合理提前通知。如您不接受價格變更，可在其生效前取消。方案變更以您的訂單或帳戶界面所述為準。如您降級，功能或限制可能在當前計費周期結束時減少；您必須確保降級後的方案在變更生效前滿足您的需求。"
+  },
+  "terms.body.section-6.10": {
+    "en": "6.5 Refunds, mandatory rights, and Enterprise",
+    "zh-CN": "6.5 退款、强制性权利与企业版",
+    "zh-TW": "6.5 退款、強制性權利與企業版"
+  },
+  "terms.body.section-6.11": {
+    "en": "Except where a refund is expressly stated at the point of purchase, required by applicable law, or agreed in writing by us, fees paid are not refundable, including unused periods and cancellations part-way through a billing period. Nothing in these Terms excludes or limits any right you may have under mandatory consumer protection law, including any right to a remedy where the Services are not provided with reasonable skill and care or do not match their description. Fees, payment schedules, invoicing, renewal, and cancellation for Enterprise arrangements are set out in the applicable order or statement of work, which prevails for that arrangement if it conflicts with this Section 6.",
+    "zh-CN": "除购买时明确说明可退款、适用法律要求退款或本公司书面同意退款外，已支付的费用不予退还，包括未使用的期间以及在计费周期中途取消。本条款不排除或限制您根据强制性消费者保护法律享有的任何权利，包括在本服务未以合理技能和谨慎提供或与描述不符时获得救济的权利。企业版安排的费用、付款安排、开票、续订和取消以适用的订单或工作说明书为准；如该文件与本第 6 条冲突，就该安排而言以该文件为准。",
+    "zh-TW": "除購買時明確說明可退款、適用法律要求退款或本公司書面同意退款外，已支付的費用不予退還，包括未使用的期間以及在計費周期中途取消。本條款不排除或限制您根據強制性消費者保護法律享有的任何權利，包括在本服務未以合理技能和謹慎提供或與描述不符時獲得救濟的權利。企業版安排的費用、付款安排、開票、續訂和取消以適用的訂單或工作說明書為準；如該文件與本第 6 條衝突，就該安排而言以該文件為準。"
+  },
+  "terms.body.section-7.01": {
+    "en": "7. Free Access, Trials, Betas, Early Access, and Evaluation Use",
+    "zh-CN": "7. 免费访问、试用、测试版、抢先体验与评估使用",
+    "zh-TW": "7. 免費訪問、試用、測試版、搶先體驗與評估使用"
+  },
+  "terms.body.section-7.02": {
+    "en": "7.1 Scope and conditions",
+    "zh-CN": "7.1 范围与条件",
+    "zh-TW": "7.1 範圍與條件"
+  },
+  "terms.body.section-7.03": {
+    "en": "We may make the Services available at no charge for a limited time or purpose, including pilot programmes, trial access, beta releases, early-access programmes, evaluation licences, and free or community features. The scope and duration are those described in the applicable invitation, order, or documentation. Unless expressly stated otherwise, such access is for evaluation and not for production use.",
+    "zh-CN": "本公司可能在限定时间或目的内免费提供本服务，包括试点计划、试用访问、测试版发布、抢先体验计划、评估许可，以及免费或社区功能。范围和期限以适用的邀请、订单或文档所述为准。除明确另有说明外，此类访问仅供评估，不得用于生产用途。",
+    "zh-TW": "本公司可能在限定時間或目的內免費提供本服務，包括試點計劃、試用訪問、測試版發佈、搶先體驗計劃、評估授權，以及免費或社區功能。範圍和期限以適用的邀請、訂單或文件所述為準。除明確另有說明外，此類訪問僅供評估，不得用於生產用途。"
+  },
+  "terms.body.section-7.04": {
+    "en": "7.2 No reliance and no service commitment",
+    "zh-CN": "7.2 不构成依赖且无服务承诺",
+    "zh-TW": "7.2 不構成依賴且無服務承諾"
+  },
+  "terms.body.section-7.05": {
+    "en": "Free, trial, beta, early-access, and evaluation access is provided on an “as available” basis for testing and feedback. It may be changed, limited, suspended, or withdrawn at any time, may contain incomplete features, and may not include the support or availability arrangements that apply to paid production plans. We do not guarantee continuity, and you should not rely on such access for live projects without a separate paid arrangement.",
+    "zh-CN": "免费、试用、测试版、抢先体验和评估访问按“现状可用”基础提供，用于测试和反馈。本公司可随时变更、限制、暂停或撤回此类访问；其可能包含不完整功能，也可能不包含付费生产方案所适用的支持或可用性安排。本公司不保证连续性；如无单独的付费安排，您不应将此类访问用于实际项目。",
+    "zh-TW": "免費、試用、測試版、搶先體驗和評估訪問按「現狀可用」基礎提供，用於測試和反饋。本公司可隨時變更、限制、暫停或撤回此類訪問；其可能包含不完整功能，也可能不包含付費生產方案所適用的支援或可用性安排。本公司不保證連續性；如無單獨的付費安排，您不應將此類訪問用於實際項目。"
+  },
+  "terms.body.section-7.06": {
+    "en": "7.3 Evaluation restrictions and feedback",
+    "zh-CN": "7.3 评估限制与反馈",
+    "zh-TW": "7.3 評估限制與反饋"
+  },
+  "terms.body.section-7.07": {
+    "en": "Unless your evaluation arrangement states otherwise, use evaluation access only for internal evaluation, do not use it for commercial delivery of engineering work to third parties, and do not present evaluation outputs as validated production results. Maintain backups of project files used during an evaluation, because evaluation environments may be reset or discontinued. If you move to a paid subscription, the paid period begins on the date stated in your order and is governed by Section 6.",
+    "zh-CN": "除您的评估安排另有说明外，评估访问仅可用于内部评估，不得用于向第三方商业交付工程工作，也不得将评估输出作为经验证的生产结果展示。请为评估期间使用的项目文件保留备份，因为评估环境可能被重置或停止。如您转为付费订阅，付费期间自订单所述日期开始，并受第 6 条约束。",
+    "zh-TW": "除您的評估安排另有說明外，評估訪問僅可用於內部評估，不得用於向第三方商業交付工程工作，也不得將評估輸出作為經驗證的生產結果展示。請為評估期間使用的項目文件保留備份，因為評估環境可能被重置或停止。如您轉為付費訂閱，付費期間自訂單所述日期開始，並受第 6 條約束。"
+  },
+  "terms.body.section-8.01": {
+    "en": "8. Acceptable Use and Prohibited Conduct",
+    "zh-CN": "8. 可接受使用与禁止行为",
+    "zh-TW": "8. 可接受使用與禁止行為"
+  },
+  "terms.body.section-8.02": {
+    "en": "8.1 General standard",
+    "zh-CN": "8.1 一般标准",
+    "zh-TW": "8.1 一般標準"
+  },
+  "terms.body.section-8.03": {
+    "en": "You must use the Services in good faith, in compliance with applicable law, and in a way that does not harm OuroNex, other users, third parties, or the integrity of the Services.",
+    "zh-CN": "您必须善意使用本服务，遵守适用法律，且不得损害 OuroNex、其他用户、第三方或本服务的完整性。",
+    "zh-TW": "您必須善意使用本服務，遵守適用法律，且不得損害 OuroNex、其他用戶、第三方或本服務的完整性。"
+  },
+  "terms.body.section-8.04": {
+    "en": "8.2 Prohibited conduct",
+    "zh-CN": "8.2 禁止行为",
+    "zh-TW": "8.2 禁止行為"
+  },
+  "terms.body.section-8.05": {
+    "en": "You must not, and must not permit anyone using your access to:",
+    "zh-CN": "您不得，也不得允许任何使用您访问权限的人：",
+    "zh-TW": "您不得，也不得允許任何使用您訪問權限的人："
+  },
+  "terms.body.section-8.06": {
+    "en": "use the Services to infringe intellectual property rights, confidentiality obligations, privacy rights, or other rights of any person;",
+    "zh-CN": "利用本服务侵犯知识产权、保密义务、隐私权或任何人的其他权利；",
+    "zh-TW": "利用本服務侵犯知識產權、保密義務、私隱權或任何人的其他權利；"
+  },
+  "terms.body.section-8.07": {
+    "en": "submit or process content that is unlawful, defamatory, fraudulent, malicious, or that you know to be false or misleading in a material respect;",
+    "zh-CN": "提交或处理违法、诽谤、欺诈、恶意，或您明知在重大方面虚假或误导的内容；",
+    "zh-TW": "提交或處理違法、誹謗、欺詐、惡意，或您明知在重大方面虛假或誤導的內容；"
+  },
+  "terms.body.section-8.08": {
+    "en": "introduce malware or harmful code, or attempt to gain unauthorised access to any system, network, or data;",
+    "zh-CN": "引入恶意软件或有害代码，或试图未经授权访问任何系统、网络或数据；",
+    "zh-TW": "引入惡意軟件或有害代碼，或試圖未經授權訪問任何系統、網絡或資料；"
+  },
+  "terms.body.section-8.09": {
+    "en": "interfere with the normal operation of the Services, including through excessive automated requests, denial-of-service activity, or probing, scanning, or testing vulnerabilities without our prior written permission;",
+    "zh-CN": "干扰本服务的正常运行，包括通过过度自动请求、拒绝服务活动，或未经本公司事先书面许可探测、扫描或测试漏洞；",
+    "zh-TW": "干擾本服務的正常運行，包括透過過度自動請求、拒絕服務活動，或未經本公司事先書面授權探測、掃描或測試漏洞；"
+  },
+  "terms.body.section-8.10": {
+    "en": "circumvent licence controls, usage limits, authentication, or other technical restrictions;",
+    "zh-CN": "规避许可控制、使用限制、身份验证或其他技术限制；",
+    "zh-TW": "規避授權控制、使用限制、身份驗證或其他技術限制；"
+  },
+  "terms.body.section-8.11": {
+    "en": "impersonate any person or organisation, or misrepresent your affiliation with any person or organisation;",
+    "zh-CN": "冒充任何个人或组织，或虚假陈述您与任何个人或组织的关系；",
+    "zh-TW": "冒充任何個人或組織，或虛假陳述您與任何個人或組織的關系；"
+  },
+  "terms.body.section-8.12": {
+    "en": "send unsolicited advertising or promotional material, or harvest information about other users;",
+    "zh-CN": "发送未经请求的广告或宣传材料，或收集其他用户的信息；",
+    "zh-TW": "發送未經請求的廣告或宣傳材料，或收集其他用戶的資料；"
+  },
+  "terms.body.section-8.13": {
+    "en": "use the Services in connection with activities subject to trade sanctions or export controls that prohibit such use;",
+    "zh-CN": "将本服务用于受禁止此类使用的贸易制裁或出口管制约束的活动；",
+    "zh-TW": "將本服務用於受禁止此類使用的貿易制裁或出口管制約束的活動；"
+  },
+  "terms.body.section-8.14": {
+    "en": "make decisions about individuals that are unlawful, or rely solely on automated output where the law requires meaningful human involvement;",
+    "zh-CN": "对个人作出违法决定，或在法律要求有意义的人类参与时仅依赖自动化输出；",
+    "zh-TW": "對個人作出違法決定，或在法律要求有意義的人類參與時僅依賴自動化輸出；"
+  },
+  "terms.body.section-8.15": {
+    "en": "assist, encourage, or procure any other person to do any of the things described above.",
+    "zh-CN": "协助、鼓励或促使任何其他人实施上述任何行为。",
+    "zh-TW": "協助、鼓勵或促使任何其他人實施上述任何行為。"
+  },
+  "terms.body.section-8.16": {
+    "en": "8.3 Monitoring, enforcement, and consequences",
+    "zh-CN": "8.3 监控、执行与后果",
+    "zh-TW": "8.3 監控、執行與後果"
+  },
+  "terms.body.section-8.17": {
+    "en": "We do not routinely monitor project content processed locally by the software, and we do not access local project files except where you choose to share them for support or where the law requires it. We may investigate suspected misuse of the website, account systems, or service infrastructure, and may take reasonable action to protect the Services, including suspending access or reporting conduct where required by law. Misuse may result in suspension or termination under Section 18, and we may act immediately where security or availability is at risk.",
+    "zh-CN": "本公司不会例行监控软件在本地处理的项目内容，也不会访问本地项目文件，除非您选择为获得支持而共享这些文件，或法律要求本公司这样做。本公司可能调查涉嫌滥用网站、账户系统或服务基础设施的行为，并可能采取合理行动保护本服务，包括暂停访问或在法律要求时报告相关行为。滥用行为可能导致根据第 18 条暂停或终止访问；如安全或可用性面临风险，本公司可能立即采取行动。",
+    "zh-TW": "本公司不會例行監控軟件在本地處理的項目內容，也不會訪問本地項目文件，除非您選擇為獲得支援而共享這些文件，或法律要求本公司這樣做。本公司可能調查涉嫌濫用網站、帳戶系統或服務基礎設施的行為，並可能採取合理行動保護本服務，包括暫停訪問或在法律要求時報告相關行為。濫用行為可能導致根據第 18 條暫停或終止訪問；如安全或可用性面臨風險，本公司可能立即採取行動。"
+  },
+  "terms.body.section-9.01": {
+    "en": "9. User Content, Project Data, and Responsibilities",
+    "zh-CN": "9. 用户内容、项目数据与责任",
+    "zh-TW": "9. 用戶內容、項目資料與責任"
+  },
+  "terms.body.section-9.02": {
+    "en": "9.1 Ownership and local processing",
+    "zh-CN": "9.1 所有权与本地处理",
+    "zh-TW": "9.1 所有權與本地處理"
+  },
+  "terms.body.section-9.03": {
+    "en": "You retain all rights, title, and interest in the project files, models, drawings, data, text, and other materials you create, import, or process using the Services (“Customer Content”). We do not claim ownership of Customer Content, and these Terms do not transfer ownership of it to us. SIDA desktop tools are designed to run locally on the devices on which they are installed and to keep project information confidential. In the ordinary course, project files and their contents are not uploaded to OuroNex servers. Some website, account, and support interactions involve limited data, described in our Privacy Policy.",
+    "zh-CN": "您保留对您使用本服务创建、导入或处理的项目文件、模型、图纸、数据、文本及其他材料（“客户内容”）的一切权利、所有权和利益。本公司不主张客户内容的所有权，本条款也不将其所有权转让给本公司。SIDA 桌面工具旨在安装所在设备上本地运行，并对项目信息保密。通常情况下，项目文件及其内容不会上传至 OuroNex 服务器。部分网站、账户和支持互动涉及有限数据，详见本公司的隐私政策。",
+    "zh-TW": "您保留對您使用本服務創建、導入或處理的項目文件、模型、圖紙、資料、文本及其他材料（「客戶內容」）的一切權利、所有權和利益。本公司不主張客戶內容的所有權，本條款也不將其所有權轉讓給本公司。SIDA 桌面工具旨在安裝所在設備上本地運行，並對項目資料保密。通常情況下，項目文件及其內容不會上傳至 OuroNex 服務器。部分網站、帳戶和支援互動涉及有限資料，詳見本公司的私隱政策。"
+  },
+  "terms.body.section-9.04": {
+    "en": "9.2 Your responsibilities",
+    "zh-CN": "9.2 您的责任",
+    "zh-TW": "9.2 您的責任"
+  },
+  "terms.body.section-9.05": {
+    "en": "You are responsible for the legality, accuracy, quality, and completeness of Customer Content; for obtaining all permissions, consents, and licences needed to use it; for protecting confidential information belonging to your clients and third parties; for maintaining adequate backups; and for configuring the software appropriately, including units, standards, material properties, load cases, and other inputs that affect results. Do not submit personal information about other people unless you have a lawful basis and any required notices or consents. Where project information includes personal information, you remain responsible for applicable data protection law, and must not process special categories unless our engagement permits it and safeguards are in place.",
+    "zh-CN": "您对客户内容的合法性、准确性、质量和完整性负责；负责取得使用客户内容所需的一切许可、同意和批准；负责保护属于您的客户和第三方的保密信息；负责保持充分备份；并负责适当配置软件，包括单位、标准、材料属性、荷载工况及其他影响结果的输入。除非您有合法依据并已发出所需通知或取得同意，否则不得提交他人的个人信息。如项目信息包含个人信息，您仍需遵守适用的数据保护法律，且除非本公司的合作允许并已采取保障措施，不得处理特殊类别的个人信息。",
+    "zh-TW": "您對客戶內容的合法性、準確性、質素和完整性負責；負責取得使用客戶內容所需的一切授權、同意和批准；負責保護屬於您的客戶和第三方的保密資料；負責保持充分備份；並負責適當配置軟件，包括單位、標準、材料屬性、荷載工況及其他影響結果的輸入。除非您有合法依據並已發出所需通知或取得同意，否則不得提交他人的個人資料。如項目資料包含個人資料，您仍需遵守適用的資料保護法律，且除非本公司的合作允許並已採取保障措施，不得處理特殊類別的個人資料。"
+  },
+  "terms.body.section-9.06": {
+    "en": "9.3 Limited licence for support and retention",
+    "zh-CN": "9.3 支持与保留的有限许可",
+    "zh-TW": "9.3 支援與保留的有限授權"
+  },
+  "terms.body.section-9.07": {
+    "en": "You grant us a limited licence to access, use, and process Customer Content only to the extent necessary to provide the Services, respond to support requests, investigate a security or operational issue at your request, or comply with law. The licence ends when the purpose for which the material was provided is complete, subject to legal retention obligations. We do not use Customer Content to train models or develop products unless you expressly agree in writing to a separate arrangement. Because project files are stored on your devices, you are responsible for their retention and deletion; deleting your account does not delete local project files. On request, we will delete information held in our systems in accordance with our Privacy Policy and law, subject to legal retention requirements.",
+    "zh-CN": "您授予本公司一项有限许可，仅在提供本服务、回应支持请求、应您请求调查安全或运营问题，或遵守法律所必需的范围内，访问、使用和处理客户内容。该许可在提供材料的目的完成时终止，但须遵守法定保留义务。除非您以书面形式明确同意另行安排，本公司不会使用客户内容训练模型或开发产品。由于项目文件存储在您的设备上，您负责其保留和删除；删除账户不会删除本地项目文件。本公司将在您提出请求时，根据本公司的隐私政策和法律删除本公司系统中保存的信息，但须遵守法定保留要求。",
+    "zh-TW": "您授予本公司一項有限授權，僅在提供本服務、回應支援請求、應您請求調查安全或營運問題，或遵守法律所必需的範圍內，訪問、使用和處理客戶內容。該授權在提供材料的目的完成時終止，但須遵守法定保留義務。除非您以書面形式明確同意另行安排，本公司不會使用客戶內容訓練模型或開發產品。由於項目文件存儲在您的設備上，您負責其保留和刪除；刪除帳戶不會刪除本地項目文件。本公司將在您提出請求時，根據本公司的私隱政策和法律刪除本公司系統中保存的資料，但須遵守法定保留要求。"
+  },
+  "terms.body.section-10.01": {
+    "en": "10. AI-Assisted Outputs, Limitations, and Professional Engineering Responsibility",
+    "zh-CN": "10. AI 辅助输出、限制与专业工程责任",
+    "zh-TW": "10. AI 輔助輸出、限制與專業工程責任"
+  },
+  "terms.body.section-10.02": {
+    "en": "10.1 Nature of AI-assisted outputs",
+    "zh-CN": "10.1 AI 辅助输出的性质",
+    "zh-TW": "10.1 AI 輔助輸出的性質"
+  },
+  "terms.body.section-10.03": {
+    "en": "SIDA combines engineering workflows with AI-assisted analysis, generation, and checking capabilities. AI-assisted systems are probabilistic and may produce output that is incomplete, inaccurate, inconsistent, out of date, or unsuitable for a particular project. Outputs may reflect assumptions that are not visible to you, may omit relevant considerations, and may change when inputs, software versions, or models change.",
+    "zh-CN": "SIDA 将工程工作流与 AI 辅助分析、生成和检查能力相结合。AI 辅助系统具有概率性，可能产生不完整、不准确、不一致、过时或不适合特定项目的输出。输出可能反映您无法看到的假设，可能遗漏相关考虑，并可能在输入、软件版本或模型变化时发生变化。",
+    "zh-TW": "SIDA 將工程工作流程與 AI 輔助分析、生成和檢查能力相結合。AI 輔助系統具有概率性，可能產生不完整、不準確、不一致、過時或不適合特定項目的輸出。輸出可能反映您無法看到的假設，可能遺漏相關考慮，並可能在輸入、軟件版本或模型變化時發生變化。"
+  },
+  "terms.body.section-10.04": {
+    "en": "10.2 Decision support only",
+    "zh-CN": "10.2 仅供决策支持",
+    "zh-TW": "10.2 僅供決策支援"
+  },
+  "terms.body.section-10.05": {
+    "en": "Outputs are decision support and a starting point for professional judgement. They are not professional engineering advice, not a design approval, and not a substitute for the review, verification, and judgement of a qualified engineer. We do not certify that any output complies with any code, standard, regulation, or approval requirement, and we do not accept responsibility for the adequacy of a design that incorporates an output.",
+    "zh-CN": "输出仅为决策支持，是专业判断的起点。它们不构成专业工程建议，不构成设计批准，也不能替代合格工程师的审查、验证和判断。本公司不证明任何输出符合任何规范、标准、法规或审批要求，也不对采用输出的设计的充分性承担责任。",
+    "zh-TW": "輸出僅為決策支援，是專業判斷的起點。它們不構成專業工程建議，不構成設計批准，也不能替代合格工程師的審查、驗證和判斷。本公司不證明任何輸出符合任何規範、標準、法規或審批要求，也不對採用輸出的設計的充分性承擔責任。"
+  },
+  "terms.body.section-10.06": {
+    "en": "10.3 Engineer responsibility and human oversight",
+    "zh-CN": "10.3 工程师责任与人工监督",
+    "zh-TW": "10.3 工程師責任與人工監督"
+  },
+  "terms.body.section-10.07": {
+    "en": "The engineer or organisation responsible for a project remains responsible for reviewing and verifying every input, assumption, calculation, model, result, drawing, and recommendation; for checking compliance with applicable codes, standards, and regulatory requirements; for obtaining required approvals; and for the final judgement on whether a design is safe, suitable, and buildable. You must not rely on an output as the sole basis for a decision that affects safety, structural adequacy, cost, or regulatory compliance. Maintain meaningful human oversight and keep appropriate records of assumptions, checks, and decisions so that your work can be reviewed, audited, and defended.",
+    "zh-CN": "负责项目的工程师或组织仍须负责审查和验证每一项输入、假设、计算、模型、结果、图纸和建议；负责检查是否符合适用规范、标准和监管要求；负责取得所需批准；并对设计是否安全、适用和可建造作出最终判断。您不得将输出作为影响安全、结构充分性、成本或监管合规的决定的唯一依据。请保持有意义的人工监督，并妥善记录假设、检查和决定，以便您的工作可被审查、审计和辩护。",
+    "zh-TW": "負責項目的工程師或組織仍須負責審查和驗證每一項輸入、假設、計算、模型、結果、圖紙和建議；負責檢查是否符合適用規範、標準和監管要求；負責取得所需批准；並對設計是否安全、適用和可建造作出最終判斷。您不得將輸出作為影響安全、結構充分性、成本或監管合規的決定的唯一依據。請保持有意義的人工監督，並妥善記錄假設、檢查和決定，以便您的工作可被審查、審計和辯護。"
+  },
+  "terms.body.section-10.08": {
+    "en": "10.4 Changes to AI capabilities",
+    "zh-CN": "10.4 AI 能力的变化",
+    "zh-TW": "10.4 AI 能力的變化"
+  },
+  "terms.body.section-10.09": {
+    "en": "AI-assisted capabilities depend on software versions, configuration, and data. We may change, improve, restrict, or withdraw a capability, model, or feature in accordance with Section 14. We do not guarantee that a capability will remain available, that results will be reproducible across versions, or that an output will meet the requirements of a particular project or jurisdiction.",
+    "zh-CN": "AI 辅助能力取决于软件版本、配置和数据。本公司可根据第 14 条变更、改进、限制或撤回某项能力、模型或功能。本公司不保证某项能力将持续可用、结果在不同版本之间可复现，或输出将满足特定项目或司法管辖区的要求。",
+    "zh-TW": "AI 輔助能力取決於軟件版本、配置和資料。本公司可根據第 14 條變更、改進、限制或撤回某項能力、模型或功能。本公司不保證某項能力將持續可用、結果在不同版本之間可復現，或輸出將滿足特定項目或司法管轄區的要求。"
+  },
+  "terms.body.section-11.01": {
+    "en": "11. Intellectual Property, Feedback, and Reservations of Rights",
+    "zh-CN": "11. 知识产权、反馈与权利保留",
+    "zh-TW": "11. 知識產權、反饋與權利保留"
+  },
+  "terms.body.section-11.02": {
+    "en": "11.1 Our and your intellectual property",
+    "zh-CN": "11.1 本公司和您的知识产权",
+    "zh-TW": "11.1 本公司和您的知識產權"
+  },
+  "terms.body.section-11.03": {
+    "en": "The Services, software, website, documentation, and related technology, designs, text, graphics, interfaces, and other materials are owned by OuroNex or its licensors and are protected by copyright, trade mark, patent, trade secret, and other laws. The OuroNex name, logo, and product names, including SIDA, are our trade marks; you may not use them without prior written permission, except to refer to the Services accurately and without suggesting endorsement. You retain ownership of Customer Content and of outputs you generate, subject to our rights in the underlying software and technology and to third-party rights in materials you supply. All rights not expressly granted are reserved, and no implied licence arises from the provision of the Services or any discussion between us.",
+    "zh-CN": "本服务、软件、网站、文档及相关技术、设计、文本、图形、界面和其他材料由 OuroNex 或其许可方拥有，并受版权、商标、专利、商业秘密和其他法律保护。OuroNex 名称、标识及产品名称（包括 SIDA）是本公司的商标；未经事先书面许可，您不得使用，但可准确指称本服务且不暗示认可。您保留客户内容及您生成的输出的所有权，但须受本公司对底层软件和技术的权利以及您所提供材料中的第三方权利约束。所有未明确授予的权利均予保留；提供本服务或双方之间的任何讨论均不产生默示许可。",
+    "zh-TW": "本服務、軟件、網站、文件及相關技術、設計、文本、圖形、界面和其他材料由 OuroNex 或其授權方擁有，並受版權、商標、專利、商業秘密和其他法律保護。OuroNex 名稱、標識及產品名稱（包括 SIDA）是本公司的商標；未經事先書面授權，您不得使用，但可準確指稱本服務且不暗示認可。您保留客戶內容及您生成的輸出的所有權，但須受本公司對底層軟件和技術的權利以及您所提供材料中的第三方權利約束。所有未明確授予的權利均予保留；提供本服務或雙方之間的任何討論均不產生默示授權。"
+  },
+  "terms.body.section-11.04": {
+    "en": "11.2 Feedback",
+    "zh-CN": "11.2 反馈",
+    "zh-TW": "11.2 反饋"
+  },
+  "terms.body.section-11.05": {
+    "en": "If you provide suggestions, ideas, bug reports, comments, or other feedback about the Services, you grant us a non-exclusive, worldwide, royalty-free, perpetual, irrevocable licence to use, reproduce, modify, and incorporate that feedback for any purpose, including improving and developing our products. We will not identify you publicly as the source of feedback without your permission, and this licence does not give us rights in your Customer Content.",
+    "zh-CN": "如您就本服务提供建议、想法、缺陷报告、评论或其他反馈，您授予本公司一项非独占、全球范围、免版税、永久且不可撤销的许可，允许本公司为任何目的使用、复制、修改和纳入该反馈，包括改进和开发本公司的产品。未经您许可，本公司不会公开指明您是反馈来源；该许可不赋予本公司对您客户内容的权利。",
+    "zh-TW": "如您就本服務提供建議、想法、缺陷報告、評論或其他反饋，您授予本公司一項非獨佔、全球範圍、免版稅、永久且不可撤銷的授權，允許本公司為任何目的使用、復制、修改和納入該反饋，包括改進和開發本公司的產品。未經您授權，本公司不會公開指明您是反饋來源；該授權不賦予本公司對您客戶內容的權利。"
+  },
+  "terms.body.section-12.01": {
+    "en": "12. Confidentiality",
+    "zh-CN": "12. 保密",
+    "zh-TW": "12. 保密"
+  },
+  "terms.body.section-12.02": {
+    "en": "12.1 Definition and exclusions",
+    "zh-CN": "12.1 定义与排除",
+    "zh-TW": "12.1 定義與排除"
+  },
+  "terms.body.section-12.03": {
+    "en": "“Confidential Information” means non-public information disclosed by one party to the other in connection with the Services that is marked as confidential or that a reasonable person would understand to be confidential from its nature and the circumstances. It includes project information, technical data, pricing, business plans, customer information, and non-public software. It does not include information that is or becomes public without breach of these Terms; that the recipient already lawfully knew without a duty of confidence; that the recipient develops independently; or that the recipient lawfully receives from a third party without a duty of confidence.",
+    "zh-CN": "“保密信息”指一方就本服务向另一方披露的、标注为保密，或理性人根据其性质和情形会理解为保密的非公开信息。它包括项目信息、技术数据、价格、商业计划、客户信息和非公开软件。它不包括以下信息：非因违反本条款而已经或将要公开的信息；接收方在无保密义务的情况下已合法知悉的信息；接收方独立开发的信息；或接收方从第三方合法获得且无保密义务的信息。",
+    "zh-TW": "「保密資料」指一方就本服務向另一方披露的、標注為保密，或理性人根據其性質和情形會理解為保密的非公開資料。它包括項目資料、技術資料、價格、商業計劃、客戶資料和非公開軟件。它不包括以下資料：非因違反本條款而已經或將要公開的資料；接收方在無保密義務的情況下已合法知悉的資料；接收方獨立開發的資料；或接收方從第三方合法獲得且無保密義務的資料。"
+  },
+  "terms.body.section-12.04": {
+    "en": "12.2 Obligations, compulsory disclosure, and duration",
+    "zh-CN": "12.2 义务、强制披露与期限",
+    "zh-TW": "12.2 義務、強制披露與期限"
+  },
+  "terms.body.section-12.05": {
+    "en": "The recipient must use Confidential Information only for the purposes of the Services, protect it with reasonable care, and disclose it only to personnel, advisers, and contractors who need to know it and are bound by confidentiality obligations at least as protective as these Terms. The recipient is responsible for any breach by those persons. If the recipient is required by law or a competent authority to disclose Confidential Information, it must, where lawful and practicable, give prompt notice and disclose only the portion required; such disclosure is not a breach. On termination or written request, the recipient must return or destroy Confidential Information in its possession, except for copies retained in routine backups or as required by law, which remain subject to these Terms. Because project files processed locally remain on your devices, this obligation does not require you to delete your own Customer Content. Confidentiality obligations apply during the term of your access and for five (5) years after it ends, except for trade secrets, which remain protected while they remain trade secrets, and personal information, which is protected under applicable data protection law.",
+    "zh-CN": "接收方仅可为本服务目的使用保密信息，以合理谨慎加以保护，并仅向需要知悉且受至少与本条款同等保护的保密义务约束的人员、顾问和承包商披露。接收方应对这些人员的任何违约负责。如接收方被法律或主管机关要求披露保密信息，则在合法且可行的情况下，应及时通知并仅披露所需部分；该披露不构成违约。在终止或收到书面请求时，接收方必须返还或销毁其持有的保密信息，但例行备份中保留或法律要求保留的副本除外，这些副本仍受本条款约束。由于本地处理的项目文件仍留在您的设备上，本义务不要求您删除自己的客户内容。保密义务在您访问期间及访问结束后五（5）年内适用，但商业秘密在其仍属商业秘密期间继续受保护，个人信息则根据适用数据保护法律受保护。",
+    "zh-TW": "接收方僅可為本服務目的使用保密資料，以合理謹慎加以保護，並僅向需要知悉且受至少與本條款同等保護的保密義務約束的人員、顧問和承包商披露。接收方應對這些人員的任何違約負責。如接收方被法律或主管機關要求披露保密資料，則在合法且可行的情況下，應及時通知並僅披露所需部分；該披露不構成違約。在終止或收到書面請求時，接收方必須返還或銷毀其持有的保密資料，但例行備份中保留或法律要求保留的副本除外，這些副本仍受本條款約束。由於本地處理的項目文件仍留在您的設備上，本義務不要求您刪除自己的客戶內容。保密義務在您訪問期間及訪問結束後五（5）年內適用，但商業秘密在其仍屬商業秘密期間繼續受保護，個人資料則根據適用資料保護法律受保護。"
+  },
+  "terms.body.section-13.01": {
+    "en": "13. Third-Party Services, Links, and Dependencies",
+    "zh-CN": "13. 第三方服务、链接与依赖",
+    "zh-TW": "13. 第三方服務、連結與依賴"
+  },
+  "terms.body.section-13.02": {
+    "en": "13.1 Third-party services and links",
+    "zh-CN": "13.1 第三方服务与链接",
+    "zh-TW": "13.1 第三方服務與連結"
+  },
+  "terms.body.section-13.03": {
+    "en": "The Services may interoperate with, or link to, third-party software, platforms, data sources, or services. Those are provided by their respective owners, are governed by their own terms and privacy practices, and are not under our control. You are responsible for reviewing and complying with those terms. A link or integration does not mean that we endorse the third-party service or accept responsibility for it, and we do not warrant its availability, security, accuracy, or continued operation.",
+    "zh-CN": "本服务可能与第三方软件、平台、数据源或服务互操作，或链接至这些内容。它们由其各自所有者提供，受其自身条款和隐私做法约束，且不受本公司控制。您负责审阅并遵守这些条款。链接或集成不代表本公司认可该第三方服务或对其承担责任，本公司也不保证其可用性、安全性、准确性或持续运营。",
+    "zh-TW": "本服務可能與第三方軟件、平臺、資料源或服務互操作，或連結至這些內容。它們由其各自所有者提供，受其自身條款和私隱做法約束，且不受本公司控制。您負責審閱並遵守這些條款。連結或集成不代表本公司認可該第三方服務或對其承擔責任，本公司也不保證其可用性、安全性、準確性或持續營運。"
+  },
+  "terms.body.section-13.04": {
+    "en": "13.2 Customer-supplied tools and third-party claims",
+    "zh-CN": "13.2 客户提供的工具与第三方索赔",
+    "zh-TW": "13.2 客戶提供的工具與第三方索賠"
+  },
+  "terms.body.section-13.05": {
+    "en": "You are responsible for the tools, data, models, and file formats you use with the Services, including ensuring that they are compatible, lawful, and free of malicious code. If a third party claims that material you supplied, or a use you instructed, infringes its rights, you are responsible for addressing that claim and for any liability arising from it, subject to Sections 16 and 17.",
+    "zh-CN": "您对与本服务一起使用的工具、数据、模型和文件格式负责，包括确保它们兼容、合法且不含恶意代码。如第三方主张您提供的材料或您指示的使用侵犯其权利，您负责处理该索赔及由此产生的任何责任，但须遵守第 16 条和第 17 条。",
+    "zh-TW": "您對與本服務一起使用的工具、資料、模型和文件格式負責，包括確保它們兼容、合法且不含惡意代碼。如第三方主張您提供的材料或您指示的使用侵犯其權利，您負責處理該索賠及由此產生的任何責任，但須遵守第 16 條和第 17 條。"
+  },
+  "terms.body.section-14.01": {
+    "en": "14. Availability, Maintenance, Changes, and Discontinuation",
+    "zh-CN": "14. 可用性、维护、变更与停止提供",
+    "zh-TW": "14. 可用性、維護、變更與停止提供"
+  },
+  "terms.body.section-14.02": {
+    "en": "14.1 Availability and maintenance",
+    "zh-CN": "14.1 可用性与维护",
+    "zh-TW": "14.1 可用性與維護"
+  },
+  "terms.body.section-14.03": {
+    "en": "We aim to provide the Services reliably, but availability may be affected by maintenance, updates, network conditions, your equipment and configuration, third-party dependencies, and events beyond our reasonable control. We do not guarantee uninterrupted or error-free operation unless a separate written agreement expressly states otherwise. Where a maintenance window is expected to cause significant disruption to paid Services, we will give reasonable advance notice; emergency maintenance may be performed without notice where necessary to protect security or integrity.",
+    "zh-CN": "本公司力求可靠地提供本服务，但可用性可能受维护、更新、网络状况、您的设备和配置、第三方依赖以及本公司合理控制之外的事件影响。除另有书面协议明确说明外，本公司不保证不间断或无错误运行。如预计维护窗口将对付费服务造成重大中断，本公司会给予合理提前通知；为保护安全或完整性而有必要时，可在不通知的情况下进行紧急维护。",
+    "zh-TW": "本公司力求可靠地提供本服務，但可用性可能受維護、更新、網絡狀況、您的設備和配置、第三方依賴以及本公司合理控制之外的事件影響。除另有書面協議明確說明外，本公司不保證不間斷或無錯誤運行。如預計維護窗口將對付費服務造成重大中斷，本公司會給予合理提前通知；為保護安全或完整性而有必要時，可在不通知的情況下進行緊急維護。"
+  },
+  "terms.body.section-14.04": {
+    "en": "14.2 Changes, discontinuation, and your environment",
+    "zh-CN": "14.2 变更、停止提供与您的环境",
+    "zh-TW": "14.2 變更、停止提供與您的環境"
+  },
+  "terms.body.section-14.05": {
+    "en": "We may add, modify, or remove features, functionality, or technical requirements to improve the Services, reflect changes in technology or law, or address security or operational risks. We will not materially reduce the core functionality of a paid plan during a paid period without a legitimate reason and reasonable explanation. We may discontinue a product, plan, or feature. Where we discontinue a paid Service before the end of a paid period, we will give reasonable notice and, where required by law or fairness, provide a pro-rata refund or reasonable substitute. We are not obliged to continue free, trial, beta, early-access, or evaluation access. You are responsible for the hardware, operating system, network connectivity, and security measures needed to use the Services; we are not responsible for failures caused by equipment or connectivity you control.",
+    "zh-CN": "本公司可能增加、修改或移除功能、特性或技术要求，以改进本服务、反映技术或法律变化，或应对安全或运营风险。本公司不会在无正当理由和合理解释的情况下，在付费期间实质性减少付费方案的核心功能。本公司可能停止提供某项产品、方案或功能。如本公司在付费期间结束前停止提供付费服务，本公司将给予合理通知，并在法律或公平原则要求时提供按比例退款或合理替代方案。本公司没有义务继续提供免费、试用、测试版、抢先体验或评估访问。您负责使用本服务所需的硬件、操作系统、网络连接和安全措施；本公司对您控制的设备或连接造成的故障不承担责任。",
+    "zh-TW": "本公司可能增加、修改或移除功能、特性或技術要求，以改進本服務、反映技術或法律變化，或應對安全或營運風險。本公司不會在無正當理由和合理解釋的情況下，在付費期間實質性減少付費方案的核心功能。本公司可能停止提供某項產品、方案或功能。如本公司在付費期間結束前停止提供付費服務，本公司將給予合理通知，並在法律或公平原則要求時提供按比例退款或合理替代方案。本公司沒有義務繼續提供免費、試用、測試版、搶先體驗或評估訪問。您負責使用本服務所需的硬件、操作系統、網絡連接和安全措施；本公司對您控制的設備或連接造成的故障不承擔責任。"
+  },
+  "terms.body.section-15.01": {
+    "en": "15. Disclaimers and No Professional Advice",
+    "zh-CN": "15. 免责声明与不提供专业建议",
+    "zh-TW": "15. 免責聲明與不提供專業建議"
+  },
+  "terms.body.section-15.02": {
+    "en": "15.1 General disclaimer",
+    "zh-CN": "15.1 一般免责声明",
+    "zh-TW": "15.1 一般免責聲明"
+  },
+  "terms.body.section-15.03": {
+    "en": "To the maximum extent permitted by applicable law, the Services are provided “as is” and “as available”. We disclaim all warranties, conditions, and representations, whether express, implied, or statutory, including any implied warranty of merchantability, fitness for a particular purpose, title, non-infringement, accuracy, or quiet enjoyment. We do not warrant that the Services will meet your requirements, that outputs will be accurate or complete, or that defects will be corrected.",
+    "zh-CN": "在适用法律允许的最大范围内，本服务按“现状”和“现状可用”提供。本公司否认一切明示、默示或法定的保证、条件和陈述，包括对适销性、特定用途适用性、所有权、不侵权、准确性或不受干扰使用的任何默示保证。本公司不保证本服务将满足您的要求、输出将准确或完整，或缺陷将被纠正。",
+    "zh-TW": "在適用法律允許的最大範圍內，本服務按「現狀」和「現狀可用」提供。本公司否認一切明示、默示或法定的保證、條件和陳述，包括對適銷性、特定用途適用性、所有權、不侵權、準確性或不受干擾使用的任何默示保證。本公司不保證本服務將滿足您的要求、輸出將準確或完整，或缺陷將被糾正。"
+  },
+  "terms.body.section-15.04": {
+    "en": "15.2 No professional advice, no compliance guarantee",
+    "zh-CN": "15.2 不提供专业建议，不保证合规",
+    "zh-TW": "15.2 不提供專業建議，不保證合規"
+  },
+  "terms.body.section-15.05": {
+    "en": "Nothing on the website, in the documentation, in the software, or in any output constitutes professional engineering, legal, financial, or other regulated advice. Content is provided for general information and decision support only. You must obtain advice from appropriately qualified professionals where your circumstances require it. We do not warrant that the Services or any output complies with any code, standard, regulation, approval condition, or project specification; compliance depends on your inputs, assumptions, interpretation, and professional judgement and remains your responsibility under Section 10.",
+    "zh-CN": "网站、文档、软件或任何输出中的任何内容均不构成专业工程、法律、财务或其他受监管建议。内容仅供一般信息和决策支持。如您的情况需要，您必须向具备适当资格的专业人士寻求建议。本公司不保证本服务或任何输出符合任何规范、标准、法规、审批条件或项目规格；合规取决于您的输入、假设、解释和专业判断，并根据第 10 条仍由您负责。",
+    "zh-TW": "網站、文件、軟件或任何輸出中的任何內容均不構成專業工程、法律、財務或其他受監管建議。內容僅供一般資料和決策支援。如您的情況需要，您必須向具備適當資格的專業人士尋求建議。本公司不保證本服務或任何輸出符合任何規範、標準、法規、審批條件或項目規格；合規取決於您的輸入、假設、解釋和專業判斷，並根據第 10 條仍由您負責。"
+  },
+  "terms.body.section-15.06": {
+    "en": "15.3 Mandatory rights",
+    "zh-CN": "15.3 强制性权利",
+    "zh-TW": "15.3 強制性權利"
+  },
+  "terms.body.section-15.07": {
+    "en": "Nothing in this Section 15 excludes or limits any warranty, condition, guarantee, or right that cannot lawfully be excluded or limited, including rights under mandatory consumer protection law.",
+    "zh-CN": "本第 15 条不排除或限制任何依法不能排除或限制的保证、条件、担保或权利，包括强制性消费者保护法律下的权利。",
+    "zh-TW": "本第 15 條不排除或限制任何依法不能排除或限制的保證、條件、擔保或權利，包括強制性消費者保護法律下的權利。"
+  },
+  "terms.body.section-16.01": {
+    "en": "16. Limitation of Liability",
+    "zh-CN": "16. 责任限制",
+    "zh-TW": "16. 法律責任限制"
+  },
+  "terms.body.section-16.02": {
+    "en": "16.1 Exclusion of indirect loss",
+    "zh-CN": "16.1 间接损失除外",
+    "zh-TW": "16.1 間接損失除外"
+  },
+  "terms.body.section-16.03": {
+    "en": "To the maximum extent permitted by law, neither party is liable to the other for indirect, incidental, special, punitive, or consequential loss, or for loss of profit, revenue, business, goodwill, anticipated savings, or opportunity, even if advised of the possibility of such loss. Neither party is liable for loss or corruption of data to the extent that the loss could have been avoided by reasonable backup measures.",
+    "zh-CN": "在法律允许的最大范围内，任何一方均不对另一方承担间接、附带、特殊、惩罚性或后果性损失，也不对利润、收入、业务、商誉、预期节省或机会损失承担责任，即使已被告知此类损失的可能性。对于可通过合理备份措施避免的数据丢失或损坏，任何一方均不承担责任。",
+    "zh-TW": "在法律允許的最大範圍內，任何一方均不對另一方承擔間接、附帶、特殊、懲罰性或後果性損失，也不對利潤、收入、業務、商譽、預期節省或機會損失承擔責任，即使已被告知此類損失的可能性。對於可透過合理備份措施避免的資料丟失或損壞，任何一方均不承擔責任。"
+  },
+  "terms.body.section-16.04": {
+    "en": "16.2 Cap on liability",
+    "zh-CN": "16.2 责任上限",
+    "zh-TW": "16.2 責任上限"
+  },
+  "terms.body.section-16.05": {
+    "en": "To the maximum extent permitted by law, our total aggregate liability arising out of or in connection with these Terms and the Services is limited to the greater of: (a) the total fees paid by you for the affected Services during the twelve (12) months immediately before the event giving rise to the claim; and (b) HKD 500. Where you received the affected Services at no charge, our total aggregate liability is limited to HKD 500. These limits apply in aggregate across all claims, whether in contract, tort, or statute.",
+    "zh-CN": "在法律允许的最大范围内，本公司就本条款和本服务产生或与之相关的全部累计责任，以以下较高者为准：(a) 在引起索赔的事件发生前十二（12）个月内，您就受影响服务支付的总费用；以及 (b) 500 港元。如您免费获得受影响服务，本公司的全部累计责任以 500 港元为限。这些限制适用于所有索赔的累计总额，无论基于合同、侵权还是成文法。",
+    "zh-TW": "在法律允許的最大範圍內，本公司就本條款和本服務產生或與之相關的全部累計責任，以以下較高者為準：(a) 在引起索賠的事件發生前十二（12）個月內，您就受影響服務支付的總費用；以及 (b) 500 港元。如您免費獲得受影響服務，本公司的全部累計責任以 500 港元為限。這些限制適用於所有索賠的累計總額，無論基於合約、侵權還是成文法。"
+  },
+  "terms.body.section-16.06": {
+    "en": "16.3 Carve-outs and consumer rights",
+    "zh-CN": "16.3 除外情形与消费者权利",
+    "zh-TW": "16.3 除外情形與消費者權利"
+  },
+  "terms.body.section-16.07": {
+    "en": "Nothing in these Terms limits or excludes liability for death or personal injury caused by negligence; fraud or fraudulent misrepresentation; wilful misconduct; breach of confidentiality obligations in Section 12; your obligation to pay fees due; or any other liability that cannot lawfully be limited or excluded. Nothing in these Terms limits your obligation to indemnify us under Section 17 to the extent that a claim arises from your breach, your Customer Content, or your unlawful use of the Services. If you deal as a consumer, nothing in this Section 16 affects any statutory right or remedy that cannot be waived or limited by agreement.",
+    "zh-CN": "本条款不限制或排除因过失造成的死亡或人身伤害、欺诈或欺诈性虚假陈述、故意不当行为、违反第 12 条保密义务、您支付到期费用的义务，或任何依法不能限制或排除的其他责任。如索赔源于您的违约、您的客户内容或您对本服务的非法使用，本条款不限制您根据第 17 条向本公司作出赔偿的义务。如您作为消费者进行交易，本第 16 条不影响任何不能通过协议放弃或限制的法定权利或救济。",
+    "zh-TW": "本條款不限制或排除因疏忽造成的死亡或人身傷害、欺詐或欺詐性虛假陳述、故意不當行為、違反第 12 條保密義務、您支付到期費用的義務，或任何依法不能限制或排除的其他責任。如索賠源於您的違約、您的客戶內容或您對本服務的非法使用，本條款不限制您根據第 17 條向本公司作出彌償的義務。如您作為消費者進行交易，本第 16 條不影響任何不能透過協議放棄或限制的法定權利或救濟。"
+  },
+  "terms.body.section-17.01": {
+    "en": "17. Indemnity",
+    "zh-CN": "17. 赔偿",
+    "zh-TW": "17. 彌償"
+  },
+  "terms.body.section-17.02": {
+    "en": "17.1 Your indemnity",
+    "zh-CN": "17.1 您的赔偿",
+    "zh-TW": "17.1 您的彌償"
+  },
+  "terms.body.section-17.03": {
+    "en": "To the extent permitted by law, you agree to indemnify and hold harmless OuroNex, its affiliates, and its directors, officers, employees, and contractors from and against claims, losses, liabilities, damages, costs, and reasonable legal expenses connected with any of the following: your breach of these Terms; your Customer Content, including any claim that it infringes intellectual property or privacy rights or breaches confidentiality; your unlawful or negligent use of the Services; or any third-party claim relating to a project, design, or decision in which an output was used.",
+    "zh-CN": "在法律允许的范围内，您同意就以下事项引起的索赔、损失、责任、损害、费用和合理法律开支，向 OuroNex 及其关联公司以及其董事、高管、员工和承包商作出赔偿并使其免受损害：您违反本条款；您的客户内容，包括任何主张其侵犯知识产权或隐私权或违反保密义务的索赔；您对本服务的非法或过失使用；或与使用输出的项目、设计或决定相关的任何第三方索赔。",
+    "zh-TW": "在法律允許的範圍內，您同意就以下事項引起的索賠、損失、責任、損害、費用和合理法律開支，向 OuroNex 及其關聯公司以及其董事、高管、員工和承包商作出彌償並使其免受損害：您違反本條款；您的客戶內容，包括任何主張其侵犯知識產權或私隱權或違反保密義務的索賠；您對本服務的非法或疏忽使用；或與使用輸出的項目、設計或決定相關的任何第三方索賠。"
+  },
+  "terms.body.section-17.04": {
+    "en": "17.2 Procedure and scope",
+    "zh-CN": "17.2 程序与范围",
+    "zh-TW": "17.2 程序與範圍"
+  },
+  "terms.body.section-17.05": {
+    "en": "We will notify you of a covered claim within a reasonable time and will not settle a claim in a way that admits fault on your part without your consent, which must not be unreasonably withheld. We may conduct our own defence where we consider it necessary to protect our interests, and you must provide reasonable cooperation and information. This indemnity does not apply to the extent that a claim arises from our breach of these Terms, our negligence, or our wilful misconduct, and it is in addition to any other remedy available to us.",
+    "zh-CN": "本公司将在合理时间内就受保索赔通知您，并且未经您同意，不会以承认您有过错的方式和解索赔；您的同意不得被不合理地拒绝。如本公司认为有必要保护自身利益，可自行进行抗辩，您必须提供合理合作和信息。如索赔源于本公司违反本条款、本公司的过失或本公司的故意不当行为，本赔偿不适用，且本赔偿不影响本公司可获得的任何其他救济。",
+    "zh-TW": "本公司將在合理時間內就受保索賠通知您，並且未經您同意，不會以承認您有過錯的方式和解索賠；您的同意不得被不合理地拒絕。如本公司認為有必要保護自身利益，可自行進行抗辯，您必須提供合理合作和資料。如索賠源於本公司違反本條款、本公司的疏忽或本公司的故意不當行為，本彌償不適用，且本彌償不影響本公司可獲得的任何其他救濟。"
+  },
+  "terms.body.section-18.01": {
+    "en": "18. Term, Suspension, and Termination",
+    "zh-CN": "18. 期限、暂停与终止",
+    "zh-TW": "18. 期限、暫停與終止"
+  },
+  "terms.body.section-18.02": {
+    "en": "18.1 Term and termination for convenience",
+    "zh-CN": "18.1 期限与便利终止",
+    "zh-TW": "18.1 期限與便利終止"
+  },
+  "terms.body.section-18.03": {
+    "en": "These Terms apply from first access until your access ends or they are terminated under this Section 18. A subscription continues for the period stated in your order and renews as described in Section 6 unless cancelled. You may stop using the Services at any time and may cancel a subscription in accordance with Section 6. We may terminate your access on reasonable notice where we discontinue the relevant Service under Section 14.2. Termination for convenience does not create a refund obligation except where required by law or expressly stated in your order.",
+    "zh-CN": "本条款自首次访问起适用，直至您的访问结束或本条款根据本第 18 条终止。订阅在订单所述期间持续，并按第 6 条所述续订，除非被取消。您可随时停止使用本服务，并可根据第 6 条取消订阅。如本公司根据第 14.2 条停止提供相关服务，本公司可在合理通知后终止您的访问。除法律要求或订单明确说明外，便利终止不产生退款义务。",
+    "zh-TW": "本條款自首次訪問起適用，直至您的訪問結束或本條款根據本第 18 條終止。訂閱在訂單所述期間持續，並按第 6 條所述續訂，除非被取消。您可隨時停止使用本服務，並可根據第 6 條取消訂閱。如本公司根據第 14.2 條停止提供相關服務，本公司可在合理通知後終止您的訪問。除法律要求或訂單明確說明外，便利終止不產生退款義務。"
+  },
+  "terms.body.section-18.04": {
+    "en": "18.2 Termination for breach and suspension",
+    "zh-CN": "18.2 违约终止与暂停",
+    "zh-TW": "18.2 違約終止與暫停"
+  },
+  "terms.body.section-18.05": {
+    "en": "Either party may terminate these Terms or suspend performance if the other commits a material breach and does not remedy it within thirty (30) days of written notice describing the breach. We may terminate immediately if you breach Section 5.2, Section 8, or Section 12 in a way that causes or is likely to cause material harm, or if we are required to do so by law. We may suspend access, in whole or in part, where necessary to address a security risk, comply with law or a competent authority’s order, prevent misuse, or protect the Services or other customers. Where practicable, we will give notice and limit the suspension to what is necessary. Suspension does not relieve you of fees where it results from your breach.",
+    "zh-CN": "如另一方构成重大违约，且未在说明该违约的书面通知送达后三十（30）天内补救，任何一方均可终止本条款或暂停履行。如您违反第 5.2 条、第 8 条或第 12 条，并造成或可能造成重大损害，或法律要求本公司终止，本公司可立即终止。为解决安全风险、遵守法律或主管机关命令、防止滥用或保护本服务或其他客户而有必要时，本公司可全部或部分暂停访问。在可行的情况下，本公司会发出通知，并将暂停限制在必要范围内。如暂停是因您的违约造成，暂停不免除您的费用义务。",
+    "zh-TW": "如另一方構成重大違約，且未在說明該違約的書面通知送達後三十（30）天內補救，任何一方均可終止本條款或暫停履行。如您違反第 5.2 條、第 8 條或第 12 條，並造成或可能造成重大損害，或法律要求本公司終止，本公司可立即終止。為解決安全風險、遵守法律或主管機關命令、防止濫用或保護本服務或其他客戶而有必要時，本公司可全部或部分暫停訪問。在可行的情況下，本公司會發出通知，並將暫停限制在必要範圍內。如暫停是因您的違約造成，暫停不免除您的費用義務。"
+  },
+  "terms.body.section-18.06": {
+    "en": "18.3 Effect of termination and survival",
+    "zh-CN": "18.3 终止的效力与存续",
+    "zh-TW": "18.3 終止的效力與存續"
+  },
+  "terms.body.section-18.07": {
+    "en": "On termination, your licence ends, you must stop using the Services, and you must remove the software from your systems unless a separate arrangement permits continued use. You remain responsible for fees accrued before termination. Customer Content stored locally remains on your devices and under your control, subject to your own retention obligations. We will handle information held in our systems in accordance with our Privacy Policy and applicable law. Sections 5.2, 6.5, 9, 10, 11, 12, 15, 16, 17, 19, 20, and 21, and any other provision that by its nature should survive, continue to apply after termination.",
+    "zh-CN": "终止时，您的许可结束，您必须停止使用本服务，并必须从您的系统中移除软件，除非另有安排允许继续使用。您仍需支付终止前已产生的费用。本地存储的客户内容仍留在您的设备上并由您控制，但须遵守您自己的保留义务。本公司将根据本公司的隐私政策和适用法律处理本公司系统中保存的信息。第 5.2、6.5、9、10、11、12、15、16、17、19、20 和 21 条，以及任何按其性质应在终止后继续适用的其他条款，在终止后继续适用。",
+    "zh-TW": "終止時，您的授權結束，您必須停止使用本服務，並必須從您的系統中移除軟件，除非另有安排允許繼續使用。您仍需支付終止前已產生的費用。本地存儲的客戶內容仍留在您的設備上並由您控制，但須遵守您自己的保留義務。本公司將根據本公司的私隱政策和適用法律處理本公司系統中保存的資料。第 5.2、6.5、9、10、11、12、15、16、17、19、20 和 21 條，以及任何按其性質應在終止後繼續適用的其他條款，在終止後繼續適用。"
+  },
+  "terms.body.section-19.01": {
+    "en": "19. Governing Law and Dispute Resolution",
+    "zh-CN": "19. 适用法律与争议解决",
+    "zh-TW": "19. 管轄法律與爭議解決"
+  },
+  "terms.body.section-19.02": {
+    "en": "19.1 Governing law and good-faith discussion",
+    "zh-CN": "19.1 适用法律与善意协商",
+    "zh-TW": "19.1 管轄法律與善意協商"
+  },
+  "terms.body.section-19.03": {
+    "en": "These Terms, and any dispute or claim arising out of or in connection with them or the Services (including non-contractual disputes), are governed by the laws of the Hong Kong Special Administrative Region, without regard to conflict of laws rules. Before starting proceedings, the parties should attempt in good faith to resolve a dispute through discussion. A party may give notice describing the issue and remedy sought, and the parties will use reasonable efforts to resolve it within thirty (30) days. This step does not prevent either party from seeking urgent relief where necessary.",
+    "zh-CN": "本条款以及因本条款或本服务产生或与之相关的任何争议或索赔（包括非合同争议），均受香港特别行政区法律管辖，不考虑法律冲突规则。在提起诉讼前，双方应善意尝试通过协商解决争议。一方可发出通知，说明争议事项和寻求的救济，双方将尽合理努力在三十（30）天内解决。该步骤不妨碍任何一方在必要时寻求紧急救济。",
+    "zh-TW": "本條款以及因本條款或本服務產生或與之相關的任何爭議或索賠（包括非合約爭議），均受香港特別行政區法律管轄，不考慮法律衝突規則。在提起訴訟前，雙方應善意嘗試透過協商解決爭議。一方可發出通知，說明爭議事項和尋求的救濟，雙方將盡合理努力在三十（30）天內解決。該步驟不妨礙任何一方在必要時尋求緊急救濟。"
+  },
+  "terms.body.section-19.04": {
+    "en": "19.2 Courts, consumer rights, and time limits",
+    "zh-CN": "19.2 法院、消费者权利与时效",
+    "zh-TW": "19.2 法院、消費者權利與時效"
+  },
+  "terms.body.section-19.05": {
+    "en": "Subject to Section 19.1, the courts of the Hong Kong Special Administrative Region have exclusive jurisdiction to settle any dispute or claim arising out of or in connection with these Terms or the Services. Each party submits to that jurisdiction; nothing prevents enforcement of a judgment or urgent injunctive relief in any competent court. If you are a consumer, you may also bring proceedings in any court that has jurisdiction under mandatory consumer protection law. To the extent permitted by law, a claim arising out of or in connection with these Terms must be brought within the limitation period that applies under the laws of the Hong Kong Special Administrative Region.",
+    "zh-CN": "在遵守第 19.1 条的前提下，香港特别行政区法院对因本条款或本服务产生或与之相关的任何争议或索赔具有专属管辖权。各方接受该管辖；任何有管辖权的法院均可执行判决或紧急禁令救济。如您为消费者，您也可在根据强制性消费者保护法律具有管辖权的任何法院提起诉讼。在法律允许的范围内，因本条款产生或与之相关的索赔必须在香港特别行政区法律规定的时效期间内提出。",
+    "zh-TW": "在遵守第 19.1 條的前提下，香港特別行政區法院對因本條款或本服務產生或與之相關的任何爭議或索賠具有專屬司法管轄權。各方接受該司法管轄權；任何具司法管轄權的法院均可執行判決或緊急禁制令濟助。如您為消費者，您也可在根據強制性消費者保護法律具有司法管轄權的任何法院提起訴訟。在法律允許的範圍內，因本條款產生或與之相關的索賠必須在香港特別行政區法律規定的時效期間內提出。"
+  },
+  "terms.body.section-20.01": {
+    "en": "20. General Provisions",
+    "zh-CN": "20. 一般规定",
+    "zh-TW": "20. 一般規定"
+  },
+  "terms.body.section-20.02": {
+    "en": "20.1 Assignment and severability",
+    "zh-CN": "20.1 转让与可分割性",
+    "zh-TW": "20.1 轉讓與可分割性"
+  },
+  "terms.body.section-20.03": {
+    "en": "You may not assign, transfer, or subcontract your rights or obligations under these Terms without our prior written consent, except as part of a bona fide reorganisation or sale of substantially all of your business, provided that the assignee agrees to be bound by these Terms and you notify us. We may assign these Terms to an affiliate or a successor in connection with a reorganisation, merger, or sale of the business or assets to which the Services relate. If a provision is held invalid, illegal, or unenforceable, it will be modified to the minimum extent necessary to make it enforceable or, if modification is not possible, severed; the remaining provisions continue in full force.",
+    "zh-CN": "未经本公司事先书面同意，您不得转让、移转或分包您在本条款下的权利或义务，但作为善意重组或出售您几乎全部业务的一部分除外，前提是受让方同意受本条款约束且您通知本公司。本公司可就与重组、合并或出售本服务相关业务或资产有关的事宜，将本条款转让给关联公司或承继人。如某条款被认定无效、违法或不可执行，将在使其可执行所需的最小范围内修改；如无法修改，则予以分割，其余条款继续完全有效。",
+    "zh-TW": "未經本公司事先書面同意，您不得轉讓、移轉或分判您在本條款下的權利或義務，但作為善意重組或出售您幾乎全部業務的一部分除外，前提是受讓方同意受本條款約束且您通知本公司。本公司可就與重組、合併或出售本服務相關業務或資產有關的事宜，將本條款轉讓給關聯公司或承繼人。如某條款被認定無效、違法或不可執行，將在使其可執行所需的最小範圍內修改；如無法修改，則予以分割，其餘條款繼續完全有效。"
+  },
+  "terms.body.section-20.04": {
+    "en": "20.2 Entire agreement and waiver",
+    "zh-CN": "20.2 完整协议与弃权",
+    "zh-TW": "20.2 完整協議與棄權"
+  },
+  "terms.body.section-20.05": {
+    "en": "These Terms, together with the order, quotation, statement of work, documentation, and any referenced policies, constitute the entire agreement between you and us in relation to the Services and replace any prior discussion, representation, or understanding on the same subject. A failure or delay in exercising a right is not a waiver of that right. A waiver is effective only if in writing and signed by the party granting it, and a waiver of a breach does not waive any later breach.",
+    "zh-CN": "本条款连同订单、报价单、工作说明书、文档及任何引用政策，构成您与本公司之间就本服务的完整协议，并取代此前就同一主题进行的任何讨论、陈述或谅解。未行使或延迟行使某项权利不构成对该权利的放弃。弃权仅在以书面形式作出并由授予方签署时有效；对某项违约的弃权不放弃任何后续违约。",
+    "zh-TW": "本條款連同訂單、報價單、工作說明書、文件及任何引用政策，構成您與本公司之間就本服務的完整協議，並取代此前就同一主題進行的任何討論、陳述或諒解。未行使或延遲行使某項權利不構成對該權利的放棄。棄權僅在以書面形式作出並由授予方簽署時有效；對某項違約的棄權不放棄任何後續違約。"
+  },
+  "terms.body.section-20.06": {
+    "en": "20.3 Notices and force majeure",
+    "zh-CN": "20.3 通知与不可抗力",
+    "zh-TW": "20.3 通知與不可抗力"
+  },
+  "terms.body.section-20.07": {
+    "en": "We may give notice to you through the website, the account interface, the contact details associated with your account, or another reasonable method. You must give notice to us through the contact channel made available on our website. Notice is treated as received when published on the website, sent to the contact details on record, or otherwise delivered in accordance with the law. Neither party is liable for a failure or delay in performing an obligation (other than payment) to the extent caused by an event beyond its reasonable control, including natural disasters, epidemics, war, civil unrest, industrial action, or widespread network or third-party service failure. The affected party must take reasonable steps to mitigate the effect and resume performance, and must notify the other of the event and its expected duration.",
+    "zh-CN": "本公司可通过网站、账户界面、与您账户关联的联系方式或其他合理方式向您发出通知。您必须通过本公司网站上提供的联系渠道向本公司发出通知。通知在网站上发布、发送至记录中的联系方式或以其他方式依法送达时视为收到。任何一方均不对因合理控制之外的事件（包括自然灾害、流行病、战争、内乱、工业行动或大范围网络或第三方服务故障）导致未能或延迟履行义务（付款除外）承担责任。受影响方必须采取合理步骤减轻影响并恢复履行，且必须通知另一方该事件及其预计持续时间。",
+    "zh-TW": "本公司可透過網站、帳戶界面、與您帳戶關聯的聯繫方式或其他合理方式向您發出通知。您必須透過本公司網站上提供的聯繫渠道向本公司發出通知。通知在網站上發佈、發送至記錄中的聯繫方式或以其他方式依法送達時視為收到。任何一方均不對因合理控制之外的事件（包括自然災害、流行病、戰爭、內亂、工業行動或大範圍網絡或第三方服務故障）導致未能或延遲履行義務（付款除外）承擔責任。受影響方必須採取合理步驟減輕影響並恢復履行，且必須通知另一方該事件及其預計持續時間。"
+  },
+  "terms.body.section-20.08": {
+    "en": "20.4 Language and interpretation",
+    "zh-CN": "20.4 语言与解释",
+    "zh-TW": "20.4 語言與解釋"
+  },
+  "terms.body.section-20.09": {
+    "en": "These Terms are written in English. If we provide a translation for convenience, the English version prevails to the extent of any inconsistency, except where the law of your jurisdiction requires the local language version to prevail. Except for OuroNex’s affiliates and licensors, no person who is not a party has any right to enforce these Terms. “Including” means “including without limitation”, and a reference to a statute includes its amendments and subordinate legislation.",
+    "zh-CN": "本条款以英文撰写。如本公司为方便阅读提供译文，在任何不一致之处以英文版本为准，但您所在司法管辖区的法律要求以当地语言版本为准的情况除外。除 OuroNex 的关联公司和许可方外，非本条款当事方的任何人均无权执行本条款。“包括”指“包括但不限于”，对成文法的引用包括其修订和附属法例。",
+    "zh-TW": "本條款以英文撰寫。如本公司為方便閱讀提供譯文，在任何不一致之處以英文版本為準，但您所在司法管轄區的法律要求以當地語言版本為準的情況除外。除 OuroNex 的關聯公司和授權方外，非本條款當事方的任何人均無權執行本條款。「包括」指「包括但不限於」，對成文法的引用包括其修訂和附屬法例。"
+  },
+  "terms.body.section-21.01": {
+    "en": "21. How to Contact Us",
+    "zh-CN": "21. 如何联系本公司",
+    "zh-TW": "21. 如何聯繫本公司"
+  },
+  "terms.body.section-21.02": {
+    "en": "If you have questions about these Terms, need to give notice about a legal or contractual matter, or wish to discuss an Enterprise arrangement, please use the contact details published on our website. For account and security matters, please use the contact channel made available on our website. We will respond within a reasonable time, and may ask for information needed to verify your identity or authority before acting on a request. Please mark security incidents, suspected compromises, and legal notices clearly so that they can be prioritised.",
+    "zh-CN": "如您对本条款有疑问、需要就法律或合同事宜发出通知，或希望讨论企业版安排，请使用本公司网站上公布的联系方式。就账户和安全事宜，请使用本公司网站上提供的联系渠道。本公司将在合理时间内回复，并可能在处理请求前要求提供核实您身份或权限所需的信息。请清楚标明安全事件、疑似泄露和法律通知，以便优先处理。",
+    "zh-TW": "如您對本條款有疑問、需要就法律或合約事宜發出通知，或希望討論企業版安排，請使用本公司網站上公布的聯繫方式。就帳戶和安全事宜，請使用本公司網站上提供的聯繫渠道。本公司將在合理時間內回復，並可能在處理請求前要求提供核實您身份或權限所需的資料。請清楚標明安全事件、疑似洩漏和法律通知，以便優先處理。"
+  }
+}

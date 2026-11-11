@@ -36,13 +36,13 @@
   },
   "sample-review-as-product.most-structural-software-treats-review.6812a3": {
     "en": "Most structural software treats review as a checkpoint: work is produced, then checked, then signed. That model is easy to draw, and it matches how a submission is administratively closed. It is also, in our view, a poor description of how engineering judgement actually behaves.",
-    "zh-CN": "多数结构软件把审查视为检查点：先完成工作，再检查，最后签署。这个模型易于描绘，也符合提交成果在行政流程中办结的方式。但在我们看来，它并不能恰当描述工程判断实际如何运作。",
-    "zh-TW": "多數結構軟體把審查視為檢查點：先完成工作，再檢查，最後簽署。這個模型易於描繪，也符合提交成果在行政流程中辦結的方式。但在我們看來，它並不能恰當描述工程判斷實際如何運作。"
+    "zh-CN": "多数结构软件把审查当成检查点：先做，再查，最后签。这个模型画起来容易，也符合提交成果在行政流程上如何办结。但在我们看来，它并没有说清工程判断实际上是怎么发生的。",
+    "zh-TW": "多數結構軟件把審查當成檢查點：先做，再查，最後簽。這個模型畫起來容易，也符合提交成果在行政流程上如何辦結。但在我們看來，它並沒有說清工程判斷實際上是怎麼發生的。"
   },
   "sample-review-as-product.judgement-does-not-wait-at-the-end-of-.277cab": {
     "en": "Judgement does not wait at the end of a process. It appears when a load path is chosen, when an assumption is accepted or rejected, when a model is simplified because the alternative is not worth the cost. Each of those moments is a small decision, and each one narrows what a final check can still catch. A review gate placed only at the end inherits all of them at once, with less context than the person who made them.",
-    "zh-CN": "工程判断不会等到流程末端才出现。选择传力路径、接受或否定某项假设，以及因替代方案不值得投入而简化模型时，判断都在发挥作用。每个时刻都是一项小决策，也都会缩小最终检查仍能发现问题的范围。若只在末端设置审查关口，它就要一次性承接所有这些决策，而掌握的背景却少于当初作出决策的人。",
-    "zh-TW": "工程判斷不會等到流程末端才出現。選擇傳力路徑、接受或否定某項假設，以及因替代方案不值得投入而簡化模型時，判斷都在發揮作用。每個時刻都是一項小決策，也都會限縮最終檢查仍能發現問題的範圍。若只在末端設置審查關口，它就要一次性承接所有這些決策，而掌握的背景卻少於當初作出決策的人。"
+    "zh-CN": "工程判断不会等到流程末端才出现。选传力路径的时候，接受或否掉一项假设的时候，因为另一种做法不值那个代价而把模型简化的时候，判断都在发生。每个时刻都是一次小决定，也都让最后的检查能发现的东西更少一点。只在末端设一道关口，它就得一次接住所有这些决定，而它手里的背景，比当初做决定的人还少。",
+    "zh-TW": "工程判斷不會等到流程末端才出現。選傳力路徑的時候，接受或否掉某項假設的時候，因為另一種做法不值那個代價而把模型簡化的時候，判斷都在發生。每個時刻都是一次小決定，也都讓最後的檢查能發現的東西更少一點。只在末端設一道關口，它就得一次接住所有這些決定，而它手裡的背景，比當初做決定的人還少。"
   },
   "sample-review-as-product.review-is-a-flow-property-not-a-final-.68548a": {
     "en": "Review is a flow property, not a final gate",
@@ -51,23 +51,23 @@
   },
   "sample-review-as-product.so-we-design-the-workflow-the-other-wa.7aa926": {
     "en": "So we design the workflow the other way round. AI-assisted preparation is expected to carry its sources, assumptions and working as it moves, so a reviewer can see not only what a result is, but how it was reached. That expectation is part of the flow rather than an instruction added to the end of it.",
-    "zh-CN": "因此，我们从相反方向设计工作流。AI 辅助的成果准备工作在推进过程中就应一并携带来源、假设和计算过程，让审查人员不仅看到结果是什么，也看到结果如何得出。这项要求属于流程本身，而不是在流程末端追加的指示。",
-    "zh-TW": "因此，我們從相反方向設計工作流程。AI 輔助的成果準備工作在推進過程中就應一併攜帶來源、假設與計算過程，讓審查人員不僅看到結果是什麼，也看到結果如何得出。這項要求屬於流程本身，而不是在流程末端追加的指示。"
+    "zh-CN": "所以我们把工作流反过来设计。AI 辅助的准备工作往前走的时候，就要把来源、假设和计算过程一起带上，让审查人员不只看到结果，也看到结果怎么来的。这是流程本身的要求，不是流程末端追加的一条指令。",
+    "zh-TW": "所以我們把工作流程反過來設計。AI 輔助的準備工作往前走的時候，就要把來源、假設與計算過程一起帶上，讓審查人員不只看到結果，也看到結果怎麼來的。這是流程本身的要求，不是流程末端追加的一條指示。"
   },
   "sample-review-as-product.if-a-reviewer-cannot-see-how-a-result-.202d36": {
     "en": "If a reviewer cannot see how a result was reached, the review is a signature — not a verification. That distinction shapes everything downstream of it.",
-    "zh-CN": "如果审查人员看不到结果如何得出，所谓审查就只是签署，而非验证。这一区别决定了其后的所有环节。",
-    "zh-TW": "如果審查人員看不到結果如何得出，所謂審查就只是簽署，而非驗證。這一區別決定了其後的所有環節。"
+    "zh-CN": "如果审查人员看不到结果怎么来的，所谓审查就只是签署，不是验证。这一区别，决定了它之后的每一个环节。",
+    "zh-TW": "如果審查人員看不到結果怎麼來的，所謂審查就只是簽署，不是驗證。這項區別，決定了它之後的每一個環節。"
   },
   "sample-review-as-product.staged-acceptance-follows-from-the-sam.900163": {
     "en": "Staged acceptance follows from the same reasoning. A qualified engineer verifies and approves, and the stages before that approval are governed by their own checks rather than left to accumulate. Nothing reaches delivery on model output alone, and responsibility for the professional judgement stays with the professional — not with the software.",
-    "zh-CN": "分阶段验收也遵循同样的逻辑。由具备资质的工程师验证并批准，批准前的各个阶段也各有检查约束，而不是让问题不断累积。任何成果都不能仅凭模型输出交付，专业判断的责任始终由专业人员承担，而非软件。",
-    "zh-TW": "分階段驗收也遵循同樣的邏輯。由具備資格的工程師驗證並批准，批准前的各個階段也各有檢查約束，而不是讓問題不斷累積。任何成果都不能僅憑模型輸出交付，專業判斷的責任始終由專業人員承擔，而非軟體。"
+    "zh-CN": "分阶段验收也来自同一个道理。由具备资质的工程师验证并批准；在此之前，每个阶段都有自己的检查，而不是把问题攒到最后。任何成果都不能只凭模型输出就交付，专业判断的责任始终在专业人员身上，不在软件。",
+    "zh-TW": "分階段驗收也來自同一個道理。由具備資格的工程師驗證並批准；在此之前，每個階段都有自己的檢查，而不是把問題攢到最後。任何成果都不能只憑模型輸出就交付，專業判斷的責任始終在專業人員身上，不在軟件。"
   },
   "sample-review-as-product.this-is-also-why-we-are-careful-about-.47a3d0": {
     "en": "This is also why we are careful about what we claim. Reviewing throughout does not make a workflow autonomous, and it does not remove the need for a signature. It changes where the work of understanding happens: earlier, in smaller pieces, with the reasoning still visible when someone checks it.",
-    "zh-CN": "这也是我们谨慎措辞的原因。全程审查并不意味着工作流可以自主运行，也不能免除签署要求。它改变的是理解工作发生的位置：更早开始、拆成更小的部分，并确保他人检查时仍能看见推理过程。",
-    "zh-TW": "這也是我們謹慎措辭的原因。全程審查並不意味著工作流程可自主運行，也不能免除簽署要求。它改變的是理解工作發生的位置：更早開始、拆成更小的部分，並確保他人檢查時仍能看見推理過程。"
+    "zh-CN": "这也是我们说话谨慎的原因。全程审查并不意味着工作流可以自主运行，也不能免除签署。它改变的是“理解”这件事发生的位置：更早、更细，等到有人来查的时候，推理还看得见。",
+    "zh-TW": "這也是我們說話謹慎的原因。全程審查並不意味著工作流程可以自主運行，也不能免除簽署。它改變的是「理解」這件事發生的位置：更早、更細，等到有人來查的時候，推理還看得見。"
   },
   "sample-review-as-product.back-to-all-articles.0cc0a1": {
     "en": "Back to all articles",
@@ -76,8 +76,8 @@
   },
   "sample-review-as-product.the-checkpoint-model-assumes-engineeri.d010f3": {
     "en": "The checkpoint model assumes engineering judgement happens at the end. We think it happens throughout — so we built it into the flow, not around it.",
-    "zh-CN": "检查点模型假设工程判断只发生在末端。我们认为判断贯穿全程，因此将其融入流程之中，而不是附加在流程之外。",
-    "zh-TW": "檢查點模型假設工程判斷只發生在末端。我們認為判斷貫穿全程，因此將其融入流程之中，而不是附加在流程之外。"
+    "zh-CN": "检查点模型假设工程判断只发生在末端。我们认为判断贯穿全程，所以把它做进流程里，而不是围在流程外面。",
+    "zh-TW": "檢查點模型假設工程判斷只發生在末端。我們認為判斷貫穿全程，所以把它做進流程裡，而不是圍在流程外面。"
   },
   "sample-review-as-product.breadcrumb.c766e6": {
     "en": "Breadcrumb",

@@ -2,18 +2,18 @@
 window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "404.page-not-found-ouronex.fd0928": {
     "en": "Page not found — OuroNex",
-    "zh-CN": "页面未找到 — OuroNex",
+    "zh-CN": "找不到页面 — OuroNex",
     "zh-TW": "找不到頁面 — OuroNex"
   },
   "404.this-page-is-not-on-the-drawings.e18272": {
     "en": "This page is not on the drawings.",
-    "zh-CN": "这个页面不在图纸上。",
-    "zh-TW": "此頁面不在圖則上。"
+    "zh-CN": "此页面不在图纸上。",
+    "zh-TW": "此頁面不在圖紙上。"
   },
   "404.the-address-you-followed-does-not-matc.524235": {
     "en": "The address you followed does not match anything we have built — it may have moved, or it may never have existed.",
-    "zh-CN": "您访问的地址与我们构建的任何页面都不匹配——该页面可能已移动，也可能从未存在。",
-    "zh-TW": "您瀏覽的地址與我們建立的任何頁面均不符——該頁面可能已遷移，亦可能從未存在。"
+    "zh-CN": "您访问的地址与我们所构建的任何内容都不匹配——它可能已移动，也可能从未存在。",
+    "zh-TW": "您瀏覽的地址與我們所建立的任何內容都不相符——它可能已遷移，亦可能從未存在。"
   },
   "404.back-to-the-home-page.bc5fe1": {
     "en": "Back to the home page",

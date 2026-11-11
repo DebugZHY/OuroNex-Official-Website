@@ -2,8 +2,8 @@
 window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.meta-description": {
     "en": "Meet SIDA, the AI agent built for everyday structural engineering. Professional tools and specialist workflows save time and effort.",
-    "zh-CN": "认识 SIDA，专为日常结构工程工作打造的 AI 智能体。专业工具与专家工作流帮助节省时间与精力。",
-    "zh-TW": "認識 SIDA，專為日常結構工程工作打造的 AI 智能代理。專業工具與專家工作流程幫助節省時間與精力。"
+    "zh-CN": "认识 SIDA——专为日常结构工程打造的 AI 智能体。专业工具与专家工作流，帮助您省时省力。",
+    "zh-TW": "認識 SIDA——專為日常結構工程打造的 AI 智能代理。專業工具與專家工作流程，助您節省時間與精力。"
   },
   "home.meta-title": {
     "en": "OuroNex | AI Agent for Structural Engineering",
@@ -17,8 +17,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.hero-description": {
     "en": "Built for engineering, with long task chains, complex decisions, and effortless execution.",
-    "zh-CN": "为工程而生，应对长任务链与复杂决策，执行举重若轻。",
-    "zh-TW": "為工程而生，應對長任務鏈與複雜決策，執行舉重若輕。"
+    "zh-CN": "为工程而生，能处理长任务链与复杂决策，执行毫不费力。",
+    "zh-TW": "為工程而生，能處理長任務鏈與複雜決策，執行毫不費力。"
   },
   "home.explore-features": {
     "en": "Explore the Features",
@@ -52,8 +52,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.sida-features": {
     "en": "SIDA features",
-    "zh-CN": "SIDA 特点",
-    "zh-TW": "SIDA 特點"
+    "zh-CN": "SIDA 功能",
+    "zh-TW": "SIDA 功能"
   },
   "home.feature-engineering-title": {
     "en": "Information Management",
@@ -78,7 +78,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.feature-engineering-copy": {
     "en": "Engineers must review extensive documentation, codes, drawings and data.",
     "zh-CN": "工程师必须查阅大量文档、规范、图纸与数据。",
-    "zh-TW": "工程師必須查閱大量文件、規範、圖紙與數據。"
+    "zh-TW": "工程師必須查閱大量文件、規範、圖紙與資料。"
   },
   "home.feature-engineering-copy-2": {
     "en": "Typical agents: read one by one (10+mins).\nSIDA: build LLM knowledge base — answer in seconds.",
@@ -87,13 +87,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.feature-engineering-copy-3": {
     "en": "All project data stays local. No uploading, no risk of exposure.",
-    "zh-CN": "所有项目数据保存在本地。无需上传，无泄露风险。",
-    "zh-TW": "所有專案資料保存在本地。無需上傳，無洩露風險。"
+    "zh-CN": "所有项目数据都保存在本地。无需上传，也没有泄露风险。",
+    "zh-TW": "所有項目資料都保存在本地。無需上傳，亦沒有洩漏風險。"
   },
   "home.feature-free-copy": {
     "en": "Traditional engineering software has a steep learning curve and takes a long time to master.",
-    "zh-CN": "传统工程软件学习曲线陡峭，需要很长时间才能熟练。",
-    "zh-TW": "傳統工程軟件學習曲線陡峭，需要很長時間才能熟練。"
+    "zh-CN": "传统工程软件学习曲线陡峭，需要很长时间才能熟练掌握。",
+    "zh-TW": "傳統工程軟件學習曲線陡峭，需要很長時間才能熟練掌握。"
   },
   "home.feature-free-copy-2": {
     "en": "SIDA includes multiple built-in professional tools, called through MCP for fast execution and very low token usage.",
@@ -102,23 +102,23 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.feature-free-copy-3": {
     "en": "SIDA also supports computer use, directly operating any engineering software on the user's computer, at the cost of more tokens and slower execution.",
-    "zh-CN": "SIDA 还支持电脑操作，可直接操作用户电脑上的任何工程软件，但会消耗更多 Token 且执行较慢。",
-    "zh-TW": "SIDA 亦支援電腦操作，可直接操作用戶電腦上的任何工程軟件，但會消耗更多 Token 且執行較慢。"
+    "zh-CN": "SIDA 也支持电脑操作，可直接操作用户电脑上的任何工程软件，代价是消耗更多 Token、执行更慢。",
+    "zh-TW": "SIDA 亦支援電腦操作，可直接操作用戶電腦上的任何工程軟件，代價是消耗更多 Token、執行更慢。"
   },
   "home.feature-workflow-copy": {
     "en": "Engineering projects involve complex workflows that are difficult to manage.",
-    "zh-CN": "工程项目涉及的工作流程复杂，难以管理。",
-    "zh-TW": "工程專案涉及的工作流程複雜，難以管理。"
+    "zh-CN": "工程项目涉及复杂的工作流，难以管理。",
+    "zh-TW": "工程項目涉及複雜的工作流程，難以管理。"
   },
   "home.feature-workflow-copy-2": {
     "en": "No guidance or constraints for workflows, no guaranteed quality.",
-    "zh-CN": "对工作流缺乏引导与约束，质量无法保证。",
-    "zh-TW": "對工作流程缺乏引導與約束，品質無法保證。"
+    "zh-CN": "工作流缺乏引导与约束，质量无法保证。",
+    "zh-TW": "工作流程缺乏引導與約束，質素無法保證。"
   },
   "home.feature-workflow-copy-3": {
     "en": "SIDA uses a visual flowchart to manage project workflows, supports user customization and can manage complex projects.",
-    "zh-CN": "SIDA 以可视化流程图管理工作流，支持用户自定义，可管理复杂项目。",
-    "zh-TW": "SIDA 以可視化流程圖管理工作流程，支援用戶自訂，可管理複雜項目。"
+    "zh-CN": "SIDA 以可视化流程图管理工作流，支持用户自定义，也能管理复杂项目。",
+    "zh-TW": "SIDA 以可視化流程圖管理工作流程，支援用戶自訂，也能管理複雜項目。"
   },
   "home.feature-experts-copy": {
     "en": "Engineering projects span architecture, structural, municipal, water and environmental disciplines, making multi-team collaboration difficult.",
@@ -127,13 +127,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.feature-experts-copy-2": {
     "en": "SIDA provides a team of specialist bots. Each bot is assigned dedicated skills and a knowledge base to become an expert in its field.",
-    "zh-CN": "SIDA 提供专家 Bot 团队。每个 Bot 都配置专用技能与知识库，成为各自领域的专家。",
-    "zh-TW": "SIDA 提供專家 Bot 團隊。每個 Bot 都配置專用技能與知識庫，成為各自領域的專家。"
+    "zh-CN": "SIDA 提供一组专家智能体。每个智能体都配置专属技能与知识库，成为各自领域的专家。",
+    "zh-TW": "SIDA 提供一組專家智能代理。每個智能代理都配置專屬技能與知識庫，成為各自領域的專家。"
   },
   "home.feature-experts-copy-3": {
     "en": "SIDA includes an extensive Hong Kong library of Buildings Department regulations, PNAP practice notes and other codes and legislation, giving every specialist broad, accurate professional coverage.",
-    "zh-CN": "SIDA 内置丰富的香港资料库，涵盖屋宇署规例、PNAP 作业备考及其他规范与法例，为每位专家提供广泛而准确的专业覆盖。",
-    "zh-TW": "SIDA 內置豐富的香港資料庫，涵蓋屋宇署規例、PNAP 作業備考及其他規範與法例，為每位專家提供廣泛而準確的專業覆蓋。"
+    "zh-CN": "SIDA 内置内容丰富的香港资料库，涵盖屋宇署规例、PNAP 作业备考及其他规范与法例，让每位专家掌握广泛而准确的专业知识。",
+    "zh-TW": "SIDA 內置內容豐富的香港資料庫，涵蓋屋宇署規例、PNAP 作業備考及其他規範與法例，讓每位專家掌握廣泛而準確的專業知識。"
   },
   "home.windows": {
     "en": "Download for Windows",
@@ -153,7 +153,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.request-access": {
     "en": "Request early access",
     "zh-CN": "申请抢先体验",
-    "zh-TW": "申請搶先體驗"
+    "zh-TW": "申請優先體驗"
   },
   "home.free": {
     "en": "Free",
@@ -172,8 +172,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.per-month": {
     "en": "per month, billed monthly",
-    "zh-CN": "按月计费，每月结算",
-    "zh-TW": "按月計費，每月結算"
+    "zh-CN": "按月计费",
+    "zh-TW": "按月計費"
   },
   "home.subscribe-now": {
     "en": "Subscribe Now",
@@ -192,8 +192,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.custom": {
     "en": "Custom",
-    "zh-CN": "定制",
-    "zh-TW": "客製化"
+    "zh-CN": "自定义",
+    "zh-TW": "自訂"
   },
   "home.contact-pricing": {
     "en": "Contact us for pricing",
@@ -232,13 +232,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.plan-own-key": {
     "en": "Your own API key",
-    "zh-CN": "你自己的 API Key",
-    "zh-TW": "你自己的 API Key"
+    "zh-CN": "您自己的 API Key",
+    "zh-TW": "您自己的 API Key"
   },
   "home.plan-advanced": {
     "en": "Advanced features",
-    "zh-CN": "进阶版功能",
-    "zh-TW": "進階版功能"
+    "zh-CN": "进阶功能",
+    "zh-TW": "進階功能"
   },
   "home.plan-priority": {
     "en": "Priority support",
@@ -253,7 +253,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.plan-custom-integration": {
     "en": "Custom integration",
     "zh-CN": "定制集成",
-    "zh-TW": "客製化整合"
+    "zh-TW": "自訂整合"
   },
   "home.plan-computer-use": {
     "en": "Computer use",
@@ -273,7 +273,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.plan-data-management": {
     "en": "Data management",
     "zh-CN": "数据管理",
-    "zh-TW": "數據管理"
+    "zh-TW": "資料管理"
   },
   "home.plan-not-included": {
     "en": "Not included",
@@ -298,7 +298,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.plan-comparison": {
     "en": "Plan feature comparison",
     "zh-CN": "套餐功能对比",
-    "zh-TW": "套餐功能對比"
+    "zh-TW": "方案功能對比"
   },
   "home.feature": {
     "en": "Feature",
@@ -317,8 +317,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.table-video-models": {
     "en": "CUSTOM MODELS",
-    "zh-CN": "定制模型",
-    "zh-TW": "客製化模型"
+    "zh-CN": "自定义模型",
+    "zh-TW": "自訂模型"
   },
   "home.table-free-documentation": {
     "en": "FREE DOCUMENTATION",
@@ -328,7 +328,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.table-data-management": {
     "en": "DATA MANAGEMENT",
     "zh-CN": "数据管理",
-    "zh-TW": "數據管理"
+    "zh-TW": "資料管理"
   },
   "home.table-built-in-tools": {
     "en": "BUILT-IN TOOLS",
@@ -363,12 +363,12 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.table-early": {
     "en": "Early access",
     "zh-CN": "抢先体验",
-    "zh-TW": "搶先體驗"
+    "zh-TW": "優先體驗"
   },
   "home.table-integration": {
     "en": "CUSTOM INTEGRATION",
     "zh-CN": "定制集成",
-    "zh-TW": "客製化整合"
+    "zh-TW": "自訂整合"
   },
   "home.what-deliver": {
     "en": "Automative Engineering Work",
@@ -377,8 +377,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.application-lede": {
     "en": "Four capabilities ship with SIDA. Each one runs on your own documents, codes and models, inside the workspace your projects already live in.",
-    "zh-CN": "SIDA 内置四项能力，全部在你自己的文档、规范与模型上运行，与项目已有的工作空间同步。",
-    "zh-TW": "SIDA 內建四項能力，全部在你自己的文件、規範與模型上執行，與專案已有的工作空間同步。"
+    "zh-CN": "SIDA 自带四项能力。每项能力都在项目原本所在的工作空间内，基于您自己的文档、规范与模型运行。",
+    "zh-TW": "SIDA 內置四項能力。每項能力都在項目原本所在的工作空間內，基於您自己的文件、規範與模型執行。"
   },
   "home.general-automation": {
     "en": "Free Documentation",
@@ -387,8 +387,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.general-copy": {
     "en": "An LLM wiki for fast professional answers, plus private knowledge bases at no extra cost.",
-    "zh-CN": "内置 LLM wiki 快速检索专业资料，并免费支持企业私有知识库。",
-    "zh-TW": "內置 LLM wiki 快速檢索專業資料，並免費支援企業私有知識庫。"
+    "zh-CN": "内置 LLM 知识库，可快速获得专业解答，并无需额外费用即可使用私有知识库。",
+    "zh-TW": "內置 LLM 知識庫，可快速獲得專業解答，並無需額外費用即可使用私有知識庫。"
   },
   "home.specific-automation": {
     "en": "Project Planning",
@@ -397,8 +397,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.specific-copy": {
     "en": "Checks codes and legal databases from site data and documents across disciplines.",
-    "zh-CN": "结合场地与项目文档，跨专业核查规范与法规风险。",
-    "zh-TW": "結合場地與項目文件，跨專業核查規範與法規風險。"
+    "zh-CN": "依据场地数据与各专业文档，对照规范及法规数据库进行核查。",
+    "zh-TW": "依據場地資料與各專業文件，對照規範及法規資料庫進行核查。"
   },
   "home.professional-saas": {
     "en": "Design Optimization",
@@ -452,8 +452,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.custom-tokens": {
     "en": "Custom tokens",
-    "zh-CN": "定制 Token 数量",
-    "zh-TW": "客製化 Token 數量"
+    "zh-CN": "自定义 Token 额度",
+    "zh-TW": "自訂 Token 額度"
   },
   "home.dedicated": {
     "en": "Dedicated",
@@ -512,8 +512,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.feature-experts-card-2-title": {
     "en": "Specialist Bots",
-    "zh-CN": "专家 Bot",
-    "zh-TW": "專家 Bot"
+    "zh-CN": "专家智能体",
+    "zh-TW": "專家智能代理"
   },
   "home.feature-experts-card-3-title": {
     "en": "Hong Kong Library",
@@ -527,8 +527,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.about-lede": {
     "en": "OuroNex’s aims at revolutionizing productivity in engineering fields. Through SIDA, we deliver tailored SaaS solutions and workflows that make AI transformation accessible to clients at every career stage, whatever their needs.",
-    "zh-CN": "OuroNex 致力于革新工程领域的生产力。我们依托 SIDA，提供定制化 SaaS 解决方案与工作流，让客户在职业生涯的每个阶段，都能轻松实现满足自身需求的 AI 转型。",
-    "zh-TW": "OuroNex 致力於革新工程領域的生產力。我們依託 SIDA，提供定製化 SaaS 解決方案與工作流，讓客戶在職業生涯的每個階段，都能輕鬆實現滿足自身需求的 AI 轉型。"
+    "zh-CN": "OuroNex 致力于推动工程领域的生产力变革。通过 SIDA，我们提供贴合实际需求的 SaaS 解决方案与工作流，让处于不同职业阶段、有不同需求的客户，都能以适合自己的方式推进 AI 转型。",
+    "zh-TW": "OuroNex 致力於推動工程領域的生產力變革。透過 SIDA，我們提供切合實際需求的 SaaS 解決方案與工作流程，讓處於不同職業階段、有不同需求的客戶，都能以適合自己的方式推進 AI 轉型。"
   },
   "home.about-founder-name": {
     "en": "Mr. Haoyi ZHANG",
@@ -542,8 +542,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.flow-lede": {
     "en": "Three ways in, one platform out. Wherever you start, the conversation settles on the deliverables that fit your practice.",
-    "zh-CN": "三条入口，一个平台收束。无论从哪里开始，最终都落在适合你团队的交付形态上。",
-    "zh-TW": "三條入口，一個平台收束。無論從哪裡開始，最終都落在適合你團隊的交付形態上。"
+    "zh-CN": "三种切入点，汇于同一平台。无论从何处开始，沟通最终都会落到契合您业务实际的交付成果上。",
+    "zh-TW": "三種切入點，匯於同一平台。無論從哪裡開始，討論最終都會落到切合您實務需要的交付成果上。"
   },
   "home.flow-entry-1-kicker": {
     "en": "No clear picture yet",
@@ -557,8 +557,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.flow-entry-1-copy": {
     "en": "Inspect your workflow for potential automation.",
-    "zh-CN": "检视你的工作流程，找出可自动化的环节。",
-    "zh-TW": "檢視你的工作流程，找出可自動化的環節。"
+    "zh-CN": "检视您的工作流程，找出可自动化的环节。",
+    "zh-TW": "檢視您的工作流程，找出可自動化的環節。"
   },
   "home.flow-entry-2-kicker": {
     "en": "Scope already defined",
@@ -567,13 +567,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.flow-entry-2-title": {
     "en": "Plan refinement",
-    "zh-CN": "需求细化",
-    "zh-TW": "需求細化"
+    "zh-CN": "方案细化",
+    "zh-TW": "方案細化"
   },
   "home.flow-entry-2-copy": {
     "en": "Align your need with our delivery.",
-    "zh-CN": "把你的需求与我们的交付对齐。",
-    "zh-TW": "把你的需求與我們的交付對齊。"
+    "zh-CN": "让您的需求与我们的交付方式相匹配。",
+    "zh-TW": "讓您的需求與我們的交付方式相匹配。"
   },
   "home.flow-entry-3-kicker": {
     "en": "Want to see it working",
@@ -587,8 +587,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.flow-entry-3-copy": {
     "en": "One real project runs on SIDA before any invoice.",
-    "zh-CN": "先用一个真实项目跑 SIDA，再谈费用。",
-    "zh-TW": "先用一個真實專案跑 SIDA，再談費用。"
+    "zh-CN": "先用一个真实项目运行 SIDA，之后才涉及费用。",
+    "zh-TW": "先用一個真實項目運行 SIDA，之後才涉及費用。"
   },
   "home.flow-band-title": {
     "en": "Match to what you need",
@@ -612,13 +612,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.flow-lane-1-copy": {
     "en": "Use built-in tools for free, with your own AI models.",
-    "zh-CN": "免费使用内置工具，搭配你自己的 AI 模型。",
-    "zh-TW": "免費使用內建工具，搭配你自己的 AI 模型。"
+    "zh-CN": "免费使用内置工具，搭配您自己的 AI 模型。",
+    "zh-TW": "免費使用內置工具，搭配您自己的 AI 模型。"
   },
   "home.flow-lane-2-kicker": {
     "en": "Your process, not ours",
-    "zh-CN": "按你的流程",
-    "zh-TW": "按你的流程"
+    "zh-CN": "您的流程，而非我们的",
+    "zh-TW": "您的流程，而非我們的"
   },
   "home.flow-lane-2-title": {
     "en": "Workflow automation",
@@ -627,8 +627,8 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.flow-lane-2-copy": {
     "en": "Your process modelled as a SIDA flowchart, with your approvals.",
-    "zh-CN": "把你的流程画成 SIDA 流程图，复核关口由你确认。",
-    "zh-TW": "把你的流程畫成 SIDA 流程圖，複核關口由你確認。"
+    "zh-CN": "把您的流程画成 SIDA 流程图，审批环节由您确认。",
+    "zh-TW": "把您的流程畫成 SIDA 流程圖，審批環節由您確認。"
   },
   "home.flow-lane-3-kicker": {
     "en": "Nothing off the shelf fits",
@@ -638,17 +638,17 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.flow-lane-3-title": {
     "en": "Customized SaaS",
     "zh-CN": "定制 SaaS",
-    "zh-TW": "客製 SaaS"
+    "zh-TW": "度身訂製 SaaS"
   },
   "home.flow-lane-3-copy": {
     "en": "Tools for your need, integrated into SIDA.",
-    "zh-CN": "按需定制的工具，集成进 SIDA。",
-    "zh-TW": "依需求客製的工具，整合進 SIDA。"
+    "zh-CN": "按需求定制的工具，集成至 SIDA。",
+    "zh-TW": "按需求度身訂製的工具，整合至 SIDA。"
   },
   "home.flow-final-title": {
     "en": "All needs land on the same platform - SIDA",
-    "zh-CN": "所有需求，都落到同一个平台 - SIDA",
-    "zh-TW": "所有需求，都落到同一個平台 - SIDA"
+    "zh-CN": "所有需求，最终汇入同一平台——SIDA",
+    "zh-TW": "所有需求，最終匯入同一平台——SIDA"
   },
   "home.about-advisor-name": {
     "en": "Ir Prof. Siwei LIU",
@@ -712,23 +712,23 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.tendering-copy": {
     "en": "Automates the whole tendering workflow, shortening preparation cycles and cutting costs.",
-    "zh-CN": "为整个投标工作流提供自动化，大幅缩短准备周期，降低成本。",
-    "zh-TW": "為整個投標工作流提供自動化，大幅縮短準備週期，降低成本。"
+    "zh-CN": "为整个投标工作流提供自动化，缩短准备周期，降低成本。",
+    "zh-TW": "為整個投標工作流程提供自動化，縮短準備週期，降低成本。"
   },
   "home.plan-free-description": {
     "en": "Core capabilities open to every users and your own LLM models",
-    "zh-CN": "核心能力向所有用户开放，支持接入你自己的大语言模型。",
-    "zh-TW": "核心能力向所有使用者開放，支援接入你自己的大型語言模型。"
+    "zh-CN": "核心能力向所有用户开放，并支持接入您自己的 LLM 模型。",
+    "zh-TW": "核心能力向所有用戶開放，並支援接入您自己的 LLM 模型。"
   },
   "home.plan-enterprise-description": {
     "en": "Additional services tailored for your practices.",
-    "zh-CN": "为你的业务量身定制的附加服务。",
-    "zh-TW": "為你的業務量身訂製的附加服務。"
+    "zh-CN": "为您的业务量身定制的附加服务。",
+    "zh-TW": "為您的業務度身訂製的附加服務。"
   },
   "home.plan-early-access": {
     "en": "Early access",
-    "zh-CN": "提前试用",
-    "zh-TW": "優先試用"
+    "zh-CN": "抢先体验",
+    "zh-TW": "優先體驗"
   },
   "home.plan-consultancy": {
     "en": "AI transformation consultancy",
@@ -737,13 +737,13 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.plan-custom-workflows": {
     "en": "Custom workflows",
-    "zh-CN": "定制工作流",
-    "zh-TW": "訂製工作流程"
+    "zh-CN": "自定义工作流",
+    "zh-TW": "自訂工作流程"
   },
   "home.plan-custom-saas": {
     "en": "Custom SaaS",
     "zh-CN": "定制 SaaS",
-    "zh-TW": "訂製 SaaS"
+    "zh-TW": "度身訂製 SaaS"
   },
   "home.enterprise-examples": {
     "en": "Potential Applications",
@@ -753,7 +753,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.enterprise-examples-description": {
     "en": "Enabling Automation in various engineering projects with SIDA",
     "zh-CN": "借助 SIDA，在各类工程项目中实现自动化。",
-    "zh-TW": "藉助 SIDA，在各類工程專案中實現自動化。"
+    "zh-TW": "藉助 SIDA，在各類工程項目中實現自動化。"
   },
   "home.plan-tools-copy": {
     "en": "Engineering, office and data tools in one workspace.",
@@ -763,17 +763,17 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "home.plan-computer-copy": {
     "en": "Work across desktop and browser applications.",
     "zh-CN": "跨桌面和浏览器应用完成操作。",
-    "zh-TW": "跨桌面和瀏覽器應用程式完成操作。"
+    "zh-TW": "跨桌面和瀏覽器應用完成操作。"
   },
   "home.plan-data-copy": {
     "en": "omniscient in-house AI expert for your siloed documents, 100% localized and secure",
-    "zh-CN": "让内部 AI 专家全面掌握分散的文档，100% 本地化，安全可靠。",
-    "zh-TW": "讓內部 AI 專家全面掌握分散的文件，100% 本地化，安全可靠。"
+    "zh-CN": "让内部 AI 专家全面掌握分散的文档，100% 本地化且安全。",
+    "zh-TW": "讓內部 AI 專家全面掌握分散的文件，100% 本地化且安全。"
   },
   "home.plan-saas-copy": {
     "en": "Purpose-built engineering applications, full integration into SIDA.",
-    "zh-CN": "专为业务打造的工程应用，完整集成至 SIDA。",
-    "zh-TW": "專為業務打造的工程應用，完整整合至 SIDA。"
+    "zh-CN": "专为工程需求打造的应用，完整集成至 SIDA。",
+    "zh-TW": "專為工程需求打造的應用，完整整合至 SIDA。"
   },
   "home.plan-workflows-copy": {
     "en": "Pre-built by us and ready for your action.",
@@ -787,12 +787,12 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.plan-free-workflows-copy": {
     "en": "Build and refine your own workflows with AI or your hand",
-    "zh-CN": "借助 AI 或手动构建并完善你自己的工作流。",
-    "zh-TW": "藉助 AI 或手動建構並完善你自己的工作流程。"
+    "zh-CN": "借助 AI 或手动构建并完善您自己的工作流。",
+    "zh-TW": "藉助 AI 或手動建構並完善您自己的工作流程。"
   },
   "home.plan-engineering-database": {
     "en": "Engineering database",
-    "zh-CN": "工程资料库",
+    "zh-CN": "工程数据库",
     "zh-TW": "工程資料庫"
   },
   "home.plan-engineering-database-copy": {
@@ -807,17 +807,17 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   },
   "home.plan-data-protection-copy": {
     "en": "All tools run locally, privacy and security fully guaranteed.",
-    "zh-CN": "所有工具均在本地运行，全面保障隐私与安全。",
-    "zh-TW": "所有工具均在本地執行，全面保障隱私與安全。"
+    "zh-CN": "所有工具均在本地运行，隐私与安全得到全面保障。",
+    "zh-TW": "所有工具均在本地執行，隱私與安全得到全面保障。"
   },
   "home.application-workflow-title": {
     "en": "Engineering scenarios — Project Planning, Design Optimization, Tendering and BIM Modelling",
     "zh-CN": "工程应用场景：项目规划、设计优化、投标与 BIM 建模",
-    "zh-TW": "工程應用場景：專案規劃、設計優化、投標與 BIM 建模"
+    "zh-TW": "工程應用場景：項目規劃、設計優化、投標與 BIM 建模"
   },
   "home.application-workflow-fallback": {
     "en": "Project Planning · Design Optimization · Tendering · BIM Modelling",
     "zh-CN": "项目规划 · 设计优化 · 投标 · BIM 建模",
-    "zh-TW": "專案規劃 · 設計優化 · 投標 · BIM 建模"
+    "zh-TW": "項目規劃 · 設計優化 · 投標 · BIM 建模"
   }
 });

@@ -1,11 +1,7 @@
 /* Three language names, plain text: no container, pill or button fill.
    The selected language is indicated by text colour and weight only. */
 .language-switcher {
-  /* Hidden by decision on 2026-11-02: the site is English-only for now, so the
-     three language buttons are not offered. The markup stays in every page and
-     assets/i18n.js keeps the dictionaries, so restoring `inline-flex` here and
-     flipping LANGUAGE_CHOICE_ENABLED there brings the control back. */
-  display: none;
+  display: inline-flex;
   align-items: center;
   flex: 0 0 auto;
   gap: 8px;

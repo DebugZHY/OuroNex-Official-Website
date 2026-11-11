@@ -18,7 +18,7 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
   "account-register.username.84c290": {
     "en": "Username",
     "zh-CN": "用户名",
-    "zh-TW": "使用者名稱"
+    "zh-TW": "用戶名"
   },
   "account-register.email.84add5": {
     "en": "Email",

@@ -5,10 +5,9 @@
   const LANGUAGES = new Set(['en', 'zh-CN', 'zh-TW']);
   const ATTRIBUTES = ['content', 'alt', 'aria-label', 'placeholder', 'title', 'value'];
   const dictionary = window.OuroNexI18n || {};
-  // The language switch is hidden (assets/i18n.css) and the site ships English-only,
-  // so a remembered choice must not override the default language. Set this to true
-  // to honour a stored preference again once the control is shown.
-  const LANGUAGE_CHOICE_ENABLED = false;
+  // Honour the language the visitor picked last, so the header control and the
+  // stored preference stay in step across pages and reloads.
+  const LANGUAGE_CHOICE_ENABLED = true;
   let current = 'en';
 
   try {
@@ -105,7 +104,11 @@
   window.OuroNexLanguage = Object.freeze({
     get current() { return current; },
     set: setLanguage,
-    apply
+    apply,
+    // Runtime lookups for scripts that build text themselves (form validation,
+    // confirmation copy). Returns '' when a key is missing so callers can fall
+    // back to their own English default.
+    t: key => translated(key) || ''
   });
 
   const observer = new MutationObserver(records => {
