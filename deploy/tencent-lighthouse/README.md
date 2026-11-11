@@ -55,10 +55,12 @@
 
 在腾讯云控制台的“文件管理”上传，或用本机 SSH/SFTP 上传到 /root。以下命令在服务器执行：
 
-    cd /root
-    tar -xzf ouronex-public-20261108.tar.gz
-    ls -la ouronex-public-20261108/public/index.html
-    ls -la ouronex-public-20261108/public/assets/gate.js
+压缩包的根目录直接就是 public/、deploy-ouronex.sh、nginx-ouronex.conf、README.md、SHA256SUMS，没有多包一层目录；先建目录再解压，避免把 public/ 铺到 /root：
+
+    mkdir -p /root/ouronex-public-20261108
+    tar -xzf /root/ouronex-public-20261108.tar.gz -C /root/ouronex-public-20261108
+    ls -la /root/ouronex-public-20261108/public/index.html
+    ls -la /root/ouronex-public-20261108/public/assets/gate.js
 
 发布包解压后的 public 才是网站根目录内容，不要把外层目录直接作为 Nginx root。
 
@@ -83,7 +85,10 @@
     /www/server/nginx/sbin/nginx -t
     /www/server/nginx/sbin/nginx -s reload
 
-如果脚本提示 gate 检查失败，先看 Nginx 的真实 root 是否就是 WEB_ROOT，不要盲目重装。
+如果脚本提示 gate 检查失败，先看 Nginx 的真实 root 是否就是 WEB_ROOT，不要盲目重装。用管道做 grep 判断时 curl 可能报 `(23) Failure writing output to destination` 而误报失败，用文件复核：
+
+    curl -fsS http://150.109.55.6/ -o /tmp/ouronex-check.html
+    grep -o 'id="site-gate"' /tmp/ouronex-check.html
 
 ## 替代方案：只用宝塔面板
 

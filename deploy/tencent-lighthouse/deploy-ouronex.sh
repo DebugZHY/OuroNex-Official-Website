@@ -72,7 +72,12 @@ fi
 echo "nginx reloaded"
 
 sleep 1
-if curl -fsS "$CHECK_URL" | grep -q 'id="site-gate"'; then
+# Check the gate from a file, not through a pipe: grep -q exits on the first
+# match and closes the pipe, which kills curl with EPIPE (exit 23); with
+# pipefail enabled that turns a successful check into a false failure.
+CHECK_FILE="$(mktemp)"
+trap 'rm -f "$CHECK_FILE"' EXIT
+if curl -fsS -o "$CHECK_FILE" "$CHECK_URL" && grep -q 'id="site-gate"' "$CHECK_FILE"; then
   echo "PASS: $CHECK_URL serves the new passcode gate"
 else
   echo "WARNING: new index.html was copied, but $CHECK_URL did not return the gate." >&2
