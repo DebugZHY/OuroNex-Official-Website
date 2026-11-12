@@ -28,8 +28,9 @@
   border-radius: 0;
   color: var(--muted, #94a3b8);
   background: transparent;
-  /* Keep every language label in one CJK-capable sans family. IBM Plex Mono
-     has no 繁/简 glyphs, and the zh-Hans fallback became NSimSun (a serif). */
+  /* The switcher shows 简 and 繁 side by side, so it cannot follow the page
+     language stack. Naming a webfont here would pull both 400 KB cuts on every
+     Chinese page just to draw two labels, so it stays on the system faces. */
   font-family: 'Microsoft YaHei','PingFang SC','PingFang TC','Hiragino Sans GB','Noto Sans CJK SC','Noto Sans SC',sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -113,4 +114,106 @@ html[lang^='zh'] .hero-svc-lead .lead [data-i18n] {
   body[data-i18n-page^='account-'] .plans-grid { grid-template-columns: minmax(0, 1fr); }
   body[data-i18n-page^='account-'] table { display: block; overflow-x: auto; }
   body[data-i18n-page^='account-'] .card div[style*='display: flex'] { flex-wrap: wrap; }
+}
+
+/* --- Layout stability across languages ------------------------------------
+   Switching language must not move controls or resize them. Text length differs
+   per language (Home 55px vs 首页 40px), so any element sized by its label drags
+   everything after it. The rules below pin the boxes to the longest label: the
+   navigation, the account pill and the buttons keep one geometry in en, zh-CN
+   and zh-TW. Body copy still wraps to its own length, which is content, not
+   chrome; only interactive controls are frozen. */
+
+@media (min-width: 761px) {
+  .desktop-nav .nav-primary > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Widths are the measured English labels (the longest of the three
+     languages) so English renders exactly as before and Chinese centres
+     inside the same box. */
+  body:not(.auth-page) .desktop-nav .nav-primary > a:nth-child(1) { width: 56px; }
+  body:not(.auth-page) .desktop-nav .nav-primary > a:nth-child(2) { width: 84px; }
+  body:not(.auth-page) .desktop-nav .nav-primary > a:nth-child(3) { width: 92px; }
+  body:not(.auth-page) .desktop-nav .nav-primary > a:nth-child(4) { width: 100px; }
+  body:not(.auth-page) .desktop-nav .nav-primary > a:nth-child(5) { width: 58px; }
+
+  .desktop-nav .nav-secondary [data-signin]:not(.is-authenticated) { min-width: 82px; }
+
+  .sida-section .download-actions .button,
+  .sida-section .download-actions .early-access { min-width: 300px; }
+
+  .access-button { min-width: 242px; }
+}
+
+/* Two lines of hero copy are reserved: English needs them, Chinese does not,
+   and without the reservation the CTAs below jump when the language changes. */
+.hero-description { min-height: calc(1.55em * 2); }
+
+/* The step number used to stretch to the tallest row, so its box changed with
+   the length of the step copy next to it. */
+.access-step__index { align-self: flex-start; }
+
+/* The feature directory column width now lives in home.css as
+   --feature-tab-col, shared with the download row. */
+
+/* Two more controls whose box followed their own label. */
+.hero-links .text-link { min-width: 168px; }
+.notfound-actions .button { min-width: 214px; }
+
+/* The 404 headline wraps to two lines in English and one in Chinese, pushing
+   the button up 85px. The floor holds the English height in every language and
+   centres the single Chinese line inside it, so the extra space reads as
+   padding above and below rather than a gap under the title. */
+.notfound h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.14em;
+}
+
+/* --- One family for both Chinese scripts ----------------------------------
+   Noto Sans CJK ships Simplified and Traditional as two cuts of the same
+   design: the same em square, the same advances and the same vertical metrics,
+   with only the regional glyph forms differing. A line of Chinese therefore
+   measures the same in either script, which the system faces (YaHei, JhengHei)
+   never did: JhengHei draws its glyphs about 7% smaller inside the same
+   advance, so Traditional text read smaller and looser than Simplified.
+
+   Each cut is subset to the characters this site uses and limited by
+   unicode-range to CJK, so Latin, digits and punctuation keep coming from
+   Manrope, and a page only downloads the cut its language needs. */
+
+@font-face {
+  font-family: 'Noto Sans SC CJK';
+  src: url('fonts/noto-sans-sc-cjk.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2FFF, U+3000-303F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+}
+
+@font-face {
+  font-family: 'Noto Sans TC CJK';
+  src: url('fonts/noto-sans-tc-cjk.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2FFF, U+3000-303F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+}
+
+html[lang^='zh-Hans'] {
+  --display: 'Manrope','Noto Sans SC CJK','PingFang SC','Microsoft YaHei',sans-serif;
+  --body: 'Manrope','Noto Sans SC CJK','PingFang SC','Microsoft YaHei',sans-serif;
+  --mono: 'IBM Plex Mono','Noto Sans SC CJK',Consolas,monospace;
+}
+
+/* The variable cut carries real 400-900 weights, so nothing here needs the
+   weight jumps the system faces forced. */
+html[lang^='zh-Hant'] {
+  --display: 'Manrope','Noto Sans TC CJK','PingFang TC','Microsoft JhengHei',sans-serif;
+  --body: 'Manrope','Noto Sans TC CJK','PingFang TC','Microsoft JhengHei',sans-serif;
+  --mono: 'IBM Plex Mono','Noto Sans TC CJK',Consolas,monospace;
 }

@@ -135,16 +135,6 @@ window.OuroNexI18n = Object.assign(window.OuroNexI18n || {}, {
     "zh-CN": "SIDA 内置内容丰富的香港资料库，涵盖屋宇署规例、PNAP 作业备考及其他规范与法例，让每位专家掌握广泛而准确的专业知识。",
     "zh-TW": "SIDA 內置內容豐富的香港資料庫，涵蓋屋宇署規例、PNAP 作業備考及其他規範與法例，讓每位專家掌握廣泛而準確的專業知識。"
   },
-  "home.windows": {
-    "en": "Download for Windows",
-    "zh-CN": "下载 Windows 版",
-    "zh-TW": "下載 Windows 版"
-  },
-  "home.mac": {
-    "en": "Download for Mac",
-    "zh-CN": "下载 Mac 版",
-    "zh-TW": "下載 Mac 版"
-  },
   "home.public-release": {
     "en": "Public release coming later",
     "zh-CN": "公开版本稍后发布",
